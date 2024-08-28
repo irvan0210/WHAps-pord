@@ -1,0 +1,621 @@
+object BudgetCreateYear: TBudgetCreateYear
+  Left = 179
+  Top = 133
+  BorderIcons = []
+  BorderStyle = bsSingle
+  Caption = 'Pembuatan Budget Tahunan'
+  ClientHeight = 515
+  ClientWidth = 747
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  FormStyle = fsMDIChild
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  Visible = True
+  OnClose = FormClose
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object GroupDetail: TGroupBox
+    Left = 8
+    Top = 0
+    Width = 649
+    Height = 113
+    TabOrder = 0
+    object Label2: TLabel
+      Left = 8
+      Top = 8
+      Width = 82
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'Cost Centre/SBU'
+    end
+    object Label1: TLabel
+      Left = 32
+      Top = 32
+      Width = 58
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'Departemen'
+    end
+    object Label5: TLabel
+      Left = 71
+      Top = 56
+      Width = 19
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'Thn'
+    end
+    object Label16: TLabel
+      Left = 62
+      Top = 80
+      Width = 28
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'C.O.A'
+    end
+    object SBU: TComboBox
+      Left = 96
+      Top = 8
+      Width = 169
+      Height = 21
+      Style = csDropDownList
+      ItemHeight = 13
+      TabOrder = 0
+    end
+    object Department: TComboBox
+      Left = 96
+      Top = 32
+      Width = 41
+      Height = 21
+      Style = csDropDownList
+      ItemHeight = 13
+      TabOrder = 1
+      OnChange = DepartmentChange
+    end
+    object Panel1: TPanel
+      Left = 136
+      Top = 32
+      Width = 505
+      Height = 73
+      BevelOuter = bvNone
+      Enabled = False
+      TabOrder = 4
+      object DepartmentDisp: TEdit
+        Left = 0
+        Top = 0
+        Width = 137
+        Height = 21
+        TabStop = False
+        Enabled = False
+        TabOrder = 0
+      end
+      object COADisp: TEdit
+        Left = 128
+        Top = 48
+        Width = 377
+        Height = 21
+        TabOrder = 1
+      end
+    end
+    object Year: TEdit
+      Left = 96
+      Top = 56
+      Width = 41
+      Height = 21
+      TabOrder = 2
+      OnKeyPress = YearKeyPress
+    end
+    object COAId: TComboBox
+      Left = 96
+      Top = 80
+      Width = 169
+      Height = 21
+      Style = csDropDownList
+      ItemHeight = 13
+      TabOrder = 3
+      OnChange = COAIdChange
+    end
+  end
+  object Selesai: TButton
+    Left = 664
+    Top = 481
+    Width = 75
+    Height = 25
+    Caption = 'Selesai'
+    TabOrder = 1
+    OnClick = SelesaiClick
+  end
+  object Simpan: TButton
+    Left = 664
+    Top = 416
+    Width = 75
+    Height = 25
+    Caption = 'Simpan'
+    TabOrder = 2
+    OnClick = SimpanClick
+  end
+  object Bersihkan: TButton
+    Left = 664
+    Top = 448
+    Width = 75
+    Height = 25
+    Caption = 'Bersihkan'
+    TabOrder = 3
+    OnClick = BersihkanClick
+  end
+  object GroupBulan: TGroupBox
+    Left = 8
+    Top = 112
+    Width = 649
+    Height = 155
+    Caption = 'Budget Bulan'
+    TabOrder = 4
+    object Label3: TLabel
+      Left = 16
+      Top = 16
+      Width = 97
+      Height = 13
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Januari'
+    end
+    object Label4: TLabel
+      Left = 120
+      Top = 16
+      Width = 97
+      Height = 13
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Februari'
+    end
+    object Label6: TLabel
+      Left = 224
+      Top = 16
+      Width = 97
+      Height = 13
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Maret'
+    end
+    object Label7: TLabel
+      Left = 328
+      Top = 16
+      Width = 97
+      Height = 13
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'April'
+    end
+    object Label8: TLabel
+      Left = 432
+      Top = 16
+      Width = 97
+      Height = 13
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Mei'
+    end
+    object Label9: TLabel
+      Left = 536
+      Top = 16
+      Width = 97
+      Height = 13
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Juni'
+    end
+    object Label10: TLabel
+      Left = 16
+      Top = 80
+      Width = 97
+      Height = 13
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Juli'
+    end
+    object Label11: TLabel
+      Left = 120
+      Top = 80
+      Width = 97
+      Height = 13
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Agustus'
+    end
+    object Label12: TLabel
+      Left = 224
+      Top = 80
+      Width = 97
+      Height = 13
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'September'
+    end
+    object Label13: TLabel
+      Left = 328
+      Top = 80
+      Width = 97
+      Height = 13
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Oktober'
+    end
+    object Label14: TLabel
+      Left = 432
+      Top = 80
+      Width = 97
+      Height = 13
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'November'
+    end
+    object Label15: TLabel
+      Left = 536
+      Top = 80
+      Width = 97
+      Height = 13
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Desember'
+    end
+    object Jan: TMemo
+      Left = 16
+      Top = 32
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      MaxLength = 25
+      TabOrder = 0
+      WantReturns = False
+      WantTabs = True
+      OnEnter = JanEnter
+      OnExit = JanExit
+      OnKeyPress = JanKeyPress
+    end
+    object Feb: TMemo
+      Left = 120
+      Top = 32
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      MaxLength = 25
+      TabOrder = 1
+      WantReturns = False
+      WantTabs = True
+      OnEnter = FebEnter
+      OnExit = FebExit
+      OnKeyPress = FebKeyPress
+    end
+    object Mar: TMemo
+      Left = 224
+      Top = 32
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      MaxLength = 25
+      TabOrder = 2
+      WantReturns = False
+      WantTabs = True
+      OnEnter = MarEnter
+      OnExit = MarExit
+      OnKeyPress = MarKeyPress
+    end
+    object Apr: TMemo
+      Left = 328
+      Top = 32
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      MaxLength = 25
+      TabOrder = 3
+      WantReturns = False
+      WantTabs = True
+      OnEnter = AprEnter
+      OnExit = AprExit
+      OnKeyPress = AprKeyPress
+    end
+    object Mei: TMemo
+      Left = 432
+      Top = 32
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      MaxLength = 25
+      TabOrder = 4
+      WantReturns = False
+      WantTabs = True
+      OnEnter = MeiEnter
+      OnExit = MeiExit
+      OnKeyPress = MeiKeyPress
+    end
+    object Jun: TMemo
+      Left = 536
+      Top = 32
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      MaxLength = 25
+      TabOrder = 5
+      WantReturns = False
+      WantTabs = True
+      OnEnter = JunEnter
+      OnExit = JunExit
+      OnKeyPress = JunKeyPress
+    end
+    object Jul: TMemo
+      Left = 16
+      Top = 96
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      MaxLength = 25
+      TabOrder = 6
+      WantReturns = False
+      WantTabs = True
+      OnEnter = JulEnter
+      OnExit = JulExit
+      OnKeyPress = JulKeyPress
+    end
+    object Aug: TMemo
+      Left = 120
+      Top = 96
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      MaxLength = 25
+      TabOrder = 7
+      WantReturns = False
+      WantTabs = True
+      OnEnter = AugEnter
+      OnExit = AugExit
+      OnKeyPress = AugKeyPress
+    end
+    object Sep: TMemo
+      Left = 224
+      Top = 96
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      MaxLength = 25
+      TabOrder = 8
+      WantReturns = False
+      WantTabs = True
+      OnEnter = SepEnter
+      OnExit = SepExit
+      OnKeyPress = SepKeyPress
+    end
+    object Okt: TMemo
+      Left = 328
+      Top = 96
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      MaxLength = 25
+      TabOrder = 9
+      WantReturns = False
+      WantTabs = True
+      OnEnter = OktEnter
+      OnExit = OktExit
+      OnKeyPress = OktKeyPress
+    end
+    object Nov: TMemo
+      Left = 432
+      Top = 96
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      MaxLength = 25
+      TabOrder = 10
+      WantReturns = False
+      WantTabs = True
+      OnEnter = NovEnter
+      OnExit = NovExit
+      OnKeyPress = NovKeyPress
+    end
+    object Des: TMemo
+      Left = 536
+      Top = 96
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      MaxLength = 25
+      TabOrder = 11
+      WantReturns = False
+      WantTabs = True
+      OnEnter = DesEnter
+      OnExit = DesExit
+      OnKeyPress = DesKeyPress
+    end
+    object ActJan: TMemo
+      Left = 16
+      Top = 55
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      Color = clInfoBk
+      MaxLength = 25
+      ReadOnly = True
+      TabOrder = 12
+      WantReturns = False
+      WantTabs = True
+    end
+    object ActFeb: TMemo
+      Left = 120
+      Top = 55
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      Color = clInfoBk
+      MaxLength = 25
+      ReadOnly = True
+      TabOrder = 13
+      WantReturns = False
+      WantTabs = True
+    end
+    object ActMar: TMemo
+      Left = 224
+      Top = 55
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      Color = clInfoBk
+      MaxLength = 25
+      ReadOnly = True
+      TabOrder = 14
+      WantReturns = False
+      WantTabs = True
+    end
+    object ActApr: TMemo
+      Left = 328
+      Top = 55
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      Color = clInfoBk
+      MaxLength = 25
+      ReadOnly = True
+      TabOrder = 15
+      WantReturns = False
+      WantTabs = True
+    end
+    object ActMei: TMemo
+      Left = 432
+      Top = 55
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      Color = clInfoBk
+      MaxLength = 25
+      ReadOnly = True
+      TabOrder = 16
+      WantReturns = False
+      WantTabs = True
+    end
+    object ActJun: TMemo
+      Left = 536
+      Top = 55
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      Color = clInfoBk
+      MaxLength = 25
+      ReadOnly = True
+      TabOrder = 17
+      WantReturns = False
+      WantTabs = True
+    end
+    object ActJul: TMemo
+      Left = 16
+      Top = 120
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      Color = clInfoBk
+      MaxLength = 25
+      ReadOnly = True
+      TabOrder = 18
+      WantReturns = False
+      WantTabs = True
+    end
+    object ActAug: TMemo
+      Left = 120
+      Top = 120
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      Color = clInfoBk
+      MaxLength = 25
+      ReadOnly = True
+      TabOrder = 19
+      WantReturns = False
+      WantTabs = True
+    end
+    object ActSep: TMemo
+      Left = 224
+      Top = 120
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      Color = clInfoBk
+      MaxLength = 25
+      ReadOnly = True
+      TabOrder = 20
+      WantReturns = False
+      WantTabs = True
+    end
+    object ActOkt: TMemo
+      Left = 328
+      Top = 120
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      Color = clInfoBk
+      MaxLength = 25
+      ReadOnly = True
+      TabOrder = 21
+      WantReturns = False
+      WantTabs = True
+    end
+    object ActNov: TMemo
+      Left = 432
+      Top = 120
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      Color = clInfoBk
+      MaxLength = 25
+      ReadOnly = True
+      TabOrder = 22
+      WantReturns = False
+      WantTabs = True
+    end
+    object ActDes: TMemo
+      Left = 536
+      Top = 120
+      Width = 97
+      Height = 21
+      Alignment = taRightJustify
+      Color = clInfoBk
+      MaxLength = 25
+      ReadOnly = True
+      TabOrder = 23
+      WantReturns = False
+      WantTabs = True
+    end
+  end
+  object StrGrid: TZColorStringGrid
+    Left = 7
+    Top = 272
+    Width = 650
+    Height = 233
+    ColCount = 3
+    DefaultRowHeight = 20
+    DefaultDrawing = False
+    FixedColor = clBtnFace
+    FixedCols = 0
+    RowCount = 2
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing]
+    ScrollBars = ssVertical
+    TabOrder = 5
+    OnDblClick = StrGridDblClick
+    OnSelectCell = StrGridSelectCell
+    DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
+    DefaultCellStyle.Font.Color = clWindowText
+    DefaultCellStyle.Font.Height = -11
+    DefaultCellStyle.Font.Name = 'MS Sans Serif'
+    DefaultCellStyle.Font.Style = []
+    DefaultCellStyle.BGColor = clWindow
+    DefaultFixedCellStyle.Font.Charset = DEFAULT_CHARSET
+    DefaultFixedCellStyle.Font.Color = clWindowText
+    DefaultFixedCellStyle.Font.Height = -11
+    DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
+    DefaultFixedCellStyle.Font.Style = []
+    DefaultFixedCellStyle.BGColor = clBtnFace
+    LineDesign.LineUpColor = clWhite
+  end
+end

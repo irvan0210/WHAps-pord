@@ -1,0 +1,1365 @@
+unit CustomerU;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, Buttons, ExtCtrls, StdCtrls, Mask, Grids, ZColorStringGrid, WHUnit,
+  CheckLst, AppEvnts;
+
+type
+  TCustomer = class(TForm)
+    Label18: TLabel;
+    GroupContact: TGroupBox;
+    ContactName: TEdit;
+    ContactAddress: TMemo;
+    ContactCellular: TMaskEdit;
+    ContactPhone: TMaskEdit;
+    email: TEdit;
+    Dept: TEdit;
+    GroupBox1: TGroupBox;
+    Label20: TLabel;
+    CustomerId: TEdit;
+    StrGrid: TZColorStringGrid;
+    ContactTitle: TComboBox;
+    ContactZip: TEdit;
+    GroupAdditional: TGroupBox;
+    Label15: TLabel;
+    Label16: TLabel;
+    CreditLimit: TEdit;
+    GPCustomerNumber: TEdit;
+    Label21: TLabel;
+    Sales: TComboBox;
+    Label22: TLabel;
+    NPWP: TEdit;
+    Label24: TLabel;
+    VANo: TEdit;
+    PanelHeader: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label19: TLabel;
+    LabelLead: TLabel;
+    LabelSegment: TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
+    Label17: TLabel;
+    LabelSegment1: TLabel;
+    PanelLead: TPanel;
+    LeadId: TEdit;
+    PanelCariLead: TPanel;
+    CariLead: TSpeedButton;
+    GroupInput: TPanel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    LabelSegment2: TLabel;
+    Title: TComboBox;
+    Name: TEdit;
+    Address: TMemo;
+    PhoneNo1: TMaskEdit;
+    PhoneNo2: TMaskEdit;
+    FaxNo: TMaskEdit;
+    Zip: TEdit;
+    CellularNo: TMaskEdit;
+    Reference: TComboBox;
+    Panel1: TPanel;
+    ReferenceId: TEdit;
+    ReferenceName: TEdit;
+    PanelCariReferensi: TPanel;
+    CariReferensi: TSpeedButton;
+    Remark: TMemo;
+    SegLv1: TComboBox;
+    SegLv2: TComboBox;
+    PanelButton: TPanel;
+    Simpan: TButton;
+    Bersihkan: TButton;
+    Selesai: TButton;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Website: TEdit;
+    GroupBatal: TPanel;
+    Status: TCheckBox;
+    Label23: TLabel;
+    GPCOANumber: TEdit;
+    Label25: TLabel;
+    Ext1: TEdit;
+    Ext2: TEdit;
+    Label26: TLabel;
+    SegLv3: TCheckListBox;
+    AppHotKey: TApplicationEvents;
+    GroupBlackList: TPanel;
+    Blacklist: TCheckBox;
+    Name2: TEdit;
+    Label27: TLabel;
+    procedure CariLeadClick(Sender: TObject);
+    procedure SelesaiClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure ReferenceChange(Sender: TObject);
+    procedure StrGridSelectCell(Sender: TObject; ACol, ARow: Integer;
+      var CanSelect: Boolean);
+    procedure ContactTitleExit(Sender: TObject);
+    procedure ContactNameExit(Sender: TObject);
+    procedure ContactAddressExit(Sender: TObject);
+    procedure ContactCellularExit(Sender: TObject);
+    procedure ContactPhoneExit(Sender: TObject);
+    procedure emailExit(Sender: TObject);
+    procedure DeptExit(Sender: TObject);
+    procedure SegLv1Change(Sender: TObject);
+    procedure ContactZipExit(Sender: TObject);
+    procedure CariReferensiClick(Sender: TObject);
+    procedure SegLv1KeyPress(Sender: TObject; var Key: Char);
+    procedure SegLv2KeyPress(Sender: TObject; var Key: Char);
+    procedure TitleKeyPress(Sender: TObject; var Key: Char);
+    procedure NameKeyPress(Sender: TObject; var Key: Char);
+    procedure ZipKeyPress(Sender: TObject; var Key: Char);
+    procedure PhoneNo1KeyPress(Sender: TObject; var Key: Char);
+    procedure PhoneNo2KeyPress(Sender: TObject; var Key: Char);
+    procedure FaxNoKeyPress(Sender: TObject; var Key: Char);
+    procedure CellularNoKeyPress(Sender: TObject; var Key: Char);
+    procedure ReferenceKeyPress(Sender: TObject; var Key: Char);
+    procedure CreditLimitKeyPress(Sender: TObject; var Key: Char);
+    procedure GPCustomerNumberKeyPress(Sender: TObject; var Key: Char);
+    procedure ContactTitleKeyPress(Sender: TObject; var Key: Char);
+    procedure ContactNameKeyPress(Sender: TObject; var Key: Char);
+    procedure ContactAddressKeyPress(Sender: TObject; var Key: Char);
+    procedure ContactZipKeyPress(Sender: TObject; var Key: Char);
+    procedure ContactCellularKeyPress(Sender: TObject; var Key: Char);
+    procedure ContactPhoneKeyPress(Sender: TObject; var Key: Char);
+    procedure emailKeyPress(Sender: TObject; var Key: Char);
+    procedure DeptKeyPress(Sender: TObject; var Key: Char);
+    procedure BersihkanClick(Sender: TObject);
+    procedure SimpanClick(Sender: TObject);
+    procedure SalesKeyPress(Sender: TObject; var Key: Char);
+    procedure VANoKeyPress(Sender: TObject; var Key: Char);
+    procedure NPWPKeyPress(Sender: TObject; var Key: Char);
+    procedure RemarkKeyPress(Sender: TObject; var Key: Char);
+    procedure CreditLimitEnter(Sender: TObject);
+    procedure CreditLimitExit(Sender: TObject);
+    procedure StrGridDblClick(Sender: TObject);
+    procedure GPCOANumberKeyPress(Sender: TObject; var Key: Char);
+    procedure CustomerIdKeyPress(Sender: TObject; var Key: Char);
+    procedure Ext1KeyPress(Sender: TObject; var Key: Char);
+    procedure Ext2KeyPress(Sender: TObject; var Key: Char);
+    procedure SegLv2Change(Sender: TObject);
+    procedure AppHotKeyShortCut(var Msg: TWMKey; var Handled: Boolean);
+  private
+    { Private declarations }
+    CustId,FormRequest:String;
+    TitleArr,TitlePersonalArr,ReferenceArr,SegLv1Arr,SegLv2Arr,SegLv3Arr,SalesArr:Array of TArrString5;
+    IntRow,IntCol,MinRowGrid,CompId:Integer;
+    IsInput,IsInputGrid,IsComplete:Boolean;
+    procedure Init;
+    procedure InitGrid;
+    procedure RefreshCombo;
+    procedure RefreshSegLv2;
+    procedure RefreshSegLv3;
+    procedure LoadData;
+    procedure RefreshGrid;
+    procedure EnableInput;
+    procedure DisableInput;
+  public
+    { Public declarations }
+    procedure SetLeadId(Lead_Id:String);
+    procedure SetContactId(Lead_Id:String);
+    procedure SetReferenceId(Reference_Customer_Id:String);
+    constructor Create(AOwner:TComponent;Customer_Id:String='';Company_Id:String='';Is_Input:Boolean=True;Form_Request:String='');Overload;
+  end;
+
+var
+  Customer: TCustomer;
+
+implementation
+
+uses LeadListU, MainU, ADODB, StrUtils, CustomerListU, OfferingFormU,
+  OrderFormU, ContractU;
+
+{$R *.dfm}
+
+constructor TCustomer.Create(AOwner:TComponent;Customer_Id:String='';Company_Id:String='';Is_Input:Boolean=True;Form_Request:String='');
+begin
+  if UpperCase(Company_Id)='TAXI' then begin
+    CompId:=3;
+    IsComplete:=False;
+  end else if UpperCase(Company_Id)='BUS' then begin
+    CompId:=2;
+    IsComplete:=True;
+  end else begin
+    CompId:=1;
+  end;
+  if Company_Id='' then CompId:=2;
+  CustId:=Customer_Id;
+  IsInput:=Is_Input;
+  IsInputGrid:=Is_Input;
+  FormRequest:=Form_Request; 
+  inherited Create(AOwner);
+end;
+
+procedure TCustomer.Init;
+begin
+  PanelHeader.Top:=40;
+  PanelHeader.Width:=585;
+  PanelButton.Left:=800;
+  Width:=900;
+  PanelLead.Visible:=True;
+  PanelLead.Visible:=True;
+  PanelCariLead.Visible:=True;
+  LabelLead.Visible:=True;
+  CustomerId.Text:='';
+  LeadId.Text:='';
+  SegLv1.Text:='';
+  SegLv1.Items.Clear;
+  SegLv1.ItemIndex:=-1;
+  SegLv2.Text:='';
+  SegLv2.Items.Clear;
+  SegLv2.ItemIndex:=-1;
+  SegLv3.Items.Clear;
+  SegLv3.Visible:=False;  
+  Title.Text:='';
+  Title.Items.Clear;
+  Title.ItemIndex:=-1;
+  ContactTitle.Text:='';
+  ContactTitle.Items.Clear;
+  ContactTitle.ItemIndex:=-1;
+  Name.Text:='';
+  Address.Text:='';
+  Zip.Text:='';
+  PhoneNo1.Text:='';
+  PhoneNo2.Text:='';
+  FaxNo.Text:='';
+  CellularNo.Text:='';
+  Reference.Text:='';
+  Reference.Items.Clear;
+  Reference.ItemIndex:=-1;
+  Sales.Text:='';
+  Sales.Items.Clear;
+  Sales.ItemIndex:=-1;
+  ReferenceId.Text:='';
+  ReferenceName.Text:='';
+  Website.Text:=''; 
+  Remark.Text:='';
+  CreditLimit.Text:='0';
+  GPCustomerNumber.Text:='';
+  GPCOANumber.Text:='';
+  NPWP.Text:='';
+  VANo.Text:='';
+  PanelCariLead.Enabled:=True;
+  PanelCariReferensi.Enabled:=False;
+  LabelSegment.Visible:=True;
+  LabelSegment1.Visible:=True;
+  LabelSegment2.Visible:=True;
+  SegLv1.Visible:=True;
+  SegLv2.Visible:=True;
+  GroupAdditional.Visible:=True;
+  GroupContact.Visible:=True;
+  Height:=580;
+  Bersihkan.Enabled:=True;
+  GroupBlackList.Visible:=False;
+  if IsInput=True then begin
+    if CustId<>'' then GroupBatal.Visible:=True else GroupBatal.Visible:=False;
+    GroupBlackList.Visible:=True;
+  end else GroupBatal.Visible:=False;
+end;
+
+procedure TCustomer.InitGrid;
+var IntCount:Integer;
+begin
+  MinRowGrid:=0;
+  StrGrid.ColCount:=10;
+  StrGrid.RowCount:=2;
+  StrGrid.ColWidths[0]:=0;
+  StrGrid.ColWidths[1]:=40;
+  StrGrid.ColWidths[2]:=120;
+  StrGrid.ColWidths[3]:=200;
+  StrGrid.ColWidths[4]:=50;
+  StrGrid.ColWidths[5]:=100;
+  StrGrid.ColWidths[6]:=70;
+  StrGrid.ColWidths[7]:=150;
+  StrGrid.ColWidths[8]:=70;
+  StrGrid.ColWidths[9]:=0;
+  StrGrid.Cells[0,0]:='';
+  StrGrid.Cells[1,0]:='Nama';
+  StrGrid.Cells[3,0]:='Alamat';
+  StrGrid.Cells[4,0]:='Kodepos';
+  StrGrid.Cells[5,0]:='Handphone';
+  StrGrid.Cells[6,0]:='Telephone';
+  StrGrid.Cells[7,0]:='e-mail';
+  StrGrid.Cells[8,0]:='Dept';
+  StrGrid.Cells[9,0]:='';
+  StrGrid.MergeCells.AddRectXY(1,0,2,0);
+  StrGrid.MergeCells.AddRectXY(3,0,4,0);
+  StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[3,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[4,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[5,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[6,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[7,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[8,0].HorizontalAlignment:=taCenter;
+  for IntCount:=0 to StrGrid.ColCount-1 do
+    StrGrid.Cells[IntCount,1]:='';
+end;
+
+procedure TCustomer.RefreshCombo;
+var Qry:TADOQuery;
+    StrQry:String;
+    IntCount:Integer;
+begin
+  Qry:=TADOQuery.Create(Self);
+  Qry.Connection:=Main.MyConnection;
+  Main.M_Busy;
+  if Main.OpenDb then begin
+    SetLength(TitleArr,0);
+    StrQry:='SELECT * FROM wh_title WHERE status=1';
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    IntCount:=1;
+    SetLength(TitleArr,Qry.RecordCount+1);
+    TitleArr[0][0]:=' ';
+    TitleArr[0][1]:=' ';
+    if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+      TitleArr[IntCount][0]:=Qry.FieldValues['title_id'];
+      TitleArr[IntCount][1]:=Qry.FieldValues['title'];
+      Qry.Next;
+      Inc(IntCount)
+    end;
+    Qry.Close;
+    SetLength(TitlePersonalArr,0);
+    StrQry:='SELECT * FROM wh_title WHERE (personal=1) and (status=1)';
+    Qry.SQL.Clear;
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    IntCount:=1;
+    SetLength(TitlePersonalArr,Qry.RecordCount+1);
+    TitlePersonalArr[0][0]:=' ';
+    TitlePersonalArr[0][1]:=' ';
+    if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+      TitlePersonalArr[IntCount][0]:=Qry.FieldValues['title_id'];
+      TitlePersonalArr[IntCount][1]:=Qry.FieldValues['title'];
+      Qry.Next;
+      Inc(IntCount)
+    end;
+    Qry.Close;
+    StrQry:='SELECT * FROM wh_reference WHERE company_id=2';
+    Qry.SQL.Clear;
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    IntCount:=1;
+    SetLength(ReferenceArr,Qry.RecordCount+1);
+    ReferenceArr[0][0]:=' ';
+    ReferenceArr[0][1]:=' ';
+    if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+      ReferenceArr[IntCount][0]:=Qry.FieldValues['reference_id'];
+      ReferenceArr[IntCount][1]:=Qry.FieldValues['reference'];
+      ReferenceArr[IntCount][2]:=Qry.FieldValues['local'];
+      Qry.Next;
+      Inc(IntCount)
+    end;
+    Qry.Close;
+    StrQry:='EXEC GetCustomerSegment 1;';
+    Qry.SQL.Clear;
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    IntCount:=0;
+    SetLength(SegLv1Arr,Qry.RecordCount);
+    if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+      SegLv1Arr[IntCount][0]:=Qry.FieldValues['segment_id'];
+      SegLv1Arr[IntCount][1]:=Qry.FieldValues['name'];
+      Qry.Next;
+      Inc(IntCount)
+    end;
+    Qry.Close;
+    StrQry:='EXEC GetUserList 2,14;';
+    Qry.SQL.Clear;
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    IntCount:=1;
+    SetLength(SalesArr,Qry.RecordCount+1);
+    SalesArr[0][0]:=' ';
+    SalesArr[0][1]:=' ';
+    if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+      SalesArr[IntCount][0]:=Qry.FieldValues['username'];
+      SalesArr[IntCount][1]:=Qry.FieldValues['name'];
+      Qry.Next;
+      Inc(IntCount)
+    end;
+    Qry.Close;
+  end;
+  FreeAndNil(Qry);
+  Main.CloseDb;
+  for IntCount:=0 to Length(TitleArr)-1 do
+    Title.Items.Add(TitleArr[IntCount][1]);
+  for IntCount:=0 to Length(TitlePersonalArr)-1 do
+    ContactTitle.Items.Add(TitlePersonalArr[IntCount][1]);
+  for IntCount:=0 to Length(ReferenceArr)-1 do
+    Reference.Items.Add(ReferenceArr[IntCount][1]);
+  for IntCount:=0 to Length(SegLv1Arr)-1 do
+    SegLv1.Items.Add(SegLv1Arr[IntCount][1]);
+  for IntCount:=0 to Length(SalesArr)-1 do
+    Sales.Items.Add(SalesArr[IntCount][1]);
+  Main.M_Normal;
+end;
+
+procedure TCustomer.RefreshSegLv2;
+var Qry:TADOQuery;
+    StrQry,StrSegLv1:String;
+    IntCount:Integer;
+begin
+  SegLv2.Text:='';
+  SegLv2.Items.Clear;
+  SegLv2.ItemIndex:=-1;
+  if SegLv1.Text<>'' then begin
+    Qry:=TADOQuery.Create(Self);
+    Qry.Connection:=Main.MyConnection;
+    Main.M_Busy;
+    if Main.OpenDb then begin
+      StrSegLv1:=SegLv1Arr[SegLv1.ItemIndex][0];
+      StrQry:='EXEC GetCustomerSegment 2,'+StrSegLv1+';';
+      Qry.SQL.Clear;
+      Qry.SQL.Add(StrQry);
+      Qry.Open;
+      IntCount:=0;
+      SetLength(SegLv2Arr,Qry.RecordCount);
+      if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+        SegLv2Arr[IntCount][0]:=Qry.FieldValues['segment_id'];
+        SegLv2Arr[IntCount][1]:=Qry.FieldValues['name'];
+        Qry.Next;
+        Inc(IntCount)
+      end;
+      Qry.Close;
+    end;
+    FreeAndNil(Qry);
+    Main.CloseDb;
+    for IntCount:=0 to Length(SegLv2Arr)-1 do
+      SegLv2.Items.Add(SegLv2Arr[IntCount][1]);
+    Main.M_Normal;
+  end;
+end;
+
+procedure TCustomer.RefreshSegLv3;
+var Qry:TADOQuery;
+    StrQry,StrSegLv2:String;
+    IntCount:Integer;
+begin
+  SegLv3.Items.Clear;
+  SegLv3.Visible:=False;
+  if SegLv2.Text<>'' then begin
+    Qry:=TADOQuery.Create(Self);
+    Qry.Connection:=Main.MyConnection;
+    Main.M_Busy;
+    if Main.OpenDb then begin
+      StrSegLv2:=SegLv2Arr[SegLv2.ItemIndex][0];
+      StrQry:='EXEC GetCustomerSegment 3,@Level2='+StrSegLv2+';';
+      Qry.SQL.Clear;
+      Qry.SQL.Add(StrQry);
+      Qry.Open;
+      IntCount:=0;
+      SetLength(SegLv3Arr,Qry.RecordCount);
+      if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+        SegLv3Arr[IntCount][0]:=Qry.FieldValues['segment_id'];
+        SegLv3Arr[IntCount][1]:=Qry.FieldValues['name'];
+        SegLv3.Items.Add(Qry.FieldValues['name']);
+        Qry.Next;
+        Inc(IntCount)
+      end;
+      Qry.Close;
+      if Length(SegLv3Arr)>0 then begin
+        SegLv3.Visible:=True;
+        StrQry:='SELECT * FROM wh_customer_link_detail WHERE (customer_id='+QuotedStr(CustId)+') AND (param='+QuotedStr('Segment-Level-3')+') AND (status=1) ;';
+        Qry.SQL.Clear;
+        Qry.SQL.Add(StrQry);
+        Qry.Open;
+        if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+          for IntCount:=0 to Length(SegLv3Arr)-1 do
+            if Qry.FieldValues['value']=SegLv3Arr[IntCount][0] then SegLv3.Checked[IntCount]:=True;
+          Qry.Next;
+        end;
+      end;
+    end;
+    FreeAndNil(Qry);
+    Main.CloseDb;
+    Main.M_Normal;
+  end;
+end;
+
+procedure TCustomer.LoadData;
+var Qry:TADOQuery;
+    StrQry,StrReferenceCustomerId,StrSegLv2:String;
+    IntCount:Integer;
+begin
+  Qry:=TADOQuery.Create(Self);
+  Qry.Connection:=Main.MyConnection;
+  Main.M_Busy;
+  if Main.OpenDb then begin
+    StrQry:='EXEC GetCustomerDetail '+QuotedStr(CustId)+';';
+    Qry.SQL.Clear;
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    IntCount:=0;
+    if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+      CustomerId.Text:=Qry.FieldValues['customer_id'];
+      if Qry.FieldValues['segment_name1']<>NULL then SegLv1.ItemIndex:=SegLv1.Items.IndexOf(Qry.FieldValues['segment_name1']);
+      if Qry.FieldValues['segment_name2']<>NULL then StrSegLv2:=Qry.FieldValues['segment_name2'];
+      if Qry.FieldValues['title']<>NULL then Title.ItemIndex:=Title.Items.IndexOf(Qry.FieldValues['title']);
+      Name.Text:=Qry.FieldValues['name'];
+      if Qry.FieldValues['alias']<>NULL then Name2.Text:=Qry.FieldValues['alias'];
+      if Qry.FieldValues['address']<>NULL then Address.Text:=Qry.FieldValues['address'];
+      if Qry.FieldValues['zip']<>NULL then Zip.Text:=Qry.FieldValues['zip'];
+      if Qry.FieldValues['phone_no']<>NULL then
+        if Pos(',',Qry.FieldValues['phone_no'])>0 then begin
+          PhoneNo1.Text:=LeftStr(Qry.FieldValues['phone_no'],Pos(',',Qry.FieldValues['phone_no'])-1);
+          PhoneNo2.Text:=RightStr(Qry.FieldValues['phone_no'],Length(Qry.FieldValues['phone_no'])-Pos(',',Qry.FieldValues['phone_no']))
+        end else PhoneNo1.Text:=Qry.FieldValues['phone_no'];
+      if Qry.FieldValues['cellular_no']<>NULL then CellularNo.Text:=Qry.FieldValues['cellular_no'];
+      if Qry.FieldValues['fax_no']<>NULL then FaxNo.Text:=Qry.FieldValues['fax_no'];
+      if Qry.FieldValues['reference']<>NULL then Reference.ItemIndex:=Reference.Items.IndexOf(Qry.FieldValues['reference']);
+      if Qry.FieldValues['reference_customer_id']<>NULL then StrReferenceCustomerId:=Qry.FieldValues['reference_customer_id'];
+      if Qry.FieldValues['remark']<>NULL then Remark.Text:=Qry.FieldValues['remark'];
+      if Qry.FieldValues['sales_name']<>NULL then Sales.ItemIndex:=Sales.Items.IndexOf(Qry.FieldValues['sales_name']);
+      if Qry.FieldValues['credit_limit_amount_total']<>NULL then CreditLimit.Text:=IToCurr(Qry.FieldValues['credit_limit_amount_total']) else CreditLimit.Text:='0';
+      if Qry.FieldValues['gp_customer_number']<>NULL then GPCustomerNumber.Text:=Qry.FieldValues['gp_customer_number'];
+      if Qry.FieldValues['gp_coa_number']<>NULL then GPCOANumber.Text:=Qry.FieldValues['gp_coa_number'];
+      if Qry.FieldValues['virtual_account']<>NULL then VANo.Text:=Qry.FieldValues['virtual_account'];
+//      if Qry.FieldValues['npwp']<>NULL then GPReference.Text:=Qry.FieldValues['npwp'];
+      if Qry.FieldValues['website']<>NULL then Website.Text:=Qry.FieldValues['website'];
+      if Qry.FieldValues['blacklist']=1 then begin
+        GroupBlackList.Visible:=True;
+        Blacklist.Checked:=True;
+      end else begin
+        if GroupBlackList.Visible then Blacklist.Checked:=False;
+        GroupBlackList.Visible:=False;
+      end;
+      Qry.Next;
+      Inc(IntCount)
+    end;
+    Qry.Close;
+  end;
+  FreeAndNil(Qry);
+  Main.CloseDb;
+  Main.M_Normal;
+  if Trim(StrReferenceCustomerId)<>'' then SetReferenceId(StrReferenceCustomerId);
+  RefreshSegLv2;
+  SegLv2.ItemIndex:=SegLv2.Items.IndexOf(StrSegLv2);
+  RefreshSegLv3;
+end;
+
+procedure TCustomer.RefreshGrid;
+var Qry:TADOQuery;
+    StrQry:String;
+    IntCount:Integer;
+begin
+  Qry:=TADOQuery.Create(Self);
+  Qry.Connection:=Main.MyConnection;
+  Main.M_Busy;
+  if Main.OpenDb then begin
+    StrQry:='EXEC GetContactPersonList '+QuotedStr(CustId)+';';
+    Qry.SQL.Clear;
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    IntCount:=1;
+    if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+      StrGrid.RowCount:=IntCount+2;
+      if Qry.FieldValues['lead_id']<>NULL then StrGrid.Cells[0,IntCount]:=Qry.FieldValues['lead_id'];
+      if Qry.FieldValues['title']<>NULL then StrGrid.Cells[1,IntCount]:=Qry.FieldValues['title'];
+      if Qry.FieldValues['name']<>NULL then StrGrid.Cells[2,IntCount]:=Qry.FieldValues['name'];
+      if Qry.FieldValues['address']<>NULL then StrGrid.Cells[3,IntCount]:=Qry.FieldValues['address'];
+      if Qry.FieldValues['zip']<>NULL then StrGrid.Cells[4,IntCount]:=Qry.FieldValues['zip'];
+      if Qry.FieldValues['cellular_no']<>NULL then StrGrid.Cells[5,IntCount]:=Qry.FieldValues['cellular_no'];
+      if Qry.FieldValues['phone_no']<>NULL then StrGrid.Cells[6,IntCount]:=Qry.FieldValues['phone_no'];
+      if Qry.FieldValues['email']<>NULL then StrGrid.Cells[7,IntCount]:=Qry.FieldValues['email'];
+      if Qry.FieldValues['department']<>NULL then StrGrid.Cells[8,IntCount]:=Qry.FieldValues['department'];
+      StrGrid.Cells[9,IntCount]:=Qry.FieldValues['contact_person_id'];
+      Qry.Next;
+      Inc(IntCount)
+    end;
+    Qry.Close;
+  end;
+  FreeAndNil(Qry);
+  Main.CloseDb;
+  Main.M_Normal;
+end;
+
+procedure TCustomer.SetLeadId(Lead_id:String);
+var Qry:TADOQuery;
+    StrQry,StrReferenceCustomerId:String;
+    IntCount:Integer;
+begin
+  if Trim(Lead_Id)<>'' then begin
+    LeadId.Text:=Lead_Id;
+    Qry:=TADOQuery.Create(Self);
+    Qry.Connection:=Main.MyConnection;
+    Main.M_Busy;
+    if Main.OpenDb then begin
+      StrQry:='EXEC GetLeadDetail '+Lead_Id+';';
+      Qry.SQL.Add(StrQry);
+      Qry.Open;
+      if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+        LeadId.Text:=Qry.FieldValues['lead_id'];
+        if Qry.FieldValues['title']<>NULL then Title.ItemIndex:=Title.Items.IndexOf(Qry.FieldValues['title']);
+        Name.Text:=Qry.FieldValues['name'];
+        Address.Text:=Qry.FieldValues['address'];
+        if Qry.FieldValues['zip']<>NULL then Zip.Text:=Qry.FieldValues['zip'];
+        if Pos(',',Qry.FieldValues['phone_no'])>0 then begin
+          PhoneNo1.Text:=LeftStr(Qry.FieldValues['phone_no'],Pos(',',Qry.FieldValues['phone_no'])-1);
+          PhoneNo2.Text:=RightStr(Qry.FieldValues['phone_no'],Length(Qry.FieldValues['phone_no'])-Pos(',',Qry.FieldValues['phone_no']))
+        end else PhoneNo1.Text:=Qry.FieldValues['phone_no'];
+        if Qry.FieldValues['cellular_no']<>NULL then CellularNo.Text:=Qry.FieldValues['cellular_no'];
+        if Qry.FieldValues['fax_no']<>NULL then FaxNo.Text:=Qry.FieldValues['fax_no'];
+        if Qry.FieldValues['reference']<>NULL then Reference.ItemIndex:=Reference.Items.IndexOf(Qry.FieldValues['reference']);
+        if Qry.FieldValues['reference_customer_id']<>NULL then StrReferenceCustomerId:=Qry.FieldValues['reference_customer_id'];
+        if Qry.FieldValues['remark']<>NULL then Remark.Text:=Qry.FieldValues['remark'];
+        if Qry.FieldValues['contact_person']<>NULL then begin
+          StrGrid.Cells[0,1]:=Qry.FieldValues['lead_id'];
+          StrGrid.RowCount:=StrGrid.RowCount+1; 
+        end;
+        if Qry.FieldValues['contact_title']<>NULL then StrGrid.Cells[1,1]:=Qry.FieldValues['contact_title'];
+        if Qry.FieldValues['contact_person']<>NULL then StrGrid.Cells[2,1]:=Qry.FieldValues['contact_person'];
+        if Qry.FieldValues['contact_address']<>NULL then StrGrid.Cells[3,1]:=Qry.FieldValues['contact_address'];
+        if Qry.FieldValues['contact_zip']<>NULL then StrGrid.Cells[4,1]:=Qry.FieldValues['contact_zip'];
+        if Qry.FieldValues['contact_cellular_no']<>NULL then StrGrid.Cells[5,1]:=Qry.FieldValues['contact_cellular_no'];
+        if Qry.FieldValues['contact_phone_no']<>NULL then StrGrid.Cells[6,1]:=Qry.FieldValues['contact_phone_no'];
+        if Qry.FieldValues['email']<>NULL then StrGrid.Cells[7,1]:=Qry.FieldValues['email'];
+        if Qry.FieldValues['department']<>NULL then StrGrid.Cells[8,1]:=Qry.FieldValues['department'];
+        Sales.ItemIndex:=Sales.Items.IndexOf(Qry.FieldValues['sales_name']);
+        Qry.Next;
+      end;
+      Qry.Close;
+    end;
+    FreeAndNil(Qry);
+    Main.CloseDb;
+    if Trim(StrReferenceCustomerId)<>'' then SetReferenceId(StrReferenceCustomerId);
+    Main.M_Normal;
+  end;
+  SegLv1.SetFocus;
+end;
+
+procedure TCustomer.SetContactId(Lead_Id:String);
+begin
+
+end;
+
+procedure TCustomer.EnableInput;
+begin
+  PanelCariLead.Enabled:=True;
+  GroupInput.Enabled:=True;
+  GroupAdditional.Enabled:=True;
+  GroupBatal.Enabled:=True;
+  GroupBlackList.Enabled:=True;
+  IsInputGrid:=True;
+  Simpan.Enabled:=True;
+end;
+
+procedure TCustomer.DisableInput;
+begin
+  PanelCariLead.Enabled:=False;
+  GroupInput.Enabled:=False;
+  GroupAdditional.Enabled:=False;
+  GroupBatal.Enabled:=False;
+  GroupBlackList.Enabled:=False;
+  IsInputGrid:=False;
+  Simpan.Enabled:=False;
+end;
+
+
+procedure TCustomer.CariLeadClick(Sender: TObject);
+begin
+  LeadList:=TLeadList.Create(Self,'BUS','CustomerForm');
+end;
+
+procedure TCustomer.SelesaiClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TCustomer.FormShow(Sender: TObject);
+begin
+  Init;
+  InitGrid;
+  RefreshCombo;
+  if not(IsComplete) then begin
+    PanelHeader.Top:=-8;
+    PanelHeader.Width:=489;
+    PanelButton.Left:=512;
+    LabelLead.Visible:=False;
+    PanelLead.Visible:=False;
+    PanelCariLead.Visible:=False;
+    LabelSegment.Visible:=False;
+    LabelSegment1.Visible:=False;
+    LabelSegment2.Visible:=False;
+    SegLv1.Visible:=False;
+    SegLv2.Visible:=False;
+    GroupAdditional.Visible:=False;
+    GroupContact.Visible:=False;
+    Height:=380;
+    Width:=611;
+  end;
+  if CustId<>'' then begin
+    LoadData;
+    RefreshGrid;
+    PanelLead.Visible:=False;
+    PanelCariLead.Visible:=False;
+    LabelLead.Visible:=False;
+    if IsInput then EnableInput else DisableInput;
+    Bersihkan.Enabled:=False;
+  end;
+end;
+
+procedure TCustomer.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action:=caFree;
+end;
+
+procedure TCustomer.ReferenceChange(Sender: TObject);
+begin
+  if Reference.Text<>'' then begin
+    if ReferenceArr[Reference.ItemIndex][2]='1' then PanelCariReferensi.Enabled:=True
+    else PanelCariReferensi.Enabled:=False;
+  end;
+end;
+
+procedure TCustomer.SetReferenceId(Reference_Customer_Id:String);
+var Qry:TADOQuery;
+    StrQry:String;
+    IntCount:Integer;
+begin
+  if Trim(Reference_Customer_Id)<>'' then begin
+    ReferenceId.Text:=Reference_Customer_Id;
+    Qry:=TADOQuery.Create(Self);
+    Qry.Connection:=Main.MyConnection;
+    Main.M_Busy;
+    if Main.OpenDb then begin
+      StrQry:='EXEC GetCustomerDetail '+Reference_Customer_Id+';';
+      Qry.SQL.Add(StrQry);
+      Qry.Open;
+      if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+        if Qry.FieldValues['title']<>NULL then ReferenceName.Text:=Qry.FieldValues['title']+' '+Qry.FieldValues['name']
+        else ReferenceName.Text:=Qry.FieldValues['name'];
+        Qry.Next;
+      end;
+      Qry.Close;
+    end;
+    FreeAndNil(Qry);
+    Main.CloseDb;
+    Main.M_Normal;
+  end;
+end;
+
+procedure TCustomer.StrGridSelectCell(Sender: TObject; ACol, ARow: Integer;
+  var CanSelect: Boolean);
+var R:TRect;
+begin
+  IntCol:=ACol;
+  IntRow:=ARow;
+  if (IsInputGrid) then begin
+    if (ARow > MinRowGrid) then begin
+      R := StrGrid.CellRect(ACol, ARow);
+      R.Left := R.Left + StrGrid.Left;
+      R.Right := R.Right + StrGrid.Left;
+      R.Top := R.Top + StrGrid.Top;
+      R.Bottom := R.Bottom + StrGrid.Top;
+      case ACol of
+        1:with ContactTitle do begin
+            Left:=R.Left + 1;
+            Top := R.Top + 1;
+            Width := (R.Right + 1) - R.Left;
+            Height := (R.Bottom + 1) - R.Top;
+            ItemIndex:=Items.IndexOf(StrGrid.Cells[ACol,ARow]);
+            Visible:= True;
+            BringToFront;
+            SetFocus;
+          end;
+        2:with ContactName do begin
+            Left:=R.Left + 1;
+            Top := R.Top + 1;
+            Width := (R.Right + 1) - R.Left;
+            Height := (R.Bottom + 1) - R.Top;
+            Text:=StrGrid.Cells[ACol,ARow];
+            Visible:= True;
+            BringToFront;
+            SetFocus;
+          end;
+        3:with ContactAddress do begin
+            Left:=R.Left + 1;
+            Top := R.Top + 1;
+            Width := (R.Right + 1) - R.Left+50;
+            Height := (R.Bottom + 1) - R.Top;
+            Text:=StrGrid.Cells[ACol,ARow];
+            Visible:= True;
+            BringToFront;
+            SetFocus;
+          end;
+        4:with ContactZip do begin
+            Left:=R.Left + 1;
+            Top := R.Top + 1;
+            Width := (R.Right + 1) - R.Left;
+            Height := (R.Bottom + 1) - R.Top;
+            Text:=StrGrid.Cells[ACol,ARow];
+            Visible:= True;
+            BringToFront;
+            SetFocus;
+          end;
+        5:with ContactCellular do begin
+            Left:=R.Left + 1;
+            Top := R.Top + 1;
+            Width := (R.Right + 1) - R.Left;
+            Height := (R.Bottom + 1) - R.Top;
+            Text:=StrGrid.Cells[ACol,ARow];
+            Visible:= True;
+            BringToFront;
+            SetFocus;
+          end;
+        6:with ContactPhone do begin
+            Left:=R.Left + 1;
+            Top := R.Top + 1;
+            Width := (R.Right + 1) - R.Left;
+            Height := (R.Bottom + 1) - R.Top;
+            Text:=StrGrid.Cells[ACol,ARow];
+            Visible:= True;
+            BringToFront;
+            SetFocus;
+          end;
+        7:with email do begin
+            Left:=R.Left + 1;
+            Top := R.Top + 1;
+            Width := (R.Right + 1) - R.Left;
+            Height := (R.Bottom + 1) - R.Top;
+            Text:=StrGrid.Cells[ACol,ARow];
+            Visible:= True;
+            BringToFront;
+            SetFocus;
+          end;
+        8:with Dept do begin
+            Left:=R.Left + 1;
+            Top := R.Top + 1;
+            Width := (R.Right + 1) - R.Left;
+            Height := (R.Bottom + 1) - R.Top;
+            Text:=StrGrid.Cells[ACol,ARow];
+            Visible:= True;
+            BringToFront;
+            SetFocus;
+          end;
+      end;
+    end;
+  end;
+end;
+
+procedure TCustomer.SimpanClick(Sender: TObject);
+var Qry:TADOQuery;
+    StrQry,StrTitle,StrName,StrAddress,StrZip,StrPhoneNo,StrFaxNo,StrCellularNo,StrReference,StrReferenceId:String;
+    StrRemark,StrContactTitle,StrContactName,StrContactAddress,StrContactZip,StrContactCellularNo,StrContactPhoneNo,Stremail,StrDept:String;
+    StrLeadId,StrLeadId2,StrSegLv1,StrSegLv2,StrVA,StrNPWP,StrCreditLimit,StrGPCustomerNum,StrGPCOANum,StrSales,StrCompanyId:String;
+    StrTransId,StrTransId2,StrTransIds,StrEMsg,StrContactPersonId,StrWebsite,StrStatus,StrExt1,StrExt2,StrBlacklist,StrAlias:String;
+    IntCount,IntCount2:Integer;
+    IsOk:Boolean;
+begin
+  if ((Trim(Name.Text)<>'') and (Trim(SegLv1.Text)<>'') and (Trim(SegLv2.Text)<>'') and (Address.Text<>'')
+      and ( (PhoneNo1.Text<>'')  or (Trim(CellularNo.Text)<>'') ) and (IsComplete=True))
+      or ((Trim(Name.Text)<>'') and ((Trim(PhoneNo1.Text)<>'') or (Trim(CellularNo.Text)<>'')) and (IsComplete=False)) then begin
+    Qry:=TADOQuery.Create(Self);
+    Qry.Connection:=Main.MyConnection;
+    Main.M_Busy;
+    if Main.OpenDb then begin
+      DisableInput;
+      Main.TransStart;
+      IsOk:=True;
+      if IsComplete then begin
+        StrSegLv1:=SegLv1Arr[SegLv1.ItemIndex][0];
+        StrSegLv2:=SegLv2Arr[SegLv2.ItemIndex][0];
+      end else begin
+        StrSegLv1:='NULL';
+        StrSegLv2:='NULL';
+      end;
+      if CompanyId='6' then StrCompanyId:='2' else StrCompanyId:=CompanyId;
+      if LeadId.Text<>'' then StrLeadId:=QuotedStr(LeadId.Text) else StrLeadId:='NULL';
+      if Trim(Title.Text)<>'' then StrTitle:=TitleArr[Title.ItemIndex][0] else StrTitle:='NULL';
+      StrName:=QuotedStr(Trim(Name.Text));
+      if Trim(Name2.Text)<>'' then StrAlias:=QuotedStr(Trim(Name2.Text)) else StrAlias:='NULL';  
+      StrAddress:=QuotedStr(Trim(Address.Text));
+      if Trim(Zip.Text)<>'' then StrZip:=QuotedStr(Trim(Zip.Text)) else StrZip:='NULL';
+      if Trim(PhoneNo1.Text)<>'' then begin
+        if Trim(PhoneNo2.Text)<>'' then StrPhoneNo:=QuotedStr(Trim(PhoneNo1.Text)+','+Trim(PhoneNo2.Text))
+        else StrPhoneNo:=QuotedStr(Trim(PhoneNo1.Text));
+      end else StrPhoneNo:='NULL';
+      if Trim(Ext1.Text)<>'' then StrExt1:=QuotedStr(Trim(Ext1.Text)) else StrExt1:='NULL';
+      if Trim(Ext2.Text)<>'' then StrExt2:=QuotedStr(Trim(Ext2.Text)) else StrExt2:='NULL';
+      if Trim(FaxNo.Text)<>'' then StrFaxNo:=QuotedStr(Trim(FaxNo.Text)) else StrFaxNo:='NULL';
+      if Trim(CellularNo.Text)<>'' then StrCellularNo:=QuotedStr(Trim(CellularNo.Text)) else StrCellularNo:='NULL';
+      if Reference.Text<>'' then StrReference:=ReferenceArr[Reference.ItemIndex][0] else StrReference:='NULL';
+      if ReferenceId.Text<>'' then StrReferenceId:=QuotedStr(ReferenceId.Text) else StrReferenceId:='NULL';
+      if Remark.Text<>'' then StrRemark:=QuotedStr(Trim(Remark.Text)) else StrRemark:='NULL';
+      if (CreditLimit.Text<>'0') and (CreditLimit.Text<>'') then StrCreditLimit:=ToString(CreditLimit.Text) else StrCreditLimit:='0';
+      if Trim(GPCustomerNumber.Text)<>'' then StrGPCustomerNum:=QuotedStr(Trim(GPCustomerNumber.Text)) else StrGPCustomerNum:='NULL';
+      if Trim(GPCOANumber.Text)<>'' then StrGPCOANum:=QuotedStr(Trim(GPCOANumber.Text)) else StrGPCOANum:='NULL';
+      if Sales.Text<>'' then StrSales:=QuotedStr(SalesArr[Sales.ItemIndex][0]) else StrSales:='NULL';
+      if Trim(VANo.Text)<>'' then StrVA:=QuotedStr(Trim(VANo.Text)) else StrVA:='NULL';
+      if Trim(NPWP.Text)<>'' then StrNPWP:=QuotedStr(Trim(NPWP.Text)) else StrNPWP:='NULL';
+      if Trim(NPWP.Text)<>'' then StrWebsite:=QuotedStr(Trim(Website.Text)) else StrWebsite:='NULL';
+      if Blacklist.Checked=True then StrBlacklist:='1' else StrBlacklist:='0';
+      if Status.Visible=True then if Status.Checked=True then StrStatus:='0' else StrStatus:='1'
+      else StrStatus:='1';
+      if (CustomerId.Text<>'')  then begin
+        StrTransId:=CustId;
+        StrQry:='UPDATE wh_customer SET name='+StrName+',title_id='+StrTitle+',alias='+StrAlias+',npwp='+StrNPWP+
+                ',reference_id='+StrReference+',reference_customer_id='+StrReferenceId+
+                ',gp_customer_number='+StrGPCustomerNum+',gp_coa_number='+StrGPCOANum+',blacklist='+StrBlacklist+
+                ',status='+StrStatus+',update_time=GETDATE(),update_user='+QuotedStr(User)+
+                ' WHERE customer_id='+QuotedStr(StrTransId)+';';
+        StrQry:=StrQry+'UPDATE wh_customer_link SET segment_id1='+StrSegLv1+',segment_id2='+StrSegLv2+
+                ',update_time=GETDATE(),update_user='+QuotedStr(User)+
+                ' WHERE customer_id='+QuotedStr(StrTransId)+';';
+        StrQry:=StrQry+' UPDATE wh_customer_detail SET status=0,update_time=GETDATE(),update_user='+QuotedStr(User)+
+                ' WHERE customer_detail_id='+
+                '(SELECT MAX(customer_detail_id) FROM wh_customer_detail WHERE (customer_id='+QuotedStr(StrTransId)+') AND (status=1));';
+        StrQry:=StrQry+' UPDATE wh_contact_person SET status=0,update_time=GETDATE(),update_user='+QuotedStr(User)+
+                ' WHERE (customer_id='+QuotedStr(StrTransId)+') AND (status=1);';
+        StrQry:=StrQry+' UPDATE wh_customer_link_detail SET status=0,update_time=GETDATE(),update_user='+QuotedStr(User)+
+                ' WHERE (customer_id='+QuotedStr(StrTransId)+') AND (status=1) AND (param='+QuotedStr('Segment-Level-3')+');';
+      end else begin
+        StrQry:='SELECT RIGHT(MAX(customer_id),4) AS max_id FROM wh_customer '+
+                'WHERE customer_id  LIKE '+QuotedStr('C'+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
+                FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+
+                '____')+';';
+
+        Qry.SQL.Clear;
+        Qry.SQL.Add(StrQry);
+        Qry.Open;
+        if Qry.FieldValues['max_id']<>NULL then begin
+          StrTransId:=Qry.FieldValues['max_id'];
+          StrTransId:=Format('%.*d',[4,StrToInt(StrTransId)+1]);
+          Qry.Close;
+          Qry.SQL.Clear;
+        end else
+          StrTransId:='0001';
+        StrTransId:='C'+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
+                    FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+StrTransId;
+          StrQry:='INSERT INTO wh_customer (customer_id,lead_id,name,title_id,alias'+
+                ',npwp,reference_id,reference_customer_id,gp_customer_number,gp_coa_number,update_user) VALUES '+
+                '('+QuotedStr(StrTransId)+','+StrLeadId+','+StrName+','+StrTitle+','+StrAlias+
+                ','+StrNPWP+','+StrReference+','+StrReferenceId+','+StrGPCustomerNum+','+StrGPCOANum+','+QuotedStr(User)+');';
+        StrQry:=StrQry+'INSERT INTO wh_customer_link (customer_id,company_id,segment_id1,segment_id2,update_user) VALUES '+
+                '('+QuotedStr(StrTransId)+','+StrCompanyId+','+StrSegLv1+','+StrSegLv2+','+QuotedStr(User)+');';
+      end;
+      Qry.SQL.Clear;
+      Qry.SQL.Add(StrQry);
+      try
+        Qry.ExecSQL;
+      except
+        on E:Exception do begin
+          IsOk:=False;
+          StrEMsg:=StrEMsg+E.Message;
+        end;
+      end;
+      StrQry:='';
+      if StrStatus='1' then begin
+      StrQry:='INSERT INTO wh_customer_detail (customer_id,address,zip,phone_no,ext1,ext2,cellular_no,fax_no,virtual_account'+
+              ',credit_limit_amount_total,sales_territory,website,remark,update_user) VALUES '+
+              '('+QuotedStr(StrTransId)+','+StrAddress+','+StrZip+','+StrPhoneNo+','+StrExt1+','+StrExt2+
+              ','+StrCellularNo+','+StrFaxNo+
+              ','+StrVA+','+StrCreditLimit+','+StrSales+','+StrWebsite+','+StrRemark+','+QuotedStr(User)+');';
+      end;
+      if StrQry<>'' then begin
+        Qry.SQL.Clear;
+        Qry.SQL.Add(StrQry);
+        try
+          Qry.ExecSQL;
+        except
+          on E:Exception do begin
+            IsOk:=False;
+            StrEMsg:=StrEMsg+E.Message;
+          end;
+        end;
+      end;
+      if StrStatus='1' then begin
+        StrQry:='SELECT RIGHT(MAX(contact_person_id),4) AS max_id FROM wh_contact_person '+
+                'WHERE contact_person_id  LIKE '+QuotedStr('CP'+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
+                FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+
+                '____')+';';
+          Qry.SQL.Clear;
+          Qry.SQL.Add(StrQry);
+          Qry.Open;
+          if Qry.FieldValues['max_id']<>NULL then begin
+            StrTransId2:=Qry.FieldValues['max_id'];
+            StrTransId2:=Format('%.*d',[4,StrToInt(StrTransId2)]);
+            Qry.Close;
+            Qry.SQL.Clear;
+          end else
+            StrTransId2:='0000';
+        StrQry:='';
+        IntCount2:=1;
+        for IntCount:=1 to StrGrid.RowCount-1 do
+          if (StrGrid.Cells[2,IntCount]<>'') then begin
+            if Trim(StrGrid.Cells[9,IntCount])<>'' then begin
+              StrContactPersonId:=StrGrid.Cells[9,IntCount];
+            end else begin
+              StrTransIds:=Format('%.*d',[4,StrToInt(StrTransId2)+IntCount2]);
+              StrTransIds:='CP'+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
+                           FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+StrTransIds;
+              StrContactPersonId:=StrTransIds;
+              Inc(IntCount2);
+            end;
+            if Trim(StrGrid.Cells[0,IntCount])<>'' then StrLeadId2:=QuotedStr(StrGrid.Cells[0,IntCount]) else StrLeadId2:='NULL';
+            if Trim(StrGrid.Cells[1,IntCount])<>'' then StrContactTitle:=TitlePersonalArr[ContactTitle.Items.Indexof(StrGrid.Cells[1,IntCount])][0] else StrContactTitle:='NULL';
+            if Trim(StrGrid.Cells[2,IntCount])<>'' then StrContactName:=QuotedStr(Trim(StrGrid.Cells[2,IntCount])) else StrContactName:='NULL';
+            if Trim(StrGrid.Cells[3,IntCount])<>'' then StrContactAddress:=QuotedStr(Trim(StrGrid.Cells[3,IntCount])) else StrContactAddress:='NULL';
+            if Trim(StrGrid.Cells[4,IntCount])<>'' then StrContactZip:=QuotedStr(StrGrid.Cells[4,IntCount]) else StrContactZip:='NULL';
+            if Trim(StrGrid.Cells[5,IntCount])<>'' then StrContactCellularNo:=QuotedStr(StringReplace(StrGrid.Cells[5,IntCount],' ','',[rfReplaceAll])) else StrContactCellularNo:='NULL';
+            if Trim(StrGrid.Cells[6,IntCount])<>'' then StrContactPhoneNo:=QuotedStr(Trim(StrGrid.Cells[6,IntCount])) else StrContactPhoneNo:='NULL';
+            if Trim(StrGrid.Cells[7,IntCount])<>'' then Stremail:=QuotedStr(StrGrid.Cells[7,IntCount]) else Stremail:='NULL';
+            if Trim(StrGrid.Cells[8,IntCount])<>'' then StrDept:=QuotedStr(StrGrid.Cells[8,IntCount]) else StrDept:='NULL';
+            StrQry:=StrQry+'INSERT INTO wh_contact_person (contact_person_id,lead_id,customer_id,name,title_id,address,zip'+
+                    ',cellular_no,phone_no,email,department,update_user) VALUES '+
+                    '('+QuotedStr(StrContactPersonId)+','+StrLeadId2+','+QuotedStr(StrTransId)+','+StrContactName+
+                    ','+StrContactTitle+','+StrContactAddress+','+StrContactZip+
+                    ','+StrContactCellularNo+','+StrContactPhoneNo+','+Stremail+','+StrDept+','+QuotedStr(User)+');';
+        end;
+      end;
+      if StrQry<>'' then begin
+        Qry.SQL.Clear;
+        Qry.SQL.Add(StrQry);
+        try
+          Qry.ExecSQL;
+        except
+          on E:Exception do begin
+            IsOk:=False;
+            StrEMsg:=StrEMsg+E.Message;
+          end;
+        end;
+      end;
+      if SegLv3.Visible=True then begin
+        StrQry:='';
+        for IntCount:=0 to SegLv3.Items.Count-1 do begin
+          if SegLv3.Checked[IntCount]=True then
+          StrQry:=StrQry+' INSERT INTO wh_customer_link_detail (customer_id,param,value,update_time,update_user) VALUES '+
+                  '('+QuotedStr(StrTransId)+','+QuotedStr('Segment-Level-3')+','+SegLv3Arr[IntCount][0]+
+                  ',GETDATE(),'+QuotedStr(User)+');';
+        end;
+        if StrQry<>'' then begin
+          Qry.SQL.Clear;
+          Qry.SQL.Add(StrQry);
+          try
+            Qry.ExecSQL;
+          except
+            on E:Exception do begin
+              IsOk:=False;
+              StrEMsg:=StrEMsg+E.Message;
+            end;
+          end;
+        end;
+      end;
+      if IsOk then begin
+        Main.TransCommit;
+        LeadId.Text:=StrTransId;
+        MessageBox(0,PChar('Data Berhasil Disimpan'),'Data Pelanggan',MB_OK or MB_ICONINFORMATION);
+        if Main.IsFormOpen('LeadList') then LeadList.RefreshDisplay;
+      end else begin
+        Main.TransRollback;
+        MessageBox(0,PChar('Data Gagal Disimpan'+Chr(13)+Chr(13)+StrEMsg),'Data Pelanggan',MB_OK or MB_ICONERROR);
+        EnableInput;
+      end;
+    end;
+    FreeAndNil(Qry)
+  end else
+    MessageBox(0,PChar('Silahkan Lengkapi Kolom yang harus diisi'),'Data Pelanggan',MB_OK or MB_ICONWARNING);
+  Main.CloseDb;
+  Main.M_Normal;
+end;
+
+procedure TCustomer.ContactTitleExit(Sender: TObject);
+begin
+  if ContactTitle.Text<>'' then begin
+    StrGrid.Cells[1,IntRow]:=ContactTitle.Text;
+    ContactTitle.Text:='';
+  end;
+  ContactTitle.Visible:=False;
+  StrGrid.SetFocus;
+end;
+
+procedure TCustomer.ContactNameExit(Sender: TObject);
+begin
+  if ContactName.Text<>'' then begin
+    StrGrid.Cells[2,IntRow]:=ContactName.Text;
+    ContactName.Text:='';
+  end;
+  ContactName.Visible:=False;
+  StrGrid.SetFocus;
+end;
+
+procedure TCustomer.ContactAddressExit(Sender: TObject);
+begin
+  if ContactAddress.Text<>'' then begin
+    StrGrid.Cells[3,IntRow]:=ContactAddress.Text;
+    ContactAddress.Text:='';
+  end;
+  ContactAddress.Visible:=False;
+  StrGrid.SetFocus;
+end;
+
+procedure TCustomer.ContactZipExit(Sender: TObject);
+begin
+  if ContactZip.Text<>'' then begin
+    StrGrid.Cells[4,IntRow]:=ContactZip.Text;
+    ContactZip.Text:='';
+  end;
+  ContactZip.Visible:=False;
+  StrGrid.SetFocus;
+end;
+
+procedure TCustomer.ContactCellularExit(Sender: TObject);
+begin
+  if Trim(ContactCellular.Text)<>'/' then begin
+    StrGrid.Cells[5,IntRow]:=ContactCellular.Text;
+    ContactCellular.Text:='';
+  end;
+  ContactCellular.Visible:=False;
+  StrGrid.SetFocus;
+end;
+
+procedure TCustomer.ContactPhoneExit(Sender: TObject);
+begin
+  if ContactPhone.Text<>'' then begin
+    StrGrid.Cells[6,IntRow]:=ContactPhone.Text;
+    ContactPhone.Text:='';
+  end;
+  ContactPhone.Visible:=False;
+  StrGrid.SetFocus;
+end;
+
+procedure TCustomer.emailExit(Sender: TObject);
+begin
+  if email.Text<>'' then begin
+    StrGrid.Cells[7,IntRow]:=email.Text;
+    email.Text:='';
+  end;
+  email.Visible:=False;
+  StrGrid.SetFocus;
+end;
+
+procedure TCustomer.DeptExit(Sender: TObject);
+begin
+  if Dept.Text<>'' then begin
+    StrGrid.Cells[8,IntRow]:=Dept.Text;
+    Dept.Text:='';
+  end;
+  Dept.Visible:=False;
+  StrGrid.SetFocus;
+end;
+
+procedure TCustomer.SegLv1Change(Sender: TObject);
+begin
+  if SegLv1.Text<>'' then RefreshSegLv2;
+end;
+
+procedure TCustomer.CariReferensiClick(Sender: TObject);
+begin
+  CustomerList:=TCustomerList.Create(Self,'BUS','Customer-Create')
+end;
+
+procedure TCustomer.SegLv1KeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then SegLv2.SetFocus;
+end;
+
+procedure TCustomer.SegLv2KeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then Title.SetFocus;
+end;
+
+procedure TCustomer.TitleKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then Name.SetFocus;
+end;
+
+procedure TCustomer.NameKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then Address.SetFocus;
+end;
+
+procedure TCustomer.ZipKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
+  if Key=#13 then PhoneNo1.SetFocus;
+end;
+
+procedure TCustomer.PhoneNo1KeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then PhoneNo2.SetFocus;
+end;
+
+procedure TCustomer.PhoneNo2KeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then Ext1.SetFocus;
+end;
+
+procedure TCustomer.FaxNoKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then Reference.SetFocus;
+end;
+
+procedure TCustomer.CellularNoKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then FaxNo.SetFocus;
+end;
+
+procedure TCustomer.ReferenceKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then if PanelCariReferensi.Enabled=True then PanelCariReferensi.SetFocus
+                  else Remark.SetFocus;
+end;
+
+procedure TCustomer.CreditLimitKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
+  if Key=#13 then Sales.SetFocus;
+end;
+
+procedure TCustomer.GPCustomerNumberKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then GPCOANumber.SetFocus;
+end;
+
+procedure TCustomer.ContactTitleKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then ContactTitleExit(nil);
+end;
+
+procedure TCustomer.ContactNameKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then begin
+    if Trim(ContactName.Text)<>'' then
+      if StrGrid.RowCount-1<=StrGrid.Row then StrGrid.RowCount:=StrGrid.RowCount+1;
+    ContactNameExit(nil);
+  end;
+end;
+
+procedure TCustomer.ContactAddressKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then ContactAddressExit(nil);
+end;
+
+procedure TCustomer.ContactZipKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
+  if Key=#13 then ContactZipExit(nil);
+end;
+
+procedure TCustomer.ContactCellularKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key=#13 then ContactCellularExit(nil);
+end;
+
+procedure TCustomer.ContactPhoneKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then ContactPhoneExit(nil);
+end;
+
+procedure TCustomer.emailKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then emailExit(nil);
+end;
+
+procedure TCustomer.DeptKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then DeptExit(nil);
+end;
+
+procedure TCustomer.BersihkanClick(Sender: TObject);
+begin
+  Init;
+  InitGrid;
+  RefreshCombo;
+  EnableInput;
+end;
+
+
+procedure TCustomer.SalesKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then GPCOANumber.SetFocus;
+end;
+
+procedure TCustomer.VANoKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Not(Key In ['0'..'9',#8,#13,'.','-']) then Key:=#0;
+  if Key=#13 then NPWP.SetFocus;
+end;
+
+procedure TCustomer.NPWPKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Not(Key In ['0'..'9',#8,#13,'.','-']) then Key:=#0;
+  if Key=#13 then StrGrid.SetFocus;
+end;
+
+procedure TCustomer.RemarkKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then CreditLimit.SetFocus;
+end;
+
+procedure TCustomer.CreditLimitEnter(Sender: TObject);
+begin
+  if CreditLimit.Text<>'' then CreditLimit.Text:=ToString(CreditLimit.Text);
+end;
+
+procedure TCustomer.CreditLimitExit(Sender: TObject);
+begin
+  if CreditLimit.Text<>'' then CreditLimit.Text:=SToCurr(CreditLimit.Text);
+end;
+
+procedure TCustomer.StrGridDblClick(Sender: TObject);
+begin
+  if FormRequest='' then begin
+//    if Main.IsFormOpen('OfferingForm')=False then OfferingForm:=TOfferingForm.Create(Self,StrGrid.Cells[0,IntRow],False)
+  end else begin
+    if (UpperCase(FormRequest)='OFFERING-CREATE') and (StrGrid.Cells[9,IntRow]<>'') then  begin
+      OfferingForm.SetContactId(StrGrid.Cells[9,IntRow]);
+      Close;
+    end;
+    if (UpperCase(FormRequest)='ORDER-CREATE') and (StrGrid.Cells[9,IntRow]<>'') then  begin
+      OrderForm.SetContactId(StrGrid.Cells[9,IntRow]);
+      Close;
+    end;
+    if (UpperCase(FormRequest)='CONTRACT-CREATE') and (StrGrid.Cells[9,IntRow]<>'') then  begin
+      Contract.SetContactId(StrGrid.Cells[9,IntRow]);
+      Close;
+    end;
+  end;
+end;
+
+procedure TCustomer.GPCOANumberKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then VANo.SetFocus;
+end;
+
+procedure TCustomer.CustomerIdKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#27 then Close;
+end;
+
+procedure TCustomer.Ext1KeyPress(Sender: TObject; var Key: Char);
+begin
+  if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
+  if Key=#13 then Ext2.SetFocus;
+end;
+
+procedure TCustomer.Ext2KeyPress(Sender: TObject; var Key: Char);
+begin
+  if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
+  if Key=#13 then CellularNo.SetFocus;
+end;
+
+procedure TCustomer.SegLv2Change(Sender: TObject);
+begin
+  RefreshSegLv3;
+end;
+
+procedure TCustomer.AppHotKeyShortCut(var Msg: TWMKey; var Handled: Boolean);
+begin
+  if Msg.CharCode=VK_ESCAPE then Close;
+end;
+
+
+end.

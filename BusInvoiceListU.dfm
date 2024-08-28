@@ -1,0 +1,301 @@
+object BusInvoiceList: TBusInvoiceList
+  Left = 234
+  Top = 381
+  BorderIcons = []
+  BorderStyle = bsSingle
+  Caption = 'Data Invoice'
+  ClientHeight = 496
+  ClientWidth = 974
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  FormStyle = fsMDIChild
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  Visible = True
+  OnClose = FormClose
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label2: TLabel
+    Left = 696
+    Top = 8
+    Width = 18
+    Height = 13
+    Alignment = taRightJustify
+    Caption = 'Cari'
+  end
+  object ToXCel: TSpeedButton
+    Left = 936
+    Top = 467
+    Width = 23
+    Height = 22
+    Glyph.Data = {
+      36030000424D3603000000000000360000002800000010000000100000000100
+      1800000000000003000000000000000000000000000000000000FFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFF5C965685AD7F86AC7D86AA7A86A97A88A87982A3727F
+      A06C86A3738CA57789A27372955A799860839C6A708F5D98AC852C8026E5F2E5
+      F6FBF5F5F9F5F0F6EFE9F3E8D3E8D2DCECD9E2EEDFC9E0C66DAF667DB876D3E6
+      D0E5EEE02785107A9860398C39D0E9CFFFFFFFFCFEFEF6FBF6F5F9F3F5F9F5CF
+      E6CDACD3A9D3E8D2C5E0C393C69055A34FFBFFFC639D4D739357429243AAD8AA
+      FFFFFFFFFFFFFFFFFFFFFFFFF3F9F3E9F3E9EFF9EFD2E9D2B2D6AF93C58F9AC9
+      98B6D9B5BCCCAF5D803F49984F9FD39F62C59266C59569B67C5A9C50E3ECDCC3
+      DDC2237F174D933DE0EEDF95C69263AA5DA9D2A6F0F2EC77936042984DAFDBAA
+      37AC5A006F00006000004C00C5D5B52C984000430067A55FDFEFDDC5E0C3A2CD
+      9F4A9D44C6E2C5E0E0DB479C55A9D8A8A8D9A2338A2F003D0085A25C86D0A600
+      7500369F4CECF6EBB5D9B3B8D9B693C690DCECDBF8F8F5E2E6DD469D56C5E3C5
+      A5D9A5B3D8AF00330000420000AD56009D3FC8E5CCDBEBD6E9F3E8FFFFFFDFEB
+      DD86B97D42902D7A9965449F57CCE6CCB9DFB8D8F5DD9CAC7300881900BD669A
+      E2BFFFFFFFDCEEE09ACB9A4AA2441A8D100F8F043AA5328AA87A46A25ACDE8CD
+      C2E3C2D3E9CD7FD0A200A949007A1C889A6F7DCB8A36A03732A22C39A83243AD
+      3C40AC3A52AF4A89A87947A35DCDE8CFD8EED6A3D3A600790400922F09420000
+      270085BD7D77CB7567BD625CB85653B54F4DB3495FB65989A97C399D52D3E9D5
+      D0E9CF04700000520088C99383A36D001300365711B5DFB399D39895D0928FCF
+      8C8ACD888CC98889AA7D65B277C0E2C98CB87D004D00408F36D5ECD3C3E8C34A
+      752F0D3A0089AA79B5E3B5A6D6A3A8D9A5A8D9A6A6D5A389AC7FECF6EF7FC08F
+      C3E0C5E5F2E2DBEFD9CDE9CDC9E6C9CBEBCBC2E5C0B8DDB6B9E0B8B5DFB3B5DD
+      B2B5DFB3B2DBAF8AAF83FFFFFFDFF0E382C090B0D8B8C9E5CCCBE6CCC8E5C9C5
+      E2C5C3E2C5C2E2C2BFE0BFBDDFBDBCDFBCBDDFBDB3D8B286AD80}
+    Layout = blGlyphRight
+    OnClick = ToXCelClick
+  end
+  object Label5: TLabel
+    Left = 355
+    Top = 8
+    Width = 39
+    Height = 13
+    Alignment = taRightJustify
+    Caption = 'Tanggal'
+  end
+  object CariOffering: TSpeedButton
+    Left = 922
+    Top = 8
+    Width = 23
+    Height = 23
+    Glyph.Data = {
+      26040000424D2604000000000000360000002800000012000000120000000100
+      180000000000F003000000000000000000000000000000000000F8F8F8F8F8F8
+      F8F8F8F8F8F8F7F7F7F7F7F7F7F7F7F7F7F7F6F7F7F7F6F6F6F6F6F7F7F7F4F5
+      F4F7F7F7FBFAF9D2D8D5E4E7E6FCFCFC0000F7F7F7F7F7F7F7F7F7F7F7F7F8F8
+      F8F7F7F7F7F8F7F7F8F8F6F8F7F7F7F7F7F7F7F5F5F5F6F4F6FAFAFAD8DBDB95
+      83899F9598E9EBEB0000F8F8F8F8F8F8F8F8F8F8F8F8F7F7F7F8F8F8F7F7F7F7
+      F7F7F7F7F7F7F8F6F5F5F5F6F5F5FAF9F9D3D9D89B868D8F4054742C41B8AFB4
+      3D22F7F7F7F7F7F7F7F7F7F7F7F7F6F6F6F6F6F6F4F4F4F3F3F3F4F4F4F4F5F4
+      F7F6F6FAF9F9D2D7D69A80898F405596354E7A263FBFAFB70000F6F7F7F7F6F7
+      F6F6F6F5F5F5F6F6F6F8F6F7FCFBFBFDFEFEFCFAFAF6F4F5F7F7F7D3D8D7997F
+      8990405693354E7C2B41B399A3FBFCFD0000F7F7F7F6F6F6F6F6F6F8F7F7FBFB
+      FBF5FAF9E4E7E7DCDEDEE6EAEAFDFFFFE4E5E5997E8790415892344F7D2D42AF
+      959DFCFEFEF8F8F70000F6F6F6F5F4F5F8F7F7EEF1F0C8C8C9A39191977A7A9C
+      7D7C957979AB9C9DC1C1C28F495D8D27437E2E44AF929BFBFCFCF7F5F6F3F3F4
+      0000F5F5F5F9F7F8F2F4F5C1BBBCAF9496CBA8A0DFBDACE7C7B4DDB9A9BD958C
+      A689879E74807E3447AC8D97FAFBFBF7F6F6F2F2F3F7F7F70000F6F5F5FBFDFD
+      D5CFCFBCA1A3F7E9E4FCE9D5F8D7B7F8D6B6FBD9B9FEE2C7E5C4B4A37E7DC7C0
+      C3FBFBFBF7F6F6F4F4F4F7F7F7F7F6F60000FAFBFAF3F4F4C2A9A9E9D9D9FFFB
+      F4EED2B8F0CFB1F3D4B9F2D2B5F4D4BAFFE9D3DAB6ABC1A7A7FCFFFFF4F3F3F6
+      F6F6F7F7F6F6F7F60000FDFFFFE9DFDFC29D9DFFF6EDF4E3D3F5DAC6F7E7D9F7
+      ECE0F7E9DDF4E1D1F8E6D6F2DDCFBE9897E7E1E3FBFEFDF4F3F3F5F6F7F7F6F7
+      0102FEFEFEE4D3D4CEA49EFCE7D0F0CFB6F6E6D6F8F3EDF7F7F5F7F2EFF6ECE5
+      F7EDE3F7EBE1D6B7B5E1D8D9FBFFFEF4F3F3F6F6F6F6F7F70801FDFFFFE5D5D7
+      CFA398F8D9BAECCBAEF7EADFF7F3F0F7F5F3F6F5EFF5F3EEF8F6F2F8F1EDDCC1
+      C0E8E0E1FBFEFEF4F3F3F7F7F7F7F7F70000FAFDFDF0E6E8CBA29AFADEC2F2D8
+      BFF7E8DDF7EFE7F6EFEAF6F5EFF5F7F3F6F9F8F6F1EEDAC3C4F3F0F0F9FAFAF6
+      F4F4F7F6F7F7F6F80000F7F6F7F9FBFBD5B8B9DFBCAEFFF4DFF2E0D1F3E4D7F5
+      E8DEF4EFEBF6F6F6FDFFFEEBDEDDE4D7D9F9FCFCF4F4F4F6F6F6F6F7F7F6F7F7
+      0000F4F5F4F9FAFAF3EAEBC89F9DE2C3B5FFF0DAFDEDDBFCF2E3FFFBF1FDFBF7
+      EADBDBE2CFD1F7F5F6F7F7F7F5F5F5F6F7F6F7F7F7F6F6F70000F6F6F6F6F4F4
+      FAFCFBEFE6E7CEABAAD1ADA6DBBBAFE1C3B6DFC6BCDAC1C0E3D0D2F6F3F4F8F8
+      F8F5F5F5F7F7F8F7F6F6F7F7F7F7F7F80000F5F7F6F6F6F6F6F4F5F9FAFAF9F9
+      F9EADFE0D9BFBFD6B8B8E1CBCDF0E9EAF8F9F9F6F7F8F6F6F5F6F7F8F7F7F7F7
+      F7F7F7F8F8F7F7F70000}
+    OnClick = CariOfferingClick
+  end
+  object GroupCompany: TGroupBox
+    Left = 8
+    Top = 0
+    Width = 281
+    Height = 33
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 16
+      Top = 8
+      Width = 22
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'SBU'
+    end
+    object SBU: TComboBox
+      Left = 48
+      Top = 8
+      Width = 185
+      Height = 21
+      Style = csDropDownList
+      ItemHeight = 13
+      TabOrder = 0
+    end
+  end
+  object Cari: TEdit
+    Left = 720
+    Top = 8
+    Width = 201
+    Height = 21
+    TabOrder = 1
+    OnChange = CariChange
+    OnKeyPress = CariKeyPress
+  end
+  object StrGrid: TZColorStringGrid
+    Left = 8
+    Top = 67
+    Width = 952
+    Height = 393
+    DefaultRowHeight = 20
+    DefaultDrawing = False
+    FixedColor = clBtnFace
+    FixedCols = 0
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goColMoving]
+    TabOrder = 2
+    OnDblClick = StrGridDblClick
+    OnSelectCell = StrGridSelectCell
+    DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
+    DefaultCellStyle.Font.Color = clWindowText
+    DefaultCellStyle.Font.Height = -11
+    DefaultCellStyle.Font.Name = 'MS Sans Serif'
+    DefaultCellStyle.Font.Style = []
+    DefaultCellStyle.BGColor = clWindow
+    DefaultFixedCellStyle.Font.Charset = DEFAULT_CHARSET
+    DefaultFixedCellStyle.Font.Color = clWindowText
+    DefaultFixedCellStyle.Font.Height = -11
+    DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
+    DefaultFixedCellStyle.Font.Style = []
+    DefaultFixedCellStyle.BGColor = clBtnFace
+    LineDesign.LineUpColor = clWhite
+  end
+  object Selesai: TButton
+    Left = 432
+    Top = 467
+    Width = 75
+    Height = 25
+    Caption = 'Selesai'
+    TabOrder = 3
+    OnClick = SelesaiClick
+  end
+  object PanelLegend: TPanel
+    Left = 8
+    Top = 466
+    Width = 313
+    Height = 23
+    BevelOuter = bvNone
+    TabOrder = 4
+    object Label3: TLabel
+      Left = 112
+      Top = 4
+      Width = 33
+      Height = 13
+      Caption = '= Batal'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 8
+      Top = 4
+      Width = 76
+      Height = 13
+      Caption = 'Invoice = Lunas'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+    end
+  end
+  object Tanggal: TDateTimePicker
+    Left = 400
+    Top = 8
+    Width = 89
+    Height = 21
+    Date = 41780.000000000000000000
+    Time = 41780.000000000000000000
+    TabOrder = 5
+    OnChange = TanggalChange
+  end
+  object Semua: TCheckBox
+    Left = 496
+    Top = 10
+    Width = 65
+    Height = 17
+    Caption = 'Semua'
+    TabOrder = 6
+    OnClick = SemuaClick
+  end
+  object Last3Months: TCheckBox
+    Left = 560
+    Top = 10
+    Width = 97
+    Height = 17
+    Caption = '2 Bulan Terakhir'
+    TabOrder = 7
+    OnClick = Last3MonthsClick
+  end
+  object GroupBox1: TGroupBox
+    Left = 356
+    Top = 30
+    Width = 341
+    Height = 33
+    TabOrder = 8
+    object Tunai: TRadioButton
+      Left = 10
+      Top = 9
+      Width = 57
+      Height = 17
+      Caption = 'Tunai'
+      TabOrder = 0
+      OnClick = TunaiClick
+    end
+    object Transfer: TRadioButton
+      Left = 67
+      Top = 9
+      Width = 65
+      Height = 17
+      Caption = 'Transfer'
+      TabOrder = 1
+      OnClick = TunaiClick
+    end
+    object All: TRadioButton
+      Left = 275
+      Top = 9
+      Width = 57
+      Height = 17
+      Caption = 'Semua'
+      Checked = True
+      TabOrder = 2
+      TabStop = True
+      OnClick = TunaiClick
+    end
+    object va: TRadioButton
+      Left = 140
+      Top = 9
+      Width = 40
+      Height = 17
+      Caption = 'VA'
+      TabOrder = 3
+      OnClick = TunaiClick
+    end
+    object CreditLimit: TRadioButton
+      Left = 184
+      Top = 9
+      Width = 85
+      Height = 17
+      Caption = 'Credit Limit'
+      TabOrder = 4
+      OnClick = TunaiClick
+    end
+  end
+end

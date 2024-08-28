@@ -1,0 +1,546 @@
+unit DailyBusActivityRptU;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, Grids, ZColorStringGrid, StdCtrls, Buttons, WHUnit, ExtCtrls,
+  ComCtrls, Menus,ClipBrd;
+
+type
+  TDailyBusActivityRpt = class(TForm)
+    Label1: TLabel;
+    ToXCel: TSpeedButton;
+    Label3: TLabel;
+    Selesai: TButton;
+    Batch: TComboBox;
+    LihatData: TButton;
+    StrGrid: TZColorStringGrid;
+    Label5: TLabel;
+    Seat: TComboBox;
+    Tanggal: TDateTimePicker;
+    GroupCompany: TGroupBox;
+    Label4: TLabel;
+    SBU: TComboBox;
+    Label2: TLabel;
+    TglSampai: TDateTimePicker;
+    CekTglSampai: TCheckBox;
+    PopupMenu1: TPopupMenu;
+    Copy1: TMenuItem;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure SelesaiClick(Sender: TObject);
+    procedure TahunKeyPress(Sender: TObject; var Key: Char);
+    procedure LihatDataClick(Sender: TObject);
+    procedure ToXCelClick(Sender: TObject);
+    procedure StrGridSelectCell(Sender: TObject; ACol, ARow: Integer;
+      var CanSelect: Boolean);
+    procedure StrGridDblClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure BatchChange(Sender: TObject);
+    procedure CekTglSampaiClick(Sender: TObject);
+    procedure StrGridKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure Copy1Click(Sender: TObject);
+  private
+    { Private declarations }
+    LokasiArr,BatchArr,SeatArr:Array of TArrString2;
+    DataArr:Array of TArrString18;
+    CompanyArr:Array of TArrString7;
+    Days,IntColumnWidth,IntRow,IntCol,MinRowGrid,MinColGrid:Integer;
+    Initiation:Boolean;
+    procedure Init;
+    procedure InitGrid;
+    procedure RefreshCombo;
+    procedure RefreshData;
+    procedure RefreshGrid;
+    procedure RefreshSeat;
+  public
+    { Public declarations }
+    constructor Create(AOwner:TComponent);Overload;
+  end;
+
+var
+  DailyBusActivityRpt: TDailyBusActivityRpt;
+
+implementation
+
+uses MainU, DateUtils, ADODB, OrderFormU, SelectBookingU;
+
+{$R *.dfm}
+
+constructor TDailyBusActivityRpt.Create(AOwner:TComponent);
+begin
+  Initiation:=True;
+  inherited Create(AOwner);
+end;
+
+procedure TDailyBusActivityRpt.Init;
+var IntCount:Integer;
+begin
+  MinRowGrid:=0;
+  MinColGrid:=3;
+  IntRow:=0;
+  IntCol:=0;
+  IntColumnWidth:=95;
+  Tanggal.Date:=Now();
+  TglSampai.Enabled:=True;
+  TglSampai.Date:=Now();
+  TglSampai.Enabled:=False;
+  CekTglSampai.Checked:=False;
+  SBU.Items.Clear;
+  SBU.Text:='';
+  SBU.ItemIndex:=0;
+  Batch.Text:='';
+  Batch.Items.Clear;
+  Batch.ItemIndex:=1;
+  if StrToInt(CompanyId)=1 then SBU.Enabled:=True else SBU.Enabled:=False;
+end;
+
+
+procedure TDailyBusActivityRpt.InitGrid;
+var IntCount:Integer;
+begin
+  StrGrid.RowCount:=3;
+  StrGrid.ColCount:=19;
+
+  StrGrid.ColWidths[0]:=30;
+  StrGrid.ColWidths[1]:=45;
+  StrGrid.ColWidths[2]:=60;
+  StrGrid.ColWidths[3]:=30;
+  StrGrid.ColWidths[4]:=150;
+  StrGrid.ColWidths[5]:=120; //nambah
+
+  StrGrid.ColWidths[6]:=80;
+  StrGrid.ColWidths[7]:=110;
+
+  StrGrid.ColWidths[8]:=110;
+  StrGrid.ColWidths[9]:=80;
+
+  StrGrid.ColWidths[10]:=80;
+  StrGrid.ColWidths[11]:=80;
+  StrGrid.ColWidths[12]:=70;
+  StrGrid.ColWidths[13]:=40;
+  StrGrid.ColWidths[14]:=200;
+  StrGrid.ColWidths[15]:=300;
+  StrGrid.ColWidths[16]:=300;
+  StrGrid.ColWidths[17]:=200;
+  StrGrid.ColWidths[18]:=0;
+  //col 14 = customer_order_id
+  StrGrid.RowHeights[0]:=20;
+  StrGrid.RowHeights[1]:=20;
+  StrGrid.MergeCells.AddRectXY(0,0,0,1);
+  StrGrid.MergeCells.AddRectXY(1,0,1,1);
+  StrGrid.MergeCells.AddRectXY(2,0,2,1);
+  StrGrid.MergeCells.AddRectXY(3,0,3,1);
+  StrGrid.MergeCells.AddRectXY(4,0,4,1);
+  StrGrid.MergeCells.AddRectXY(5,0,5,1);
+  StrGrid.MergeCells.AddRectXY(6,0,6,1);
+  StrGrid.MergeCells.AddRectXY(7,0,7,1);
+
+  StrGrid.MergeCells.AddRectXY(8,0,9,0);
+  StrGrid.MergeCells.AddRectXY(10,0,11,0);
+  StrGrid.MergeCells.AddRectXY(12,0,12,1);
+  StrGrid.MergeCells.AddRectXY(13,0,13,1);
+  StrGrid.MergeCells.AddRectXY(14,0,14,1);
+  StrGrid.MergeCells.AddRectXY(15,0,15,1);
+  StrGrid.MergeCells.AddRectXY(16,0,16,1);
+  StrGrid.MergeCells.AddRectXY(17,0,17,1);
+
+  StrGrid.WordWrap:=True;
+  
+  StrGrid.Cells[0,0]:='No';
+  StrGrid.Cells[1,0]:='No Body';
+  StrGrid.Cells[2,0]:='No Polisi';
+  StrGrid.Cells[3,0]:='Seat';
+  StrGrid.Cells[4,0]:='Pengemudi';
+  StrGrid.Cells[5,0]:='No Handphone';
+
+  StrGrid.Cells[6,0]:='Kenek';
+  StrGrid.Cells[7,0]:='No Etoll Batangan';
+  StrGrid.Cells[8,0]:='Etoll Transaksi';
+  StrGrid.Cells[8,1]:='No Etoll';
+  StrGrid.Cells[9,1]:='Pemilik';
+
+  StrGrid.Cells[10,0]:='Cadangan';
+  StrGrid.Cells[10,1]:='Pengemudi';
+  StrGrid.Cells[11,1]:='Kenek';
+  StrGrid.Cells[12,0]:='Tgl';
+  StrGrid.Cells[13,0]:='Jam';
+  StrGrid.Cells[14,0]:='Pemakai/Group';
+  StrGrid.Cells[15,0]:='Lokasi Standby';
+  StrGrid.Cells[16,0]:='Rute';
+  StrGrid.Cells[17,0]:='Keterangan';
+  StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[2,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[3,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[4,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[5,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[6,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[7,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[6,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[7,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[8,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[8,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[9,1].HorizontalAlignment:=taCenter;
+
+  StrGrid.CellStyle[10,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[11,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[12,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[13,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[14,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[15,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[16,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[17,0].HorizontalAlignment:=taCenter;
+
+  for IntCount:=0 to StrGrid.ColCount-1 do
+    StrGrid.Cells[IntCount,2]:='';
+end;
+
+procedure TDailyBusActivityRpt.RefreshCombo;
+var StrQry,StrCompanyId:String;
+    Qry:TADOQuery;
+    IntCount:Integer;
+begin
+  Main.M_Busy;
+  Qry:=TADOQuery.Create(Self);
+  Qry.Connection:=Main.MyConnection;
+  if Main.OpenDb then begin
+{    QStr:='EXEC GetLocation 2,1';
+    Qry.SQL.Clear;
+    Qry.SQL.Add(QStr);
+    Qry.Open;
+    SetLength(LokasiArr,Qry.RecordCount+1);
+    LokasiArr[0][0]:='All';
+    LokasiArr[0][1]:='All';
+    IntCount:=1;
+    if Qry.RecordCount>0 then while Not(Qry.Eof) do begin
+      LokasiArr[IntCount][0]:=Qry.FieldValues['location_id'];
+      LokasiArr[IntCount][1]:=Qry.FieldValues['location'];
+      Qry.Next;
+      Inc(IntCount);
+    end;
+    Qry.Close;
+}
+    SetLength(CompanyArr,0);
+    StrQry:='EXEC GetCompanyLocationList';
+    Main.WriteLog('SQL :'+StrQry,2);
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    IntCount:=0;
+    SetLength(CompanyArr,Qry.RecordCount);
+    if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+      CompanyArr[IntCount][0]:=Qry.FieldValues['company_location_id'];
+      CompanyArr[IntCount][1]:=Qry.FieldValues['company_id'];
+      CompanyArr[IntCount][2]:=Qry.FieldValues['location_id'];
+      CompanyArr[IntCount][3]:=Qry.FieldValues['name'];
+      CompanyArr[IntCount][4]:=Qry.FieldValues['location'];
+      CompanyArr[IntCount][5]:=Qry.FieldValues['company_code'];
+      Qry.Next;
+      Inc(IntCount)
+    end;
+    Qry.Close;
+    for IntCount:=0 to Length(CompanyArr)-1  do begin
+      SBU.Items.Add(CompanyArr[IntCount][3]+' ('+CompanyArr[IntCount][4]+')');
+      if (CompanyId=CompanyArr[IntCount][1]) and  (LocationId=CompanyArr[IntCount][2]) then SBU.ItemIndex:=IntCount;
+    end;
+    StrCompanyId:=CompanyArr[SBU.ItemIndex][1];
+    StrQry:='SELECT * FROM wh_vhc_batch WHERE (active=1) AND company_id='+StrCompanyId+';';
+    Qry.SQL.Clear;
+    Main.WriteLog('SQL :'+StrQry,2);
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    SetLength(BatchArr,Qry.RecordCount+1);
+    BatchArr[0][0]:='All';
+    BatchArr[0][1]:='All';
+    IntCount:=1;
+    if Qry.RecordCount>0 then while Not(Qry.Eof) do begin
+      BatchArr[IntCount][0]:=Qry.FieldValues['vhc_batch_id'];
+      BatchArr[IntCount][1]:=Qry.FieldValues['name'];
+      Inc(IntCount);
+      Qry.Next;
+    end;
+    Qry.Close;
+  end;
+  FreeAndNil(Qry);
+  Main.CloseDb;
+{  for IntCount:=0 to Length(LokasiArr)-1 do Lokasi.Items.Add(LokasiArr[IntCount][0]);
+  Lokasi.ItemIndex:=Lokasi.Items.IndexOf(LocationId);
+  LokasiDisp.Text:=LokasiArr[Lokasi.ItemIndex][1];
+}
+  for IntCount:=0 to Length(BatchArr)-1 do Batch.Items.Add(BatchArr[IntCount][1]);
+  Batch.ItemIndex:=Batch.Items.IndexOf('All');
+  Main.M_Normal;
+end;
+
+procedure TDailyBusActivityRpt.RefreshSeat;
+var StrQry,StrCompanyId:String;
+    Qry:TADOQuery;
+    IntCount:Integer;
+begin
+  Main.M_Busy;
+  Qry:=TADOQuery.Create(Self);
+  Qry.Connection:=Main.MyConnection;
+  Seat.Text:='';
+  Seat.Items.Clear;
+  Seat.ItemIndex:=1;
+  SetLength(SeatArr,1);
+  SeatArr[0][0]:='All';
+  StrCompanyId:=CompanyArr[SBU.ItemIndex][1];
+  if (Main.OpenDb) and (Batch.Text<>'All') then begin
+    StrQry:='EXEC GetVehicleTypeDetail '+StrCompanyId+','+BatchArr[Batch.ItemIndex][0]+',1;';
+    Qry.SQL.Clear;
+    Main.WriteLog('SQL :'+StrQry,2);
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    SetLength(SeatArr,Qry.RecordCount+1);
+    IntCount:=1;
+    if Qry.RecordCount>0 then while Not(Qry.Eof) do begin
+      SeatArr[IntCount][0]:=Qry.FieldValues['seat'];
+      Inc(IntCount);
+      Qry.Next;
+    end;
+    Qry.Close;
+  end;
+  FreeAndNil(Qry);
+  Main.CloseDb;
+  for IntCount:=0 to Length(SeatArr)-1 do Seat.Items.Add(SeatArr[IntCount][0]);
+  Seat.ItemIndex:=Seat.Items.IndexOf('All');
+  Main.M_Normal;
+end;
+
+procedure TDailyBusActivityRpt.RefreshData;
+var StrQry,StrBodyId,StrLicensePlate,StrCompanyId,StrLocationId,StrToDates,StrOrder,StrBatch:String;
+    Qry,Qry2:TADOQuery;
+    IntCount,IntCount2,IntCount3:Integer;
+    IntUsage:Array[1..31] of Integer;
+begin
+  Main.M_Busy;
+  Qry:=TADOQuery.Create(Self);
+  Qry.Connection:=Main.MyConnection;
+  Qry.CommandTimeout := 3600;
+  Qry2:=TADOQuery.Create(Self);
+  Qry2.Connection:=Main.MyConnection;
+  Qry2.CommandTimeout := 3600;
+  if Main.OpenDb then begin
+    SetLength(DataArr,0);
+    if CekTglSampai.Checked then begin
+      StrToDates:=',@ToDates='+QuotedStr(FormatDateTime('dd-mm-yyyy',TglSampai.Date));
+      StrOrder:=',@Ordered='+QuotedStr('c.out_date,a.body_id')
+    end else begin
+      StrToDates:='';
+      StrOrder:=',@Ordered='+QuotedStr('a.body_id');
+    end;
+
+    if Batch.Text='All' then begin
+      StrBatch:='0';
+    end else begin
+      StrBatch:=BatchArr[Batch.ItemIndex][0];
+    end;
+
+    StrLocationId:=CompanyArr[SBU.ItemIndex][2];
+    StrCompanyId:=',@CompanyId='+CompanyArr[SBU.ItemIndex][1];
+    StrQry:='EXEC GetRevenueVhcDayRpt2 '+StrLocationId+','+QuotedStr(FormatDateTime('dd-mm-yyyy',Tanggal.Date))+','+
+            StrBatch+StrCompanyId+StrToDates+StrOrder+',@AllVehicle=1;';
+    Qry.SQL.Clear;
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    IntCount:=0;
+    SetLength(DataArr,Qry.RecordCount);
+    if Qry.RecordCount>0 then while Not(Qry.Eof) do begin
+      StrBodyId:=Qry.FieldValues['body_id'];
+      if Length(StrBodyId)<5 then StrBodyId:=StrBodyId;
+      StrLicensePlate:=Qry.FieldValues['license_plate'];
+
+      DataArr[IntCount,0]:=StrBodyId;
+      DataArr[IntCount,1]:=StrLicensePlate;
+      DataArr[IntCount,2]:=Qry.FieldValues['seat'];
+      if Qry.FieldValues['name']<>NULL then  DataArr[IntCount,3]:=Qry.FieldValues['name'];
+
+      if Qry.FieldValues['cellular_no']<>NULL then  DataArr[IntCount,5]:=Qry.FieldValues['cellular_no'];
+
+      if Qry.FieldValues['helper']<>NULL then  DataArr[IntCount,6]:=Qry.FieldValues['helper'];
+
+      if Qry.FieldValues['out_date']<>NULL then DataArr[IntCount,8]:=Qry.FieldValues['out_date'];
+      if Qry.FieldValues['standby_time']<>NULL then DataArr[IntCount,9]:=Qry.FieldValues['standby_time'];
+      if Qry.FieldValues['customer_name']<>NULL then DataArr[IntCount,10]:=Qry.FieldValues['customer_name'];
+      if Qry.FieldValues['pickup_point']<>NULL then DataArr[IntCount,11]:=Qry.FieldValues['pickup_point'];
+      if Qry.FieldValues['route']<>NULL then DataArr[IntCount,12]:=Qry.FieldValues['route'];
+      if Qry.FieldValues['remark']<>NULL then DataArr[IntCount,13]:=Qry.FieldValues['remark'];
+      if Qry.FieldValues['customer_order_id']<>NULL then DataArr[IntCount,14]:=Qry.FieldValues['customer_order_id'];
+      if Qry.FieldValues['no_etoll']<>NULL then DataArr[IntCount,15]:=Qry.FieldValues['no_etoll'];
+
+      if Qry.FieldValues['etoll_trx_number']<>NULL then DataArr[IntCount,16]:=Qry.FieldValues['etoll_trx_number'];
+      if Qry.FieldValues['etoll_trx_owner']<>NULL then DataArr[IntCount,17]:=Qry.FieldValues['etoll_trx_owner'];
+
+      Inc(IntCount);
+      Qry.Next;
+    end;
+    Qry.Close;
+  end;
+  FreeAndNil(Qry);
+  Main.CloseDb;
+  Main.M_Normal;
+end;
+
+procedure TDailyBusActivityRpt.RefreshGrid;
+var IntCount,IntCount2,IntStartRow,IntTotal:Integer;
+    StrBodyId:String;
+    IsDrawRect:Boolean;
+begin
+  for IntCount:=0 to StrGrid.ColCount-1 do begin
+    for IntCount2:=2 to StrGrid.RowCount-1 do begin
+      StrGrid.Cells[IntCount,IntCount2]:='';
+      StrGrid.CellStyle[IntCount,IntCount2].BGColor:=clWindow;
+    end;
+  end;
+  for IntCount:=0 to StrGrid.ColCount-1 do begin
+    for IntCount2:=2 to StrGrid.RowCount-1 do begin
+      IntTotal:=StrGrid.MergeCells.InMergeRange(IntCount,IntCount2);
+      if IntTotal>=0 then StrGrid.MergeCells.DeleteItem(IntTotal);
+    end;
+  end;
+  if Length(DataArr)>0 then StrGrid.RowCount:=Length(DataArr)+2 else StrGrid.RowCount:=3;
+  if Length(DataArr)>0 then begin
+    IntCount2:=1;
+    for IntCount:=0 to Length(DataArr)-1 do begin
+      if StrBodyId<>DataArr[IntCount][0] then begin
+        StrBodyId:=DataArr[IntCount][0];
+        IntStartRow:=IntCount;
+        IsDrawRect:=False;
+        StrGrid.Cells[0,IntCount+2]:=IntToStr(IntCount2);
+        StrGrid.Cells[1,IntCount+2]:=DataArr[IntCount][0];
+        StrGrid.Cells[2,IntCount+2]:=DataArr[IntCount][1];
+        StrGrid.Cells[3,IntCount+2]:=DataArr[IntCount][2];
+        StrGrid.Cells[4,IntCount+2]:=DataArr[IntCount][3];
+        Inc(IntCount2);
+      end else if IntCount<Length(DataArr)-1 then begin
+        if StrBodyId<>DataArr[IntCount+1][0] then IsDrawRect:=True;
+      end else IsDrawRect:=True;
+      if IsDrawRect=True then begin
+        StrGrid.MergeCells.AddRectXY(0,IntStartRow+2,0,IntCount+2);
+        StrGrid.MergeCells.AddRectXY(1,IntStartRow+2,1,IntCount+2);
+        StrGrid.MergeCells.AddRectXY(2,IntStartRow+2,2,IntCount+2);
+        StrGrid.MergeCells.AddRectXY(3,IntStartRow+2,3,IntCount+2);
+        StrGrid.MergeCells.AddRectXY(4,IntStartRow+2,4,IntCount+2);
+        StrGrid.MergeCells.AddRectXY(5,IntStartRow+2,5,IntCount+2);
+        StrGrid.MergeCells.AddRectXY(6,IntStartRow+2,6,IntCount+2);
+
+        //StrGrid.MergeCells.AddRectXY(7,IntStartRow+2,7,IntCount+2);
+      end;
+      StrGrid.Cells[5,IntCount+2]:=DataArr[IntCount][5];
+
+      StrGrid.Cells[6,IntCount+2]:=DataArr[IntCount][6];
+      StrGrid.Cells[7,IntCount+2]:=DataArr[IntCount][15];
+      StrGrid.Cells[8,IntCount+2]:=DataArr[IntCount][16];
+      StrGrid.Cells[9,IntCount+2]:=DataArr[IntCount][17];
+
+      StrGrid.CellStyle[5,IntCount+2].WordWrap:=True;
+
+      StrGrid.Cells[12,IntCount+2]:=DataArr[IntCount][8];
+      StrGrid.Cells[13,IntCount+2]:=DataArr[IntCount][9];
+      StrGrid.Cells[14,IntCount+2]:=DataArr[IntCount][10];
+      StrGrid.Cells[15,IntCount+2]:=DataArr[IntCount][11];
+      StrGrid.Cells[16,IntCount+2]:=DataArr[IntCount][12];
+      StrGrid.Cells[17,IntCount+2]:=DataArr[IntCount][13];
+      StrGrid.Cells[18,IntCount+2]:=DataArr[IntCount][14];
+    end;
+  end;
+end;
+
+
+procedure TDailyBusActivityRpt.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  Action:=caFree;
+end;
+
+procedure TDailyBusActivityRpt.SelesaiClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TDailyBusActivityRpt.TahunKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
+end;
+
+procedure TDailyBusActivityRpt.LihatDataClick(Sender: TObject);
+begin
+  RefreshData;
+  RefreshGrid;
+end;
+
+procedure TDailyBusActivityRpt.ToXCelClick(Sender: TObject);
+begin
+  if ToExcel4(StrGrid) then ShowMessage('Export ke Excel Berhasil');
+end;
+
+procedure TDailyBusActivityRpt.StrGridSelectCell(Sender: TObject; ACol,
+  ARow: Integer; var CanSelect: Boolean);
+begin
+  IntRow:=ARow;
+  IntCol:=ACol;
+end;
+
+procedure TDailyBusActivityRpt.StrGridDblClick(Sender: TObject);
+begin
+  if (StrGrid.Cells[IntCol,IntRow]<>'') and (IntRow>MinRowGrid) and (IntCol>MinColGrid) then
+        if Main.IsFormOpen('OrderForm')=False then
+//      if StrPos(PChar(StrGrid.Cells[IntCol,IntRow]),PChar('  '))=nil then
+        OrderForm:=TOrderForm.Create(Self,StrGrid.Cells[16,IntRow],False)
+//      else
+//        SelectBooking:=TSelectBooking.Create(Self,StrGrid.Cells[IntCol,IntRow]);
+
+end;
+procedure TDailyBusActivityRpt.FormShow(Sender: TObject);
+begin
+  Init;
+  InitGrid;
+  RefreshCombo;
+  RefreshSeat;
+  Initiation:=False;
+end;
+
+procedure TDailyBusActivityRpt.BatchChange(Sender: TObject);
+begin
+  RefreshSeat;
+end;
+
+procedure TDailyBusActivityRpt.CekTglSampaiClick(Sender: TObject);
+begin
+  if not(Initiation) then begin
+    if CekTglSampai.Checked=True then TglSampai.Enabled:=True
+    else TglSampai.Enabled:=False;
+  end;
+end;
+
+procedure TDailyBusActivityRpt.StrGridKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+    if ((Key = 67) or (Key = 99)) and (Shift=[ssCtrl]) then
+      Copy1Click(Nil);
+end;
+
+procedure TDailyBusActivityRpt.Copy1Click(Sender: TObject);
+var
+  S: string;
+  GRect: TGridRect;
+  C, R: Integer;
+begin
+  GRect := StrGrid.Selection;
+  S  := '';
+  for R := GRect.Top to GRect.Bottom do
+  begin
+    for C := GRect.Left to GRect.Right do
+    begin
+      if C = GRect.Right then  S := S + (StrGrid.Cells[C, R])
+      else
+        S := S + StrGrid.Cells[C, R] + #9;
+    end;
+    S := S + #13#10;
+  end;
+  ClipBoard.AsText := S;
+end;
+
+end.

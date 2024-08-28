@@ -1,0 +1,254 @@
+unit ListPartsU;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ADODB, WHUnit, StdCtrls, Grids, ZColorStringGrid, Buttons, ExtCtrls;
+
+type
+  TListParts = class(TForm)
+    btnTombolCari: TSpeedButton;
+    Label1: TLabel;
+    StrGrid: TZColorStringGrid;
+    Button1: TButton;
+    Cari: TEdit;
+    ToXCel: TSpeedButton;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormShow(Sender: TObject);
+    procedure btnTombolCariClick(Sender: TObject);
+    procedure CariKeyPress(Sender: TObject; var Key: Char);
+    procedure Button1Click(Sender: TObject);
+    procedure StrGridDblClick(Sender: TObject);
+    procedure StrGridSelectCell(Sender: TObject; ACol, ARow: Integer;
+      var CanSelect: Boolean);
+    procedure ToXCelClick(Sender: TObject);
+  private
+    { Private declarations }
+    FormRequest,FormFunction:String;
+    DepartmentArr,LocationArr:Array of TArrString4;
+    CompanyArr:Array of TArrString7;
+    WorkOrderArr:Array of TArrString10;
+    IntRow,IsAll,IsBlok,MinRowGrid:Integer;
+    Initiation:Boolean;
+  public
+    { Public declarations }
+    procedure Init;
+    procedure InitGrid;
+    procedure RefreshData;
+    procedure RefreshGrid;
+    procedure Search;
+    constructor Create(AOwner:TComponent;Form_Request:String='';Form_Function:String='';Is_All:Integer=9;Is_Blok:Byte=0);Overload;
+  end;
+
+var
+  ListParts: TListParts;
+
+implementation
+
+uses
+  MainU, PartU;
+
+{$R *.dfm}
+
+constructor TListParts.Create(AOwner:TComponent;Form_Request:String='';Form_Function:String='';Is_All:Integer=9;Is_Blok:Byte=0);
+begin
+  FormRequest:=Form_Request;
+  Main.WriteLog('Form Open: ListParts='+Form_Request);
+  Inherited Create(AOwner);
+end;
+
+procedure TListParts.Init;
+begin
+  Cari.Text;
+end;
+
+procedure TListParts.InitGrid;
+var IntCount,IntGeserKolom:Integer;
+begin
+  MinRowGrid:=2;
+  StrGrid.RowCount:=2;
+  StrGrid.ColCount:=4;
+  StrGrid.ColWidths[0]:=28;
+  StrGrid.ColWidths[1]:=100;
+  StrGrid.ColWidths[2]:=450;
+  StrGrid.ColWidths[3]:=0;
+
+  StrGrid.Cells[0,0]:='No';
+  StrGrid.Cells[1,0]:='Kode Part GP';
+  StrGrid.Cells[2,0]:='ID Part';
+
+  StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[2,0].HorizontalAlignment:=taCenter;
+
+  for IntCount:=0 to StrGrid.ColCount-1 do
+    StrGrid.Cells[IntCount,1]:='';
+end;
+
+procedure TListParts.RefreshData;
+var Qry,Qry2,Qry3:TADOQuery;
+    StrQry,StrTanggal,StrDepositDate1,StrDepositDate2,
+    StrBatch,StrSeat,StrCompanyId,StrLocationId,StrToDates,StrChkSewaLuar,StrPaid:String;
+    IntCount,IntCount2,IntCount3,IntRows,StartRow,IntTotal,IntTolParkir,IntBiayaLain, IntTotalUnit,No:Integer;
+    IntPayment:Array [0..2] of Integer;
+    StrPayment:Array [0..2] of String;
+    StrList,StrList2:TStringList;
+begin
+
+  Qry:=TADOQuery.Create(Self);
+  Qry.Connection:=Main.MyConnection;
+  Qry.CommandTimeout := 3600;
+  Main.M_Busy;
+
+  if Main.OpenDb then begin
+    SetLength(WorkOrderArr,0);
+
+    StrQry:='SELECT * from wh_part where status=1';
+    Main.WriteLog('SQL :'+StrQry,2);
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    IntCount:=0;
+    No:=0;
+    if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+      No:=No+1;
+
+      SetLength(WorkOrderArr,IntCount+1);
+      WorkOrderArr[IntCount][0]:=IntToStr(No);
+      WorkOrderArr[IntCount][1]:= Qry.FieldValues['kode_part_gp'] ;
+      WorkOrderArr[IntCount][2]:=Qry.FieldValues['name'];
+      WorkOrderArr[IntCount][3]:=Qry.FieldValues['id_part'];
+
+      Inc(IntCount);
+      Qry.Next;
+    end;
+    Qry.Close;
+  end;
+
+  FreeAndNil(Qry);
+  Main.CloseDb;
+  Main.M_Normal;
+end;
+
+procedure TListParts.RefreshGrid;
+var IntCount,IntCount2,IntStartRow,IntTotal,IntStartRow2,lengt:Integer;
+    StrOrderId,StrCustOrderDetailId:String;
+    IsDrawRect,IsDrawRect2:Boolean;
+begin
+  if Length(WorkOrderArr)>0 then StrGrid.RowCount:=Length(WorkOrderArr)+1
+  else begin
+    StrGrid.RowCount:=1;
+  end;
+
+  IntStartRow:=0;
+  StrOrderId:='';
+  IntTotal:=0;
+  lengt:= Length(WorkOrderArr)-1;
+  for IntCount:=0 to Length(WorkOrderArr)-1 do begin
+    Application.ProcessMessages;
+
+    StrGrid.Cells[0,IntCount+1]:=WorkOrderArr[IntCount][0];
+    StrGrid.Cells[1,IntCount+1]:=WorkOrderArr[IntCount][1];
+    StrGrid.Cells[2,IntCount+1]:=WorkOrderArr[IntCount][2];
+    StrGrid.Cells[3,IntCount+1]:=WorkOrderArr[IntCount][3];
+
+    StrGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[1,IntCount+1].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[2,IntCount+1].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[3,IntCount+1].HorizontalAlignment:=taLeftJustify;
+  end;
+end;
+
+procedure TListParts.Search;
+var Count,Count2,Count3,Count4,Count5:Integer;
+    IsTrue:Boolean;
+
+begin
+  if Trim(Cari.Text)<>'' then begin
+    Main.M_Busy;
+    Init;
+    Count2:=2;
+    for Count:=0 to Length(WorkOrderArr)-1 do begin
+      IsTrue:=False;
+      for Count3:=0 to 2 do
+        if (StrPos(PChar(UpperCase(WorkOrderArr[Count][Count3])),PChar(UpperCase(Cari.Text)))<>nil) then IsTrue:=True;
+          if IsTrue= True then begin
+
+
+            StrGrid.RowCount:=Count2;
+            for Count4:=0 to 1 do begin
+              StrGrid.Cells[Count4,Count2-1]:=WorkOrderArr[Count][Count4];
+              StrGrid.CellStyle[0,Count2+1].HorizontalAlignment:=taCenter;
+              StrGrid.CellStyle[1,Count2+1].HorizontalAlignment:=taCenter;
+              StrGrid.CellStyle[2,Count2+1].HorizontalAlignment:=taLeftJustify;
+            end;
+
+            Inc(Count2);
+          end;
+//      end;
+    end;
+
+    Main.M_Normal;
+  end;
+end;
+
+procedure TListParts.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action:=caFree;
+end;
+
+procedure TListParts.FormShow(Sender: TObject);
+begin
+  Init;
+  InitGrid;
+  RefreshData;
+  RefreshGrid;
+end;
+
+procedure TListParts.btnTombolCariClick(Sender: TObject);
+begin
+  if Trim(Cari.Text)<>'' then begin
+    Search;
+  end else begin
+    Init;
+    InitGrid;
+    RefreshData;
+    RefreshGrid;
+  end;
+end;
+
+procedure TListParts.CariKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Trim(Cari.Text)<>'' then begin
+    if Key=#13 then Search;
+  end;
+end;
+
+procedure TListParts.Button1Click(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TListParts.StrGridDblClick(Sender: TObject);
+begin
+  if Main.IsFormOpen('Part')=False then
+  begin
+    Part:=TPart.Create(Self);
+    Part.KodePart.Text:=StrGrid.Cells[1,IntRow];
+    Part.PartName.Text:=StrGrid.Cells[2,IntRow];
+    IDPart :=StrGrid.Cells[3,IntRow];
+  end;
+end;
+
+procedure TListParts.StrGridSelectCell(Sender: TObject; ACol,
+  ARow: Integer; var CanSelect: Boolean);
+begin
+  IntRow:=ARow;
+end;
+
+procedure TListParts.ToXCelClick(Sender: TObject);
+begin
+  if ToExcel4(StrGrid) then ShowMessage('Export ke Excel Berhasil');
+end;
+
+end.

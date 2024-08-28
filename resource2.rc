@@ -1,0 +1,5 @@
+UpDater RCDATA "WHApsUpDater.exe"
+
+M_Busy RCDATA "busy.ani"
+
+zipdll RCDATA "unzip32.dll" 
