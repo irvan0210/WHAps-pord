@@ -916,7 +916,8 @@ end;
 
 procedure TEmployeeForm.SimpanClick(Sender: TObject);
 var Qry,Qry2,QryWehaOnline:TADOQuery;
-    StrQry,NewIdS,StrMsg,StrException,StrHP,StrRef,StrRefId,StrKPPRef,StrKTP,StrReguler,StrAnak,StrPendidikan,StrInstitusi,StrShift,StrSex,StrQryWehaOnline,StrQryWehaOnlineCek:String;
+    StrQry,NewIdS,StrMsg,StrException,StrHP,StrRef,StrRefId,StrKPPRef,StrKTP,StrReguler,StrAnak,StrPendidikan,StrInstitusi,StrShift,StrSex, StrGender,
+    StrQryWehaOnline,StrQryWehaOnlineCek:String;
     StrReligion,StrSIM,StrAlamat,StrName,StrRelation,StrPhoneNo,StrBirth,StrJob,StrYear,StrEMsg,StrPINDriver,
     StrVhcName,StrOwn,StrDept,StrRatingInt,StrNoRek,StrNamaRek,StrNoEtoll,StrIdAbsen,StrPhoneLogin,StrStatusKaryawan,StrWehaUserID,StrContactID:String;
     IsOk,IsNoRecord:Boolean;
@@ -1043,7 +1044,7 @@ begin
               end else
                 NewIdS:='0001';
               NewIdS:=EmplCode+FormatDateTime('yy',TglGabung.Date)+FormatDateTime('mm',TglGabung.Date)+NewIdS;
-              StrPINDriver:='$2b$10$4a7dCnP8XJnYsikhZzoiPOzBZ36gBr/e4mnYo8tdVwiGWMcEc5y/a';
+              StrPINDriver :='$2b$10$4a7dCnP8XJnYsikhZzoiPOzBZ36gBr/e4mnYo8tdVwiGWMcEc5y/a';
 
               if (EmplType=2) OR (EmplType=4) then begin
                 StrQry:='INSERT INTO wh_employee '+
@@ -1074,7 +1075,41 @@ begin
                       ','+QuotedStr(FormatDateTime('yyyy-mm-dd',DateBPJSKes.Date)) +
                       ','+QuotedStr(FormatDateTime('yyyy-mm-dd',DateBpjsKet.Date)) +','+QuotedStr(Nppbpjsket.Text)+','+QuotedStr(Email.Text)+
                       ','+QuotedStr(NoKK.Text)+','+QuotedStr(Tinggi.Text)+','+QuotedStr(Berat.Text)+','+QuotedStr(StrPINDriver)+');';
-              end else begin
+                end
+              else if(EmplType=3) and (Departemen.Text ='Operational') then begin
+              // Departement Oprasional
+             //   MessageBox(Handle,PChar('Tes karyawan Oprasinal'+Chr(13)+Chr(13)+StrEMsg),'kategori',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+                 StrQry:='INSERT INTO wh_employee '+
+                      '(employee_id,id_number,name,sex,birth_town,birth_date,'+
+                      'education_id,education_institution,religion_id,join_date,'+
+                      'reference_id,reference,old_id_reference,rating, account_number, '+
+                      'account_name,no_etoll,id_attandance_mapping,update_user,phone_login,'+
+                      'no_bpjs_kes,no_bpjs_ket,gol_darah,nik_karyawan,status_karyawan,no_npwp,account_bank,'+
+                      'education_entry_year,education_out_year,education_major,education_ipk,date_bpjs_kes,'+
+                      'date_bpjs_ket,npp_bpjs_ket,email,family_card_no,height,weight,pin_login) '+
+                      'VALUES ('+QuotedStr(NewIds)+','+StrKTP+
+                      ','+QuotedStr(Nama.Text)+','+StrSex+
+                      ','+QuotedStr(TempatLahir.Text)+
+                      ','+QuotedStr(FormatDateTime('yyyy-mm-dd',TglLahir.Date))+
+                      ','+StrPendidikan+
+                      ','+StrInstitusi+
+                      ','+StrReligion+
+                      ','+QuotedStr(FormatDateTime('yyyy-mm-dd',TglGabung.Date))+
+                      ','+StrRef+','+StrRefId+','+StrKPPRef+','+StrRatingInt+
+                      ','+StrNoRek+','+StrNamaRek+
+                      ','+StrNoEtoll+
+                      ','+StrIdAbsen+
+                      ','+QuotedStr(User)+
+                      ','+StrPhoneLogin+','+QuotedStr(BpjsKes.Text)+','+QuotedStr(BpjsKet.Text)+
+                      ','+QuotedStr(GolDarah.Text)+','+QuotedStr(NikKaryawan.Text)+
+                      ','+QuotedStr(StrStatusKaryawan)+','+QuotedStr(NPWP.Text)+','+QuotedStr(Bank.Text)+
+                      ','+QuotedStr(TahunMasuk.Text)+','+QuotedStr(TahunKelulusan.Text)+','+QuotedStr(Jurusan.Text)+','+QuotedStr(ipk.Text)+
+                      ','+QuotedStr(FormatDateTime('yyyy-mm-dd',DateBPJSKes.Date)) +
+                      ','+QuotedStr(FormatDateTime('yyyy-mm-dd',DateBpjsKet.Date)) +','+QuotedStr(Nppbpjsket.Text)+','+QuotedStr(Email.Text)+
+                      ','+QuotedStr(NoKK.Text)+','+QuotedStr(Tinggi.Text)+','+QuotedStr(Berat.Text)+','+QuotedStr(StrPINDriver)+');';
+              end
+              Else
+              begin
                 StrQry:='INSERT INTO wh_employee '+
                       '(employee_id,id_number,name,sex,birth_town,birth_date,'+
                       'education_id,education_institution,religion_id,join_date,'+
@@ -1192,11 +1227,12 @@ begin
                 end
               end;
 
+              // data wehaonline
 
               if EmplType=2 then
-              begin
+             begin
 
-                StrQryWehaOnline:= 'INSERT INTO Contacts '+
+              StrQryWehaOnline:= 'INSERT INTO Contacts '+
                               '(FullName,Gender,'+
                               'HP,ViewHisOwnData,IsMain,CreatedBy,CreatedDate,'+
                               'ModifiedBy,ModifiedDate,ViewGroupOnly) VALUES '+
@@ -1314,6 +1350,9 @@ begin
                   end;
                 end;
               end;
+         //   end
+
+
             end else begin
               IsOk:=False;
               StrMsg:='No SIM Sudah ada, Silahkan Periksa Data';
@@ -1399,9 +1438,10 @@ begin
               end
             end;
 
+            // DRIver
+
             if EmplType=2 then
             begin
-
               StrQryWehaOnlineCek:='SELECT DISTINCT b.UserID,a.FullName,a.HP,a.ContactID FROM Contacts a '+
                                    'left join Users b ON a.ContactID=b.ContactID WHERE '+
                                    'b.CustomerNo='+QuotedStr(IdKaryawan.Text)+' AND b.IsActive=1';
@@ -1496,7 +1536,7 @@ begin
             end
             else if EmplType=4 then
             begin
-
+               // Driver
               StrQryWehaOnlineCek:='SELECT DISTINCT b.UserID,a.FullName,a.HP,a.ContactID FROM Contacts a '+
                                    'left join Users b ON a.ContactID=b.ContactID WHERE '+
                                    'b.CustomerNo='+QuotedStr(IdKaryawan.Text)+' AND b.IsActive=1';
@@ -1540,7 +1580,6 @@ begin
                 QryWehaOnline.Open;
 
                 StrWehaUserID:=StringReplace(QuotedStr(Nama.Text),' ','.',[rfReplaceAll]);
-
                 StrQryWehaOnline:= 'INSERT INTO Users '+
                               '(ContactID,CustomerNo,'+
                               'Email,Password,Role,LoginType,WehaUserID,'+
@@ -1566,6 +1605,7 @@ begin
                   end;
                 end;
               end else
+                //   Contacts
               begin
                 StrQryWehaOnline:=  'UPDATE Contacts '+
                                     'SET FullName='+QuotedStr(Nama.Text)+',Gender=''M'','+
@@ -1589,9 +1629,108 @@ begin
                 end;
               end;
             end;
-
-
           end;
+
+          // Oprasioanl
+      if (EmplType=3) and (Departemen.Text ='Operational') then
+      begin
+              StrQryWehaOnlineCek:='SELECT DISTINCT b.UserID,a.FullName,a.HP,a.ContactID FROM Contacts a '+
+                                   'left join Users b ON a.ContactID=b.ContactID WHERE '+
+                                   'b.CustomerNo='+QuotedStr(NewIds)+' AND b.IsActive=1;';
+              QryWehaOnline.Close;
+              QryWehaOnline.SQL.Clear;
+              QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
+              QryWehaOnline.Open;
+             // StrContactID:= QryWehaOnline.FieldValues['ContactID'];
+              if Gentleman.Checked=True then StrGender:='M' else if Ladies.Checked=True then StrGender:='F';
+
+              if QryWehaOnline.RecordCount=0 then
+                begin
+                  //  Contacts
+                  StrQryWehaOnline:= 'INSERT INTO Contacts '+
+                              '(FullName,Gender,'+
+                              'HP,ViewHisOwnData,IsMain,CreatedBy,CreatedDate,'+
+                              'ModifiedBy,ModifiedDate,ViewGroupOnly) VALUES '+
+                              '('+QuotedStr(Nama.Text)+','+QuotedStr(StrGender)+
+                              ','+QuotedStr(NoHP.Text)+',0,0,0 '+
+                              ',GETDATE(),0,GETDATE(),0); ';
+
+                  QryWehaOnline.SQL.Clear;
+                  QryWehaOnline.SQL.Add(StrQryWehaOnline);
+                  try
+                    QryWehaOnline.ExecSQL;
+                  except
+                  on E:Exception do
+                  begin
+                    Main.TransRollback;
+                    IsOk:=False;
+                    EnableInput;
+                    StrEMsg:=StrEMsg+E.Message;
+                    MessageBox(Handle,PChar('Oprasional tidak bisa diinput '+Chr(13)+Chr(13)+StrEMsg),'Penjadwalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+                    StrException:=E.Message;
+                  end Else
+                    Begin
+                      StrQryWehaOnline:= 'UPDATE Contacts '+
+                                    'SET FullName='+QuotedStr(Nama.Text)+',Gender=''M'','+
+                                    'HP='+QuotedStr(NoHP.Text)+',ViewHisOwnData=0,IsMain=0,'+
+                                    'ModifiedBy=0,ModifiedDate=GETDATE(),ViewGroupOnly=0 '+
+                                    'WHERE ContactID='+StrContactID+' ;';
+
+                      QryWehaOnline.SQL.Clear;
+                      QryWehaOnline.SQL.Add(StrQryWehaOnline);
+                      try
+                        QryWehaOnline.ExecSQL;
+                      except
+                        on E:Exception do begin
+                        Main.TransRollback;
+                        IsOk:=False;
+                        EnableInput;
+                        StrEMsg:=StrEMsg+E.Message;
+                        MessageBox(Handle,PChar('Oprasional tidak bisa diinput '+Chr(13)+Chr(13)+StrEMsg),'Penjadwalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+                        Exit;
+                        end;
+                    end;
+                  // End Contacts
+              end;
+            end;
+                // Users
+            StrQryWehaOnlineCek:='SELECT TOP 1 ContactID FROM Contacts '+
+                                     'WHERE CreatedBy=0 Order By ContactID DESC';
+            QryWehaOnline.Close;
+            QryWehaOnline.SQL.Clear;
+            QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
+            QryWehaOnline.Open;
+            StrContactID:= QryWehaOnline.FieldValues['ContactID'];
+            StrWehaUserID:=StringReplace(QuotedStr(Nama.Text),' ','.',[rfReplaceAll]);
+            StrQryWehaOnline:= 'INSERT INTO Users '+
+                              '(ContactID,CustomerNo,'+
+                              'Email,Password,Role,LoginType,WehaUserID,'+
+                              'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate) VALUES '+
+                              '('+QuotedStr(QryWehaOnline.FieldValues['ContactID'])+' '+
+                              ','+QuotedStr(NewIdS)+','+StrWehaUserID+' '+
+                              ',NULL,''ADMIN'',''EMAIL'' '+
+                              ','+StrWehaUserID+' '+
+                              ',1,0,GETDATE(),0,GETDATE()); ';
+
+            QryWehaOnline.SQL.Clear;
+            QryWehaOnline.SQL.Add(StrQryWehaOnline);
+            try
+              QryWehaOnline.ExecSQL;
+            except
+              on E:Exception do begin
+              Main.TransRollback;
+              IsOk:=False;
+              EnableInput;
+              StrEMsg:=StrEMsg+E.Message;
+              MessageBox(Handle,PChar('Oprasional tidak bisa diinput '+Chr(13)+Chr(13)+StrEMsg),'Penjadwalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+              Exit;
+              end;
+            end;
+            //End Users
+          end;
+         end;
+
+              // End Oprasional
           if IsOk then begin
             if Trim(IdKaryawan.Text)='' then begin
               StrMsg:='ID Baru '+NewIdS
@@ -1610,7 +1749,9 @@ begin
         FreeAndNil(Qry);
         Main.CloseDb;
         Main.M_Normal;
-      end else begin
+      end
+      else
+       begin
           StrMsg:='Inputan tanda * '+Chr(13)+'tidak boleh kosong !!';
           IsOk:=False;
       end;

@@ -1,6 +1,6 @@
 object EmployeeForm: TEmployeeForm
-  Left = 231
-  Top = 110
+  Left = 370
+  Top = 87
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Karyawan'
