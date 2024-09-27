@@ -1,6 +1,6 @@
 object OrderFee: TOrderFee
-  Left = 275
-  Top = 97
+  Left = 244
+  Top = 130
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Uang Order'
@@ -17,6 +17,7 @@ object OrderFee: TOrderFee
   Position = poScreenCenter
   Scaled = False
   Visible = True
+  WindowMenu = Main.Aplikasi1
   OnClose = FormClose
   OnKeyDown = FormKeyDown
   OnShow = FormShow
@@ -827,16 +828,16 @@ object OrderFee: TOrderFee
     end
   end
   object GroupDailyPackage: TPanel
-    Left = 568
+    Left = 581
     Top = 406
-    Width = 151
+    Width = 163
     Height = 17
     BevelOuter = bvNone
     TabOrder = 12
     object AllDailyPackage: TCheckBox
-      Left = 13
-      Top = 0
-      Width = 145
+      Left = 0
+      Top = -2
+      Width = 150
       Height = 17
       Caption = 'Update Semua Surat Jalan'
       TabOrder = 0
@@ -3774,8 +3775,8 @@ object OrderFee: TOrderFee
     Visible = False
   end
   object FuelSet: TCheckBox
-    Left = 743
-    Top = 418
+    Left = 742
+    Top = 416
     Width = 81
     Height = 17
     Caption = 'BBM Sesuai'
@@ -3812,13 +3813,23 @@ object OrderFee: TOrderFee
     Visible = False
   end
   object DailyPackage: TCheckBox
-    Left = 582
+    Left = 581
     Top = 384
     Width = 97
     Height = 17
     Caption = 'Paket Harian'
     Enabled = False
     TabOrder = 23
+  end
+  object CopyBiaya: TCheckBox
+    Left = 581
+    Top = 424
+    Width = 156
+    Height = 17
+    Caption = 'Copy Biaya Sebelumnya'
+    Enabled = False
+    TabOrder = 24
+    OnClick = CopyBiayaClick
   end
   object ppReportUangOrder: TppReport
     PrinterSetup.BinName = 'Default'
@@ -3831,7 +3842,7 @@ object OrderFee: TOrderFee
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 126
     Template.FileName = 'D:\WH App\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'
@@ -4207,7 +4218,7 @@ object OrderFee: TOrderFee
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 126
     Template.FileName = 'D:\WH App\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'
@@ -5052,7 +5063,7 @@ object OrderFee: TOrderFee
   object ppReportSPPB: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Custom'
+    PrinterSetup.PaperName = 'invoice'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 5080
     PrinterSetup.mmMarginLeft = 6350
@@ -5060,7 +5071,7 @@ object OrderFee: TOrderFee
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 140000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 192
     Template.FileName = 'D:\WH App\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'
@@ -6572,7 +6583,7 @@ object OrderFee: TOrderFee
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 126
     Template.FileName = 'D:\PRAM\SC Delphi\23 Jan 2018\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'
