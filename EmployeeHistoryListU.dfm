@@ -1,6 +1,6 @@
 object EmployeeHistoryList: TEmployeeHistoryList
-  Left = 189
-  Top = 115
+  Left = 326
+  Top = 223
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Riwayat Karyawan'
@@ -62,7 +62,7 @@ object EmployeeHistoryList: TEmployeeHistoryList
     Top = 82
     Width = 955
     Height = 383
-    ColCount = 12
+    ColCount = 14
     DefaultRowHeight = 90
     DefaultDrawing = False
     FixedColor = clBtnFace
@@ -71,6 +71,8 @@ object EmployeeHistoryList: TEmployeeHistoryList
     FixedRows = 2
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing]
     TabOrder = 0
+    OnDblClick = StrGridDblClick
+    OnSelectCell = StrGridSelectCell
     DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
     DefaultCellStyle.Font.Color = clWindowText
     DefaultCellStyle.Font.Height = -11
