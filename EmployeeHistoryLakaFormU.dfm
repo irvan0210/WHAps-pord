@@ -2606,6 +2606,23 @@ object EmployeeHistoryLakaForm: TEmployeeHistoryLakaForm
             '(Direktur Operasional)')
           ParentFont = False
         end
+        object Memo72: TfrxMemoView
+          Left = 185.196970000000000000
+          Top = 90.708661417322830000
+          Width = 185.196970000000000000
+          Height = 18.897650000000000000
+          ShowHint = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Verdana'
+          Font.Style = []
+          Frame.Width = 0.100000000000000000
+          HAlign = haCenter
+          Memo.UTF8 = (
+            '(Head of Crew)')
+          ParentFont = False
+        end
       end
       object PageFooter1: TfrxPageFooter
         Height = 45.354360000000000000

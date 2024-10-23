@@ -127,15 +127,20 @@ object Apps: TApps
     Font.Style = []
     Lines.Strings = (
       'Penambahan/Perubahan/Perbaikan:'
+      '23/10/2024 (6.1.5.45)'
+      '-Penambahan Form History Laka'
+      '-Penambahan List History Laka'
+      '-Penambahan Cetak History Laka'
+      ''
       '09/10/2024 (6.1.5.44)'
       '-Penambahan filter Driver di Laporan Customer Complain'
       '-Penambahan fitur History Customer Complain di Form Data Driver'
+      '-Penambahan Kolom Spare Part pada Laporan Service Request'
+      '-Penambahan Kolom Spare Part pada Laporan PKB'
       
         '-Penambahan fitur copy biaya sebelumnya di Form Tambah Uang Orde' +
         'r'
       'jika order memakai fitur ulangi perjalan'
-      '-Penambahan Kolom Spare Part pada Laporan Service Request'
-      '-Penambahan Kolom Spare Part pada Laporan PKB'
       ''
       ''
       '19/09/2024 (6.1.5.43)'

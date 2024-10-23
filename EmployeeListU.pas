@@ -63,8 +63,8 @@ Uses MainU, StrUtils, EmployeeFormU, MutasiKaryawanFormU,
   EmployeeIDRenewalU, KPPPrintU, EmployeeRenewalFormU, ReferensiMitraListU,
   EmployeeHistoryFormU, EmployeeCommissionFormU, EmployeeHistoryRptU,
   EmployeeHistoryListU, AttandanceLeaveFormU, EmplAttedanceInfoU, 
-  CustomerComplainListU, CustomerComplainRptU, EmployeeHistoryLakaFormU, 
-  EmployeeHistoryLakaListU;
+  CustomerComplainListU, CustomerComplainRptU,
+  EmployeeHistoryLakaListU, EmployeeHistoryLakaFormU;
 
 constructor TEmployeeList.Create(AOwner:TComponent;EmployeeType:String;Status:Integer=1;Expired:Integer=0;Form_Request:String='');
 begin

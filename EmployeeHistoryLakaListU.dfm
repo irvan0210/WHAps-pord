@@ -1,6 +1,6 @@
 object EmployeeHistoryLakaList: TEmployeeHistoryLakaList
-  Left = 155
-  Top = 77
+  Left = 244
+  Top = 46
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'EmployeeHistoryLakaList'
@@ -110,7 +110,7 @@ object EmployeeHistoryLakaList: TEmployeeHistoryLakaList
     LineDesign.LineUpColor = clWhite
   end
   object Selesai: TButton
-    Left = 368
+    Left = 440
     Top = 517
     Width = 75
     Height = 25

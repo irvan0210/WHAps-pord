@@ -234,7 +234,8 @@ end;
 procedure TEmployeeHistoryLakaForm.FormShow(Sender: TObject);
 begin
   Init;
-  if EmplId<>'' then begin
+  if FormReq='EMPLOYEEHISTORYLAKA-FORM' then
+  begin
     GetEmployee;
   end;
   if FormReq='EMPLOYEEHISTORYLAKA-LIST' then

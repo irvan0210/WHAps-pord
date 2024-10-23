@@ -116,7 +116,7 @@ begin
   if Main.OpenDb then begin
     Qry:=TADOQuery.Create(Self);
     Qry.Connection:=Main.MyConnection;
-    QStr:='SELECT * FROM wh_empl_history_type';
+    QStr:='SELECT * FROM wh_empl_history_type where empl_history_type_id<>14;';
     Qry.SQL.Add(QStr);
     Qry.Open;
     IntCount:=0;

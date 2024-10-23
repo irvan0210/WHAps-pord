@@ -63,7 +63,7 @@ var
 
 implementation
 
-uses MainU, EmployeeHistoryLakaFormU, EmployeeListU;
+uses MainU, EmployeeListU, EmployeeHistoryLakaFormU;
 
 {$R *.dfm}
 

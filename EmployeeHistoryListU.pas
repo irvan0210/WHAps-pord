@@ -28,6 +28,9 @@ type
     procedure FormShow(Sender: TObject);
     procedure CetakClick(Sender: TObject);
     procedure ToXCelClick(Sender: TObject);
+    procedure StrGridDblClick(Sender: TObject);
+    procedure StrGridSelectCell(Sender: TObject; ACol, ARow: Integer;
+      var CanSelect: Boolean);
   private
     { Private declarations }
     procedure Init;
@@ -45,11 +48,11 @@ var
   EmplId:String;
   IntRow,IntCol:Integer;
   EmplType:Integer;
-  HistoryListArr:Array of TArrString14;
+  HistoryListArr:Array of TArrString16;
 
 implementation
 
-uses MainU, EmployeeHistoryRptU;
+uses MainU, EmployeeHistoryRptU, EmployeeHistoryLakaFormU;
 
 {$R *.dfm}
 
@@ -209,6 +212,8 @@ begin
         if Qry.FieldValues['detail']<>NULL then HistoryListArr[IntCount][10]:=Qry.FieldValues['detail'] else HistoryListArr[IntCount][10]:='';
         if Qry.FieldValues['username']<>NULL then HistoryListArr[IntCount][11]:=Qry.FieldValues['username'] else HistoryListArr[IntCount][11]:='';
         HistoryListArr[IntCount][12]:=Qry.FieldValues['promotion'];
+        HistoryListArr[IntCount][13]:=Qry.FieldValues['empl_history_id'];
+        HistoryListArr[IntCount][14]:=Qry.FieldValues['employee_id'];
         Inc(IntCount);
         Qry.Next;
       end;
@@ -295,6 +300,74 @@ begin
     ShowMessage('Export ke Excel Berhasil');
   end;
 
+end;
+
+procedure TEmployeeHistoryList.StrGridDblClick(Sender: TObject);
+var Qry:TADOQuery;
+    StrQry,History_ID,Empl_ID:String;
+    IntCount,No:Integer;
+    Count,Count2:Integer;
+begin
+  History_ID:= HistoryListArr[IntRow-2][13];
+  Empl_ID:= HistoryListArr[IntRow-2][14];
+  if Main.IsFormOpen('EmployeeHistoryLakaForm')=False then EmployeeHistoryLakaForm:=TEmployeeHistoryLakaForm.Create(Self,Empl_ID,History_ID,'EMPLOYEEHISTORYLAKA-LIST');
+
+  Qry:=TADOQuery.Create(Self);
+  Qry.Connection:=Main.MyConnection;
+  Qry.CommandTimeout := 3600;
+
+  if Main.OpenDb then begin
+
+    StrQry:='SELECT b.name,a.* FROM wh_empl_history_laka a '+
+            'LEFT JOIN wh_employee b ON a.employee_id=b.employee_id '+
+            'WHERE empl_history_id='+History_ID+';';
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+
+    if Qry.RecordCount>0 then  begin
+      with EmployeeHistoryLakaForm do
+      begin
+        EmplID:=Empl_ID;
+        Tgl.Text:=FormatDateTime('dd/MM/YYYY', Qry.FieldValues['date']);
+        Pelapor.Text:=Qry.FieldValues['name'];
+        Lokasi.Text:=Qry.FieldValues['location'];
+        Jam.Text:=Qry.FieldValues['time'];
+        Amount.Text:=SToCurr(Qry.FieldValues['amount']);
+        AmountDesc.Text:=Qry.FieldValues['amount_desc'];
+        Kerusakan.Text:=Qry.FieldValues['damage'];
+        NamaKorban.Text:=Qry.FieldValues['victims_name'];
+        UmurKorban.Text:=Qry.FieldValues['victims_age'];
+        AlatTerlibat.Text:=Qry.FieldValues['tools'];
+        Proses.Text:=Qry.FieldValues['activity'];
+        TdkMasukKerja.Text:=Qry.FieldValues['absent'];
+        Kronologi.Text:=Qry.FieldValues['chronology'];
+        SebabLangsung.Text:=Qry.FieldValues['incident1'];
+        SebabDasar.Text:=Qry.FieldValues['incident2'];
+        NoteSpv.Text:=Qry.FieldValues['note_spv'];
+        NoteMR.Text:=Qry.FieldValues['note_mr'];
+        NoteDir.Text:=Qry.FieldValues['note_direktur'];
+        LamaBekerjaTahun.Text:=Qry.FieldValues['work_period_year'];
+        LamaBekerjaBulan.Text:=Qry.FieldValues['work_period_month'];
+        if (Qry.FieldValues['unsafe_action']='1') then chkUnsafeAction.Checked:=True else chkUnsafeAction.Checked:=False;
+        if (Qry.FieldValues['unsafe_condition']='1') then chkUnsafeCondition.Checked:=True else chkUnsafeCondition.Checked:=False;
+        if (Qry.FieldValues['personal_factor']='1') then chkPersonalFactor.Checked:=True else chkPersonalFactor.Checked:=False;
+        if (Qry.FieldValues['job_factor']) then chkJobFactor.Checked:=True else chkJobFactor.Checked:=False;
+      end;
+    end;
+
+    Qry.Close;
+  end;
+  FreeAndNil(Qry);
+  Main.CloseDb;
+  Main.M_Normal;
+
+
+end;
+
+procedure TEmployeeHistoryList.StrGridSelectCell(Sender: TObject; ACol,
+  ARow: Integer; var CanSelect: Boolean);
+begin
+  IntRow:=ARow;
 end;
 
 end.

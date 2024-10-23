@@ -1,6 +1,6 @@
 object EmployeeHistoryList: TEmployeeHistoryList
-  Left = 360
-  Top = 284
+  Left = 300
+  Top = 367
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Riwayat Karyawan'
@@ -71,6 +71,8 @@ object EmployeeHistoryList: TEmployeeHistoryList
     FixedRows = 2
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing]
     TabOrder = 0
+    OnDblClick = StrGridDblClick
+    OnSelectCell = StrGridSelectCell
     DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
     DefaultCellStyle.Font.Color = clWindowText
     DefaultCellStyle.Font.Height = -11
@@ -84,6 +86,19 @@ object EmployeeHistoryList: TEmployeeHistoryList
     DefaultFixedCellStyle.Font.Style = []
     DefaultFixedCellStyle.BGColor = clBtnFace
     LineDesign.LineUpColor = clWhite
+    ColWidths = (
+      64
+      64
+      64
+      64
+      64
+      64
+      64
+      64
+      64
+      64
+      64
+      64)
   end
   object Selesai: TButton
     Left = 448
