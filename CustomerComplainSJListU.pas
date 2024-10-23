@@ -182,17 +182,17 @@ begin
     Qry.Open;
     IntCount:=0;
 
-  GridSPJ.Cells[0,0]:='Customer';
-  GridSPJ.Cells[1,0]:='Tanggal';
-  GridSPJ.Cells[2,0]:='Jam';
-  GridSPJ.Cells[3,0]:='No Pesanan';
-  GridSPJ.Cells[4,0]:='No SJ';
-  GridSPJ.Cells[5,0]:='No Body';
-  GridSPJ.Cells[6,0]:='No Polisi';
-  GridSPJ.Cells[7,0]:='ID Pengemudi';
-  GridSPJ.Cells[8,0]:='Pengemudi';
-  GridSPJ.Cells[9,0]:='Rute';
-  SetLength(SPJArr,Qry.RecordCount+1);
+    GridSPJ.Cells[0,0]:='Customer';
+    GridSPJ.Cells[1,0]:='Tanggal';
+    GridSPJ.Cells[2,0]:='Jam';
+    GridSPJ.Cells[3,0]:='No Pesanan';
+    GridSPJ.Cells[4,0]:='No SJ';
+    GridSPJ.Cells[5,0]:='No Body';
+    GridSPJ.Cells[6,0]:='No Polisi';
+    GridSPJ.Cells[7,0]:='ID Pengemudi';
+    GridSPJ.Cells[8,0]:='Pengemudi';
+    GridSPJ.Cells[9,0]:='Rute';
+    SetLength(SPJArr,Qry.RecordCount+1);
     if (Qry.RecordCount>0) then while not(Qry.Eof) do begin
 
        SPJArr[IntCount][0]:=Qry.FieldValues['customer_name'];
@@ -205,9 +205,6 @@ begin
                            ' '+Copy(Qry.FieldValues['license_plate'],6,Length(Qry.FieldValues['license_plate'])+1);
        SPJArr[IntCount][7]:=Qry.FieldValues['employee_id'];
        SPJArr[IntCount][8]:=Qry.FieldValues['name'];
-
-
-
        SPJArr[IntCount][9]:=Qry.FieldValues['route'];
        SPJArr[IntCount][10]:=Qry.FieldValues['reserved_order_detail_id'];
        SPJArr[IntCount][11]:=Qry.FieldValues['cust_complain_id'];
@@ -395,17 +392,17 @@ begin
     Qry.Open;
     IntCount:=0;
 
-  GridSPJ.Cells[0,0]:='Customer';
-  GridSPJ.Cells[1,0]:='Tanggal';
-  GridSPJ.Cells[2,0]:='Jam';
-  GridSPJ.Cells[3,0]:='No Pesanan';
-  GridSPJ.Cells[4,0]:='No SJ';
-  GridSPJ.Cells[5,0]:='No Body';
-  GridSPJ.Cells[6,0]:='No Polisi';
-  GridSPJ.Cells[7,0]:='ID Pengemudi';
-  GridSPJ.Cells[8,0]:='Pengemudi';
-  GridSPJ.Cells[9,0]:='Rute';
-  SetLength(SPJArr,Qry.RecordCount+1);
+    GridSPJ.Cells[0,0]:='Customer';
+    GridSPJ.Cells[1,0]:='Tanggal';
+    GridSPJ.Cells[2,0]:='Jam';
+    GridSPJ.Cells[3,0]:='No Pesanan';
+    GridSPJ.Cells[4,0]:='No SJ';
+    GridSPJ.Cells[5,0]:='No Body';
+    GridSPJ.Cells[6,0]:='No Polisi';
+    GridSPJ.Cells[7,0]:='ID Pengemudi';
+    GridSPJ.Cells[8,0]:='Pengemudi';
+    GridSPJ.Cells[9,0]:='Rute';
+    SetLength(SPJArr,Qry.RecordCount+1);
     if (Qry.RecordCount>0) then while not(Qry.Eof) do begin
 
        SPJArr[IntCount][0]:=Qry.FieldValues['customer_name'];

@@ -1,11 +1,11 @@
 object ServiceRequestRpt: TServiceRequestRpt
-  Left = 164
-  Top = 123
+  Left = 244
+  Top = 271
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan Service Request'
-  ClientHeight = 499
-  ClientWidth = 941
+  ClientHeight = 479
+  ClientWidth = 1071
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,7 +21,7 @@ object ServiceRequestRpt: TServiceRequestRpt
   PixelsPerInch = 96
   TextHeight = 13
   object Label3: TLabel
-    Left = 727
+    Left = 795
     Top = 38
     Width = 18
     Height = 13
@@ -29,7 +29,7 @@ object ServiceRequestRpt: TServiceRequestRpt
   end
   object ToXCel: TSpeedButton
     Left = 768
-    Top = 467
+    Top = 449
     Width = 23
     Height = 22
     BiDiMode = bdLeftToRight
@@ -65,7 +65,7 @@ object ServiceRequestRpt: TServiceRequestRpt
     OnClick = ToXCelClick
   end
   object TombolCari: TSpeedButton
-    Left = 903
+    Left = 971
     Top = 36
     Width = 23
     Height = 23
@@ -113,9 +113,61 @@ object ServiceRequestRpt: TServiceRequestRpt
     Height = 13
     Caption = 'Status'
   end
+  object Label4: TLabel
+    Left = 194
+    Top = 453
+    Width = 164
+    Height = 13
+    Caption = '>DISETUJUI BELUM BUAT PKB<'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clGreen
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label5: TLabel
+    Left = 106
+    Top = 453
+    Width = 58
+    Height = 13
+    Caption = '>DITOLAK<'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label6: TLabel
+    Left = 16
+    Top = 453
+    Width = 65
+    Height = 13
+    Caption = '>DIAJUKAN<'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBtnText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label7: TLabel
+    Left = 387
+    Top = 453
+    Width = 117
+    Height = 13
+    Caption = '>SUDAH DIBUAT PKB<'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlue
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
   object Selesai: TButton
-    Left = 366
-    Top = 467
+    Left = 590
+    Top = 449
     Width = 75
     Height = 25
     Caption = 'Selesai'
@@ -123,7 +175,7 @@ object ServiceRequestRpt: TServiceRequestRpt
     OnClick = SelesaiClick
   end
   object Lihat: TButton
-    Left = 784
+    Left = 852
     Top = 8
     Width = 75
     Height = 25
@@ -132,7 +184,7 @@ object ServiceRequestRpt: TServiceRequestRpt
     OnClick = LihatClick
   end
   object Cari: TEdit
-    Left = 751
+    Left = 819
     Top = 36
     Width = 145
     Height = 21
@@ -142,8 +194,8 @@ object ServiceRequestRpt: TServiceRequestRpt
   end
   object StrGrid: TZColorStringGrid
     Left = 8
-    Top = 80
-    Width = 913
+    Top = 62
+    Width = 1041
     Height = 383
     ColCount = 8
     DefaultRowHeight = 20
@@ -259,16 +311,16 @@ object ServiceRequestRpt: TServiceRequestRpt
   object Status: TComboBox
     Left = 577
     Top = 35
-    Width = 145
+    Width = 208
     Height = 21
     ItemHeight = 13
-    ItemIndex = 1
     TabOrder = 10
     Text = 'DIAJUKAN'
     Items.Strings = (
       'SEMUA'
       'DIAJUKAN'
-      'DISETUJUI'
-      'DITOLAK')
+      'DITOLAK'
+      'DISETUJUI BELUM BUAT PKB'
+      'SUDAH DIBUAT PKB')
   end
 end

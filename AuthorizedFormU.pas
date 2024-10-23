@@ -108,12 +108,14 @@ begin
           IsAuth:=False;
         end;
 
+
         CloseForm;
       end else begin
         IsAuth:=False;
       end;
       Qry.Close;
     end;
+
     Main.CloseDb;
     Qry.Destroy;
   end;

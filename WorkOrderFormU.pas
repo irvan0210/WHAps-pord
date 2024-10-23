@@ -1289,6 +1289,8 @@ begin
   Init;
   InitGrid;
   InitGrid2;
+  InitGrid3;
+  InitGrid4;
   RefreshCombo;
   RefreshGrid;
 end;
@@ -1742,7 +1744,7 @@ begin
   IntRow:=ARow;
   IntCol:=ACol;
 //  if IsInputGrid then begin
-  if (ACol = 1) and (ARow > MinRowGrid) then begin
+  if (ACol = 1) and (ARow > MinRowGrid) and (NoPolisi.Text<>'') then begin
     R := StrGridMekanik.CellRect(ACol, ARow);
     R.Left := R.Left + StrGridMekanik.Left;
     R.Right := R.Right + StrGridMekanik.Left;
@@ -1759,7 +1761,7 @@ begin
       SetFocus;
     end;
   end;
-  if (ACol = 2) and (ARow > MinRowGrid) then begin
+  if (ACol = 2) and (ARow > MinRowGrid) and (NoPolisi.Text<>'') then begin
     R := StrGridMekanik.CellRect(ACol, ARow);
     R.Left := R.Left + StrGridMekanik.Left;
     R.Right := R.Right + StrGridMekanik.Left;
@@ -1786,7 +1788,7 @@ begin
   IntRow:=ARow;
   IntCol:=ACol;
 //  if IsInputGrid then begin
-  if (ACol = 1) and (ARow > MinRowGrid) then begin
+  if (ACol = 1) and (ARow > MinRowGrid) and (NoPolisi.Text<>'') then begin
     R := StrGrid3.CellRect(ACol, ARow);
     R.Left := R.Left + StrGrid3.Left;
     R.Right := R.Right + StrGrid3.Left;

@@ -28,12 +28,15 @@ type
     TglSampai: TDateTimePicker;
     Bulan: TDateTimePicker;
     StatusBarang: TComboBox;
+    Label2: TLabel;
+    Label3: TLabel;
     procedure TanggalChange(Sender: TObject);
     procedure PeriodeClick(Sender: TObject);
     procedure RefreshClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure ToXCelClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
     LokasiArr,GroupArr:Array of TArrString2;
@@ -142,7 +145,7 @@ end;
 procedure TLaporanPermintaanBarangJasa.RefreshData;
 var Qry,Qry2,Qry3:TADOQuery;
     StrQry,StrTanggal,StrDepositDate1,StrDepositDate2,
-    StrBatch,StrSeat,StrCompanyId,StrLocationId,StrToDates,StrChkSewaLuar,StrPaid,StrSearchDate:String;
+    StrBatch,StrSeat,StrCompanyId,StrLocationId,StrToDates,StrChkSewaLuar,StrPaid,StrSearchDate,StrAvailable:String;
     IntCount,IntCount2,IntCount3,IntRows,StartRow,IntTotal,IntTolParkir,IntBiayaLain, IntTotalUnit,No:Integer;
     IntPayment:Array [0..2] of Integer;
     StrPayment:Array [0..2] of String;
@@ -159,6 +162,17 @@ begin
   Qry3.Connection:=Main.MyConnection;
   Qry3.CommandTimeout := 3600;
   Main.M_Busy;
+
+//  if StatusBarang.Text:='Tersedia' then
+//  begin
+//    StrAvailable:=' AND isAvailab1e=1 ';
+//  end else if StatusBarang.Text:='Tidak Tersedia' then
+//  begin
+//    StrAvailable:=' AND isAvailab1e=0 ';
+//  end else
+//  begin
+//    StrAvailable:='';
+//  end;
 
   IntTotalUnit:=0;
   if Main.OpenDb then begin
@@ -189,11 +203,12 @@ begin
 
 
 
-    StrQry:='SELECT a.item_request_id,a.request_date,a.requested_date,c.name from_department,b.name to_department,d.name request_name,a.posting, '+
+    StrQry:='SELECT DISTINCT a.item_request_id,a.request_date,a.requested_date,c.name from_department,b.name to_department,d.name request_name,a.posting, '+
             'case WHEN a.importance=1 THEN ''Mendesak'' ELSE ''Normal'' END sifat,a.no_request FROM wh_item_request a '+
             'LEFT JOIN wh_department b ON a.to_department_id=b.department_id '+
             'LEFT JOIN wh_department c ON a.origin_department_id=c.department_id  '+
             'LEFT JOIN wh_user d ON a.requester_id=d.username '+
+            'INNER JOIN wh_item_request_detail e on a.item_request_id=e.item_request_id '+
             'WHERE '+StrSearchDate+' AND a.company_id='+StrCompanyId+'  AND (a.cancel IS NULL OR a.cancel<>1);';
     Main.WriteLog('SQL :'+StrQry,2);
     Qry.SQL.Add(StrQry);
@@ -213,7 +228,7 @@ begin
       OrderArr[IntCount][6]:=Qry.FieldValues['request_name'];
       OrderArr[IntCount][7]:=Qry.FieldValues['sifat'];
       if Qry.FieldValues['no_request']<>NULL then OrderArr[IntCount][11]:=Qry.FieldValues['no_request'];
-      StrQry:='SELECT item_detail,quantity,detail FROM wh_item_request_detail '+
+      StrQry:='SELECT item_detail,quantity,detail,isAvailable FROM wh_item_request_detail '+
               'WHERE item_request_id='+QuotedStr(Qry.FieldValues['item_request_id'])+' AND '+
               '(cancel IS NULL OR cancel<>1)';
 
@@ -239,7 +254,15 @@ begin
         OrderArr[IntCount][8]:=Qry2.FieldValues['item_detail'];
         OrderArr[IntCount][9]:=Qry2.FieldValues['quantity'];
         if Qry2.FieldValues['detail']<>NULL then OrderArr[IntCount][10]:=Qry2.FieldValues['detail'];
-
+        if Qry2.FieldValues['isAvailable']=1 then
+        begin
+          OrderArr[IntCount][12]:='1';
+        end else if Qry2.FieldValues['isAvailable']=0 then
+        begin
+          OrderArr[IntCount][12]:='0';
+        end else begin
+          OrderArr[IntCount][12]:='';
+        end;
         Inc(IntCount2);
         Application.ProcessMessages;
         Qry2.Next;
@@ -340,7 +363,7 @@ begin
       IsDrawRect2:=False;
 
     end else if (IntCount2<Length(OrderArr)-1) then begin
-      if (StrOrderId<>OrderArr[IntCount][2]) then IsDrawRect:=True;
+      if (StrOrderId<>OrderArr[IntCount+1][1]) then IsDrawRect:=True;
     end else IsDrawRect:=True;
 
     if IsDrawRect=True then begin
@@ -370,6 +393,25 @@ begin
     StrGrid.CellStyle[9,IntCount+2].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[10,IntCount+2].HorizontalAlignment:=taLeftJustify;
     StrGrid.CellStyle[11,IntCount+2].HorizontalAlignment:=taLeftJustify;
+
+
+    if  OrderArr[IntCount][12]='1' then
+    begin
+      StrGrid.CellStyle[8,IntCount+2].Font.Color:=clGreen;
+      StrGrid.CellStyle[9,IntCount+2].Font.Color:=clGreen;
+      StrGrid.CellStyle[10,IntCount+2].Font.Color:=clGreen;
+    end else if  OrderArr[IntCount][12]='0' then
+    begin
+      StrGrid.CellStyle[8,IntCount+2].Font.Color:=clRed;
+      StrGrid.CellStyle[9,IntCount+2].Font.Color:=clRed;
+      StrGrid.CellStyle[10,IntCount+2].Font.Color:=clRed;
+    end else begin
+      StrGrid.CellStyle[8,IntCount+2].Font.Color:=clBtnText;
+      StrGrid.CellStyle[9,IntCount+2].Font.Color:=clBtnText;
+      StrGrid.CellStyle[10,IntCount+2].Font.Color:=clBtnText;
+    end;
+
+
   end;
 end;
 
@@ -428,6 +470,11 @@ procedure TLaporanPermintaanBarangJasa.ToXCelClick(Sender: TObject);
 begin
   if ToExcel4(StrGrid) then ShowMessage('Export ke Excel Berhasil')
   else ShowMessage('Export ke Excel Gagal');
+end;
+
+procedure TLaporanPermintaanBarangJasa.Button1Click(Sender: TObject);
+begin
+  Close;
 end;
 
 end.

@@ -293,7 +293,7 @@ begin
     StrGrid.CellStyle[9,IntCount+1].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[10,IntCount+1].HorizontalAlignment:=taCenter;
 
-    if ServiceRequestArr[IntCount][10]<>'' then for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount+1].Font.Color:=clGreen;
+//    if ServiceRequestArr[IntCount][10]<>'' then for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount+1].Font.Color:=clGreen;
   end;
 end;
 

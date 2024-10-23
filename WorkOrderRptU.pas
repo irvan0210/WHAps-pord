@@ -27,6 +27,7 @@ type
     TanggalSampai: TDateTimePicker;
     lbl1: TLabel;
     edtnopol: TEdit;
+    Label5: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SelesaiClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -112,7 +113,7 @@ begin
   StrGrid.ColWidths[9]:=100;
   StrGrid.ColWidths[10]:=250;
   StrGrid.ColWidths[11]:=250;
-  StrGrid.ColWidths[12]:=0;
+  StrGrid.ColWidths[12]:=400;
   StrGrid.ColWidths[13]:=0;
   StrGrid.MergeCells.AddRectXY(0,0,0,1);
   StrGrid.MergeCells.AddRectXY(1,0,1,1);
@@ -126,6 +127,7 @@ begin
   StrGrid.MergeCells.AddRectXY(9,0,9,1);
   StrGrid.MergeCells.AddRectXY(10,0,10,1);
   StrGrid.MergeCells.AddRectXY(11,0,11,1);
+  StrGrid.MergeCells.AddRectXY(12,0,12,1);
   StrGrid.Cells[0,0]:='No';
   StrGrid.Cells[1,0]:='Pool';
   StrGrid.Cells[2,0]:='No PKB';
@@ -141,6 +143,7 @@ begin
   StrGrid.Cells[9,0]:='Jenis Pekerjaan';
   StrGrid.Cells[10,0]:='Detail';
   StrGrid.Cells[11,0]:='Pekerjaan';
+  StrGrid.Cells[12,0]:='Spare Part';
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[2,0].HorizontalAlignment:=taCenter;
@@ -154,6 +157,7 @@ begin
   StrGrid.CellStyle[9,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[10,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[11,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[12,0].HorizontalAlignment:=taCenter;
   for IntCount:=0 to StrGrid.ColCount-1 do begin
     StrGrid.Cells[IntCount,2]:='';
     StrGrid.CellStyle[IntCount,2].BGColor:=clWindow;
@@ -235,8 +239,10 @@ begin
       else WorkOrderArr[IntCount][3]:='';
 
       WorkOrderArr[IntCount][4]:=Qry.FieldValues['date_in'];
-      if Qry.FieldValues['time_out']<>NULL then WorkOrderArr[IntCount][5]:=Qry.FieldValues['date_out']+' '+Qry.FieldValues['time_out']
-      else WorkOrderArr[IntCount][5]:='';
+//      if Qry.FieldValues['time_out']<>NULL then WorkOrderArr[IntCount][5]:=Qry.FieldValues['date_out']+' '+Qry.FieldValues['time_out']
+//      else WorkOrderArr[IntCount][5]:='';
+
+      WorkOrderArr[IntCount][5]:=Qry.FieldValues['date_out'];
       WorkOrderArr[IntCount][6]:=Qry.FieldValues['body_id']+' / '+LicensePlate(Qry.FieldValues['license_plate']);
 
       WorkOrderArr[IntCount][7]:=Qry.FieldValues['odo_in'];
@@ -249,7 +255,9 @@ begin
       WorkOrderArr[IntCount][9]:=Qry.FieldValues['description_resume'];
       WorkOrderArr[IntCount][10]:=Qry.FieldValues['work_resume'];
       WorkOrderArr[IntCount][11]:=LicensePlate(Qry.FieldValues['license_plate']);
-
+      WorkOrderArr[IntCount][12]:=Qry.FieldValues['part_name'];
+      if Qry.FieldValues['time_out']<>NULL then WorkOrderArr[IntCount][13]:=Qry.FieldValues['time_out']
+      else WorkOrderArr[IntCount][13]:='';
 
       Qry.Next;
       Inc(IntCount);
@@ -289,9 +297,9 @@ begin
     StrGrid.Cells[10,IntCount+2]:=WorkOrderArr[IntCount][9];
     StrGrid.Cells[11,IntCount+2]:=WorkOrderArr[IntCount][10];
 
-    StrGrid.Cells[12,IntCount+2]:=WorkOrderArr[IntCount][11];
+    StrGrid.Cells[12,IntCount+2]:=WorkOrderArr[IntCount][12];
     StrGrid.CellStyle[1,IntCount+2].HorizontalAlignment:=taCenter;
-    if WorkOrderArr[IntCount][5]<>'' then for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount+2].Font.Color:=clGreen;
+    if WorkOrderArr[IntCount][13]<>'' then for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount+2].Font.Color:=clGreen;
   end;
 end;
 

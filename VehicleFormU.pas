@@ -130,6 +130,7 @@ type
     procedure NoPolisi2KeyPress(Sender: TObject; var Key: Char);
     procedure CariDriverClick(Sender: TObject);
     procedure NoPolisiChange(Sender: TObject);
+    procedure isOutsideRentClick(Sender: TObject);
   private
     { Private declarations }
     GroupArr,JenisArr,OwnerArr,DealerArr,KaroseriArr,GPCodeArr,AssetArr:Array of TArrString2;
@@ -1026,6 +1027,17 @@ begin
 //  end;
 //  QVhc.Destroy;
 //  Main.CloseDb;
+end;
+
+procedure TVehicleForm.isOutsideRentClick(Sender: TObject);
+begin
+//  if isOutsideRent.Checked:=True then
+//  begin
+//    AssetOwner.ItemIndex:=-1;
+//    Label41.Visible:=False;
+//  end else begin
+//    Label41.Visible:=True;
+//  end;
 end;
 
 end.

@@ -28,6 +28,10 @@ type
     TglSampai: TDateTimePicker;
     Label2: TLabel;
     Status: TComboBox;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SelesaiClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -91,6 +95,7 @@ begin
   Bulan.Date:=Now();
   chkPerbaikan.Checked:=True;
   Periode.ItemIndex:=0;
+  Status.ItemIndex:=0;
 //  IntRow:=0;
 //  TanggalDari.Date:=Now;
 //  TanggalSampai.Date:=Now;
@@ -110,9 +115,9 @@ begin
   StrGrid.ColWidths[2]:=100;
   StrGrid.ColWidths[3]:=70;
   StrGrid.ColWidths[4]:=110;
-  StrGrid.ColWidths[5]:=45;
+  StrGrid.ColWidths[5]:=55;
   StrGrid.ColWidths[6]:=330;
-  StrGrid.ColWidths[7]:=0;
+  StrGrid.ColWidths[7]:=400;
   StrGrid.ColWidths[8]:=0;
   StrGrid.Cells[0,0]:='No';
   StrGrid.Cells[1,0]:='Pool';
@@ -121,6 +126,7 @@ begin
   StrGrid.Cells[4,0]:='No Bodi/No Polisi';
   StrGrid.Cells[5,0]:='KM Odo';
   StrGrid.Cells[6,0]:='Detail';
+  StrGrid.Cells[7,0]:='Spare Part';
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[2,0].HorizontalAlignment:=taCenter;
@@ -128,6 +134,8 @@ begin
   StrGrid.CellStyle[4,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[5,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[6,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[7,0].HorizontalAlignment:=taCenter;
+//  StrGrid.CellStyle[6,0].HorizontalAlignment:=taCenter;
   for IntCount:=0 to IntMaxCol do begin
     StrGrid.Cells[IntCount,1]:='';
     StrGrid.CellStyle[IntCount,1].BGColor:=clWindow;
@@ -174,7 +182,7 @@ end;
 
 procedure TServiceRequestRpt.RefreshData;
 var Qry:TADOQuery;
-    StrQry,AwalBulan,StrCompanyId,StrLocationId,StrIsAll,StrFromDates,StrToDates,StrTypeDate,StrDate,StrApprove:String;
+    StrQry,AwalBulan,StrCompanyId,StrLocationId,StrIsAll,StrFromDates,StrToDates,StrTypeDate,StrDate,StrApprove,StrStatus:String;
     IntCount:Integer;
 begin
   Qry:=TADOQuery.Create(Self);
@@ -195,6 +203,8 @@ begin
       DecodeDate(Bulan.Date, myYear, myMonth, myDay);
       StrDate:=',@Dates='+QuotedStr(FormatDateTime('yyyy-mm-dd', EncodeDate(myYear, myMonth, 1)))+' ,@ToDates='+QuotedStr(FormatDateTime('yyyy-mm-dd', EncodeDate(myYear, myMonth, DaysInAMonth(myYear, myMonth))))+' ';
     end;
+//    if Status.Text='DISETUJUI BELUM BUAT PKB' then
+//    Status:='DISETUJUI' else Status:= Status.Text;
     StrApprove:=',@Approve='+QuotedStr(Status.Text);
 
     StrCompanyId:=CompanyArr[SBU.ItemIndex][1];
@@ -202,7 +212,7 @@ begin
     if IsAll=9 then StrIsAll:='' else StrIsAll:=',@Finish='+IntToStr(IsAll);
 //    StrFromDates:=',@Dates='+QuotedStr(FormatDateTime('yyyy/mm/dd',TanggalDari.Date));
 //    if ToDates.Checked=True then StrToDates:=',@ToDates='+QuotedStr(FormatDateTime('yyyy/mm/dd',TanggalSampai.date)) else StrToDates:='';
-    StrQry:='EXEC GetServiceRequestList '+StrCompanyId+','+StrLocationId+StrFromDates+StrToDates+StrIsAll+';';
+//    StrQry:='EXEC GetServiceRequestList '+StrCompanyId+','+StrLocationId+StrFromDates+StrToDates+StrIsAll+';';
     StrQry:='EXEC GetServiceRequestList '+StrCompanyId+','+StrLocationId+StrDate+StrIsAll+StrTypeDate+StrApprove+';';
     Qry.SQL.Add(StrQry);
     Qry.Open;
@@ -221,7 +231,9 @@ begin
                               ' '+Copy(Qry.FieldValues['license_plate'],7,Length(Qry.FieldValues['license_plate'])+1);
       ServiceRequestArr[IntCount][4]:=IToCurr(Qry.FieldValues['odo_in']);
       ServiceRequestArr[IntCount][5]:=Qry.FieldValues['description_resume'];
-      if Qry.FieldValues['work_order_id']<>NULL then ServiceRequestArr[IntCount][6]:=Qry.FieldValues['work_order_id'];
+      if Qry.FieldValues['work_order_id']<>NULL then ServiceRequestArr[IntCount][6]:=Qry.FieldValues['work_order_id'] else ServiceRequestArr[IntCount][6]:='';
+      ServiceRequestArr[IntCount][7]:=Qry.FieldValues['approve'];
+      ServiceRequestArr[IntCount][8]:=Qry.FieldValues['part_name'];
       Qry.Next;
       Inc(IntCount);
     end;
@@ -251,7 +263,20 @@ begin
     StrGrid.Cells[4,IntCount+1]:=ServiceRequestArr[IntCount][3];
     StrGrid.Cells[5,IntCount+1]:=ServiceRequestArr[IntCount][4];
     StrGrid.Cells[6,IntCount+1]:=ServiceRequestArr[IntCount][5];
-    if ServiceRequestArr[IntCount][6]<>'' then for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount+1].Font.Color:=clGreen;
+    StrGrid.Cells[7,IntCount+1]:=ServiceRequestArr[IntCount][8];
+    if (ServiceRequestArr[IntCount][7]='1')AND(ServiceRequestArr[IntCount][6]='') then
+    begin
+      for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount+1].Font.Color:=clGreen;
+    end else if (ServiceRequestArr[IntCount][7]='2') AND (ServiceRequestArr[IntCount][6]='')then
+    begin
+      for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount+1].Font.Color:=clRed;
+    end else if ServiceRequestArr[IntCount][6]<>'' then
+    begin
+      for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount+1].Font.Color:=clBlue;
+    end else
+    begin
+      for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount+1].Font.Color:=clBtnText;
+    end;
     StrGrid.CellStyle[1,IntCount+1].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[5,IntCount+1].HorizontalAlignment:=taRightJustify;
   end;

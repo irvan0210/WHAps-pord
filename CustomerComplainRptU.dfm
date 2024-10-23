@@ -1,6 +1,6 @@
 object CustomerComplainRpt: TCustomerComplainRpt
-  Left = 167
-  Top = 179
+  Left = 168
+  Top = 391
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Laporan Complain Customer'
@@ -65,7 +65,7 @@ object CustomerComplainRpt: TCustomerComplainRpt
     Caption = 's/d'
   end
   object Label1: TLabel
-    Left = 624
+    Left = 607
     Top = 44
     Width = 30
     Height = 13
@@ -85,9 +85,9 @@ object CustomerComplainRpt: TCustomerComplainRpt
     ParentFont = False
   end
   object LihatData: TButton
-    Left = 864
-    Top = 9
-    Width = 75
+    Left = 1107
+    Top = 12
+    Width = 86
     Height = 26
     Caption = 'Lihat'
     TabOrder = 0
@@ -158,7 +158,7 @@ object CustomerComplainRpt: TCustomerComplainRpt
   object Periode: TRadioGroup
     Left = 296
     Top = 5
-    Width = 321
+    Width = 305
     Height = 57
     ItemIndex = 0
     Items.Strings = (
@@ -205,7 +205,7 @@ object CustomerComplainRpt: TCustomerComplainRpt
     TabOrder = 8
   end
   object GroupBox1: TGroupBox
-    Left = 624
+    Left = 607
     Top = 5
     Width = 201
     Height = 31
@@ -228,7 +228,7 @@ object CustomerComplainRpt: TCustomerComplainRpt
     end
   end
   object CBStatus: TComboBox
-    Left = 659
+    Left = 642
     Top = 40
     Width = 145
     Height = 21
@@ -239,5 +239,55 @@ object CustomerComplainRpt: TCustomerComplainRpt
       'Semua'
       'Sudah Tutup'
       'Belum Tutup')
+  end
+  object Panel1: TPanel
+    Left = 816
+    Top = 8
+    Width = 282
+    Height = 57
+    TabOrder = 11
+    object Label5: TLabel
+      Left = 253
+      Top = 10
+      Width = 53
+      Height = 13
+      Caption = 'Pengemudi'
+    end
+    object Driver: TEdit
+      Left = 105
+      Top = 29
+      Width = 144
+      Height = 21
+      Enabled = False
+      ReadOnly = True
+      TabOrder = 0
+    end
+    object RadSemuaDriver: TRadioButton
+      Left = 8
+      Top = 9
+      Width = 129
+      Height = 17
+      Caption = 'Semua Pengemudi'
+      TabOrder = 1
+      OnClick = RadSemuaDriverClick
+    end
+    object RadPilihDriver: TRadioButton
+      Left = 8
+      Top = 33
+      Width = 97
+      Height = 17
+      Caption = 'Pilih Pengemudi'
+      TabOrder = 2
+      OnClick = RadPilihDriverClick
+    end
+    object CariDriver: TButton
+      Left = 252
+      Top = 27
+      Width = 26
+      Height = 23
+      Caption = '..'
+      TabOrder = 3
+      OnClick = CariDriverClick
+    end
   end
 end

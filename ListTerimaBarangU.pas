@@ -130,7 +130,7 @@ end;
 procedure TListItemRequest.RefreshData;
 var Qry,Qry2,Qry3:TADOQuery;
     StrQry,StrTanggal,StrDepositDate1,StrDepositDate2,
-    StrBatch,StrSeat,StrCompanyId,StrLocationId,StrToDates,StrChkSewaLuar,StrPaid:String;
+    StrBatch,StrSeat,StrCompanyId,StrLocationId,StrToDates,StrChkSewaLuar,StrPaid,StrToDepartment:String;
     IntCount,IntCount2,IntCount3,IntRows,StartRow,IntTotal,IntTolParkir,IntBiayaLain, IntTotalUnit,No:Integer;
     IntPayment:Array [0..2] of Integer;
     StrPayment:Array [0..2] of String;
@@ -148,6 +148,11 @@ begin
   Qry3.Connection:=Main.MyConnection;
   Qry3.CommandTimeout := 3600;
   Main.M_Busy;
+  if DepartmentId<>'13' then begin
+    StrToDepartment:=' AND a.to_department_id='+QuotedStr(DepartmentId);
+  end else begin
+    StrToDepartment:='';
+  end;
 
   IntTotalUnit:=0;
   if Main.OpenDb then begin
@@ -161,8 +166,8 @@ begin
             'LEFT JOIN wh_vehicle d on c.vehicle_id=d.vehicle_id '+
             'LEFT JOIN wh_vhc_batch e on d.vhc_batch_id=e.vhc_batch_id '+
             'WHERE (a.requested_date BETWEEN '+QuotedStr(FormatDateTime('yyyy-mm-dd',Tanggal.Date))+' AND '+
-            ''+QuotedStr(FormatDateTime('yyyy-mm-dd',TglSampai.Date+1))+') AND a.company_id='+StrCompanyId+' AND a.location_id='+StrLocationId+' and '+
-            'a.to_department_id='+QuotedStr(DepartmentId)+' AND (a.cancel<>1 or a.cancel IS NULL) and a.posting=1 order by a.request_date ASC' ;
+            ''+QuotedStr(FormatDateTime('yyyy-mm-dd',TglSampai.Date+1))+') AND a.company_id='+StrCompanyId+' AND a.location_id='+StrLocationId+' '+
+            ''+StrToDepartment+' AND (a.cancel<>1 or a.cancel IS NULL) and a.posting=1 order by a.request_date ASC' ;
     Main.WriteLog('SQL :'+StrQry,2);
     Qry.SQL.Add(StrQry);
     Qry.Open;

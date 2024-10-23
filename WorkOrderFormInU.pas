@@ -137,6 +137,9 @@ type
     ppKepalaBengkel: TppLabel;
     ppSummaryBand1: TppSummaryBand;
     ppParameterList1: TppParameterList;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
     procedure SelesaiClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -1034,8 +1037,6 @@ begin
       end;
       Qry2.Close;
 
-
-
       //ANALISA
       StrQry:='';
       StrQry:='select description from wh_work_order_detail where work_order_id='+QuotedStr(WorkOrderId)+' AND '+
@@ -1113,7 +1114,8 @@ procedure TWorkOrderFormIn.PekerjaanGridSelectCell(Sender: TObject; ACol,
 var
   R: TRect;
 begin
-  if (ARow>0) and not(IsReadOnly) then begin
+  IntRow:=ARow;
+  if (ARow>0) and not(IsReadOnly) AND (NoPKB.Text<>'') then begin
     if (ACol = 0) then begin
       R := PekerjaanGrid.CellRect(ACol, ARow);
       R.Left := R.Left + PekerjaanGrid.Left;
@@ -1125,56 +1127,70 @@ begin
         Top := R.Top + 1;
         Width := (R.Right + 1) - R.Left;
         Height := (R.Bottom + 1) - R.Top;
+        if Trim(PekerjaanGrid.Cells[ACol,ARow])<>'' then Text:=PekerjaanGrid.Cells[ACol,ARow];
         Visible:= True;
         BringToFront;
         SetFocus;
-        if Trim(PekerjaanGrid.Cells[ACol,ARow])<>'' then PekerjaanDetail.Text:=PekerjaanGrid.Cells[ACol,ARow];
+
       end;
     end;
-    if (ACol = 1) then begin
-      R := PekerjaanGrid.CellRect(ACol, ARow);
-      R.Left := R.Left + PekerjaanGrid.Left;
-      R.Right := R.Right + PekerjaanGrid.Left;
-      R.Top := R.Top + PekerjaanGrid.Top;
-      R.Bottom := R.Bottom + PekerjaanGrid.Top;
-      with Teknisi do begin
-        Left:=R.Left + 1;
-        Top := R.Top + 1;
-        Width := (R.Right + 1) - R.Left;
-        Height := (R.Bottom + 1) - R.Top;
-        Visible:= True;
-        BringToFront;
-        SetFocus;
-        if Trim(PekerjaanGrid.Cells[ACol,ARow])<>'' then Teknisi.Text:=PekerjaanGrid.Cells[ACol,ARow];
-      end;
-    end;
+//    if (ACol = 1) then begin
+//      R := PekerjaanGrid.CellRect(ACol, ARow);
+//      R.Left := R.Left + PekerjaanGrid.Left;
+//      R.Right := R.Right + PekerjaanGrid.Left;
+//      R.Top := R.Top + PekerjaanGrid.Top;
+//      R.Bottom := R.Bottom + PekerjaanGrid.Top;
+//      with Teknisi do begin
+//        Left:=R.Left + 1;
+//        Top := R.Top + 1;
+//        Width := (R.Right + 1) - R.Left;
+//        Height := (R.Bottom + 1) - R.Top;
+//        Visible:= True;
+//        BringToFront;
+//        SetFocus;
+//        if Trim(PekerjaanGrid.Cells[ACol,ARow])<>'' then Teknisi.Text:=PekerjaanGrid.Cells[ACol,ARow];
+//      end;
+//    end;
   end;
 end;
 
 procedure TWorkOrderFormIn.PekerjaanDetailExit(Sender: TObject);
 begin
   if Trim(PekerjaanDetail.Text)<>'' then PekerjaanGrid.Cells[0,PekerjaanGrid.Row]:=PekerjaanDetail.Text;
-  PekerjaanDetail.Visible := False;
   PekerjaanDetail.Text:='';
+  PekerjaanDetail.Visible := False;
   PekerjaanGrid.SetFocus;
 end;
 
 procedure TWorkOrderFormIn.PekerjaanDetailKeyPress(Sender: TObject;
   var Key: Char);
 begin
+//  if (Key=#13) then begin
+//    PekerjaanDetailExit(nil);
+//
+//    if PekerjaanGrid.Cells[2,IntRow]<>'' then begin
+//
+//      if (PekerjaanGrid.Row=StrGrid2.RowCount-1)  then begin
+//        PekerjaanGrid.RowCount:=PekerjaanGrid.RowCount+1;
+//        PekerjaanGrid.Cells[0,PekerjaanGrid.RowCount]:='';
+//      end;
+//      PekerjaanGrid.Col:=0;
+//      PekerjaanGrid.Row:=StrGrid2.Row+1;
+//      PekerjaanGrid.Col:=1;
+//    end;
+//  end;
+
+
   if (Key=#13) then begin
     PekerjaanDetailExit(nil);
     if PekerjaanGrid.Row=PekerjaanGrid.RowCount-1 then begin
       PekerjaanGrid.RowCount:=PekerjaanGrid.RowCount+1;
       PekerjaanGrid.Cells[0,PekerjaanGrid.RowCount]:='';
     end;
-//    PekerjaanGrid.Col:=1;
-//    PekerjaanGrid.Row:=PekerjaanGrid.Row+1;
-//    Teknisi.SetFocus;
   end;
-  if (Key=#27) then begin
-    PekerjaanDetailExit(nil);
-  end;
+//  if (Key=#27) then begin
+//    PekerjaanDetailExit(nil);
+//  end;
 end;
 
 procedure TWorkOrderFormIn.BersihkanClick(Sender: TObject);
@@ -1638,7 +1654,7 @@ begin
   IntRow:=ARow;
   IntCol:=ACol;
 //  if IsInputGrid then begin
-  if (ACol = 1) and (ARow > MinRowGrid) then begin
+  if (ACol = 1) and (ARow > MinRowGrid) and (NoPolisi.Text<>'') then begin
     R := StrGrid3.CellRect(ACol, ARow);
     R.Left := R.Left + StrGrid3.Left;
     R.Right := R.Right + StrGrid3.Left;
@@ -1674,15 +1690,15 @@ begin
   if (Key=#13) then begin
     AnalisaExit(nil);
     Calculate2;
-    if (StrGrid3.Row=StrGrid3.RowCount-1) AND (StrGrid3.RowCount<=IntMaxRow)  then begin
+    if (StrGrid3.RowCount=StrGrid3.RowCount-1) AND (StrGrid3.RowCount<=IntMaxRow)  then begin
       StrGrid3.RowCount:=StrGrid3.RowCount+1;
       for IntCount:=0 to 1 do StrGrid3.Cells[IntCount,StrGrid3.RowCount-1]:='';
       StrGrid3.CellStyle[0,StrGrid3.RowCount-1].HorizontalAlignment:=taCenter;
       StrGrid3.CellStyle[1,StrGrid3.RowCount-1].HorizontalAlignment:=taLeftJustify;
     end;
-    StrGrid3.Col:=0;
-    StrGrid3.Row:=StrGrid3.Row+1;
-    StrGrid3.Col:=1;
+//    StrGrid3.Col:=0;
+    StrGrid3.RowCount:=StrGrid3.RowCount+1;
+//    StrGrid3.Col:=1;
   end;
   if (Key=#27) then begin
     AnalisaExit(nil);
@@ -1748,7 +1764,7 @@ begin
   IntRow:=ARow;
   IntCol:=ACol;
 //  if IsInputGrid then begin
-  if (ACol = 1) and (ARow > MinRowGrid) then begin
+  if (ACol = 1) and (ARow > MinRowGrid) and (NoPKB.Text<>'') then begin
     R := StrGridMekanik.CellRect(ACol, ARow);
     R.Left := R.Left + StrGridMekanik.Left;
     R.Right := R.Right + StrGridMekanik.Left;
@@ -1765,7 +1781,7 @@ begin
       SetFocus;
     end;
   end;
-  if (ACol = 2) and (ARow > MinRowGrid) then begin
+  if (ACol = 2) and (ARow > MinRowGrid) and (NoPKB.Text<>'') then begin
     R := StrGridMekanik.CellRect(ACol, ARow);
     R.Left := R.Left + StrGridMekanik.Left;
     R.Right := R.Right + StrGridMekanik.Left;

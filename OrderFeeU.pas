@@ -877,6 +877,7 @@ begin
   Qry.CommandTimeout := 3600;
   if Main.OpenDb then begin
     if NoSJ.Text<>'' then begin
+      if TripType.ItemIndex=-1 then StrTripId:='0' else
       StrTripId:=TripTypeArr[TripType.ItemIndex][0];
       StrCategoryID:= SJArr[ArrayIndexOf(SJArr,NoSJ.Text,0)][42];
       StrQry:='SELECT * from wh_vhc_budget WHERE '+
@@ -1029,7 +1030,9 @@ begin
       else SJArr[IntCount][41]:='';
 
       SJArr[IntCount][42]:=Qry.FieldValues['category_seg2'];
-      SJArr[IntCount][43] := Qry.FieldValues['isRepeatOrder'];
+      if Qry.FieldValues['isRepeatOrder']<>null then
+        SJArr[IntCount][43] := Qry.FieldValues['isRepeatOrder']
+      else SJArr[IntCount][43] :='';
       SJArr[IntCount][44] := Qry.FieldValues['product_price_id'];
       Inc(IntCount);
       Qry.Next;
@@ -1303,7 +1306,7 @@ begin
 end;
 
 procedure TOrderFee.CheckData;
-var StrQry,StrRoute2:String;
+var StrQry,StrRoute2,Trip_type:String;
     Qry:TADOQuery;
     IntCount,IntDoubleFee:Integer;
 begin
@@ -1331,6 +1334,8 @@ begin
         DriverFee2.ReadOnly:=True;
       end;
 
+      Trip_type:=SJArr[ArrayIndexOf(SJArr,NoSJ.Text,0)][41];
+      if Trip_type='' then  TripType.ItemIndex:=-1 else
       TripType.ItemIndex:=TripType.Items.IndexOf(Trim(SJArr[ArrayIndexOf(SJArr,NoSJ.Text,0)][41]));
 
       NoReservasi.Text:=SJArr[ArrayIndexOf(SJArr,NoSJ.Text,0)][10];
@@ -3347,142 +3352,146 @@ var StrQry,StrVhcTransId:String;
     Qry:TADOQuery;
  //   IntCount,IntBermalam:Integer;
 begin
-  Main.M_Busy;
+//  Main.M_Busy;
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
   Qry.CommandTimeout := 3600;
   if Main.OpenDb then
-   begin
-    if CopyBiaya.Checked = True then
+  begin
+    if (CopyBiaya.Checked = True) AND (NoSJ.Text<>'') then
+    begin
+
+      StrQry:= 'SELECT TOP 1 a.vhc_trans_id,SUM(a.total_amount),c.from_date FROM wh_vhc_trans_detail a '+
+               ' LEFT JOIN wh_vhc_trans b ON a.vhc_trans_id=b.vhc_trans_id  '+
+               ' LEFT JOIN wh_reserved_order_detail c ON b.vhc_trans_id=c.vhc_trans_id AND c.status=1 '+
+               ' LEFT JOIN wh_reserved_order d ON c.reserved_order_id=d.reserved_order_id '+
+               ' WHERE d.customer_order_id='+QuotedStr(NoReservasi.Text)+
+               ' AND (b.cancel IS NULL OR b.cancel<>'''')  '+
+               ' AND a.transaction_type_id=140101 '+
+               ' AND a.status=1  '+
+               ' AND c.route='+QuotedStr(SJArr[ArrayIndexOf(SJArr,NoSJ.Text,0)][16])+' '+
+               ' AND c.product_price_id='+QuotedStr(SJArr[ArrayIndexOf(SJArr,NoSJ.Text,0)][44])+' '+
+               ' AND c.from_time='+QuotedStr(SJArr[ArrayIndexOf(SJArr,NoSJ.Text,0)][14])+' '+
+               ' GROUP BY a.vhc_trans_id,c.from_date  '+
+               ' ORDER BY c.from_date DESC;';
+
+      Qry.SQL.Clear;
+      Qry.SQL.Add(StrQry);
+      Qry.Open;
+      if (Qry.RecordCount>0) then
       begin
-        if NoSJ.Text<>'' then
-          begin
-            StrQry:= 'SELECT TOP 1 a.vhc_trans_id,SUM(a.total_amount),c.from_date FROM wh_vhc_trans_detail a '+
-                     ' LEFT JOIN wh_vhc_trans b ON a.vhc_trans_id=b.vhc_trans_id  '+
-                     ' LEFT JOIN wh_reserved_order_detail c ON b.vhc_trans_id=c.vhc_trans_id AND c.status=1 '+
-                     ' LEFT JOIN wh_reserved_order d ON c.reserved_order_id=d.reserved_order_id '+
-                     ' WHERE d.customer_order_id='+QuotedStr(NoReservasi.Text)+
-                     ' AND (b.cancel IS NULL OR b.cancel<>'''')  '+
-                     ' AND a.transaction_type_id=140101 '+
-                     ' AND a.status=1  '+
-                     ' AND c.route='+QuotedStr(SJArr[ArrayIndexOf(SJArr,NoSJ.Text,0)][16])+' '+
-                     ' AND c.product_price_id='+QuotedStr(SJArr[ArrayIndexOf(SJArr,NoSJ.Text,0)][44])+' '+
-                     ' AND c.from_time='+QuotedStr(SJArr[ArrayIndexOf(SJArr,NoSJ.Text,0)][14])+' '+
-                     ' GROUP BY a.vhc_trans_id,c.from_date  '+
-                     ' ORDER BY c.from_date DESC;';
-
-            Qry.SQL.Clear;
-            Qry.SQL.Add(StrQry);
-            Qry.Open;
-            if (Qry.RecordCount>0) then
-              begin
-                StrVhcTransId := Qry.FieldValues['vhc_trans_id'];
-                Qry.Close;
-                StrQry:='EXEC GetVhcOutDetail '+QuotedStr(StrVhcTransId)+';';
-                Qry.SQL.Clear;
-                Qry.SQL.Add(StrQry);
-                Qry.Open;
-                NoSJ.Items.Add(Qry.FieldValues['vhc_trans_id']);
-          //      GuideCellular.Text:=Qry.FieldValues['field_contact_cellular_no'];
-                if Qry.FieldValues['fuel_budget_price']>0 then begin
-                  BBMBBGTotal.Text:=IToCurr(Qry.FieldValues['fuel_budget_price']);
-                  BBMLiter.Text:=Qry.FieldValues['fuel_budget_litre'];
-                  BBMRupiah.Text:=IToCurr(Qry.FieldValues['fuel_budget_price']);
-                end else begin
-                  BBMBBGTotal.Text:='0';
-                  BBMLiter.Text:='0';
-                  BBMRupiah.Text:='0';
-                end;
-                if Qry.FieldValues['fee_supir']<>NULL then begin
-          //        if TotDriver=2 then
-          //        begin
-          //          DriverFeeTotal.Text:=IToCurr(Qry.FieldValues['fee_supir1']*Qry.FieldValues['day']);
-          //          DriverFee.Text:=IToCurr(Qry.FieldValues['fee_supir1']);
-          //          DriverFeeTotal.Text:=IToCurr(Qry.FieldValues['fee_supir']*Qry.FieldValues['day']);
-          //          DriverFee.Text:=IToCurr(Qry.FieldValues['fee_supir']);
-          //          if Qry.FieldValues['fee_supir2']<>NULL  then
-          //          begin
-          //            DriverFeeTotal2.Text:=IToCurr(Qry.FieldValues['fee_supir2']*Qry.FieldValues['day']);
-          //            DriverFee2.Text:=IToCurr(Qry.FieldValues['fee_supir2']);
-          //          end;
-
-          //        end else
-          //        begin
-                    DriverFeeTotal.Text:=IToCurr(Qry.FieldValues['fee_supir']*Qry.FieldValues['day']);
-                    DriverFee.Text:=IToCurr(Qry.FieldValues['fee_supir']);
-          //        end;
-
-                end else begin
-                  DriverFeeTotal.Text:='0';
-                  DriverFee.Text:='0';
-                  DriverFeeTotal2.Text:='0';
-                  DriverFee2.Text:='0';
-                end;
-
-                if Qry.FieldValues['fee_kenek']<>NULL then begin
-                  BusBoyFeeTotal.Text:=IToCurr(Qry.FieldValues['fee_kenek']*Qry.FieldValues['day']);
-                  BusBoyFee.Text:=IToCurr(Qry.FieldValues['fee_kenek'])
-                end else begin
-                  BusBoyFeeTotal.Text:='0';
-                  BusBoyFee.Text:='0';
-                end;
-
-                if Qry.FieldValues['tol_parking']<>NULL then begin
-                  TollParkingTotal.Text:=IToCurr(Qry.FieldValues['tol_parking']);
-                  TollParking.Text:=IToCurr(Qry.FieldValues['tol_parking'])
-                end else begin
-                  TollParkingTotal.Text:='0';
-                  TollParking.Text:='0';
-                end;
-
-                if Qry.FieldValues['tol']<>NULL then begin
-                  TollTotal.Text:=IToCurr(Qry.FieldValues['tol']);
-                  Toll.Text:=IToCurr(Qry.FieldValues['tol'])
-                end else begin
-                  TollTotal.Text:='0';
-                  Toll.Text:='0';
-                end;
-
-                if Qry.FieldValues['overnight']<>NULL then begin
-                  StayNightTotal.Text:=IToCurr(Qry.FieldValues['overnight']);
-                  StayNight.Text:=IToCurr(Qry.FieldValues['overnight']);
-                end else begin
-                  StayNightTotal.Text:='0';
-                  StayNight.Text:='0';
-                end;
-                Calculate;
-              end;
-          end
-        else
-         MessageBox(0,PChar('Uang Order belum ada yang diinput disurat jalan sebelumnya'),'Uang Order',MB_OK or MB_ICONWARNING);
-        Calculate;
+        StrVhcTransId := Qry.FieldValues['vhc_trans_id'];
         Qry.Close;
-      end
-    else
-        begin
-          BBMRupiah.Text:='0';
+        StrQry:='EXEC GetVhcOutDetail '+QuotedStr(StrVhcTransId)+';';
+        Qry.SQL.Clear;
+        Qry.SQL.Add(StrQry);
+        Qry.Open;
+        NoSJ.Items.Add(Qry.FieldValues['vhc_trans_id']);
+  //      GuideCellular.Text:=Qry.FieldValues['field_contact_cellular_no'];
+        if Qry.FieldValues['fuel_budget_price']>0 then begin
+          BBMBBGTotal.Text:=IToCurr(Qry.FieldValues['fuel_budget_price']);
+          BBMLiter.Text:=Qry.FieldValues['fuel_budget_litre'];
+          BBMRupiah.Text:=IToCurr(Qry.FieldValues['fuel_budget_price']);
+        end else begin
           BBMBBGTotal.Text:='0';
           BBMLiter.Text:='0';
-          DriverFee.Text:='0';
-          DriverFee2.Text := '0';
-          BusBoyFee.Text:='0';
-          Toll.Text:='0';
-          TollParking.Text:='0';
-
-          DriverFeeTotal.Text := '0';
-          DriverFeeTotal2.Text := '0';
-          BusBoyFeeTotal.Text := '0';
-          TollTotal.Text := '0';
-          TollParkingTotal.Text :='0';
-          
-          Calculate;
+          BBMRupiah.Text:='0';
         end;
-   end
-  else
+        if Qry.FieldValues['fee_supir']<>NULL then begin
+  //        if TotDriver=2 then
+  //        begin
+  //          DriverFeeTotal.Text:=IToCurr(Qry.FieldValues['fee_supir1']*Qry.FieldValues['day']);
+  //          DriverFee.Text:=IToCurr(Qry.FieldValues['fee_supir1']);
+  //          DriverFeeTotal.Text:=IToCurr(Qry.FieldValues['fee_supir']*Qry.FieldValues['day']);
+  //          DriverFee.Text:=IToCurr(Qry.FieldValues['fee_supir']);
+  //          if Qry.FieldValues['fee_supir2']<>NULL  then
+  //          begin
+  //            DriverFeeTotal2.Text:=IToCurr(Qry.FieldValues['fee_supir2']*Qry.FieldValues['day']);
+  //            DriverFee2.Text:=IToCurr(Qry.FieldValues['fee_supir2']);
+  //          end;
+
+  //        end else
+  //        begin
+            DriverFeeTotal.Text:=IToCurr(Qry.FieldValues['fee_supir']*Qry.FieldValues['day']);
+            DriverFee.Text:=IToCurr(Qry.FieldValues['fee_supir']);
+  //        end;
+
+        end else begin
+          DriverFeeTotal.Text:='0';
+          DriverFee.Text:='0';
+          DriverFeeTotal2.Text:='0';
+          DriverFee2.Text:='0';
+        end;
+
+        if Qry.FieldValues['fee_kenek']<>NULL then begin
+          BusBoyFeeTotal.Text:=IToCurr(Qry.FieldValues['fee_kenek']*Qry.FieldValues['day']);
+          BusBoyFee.Text:=IToCurr(Qry.FieldValues['fee_kenek'])
+        end else begin
+          BusBoyFeeTotal.Text:='0';
+          BusBoyFee.Text:='0';
+        end;
+
+        if Qry.FieldValues['tol_parking']<>NULL then begin
+          TollParkingTotal.Text:=IToCurr(Qry.FieldValues['tol_parking']);
+          TollParking.Text:=IToCurr(Qry.FieldValues['tol_parking'])
+        end else begin
+          TollParkingTotal.Text:='0';
+          TollParking.Text:='0';
+        end;
+
+        if Qry.FieldValues['tol']<>NULL then begin
+          TollTotal.Text:=IToCurr(Qry.FieldValues['tol']);
+          Toll.Text:=IToCurr(Qry.FieldValues['tol'])
+        end else begin
+          TollTotal.Text:='0';
+          Toll.Text:='0';
+        end;
+
+        if Qry.FieldValues['overnight']<>NULL then begin
+          StayNightTotal.Text:=IToCurr(Qry.FieldValues['overnight']);
+          StayNight.Text:=IToCurr(Qry.FieldValues['overnight']);
+        end else begin
+          StayNightTotal.Text:='0';
+          StayNight.Text:='0';
+        end;
+        Calculate;
+      end else
+      begin
+        CopyBiaya.Checked:=False;
+        MessageBox(0,PChar('Uang Order belum ada yang diinput disurat jalan sebelumnya'),'Uang Order',MB_OK or MB_ICONWARNING);
+      end;
+      Qry.Close
+
+//        else
+//         MessageBox(0,PChar('Uang Order belum ada yang diinput disurat jalan sebelumnya'),'Uang Order',MB_OK or MB_ICONWARNING);
+//        Calculate;
+//        Qry.Close;
+    end
+    else
+    begin
+      BBMRupiah.Text:='0';
+      BBMBBGTotal.Text:='0';
+      BBMLiter.Text:='0';
+      DriverFee.Text:='0';
+      DriverFee2.Text := '0';
+      BusBoyFee.Text:='0';
+      Toll.Text:='0';
+      TollParking.Text:='0';
+
+      DriverFeeTotal.Text := '0';
+      DriverFeeTotal2.Text := '0';
+      BusBoyFeeTotal.Text := '0';
+      TollTotal.Text := '0';
+      TollParkingTotal.Text :='0';
+          
+      Calculate;
+    end;
+  end;
+//  else
  // end;
   FreeAndNil(Qry);
   Main.CloseDb;
-  Main.M_Normal;
+//  Main.M_Normal;
 end;
 
 end.

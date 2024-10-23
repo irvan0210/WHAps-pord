@@ -296,7 +296,7 @@ begin
   StrGrid.Cells[0,0]:='No';
   StrGrid.Cells[1,0]:='Check';
   StrGrid.Cells[2,0]:='Barang/Jasa';
-  StrGrid.Cells[3,0]:='Jumlah';
+  StrGrid.Cells[3,0]:='Jumlah Permintaan';
   StrGrid.Cells[4,0]:='Keterangan';
   StrGrid.Cells[5,0]:='Kode Part GP';
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;

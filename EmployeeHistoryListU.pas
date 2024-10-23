@@ -28,18 +28,13 @@ type
     procedure FormShow(Sender: TObject);
     procedure CetakClick(Sender: TObject);
     procedure ToXCelClick(Sender: TObject);
-    procedure StrGridDblClick(Sender: TObject);
-    procedure StrGridSelectCell(Sender: TObject; ACol, ARow: Integer;
-      var CanSelect: Boolean);
   private
     { Private declarations }
-    IntRow,IntCol,IntMinRow:Integer;
     procedure Init;
     procedure InitGrid;
     procedure LoadData;
     procedure LoadDetail;
     procedure RefreshGrid;
-
   public
     { Public declarations }
     constructor Create(AOwner:TComponent;EmployeeType:String;EmployeeId:String);Overload;
@@ -47,14 +42,14 @@ type
 
 var
   EmployeeHistoryList: TEmployeeHistoryList;
-  EmplId, HistoryTypeID, EmplHistoryID:String;
+  EmplId:String;
   IntRow,IntCol:Integer;
   EmplType:Integer;
-  HistoryListArr:Array of TArrString16;
+  HistoryListArr:Array of TArrString14;
 
 implementation
 
-uses MainU, EmployeeHistoryRptU, EmployeeHistoryFormU;
+uses MainU, EmployeeHistoryRptU;
 
 {$R *.dfm}
 
@@ -105,8 +100,6 @@ begin
   StrGrid.MergeCells.AddRectXY(9,0,9,1);
   StrGrid.MergeCells.AddRectXY(10,0,10,1);
   StrGrid.MergeCells.AddRectXY(11,0,11,1);
-  StrGrid.MergeCells.AddRectXY(12,0,12,1);
-  StrGrid.MergeCells.AddRectXY(13,0,13,1);
   StrGrid.RowHeights[0]:=20;
   StrGrid.RowHeights[1]:=20;
 
@@ -123,8 +116,6 @@ begin
   StrGrid.ColWidths[9]:=120;
   StrGrid.ColWidths[10]:=300;
   StrGrid.ColWidths[11]:=100;
-  StrGrid.ColWidths[12]:=50;
-  StrGrid.ColWidths[13]:=50;
   StrGrid.Cells[0,0]:='Nama';
   StrGrid.Cells[1,0]:='Tempat/Tgl Lahir';
   StrGrid.Cells[2,0]:='Tgl. Bergabung';
@@ -138,8 +129,6 @@ begin
   StrGrid.Cells[9,0]:='Kota';
   StrGrid.Cells[10,0]:='Keterangan';
   StrGrid.Cells[11,0]:='Pembuat';
-  StrGrid.Cells[12,0]:='ID';
-  StrGrid.Cells[13,0]:='ID History';
   StrGrid.Cells[3,1]:='Mulai';
   StrGrid.Cells[4,1]:='Selesai';
 
@@ -154,8 +143,7 @@ begin
   StrGrid.CellStyle[9,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[10,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[11,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[12,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[13,0].HorizontalAlignment:=taCenter;
+
   StrGrid.CellStyle[3,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[4,1].HorizontalAlignment:=taCenter;
   for IntCount:=0 to StrGrid.RowCount do
@@ -221,10 +209,6 @@ begin
         if Qry.FieldValues['detail']<>NULL then HistoryListArr[IntCount][10]:=Qry.FieldValues['detail'] else HistoryListArr[IntCount][10]:='';
         if Qry.FieldValues['username']<>NULL then HistoryListArr[IntCount][11]:=Qry.FieldValues['username'] else HistoryListArr[IntCount][11]:='';
         HistoryListArr[IntCount][12]:=Qry.FieldValues['promotion'];
-        HistoryListArr[IntCount][13]:=Qry.FieldValues['empl_history_type_id'];
-        HistoryListArr[IntCount][14]:=Qry.FieldValues['empl_history_id'];
-        EmplHistoryID:=Qry.FieldValues['empl_history_id'];
-        HistoryTypeID := Qry.FieldValues['empl_history_type_id'];
         Inc(IntCount);
         Qry.Next;
       end;
@@ -261,8 +245,6 @@ begin
     StrGrid.Cells[9,IntCount+2]:=HistoryListArr[IntCount][9];
     StrGrid.Cells[10,IntCount+2]:=HistoryListArr[IntCount][10];
     StrGrid.Cells[11,IntCount+2]:=HistoryListArr[IntCount][11];
-    StrGrid.Cells[12,IntCount+2]:=HistoryListArr[IntCount][13];
-    StrGrid.Cells[13,IntCount+2]:=HistoryListArr[IntCount][14];
     if HistoryListArr[IntCount][12]='1' then begin
       for IntCount2:=0 to StrGrid.ColCount-2 do
         StrGrid.CellStyle[IntCount2,IntCount+2].Font.Color:=clGreen;
@@ -313,34 +295,6 @@ begin
     ShowMessage('Export ke Excel Berhasil');
   end;
 
-end;
-
-procedure TEmployeeHistoryList.StrGridDblClick(Sender: TObject);
-var Qry:TADOQuery;
-  StrQry:String;
-  StrEmplType, Empl_HistTypeId, EmpType, StrEmpID:String;
-  EmplType,IntCount : Integer;
-begin
-  if IntRow>=IntMinRow then begin
-   if Main.IsFormOpen('EmployeeForm')=False then begin
-     if IdKaryawan.Text <>'' then begin
-       Empl_HistTypeId := StrGrid.Cells[12,IntRow] ;
-       StrEmplType := StrGrid.Cells[13,IntRow] ;
-      // MessageBox(0,PChar(StrEmplType),'Tes',MB_OK or MB_ICONINFORMATION);
-       if Empl_HistTypeId = '14' then begin
-         EmployeeHistoryForm:=TEmployeeHistoryForm.Create(Self,StrEmplType,IdKaryawan.Text,14);
-        end else
-         EmployeeHistoryForm:=TEmployeeHistoryForm.Create(Self,StrEmplType,IdKaryawan.Text,0);
-     end;
-   end;
-  end;
- end;
-
-procedure TEmployeeHistoryList.StrGridSelectCell(Sender: TObject; ACol,
-  ARow: Integer; var CanSelect: Boolean);
-begin
- IntRow:=ARow;
- IntCol:=ACol;
 end;
 
 end.

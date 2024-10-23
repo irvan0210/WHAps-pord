@@ -1,10 +1,10 @@
 object WorkOrderFormIn: TWorkOrderFormIn
-  Left = 128
-  Top = 170
+  Left = 103
+  Top = 80
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Tutup Perintah Kerja Bengkel'
-  ClientHeight = 545
+  ClientHeight = 554
   ClientWidth = 1193
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -20,6 +20,45 @@ object WorkOrderFormIn: TWorkOrderFormIn
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object Label10: TLabel
+    Left = 560
+    Top = 497
+    Width = 337
+    Height = 16
+    Caption = 'Note: 1. Keluhan yang sudah dikerjakan silahkan diceklis'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label11: TLabel
+    Left = 595
+    Top = 513
+    Width = 220
+    Height = 16
+    Caption = '2. Part yang dipakai silahkan diceklis'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label12: TLabel
+    Left = 595
+    Top = 529
+    Width = 243
+    Height = 16
+    Caption = '3. Untuk Tutup PKB silahkan ceklis close '
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
   object GroupBox1: TGroupBox
     Left = 8
     Top = 0
@@ -149,7 +188,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
   end
   object Simpan: TButton
     Left = 632
-    Top = 473
+    Top = 466
     Width = 75
     Height = 25
     Caption = 'Simpan'
@@ -158,7 +197,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
   end
   object Bersihkan: TButton
     Left = 712
-    Top = 472
+    Top = 465
     Width = 75
     Height = 25
     Caption = 'Bersihkan'
@@ -167,7 +206,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
   end
   object Selesai: TButton
     Left = 872
-    Top = 471
+    Top = 464
     Width = 75
     Height = 25
     Caption = 'Selesai'
@@ -423,7 +462,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
   end
   object CetakUlang: TButton
     Left = 793
-    Top = 471
+    Top = 464
     Width = 75
     Height = 25
     Caption = 'Cetak Ulang'
@@ -549,7 +588,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
   end
   object PanelMemoKhusus: TPanel
     Left = 504
-    Top = 476
+    Top = 469
     Width = 105
     Height = 19
     Enabled = False
@@ -591,8 +630,8 @@ object WorkOrderFormIn: TWorkOrderFormIn
     PreviewFormSettings.WindowState = wsMaximized
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
-    Left = 16
-    Top = 216
+    Left = 80
+    Top = 168
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand1: TppHeaderBand

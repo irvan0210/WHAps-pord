@@ -42,6 +42,7 @@ type
     CompId:Integer;
     FormRequest,CustId:String;
     OrderArr,CompanyArr:Array of TArrString30;
+    ResumeArr:Array of TArrString4;
     SegmentArr:Array of TArrString2;
     IntRow,IntCol,IsAll,MinRowGrid:Integer;
     IntTotalSum:Int64;
@@ -142,7 +143,6 @@ begin
   StrGrid.ColCount:=26;
   StrGrid.ColWidths[0]:=70;
   StrGrid.ColWidths[1]:=70;
-
   StrGrid.ColWidths[2]:=120;
   StrGrid.ColWidths[3]:=160;
   StrGrid.ColWidths[4]:=80;
@@ -159,7 +159,6 @@ begin
 
   StrGrid.MergeCells.AddRectXY(0,0,0,1);
   StrGrid.MergeCells.AddRectXY(1,0,1,1);
-
   StrGrid.MergeCells.AddRectXY(2,0,2,1);
   StrGrid.MergeCells.AddRectXY(3,0,3,1);
   StrGrid.MergeCells.AddRectXY(4,0,4,1);
@@ -251,7 +250,6 @@ begin
   if Main.OpenDb then begin
     SetLength(CompanyArr,0);
     StrQry:='EXEC GetCompanyLocationList';
-    Main.WriteLog('SQL :'+StrQry,2);
     Qry.SQL.Add(StrQry);
     Qry.Open;
     IntCount:=0;
@@ -267,7 +265,13 @@ begin
       Inc(IntCount)
     end;
     Qry.Close;
+    for IntCount:=0 to Length(CompanyArr)-1  do begin
+      SBU.Items.Add(CompanyArr[IntCount][3]+' ('+CompanyArr[IntCount][4]+')');
+      if (CompanyId=CompanyArr[IntCount][1]) and  (LocationId=CompanyArr[IntCount][2]) then SBU.ItemIndex:=IntCount;
+    end;
+
     SetLength(SegmentArr,1);
+    SetLength(ResumeArr,0);
     SegmentArr[0][0]:= ' ';
     SegmentArr[0][1]:= ' ';
     StrQry:='EXEC GetCustomerSegment;';
@@ -276,17 +280,19 @@ begin
     Qry.SQL.Add(StrQry);
     Qry.Open;
     SetLength(SegmentArr,Qry.RecordCount+1);
+    SetLength(ResumeArr,Qry.RecordCount);
     IntCount:=1;
     if (Qry.RecordCount>0) then while not(Qry.Eof) do begin
       SegmentArr[IntCount][0]:=Qry.FieldValues['name']+' - '+Qry.FieldValues['level2_name'] ;
       SegmentArr[IntCount][1]:=Qry.FieldValues['level2_id'];
+      ResumeArr[IntCount-1][0]:=Qry.FieldValues['name'];
+      ResumeArr[IntCount-1][1]:=Qry.FieldValues['level2_name'];
       Qry.Next;
       Inc(IntCount);
     end;
     Qry.Close;
     SalesPerson.Items.Add(' ');
-    StrQry:='SELECT dbo.GetUsername(username) AS sales FROM wh_user a '+
-            'LEFT JOIN wh_user_detail b ON b.user_id=a.username WHERE b.department_id=14 ;';
+    StrQry:='EXEC GetSales '+CompanyArr[SBU.ItemIndex][2]+';';
     Qry.SQL.Clear;
     Main.WriteLog('SQL :'+StrQry,2);
     Qry.SQL.Add(StrQry);
@@ -301,10 +307,7 @@ begin
   Main.CloseDb;
   for IntCount:=0 to Length(SegmentArr)-1 do
     Segment.Items.Add(SegmentArr[IntCount][0]);
-  for IntCount:=0 to Length(CompanyArr)-1  do begin
-    SBU.Items.Add(CompanyArr[IntCount][3]+' ('+CompanyArr[IntCount][4]+')');
-    if (CompanyId=CompanyArr[IntCount][1]) and  (LocationId=CompanyArr[IntCount][2]) then SBU.ItemIndex:=IntCount;
-  end;
+
   for IntCount:=1 to 12 do
     Bulan.Items.Add(ShortMonthNames[IntCount]);
   Bulan.ItemIndex:=Bulan.Items.IndexOf(FormatDateTime('mmm',Now));
@@ -615,7 +618,7 @@ end;
 procedure TMonthlySalesRpt.ToXCelClick(Sender: TObject);
 begin
   if ToExcel4(StrGrid) then ShowMessage('Export ke Excel Berhasil')
-  else ShowMessage('Export ke Excel Gagal');
+  else ShowMessage('Export k  e Excel Gagal');
 end;
 
 procedure TMonthlySalesRpt.LihatClick(Sender: TObject);

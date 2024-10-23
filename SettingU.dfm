@@ -1,6 +1,6 @@
 object Setting: TSetting
-  Left = 252
-  Top = 164
+  Left = 495
+  Top = 360
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Setting Database'

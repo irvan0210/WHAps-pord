@@ -425,7 +425,6 @@ begin
   Qry.CommandTimeout := 3600;
   Main.M_Busy;
   if Main.OpenDb then begin
-
     StrQry:='SELECT * FROM wh_user_auth_form WHERE user_id='+QuotedStr(User)+
             ' AND form_id=''130502'';';
     Qry.SQL.Clear;
@@ -1271,7 +1270,7 @@ begin
         Qry.Close;
         Qry.SQL.Clear;
         Main.WriteLog('SQL :'+StrQry,2);
-        Qry.SQL.Add(StrQry);
+        Qry.SQL.Add(StrQry);,
         Qry.Open;
         Qry.First;
         if (Qry.RecordCount>0) then begin
@@ -1828,12 +1827,15 @@ begin
               StrQry:=  'INSERT INTO wh_vhc_trans_hist '+
                         '(vhc_trans_id,vehicle_id,employee_id,employee_id2,employee_id3,'+
                         'deskripsi,from_time,standby_time,route,pickup_point,field_contact,'+
-                        'field_contact_cellular_no,isConnecting,update_user) VALUES '+
+                        'field_contact_cellular_no,isConnecting,update_user,customer_order_id,from_date,to_date,remark) VALUES '+
                         '('+QuotedStr(StrTransId)+','+QuotedStr(StrVehicleID)+','+
                         ''+QuotedStr(StrDriver)+','+QuotedStr(StrDriver2)+','+StrHelperId+','+
                         ''+QuotedStr(StrDeskripsiHist)+','+StrFromTimes+','+StrStandbyTimes+','+StrRoute+','+
                         ''+StrPickupPoint+','+StrFieldContact+','+StrFieldPhoneNo+','+
-                        ''+QuotedStr(StrConnecting)+','+QuotedStr(User)+'); ';
+                        ''+QuotedStr(StrConnecting)+','+QuotedStr(User)+','+QuotedStr(OrderId.Text)+','+
+                        ''+QuotedStr(FormatDateTime('yyyy/mm/dd',StrToDate(FromDate.Text)))+','+
+                        ''+QuotedStr(FormatDateTime('yyyy/mm/dd',StrToDate(ToDate.Text)))+','+
+                        ''+StrRemark2+'); ';
 
               Qry.SQL.Clear;
               Qry.SQL.Add(StrQry);

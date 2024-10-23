@@ -315,7 +315,9 @@ uses
   UserMenuListU in 'UserMenuListU.pas' {UserMenuList},
   UserMenuU in 'UserMenuU.pas' {UserMenuForm},
   UserSubMenuListU in 'UserSubMenuListU.pas' {UserSubMenuList},
-  UserSubMenuU in 'UserSubMenuU.pas' {UserSubMenuForm};
+  UserSubMenuU in 'UserSubMenuU.pas' {UserSubMenuForm},
+  EmployeeHistoryLakaFormU in '..\WHAPS UPDATE DEV\EmployeeHistoryLakaFormU.pas' {EmployeeHistoryLakaForm},
+  EmployeeHistoryLakaListU in 'EmployeeHistoryLakaListU.pas' {EmployeeHistoryLakaList};
 
 {$R *.res}
 

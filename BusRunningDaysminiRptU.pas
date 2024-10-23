@@ -45,6 +45,7 @@ type
     SBUtemp: TComboBox;
     Label15: TLabel;
     Label16: TLabel;
+    Label17: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SelesaiClick(Sender: TObject);
     procedure TahunKeyPress(Sender: TObject; var Key: Char);
@@ -611,12 +612,16 @@ begin
               StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].Font.Color:=clPurple;
               StrGrid.Cells[IntCount2+2+IntGsrKlm,IntCount]:=' @';
               StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].HorizontalAlignment:=taCenter;
-              if Qry2.FieldValues['isRepeatOrder']='1' then begin
+              if (Qry2.FieldValues['isRepeatOrder']='1') and (Qry2.FieldValues['daily_package']<>'1') then begin
                 StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clAqua;
+              end else if Qry2.FieldValues['daily_package']='1' then begin
+                StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clLime;
               end else
               begin
                 StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clWindow;
               end;
+
+
               Inc(IntUsage[IntCount2]);
               Inc(IntRunning);
               Inc(IntCategory[IntCount2]);
@@ -627,8 +632,10 @@ begin
                 StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].Font.Color:=clBlue;
               StrGrid.Cells[IntCount2+2+IntGsrKlm,IntCount]:=' @';
               StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].HorizontalAlignment:=taCenter;
-              if Qry2.FieldValues['isRepeatOrder']='1' then begin
+              if (Qry2.FieldValues['isRepeatOrder']='1') AND (Qry2.FieldValues['daily_package']<>'1') then begin
                 StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clAqua;
+              end else if Qry2.FieldValues['daily_package']='1' then begin
+                StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clLime;
               end else
               begin
                 StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clWindow;
@@ -689,6 +696,10 @@ begin
                 if (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor<>clRed) and (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor<>clBlue)
                     and (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor<>clFuchsia) then
                   StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clWindow;
+
+                if (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor=clAqua) then begin
+                StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clAqua;
+                end;
               end else if (StrGrid.Cells[IntCount2+2+IntGsrKlm,IntCount]=' X') then begin
                 StrGrid.Cells[IntCount2+2+IntGsrKlm,IntCount]:=' @';
                 StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clWindow;
@@ -731,6 +742,10 @@ begin
                 if (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor<>clRed) AND (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor<>clBlue)
                    and (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor<>clFuchsia) then
                   StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clWindow;
+
+                if (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor=clAqua) then begin
+                StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clAqua;
+                end;
               end else if (StrGrid.Cells[IntCount2+2+IntGsrKlm,IntCount]=' X') then begin
                 if Qry2.FieldValues['total']<=Qry2.FieldValues['total_payment'] then
                   StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].Font.Color:=clGreen
@@ -867,6 +882,7 @@ begin
     end;
     StrGrid.CellStyle[Days+6+IntGsrKlm, IntCount].HorizontalAlignment:=taCenter;
     if IntTotalAllSub>0 then begin
+      //cari error
       StrGrid.Cells[Days+6+IntGsrKlm, IntCount]:=IntToStr(Round(IntTotalAllSub/IntAvgSub))+' %';
     end;
 
@@ -912,7 +928,7 @@ begin
       StrGrid.CellStyle[IntCount+2+IntGsrKlm,StrGrid.RowCount-1].Font.Color:=clBlack;
 
       StrTgl:= Tahun.Text+'/'+StrBulan+'/'+IntToStr(IntCount);
-      if (Seat.Text<>'All') AND (Batch.Text<>'All') then
+      if (Seat.Text<>'All') AND (Batch.Text<>'All') AND (FullName='Nanang Andriani') then
       begin
         Qry3:=TADOQuery.Create(Self);
         Qry3.Connection:=Main.MyConnection;
@@ -983,6 +999,7 @@ begin
     StrBulan:=IntToStr(Bulan.ItemIndex+1);
 
     if IntTotalAll>0 then StrGrid.Cells[Days+6+IntGsrKlm,StrGrid.RowCount-1]:=IntToStr(Round(IntTotalAll/IntAvg))+' %'
+
     else StrGrid.Cells[Days+6+IntGsrKlm,StrGrid.RowCount-1]:='0 %';
     StrGrid.CellStyle[Days+6+IntGsrKlm,StrGrid.RowCount-1].HorizontalAlignment:=taCenter;
     IntTotalAll:=0;
@@ -1002,7 +1019,7 @@ begin
 
       StrGrid.Cells[IntCount+2+IntGsrKlm,StrGrid.RowCount-1]:=IntToStr(IntPersenUtilisasiHari);
 
-      if (Seat.Text<>'All') AND (Batch.Text<>'All') then
+      if (Seat.Text<>'All') AND (Batch.Text<>'All') AND (FullName='Nanang Andriani') then
       begin
         Qry3:=TADOQuery.Create(Self);
         Qry3.Connection:=Main.MyConnection;
@@ -1048,6 +1065,7 @@ begin
     if IntTotalAll>0 then begin
       StrGrid.Cells[Days+6,StrGrid.RowCount-1]:=IntToStr(Round(IntTotalAll/IntAvg))+' %';
       PersenUtilisasi:=IntToStr(Round(IntTotalAll/IntAvg))+' %';
+
     end else begin
       StrGrid.Cells[Days+6,StrGrid.RowCount-1]:='0 %';
       PersenUtilisasi:='0 %';

@@ -1,6 +1,6 @@
 object Apps: TApps
-  Left = 317
-  Top = 132
+  Left = 459
+  Top = 269
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Aplikasi'
@@ -54,7 +54,8 @@ object Apps: TApps
       'Korynsan'
       'Pramudyono Hadi'
       'Dwi Soegiantoro'
-      'Nanang'
+      'Nanang Andriani'
+      'Irvan Ruswanto'
       ''
       'Advisor:'
       'Eddy Wijaya'
@@ -126,6 +127,25 @@ object Apps: TApps
     Font.Style = []
     Lines.Strings = (
       'Penambahan/Perubahan/Perbaikan:'
+      '09/10/2024 (6.1.5.44)'
+      '-Penambahan filter Driver di Laporan Customer Complain'
+      '-Penambahan fitur History Customer Complain di Form Data Driver'
+      
+        '-Penambahan fitur copy biaya sebelumnya di Form Tambah Uang Orde' +
+        'r'
+      'jika order memakai fitur ulangi perjalan'
+      '-Penambahan Kolom Spare Part pada Laporan Service Request'
+      '-Penambahan Kolom Spare Part pada Laporan PKB'
+      ''
+      ''
+      '19/09/2024 (6.1.5.43)'
+      '-Penambahan tanda order paket dirunning days mini'
+      
+        '-Buat validasi dan otorisasi saat simpan penjadwalan jika terjad' +
+        'i driver atau armada '
+      'yang berbeda'
+      'di orderan paket'
+      ''
       '29/08/2024 (6.1.5.42)'
       '-Penambahan catatan pada cetak SPPB '
       

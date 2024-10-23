@@ -1,6 +1,6 @@
 object LaporanPermintaanBarangJasa: TLaporanPermintaanBarangJasa
-  Left = 482
-  Top = 10
+  Left = 131
+  Top = 15
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan Permintaan Barang dan Jasa'
@@ -86,6 +86,32 @@ object LaporanPermintaanBarangJasa: TLaporanPermintaanBarangJasa
     Height = 13
     Caption = 'Status Barang'
   end
+  object Label2: TLabel
+    Left = 18
+    Top = 552
+    Width = 53
+    Height = 13
+    Caption = '>Tersedia<'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clGreen
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label3: TLabel
+    Left = 98
+    Top = 552
+    Width = 83
+    Height = 13
+    Caption = '>Tidak Tersedia<'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
   object Refresh: TButton
     Left = 854
     Top = 11
@@ -158,6 +184,7 @@ object LaporanPermintaanBarangJasa: TLaporanPermintaanBarangJasa
     Anchors = [akTop, akRight]
     Caption = 'Keluar'
     TabOrder = 3
+    OnClick = Button1Click
   end
   object Periode: TRadioGroup
     Left = 296

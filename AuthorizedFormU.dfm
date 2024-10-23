@@ -1,6 +1,6 @@
 object AuthorizedForm: TAuthorizedForm
-  Left = 322
-  Top = 181
+  Left = 699
+  Top = 245
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Form Otorisasi'

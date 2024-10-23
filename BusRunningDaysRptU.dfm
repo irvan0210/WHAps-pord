@@ -1,6 +1,6 @@
 object BusRunningDaysRpt: TBusRunningDaysRpt
-  Left = 64
-  Top = 91
+  Left = 320
+  Top = 489
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Running Days'
@@ -32,7 +32,7 @@ object BusRunningDaysRpt: TBusRunningDaysRpt
     FocusControl = StrGrid
   end
   object ToXCel: TSpeedButton
-    Left = 1075
+    Left = 1195
     Top = 562
     Width = 23
     Height = 22
@@ -205,12 +205,12 @@ object BusRunningDaysRpt: TBusRunningDaysRpt
   object PanelLegend: TPanel
     Left = 8
     Top = 560
-    Width = 425
+    Width = 369
     Height = 25
     BevelOuter = bvNone
     TabOrder = 7
     object Label7: TLabel
-      Left = 200
+      Left = 104
       Top = 4
       Width = 79
       Height = 13
@@ -221,10 +221,9 @@ object BusRunningDaysRpt: TBusRunningDaysRpt
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      Visible = False
     end
     object Label8: TLabel
-      Left = 112
+      Left = 208
       Top = 4
       Width = 41
       Height = 13
@@ -250,7 +249,7 @@ object BusRunningDaysRpt: TBusRunningDaysRpt
       ParentFont = False
     end
     object Label10: TLabel
-      Left = 328
+      Left = 272
       Top = 4
       Width = 74
       Height = 13
@@ -264,7 +263,7 @@ object BusRunningDaysRpt: TBusRunningDaysRpt
     end
   end
   object Selesai: TButton
-    Left = 440
+    Left = 896
     Top = 560
     Width = 75
     Height = 25
@@ -297,9 +296,9 @@ object BusRunningDaysRpt: TBusRunningDaysRpt
     end
   end
   object Panel1: TPanel
-    Left = 520
+    Left = 369
     Top = 560
-    Width = 385
+    Width = 505
     Height = 25
     BevelOuter = bvNone
     TabOrder = 9
@@ -348,9 +347,24 @@ object BusRunningDaysRpt: TBusRunningDaysRpt
       ParentColor = False
       ParentFont = False
     end
+    object Label13: TLabel
+      Left = 396
+      Top = 4
+      Width = 69
+      Height = 13
+      Caption = '>Order Paket<'
+      Color = clLime
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+    end
   end
   object ProgressBar: TProgressBar
-    Left = 895
+    Left = 1015
     Top = 568
     Width = 170
     Height = 9

@@ -1,11 +1,11 @@
 object OrderFee: TOrderFee
-  Left = 244
-  Top = 130
+  Left = 174
+  Top = 95
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Uang Order'
-  ClientHeight = 663
-  ClientWidth = 1001
+  ClientHeight = 668
+  ClientWidth = 975
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -3842,7 +3842,7 @@ object OrderFee: TOrderFee
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 126
+    PrinterSetup.PaperSize = 256
     Template.FileName = 'D:\WH App\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'
@@ -3854,8 +3854,8 @@ object OrderFee: TOrderFee
     PreviewFormSettings.WindowState = wsMaximized
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
-    Left = 848
-    Top = 568
+    Left = 896
+    Top = 540
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand4: TppHeaderBand
@@ -4218,7 +4218,7 @@ object OrderFee: TOrderFee
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 126
+    PrinterSetup.PaperSize = 256
     Template.FileName = 'D:\WH App\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'
@@ -4230,8 +4230,8 @@ object OrderFee: TOrderFee
     PreviewFormSettings.WindowState = wsMaximized
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
-    Left = 856
-    Top = 512
+    Left = 896
+    Top = 500
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand1: TppHeaderBand
@@ -5063,7 +5063,7 @@ object OrderFee: TOrderFee
   object ppReportSPPB: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'invoice'
+    PrinterSetup.PaperName = 'Custom'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 5080
     PrinterSetup.mmMarginLeft = 6350
@@ -5071,7 +5071,7 @@ object OrderFee: TOrderFee
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 140000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 192
+    PrinterSetup.PaperSize = 256
     Template.FileName = 'D:\WH App\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'
@@ -5083,8 +5083,8 @@ object OrderFee: TOrderFee
     PreviewFormSettings.WindowState = wsMaximized
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
-    Left = 848
-    Top = 456
+    Left = 888
+    Top = 459
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand2: TppHeaderBand
@@ -6583,7 +6583,7 @@ object OrderFee: TOrderFee
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 126
+    PrinterSetup.PaperSize = 256
     Template.FileName = 'D:\PRAM\SC Delphi\23 Jan 2018\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'
@@ -6595,8 +6595,8 @@ object OrderFee: TOrderFee
     PreviewFormSettings.WindowState = wsMaximized
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
-    Left = 856
-    Top = 400
+    Left = 896
+    Top = 412
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand3: TppHeaderBand

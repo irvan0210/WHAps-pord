@@ -1,6 +1,6 @@
 object VehicleForm: TVehicleForm
-  Left = 551
-  Top = 473
+  Left = 488
+  Top = 364
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Armada'
@@ -525,6 +525,7 @@ object VehicleForm: TVehicleForm
       Height = 17
       Caption = 'Sewa Luar'
       TabOrder = 13
+      OnClick = isOutsideRentClick
     end
     object isSafetyBelt: TCheckBox
       Left = 260

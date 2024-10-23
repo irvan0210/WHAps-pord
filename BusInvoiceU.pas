@@ -252,6 +252,7 @@ type
     procedure EnableInput;
     procedure PreparePrint;
     procedure PreparePrint2;
+//    procedure GenerateInvoice;
 
     procedure InitDB_WO;
     function OpenDb_WO:Boolean;
@@ -425,6 +426,69 @@ begin
   Main.CloseDb;
   Main.M_Normal;
 end;
+
+//procedure TBusInvoice.GenerateInvoice;
+//var
+//  Qry:TADOQuery;
+//  StrQry:String;
+//begin
+//
+//  StrQry:='UPDATE wh_transaction set total='+ToString(Total.Text)+','+
+//          'discount='+ToString(Discount.Text)+' '+
+//          'WHERE transaction_id='+QuotedStr(InvcId)+' AND status=1;';
+//
+//  Qry.SQL.Clear;
+//  Main.WriteLog('SQL :'+StrQry,4);
+//  Qry.SQL.Add(StrQry);
+//  try
+//    Qry.ExecSQL;
+//  except
+//    on E:Exception do begin
+//      IsOk:=False;
+//      StrMsg:=E.Message;
+//    end;
+//  end;
+//
+//  StrQry:='UPDATE wh_transaction_detail set status=1 '+
+//          'WHERE transaction_id='+QuotedStr(InvcId)+' AND status=1;';
+//
+//  Qry.SQL.Clear;
+//  Main.WriteLog('SQL :'+StrQry,4);
+//  Qry.SQL.Add(StrQry);
+//  try
+//    Qry.ExecSQL;
+//  except
+//    on E:Exception do begin
+//      IsOk:=False;
+//      StrMsg:=E.Message;
+//    end;
+//  end;
+//
+//  StrQry:='INSERT INTO wh_transaction_detail (transaction_id,transaction_type_id,'+
+//          'product_price_id,submit_date,submit_time,from_date,to_date,units,detail,'+
+//          'amount,amount_addday,discount_price,discount_percent,deposit,remark,'+
+//          'status,update_time,update_user) VALUES(SELECT '+QuotedStr(InvcId)+',160101,) ;'+;
+//
+//  Qry.SQL.Clear;
+//  Main.WriteLog('SQL :'+StrQry,4);
+//  Qry.SQL.Add(StrQry);
+//  try
+//    Qry.ExecSQL;
+//  except
+//    on E:Exception do begin
+//      IsOk:=False;
+//      StrMsg:=E.Message;
+//    end;
+//  end;
+//
+//  if IsOk then begin
+//    Main.TransCommit;
+//  end else begin
+//    Main.TransRollback;
+//    MessageBox(0,PChar('Tidak dapat membuka invoice'+Chr(13)+Chr(13)+StrMsg),'Invoice',MB_OK or MB_ICONERROR);
+//  end;
+//
+//end;
 
 procedure TBusInvoice.LoadData;
 var Qry:TADOQuery;

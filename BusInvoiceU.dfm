@@ -1,6 +1,6 @@
 object BusInvoice: TBusInvoice
-  Left = 232
-  Top = 246
+  Left = 222
+  Top = 52
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Invoice'
@@ -73,9 +73,9 @@ object BusInvoice: TBusInvoice
       Caption = 'PPH12'
     end
     object LabelIn_pph: TLabel
-      Left = 0
+      Left = 24
       Top = 97
-      Width = 117
+      Width = 93
       Height = 13
       Alignment = taRightJustify
       Caption = 'Total Invoice - PPH'

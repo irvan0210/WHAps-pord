@@ -1,10 +1,10 @@
 object CustomerComplainList: TCustomerComplainList
-  Left = 208
-  Top = 232
+  Left = 87
+  Top = 422
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Daftar Komplain Customer'
-  ClientHeight = 429
+  ClientHeight = 424
   ClientWidth = 1281
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -21,7 +21,7 @@ object CustomerComplainList: TCustomerComplainList
   PixelsPerInch = 96
   TextHeight = 13
   object Label2: TLabel
-    Left = 1009
+    Left = 833
     Top = 12
     Width = 18
     Height = 13
@@ -29,8 +29,8 @@ object CustomerComplainList: TCustomerComplainList
     Caption = 'Cari'
   end
   object ToXCel: TSpeedButton
-    Left = 1209
-    Top = 399
+    Left = 1049
+    Top = 394
     Width = 23
     Height = 22
     Glyph.Data = {
@@ -78,7 +78,7 @@ object CustomerComplainList: TCustomerComplainList
   end
   object Label5: TLabel
     Left = 584
-    Top = 405
+    Top = 400
     Width = 44
     Height = 13
     Caption = '>Closed<'
@@ -91,7 +91,7 @@ object CustomerComplainList: TCustomerComplainList
   end
   object Selesai: TButton
     Left = 648
-    Top = 400
+    Top = 395
     Width = 75
     Height = 25
     Caption = 'Selesai'
@@ -100,7 +100,7 @@ object CustomerComplainList: TCustomerComplainList
   end
   object GridCCP: TZColorStringGrid
     Left = 8
-    Top = 40
+    Top = 36
     Width = 1265
     Height = 353
     ColCount = 10
@@ -126,7 +126,7 @@ object CustomerComplainList: TCustomerComplainList
     LineDesign.LineUpColor = clWhite
   end
   object Cari: TEdit
-    Left = 1040
+    Left = 864
     Top = 8
     Width = 201
     Height = 21

@@ -1,6 +1,6 @@
 object CustomerComplainSJList: TCustomerComplainSJList
-  Left = 243
-  Top = 183
+  Left = 283
+  Top = 138
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Daftar Order'

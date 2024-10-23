@@ -1,6 +1,6 @@
 object OrderForm: TOrderForm
-  Left = 28
-  Top = 334
+  Left = 220
+  Top = 297
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Pesanan'

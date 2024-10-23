@@ -62,7 +62,9 @@ implementation
 Uses MainU, StrUtils, EmployeeFormU, MutasiKaryawanFormU,
   EmployeeIDRenewalU, KPPPrintU, EmployeeRenewalFormU, ReferensiMitraListU,
   EmployeeHistoryFormU, EmployeeCommissionFormU, EmployeeHistoryRptU,
-  EmployeeHistoryListU, AttandanceLeaveFormU, EmplAttedanceInfoU;
+  EmployeeHistoryListU, AttandanceLeaveFormU, EmplAttedanceInfoU, 
+  CustomerComplainListU, CustomerComplainRptU, EmployeeHistoryLakaFormU, 
+  EmployeeHistoryLakaListU;
 
 constructor TEmployeeList.Create(AOwner:TComponent;EmployeeType:String;Status:Integer=1;Expired:Integer=0;Form_Request:String='');
 begin
@@ -498,7 +500,7 @@ begin
               else
                 EmployeeHistoryForm:=TEmployeeHistoryForm.Create(Self,StrEmplType,StrGrid.Cells[4,IntRow],0);
             end else if (RightStr(IntToStr(TreeTag),2)='11') then begin
-              EmployeeHistoryForm:=TEmployeeHistoryForm.Create(Self,StrEmplType,StrGrid.Cells[4,IntRow],14);
+              EmployeeHistoryLakaForm:=TEmployeeHistoryLakaForm.Create(Self,StrGrid.Cells[4,IntRow],'','EMPLOYEEHISTORYLAKA-FORM');
             end else if (RightStr(IntToStr(TreeTag),2)='07') then begin
               KPPPrint:=TKPPPrint.Create(Self,StrGrid.Cells[4,IntRow]);
             end else if (RightStr(IntToStr(TreeTag),2)='10') then begin
@@ -537,6 +539,14 @@ begin
             EmployeeHistoryForm:=TEmployeeHistoryForm.Create(Self,StrEmplType,StrGrid.Cells[4,IntRow],0);
           end else if UpperCase(FormRequest)='OFFICE-ATTANDANCELEAVE' then begin
             AttandanceLeaveForm.SetEmplId(StrGrid.Cells[4,IntRow]);
+            Close;
+          end else if UpperCase(FormRequest)='LAPORANKOMPLAINCUSTOMER' then begin
+            DriverIDCustComplain:=StrGrid.Cells[4,IntRow];
+            CustomerComplainRpt.Driver.Text:=StrGrid.Cells[5,IntRow];
+            Close;
+          end else if UpperCase(FormRequest)='HISTORYLAKALIST' then begin
+            DriverIDHistoryLaka:=StrGrid.Cells[4,IntRow];
+            EmployeeHistoryLakaList.Driver.Text:=StrGrid.Cells[5,IntRow];
             Close;
           end else begin
             EmployeeForm:=TEmployeeForm.Create(nil,StrEmplType,StrGrid.Cells[4,IntRow],True,False,FormRequest);

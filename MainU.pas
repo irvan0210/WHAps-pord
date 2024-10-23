@@ -14,7 +14,7 @@ const
   //Cursor Type
   MyCursor=1;
   //Application Expired Date
-  MaxDate='31/12/2026';
+  MaxDate='31/12/2028';
   //Application Caption Name
   //MyApps='';
   MyApps='WHAps [White Horse Group Application] - ';
@@ -100,7 +100,7 @@ type
     procedure WMHotKey(var Msg: TWMHotKey); message WM_HOTKEY;
   public           
     { Public declarations }
-    Db,DbHost,DbUser,DbPass,AppVersion,AppVersionSvr,Provider,IsChatAutoStart:String;
+    Db,DbHost,DbUser,DbPass,AppVersion,AppVersionSvr,Provider,IsChatAutoStart,DbPort:String;
     ThisMonth,ThisYear:String;
     ChatHost,ChatPort,StrUrlApi:String;
     MyConnection:TADOConnection;
@@ -233,7 +233,8 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   CustomerComplainCorrectionListU, CustomerComplainCorrectiveActionPlanU,
   CustomerComplainCorrectiveActionPlanListU,
   CetakKetidaksesuaianDanPerbaikanU, KetidakSesuaianDanPerbaikanListU,
-  UserMenuU, UserSubMenuU, UserSubMenuListU, UserMenuListU;
+  UserMenuU, UserSubMenuU, UserSubMenuListU, UserMenuListU, 
+  EmployeeHistoryLakaListU;
 
 
 constructor TClockThread.Create;
@@ -505,8 +506,8 @@ begin
                 end;
               {bus}
               end else  if LeftStr(IntToStr(Tag),4)='1302' then  begin
-                if StrToInt(RightStr(IntToStr(Tag),2))<12 then begin
-                  case CaseStr(RightStr(IntToStr(Tag),2),['02','04','06','09','11'{,'10'}]) of
+                if StrToInt(RightStr(IntToStr(Tag),2))<13 then begin
+                  case CaseStr(RightStr(IntToStr(Tag),2),['02','04','06','09','11','12'{,'10'}]) of
                     0:begin
                         if IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'Bus',1,0,'Update-Employee');
                       end;
@@ -521,6 +522,9 @@ begin
                       end;
                     4:begin
                         if IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'Bus');
+                      end;
+                    5:begin
+                        if IsFormOpen('EmployeeHistoryLakaList')=False then EmployeeHistoryLakaList:=TEmployeeHistoryLakaList.Create(Self,'LAKA-LIST');
                       end;
 {                    4:begin
                         if IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'Bus',2);
@@ -2334,9 +2338,21 @@ var IsOk:Boolean;
 begin
   {ADODB}
   if (Db='wh_prod') then
+  begin
+    if (DbHost<>'103.96.147.245') OR (DbHost<>'10.10.27.221') or (DbHost<>'whapsdb.whitehorse.co.id') then
+    begin
+      DbHost:='whapsdb.whitehorse.co.id';
+    end;
     {$Define WH_PROD}
+  end
   else
     {$Define WH_DEV}
+
+  if DbUser='sa' then
+  begin
+     DbUser:='sa.whaps' ;
+     DbPass:='whaps@whitehorse2024';
+  end;
 
   WriteLog('Setting DB Param');
   StrConnection:='Provider='+Provider+';Password='+DbPass+';Persist Security Info=True;User ID='+DbUser+';Initial Catalog='+Db+';Data Source='+DbHost;
@@ -2349,6 +2365,7 @@ begin
   MyConnection.CommandTimeout:=3600;
   MyConnection.ConnectionTimeout:=3600;
 
+
   if (DbHost='103.96.147.245') OR (DbHost='10.10.27.221') or (DbHost='whapsdb.whitehorse.co.id') then
   begin
     if (DbHost='103.96.147.245') then begin
@@ -2356,6 +2373,9 @@ begin
     end else begin
       StrConnectionWehaOnline:='Provider='+Provider+';Password=''password2018'';Persist Security Info=True;User ID=''weha'';Initial Catalog=''WHOnline'';Data Source=''10.10.27.230''';
     end;
+  end else if (DbHost='10.10.27.130') then
+  begin
+     StrConnectionWehaOnline:='Provider='+Provider+';Password=''password2018'';Persist Security Info=True;User ID=''weha'';Initial Catalog=''whonline_dev'';Data Source=''10.10.27.134''';
   end else
   begin
     StrConnectionWehaOnline:='Provider='+Provider+';Password=''password2018'';Persist Security Info=True;User ID=''weha'';Initial Catalog=''whonline_dev'';Data Source=''192.168.8.102''';
@@ -2590,10 +2610,43 @@ begin
       MyConnectionWehaOnline.Open;
     except
       on E:Exception do begin
-        IsOk:=False;
-        WriteLog('Error Opening DB Connection');
-        StrMsg:='Periksa Settingan Server'+Chr(13)+Chr(13)+'Pesan Error:'+Chr(13)+E.Message;
-        MessageBox(Handle,PChar(StrMsg),'Koneksi Database',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+        if DbHost='103.96.147.245' then
+        begin
+           DbHost:='10.10.27.221';
+           InitDb;
+           try
+              WriteLog('Open DB Connection');
+              MyConnection.Open;
+              MyConnectionWehaOnline.Open;
+           except
+              on E:Exception do begin
+                IsOk:=False;
+                WriteLog('Error Opening DB Connection');
+                StrMsg:='Periksa Settingan Server'+Chr(13)+Chr(13)+'Pesan Error:'+Chr(13)+E.Message;
+                MessageBox(Handle,PChar(StrMsg),'Koneksi Database',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+              end;
+            end;
+        end else if (DbHost='10.10.27.221') or (DbHost='whapsdb.whitehorse.co.id') then
+        begin
+           DbHost:='103.96.147.245';
+           InitDb;
+           try
+              WriteLog('Open DB Connection');
+              MyConnection.Open;
+              MyConnectionWehaOnline.Open;
+           except
+              on E:Exception do begin
+                IsOk:=False;
+                WriteLog('Error Opening DB Connection');
+                StrMsg:='Periksa Settingan Server'+Chr(13)+Chr(13)+'Pesan Error:'+Chr(13)+E.Message;
+                MessageBox(Handle,PChar(StrMsg),'Koneksi Database',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+              end;
+            end;
+        end;
+//        IsOk:=False;
+//        WriteLog('Error Opening DB Connection');
+//        StrMsg:='Periksa Settingan Server'+Chr(13)+Chr(13)+'Pesan Error:'+Chr(13)+E.Message;
+//        MessageBox(Handle,PChar(StrMsg),'Koneksi Database',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
       end;
     end;
   end;

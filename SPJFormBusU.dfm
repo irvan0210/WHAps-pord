@@ -1,5 +1,5 @@
 object SPJFormBus: TSPJFormBus
-  Left = 298
+  Left = 171
   Top = 74
   BorderIcons = []
   BorderStyle = bsNone

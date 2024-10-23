@@ -110,7 +110,7 @@ begin
       end;
     end;
   end;
-  //SelectBooking.Close;
+  SelectBooking.Close;
 end;
 
 procedure TSelectBooking.StrGridSelectCell(Sender: TObject; ACol,

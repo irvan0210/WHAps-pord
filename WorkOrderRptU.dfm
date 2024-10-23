@@ -1,6 +1,6 @@
 object WorkOrderRpt: TWorkOrderRpt
-  Left = 301
-  Top = 108
+  Left = 201
+  Top = 280
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan PKB'
@@ -126,6 +126,19 @@ object WorkOrderRpt: TWorkOrderRpt
     Width = 41
     Height = 13
     Caption = 'No Polisi'
+  end
+  object Label5: TLabel
+    Left = 98
+    Top = 437
+    Width = 114
+    Height = 13
+    Caption = '>SUDAH TUTUP PKB<'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clGreen
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
   end
   object Selesai: TButton
     Left = 414

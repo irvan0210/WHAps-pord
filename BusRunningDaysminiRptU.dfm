@@ -1,6 +1,6 @@
 object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
-  Left = 125
-  Top = 67
+  Left = 74
+  Top = 449
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Running Days Mini'
@@ -31,7 +31,7 @@ object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
     Caption = 'Bulan'
   end
   object ToXCel: TSpeedButton
-    Left = 1104
+    Left = 1008
     Top = 562
     Width = 23
     Height = 22
@@ -233,7 +233,7 @@ object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
     end
   end
   object Selesai: TButton
-    Left = 448
+    Left = 1056
     Top = 560
     Width = 75
     Height = 25
@@ -242,9 +242,9 @@ object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
     OnClick = SelesaiClick
   end
   object Panel1: TPanel
-    Left = 528
+    Left = 352
     Top = 560
-    Width = 569
+    Width = 649
     Height = 25
     BevelOuter = bvNone
     TabOrder = 8
@@ -332,6 +332,21 @@ object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
       Color = clAqua
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBackground
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label17: TLabel
+      Left = 561
+      Top = 4
+      Width = 69
+      Height = 13
+      Caption = '>Order Paket<'
+      Color = clLime
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlack
       Font.Height = -11
       Font.Name = 'MS Sans Serif'
       Font.Style = []

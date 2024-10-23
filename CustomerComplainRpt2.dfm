@@ -199,8 +199,8 @@ object FCustomerComplainRpt2: TFCustomerComplainRpt2
       'segment_name2=segment_name2')
     DataSet = qryComplainCust
     BCDToCurrency = False
-    Left = 280
-    Top = 120
+    Left = 216
+    Top = 96
   end
   object frxrprt2: TfrxReport
     Version = '4.12.6'

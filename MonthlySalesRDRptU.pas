@@ -1101,7 +1101,7 @@ begin
   RefreshDisplay;
 end;
 
-procedure TMonthlySalesRDRpt.RefreshDisplay;
+procedure TMonthlySalesRDRpt.RefreshDisplay ;
 begin
   Init;
   InitGrid;

@@ -355,7 +355,9 @@ begin
         Jam.Text:=Qry.FieldValues['from_time'];
         NoReservasi.Text:=Qry.FieldValues['customer_order_id'];
         Customer.Text:=Qry.FieldValues['customer_name'];
-        KMOdo.Text:=SToCurr(Qry.FieldValues['out_ordo_km']);
+        if Qry.FieldValues['out_ordo_km']<>NULL then
+        KMOdo.Text:=SToCurr(Qry.FieldValues['out_ordo_km'])
+        else KMOdo.Text:='0';
         Seat.Text:=Qry.FieldValues['seat'];
         FromDate.Text:=Qry.FieldValues['from_dates_l'];
         ToDate.Text:=Qry.FieldValues['to_dates_l'];

@@ -1,11 +1,11 @@
 object FDriverComplainList: TFDriverComplainList
-  Left = 244
-  Top = 125
+  Left = 316
+  Top = 120
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Keluhan Driver'
   ClientHeight = 502
-  ClientWidth = 940
+  ClientWidth = 958
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,12 +19,12 @@ object FDriverComplainList: TFDriverComplainList
   OnClose = FormClose
   OnShow = FormShow
   DesignSize = (
-    940
+    958
     502)
   PixelsPerInch = 96
   TextHeight = 13
   object lbl2: TLabel
-    Left = 318
+    Left = 300
     Top = 17
     Width = 38
     Height = 13
@@ -38,7 +38,7 @@ object FDriverComplainList: TFDriverComplainList
     Caption = 'Group'
   end
   object lbl4: TLabel
-    Left = 456
+    Left = 438
     Top = 16
     Width = 15
     Height = 13
@@ -80,8 +80,8 @@ object FDriverComplainList: TFDriverComplainList
     OnClick = ToXCelClick
   end
   object Label1: TLabel
-    Left = 648
-    Top = 16
+    Left = 553
+    Top = 19
     Width = 19
     Height = 13
     Caption = 'Cari'
@@ -110,7 +110,7 @@ object FDriverComplainList: TFDriverComplainList
     end
   end
   object Tanggal: TDateTimePicker
-    Left = 366
+    Left = 348
     Top = 14
     Width = 89
     Height = 21
@@ -120,8 +120,8 @@ object FDriverComplainList: TFDriverComplainList
     OnChange = TanggalChange
   end
   object Refresh: TButton
-    Left = 846
-    Top = 9
+    Left = 745
+    Top = 12
     Width = 75
     Height = 25
     Anchors = [akTop, akRight]
@@ -132,7 +132,7 @@ object FDriverComplainList: TFDriverComplainList
   object StrGrid: TZColorStringGrid
     Left = 3
     Top = 48
-    Width = 934
+    Width = 952
     Height = 409
     Anchors = [akLeft, akTop, akRight]
     ColCount = 20
@@ -185,7 +185,7 @@ object FDriverComplainList: TFDriverComplainList
     end
   end
   object TglSampai: TDateTimePicker
-    Left = 472
+    Left = 454
     Top = 14
     Width = 89
     Height = 21
@@ -203,7 +203,7 @@ object FDriverComplainList: TFDriverComplainList
     Visible = False
   end
   object Button1: TButton
-    Left = 469
+    Left = 447
     Top = 465
     Width = 75
     Height = 25
@@ -213,11 +213,12 @@ object FDriverComplainList: TFDriverComplainList
     OnClick = Button1Click
   end
   object Cari: TEdit
-    Left = 672
-    Top = 13
+    Left = 576
+    Top = 16
     Width = 161
     Height = 21
     TabOrder = 8
     OnChange = CariChange
+    OnKeyPress = CariKeyPress
   end
 end

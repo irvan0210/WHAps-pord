@@ -1,10 +1,10 @@
 object ItemServiceRequest: TItemServiceRequest
-  Left = 279
-  Top = 222
+  Left = 288
+  Top = 149
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Permintaan Barang dan Jasa'
-  ClientHeight = 399
+  ClientHeight = 424
   ClientWidth = 684
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -55,9 +55,9 @@ object ItemServiceRequest: TItemServiceRequest
   object Label9: TLabel
     Left = 336
     Top = 72
-    Width = 47
+    Width = 41
     Height = 13
-    Caption = 'Noo Polisi'
+    Caption = 'No Polisi'
   end
   object Selesai: TButton
     Left = 607
@@ -316,7 +316,7 @@ object ItemServiceRequest: TItemServiceRequest
   end
   object GroupTotal: TGroupBox
     Left = 8
-    Top = 366
+    Top = 390
     Width = 105
     Height = 33
     TabOrder = 16

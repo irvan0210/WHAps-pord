@@ -28,6 +28,12 @@ type
     CBStatus: TComboBox;
     Label1: TLabel;
     Label3: TLabel;
+    Panel1: TPanel;
+    Driver: TEdit;
+    RadSemuaDriver: TRadioButton;
+    RadPilihDriver: TRadioButton;
+    CariDriver: TButton;
+    Label5: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure LihatDataClick(Sender: TObject);
@@ -38,6 +44,10 @@ type
     procedure GridCCPDblClick(Sender: TObject);
     procedure GridCCPSelectCell(Sender: TObject; ACol, ARow: Integer;
       var CanSelect: Boolean);
+    procedure BersihkanClick(Sender: TObject);
+    procedure CariDriverClick(Sender: TObject);
+    procedure RadSemuaDriverClick(Sender: TObject);
+    procedure RadPilihDriverClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -46,6 +56,7 @@ type
     CompanyArr:Array of TArrString7;
     Days,IntColumnWidth,IntRow,IntCol,MinRowGrid,MinColGrid:Integer;
     Initiation:Boolean;
+
     procedure Init;
     procedure InitGrid;
     procedure RefreshCombo;
@@ -54,20 +65,35 @@ type
 
   public
     { Public declarations }
-    constructor Create(AOwner:TComponent);Overload;
+    constructor Create(AOwner:TComponent;EmployeeId:String='';EmployeeName:String='';FormReq:String='');Overload;
+
   end;
 
 var
   CustomerComplainRpt: TCustomerComplainRpt;
+  DriverIDCustComplain,Employee_Name,FormRequest: string;
+
 
 implementation
 
-uses MainU, CustomerComplainFormU, CustomerComplainInvestigationFormU;
+uses MainU, CustomerComplainFormU, CustomerComplainInvestigationFormU, 
+  EmployeeListU, Math;
 
 {$R *.dfm}
 
-constructor TCustomerComplainRpt.Create(AOwner:TComponent);
+constructor TCustomerComplainRpt.Create(AOwner:TComponent;EmployeeId:String='';EmployeeName:String='';FormReq:String='');
 begin
+  if FormReq='DRIVERFORM' then
+  begin
+    FormRequest:=FormReq;
+    DriverIDCustComplain:=EmployeeId;
+    Employee_Name:=EmployeeName;
+  end else
+  begin
+    FormRequest:='';
+    DriverIDCustComplain:='';
+    Employee_Name:='';
+  end;
   Initiation:=True;
   inherited Create(AOwner);
 end;
@@ -80,22 +106,60 @@ end;
 
 procedure TCustomerComplainRpt.Init;
 var IntCount:Integer;
+myYear,myMonth,myDay : Word;
 begin
   MinRowGrid:=0;
   MinColGrid:=3;
   IntRow:=0;
   IntCol:=0;
   IntColumnWidth:=95;
-  Tanggal.Date:=Now();
-  TglSampai.Enabled:=True;
+//  Tanggal.Date:=Now();
   TglSampai.Date:=Now();
   Bulan.Date:=Now();
-  TglSampai.Enabled:=False;
-  CekTglSampai.Checked:=False;
+
+  if FormRequest='DRIVERFORM' then
+  begin
+    Label5.Visible:=True;
+    RadSemuaDriver.Visible:=False;
+    RadPilihDriver.Visible:=False;
+    RadPilihDriver.Checked:=True;
+    Driver.Text:=Employee_Name;
+    Label5.Left:=8;
+    Label5.Top:=9;
+    Driver.Top:=9;
+    Panel1.Height:=33;
+    DecodeDate(TglSampai.Date,myYear,myMonth,myDay);
+    Tanggal.Date:=EncodeDate(myYear, 1, 1);
+    CekTglSampai.Checked:=True;
+    TglSampai.Enabled:=True;
+    Bulan.Enabled:=False;
+    Driver.Visible:=True;
+
+//    CustomerComplainRpt.Caption:='History Complain Customer';
+  end
+  else
+  begin
+    Label5.Visible:=False;
+    RadSemuaDriver.Visible:=True;
+    RadPilihDriver.Visible:=True;
+    RadSemuaDriver.Checked:=True;
+    Driver.Text:='';
+    Tanggal.Date:=Now();
+
+//    CustomerComplainRpt.Caption:='Laporan Complain Customer';
+    Driver.Top:=29;
+    Panel1.Height:=57;
+    CekTglSampai.Checked:=False;
+    TglSampai.Enabled:=False;
+    Bulan.Enabled:=False;
+    Driver.Visible:=False;
+  end;
+  CariDriver.Visible:=False;
   Categorized.Checked:=True;
   SBU.Items.Clear;
   SBU.Text:='';
   SBU.ItemIndex:=0;
+
   if StrToInt(CompanyId)=1 then SBU.Enabled:=True else SBU.Enabled:=False;
 end;
 
@@ -104,6 +168,7 @@ var IntCount:Integer;
 begin
   MinRowGrid:=0;
   GridCCP.ColCount:=22;
+  GridCCP.RowCount:=1;
   GridCCP.WordWrap:=True;
   GridCCP.ColWidths[0]:=30;
   GridCCP.ColWidths[1]:=70;
@@ -156,15 +221,28 @@ begin
   GridCCP.Cells[21,0]:='Closed';
 
   for IntCount:=0 to GridCCP.ColCount-1 do
+  begin
     GridCCP.CellStyle[IntCount,0].HorizontalAlignment:=taCenter;
+  end;
+
   for IntCount:=0 to GridCCP.ColCount-1 do
-    GridCCP.Cells[IntCount,1]:='';
+    GridCCP.Cells[IntCount,2]:='';
+//
+//    for I := 0 to StringGrid1.ColCount - 1 do
+//    StringGrid1.Cols[I].Clear;
+
 
 end;
 
 procedure TCustomerComplainRpt.RefreshGrid;
-var IntCount,Count2:Integer;
+var IntCount,Count2,Count:Integer;
 begin
+  for Count:=0 to 23 do begin
+    for Count2:=1 to GridCCP.RowCount do begin    // reset baris ke 3
+      GridCCP.Cells[Count,Count2]:='';
+      GridCCP.CellStyle[Count,Count2].BGColor:=clWindow;
+    end;
+  end;
   GridCCP.RowCount:=Length(CCPArr)+1;
   for IntCount:=0 to Length(CCPArr)-1 do begin
     GridCCP.Cells[0,IntCount+1]:=CCPArr[IntCount][0];
@@ -299,7 +377,7 @@ begin
 end;
 
 procedure TCustomerComplainRpt.RefreshData;
-var StrQry,StrAllFoward,StrLocation,StrCompanyId,StrCustomerId,StrDate,StrDatesTo,StrOrder,StrJenisFilterTgl,StrClose:String;
+var StrQry,StrAllFoward,StrLocation,StrCompanyId,StrCustomerId,StrDate,StrDatesTo,StrOrder,StrJenisFilterTgl,StrClose,StrDriverID:String;
     Qry:TADOQuery;
     IntCount:Integer;
     myYear, myMonth, myDay : Word;
@@ -347,8 +425,18 @@ begin
        StrJenisFilterTgl:=',@JenisFilterTgl=''2''';
     end;
 
+    if DriverIDCustComplain<>'' then
+    begin
+      StrDriverID:=',@DriverID='+QuotedStr(DriverIDCustComplain);
+    end
+    else
+    begin
+      StrDriverID:='';
+    end;
+
+
     {StrQry:='EXEC GetVhcOutComplainList '+LocationId+',1,'+CompanyId+StrAllFoward+',@List=1; ';}
-    StrQry:='EXEC GetCustomerComplainRpt '+StrLocation+',1,'+StrCompanyId+StrDate+StrDatesTo+StrJenisFilterTgl+StrClose;
+    StrQry:='EXEC GetCustomerComplainRpt '+StrLocation+',1,'+StrCompanyId+StrDate+StrDatesTo+StrJenisFilterTgl+StrClose+StrDriverID;
 
     Qry.SQL.Clear;
     Main.WriteLog('SQL :'+StrQry,2);
@@ -399,12 +487,23 @@ begin
   InitGrid;
   RefreshCombo;
   Initiation:=False;
+  if FormRequest='DRIVERFORM' then
+  begin
+    LihatDataClick(Self);
+  end;
 end;
 
 procedure TCustomerComplainRpt.LihatDataClick(Sender: TObject);
 begin
-  RefreshData;
-  RefreshGrid;
+  if (RadPilihDriver.Checked=True) and (Driver.Text='') then
+  begin
+    MessageBox(0,PChar('Silahkan Pilih Driver'),'Laporan Complain Customer',MB_OK or MB_ICONWARNING);
+  end else
+  begin
+
+    RefreshData;
+    RefreshGrid;
+  end;
 end;
 
 procedure TCustomerComplainRpt.SelesaiClick(Sender: TObject);
@@ -458,6 +557,38 @@ procedure TCustomerComplainRpt.GridCCPSelectCell(Sender: TObject; ACol,
 begin
     IntRow:=ARow;
     IntCol:=ACol;
+end;
+
+procedure TCustomerComplainRpt.BersihkanClick(Sender: TObject);
+begin
+
+//  RefreshCombo;
+end;
+
+procedure TCustomerComplainRpt.CariDriverClick(Sender: TObject);
+begin
+  if Main.IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'Bus',1,0,'LAPORANKOMPLAINCUSTOMER');
+end;
+
+procedure TCustomerComplainRpt.RadSemuaDriverClick(Sender: TObject);
+begin
+  if RadSemuaDriver.Checked=True then
+  begin
+    CariDriver.Visible:=False;
+    Driver.Visible:=False;
+    Driver.Text:='';
+    DriverIDCustComplain:='';
+  end;
+end;
+
+procedure TCustomerComplainRpt.RadPilihDriverClick(Sender: TObject);
+begin
+  if RadPilihDriver.Checked=True then
+  begin
+    CariDriver.Visible:=True;
+    Driver.Visible:=True;
+    Driver.Text:='';
+  end;
 end;
 
 End.

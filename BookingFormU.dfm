@@ -1,6 +1,6 @@
 object BookingForm: TBookingForm
-  Left = 191
-  Top = 115
+  Left = 103
+  Top = 140
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Penjadwalan'
@@ -703,14 +703,6 @@ object BookingForm: TBookingForm
       Caption = 'Penjadwalan Fix'
       TabOrder = 0
     end
-  end
-  object chkterima: TCheckBox
-    Left = 888
-    Top = 160
-    Width = 97
-    Height = 17
-    Caption = 'chkterima'
-    TabOrder = 15
   end
   object ppReport: TppReport
     PrinterSetup.BinName = 'Default'

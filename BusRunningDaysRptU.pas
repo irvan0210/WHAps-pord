@@ -35,6 +35,7 @@ type
     ProgressBar: TProgressBar;
     Pilihan: TRadioGroup;
     Label2: TLabel;
+    Label13: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SelesaiClick(Sender: TObject);
     procedure TahunKeyPress(Sender: TObject; var Key: Char);
@@ -372,7 +373,11 @@ begin
 
           if Trim(StrGrid.Cells[IntCount2+3,IntCount])='' then begin
             if Qry2.FieldValues['out_type']='0' then begin
-              StrGrid.CellStyle[IntCount2+3,IntCount].Font.Color:=clPurple;
+              if Qry2.FieldValues['daily_package']=1 then begin
+                StrGrid.CellStyle[IntCount2+3,IntCount].Font.Color:=clLime;
+              end else begin
+                StrGrid.CellStyle[IntCount2+3,IntCount].Font.Color:=clPurple;
+              end;
               if Qry2.FieldValues['customer_order_id']<>NULL then begin
                 OrderNumber[IntCount2+3,IntCount]  := Qry2.FieldValues['customer_order_id'];
                 //StrGrid.Cells[IntCount2+3,IntCount]:= '['+Qry2.FieldValues['customer_name']+']';
