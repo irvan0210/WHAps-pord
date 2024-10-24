@@ -118,7 +118,7 @@ begin
   StrGrid.ColWidths[5]:=55;
   StrGrid.ColWidths[6]:=330;
   StrGrid.ColWidths[7]:=400;
-  StrGrid.ColWidths[8]:=0;
+  StrGrid.ColWidths[8]:=150;
   StrGrid.Cells[0,0]:='No';
   StrGrid.Cells[1,0]:='Pool';
   StrGrid.Cells[2,0]:='No SR';
@@ -127,6 +127,7 @@ begin
   StrGrid.Cells[5,0]:='KM Odo';
   StrGrid.Cells[6,0]:='Detail';
   StrGrid.Cells[7,0]:='Spare Part';
+  StrGrid.Cells[8,0]:='Status';
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[2,0].HorizontalAlignment:=taCenter;
@@ -135,6 +136,7 @@ begin
   StrGrid.CellStyle[5,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[6,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[7,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[8,0].HorizontalAlignment:=taCenter;
 //  StrGrid.CellStyle[6,0].HorizontalAlignment:=taCenter;
   for IntCount:=0 to IntMaxCol do begin
     StrGrid.Cells[IntCount,1]:='';
@@ -267,18 +269,24 @@ begin
     if (ServiceRequestArr[IntCount][7]='1')AND(ServiceRequestArr[IntCount][6]='') then
     begin
       for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount+1].Font.Color:=clGreen;
+      StrGrid.Cells[8,IntCount+1] := 'DISETUJUI BELUM BUAT PKB';
     end else if (ServiceRequestArr[IntCount][7]='2') AND (ServiceRequestArr[IntCount][6]='')then
     begin
       for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount+1].Font.Color:=clRed;
+      StrGrid.Cells[8,IntCount+1] := 'DITOLAK';
     end else if ServiceRequestArr[IntCount][6]<>'' then
     begin
       for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount+1].Font.Color:=clBlue;
+      StrGrid.Cells[8,IntCount+1] := 'SUDAH DIBUAT PKB';
     end else
     begin
       for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount+1].Font.Color:=clBtnText;
+      StrGrid.Cells[8,IntCount+1] := 'DIAJUKAN';
     end;
     StrGrid.CellStyle[1,IntCount+1].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[5,IntCount+1].HorizontalAlignment:=taRightJustify;
+
+
   end;
 end;
 

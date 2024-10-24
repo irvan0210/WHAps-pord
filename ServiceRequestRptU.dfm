@@ -1,6 +1,6 @@
 object ServiceRequestRpt: TServiceRequestRpt
   Left = 244
-  Top = 271
+  Top = 167
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan Service Request'
