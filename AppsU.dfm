@@ -131,6 +131,8 @@ object Apps: TApps
       '-Penambahan Form History Laka'
       '-Penambahan List History Laka'
       '-Penambahan Cetak History Laka'
+      '-Penambahan Kolom Status PKB dan Tampilkan Tanggal Selesai'
+      'di Laporan PKB'
       ''
       '09/10/2024 (6.1.5.44)'
       '-Penambahan filter Driver di Laporan Customer Complain'
