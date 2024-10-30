@@ -5,7 +5,7 @@ object WorkOrderList: TWorkOrderList
   BorderStyle = bsNone
   Caption = 'Data PKB'
   ClientHeight = 466
-  ClientWidth = 822
+  ClientWidth = 826
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,7 +21,7 @@ object WorkOrderList: TWorkOrderList
   PixelsPerInch = 96
   TextHeight = 13
   object Label3: TLabel
-    Left = 568
+    Left = 644
     Top = 13
     Width = 18
     Height = 13
@@ -65,7 +65,7 @@ object WorkOrderList: TWorkOrderList
     OnClick = ToXCelClick
   end
   object TombolCari: TSpeedButton
-    Left = 712
+    Left = 788
     Top = 8
     Width = 23
     Height = 23
@@ -106,6 +106,13 @@ object WorkOrderList: TWorkOrderList
       F7F7F7F8F8F7F7F70000}
     OnClick = TombolCariClick
   end
+  object Label2: TLabel
+    Left = 255
+    Top = 12
+    Width = 39
+    Height = 13
+    Caption = 'Tanggal'
+  end
   object Selesai: TButton
     Left = 366
     Top = 432
@@ -116,8 +123,8 @@ object WorkOrderList: TWorkOrderList
     OnClick = SelesaiClick
   end
   object Lihat: TButton
-    Left = 328
-    Top = 8
+    Left = 546
+    Top = 6
     Width = 75
     Height = 25
     Caption = 'Lihat'
@@ -125,7 +132,7 @@ object WorkOrderList: TWorkOrderList
     OnClick = LihatClick
   end
   object Cari: TEdit
-    Left = 592
+    Left = 668
     Top = 8
     Width = 121
     Height = 21
@@ -136,7 +143,7 @@ object WorkOrderList: TWorkOrderList
   object StrGrid: TZColorStringGrid
     Left = 8
     Top = 42
-    Width = 801
+    Width = 807
     Height = 383
     ColCount = 8
     DefaultRowHeight = 20
@@ -166,12 +173,12 @@ object WorkOrderList: TWorkOrderList
   object GroupCompany: TGroupBox
     Left = 8
     Top = 0
-    Width = 281
+    Width = 241
     Height = 33
     TabOrder = 4
     object Label1: TLabel
       Left = 16
-      Top = 8
+      Top = 12
       Width = 22
       Height = 13
       Alignment = taRightJustify
@@ -186,5 +193,33 @@ object WorkOrderList: TWorkOrderList
       ItemHeight = 13
       TabOrder = 0
     end
+  end
+  object Tanggal: TDateTimePicker
+    Left = 300
+    Top = 8
+    Width = 89
+    Height = 21
+    Date = 42528.603823240740000000
+    Time = 42528.603823240740000000
+    TabOrder = 5
+  end
+  object TanggalSampai: TDateTimePicker
+    Left = 440
+    Top = 8
+    Width = 89
+    Height = 21
+    Date = 42528.603823240740000000
+    Time = 42528.603823240740000000
+    TabOrder = 6
+    OnChange = TanggalSampaiChange
+  end
+  object ToDates: TCheckBox
+    Left = 393
+    Top = 11
+    Width = 41
+    Height = 17
+    Caption = 's/d'
+    TabOrder = 7
+    OnClick = ToDatesClick
   end
 end

@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Grids, ZColorStringGrid, ADODB, WHUnit, Buttons;
+  Dialogs, StdCtrls, Grids, ZColorStringGrid, ADODB, WHUnit, Buttons,
+  ComCtrls;
 
 type
   TWorkOrderList = class(TForm)
@@ -18,6 +19,10 @@ type
     SBU: TComboBox;
     ToXCel: TSpeedButton;
     TombolCari: TSpeedButton;
+    Label2: TLabel;
+    Tanggal: TDateTimePicker;
+    TanggalSampai: TDateTimePicker;
+    ToDates: TCheckBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SelesaiClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -30,6 +35,8 @@ type
     procedure TombolCariClick(Sender: TObject);
     procedure CariChange(Sender: TObject);
     procedure CariKeyPress(Sender: TObject; var Key: Char);
+    procedure ToDatesClick(Sender: TObject);
+    procedure TanggalSampaiChange(Sender: TObject);
   private
     FormRequest,FormFunction:String;
     DepartmentArr,LocationArr:Array of TArrString4;
@@ -76,6 +83,10 @@ begin
   SBU.ItemIndex:=-1;
   SBU.Text:='';
   IntRow:=0;
+  Tanggal.Date:=Now();
+  TanggalSampai.Date:=Now();
+  ToDates.Checked:=False;
+  TanggalSampai.Enabled:=False;
   if StrToInt(CompanyId)=1 then GroupCompany.Enabled:=True else GroupCompany.Enabled:=False;
 end;
 
@@ -151,7 +162,7 @@ end;
 
 procedure TWorkOrderList.RefreshData;
 var Qry:TADOQuery;
-    StrQry,AwalBulan,StrCompanyId,StrLocationId,StrIsAll,StrIsBlok:String;
+    StrQry,AwalBulan,StrCompanyId,StrLocationId,StrIsAll,StrIsBlok, STrTanggal, StrToDates:String;
     IntCount:Integer;
 begin
   Qry:=TADOQuery.Create(Self);
@@ -160,9 +171,11 @@ begin
   if Main.OpenDb then begin
     StrCompanyId:=CompanyArr[SBU.ItemIndex][1];
     StrLocationId:=CompanyArr[SBU.ItemIndex][2];
+    StrTanggal:=',@Dates='+QuotedStr(FormatDateTime('yyyy/mm/dd',Tanggal.Date));
+    if ToDates.Checked=True then StrToDates:=',@ToDates='+QuotedStr(FormatDateTime('yyyy/mm/dd',TanggalSampai.date)) else StrToDates:='';
     if IsAll<>9 then StrIsAll:=',@Status='+IntToStr(IsAll) else StrIsAll:='';
     if IsBlok in [1,2] then StrIsBlok:=',@flag='+IntToStr(IsBlok) else StrIsBlok:='';
-    StrQry:='EXEC GetWorkOrderLists '+StrCompanyId+','+StrLocationId+StrIsAll+StrIsBlok+';';
+    StrQry:='EXEC GetWorkOrderLists '+StrCompanyId+','+StrLocationId+StrTanggal+StrToDates+StrIsAll+StrIsBlok+';';
     Qry.SQL.Add(StrQry);
     Qry.Open;
     SetLength(WorkOrderArr,Qry.RecordCount);
@@ -347,6 +360,19 @@ end;
 procedure TWorkOrderList.CariKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key=#13 then TombolCari.Click;
+end;
+
+procedure TWorkOrderList.ToDatesClick(Sender: TObject);
+begin
+  if Not(Initiation) then begin
+    if ToDates.Checked=True then TanggalSampai.Enabled:=True
+    else TanggalSampai.Enabled:=False;
+  end;
+end;
+
+procedure TWorkOrderList.TanggalSampaiChange(Sender: TObject);
+begin
+  if Tanggal.Date>TanggalSampai.Date then Tanggal.Date:=TanggalSampai.Date;
 end;
 
 end.
