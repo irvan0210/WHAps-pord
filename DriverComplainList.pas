@@ -374,16 +374,15 @@ var Qry:TADOQuery;
     StrQry,StrDriveComplainID,StrRequest,StrVehicle_ID,StrLicensePlate,StrKmOdo,StrResponse,StrNoSR :String;
 begin
   //Service Request
+  StrResponse:= StrGrid.Cells[6,IntRow];
+  StrNoSR := StrGrid.Cells[7,IntRow];
+  StrDriveComplainID:=StrGrid.Cells[1,IntRow];
+  StrRequest:=StrGrid.Cells[2,IntRow];
+  StrVehicle_ID:=StrGrid.Cells[6,IntRow];
+  StrLicensePlate:=StrGrid.Cells[3,IntRow];
+  StrKmOdo:=StrGrid.Cells[7,IntRow];
   if (Main.IsFormOpen('ServiceRequestForm')=True) AND (FormRequest='Service Request') then
   begin
-    StrResponse:= StrGrid.Cells[6,IntRow];
-    StrNoSR := StrGrid.Cells[7,IntRow];
-    StrDriveComplainID:=StrGrid.Cells[1,IntRow];
-    StrRequest:=StrGrid.Cells[2,IntRow];
-    StrVehicle_ID:=StrGrid.Cells[6,IntRow];
-    StrLicensePlate:=StrGrid.Cells[3,IntRow];
-    StrKmOdo:=StrGrid.Cells[7,IntRow];
-
   //  MessageBox(0,PChar(StrResponse),'Respon 1',MB_OK or MB_ICONERROR);
    // MessageBox(0,PChar(StrNoSR),'Respon 2',MB_OK or MB_ICONERROR);
    if (StrResponse='') and (StrNoSR='') then
@@ -435,7 +434,7 @@ begin
       Main.CloseDb;
       Main.M_Normal;
     end;
-  end else if (FormRequest='Laporan Keluhan Driver') then
+  end else if (FormRequest='Laporan Keluhan Driver') and (StrResponse='') and (StrNoSR='') then
   begin
     if Main.IsFormOpen('ResponsDriverComplaint')=False then
     begin
