@@ -171,7 +171,7 @@ begin
             ' IIF(a.response IS NULL,'''', a.response) AS respons,'+
             ' IIF(c.service_request_id IS NULL,'''', c.service_request_id) AS service_request_id from wh_driver_complain a '+
             ' left join wh_vehicle b on a.vehicle_id=b.vehicle_id ' +
-            ' LEFT JOIN wh_service_request c ON a.driver_complain_id=c.driver_complain_id '+
+            ' LEFT JOIN (SELECT * FROM wh_service_request WHERE approve <>2) c ON a.driver_complain_id=c.driver_complain_id '+
             'where '+
             '(a.submit_date between '+QuotedStr(FormatDateTime('yyyy-mm-dd',Tanggal.Date))+' and '+QuotedStr(FormatDateTime('yyyy-mm-dd',TglSampai.Date+1))+' ) '+
             'and a.company_id='+StrCompanyId+' and a.status=1 '+StrRequest+';';
