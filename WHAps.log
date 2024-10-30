@@ -2462,3 +2462,460 @@
 24/10/2024 09:08:12	Finish Return Local Settings
 24/10/2024 09:08:12	Destroying Object
 24/10/2024 09:08:12	Closing Apps
+24/10/2024 09:10:27	Get Local Settings
+24/10/2024 09:10:27	Start Change Local Settings
+24/10/2024 09:10:27	Change short date format
+24/10/2024 09:10:27	Change Long date format
+24/10/2024 09:10:27	Finish Change Local Settings
+24/10/2024 09:10:27	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+24/10/2024 09:10:27	Registry Read/Write
+24/10/2024 09:10:27	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+24/10/2024 09:10:27	Setting DB Param
+24/10/2024 09:10:27	Create DB Object
+24/10/2024 09:10:27	Create DB Object
+24/10/2024 09:10:27	Init DB
+24/10/2024 09:10:27	Finish Init DB
+24/10/2024 09:10:27	Get File Version
+24/10/2024 09:10:27	Change  Caption
+24/10/2024 09:10:27	Init Shortkey
+24/10/2024 09:10:29	Setting DB Param
+24/10/2024 09:10:29	Create DB Object
+24/10/2024 09:10:29	Create DB Object
+24/10/2024 09:10:29	Init DB
+24/10/2024 09:10:29	Finish Init DB
+24/10/2024 09:10:36	Update new version check
+24/10/2024 09:10:36	Open DB Connection
+24/10/2024 09:10:59	SQL :
+24/10/2024 09:10:59	Update check version
+24/10/2024 09:10:59	Open DB Connection
+24/10/2024 09:10:59	SQL :SELECT version FROM wh_application WHERE application_id=(SELECT MAX(application_id) FROM wh_application);
+24/10/2024 09:10:59	Start Login
+24/10/2024 09:10:59	Open DB Connection
+24/10/2024 09:10:59	SQL :EXEC AuthenticateUser 'irvan.ruswanto','0b1dd5fabd221ef63c58c026bce4cf6b';
+24/10/2024 09:10:59	SQL :INSERT INTO wh_log (user_id,app_date,app_version,app_version_svr,location_id,company_id,department_id,host_name,ip_address)  VALUES ('irvan.ruswanto','24/10/2024','6.1.5.45','6.1.5.41',6,2,00,'IT-WEHA','192.168.25.215');
+24/10/2024 09:10:59	Open DB Connection
+24/10/2024 09:10:59	SQL :EXEC GetUserMenu 'irvan.ruswanto';
+24/10/2024 09:10:59	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','11';
+24/10/2024 09:10:59	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1101',@CompanyId=2;
+24/10/2024 09:10:59	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1102',@CompanyId=2;
+24/10/2024 09:10:59	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1103',@CompanyId=2;
+24/10/2024 09:10:59	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1104',@CompanyId=2;
+24/10/2024 09:10:59	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1105',@CompanyId=2;
+24/10/2024 09:10:59	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1106',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1107',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1108',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1109',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1110',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1111',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1112',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1113',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1114',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1115',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1116',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1117',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1198',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1199',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','12';
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1201',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1202',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1203',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1204',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1205',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1206',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1207',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','13';
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1301',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1302',@CompanyId=2;
+24/10/2024 09:11:00	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1303',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1304',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1305',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1306',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1307',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1308',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1309',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1310',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1311',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1312',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1313',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1314',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1315',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1316',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1317',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1318',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1319',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1320',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1321',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1322',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','14';
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1401',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1402',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1403',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1404',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1406',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1408',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1410',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1411',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1412',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1413',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1414',@CompanyId=2;
+24/10/2024 09:11:01	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','15';
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1501',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1502',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1503',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1504',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1505',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1506',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1507',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1508',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1509',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1510',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1511',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','16';
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1601',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1602',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1603',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1604',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1605',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1606',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1607',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1608',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1609',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1610',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1611',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1612',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1613',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1614',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1615',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1616',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1619',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1620',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','17';
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1701',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1702',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1703',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1704',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1705',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1706',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1707',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1708',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1709',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1710',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1711',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1712',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1713',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1714',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1715',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1716',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1717',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','18';
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1801',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','19';
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1901',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1902',@CompanyId=2;
+24/10/2024 09:11:02	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1903',@CompanyId=2;
+24/10/2024 09:11:03	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1904',@CompanyId=2;
+24/10/2024 09:11:03	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1905',@CompanyId=2;
+24/10/2024 09:11:03	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1906',@CompanyId=2;
+24/10/2024 09:11:03	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1907',@CompanyId=2;
+24/10/2024 09:11:03	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1908',@CompanyId=2;
+24/10/2024 09:11:03	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1909',@CompanyId=2;
+24/10/2024 09:11:03	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1910',@CompanyId=2;
+24/10/2024 09:11:03	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1911',@CompanyId=2;
+24/10/2024 09:11:03	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1912',@CompanyId=2;
+24/10/2024 09:11:03	SQL :SELECT CONVERT(VARCHAR(8),GETDATE(),108) AS hour_minute;
+24/10/2024 09:11:03	SQL :SELECT CONVERT(VARCHAR(10),GETDATE(),103) AS date_time;
+24/10/2024 09:11:03	Loading Setting
+24/10/2024 09:11:03	Open DB Connection
+24/10/2024 09:11:03	SQL :SELECT * FROM wh_setting WHERE setting_name='Hold_Less_Deposit';
+24/10/2024 09:11:03	SQL :SELECT * FROM wh_setting WHERE setting_name='Max_Less_Deposit';
+24/10/2024 09:11:03	SQL :SELECT * FROM wh_setting WHERE setting_name='Dashboard_2';
+24/10/2024 09:11:03	Finish Logging
+24/10/2024 09:11:03	SQL :SELECT value_string FROM wh_setting WHERE (setting_name='Interval_CheckInDate') AND (active=1);
+24/10/2024 09:11:03	SQL :SELECT value_string FROM wh_setting WHERE (setting_name='Interval_CheckInTime') AND (active=1);
+24/10/2024 09:11:03	SQL :SELECT value_string FROM wh_setting WHERE (setting_name='ChatEnable') and (active=1);
+24/10/2024 09:11:04	Message:Port Check
+24/10/2024 09:11:04	Message:Open DB Connection
+24/10/2024 09:11:04	SQL :EXEC GetMessage '01','irvan.ruswanto';
+24/10/2024 09:11:04	SQL :SELECT CONVERT(VARCHAR(8),GETDATE(),108) AS hour_minute;
+24/10/2024 09:11:04	SQL :SELECT CONVERT(VARCHAR(10),GETDATE(),103) AS date_time;
+24/10/2024 09:11:19	Open Menu :190802
+24/10/2024 09:11:19	Open DB Connection
+24/10/2024 09:11:19	SQL :EXEC AuthMenu 'irvan.ruswanto',190802;
+24/10/2024 09:11:19	Form Check :ServiceRequestRpt
+24/10/2024 09:11:19	Open DB Connection
+24/10/2024 09:11:19	SQL :EXEC GetCompanyLocationList
+24/10/2024 09:11:31	Open DB Connection
+24/10/2024 09:17:25	Form Check :ChatClient
+24/10/2024 09:17:26	Form Check :AuthorizedForm
+24/10/2024 09:17:26	Form Check :RePrintForm
+24/10/2024 09:17:26	Form Check :EmployeeSearch
+24/10/2024 09:17:26	Form Check :TimeInputForm
+24/10/2024 09:17:26	Log Out
+24/10/2024 09:17:28	Start Return Local Settings
+24/10/2024 09:17:28	Finish Return Local Settings
+24/10/2024 09:17:28	Destroying Object
+24/10/2024 09:17:28	Closing Apps
+24/10/2024 13:34:01	Get Local Settings
+24/10/2024 13:34:01	Start Change Local Settings
+24/10/2024 13:34:01	Change short date format
+24/10/2024 13:34:01	Change Long date format
+24/10/2024 13:34:01	Finish Change Local Settings
+24/10/2024 13:34:01	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+24/10/2024 13:34:01	Registry Read/Write
+24/10/2024 13:34:01	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+24/10/2024 13:34:01	Setting DB Param
+24/10/2024 13:34:01	Create DB Object
+24/10/2024 13:34:01	Create DB Object
+24/10/2024 13:34:01	Init DB
+24/10/2024 13:34:01	Finish Init DB
+24/10/2024 13:34:01	Get File Version
+24/10/2024 13:34:01	Change  Caption
+24/10/2024 13:34:01	Init Shortkey
+24/10/2024 13:34:39	Setting DB Param
+24/10/2024 13:34:39	Create DB Object
+24/10/2024 13:34:39	Create DB Object
+24/10/2024 13:34:39	Init DB
+24/10/2024 13:34:39	Finish Init DB
+24/10/2024 13:34:45	Update new version check
+24/10/2024 13:34:45	Open DB Connection
+24/10/2024 13:35:08	SQL :
+24/10/2024 13:35:08	Update check version
+24/10/2024 13:35:08	Open DB Connection
+24/10/2024 13:35:08	SQL :SELECT version FROM wh_application WHERE application_id=(SELECT MAX(application_id) FROM wh_application);
+24/10/2024 13:35:08	Start Login
+24/10/2024 13:35:08	Open DB Connection
+24/10/2024 13:35:08	SQL :EXEC AuthenticateUser 'irvan.ruswanto','0b1dd5fabd221ef63c58c026bce4cf6b';
+24/10/2024 13:35:08	SQL :INSERT INTO wh_log (user_id,app_date,app_version,app_version_svr,location_id,company_id,department_id,host_name,ip_address)  VALUES ('irvan.ruswanto','24/10/2024','6.1.5.45','6.1.5.41',6,2,00,'IT-WEHA','192.168.25.215');
+24/10/2024 13:35:08	Open DB Connection
+24/10/2024 13:35:08	SQL :EXEC GetUserMenu 'irvan.ruswanto';
+24/10/2024 13:35:08	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','11';
+24/10/2024 13:35:08	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1101',@CompanyId=2;
+24/10/2024 13:35:08	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1102',@CompanyId=2;
+24/10/2024 13:35:08	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1103',@CompanyId=2;
+24/10/2024 13:35:08	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1104',@CompanyId=2;
+24/10/2024 13:35:08	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1105',@CompanyId=2;
+24/10/2024 13:35:08	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1106',@CompanyId=2;
+24/10/2024 13:35:08	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1107',@CompanyId=2;
+24/10/2024 13:35:08	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1108',@CompanyId=2;
+24/10/2024 13:35:08	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1109',@CompanyId=2;
+24/10/2024 13:35:08	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1110',@CompanyId=2;
+24/10/2024 13:35:09	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1111',@CompanyId=2;
+24/10/2024 13:35:09	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1112',@CompanyId=2;
+24/10/2024 13:35:09	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1113',@CompanyId=2;
+24/10/2024 13:35:09	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1114',@CompanyId=2;
+24/10/2024 13:35:09	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1115',@CompanyId=2;
+24/10/2024 13:35:09	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1116',@CompanyId=2;
+24/10/2024 13:35:09	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1117',@CompanyId=2;
+24/10/2024 13:35:09	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1198',@CompanyId=2;
+24/10/2024 13:35:09	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1199',@CompanyId=2;
+24/10/2024 13:35:09	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','12';
+24/10/2024 13:35:09	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1201',@CompanyId=2;
+24/10/2024 13:35:09	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1202',@CompanyId=2;
+24/10/2024 13:35:09	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1203',@CompanyId=2;
+24/10/2024 13:35:09	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1204',@CompanyId=2;
+24/10/2024 13:35:09	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1205',@CompanyId=2;
+24/10/2024 13:35:09	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1206',@CompanyId=2;
+24/10/2024 13:35:09	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1207',@CompanyId=2;
+24/10/2024 13:35:09	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','13';
+24/10/2024 13:35:09	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1301',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1302',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1303',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1304',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1305',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1306',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1307',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1308',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1309',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1310',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1311',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1312',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1313',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1314',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1315',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1316',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1317',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1318',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1319',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1320',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1321',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1322',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','14';
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1401',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1402',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1403',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1404',@CompanyId=2;
+24/10/2024 13:35:10	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1406',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1408',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1410',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1411',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1412',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1413',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1414',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','15';
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1501',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1502',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1503',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1504',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1505',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1506',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1507',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1508',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1509',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1510',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1511',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','16';
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1601',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1602',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1603',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1604',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1605',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1606',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1607',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1608',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1609',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1610',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1611',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1612',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1613',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1614',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1615',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1616',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1619',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1620',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','17';
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1701',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1702',@CompanyId=2;
+24/10/2024 13:35:11	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1703',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1704',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1705',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1706',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1707',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1708',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1709',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1710',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1711',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1712',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1713',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1714',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1715',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1716',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1717',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','18';
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1801',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','19';
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1901',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1902',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1903',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1904',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1905',@CompanyId=2;
+24/10/2024 13:35:12	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1906',@CompanyId=2;
+24/10/2024 13:35:13	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1907',@CompanyId=2;
+24/10/2024 13:35:13	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1908',@CompanyId=2;
+24/10/2024 13:35:13	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1909',@CompanyId=2;
+24/10/2024 13:35:13	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1910',@CompanyId=2;
+24/10/2024 13:35:13	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1911',@CompanyId=2;
+24/10/2024 13:35:13	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1912',@CompanyId=2;
+24/10/2024 13:35:13	SQL :SELECT CONVERT(VARCHAR(8),GETDATE(),108) AS hour_minute;
+24/10/2024 13:35:13	SQL :SELECT CONVERT(VARCHAR(10),GETDATE(),103) AS date_time;
+24/10/2024 13:35:13	Loading Setting
+24/10/2024 13:35:13	Open DB Connection
+24/10/2024 13:35:13	SQL :SELECT * FROM wh_setting WHERE setting_name='Hold_Less_Deposit';
+24/10/2024 13:35:13	SQL :SELECT * FROM wh_setting WHERE setting_name='Max_Less_Deposit';
+24/10/2024 13:35:13	SQL :SELECT * FROM wh_setting WHERE setting_name='Dashboard_2';
+24/10/2024 13:35:13	Finish Logging
+24/10/2024 13:35:13	SQL :SELECT value_string FROM wh_setting WHERE (setting_name='Interval_CheckInDate') AND (active=1);
+24/10/2024 13:35:13	SQL :SELECT value_string FROM wh_setting WHERE (setting_name='Interval_CheckInTime') AND (active=1);
+24/10/2024 13:35:13	SQL :SELECT value_string FROM wh_setting WHERE (setting_name='ChatEnable') and (active=1);
+24/10/2024 13:35:23	Message:Port Check
+24/10/2024 13:35:23	Message:Open DB Connection
+24/10/2024 13:35:23	SQL :EXEC GetMessage '01','irvan.ruswanto';
+24/10/2024 13:35:23	SQL :SELECT CONVERT(VARCHAR(8),GETDATE(),108) AS hour_minute;
+24/10/2024 13:35:23	SQL :SELECT CONVERT(VARCHAR(10),GETDATE(),103) AS date_time;
+24/10/2024 13:35:27	Open Menu :150901
+24/10/2024 13:35:27	Open DB Connection
+24/10/2024 13:35:27	SQL :EXEC AuthMenu 'irvan.ruswanto',150901;
+24/10/2024 13:35:28	Form Check :ServiceRequestForm
+24/10/2024 13:35:28	Form Open: ServiceRequestForm=,,-1
+24/10/2024 13:35:28	Open DB Connection
+24/10/2024 13:35:29	Form Check :FDriverComplainList
+24/10/2024 13:35:29	Open DB Connection
+24/10/2024 13:35:29	SQL :EXEC GetCompanyLocationList
+24/10/2024 13:35:29	Open DB Connection
+24/10/2024 13:35:29	SQL :select a.*,b.license_plate from wh_driver_complain a left join wh_vehicle b on a.vehicle_id=b.vehicle_id where (a.submit_date between '2024-10-24' and '2024-10-25' ) and a.company_id='2' and a.status=1 ;
+24/10/2024 13:35:38	Open DB Connection
+24/10/2024 13:35:38	SQL :select a.*,b.license_plate from wh_driver_complain a left join wh_vehicle b on a.vehicle_id=b.vehicle_id where (a.submit_date between '2024-09-01' and '2024-10-25' ) and a.company_id='2' and a.status=1 ;
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090001' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090002' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090003' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090004' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090005' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090006' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090007' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090008' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090009' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090010' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090011' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090012' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090013' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090014' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090015' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090016' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090017' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090018' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090019' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090020' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090021' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090022' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090023' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090024' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090025' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090026' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090027' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090028' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090029' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090030' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:38	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090031' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090032' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090033' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090034' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090035' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090036' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090037' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090038' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090039' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090040' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090041' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090042' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090043' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090044' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090045' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090046' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090047' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090048' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090049' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090050' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090051' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090052' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090053' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090054' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090055' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090056' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090057' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090058' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090059' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090060' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090061' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090062' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090063' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:41	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090064' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:42	SQL :select description from wh_driver_complain_detail where driver_complain_id='DCPRB24090065' and status=1 and (description IS NOT NULL AND description<>'');
+24/10/2024 13:35:55	Form Check :ChatClient
+24/10/2024 13:35:56	Form Check :AuthorizedForm
+24/10/2024 13:35:56	Form Check :RePrintForm
+24/10/2024 13:35:56	Form Check :EmployeeSearch
+24/10/2024 13:35:56	Form Check :TimeInputForm
+24/10/2024 13:35:56	Log Out
+24/10/2024 13:35:57	Start Return Local Settings
+24/10/2024 13:35:57	Finish Return Local Settings
+24/10/2024 13:35:57	Destroying Object
+24/10/2024 13:35:57	Closing Apps

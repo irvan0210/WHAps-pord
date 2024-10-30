@@ -1,6 +1,6 @@
 object FDriverComplainList: TFDriverComplainList
-  Left = 316
-  Top = 120
+  Left = 310
+  Top = 129
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Keluhan Driver'
@@ -131,7 +131,7 @@ object FDriverComplainList: TFDriverComplainList
   end
   object StrGrid: TZColorStringGrid
     Left = 3
-    Top = 48
+    Top = 56
     Width = 952
     Height = 409
     Anchors = [akLeft, akTop, akRight]
