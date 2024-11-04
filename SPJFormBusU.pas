@@ -1427,11 +1427,11 @@ begin
             if StrStatus='1' then begin
               StrQry:=StrQry+' UPDATE wh_vhc_trans_detail_detail SET status=0 WHERE (vhc_trans_id='+QuotedStr(StrTransId)+') AND (status=1);';
             end else begin
-              if Package.Checked = False then begin
+//              if Package.Checked = False then begin
                 StrQry:=StrQry+' UPDATE wh_reserved_order_detail SET vhc_trans_id=NULL, update_user='+QuotedStr(User)+',update_time=GETDATE() WHERE (reserved_order_detail_id='+StrReservedOrderDetailId+') AND (status=1);';
-              end else begin
-                StrQry:=StrQry+' UPDATE wh_reserved_order_detail_package SET vhc_trans_id=NULL WHERE (reserved_order_detail_id='+StrReservedOrderDetailId+') AND (status=1);';
-              end;
+//              end else begin
+//                StrQry:=StrQry+' UPDATE wh_reserved_order_detail_package SET vhc_trans_id=NULL WHERE (reserved_order_detail_id='+StrReservedOrderDetailId+') AND (status=1);';
+//              end;
             end;
             Qry.SQL.Clear;
             Main.WriteLog('SQL :'+StrQry,4);
@@ -1481,7 +1481,7 @@ begin
 
             StrDeskripsiHist:='Buat surat jalan';
 
-            if Package.Checked = False then begin
+//            if Package.Checked = False then begin
               StrTransId:='SJB'+LocationCode+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
                           FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+StrTransId;
               StrUrutId:='TF'+LocationCode+FormatDateTime('yy',StrToDate(FromDate.Text))+
@@ -1527,60 +1527,60 @@ begin
               Qry.Close;
               {end cek data Topup}
               *)
-            end else begin
-              StrQry:='SELECT CONVERT(VARCHAR(10),from_date,103) AS dates,* FROM wh_reserved_order_detail_package WHERE (reserved_order_detail_id='+StrReservedOrderDetailId+') AND (status=1);';
-              Qry2.SQL.Clear;
-              Main.WriteLog('SQL :'+StrQry,2);
-              Qry2.SQL.Add(StrQry);
-              Qry2.Open;
-              IntCount:=0;
-              SetLength(NewSPJArr,Qry2.RecordCount);
-              if Qry2.RecordCount>0 then while not(Qry2.Eof) do begin
-                StrTransId:='SJB'+LocationCode+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
-                          FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+StrTransId;
-                StrUrutId:='TF'+LocationCode+FormatDateTime('yy',StrToDate(FromDate.Text))+
-                          FormatDateTime('mm',StrToDate(FromDate.Text))+FormatDateTime('dd',StrToDate(FromDate.Text))+StrUrutID;
-                StrFromDates:=QuotedStr(FormatDateTime('yyyy-mm-dd',StrToDate(Qry2.FieldValues['dates'])));
-                StrQry:='INSERT INTO wh_vhc_trans (vhc_trans_id,vehicle_id,vhc_trans_type_id,employee_id,employee_id2'+
-                        ',phone_no,location_id,out_date,out_user,description,remark,update_user,km_estimasi,isConnecting,urut_id) '+
-                        'VALUES ('+QuotedStr(StrTransId)+','+QuotedStr(StrVehicleID)+','+StrOutType+','+QuotedStr(StrDriver)+','+QuotedStr(StrDriver2) +
-                        ','+StrPhoneNo+','+LocationId+','+StrFromDates+','+QuotedStr(User)+
-                        ','+StrRemark+
-                        ','+StrRemark2+
-                        ','+QuotedStr(User)+','+IntToStr(IntKmestimasi)+','+QuotedStr(StrConnecting)+','+QuotedStr(StrUrutID)+');';
-                StrQry:=StrQry+' UPDATE wh_reserved_order_detail_package SET vhc_trans_id='+QuotedStr(StrTransId)+
-                        ' WHERE (reserved_order_detail_package_id='+QuotedStr(Qry2.FieldValues['reserved_order_detail_package_id'])+');';
-                StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail_detail (vhc_trans_id,customer_id,from_date,to_date'+
-                        ',from_time,standby_time,route,pickup_point,group_name,field_contact,field_contact_cellular_no,busboy'+
-                        //',product_vehicle_detail_id
-                        ',update_user) '+
-                        'VALUES ('+QuotedStr(StrTransId)+','+StrCustomerId+','+StrFromDates+','+StrFromDates+
-                        ','+StrFromTimes+','+StrStandbyTimes+','+StrRoute+','+StrPickupPoint+','+StrGroup+
-                        ','+StrFieldContact+','+StrFieldPhoneNo+','+StrBusBoy+{','+StrDestination+}','+QuotedStr(User)+');';
-                NewSPJArr[IntCount]:=StrTransId;
-                Qry.SQL.Clear;
-                Main.WriteLog('SQL :'+StrQry,4);
-                Qry.SQL.Add(StrQry);
-                try
-                  Qry.ExecSQL;
-                except
-                  on E:Exception do begin
-                    StrMsg:='Tidak Dapat Menyimpan SJ';
-                    StrEMessage:=E.Message;
-                    IsOk:=False;
-                  end;
-                end;
-                Qry2.Next;
-                StrTransId:=Format('%.*d',[4,StrToInt(RightStr(StrTransId,4))+1]);
-                Inc(IntCount);
-              end;
-              Qry2.Close;
-            end;
+//            end else begin
+//              StrQry:='SELECT CONVERT(VARCHAR(10),from_date,103) AS dates,* FROM wh_reserved_order_detail_package WHERE (reserved_order_detail_id='+StrReservedOrderDetailId+') AND (status=1);';
+//              Qry2.SQL.Clear;
+//              Main.WriteLog('SQL :'+StrQry,2);
+//              Qry2.SQL.Add(StrQry);
+//              Qry2.Open;
+//              IntCount:=0;
+//              SetLength(NewSPJArr,Qry2.RecordCount);
+//              if Qry2.RecordCount>0 then while not(Qry2.Eof) do begin
+//                StrTransId:='SJB'+LocationCode+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
+//                          FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+StrTransId;
+//                StrUrutId:='TF'+LocationCode+FormatDateTime('yy',StrToDate(FromDate.Text))+
+//                          FormatDateTime('mm',StrToDate(FromDate.Text))+FormatDateTime('dd',StrToDate(FromDate.Text))+StrUrutID;
+//                StrFromDates:=QuotedStr(FormatDateTime('yyyy-mm-dd',StrToDate(Qry2.FieldValues['dates'])));
+//                StrQry:='INSERT INTO wh_vhc_trans (vhc_trans_id,vehicle_id,vhc_trans_type_id,employee_id,employee_id2'+
+//                        ',phone_no,location_id,out_date,out_user,description,remark,update_user,km_estimasi,isConnecting,urut_id) '+
+//                        'VALUES ('+QuotedStr(StrTransId)+','+QuotedStr(StrVehicleID)+','+StrOutType+','+QuotedStr(StrDriver)+','+QuotedStr(StrDriver2) +
+//                        ','+StrPhoneNo+','+LocationId+','+StrFromDates+','+QuotedStr(User)+
+//                        ','+StrRemark+
+//                        ','+StrRemark2+
+//                        ','+QuotedStr(User)+','+IntToStr(IntKmestimasi)+','+QuotedStr(StrConnecting)+','+QuotedStr(StrUrutID)+');';
+//                StrQry:=StrQry+' UPDATE wh_reserved_order_detail_package SET vhc_trans_id='+QuotedStr(StrTransId)+
+//                        ' WHERE (reserved_order_detail_package_id='+QuotedStr(Qry2.FieldValues['reserved_order_detail_package_id'])+');';
+//                StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail_detail (vhc_trans_id,customer_id,from_date,to_date'+
+//                        ',from_time,standby_time,route,pickup_point,group_name,field_contact,field_contact_cellular_no,busboy'+
+//                        //',product_vehicle_detail_id
+//                        ',update_user) '+
+//                        'VALUES ('+QuotedStr(StrTransId)+','+StrCustomerId+','+StrFromDates+','+StrFromDates+
+//                        ','+StrFromTimes+','+StrStandbyTimes+','+StrRoute+','+StrPickupPoint+','+StrGroup+
+//                        ','+StrFieldContact+','+StrFieldPhoneNo+','+StrBusBoy+{','+StrDestination+}','+QuotedStr(User)+');';
+//                NewSPJArr[IntCount]:=StrTransId;
+//                Qry.SQL.Clear;
+//                Main.WriteLog('SQL :'+StrQry,4);
+//                Qry.SQL.Add(StrQry);
+//                try
+//                  Qry.ExecSQL;
+//                except
+//                  on E:Exception do begin
+//                    StrMsg:='Tidak Dapat Menyimpan SJ';
+//                    StrEMessage:=E.Message;
+//                    IsOk:=False;
+//                  end;
+//                end;
+//                Qry2.Next;
+//                StrTransId:=Format('%.*d',[4,StrToInt(RightStr(StrTransId,4))+1]);
+//                Inc(IntCount);
+//              end;
+//              Qry2.Close;
+//            end;
           end;
           StrQry:='';
 
           if StrStatus='1' then begin
-            if Package.Checked = False then begin
+//            if Package.Checked = False then begin
               StrQry:=StrQry+'INSERT INTO wh_vhc_trans_detail_detail (vhc_trans_id,customer_id,from_date,to_date'+
                       ',from_time,standby_time,route,pickup_point,group_name,field_contact,field_contact_cellular_no'+
                       ',busboy'+
@@ -1589,14 +1589,14 @@ begin
                       'VALUES ('+QuotedStr(StrTransId)+','+StrCustomerId+','+StrFromDates+','+StrToDates+
                       ','+StrFromTimes+','+StrStandbyTimes+','+StrRoute+','+StrPickupPoint+','+StrGroup+
                       ','+StrFieldContact+','+StrFieldPhoneNo+','+StrBusBoy+{','+StrDestination+}','+QuotedStr(User)+');';
-            end else begin
+//            end else begin
 
   {            StrQry:=' UPDATE wh_reserved_order_detail_package SET vhc_trans_id='+QuotedStr(StrTransId)+
                       ' WHERE (reserved_order_detail_id='+StrReservedOrderDetailId+') '+
                       ' AND (CONVERT(VARCHAR(10),from_date,103)='+
                       QuotedStr(FormatDateTime('dd/mm/yyyy',StrToDate(FromDate.Text)))+');';
   }
-            end;
+//            end;
           end;
 
           if StrQry<>'' then begin
@@ -1904,13 +1904,13 @@ begin
 
               if StrStatus='1' then begin
                 if MessageBox(0,'SJ Berhasil Disimpan' +Chr(13)+Chr(13)+'   Mau Dicetak ?','SJ Bus',MB_OKCANCEL or MB_ICONQUESTION)=1 then begin
-                  if Package.Checked = False then begin
+//                  if Package.Checked = False then begin
                     RePrint(StrTransId);
-                  end else begin
-                    for IntCount:=0 to Length(NewSPJArr)-1 do begin
-                      RePrint(NewSPJArr[IntCount]);
-                    end;
-                  end;
+//                  end else begin
+//                    for IntCount:=0 to Length(NewSPJArr)-1 do begin
+//                      RePrint(NewSPJArr[IntCount]);
+//                    end;
+//                  end;
                 end; //else
                   //MessageBox(0,'SJ tidak tercetak','SJ Bus',MB_OK or MB_ICONINFORMATION)
 
