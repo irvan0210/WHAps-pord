@@ -1,6 +1,6 @@
 object VehicleMutation: TVehicleMutation
-  Left = 565
-  Top = 209
+  Left = 668
+  Top = 250
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Mutasi Kendaraan'

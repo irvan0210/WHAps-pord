@@ -53,7 +53,7 @@ var
 
 implementation
 
-uses MainU, VehicleListU;
+uses MainU, VehicleListU, FormNoOrderListU;
 
 {$R *.dfm}
 
@@ -148,7 +148,7 @@ end;
 procedure TVehicleMutation.SimpanClick(Sender: TObject);
 var Qry:TADOQuery;
     StrQry,StrVhcDetailId,StrSBULocation,StrSBUCompany:String;
-    STNK,KIR,KIU,KIO,Tera,Reguler:String;
+    STNK,KIR,KIU,KIO,Tera,Reguler:String; //, StrNoOrder
     Ok:Boolean;
 begin
   Ok:=True;
@@ -159,83 +159,99 @@ begin
     StrSBULocation:=CompanyArr[SBU.ItemIndex][2];
     StrSBUCompany:=CompanyArr[SBU.ItemIndex][1];
     if Main.OpenDb then begin
-      StrQry:='SELECT * FROM wh_vhc_detail '+
-            'WHERE vhc_detail_id=(SELECT MAX(vhc_detail_id) FROM wh_vhc_detail '+
-            'WHERE vehicle_id='+Chr(39)+VhcId+Chr(39)+');';
+     StrQry := 'SELECT * FROM dbo.wh_reserved_order_detail a '+
+                ' left join wh_reserved_order b on b.reserved_order_id=a.reserved_order_id '+
+                ' WHERE vehicle_id ='+Chr(39)+VhcId+Chr(39)+
+                ' AND FROM_date >= GETDATE() AND a.status =1 AND b.status=1;';
       Qry.SQL.Clear;
       Qry.SQL.Add(StrQry);
       Qry.Open;
-      StrQry:='';
-      STNK:='NULL';
-      KIR:='NULL';
-      KIU:='NULL';
-      KIO:='NULL';
-      Tera:='NULL';
-      Reguler:='0';
-      if Qry.RecordCount>0 then if Qry.FieldValues['vhc_detail_id']<>NULL then begin
-        StrVhcDetailId:=Qry.FieldValues['vhc_detail_id'];
-        if Qry.FieldValues['stnk']<>NULL then STNK:=Chr(39)+FormatDateTime('yyyy-mm-dd',Qry.FieldValues['stnk'])+Chr(39);
-        if Qry.FieldValues['kir']<>NULL then KIR:=Chr(39)+FormatDateTime('yyyy-mm-dd',Qry.FieldValues['kir'])+Chr(39);
-        if Qry.FieldValues['kiu']<>NULL then KIU:=Chr(39)+FormatDateTime('yyyy-mm-dd',Qry.FieldValues['kiu'])+Chr(39);
-        if Qry.FieldValues['kio']<>NULL then KIO:=Chr(39)+FormatDateTime('yyyy-mm-dd',Qry.FieldValues['kio'])+Chr(39);
-        if Qry.FieldValues['tera']<>NULL then Tera:=Chr(39)+FormatDateTime('yyyy-mm-dd',Qry.FieldValues['tera'])+Chr(39);
-        if Qry.FieldValues['reguler']<>NULL then Reguler:=Chr(39)+IntToStr(Qry.FieldValues['reguler'])+Chr(39);
-        StrQry:=' UPDATE wh_vhc_detail SET to_date='+QuotedStr(FormatDateTime('yyyy-mm-dd',TglMutasi.Date))+
-              ' WHERE vhc_detail_id='+QuotedStr(StrVhcDetailId)+';';
+     // StrNoOrder := Qry.FieldValues['customer_order_id'] ;
+      if Qry.RecordCount>0 then
+        begin
+          MessageBox(0,'Kendaraan masih ada jadwal','Non Aktif',MB_OK or MB_ICONWARNING);
+          if Main.IsFormOpen('FormNoOrderList')=False then FormNoOrderList:=TFormNoOrderList.Create(Self, VhcId);
+        end
+      else
+      begin
+        StrQry:='SELECT * FROM wh_vhc_detail '+
+              'WHERE vhc_detail_id=(SELECT MAX(vhc_detail_id) FROM wh_vhc_detail '+
+              'WHERE vehicle_id='+Chr(39)+VhcId+Chr(39)+');';
         Qry.SQL.Clear;
         Qry.SQL.Add(StrQry);
-        try
-          Qry.ExecSQL;
-        except
-          on E:Exception do begin
-            Ok:=False;
-          end
+        Qry.Open;
+        StrQry:='';
+        STNK:='NULL';
+        KIR:='NULL';
+        KIU:='NULL';
+        KIO:='NULL';
+        Tera:='NULL';
+        Reguler:='0';
+        if Qry.RecordCount>0 then if Qry.FieldValues['vhc_detail_id']<>NULL then begin
+          StrVhcDetailId:=Qry.FieldValues['vhc_detail_id'];
+          if Qry.FieldValues['stnk']<>NULL then STNK:=Chr(39)+FormatDateTime('yyyy-mm-dd',Qry.FieldValues['stnk'])+Chr(39);
+          if Qry.FieldValues['kir']<>NULL then KIR:=Chr(39)+FormatDateTime('yyyy-mm-dd',Qry.FieldValues['kir'])+Chr(39);
+          if Qry.FieldValues['kiu']<>NULL then KIU:=Chr(39)+FormatDateTime('yyyy-mm-dd',Qry.FieldValues['kiu'])+Chr(39);
+          if Qry.FieldValues['kio']<>NULL then KIO:=Chr(39)+FormatDateTime('yyyy-mm-dd',Qry.FieldValues['kio'])+Chr(39);
+          if Qry.FieldValues['tera']<>NULL then Tera:=Chr(39)+FormatDateTime('yyyy-mm-dd',Qry.FieldValues['tera'])+Chr(39);
+          if Qry.FieldValues['reguler']<>NULL then Reguler:=Chr(39)+IntToStr(Qry.FieldValues['reguler'])+Chr(39);
+          StrQry:=' UPDATE wh_vhc_detail SET to_date='+QuotedStr(FormatDateTime('yyyy-mm-dd',TglMutasi.Date))+
+                ' WHERE vhc_detail_id='+QuotedStr(StrVhcDetailId)+';';
+          Qry.SQL.Clear;
+          Qry.SQL.Add(StrQry);
+          try
+            Qry.ExecSQL;
+          except
+            on E:Exception do begin
+              Ok:=False;
+            end
+          end;
         end;
-      end;
-      if Mutasi.Checked then begin
-        StrQry:=' INSERT INTO wh_vhc_detail (vehicle_id,location_id,stnk,kir,kiu,kio,tera,'+
-              'from_date,reguler,update_user) '+
-              'VALUES ('+QuotedStr(VhcId)+','+StrSBULocation+','+STNK+','+KIR+
-              ','+KIU+','+KIO+','+Tera+','+QuotedStr(FormatDateTime('yyyy-mm-dd',TglMutasi.Date))+
-              ','+Reguler+','+QuotedStr(User)+');';
-        Qry.SQL.Clear;
-        Qry.SQL.Add(StrQry);
-        try
-          Qry.ExecSQL;
-        except
-          on E:Exception do begin
-            Ok:=False;
-          end
+        if Mutasi.Checked then begin
+          StrQry:=' INSERT INTO wh_vhc_detail (vehicle_id,location_id,stnk,kir,kiu,kio,tera,'+
+                'from_date,reguler,update_user) '+
+                'VALUES ('+QuotedStr(VhcId)+','+StrSBULocation+','+STNK+','+KIR+
+                ','+KIU+','+KIO+','+Tera+','+QuotedStr(FormatDateTime('yyyy-mm-dd',TglMutasi.Date))+
+                ','+Reguler+','+QuotedStr(User)+');';
+          Qry.SQL.Clear;
+          Qry.SQL.Add(StrQry);
+          try
+            Qry.ExecSQL;
+          except
+            on E:Exception do begin
+              Ok:=False;
+            end
+          end;
+          StrQry:='UPDATE wh_vehicle SET company_id='+StrSBUCompany+',update_user='+QuotedStr(User)+
+                  ' WHERE vehicle_id='+QuotedStr(VhcId)+';';
+          Qry.SQL.Clear;
+          Qry.SQL.Add(StrQry);
+          try
+            Qry.ExecSQL;
+          except
+            on E:Exception do begin
+              Ok:=False;
+            end
+          end;
+        end else begin
+          StrQry:='UPDATE wh_vehicle SET active=0, update_user='+QuotedStr(User)+
+                  ',update_time='+QuotedStr(FormatDateTime('YYYY-MM-DD HH:NN:SS', Now)) +
+                  ' WHERE vehicle_id='+Chr(39)+VhcId+Chr(39)+';';
+          Qry.SQL.Add(StrQry);
+          try
+            Qry.ExecSQL;
+          except
+            on E:Exception do begin
+              Ok:=False;
+            end
+          end;
         end;
-        StrQry:='UPDATE wh_vehicle SET company_id='+StrSBUCompany+',update_user='+QuotedStr(User)+
-                ' WHERE vehicle_id='+QuotedStr(VhcId)+';';
-        Qry.SQL.Clear;
-        Qry.SQL.Add(StrQry);
-        try
-          Qry.ExecSQL;
-        except
-          on E:Exception do begin
-            Ok:=False;
-          end
+        if Ok then begin
+          MessageBox(0,'Mutasi Armada Berhasil','Mutasi Armada',MB_OK or MB_ICONWARNING);
+          VehicleList.ClearCari;
+          VehicleList.RefreshList;
+          Close;
         end;
-      end else begin
-        StrQry:='UPDATE wh_vehicle SET active=0, update_user='+QuotedStr(User)+
-                ',update_time='+QuotedStr(FormatDateTime('YYYY-MM-DD HH:NN:SS', Now)) +
-                ' WHERE vehicle_id='+Chr(39)+VhcId+Chr(39)+';';
-        Qry.SQL.Add(StrQry);
-        try
-          Qry.ExecSQL;
-        except
-          on E:Exception do begin
-            Ok:=False;
-          end
-        end;
-      end;
-      if Ok then begin
-        MessageBox(0,'Mutasi Armada Berhasil','Mutasi Armada',MB_OK or MB_ICONWARNING);
-        VehicleList.ClearCari;
-        VehicleList.RefreshList;
-        Close;
       end;
     end;
     Qry.Destroy;
