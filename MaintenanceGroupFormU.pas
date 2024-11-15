@@ -205,7 +205,7 @@ begin
         StrTransId:='001';
       StrTransId:='MG'+CompanyId+StrTransId;
 
-      StrQry:='select * from wh_maintenance_group WHERE use_kilometer ='+StrUseKM+';';
+      StrQry:='select * from wh_maintenance_group WHERE company_id='+QuotedStr(CompanyId)+' AND use_kilometer ='+StrUseKM+';';
       Qry.SQL.Clear;
       Qry.SQL.Add(StrQry);
       Qry.Open;
