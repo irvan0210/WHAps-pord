@@ -1479,7 +1479,7 @@ begin
                   if IsFormOpen('MaintenanceJobList')=False then MaintenanceJobList:=TMaintenanceJobList.Create(Self,'Update-Detail');
               end;
               else begin
-                  if IsFormOpen('MaintenanceJobList')=False then MaintenanceJobList:=TMaintenanceJobList.Create(Self);
+                  if IsFormOpen('MaintenanceJobList')=False then MaintenanceJobList:=TMaintenanceJobList.Create(Self,,'Update-Detail');
               end;
            end;
         end;
@@ -1504,10 +1504,11 @@ begin
                   if IsFormOpen('MaintenanceGroupJobForm')=False then MaintenanceGroupJobForm:=TMaintenanceGroupJobForm.Create(Self);
               end;
               1:begin
-//                  if IsFormOpen('MaintenanceGroupList')=False then MaintenanceGroupList:=TMaintenanceGroupList.Create(Self);
+                  if IsFormOpen('MaintenanceGroupJobList')=False then MaintenanceGroupJobList:=TMaintenanceGroupJobList.Create(Self);
               end;
               else begin
-//                  if IsFormOpen('MaintenanceGroupList')=False then MaintenanceGroupList:=TMaintenanceGroupList.Create(Self);
+                if IsFormOpen('MaintenanceGroupJobList')=False then MaintenanceGroupJobList:=TMaintenanceGroupJobList.Create(Self);
+                //  if IsFormOpen('MaintenanceGroupList')=False then MaintenanceGroupList:=TMaintenanceGroupList.Create(Self);
               end;
            end;
         end;

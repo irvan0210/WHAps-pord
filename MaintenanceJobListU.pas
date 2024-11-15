@@ -149,8 +149,8 @@ begin
       SetLength(MaintenanceJobArr,IntCount+1);
         MaintenanceJobArr[IntCount][0]:=Qry.FieldValues['type_name']+' '+Qry.FieldValues['name'];
         if Qry.FieldValues['part_type_name']<>NULL then MaintenanceJobArr[IntCount][1]:=Qry.FieldValues['part_type_name'];
-        if Qry.FieldValues['status']=1 then MaintenanceJobArr[IntCount][2]:='Active' else MaintenanceJobArr[IntCount][3]:='NonAktif';
-        MaintenanceJobArr[IntCount][3]:=Qry.FieldValues['maintenance_job_id'];
+        if Qry.FieldValues['status']=1 then MaintenanceJobArr[IntCount][2]:='Active' else MaintenanceJobArr[IntCount][2]:='NonAktif';
+        MaintenanceJobArr[IntCount][3]:=Qry.FieldValues['maintenance_job_id']; //StrGrid.Cells[0,IntRow]
         Qry.Next;
         Inc(IntCount);
     end;
@@ -226,7 +226,8 @@ begin
       MaintenanceJobForm:=TMaintenanceJobForm.Create(Self,StrGrid.Cells[5,IntRow]);
     end else begin
       if UpperCase(FormRequest)='UPDATE-DETAIL' then begin
-        if Main.IsFormOpen('MaintenanceJobForm')=False then MaintenanceJobForm:=TMaintenanceJobForm.Create(Self,StrGrid.Cells[4,IntRow],False);
+         // MessageBox(0,PChar(MaintenanceJobArr[IntRow-1][3]),'TES',MB_OK or MB_ICONERROR);
+        if Main.IsFormOpen('MaintenanceJobForm')=False then MaintenanceJobForm:=TMaintenanceJobForm.Create(Self,MaintenanceJobArr[IntRow-1][3],False);
       end;
     end;
   end;

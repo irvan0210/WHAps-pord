@@ -1,6 +1,6 @@
 object MaintenanceJobList: TMaintenanceJobList
   Left = 838
-  Top = 155
+  Top = 228
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Data Pekerjaan\Perbaikan'

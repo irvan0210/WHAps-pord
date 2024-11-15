@@ -1,4 +1,4 @@
-unit MaintenanceGroupJobFormU;
+unit MaintenanceGroupJobListU;
 
 interface
 
@@ -7,41 +7,22 @@ uses
   Dialogs, StdCtrls, ExtCtrls, WHUnit, Grids, ZColorStringGrid;
 
 type
-  TMaintenanceGroupJobForm = class(TForm)
-    Batal: TButton;
-    Simpan: TButton;
-    Label3: TLabel;
-    Label4: TLabel;
-    Label1: TLabel;
+  TMaintenanceGroupJobList = class(TForm)
     Label5: TLabel;
-    GroupId: TPanel;
-    MaintenanceGroupId: TEdit;
-    GroupInput: TPanel;
-    Description: TEdit;
-    Active: TCheckBox;
-    MaintenanceJob: TComboBox;
     GroupBox1: TGroupBox;
     StrGrid: TZColorStringGrid;
     Bersihkan: TButton;
-    Label2: TLabel;
     MaintenanceGroup: TComboBox;
+    Batal: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BatalClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure MaintenanceJobChange(Sender: TObject);
     procedure SimpanClick(Sender: TObject);
-    procedure ActiveKeyPress(Sender: TObject; var Key: Char);
-    procedure TreeMenuNameKeyPress(Sender: TObject; var Key: Char);
-    procedure DescriptionKeyPress(Sender: TObject; var Key: Char);
     procedure BersihkanClick(Sender: TObject);
-    procedure GroupNameKeyPress(Sender: TObject; var Key: Char);
-    procedure HoursKeyPress(Sender: TObject; var Key: Char);
-    procedure DaysKeyPress(Sender: TObject; var Key: Char);
-    procedure MaintenanceJobKeyPress(Sender: TObject; var Key: Char);
-    procedure MaintenanceGroupKeyPress(Sender: TObject; var Key: Char);
-    procedure StrGridDblClick(Sender: TObject);
     procedure StrGridSelectCell(Sender: TObject; ACol, ARow: Integer;
       var CanSelect: Boolean);
+    procedure StrGridDblClick(Sender: TObject);
   private
     { Private declarations }
     StrMaintenanceGrpId:String;
@@ -64,15 +45,15 @@ type
   end;
 
 var
-  MaintenanceGroupJobForm: TMaintenanceGroupJobForm;
+  MaintenanceGroupJobList: TMaintenanceGroupJobList;
 
 implementation
 
-uses MainU, ADODB, StrUtils, TreeMenuListU;
+uses MainU, ADODB, StrUtils, TreeMenuListU, MaintenanceJobFormEditU;
 
 {$R *.dfm}
 
-constructor TMaintenanceGroupJobForm.Create(AOwner:TComponent;MaintenenceGroup_Id:String='';IsViewOnly:Boolean=False);
+constructor TMaintenanceGroupJobList.Create(AOwner:TComponent;MaintenenceGroup_Id:String='';IsViewOnly:Boolean=False);
 begin
   StrMaintenanceGrpId:=MaintenenceGroup_Id;
   IsView:=IsViewOnly;
@@ -81,16 +62,17 @@ begin
   Inherited Create(AOwner);
 end;
 
-procedure TMaintenanceGroupJobForm.Init;
+procedure TMaintenanceGroupJobList.Init;
 begin
-  GroupId.Enabled:=False;
-  MaintenanceGroupId.Text:='';
-  Description.Text:='';
-  Active.Checked:=False;
-  Active.Visible:=False;
+   MaintenanceGroup.SetFocus;
+ // GroupId.Enabled:=False;
+ // MaintenanceGroupId.Text:='';
+  //Description.Text:='';
+ // Active.Checked:=False;
+ // Active.Visible:=False;
 end;
 
-procedure TMaintenanceGroupJobForm.LoadData;
+procedure TMaintenanceGroupJobList.LoadData;
 var Qry:TADOQuery;
     StrQry,StrMaintenanceGroupId:String;
     IntCount:Integer;
@@ -119,7 +101,7 @@ begin
 end;
 
 
-procedure TMaintenanceGroupJobForm.RefreshCombo;
+procedure TMaintenanceGroupJobList.RefreshCombo;
 var Qry:TADOQuery;
     StrQry:String;
     IntCount:Integer;
@@ -127,9 +109,9 @@ begin
   MaintenanceGroup.Text:='';
   MaintenanceGroup.ItemIndex:=-1;
   MaintenanceGroup.Clear;
-  MaintenanceJob.Text:='';
-  MaintenanceJob.ItemIndex:=-1;
-  MaintenanceJob.Items.Clear;
+ // MaintenanceJob.Text:='';
+  //MaintenanceJob.ItemIndex:=-1;
+ // MaintenanceJob.Items.Clear;
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
   SetLength(MaintenanceGroupArr,0);
@@ -155,12 +137,12 @@ begin
     MaintenanceGroup.Items.Add(MaintenanceGroupArr[IntCount][1]);
 end;
 
-procedure TMaintenanceGroupJobForm.RefreshJob;
+procedure TMaintenanceGroupJobList.RefreshJob;
 var Qry:TADOQuery;
     StrQry,StrMaintenanceGrpId:String;
     IntCount:Integer;
 begin
-  MaintenanceJob.Text:='';
+{  MaintenanceJob.Text:='';
   MaintenanceJob.ItemIndex:=-1;
   MaintenanceJob.Items.Clear;
   Qry:=TADOQuery.Create(Self);
@@ -186,33 +168,33 @@ begin
   end;
   Qry.Destroy;
   for IntCount:=0 to Length(MaintenanceJobArr)-1 do
-    MaintenanceJob.Items.Add(MaintenanceJobArr[IntCount][1]);
+    MaintenanceJob.Items.Add(MaintenanceJobArr[IntCount][1]); }
 end;
 
-procedure TMaintenanceGroupJobForm.Input(IsEnable:Boolean);
+procedure TMaintenanceGroupJobList.Input(IsEnable:Boolean);
 begin
-  GroupInput.Enabled:=IsEnable;
-  Simpan.Visible:=IsEnable;
+ // GroupInput.Enabled:=IsEnable;
+ // Simpan.Visible:=IsEnable;
 end;
 
-procedure TMaintenanceGroupJobForm.FormClose(Sender: TObject;
+procedure TMaintenanceGroupJobList.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
   Action:=caFree;
 end;
 
-procedure TMaintenanceGroupJobForm.BatalClick(Sender: TObject);
+procedure TMaintenanceGroupJobList.BatalClick(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TMaintenanceGroupJobForm.FormShow(Sender: TObject);
+procedure TMaintenanceGroupJobList.FormShow(Sender: TObject);
 begin
   Init;
   InitGrid;
   RefreshCombo;
   if StrMaintenanceGrpId<>'' then begin
-    Active.Visible:=True;
+   // Active.Visible:=True;
     LoadData;
   end;
   if IsView then Input(False)
@@ -220,14 +202,14 @@ begin
   Initiation:=False;
 end;
 
-procedure TMaintenanceGroupJobForm.InitGrid;
+procedure TMaintenanceGroupJobList.InitGrid;
 var IntCount:Integer;
 begin
   StrGrid.RowCount:=2;
   StrGrid.ColWidths[0]:=110;
   StrGrid.ColWidths[1]:=180;
   StrGrid.ColWidths[2]:=150;
-  StrGrid.ColWidths[3]:=40;
+  StrGrid.ColWidths[3]:=70;
   StrGrid.Cells[0,0]:='ID';
   StrGrid.Cells[1,0]:='Pekerjaan';
   StrGrid.Cells[2,0]:='Keterangan';
@@ -239,7 +221,7 @@ begin
   for IntCount:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount,0].HorizontalAlignment:=taCenter;
 end;
 
-procedure TMaintenanceGroupJobForm.LoadDataGrid;
+procedure TMaintenanceGroupJobList.LoadDataGrid;
 var Qry:TADOQuery;
     StrQry,StrMaintenanceGroupId:String;
     IntCount:Integer;
@@ -270,7 +252,7 @@ begin
   Main.CloseDb;
 end;
 
-procedure TMaintenanceGroupJobForm.RefreshGrid;
+procedure TMaintenanceGroupJobList.RefreshGrid;
 var IntCount:Integer;
 begin
   if Length(MaintenanceGroupListArr)>0 then StrGrid.RowCount:=Length(MaintenanceGroupListArr)+1
@@ -284,7 +266,7 @@ begin
 end;
 
 
-procedure TMaintenanceGroupJobForm.MaintenanceJobChange(Sender: TObject);
+procedure TMaintenanceGroupJobList.MaintenanceJobChange(Sender: TObject);
 begin
   RefreshJob;
   InitGrid;
@@ -292,18 +274,18 @@ begin
   RefreshGrid;
 end;
 
-procedure TMaintenanceGroupJobForm.SimpanClick(Sender: TObject);
+procedure TMaintenanceGroupJobList.SimpanClick(Sender: TObject);
 var Qry:TADOQuery;
     StrQry,StrMsg,StrException,StrTransId,StrMaintenanceGroupId,StrMaintenanceJobId,StrDescription:String;
     IntActive,IntCount:Integer;
     IsOk:Boolean;
 begin
-  if (Trim(MaintenanceGroup.Text)<>'') and (Trim(MaintenanceJob.Text)<>'')  then begin
+ { if (Trim(MaintenanceGroup.Text)<>'') and (Trim(MaintenanceJob.Text)<>'')  then begin
     IsOk:=True;
     Qry:=TADOQuery.Create(Self);
     Qry.Connection:=Main.MyConnection;
-    if Active.Checked then IntActive:=1 else IntActive:=0;
-    if Trim(StrDescription)<>'' then StrDescription:=QuotedStr(Trim(Description.Text)) else StrDescription:='NULL';
+   // if Active.Checked then IntActive:=1 else IntActive:=0;
+   // if Trim(StrDescription)<>'' then StrDescription:=QuotedStr(Trim(Description.Text)) else StrDescription:='NULL';
     for IntCount:=0 to Length(MaintenanceGroupArr)-1 do
       if MaintenanceGroupArr[IntCount][1]=MaintenanceGroup.Text then StrMaintenanceGroupId:=MaintenanceGroupArr[IntCount][0];
     for IntCount:=0 to Length(MaintenanceJobArr)-1 do
@@ -316,9 +298,10 @@ begin
                 ' WHERE maintenance_group_id='+QuotedStr(MaintenanceGroupId.Text)+';'
       else
         StrTransId:=StrMaintenanceGroupId+StrMaintenanceJobId;
-        StrQry:='INSERT INTO wh_maintenance_group_detail (maintenance_group_detail_id,maintenance_group_id,maintenance_job_id,description,update_user)'+
+      {  StrQry:='INSERT INTO wh_maintenance_group_detail (maintenance_group_detail_id,maintenance_group_id,maintenance_job_id,description,update_user)'+
                 ' VALUES ('+QuotedStr(StrTransId)+','+QuotedStr(StrMaintenanceGroupId)+
                 ','+QuotedStr(StrMaintenanceJobId)+','+QuotedStr(Description.Text)+','+QuotedStr(User)+');';
+
       Qry.SQL.Clear;
       Main.WriteLog('SQL :'+StrQry,4);
       Qry.SQL.Add(StrQry);
@@ -343,27 +326,10 @@ begin
       EnableInput;
       MessageBox(Handle,PChar(StrMsg+Chr(13)+Chr(13)+'Kesalahan:'+Chr(13)+StrException),'Group Maintenance',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
     end;
-  end;
+  end;  } 
 end;
 
-procedure TMaintenanceGroupJobForm.ActiveKeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key=#13 then Simpan.SetFocus;
-end;
-
-procedure TMaintenanceGroupJobForm.TreeMenuNameKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  if Key=#13 then Description.SetFocus;
-end;
-
-procedure TMaintenanceGroupJobForm.DescriptionKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  if Key=#13 then if Active.Visible then Active.SetFocus else Simpan.SetFocus;
-end;
-
-procedure TMaintenanceGroupJobForm.BersihkanClick(Sender: TObject);
+procedure TMaintenanceGroupJobList.BersihkanClick(Sender: TObject);
 begin
   Init;
   InitGrid;
@@ -372,86 +338,25 @@ begin
   MaintenanceGroup.SetFocus;
 end;
 
-procedure TMaintenanceGroupJobForm.DisableInput;
+procedure TMaintenanceGroupJobList.DisableInput;
 begin
-  Simpan.Enabled:=False;
-  GroupInput.Enabled:=False;
+
 end;
 
-procedure TMaintenanceGroupJobForm.EnableInput;
+procedure TMaintenanceGroupJobList.EnableInput;
 begin
-  Simpan.Enabled:=True;
-  GroupInput.Enabled:=True;
 end;
 
-procedure TMaintenanceGroupJobForm.GroupNameKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  if Key=#13 then MaintenanceJob.SetFocus;
-end;
-
-procedure TMaintenanceGroupJobForm.HoursKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  if Key=#13 then Description.SetFocus;
-end;
-
-procedure TMaintenanceGroupJobForm.DaysKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  if Key=#13 then Description.SetFocus;
-end;
-
-procedure TMaintenanceGroupJobForm.MaintenanceJobKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  if Key=#13 then Description.SetFocus;
-end;
-
-procedure TMaintenanceGroupJobForm.MaintenanceGroupKeyPress(
-  Sender: TObject; var Key: Char);
-begin
-  if Key=#13 then MaintenanceJob.SetFocus;
-end;
-
-procedure TMaintenanceGroupJobForm.StrGridDblClick(Sender: TObject);
-var Qry:TADOQuery;
-    StrQry:String;
-    IntCount:Integer;
-begin
- { Qry:=TADOQuery.Create(Self);
-  Qry.Connection:=Main.MyConnection;
-  MessageBox(Handle,PChar(StrGrid.Cells[0,IntRow]),'Group Maintenance',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
-  //for IntCount:=0 to Length(MaintenanceGroupArr)-1 do
- //   if MaintenanceGroupArr[IntCount][1]=MaintenanceGroup.Text then StrMaintenanceGroupId:=MaintenanceGroupArr[IntCount][0];
-  if Main.OpenDb then begin
-    StrQry:='SELECT * FROM dbo.wh_maintenance_group_detail WHERE maintenance_group_id = '+QuotedStr(StrGrid.Cells[0,IntRow])+';';
-    Main.WriteLog('SQL :'+StrQry,2);
-    Qry.SQL.Add(StrQry);
-    Qry.Open;
-    IntCount:=0;
-    //SetLength(MaintenanceGroupListArr,Qry.RecordCount);
-    if Qry.RecordCount>0 then while Not(Qry.Eof) do begin
-
-     // MaintenanceGroupListArr[IntCount][0]:=Qry.FieldValues['maintenance_group_detail_id'];
-    //  MaintenanceGroupListArr[IntCount][1]:=Qry.FieldValues['type_name']+' '+Qry.FieldValues['job_name'];
-     // if Qry.FieldValues['description']<>NULL then
-    //  MaintenanceGroupListArr[IntCount][2]:=Qry.FieldValues['description'];
-     // if Qry.FieldValues['status']=1 then MaintenanceGroupListArr[IntCount][3]:='Active' else MaintenanceGroupListArr[IntCount][3]:='Non Aktif';
-      MaintenanceGroupId.Text := Qry.FieldValues['maintenance_group_detail_id'];
-      Inc(IntCount);
-      Qry.Next;
-    end;
-  end;
-  Qry.Close;
-  FreeAndNil(Qry);
-  Main.CloseDb; }
-end;
-
-procedure TMaintenanceGroupJobForm.StrGridSelectCell(Sender: TObject; ACol,
+procedure TMaintenanceGroupJobList.StrGridSelectCell(Sender: TObject; ACol,
   ARow: Integer; var CanSelect: Boolean);
 begin
   IntRow:=ARow;
+end;
+
+procedure TMaintenanceGroupJobList.StrGridDblClick(Sender: TObject);
+begin
+ if Main.IsFormOpen('MaintenanceJobFormEdit')=False then
+  MaintenanceJobFormEdit:=TMaintenanceJobFormEdit.Create(Self,StrGrid.Cells[0,IntRow]);
 end;
 
 end.

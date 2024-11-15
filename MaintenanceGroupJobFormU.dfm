@@ -1,6 +1,6 @@
 object MaintenanceGroupJobForm: TMaintenanceGroupJobForm
-  Left = 717
-  Top = 163
+  Left = 494
+  Top = 239
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Group Pekerjaan/Perbaikan '
@@ -145,7 +145,6 @@ object MaintenanceGroupJobForm: TMaintenanceGroupJobForm
     Top = 128
     Width = 529
     Height = 233
-    Caption = 'TreeMenu'
     TabOrder = 5
     object StrGrid: TZColorStringGrid
       Left = 8
@@ -160,6 +159,8 @@ object MaintenanceGroupJobForm: TMaintenanceGroupJobForm
       RowCount = 2
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRowSelect]
       TabOrder = 0
+      OnDblClick = StrGridDblClick
+      OnSelectCell = StrGridSelectCell
       DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
       DefaultCellStyle.Font.Color = clWindowText
       DefaultCellStyle.Font.Height = -11

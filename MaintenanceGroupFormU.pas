@@ -73,7 +73,8 @@ var
 
 implementation
 
-uses MainU, ADODB, SubMenuListU;
+uses MainU, ADODB, SubMenuListU, MaintenanceGroupListU,
+  MaintenanceGroupJobFormU;
 
 {$R *.dfm}
 
@@ -107,16 +108,35 @@ begin
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
   if Main.OpenDb then begin
-    StrQry:='SELECT * FROM wh_sub_menu a INNER JOIN wh_menu b ON b.menu_id=a.menu_id WHERE sub_menu_id='+GrpId+';';
+   // StrQry:='SELECT * FROM wh_sub_menu a INNER JOIN wh_menu b ON b.menu_id=a.menu_id WHERE sub_menu_id='+GrpId+';';
+    StrQry:='SELECT * FROM wh_maintenance_group WHERE maintenance_group_id='+QuotedStr(GrpId)+';';
     Qry.SQL.Add(StrQry);
     Qry.Open;
     if Qry.RecordCount>0 then begin
-      GroupId.Text:=Qry.FieldValues['sub_menu_id'];
-      GroupName.Text:=Qry.FieldValues['sub_menu'];
-      if Qry.FieldValues['sub_menu_description']<> NULL then
-        Description.Text:=Qry.FieldValues['sub_menu_description'];
-      GrpId:=Qry.FieldValues['menu_id'];
-      if Qry.FieldValues['active'] then Active.Checked:=True else Active.Checked:=False;;
+      GroupId.Text:=Qry.FieldValues['maintenance_group_id'];
+      GroupName.Text:=Qry.FieldValues['name'];
+      if Qry.FieldValues['use_kilometer']<> NULL then
+       begin
+         UseKM.Text := Qry.FieldValues['use_kilometer'];
+         SetUseKM.Checked := True;
+       end;
+       if Qry.FieldValues['use_days']<> NULL then
+       begin
+         UseDays.Text := Qry.FieldValues['use_days'];
+         SetUseDays.Checked := True;
+       end;
+       if Qry.FieldValues['hours']<> NULL then
+       begin
+         Hours.Text := Qry.FieldValues['hours'];
+         SetHours.Checked := True;
+       end;
+       if Qry.FieldValues['days']<> NULL then
+       begin
+         Days.Text := Qry.FieldValues['days'];
+         SetDays.Checked := True;
+       end;
+
+      if Qry.FieldValues['status']= '1' then Active.Checked:=True else Active.Checked:=False;
     end;
     Qry.Close;
     Main.CloseDb;
@@ -183,37 +203,59 @@ begin
         StrTransId:=Format('%.*d',[3,StrToInt(StrTransId)+1]);
       end else
         StrTransId:='001';
-      StrTransId:='MG'+CompanyId+StrTransId;  
-      if StrGroupId<>'' then
-        StrQry:='UPDATE wh_maintenance_group SET maintenance_group_id='+QuotedStr(StrGroupId)+',name='+QuotedStr(StrGroupName)+
-                ',use_km'+StrUseKM+',use_days'+StrUseDays+',hours'+StrHours+',days='+StrDays+',status='+IntToStr(IntActive)+
-                ' WHERE maintenance_group_id='+QuotedStr(GrpId)+';'
-      else
-        StrQry:='INSERT INTO wh_maintenance_group (maintenance_group_id,company_id,name,use_kilometer,use_days'+
-                ',hours,days,update_user)'+
-                ' VALUES ('+QuotedStr(StrTransId)+','+QuotedStr(CompanyId)+','+QuotedStr(StrGroupName)+
-                ','+StrUseKM+','+StrUseDays+','+StrHours+','+StrDays+','+QuotedStr(User)+');';
+      StrTransId:='MG'+CompanyId+StrTransId;
+
+      StrQry:='select * from wh_maintenance_group WHERE use_kilometer ='+StrUseKM+';';
       Qry.SQL.Clear;
       Qry.SQL.Add(StrQry);
-      try
-        Qry.ExecSQL;
-      except
-        on E:Exception do begin
+      Qry.Open;
+      if Qry.RecordCount > 0 then
+        begin
+          MessageBox(0,PChar('Group Pemeliharaan '+UseKM.Text+' Sudah Ada.'),'Group Pemeliharaan',MB_OK or MB_ICONWARNING);
           IsOk:=False;
           StrMsg:='Gagal Menambah Group Pemeliharaan';
-          StrException:=E.Message;
+        end
+      else
+      begin
+        if StrGroupId<>'' then
+          StrQry:='UPDATE wh_maintenance_group SET maintenance_group_id='+QuotedStr(StrGroupId)+',name='+QuotedStr(StrGroupName)+
+                  ',use_kilometer ='+StrUseKM+',use_days='+StrUseDays+',hours='+StrHours+',days='+StrDays+',status='+IntToStr(IntActive)+
+                  ' WHERE maintenance_group_id='+QuotedStr(GrpId)+';'
+        else
+          StrQry:='INSERT INTO wh_maintenance_group (maintenance_group_id,company_id,name,use_kilometer,use_days'+
+                  ',hours,days,update_user)'+
+                  ' VALUES ('+QuotedStr(StrTransId)+','+QuotedStr(CompanyId)+','+QuotedStr(StrGroupName)+
+                  ','+StrUseKM+','+StrUseDays+','+StrHours+','+StrDays+','+QuotedStr(User)+');';
+        Qry.SQL.Clear;
+        Qry.SQL.Add(StrQry);
+        try
+          Qry.ExecSQL;
+        except
+          on E:Exception do begin
+            IsOk:=False;
+            StrMsg:='Gagal Menambah Group Pemeliharaan';
+            StrException:=E.Message;
+          end;
         end;
+        Qry.Close;
+        Main.CloseDb;
       end;
-      Qry.Close;
-      Main.CloseDb;
     end;
+
     if IsOk then begin
       MessageBox(0,'Berhasil menyimpan Group Pemeliharaan','Group Pemeliharaan',MB_OK or MB_ICONINFORMATION);
       Init;
+      if StrGroupId<>'' then
+      begin
+        MaintenanceGroupList.LoadData;
+        MaintenanceGroupList.RefreshList;
+      end;
     end else begin
       MessageBox(0,PChar(StrMsg+Chr(13)+Chr(13)+'Kesalahan:'+Chr(13)+StrException),'Group Pemeliharaan',MB_OK or MB_ICONERROR);
     end;
+    //end;
   end;
+
   if Main.IsFormOpen('MaintenanceGroupList') then begin
 //    List.Init;
 //    SubMenuList.LoadData;
@@ -335,9 +377,16 @@ begin
 end;
 
 procedure TMaintenanceGroupForm.UseKMExit(Sender: TObject);
+var
+  Qry : TADOQuery;
+   IsOk:Boolean;
+   StrQry : string;
 begin
   if UseKM.Text<>'' then
-  UseKM.Text:=SToCurr(ToString(UseKM.Text));
+  begin
+    UseKM.Text:=SToCurr(ToString(UseKM.Text));
+  end;
+  //if IsOk then Close;
 end;
 
 procedure TMaintenanceGroupForm.UseDaysEnter(Sender: TObject);

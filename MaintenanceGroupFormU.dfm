@@ -62,7 +62,7 @@ object MaintenanceGroupForm: TMaintenanceGroupForm
   end
   object Batal: TButton
     Left = 216
-    Top = 160
+    Top = 161
     Width = 75
     Height = 25
     Caption = 'Batal'
@@ -71,7 +71,7 @@ object MaintenanceGroupForm: TMaintenanceGroupForm
   end
   object Simpan: TButton
     Left = 48
-    Top = 160
+    Top = 161
     Width = 75
     Height = 25
     Caption = 'Simpan'
@@ -106,7 +106,7 @@ object MaintenanceGroupForm: TMaintenanceGroupForm
     Left = 104
     Top = 32
     Width = 209
-    Height = 121
+    Height = 120
     BevelOuter = bvNone
     TabOrder = 1
     object GroupName: TEdit

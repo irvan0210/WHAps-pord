@@ -37,7 +37,7 @@ var
 
 implementation
 
-uses MainU, ADODB, StrUtils, SubMenuFormU;
+uses MainU, ADODB, StrUtils, SubMenuFormU, MaintenanceGroupFormU;
 
 {$R *.dfm}
 
@@ -108,7 +108,7 @@ begin
         MaintenanceGroupArr[IntCount][4]:=IToCurr(Qry.FieldValues['hours']);
       if Qry.FieldValues['days']<>NULL then
         MaintenanceGroupArr[IntCount][5]:=IToCurr(Qry.FieldValues['days']);
-      if Qry.FieldValues['status']=1 then MaintenanceGroupArr[IntCount][6]:='Active' else MaintenanceGroupArr[IntCount][4]:='Disable';
+      if Qry.FieldValues['status']=1 then MaintenanceGroupArr[IntCount][6]:='Active' else MaintenanceGroupArr[IntCount][6]:='Nonaktif';
       Inc(IntCount);
       Qry.Next;
     end;
@@ -220,9 +220,9 @@ end;
 
 procedure TMaintenanceGroupList.StrGridDblClick(Sender: TObject);
 begin
-  if (RightStr(IntToStr(TreeTag),2)='04') then SubMenuForm:=TSubMenuForm.Create(Self,StrGrid.Cells[0,IntRow],True)
+  if (RightStr(IntToStr(TreeTag),2)='04') then MaintenanceGroupForm:=TMaintenanceGroupForm.Create(Self,StrGrid.Cells[0,IntRow],True)
   else if (RightStr(IntToStr(TreeTag),2)='03') then AskDelete(StrGrid.Cells[0,IntRow])
-  else SubMenuForm:=TSubMenuForm.Create(Self,StrGrid.Cells[0,IntRow]);
+  else MaintenanceGroupForm:=TMaintenanceGroupForm.Create(Self,StrGrid.Cells[0,IntRow]);
 end;
 
 end.

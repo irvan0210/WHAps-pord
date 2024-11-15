@@ -56,7 +56,7 @@ var
 
 implementation
 
-uses MainU, PartDetailListU;
+uses MainU, PartDetailListU, MaintenanceJobListU;
 
 {$R *.dfm}
 
@@ -115,6 +115,7 @@ procedure TMaintenanceJobForm.LoadData;
 var Qry:TADOQuery;
     StrQry,StrJobType:String;
 begin
+ // MessageBox(0,PChar(StrMaintenanceJobId),'Pekerjaan/Perbaikan',MB_OK or MB_ICONERROR);
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
   if Main.OpenDb then begin
@@ -220,6 +221,7 @@ begin
     end;
     if IsOk then begin
       MessageBox(0,'Berhasil menyimpan Pekerjaan/Perbaikan','Pekerjaan/Perbaikan',MB_OK or MB_ICONINFORMATION);
+      if StrMaintenanceJobId<>'' then MaintenanceJobList.RefreshList;
     end else begin
       EnableInput;
       MessageBox(0,PChar('Gagal menyimpan Pekerjaan/Perbaikan'+Chr(13)+Chr(13)+'Kesalahan:'+Chr(13)+StrEMsg),'Pekerjaan/Perbaikan',MB_OK or MB_ICONERROR);

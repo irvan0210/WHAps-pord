@@ -1,6 +1,6 @@
 object MaintenanceJobForm: TMaintenanceJobForm
-  Left = 436
-  Top = 261
+  Left = 595
+  Top = 406
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Pekerjaan/Perbaikan '
@@ -72,7 +72,7 @@ object MaintenanceJobForm: TMaintenanceJobForm
     TabOrder = 0
     object Label1: TLabel
       Left = 11
-      Top = 8
+      Top = 11
       Width = 62
       Height = 13
       Alignment = taRightJustify
@@ -80,7 +80,7 @@ object MaintenanceJobForm: TMaintenanceJobForm
     end
     object MaintenanceJobId: TEdit
       Left = 88
-      Top = 8
+      Top = 9
       Width = 81
       Height = 21
       TabOrder = 0
