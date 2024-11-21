@@ -1,11 +1,11 @@
 object WorkOrderList: TWorkOrderList
-  Left = 374
-  Top = 200
+  Left = 330
+  Top = 158
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data PKB'
   ClientHeight = 466
-  ClientWidth = 826
+  ClientWidth = 850
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,7 +21,7 @@ object WorkOrderList: TWorkOrderList
   PixelsPerInch = 96
   TextHeight = 13
   object Label3: TLabel
-    Left = 644
+    Left = 668
     Top = 13
     Width = 18
     Height = 13
@@ -65,7 +65,7 @@ object WorkOrderList: TWorkOrderList
     OnClick = ToXCelClick
   end
   object TombolCari: TSpeedButton
-    Left = 788
+    Left = 812
     Top = 8
     Width = 23
     Height = 23
@@ -109,9 +109,9 @@ object WorkOrderList: TWorkOrderList
   object Label2: TLabel
     Left = 255
     Top = 12
-    Width = 39
+    Width = 67
     Height = 13
-    Caption = 'Tanggal'
+    Caption = 'Tanggal Mulai'
   end
   object Selesai: TButton
     Left = 366
@@ -123,7 +123,7 @@ object WorkOrderList: TWorkOrderList
     OnClick = SelesaiClick
   end
   object Lihat: TButton
-    Left = 546
+    Left = 570
     Top = 6
     Width = 75
     Height = 25
@@ -132,7 +132,7 @@ object WorkOrderList: TWorkOrderList
     OnClick = LihatClick
   end
   object Cari: TEdit
-    Left = 668
+    Left = 692
     Top = 8
     Width = 121
     Height = 21
@@ -143,7 +143,7 @@ object WorkOrderList: TWorkOrderList
   object StrGrid: TZColorStringGrid
     Left = 8
     Top = 42
-    Width = 807
+    Width = 833
     Height = 383
     ColCount = 8
     DefaultRowHeight = 20
@@ -195,7 +195,7 @@ object WorkOrderList: TWorkOrderList
     end
   end
   object Tanggal: TDateTimePicker
-    Left = 300
+    Left = 324
     Top = 8
     Width = 89
     Height = 21
@@ -204,7 +204,7 @@ object WorkOrderList: TWorkOrderList
     TabOrder = 5
   end
   object TanggalSampai: TDateTimePicker
-    Left = 440
+    Left = 464
     Top = 8
     Width = 89
     Height = 21
@@ -214,7 +214,7 @@ object WorkOrderList: TWorkOrderList
     OnChange = TanggalSampaiChange
   end
   object ToDates: TCheckBox
-    Left = 393
+    Left = 417
     Top = 11
     Width = 41
     Height = 17

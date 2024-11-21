@@ -1,6 +1,6 @@
 object ChatClient: TChatClient
-  Left = 737
-  Top = 319
+  Left = 564
+  Top = 259
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Chat Client'

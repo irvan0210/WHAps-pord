@@ -234,7 +234,10 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   CustomerComplainCorrectiveActionPlanListU,
   CetakKetidaksesuaianDanPerbaikanU, KetidakSesuaianDanPerbaikanListU,
   UserMenuU, UserSubMenuU, UserSubMenuListU, UserMenuListU, 
-  EmployeeHistoryLakaListU;
+  EmployeeHistoryLakaListU, EmployeeHistoryLakaRptU, 
+  EmployeeHistoryTrainingFormU, EmployeeHistoryTrainingListU,
+  EmployeeHistoryTrainingRptU, MaintenanceGroupJobListU, 
+  RekapHistoryArmadaPergantianPartU;
 
 
 constructor TClockThread.Create;
@@ -452,7 +455,7 @@ begin
         end;
         {120201..120210 Mitra Taxi}
         {130201..130210 Supir Bus}
-        120201..120223,130201..130223,170201..170206:begin
+        120201..120223,130201..130225,170201..170206:begin
           if ((Tag=120201) or (Tag=130201) or (Tag=130213) or (Tag=170201) )then begin
             if Tag=120201 then begin
               if IsFormOpen('EmployeeForm')=False then EmployeeForm:=TEmployeeForm.Create(Self,'Taxi','',False,False);
@@ -524,8 +527,9 @@ begin
                         if IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'Bus');
                       end;
                     5:begin
-                        if IsFormOpen('EmployeeHistoryLakaList')=False then EmployeeHistoryLakaList:=TEmployeeHistoryLakaList.Create(Self,'LAKA-LIST');
+                        if IsFormOpen('EmployeeHistoryLakaRpt')=False then EmployeeHistoryLakaRpt:=TEmployeeHistoryLakaRpt.Create(Self,'LAKA-LIST','','');
                       end;
+
 {                    4:begin
                         if IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'Bus',2);
                       end;
@@ -534,7 +538,7 @@ begin
                     end;
                   end;
                 end else begin
-                  case CaseStr(RightStr(IntToStr(Tag),2),['14','15','16','19','20'{,'21'}]) of
+                  case CaseStr(RightStr(IntToStr(Tag),2),['14','15','16','19','20','22','23','24','25'{,'21'}]) of
                     0:begin
                         if IsFormOpen('EmployeeList'
                         )=False then EmployeeList:=TEmployeeList.Create(Self,'Bus2',1,0,'Update-Employee');
@@ -550,6 +554,18 @@ begin
                       end;
                     4:begin
                         if IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'Bus2',1,0,'Update-History');
+                      end;
+                    5:begin
+                        if IsFormOpen('EmployeeHistoryTrainingForm')=False then EmployeeHistoryTrainingForm:=TEmployeeHistoryTrainingForm.Create(Self,'','EMPLOYEEHISTORYTRAINING-FORM','DRIVER');
+                      end;
+                    6:begin
+                        if IsFormOpen('EmployeeHistoryTrainingList')=False then EmployeeHistoryTrainingList:=TEmployeeHistoryTrainingList.Create(Self,'TRAINING-LIST','','DRIVER');
+                      end;
+                    7:begin
+                        if IsFormOpen('EmployeeHistoryTrainingForm')=False then EmployeeHistoryTrainingForm:=TEmployeeHistoryTrainingForm.Create(Self,'','EMPLOYEEHISTORYTRAINING-FORM','HELPER');
+                      end;
+                    8:begin
+                        if IsFormOpen('EmployeeHistoryTrainingList')=False then EmployeeHistoryTrainingList:=TEmployeeHistoryTrainingList.Create(Self,'TRAINING-LIST','','HELPER');
                       end;
 {                    5:begin
                         if IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'Bus2');
@@ -1479,7 +1495,7 @@ begin
                   if IsFormOpen('MaintenanceJobList')=False then MaintenanceJobList:=TMaintenanceJobList.Create(Self,'Update-Detail');
               end;
               else begin
-                  if IsFormOpen('MaintenanceJobList')=False then MaintenanceJobList:=TMaintenanceJobList.Create(Self,,'Update-Detail');
+                  if IsFormOpen('MaintenanceJobList')=False then MaintenanceJobList:=TMaintenanceJobList.Create(Self,'Update-Detail');
               end;
            end;
         end;
@@ -1507,8 +1523,7 @@ begin
                   if IsFormOpen('MaintenanceGroupJobList')=False then MaintenanceGroupJobList:=TMaintenanceGroupJobList.Create(Self);
               end;
               else begin
-                if IsFormOpen('MaintenanceGroupJobList')=False then MaintenanceGroupJobList:=TMaintenanceGroupJobList.Create(Self);
-                //  if IsFormOpen('MaintenanceGroupList')=False then MaintenanceGroupList:=TMaintenanceGroupList.Create(Self);
+                  if IsFormOpen('MaintenanceGroupJobList')=False then MaintenanceGroupJobList:=TMaintenanceGroupJobList.Create(Self);
               end;
            end;
         end;
@@ -1770,8 +1785,8 @@ begin
            end;
         end;
         {190501 Laporan Operasional Bus}
-        190501..190515:begin
-           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15']) of
+        190501..190517:begin
+           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17']) of
              0:if IsFormOpen('VhcOutBusRpt')=False then VhcOutBusRpt:=TVhcOutBusRpt.Create(Self);
              1:if IsFormOpen('BusRunningDaysRpt')=False then BusRunningDaysRpt:=TBusRunningDaysRpt.Create(Self);
              2:if IsFormOpen('DailyVehicleRDRpt')=False then DailyVehicleRDRpt:=TDailyVehicleRDRpt.Create(Self,'Bus','','',6);
@@ -1787,6 +1802,9 @@ begin
              12:if IsFormOpen('TxETollRunningDaysRpt')=False then TxETollRunningDaysRpt:=TTxETollRunningDaysRpt.Create(Self);
              13:if IsFormOpen('TxCoDrvRunningDaysRpt')=False then TxCoDrvRunningDaysRpt:=TTxCoDrvRunningDaysRpt.Create(Self,'Bus');
              14:if IsFormOpen('AuthReservedOrderRpt')=False then AuthReservedOrderRpt:=TAuthReservedOrderRpt.Create(Self,'Bus');
+             15:if IsFormOpen('EmployeeHistoryLakaRpt')=False then EmployeeHistoryLakaRpt:=TEmployeeHistoryLakaRpt.Create(Self);
+             16:if IsFormOpen('EmplHistoryTrainingRpt')=False then EmplHistoryTrainingRpt:=TEmplHistoryTrainingRpt.Create(Self,'TRAINING-LAPORAN','','','');
+
            end;
         end;
 
@@ -1818,13 +1836,14 @@ begin
            end;
         end;
         {Laporan Bengkel}
-        190801..190805:begin
-           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04','05']) of
+        190801..190806:begin
+           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04','05','06']) of
               0:if IsFormOpen('MaintenanceServiceRpt')=False then MaintenanceServiceRpt:=TMaintenanceServiceRpt.Create(Self,);
               1:if IsFormOpen('ServiceRequestRpt')=False then ServiceRequestRpt:=TServiceRequestRpt.Create(Self);
               2:if IsFormOpen('WorkOrderRpt')=False then WorkOrderRpt:=TWorkOrderRpt.Create(Self);
               3:if IsFormOpen('WorkOrderRptDay')=False then WorkOrderRptDay:=TWorkOrderRptDay.Create(Self);
               4:if IsFormOpen('FDriverComplainList')=False then FDriverComplainList:=TFDriverComplainList.Create(Self,'Laporan Keluhan Driver');
+              5:if IsFormOpen('RekapHistoryArmadaPergantianPart')=False then RekapHistoryArmadaPergantianPart:=TRekapHistoryArmadaPergantianPart.Create(Self);
            end;
         end;
         {Integrate GP}
@@ -1885,7 +1904,9 @@ begin
                 Part:=TPart.Create(Self);
                 StatusPart:='INSERT';
               end;
-              1:if IsFormOpen('ListPartU')=False then ListParts:=TListParts.Create(Self);
+              1:if IsFormOpen('ListPartU')=False then begin
+                ListParts:=TListParts.Create(Self);
+              end;
            end;
         end;
 
@@ -2077,7 +2098,6 @@ begin
   InitMenuHelp;
   StatusDisplay('Logged In',FullName);
   StatusDateTime(GetDate,GetTime);
-//  ClockTimer.Enabled:=True;
   ClockThread:=TClockThread.Create;
   TimerMessage.Enabled:=True;
   InitBasedForm;
@@ -2106,7 +2126,6 @@ begin
   for I:=((MainMenu.Items.Count)-1) downto 1 do begin
      MainMenu.Items[I].Free;
   end;
-
 end;
 
 function TMain.GetTime:String;

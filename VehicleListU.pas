@@ -36,7 +36,7 @@ type
   private
     { Private declarations }
     SelectedRow,MaxCol,VhcCompanyId:Integer;
-    VehicleArr:Array of TArrString27;
+    VehicleArr:Array of TArrString30;
     CompanyArr,GroupArr:Array of TArrString5;
     OrderBy,Sorted:String;
     IntRow,IntCol,IntColPrev:Integer;
@@ -58,7 +58,8 @@ implementation
 
 uses MainU, VehicleMutationU, StrUtils, VehicleFormU, WorkOrderFormU,
   VehicleEquipmentFormU, VehicleEquipmentCheckU, ServiceRequestFormU,
-  MaintenanceServiceFormU, BlockUnitFormU, VehicleTopUpKuotaFormU;
+  MaintenanceServiceFormU, BlockUnitFormU, VehicleTopUpKuotaFormU, 
+  EmployeeHistoryLakaFormU;
 
 {$R *.dfm}
 
@@ -322,7 +323,7 @@ begin
               if QVhc.FieldValues['insurance_from_date']<>NULL then VehicleArr[Count][25]:=QVhc.FieldValues['insurance_from_date'];
               if QVhc.FieldValues['insurance_to_date']<>NULL then VehicleArr[Count][26]:=QVhc.FieldValues['insurance_to_date'];
               if QVhc.FieldValues['insurance_amount']<>NULL then VehicleArr[Count][27]:= SToCurr(QVhc.FieldValues['insurance_amount']);
-
+              if QVhc.FieldValues['batch_name']<>NULL then VehicleArr[Count][28]:= QVhc.FieldValues['batch_name'];
 
             end;
         end;
@@ -437,6 +438,11 @@ begin
       end;
       if UpperCase(FormRequest)='BLOCK-CREATE' then begin
         BlockUnitForm.SetVehicleId(StrGrid.Cells[0,IntRow]); 
+        Close;
+      end;
+      if UpperCase(FormRequest)='FORM-HISTORY-LAKA' then begin
+        VehicleIDHistLaka:=StrGrid.Cells[0,IntRow];
+        EmployeeHistoryLakaForm.Armada.Text:=StrGrid.Cells[5,IntRow] +' ('+VehicleArr[IntRow-1][28]+' '+VehicleArr[IntRow-1][12]+' Seat)';
         Close;
       end;
     end;

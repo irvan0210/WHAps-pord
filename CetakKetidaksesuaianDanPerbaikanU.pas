@@ -151,7 +151,7 @@ begin
   if Main.OpenDb then begin
     SetLength(CompanyArr,0);
 
-    StrQry:='SELECT b.name FROM wh_cust_complain_investigation_pic a '+
+    StrQry:='SELECT DISTINCT b.name FROM wh_cust_complain_investigation_pic a '+
             'LEFT JOIN wh_employee b ON a.employee_id=b.employee_id '+
             'LEFT JOIN wh_cust_complain_investigation c ON '+
             'a.cust_complain_investigation_id=c.cust_complain_investigation_id and c.status=1 '+
@@ -193,7 +193,7 @@ begin
   if Main.OpenDb then begin
     SetLength(CompanyArr,0);
 
-    StrQry:='SELECT b.name FROM wh_cust_complain_investigation_pic a '+
+    StrQry:='SELECT DISTINCT b.name FROM wh_cust_complain_investigation_pic a '+
             'LEFT JOIN wh_employee b ON a.employee_id=b.employee_id '+
             'LEFT JOIN wh_cust_complain_investigation c ON '+
             'a.cust_complain_investigation_id=c.cust_complain_investigation_id and c.status=1 '+
@@ -236,7 +236,7 @@ begin
   if Main.OpenDb then begin
     SetLength(CompanyArr,0);
 
-    StrQry:='SELECT b.name FROM wh_cust_complain_investigation_pic a '+
+    StrQry:='SELECT DISTINCT b.name FROM wh_cust_complain_investigation_pic a '+
             'LEFT JOIN wh_employee b ON a.employee_id=b.employee_id '+
             'LEFT JOIN wh_cust_complain_investigation c ON '+
             'a.cust_complain_investigation_id=c.cust_complain_investigation_id and c.status=1 '+

@@ -1,6 +1,6 @@
 object SPJBusList: TSPJBusList
-  Left = 348
-  Top = 174
+  Left = 202
+  Top = 242
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Daftar Surat Jalan'

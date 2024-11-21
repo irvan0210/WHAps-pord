@@ -127,8 +127,6 @@ begin
   StrGrid.CellStyle[5,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[6,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[7,0].HorizontalAlignment:=taCenter;
- // StrGrid.CellStyle[8,0].HorizontalAlignment:=taCenter;
- // StrGrid.CellStyle[9,0].HorizontalAlignment:=taCenter;
   for IntCount:=0 to StrGrid.ColCount-1 do
     StrGrid.Cells[IntCount,1]:='';
 end;
@@ -171,7 +169,7 @@ begin
             ' IIF(a.response IS NULL,'''', a.response) AS respons,'+
             ' IIF(c.service_request_id IS NULL,'''', c.service_request_id) AS service_request_id from wh_driver_complain a '+
             ' left join wh_vehicle b on a.vehicle_id=b.vehicle_id ' +
-            ' LEFT JOIN (SELECT * FROM wh_service_request WHERE approve <>2) c ON a.driver_complain_id=c.driver_complain_id '+
+            ' LEFT JOIN wh_service_request c ON a.driver_complain_id=c.driver_complain_id and c.approve<>2 '+
             'where '+
             '(a.submit_date between '+QuotedStr(FormatDateTime('yyyy-mm-dd',Tanggal.Date))+' and '+QuotedStr(FormatDateTime('yyyy-mm-dd',TglSampai.Date+1))+' ) '+
             'and a.company_id='+StrCompanyId+' and a.status=1 '+StrRequest+';';
@@ -385,7 +383,7 @@ begin
   begin
   //  MessageBox(0,PChar(StrResponse),'Respon 1',MB_OK or MB_ICONERROR);
    // MessageBox(0,PChar(StrNoSR),'Respon 2',MB_OK or MB_ICONERROR);
-   if (StrResponse='') and (StrNoSR='') then
+    if (StrResponse='') and (StrNoSR='') then
     begin
       MessageBox(0,PChar('Keluhan Belum Direspon..!'),'Keluhan Driver',MB_OK or MB_ICONERROR);
       if Main.IsFormOpen('ResponsDriverComplaint')=False then begin

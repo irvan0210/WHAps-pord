@@ -46,7 +46,7 @@ object VehicleMutation: TVehicleMutation
   end
   object Label4: TLabel
     Left = 31
-    Top = 136
+    Top = 139
     Width = 49
     Height = 13
     Alignment = taRightJustify

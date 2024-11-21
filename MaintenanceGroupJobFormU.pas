@@ -88,6 +88,7 @@ begin
   Description.Text:='';
   Active.Checked:=False;
   Active.Visible:=False;
+  Label4.Visible:=False;
 end;
 
 procedure TMaintenanceGroupJobForm.LoadData;
@@ -213,6 +214,7 @@ begin
   RefreshCombo;
   if StrMaintenanceGrpId<>'' then begin
     Active.Visible:=True;
+    Label4.Visible:=True;
     LoadData;
   end;
   if IsView then Input(False)

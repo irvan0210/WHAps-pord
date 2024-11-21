@@ -94,7 +94,7 @@ var Count,Count2:Integer;
     StrQry:String;
     IntCount:Integer;
 begin
-  MaxCol:=26;
+  MaxCol:=27;
   SBU.Items.Clear;
   SBU.Text:='';
   SBU.ItemIndex:=0;
@@ -161,9 +161,11 @@ begin
   StrGrid.ColWidths[20]:=60;
   StrGrid.ColWidths[21]:=60;
   StrGrid.ColWidths[22]:=60;
-  StrGrid.ColWidths[23]:=90;
-  StrGrid.ColWidths[24]:=95;
-  StrGrid.ColWidths[25]:=0;
+  StrGrid.ColWidths[23]:=60;
+  StrGrid.ColWidths[24]:=90;
+  StrGrid.ColWidths[25]:=95;
+  StrGrid.ColWidths[26]:=0;
+  StrGrid.ColWidths[27]:=120;
 
 
   StrGrid.MergeCells.AddRectXY(0,0,0,1);
@@ -192,10 +194,11 @@ begin
   StrGrid.MergeCells.AddRectXY(24,0,24,1);
   StrGrid.MergeCells.AddRectXY(25,0,25,1);
   StrGrid.MergeCells.AddRectXY(26,0,26,1);
+  StrGrid.MergeCells.AddRectXY(27,0,27,1);
 
 
-  StrGrid.CellStyle[23,0].WordWrap:=True;       {(Inc Tol&Lain2)}
-  StrGrid.CellStyle[24,0].WordWrap:=True;       {(Exc Tol&Lain2)}
+  StrGrid.CellStyle[24,0].WordWrap:=True;       {(Inc Tol&Lain2)}
+  StrGrid.CellStyle[25,0].WordWrap:=True;       {(Exc Tol&Lain2)}
 
   StrGrid.Cells[0,0]:='No';
   StrGrid.Cells[1,0]:='Cek';
@@ -237,11 +240,12 @@ begin
 
 
   StrGrid.Cells[22,0]:='Lain2';//No E-Toll   Asal 22
-  StrGrid.Cells[23,0]:='Total          (Inc Tol&Lain2)';//'Lain2';
-  StrGrid.Cells[24,0]:='Total          (Exc Tol&Lain2)';
-  StrGrid.Cells[25,0]:='Status SJ';//'No E-Toll';
-  StrGrid.Cells[26,0]:='Jenis Service';
-  StrGrid.ColWidths[26]:=120;
+  StrGrid.Cells[23,0]:='Overtime';//No E-Toll   Asal 22
+  StrGrid.Cells[24,0]:='Total          (Inc Tol&Lain2)';//'Lain2';
+  StrGrid.Cells[25,0]:='Total          (Exc Tol&Lain2)';
+  StrGrid.Cells[26,0]:='Status SJ';//'No E-Toll';
+  StrGrid.Cells[27,0]:='Jenis Service';
+
 
 
   for IntCount:=0 to MaxCol do begin
@@ -321,7 +325,7 @@ var QStr,StrBatch,StrLocationId,StrCompanyId,StrToDates,StrisAll:String;
     BBMLiterSingle_Budget,BBMLiterSingle_SPBU,BBMLiterSingle_Reimburse:Single;
 
     TotalBBMRp,TotalBBMRp_Budget,TotalBBMRp_SPBU,TotalBBMRp_Reimburse,TotalBBMRp_All,TotalFeeDriver,TotalFeeBusBoy,TotalTolParkir,TotalTol,TotalLain,TotalBiaya,TotalBiayaExc,IntBiaya:Int64;
-    TotalFeeDriverReimburse,TotalFeeBusBoyReimburse,TotalTolParkirReimburse,TotalTolReimburse,IntBiayaReimburse :Int64;
+    TotalFeeDriverReimburse,TotalFeeBusBoyReimburse,TotalTolParkirReimburse,TotalTolReimburse,IntBiayaReimburse,TotalOvertime :Int64;
     TotalBBMLiter, TotalBBMLiter_Budget,TotalBBMLiter_SPBU,TotalBBMLiter_Reimburse,TotalBBMLiter_All:Double;
 begin
   TotalBBMRp:=0;
@@ -336,10 +340,12 @@ begin
   TotalBBMRp_Reimburse:=0;
   TotalBBMLiter_Reimburse:=0;
 
+
   TotalFeeDriver:=0;
   TotalFeeBusBoy:=0;
   TotalTolParkir:=0;
   TotalLain:=0;
+  TotalOvertime:=0;
   TotalOperasi:=0;
   TotalBiaya:=0;
   TotalBiayaExc:=0;
@@ -481,6 +487,7 @@ begin
       TotalFeeBusBoy:=TotalFeeBusBoy+(Qry.FieldValues['fee_busboy']*Qry.FieldValues['day']);
       TotalTolParkir:=TotalTolParkir+Qry.FieldValues['tol_parkir'];
       TotalTol:=TotalTol+Qry.FieldValues['tol'];
+      TotalOvertime:=TotalOvertime+Qry.FieldValues['overtime'];
 
       TotalFeeDriverReimburse:=TotalFeeDriverReimburse+(Qry.FieldValues['fee_driver_reimburse']); //*Qry.FieldValues['day']
       TotalFeeBusBoyReimburse:=TotalFeeBusBoyReimburse+(Qry.FieldValues['fee_busboy_reimburse']); //*Qry.FieldValues['day']
@@ -511,8 +518,10 @@ begin
       StrGrid.CellStyle[22,Count].HorizontalAlignment:=taRightJustify;
 
       StrGrid.CellStyle[23,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[24,Count].WordWrap:=True;
       StrGrid.CellStyle[24,Count].HorizontalAlignment:=taRightJustify;
+      StrGrid.CellStyle[25,Count].HorizontalAlignment:=taRightJustify;
+      StrGrid.CellStyle[26,Count].WordWrap:=True;
+//      StrGrid.CellStyle[27,Count].HorizontalAlignment:=taRightJustify;
 
       StrGrid.Cells[10,Count]:=IToCurr(BBMRp_Budget);
       StrGrid.Cells[11,Count]:=IToCurr(BBMRp_SPBU);
@@ -531,18 +540,21 @@ begin
       StrGrid.Cells[20,Count]:=IToCurr(Qry.FieldValues['tol']);
       StrGrid.Cells[21,Count]:=IToCurr(Qry.FieldValues['tol_reimburse']);
       StrGrid.Cells[22,Count]:=IToCurr(Qry.FieldValues['lain_lain']);
-      StrGrid.Cells[23,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+Qry.FieldValues['lain_lain']+Qry.FieldValues['tol']);
-      StrGrid.Cells[24,Count]:=IToCurr(IntBiaya+IntBiayaReimburse);
+      StrGrid.Cells[23,Count]:=IToCurr(Qry.FieldValues['overtime']);
+
+
+      StrGrid.Cells[24,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+Qry.FieldValues['lain_lain']+Qry.FieldValues['tol']+Qry.FieldValues['overtime']);
+      StrGrid.Cells[25,Count]:=IToCurr(IntBiaya+IntBiayaReimburse);
 //      if Qry.FieldValues['etoll_number']<>NULL then StrGrid.Cells[25,Count]:=eToll(Qry.FieldValues['etoll_number']);
 
-      StrGrid.Cells[25,Count]:=VarToStr(Qry.FieldValues['status_sj']);
-      if LowerCase(Trim(StrGrid.Cells[25,Count]))<>'completed' then begin
+      StrGrid.Cells[26,Count]:=VarToStr(Qry.FieldValues['status_sj']);
+      if LowerCase(Trim(StrGrid.Cells[26,Count]))<>'completed' then begin
         for Count2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[Count2,Count].Font.Color:=clRed;
       end else begin
         for Count2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[Count2,Count].Font.Color:=clWindowText;
       end;
 
-      if Qry.FieldValues['JenisService']<>NULL then StrGrid.Cells[26,Count]:=VartoStr(Qry.FieldValues['JenisService']);
+      if Qry.FieldValues['JenisService']<>NULL then StrGrid.Cells[27,Count]:=VartoStr(Qry.FieldValues['JenisService']);
 
     end;
     Inc(Count);
@@ -586,8 +598,9 @@ begin
   StrGrid.Cells[21,StrGrid.RowCount-1]:=IToCurr(TotalTolReimburse);
 
   StrGrid.Cells[22,StrGrid.RowCount-1]:=IToCurr(TotalLain);
-  StrGrid.Cells[23,StrGrid.RowCount-1]:=IToCurr(TotalBiaya);
-  StrGrid.Cells[24,StrGrid.RowCount-1]:=IToCurr(TotalBiayaExc);
+  StrGrid.Cells[23,StrGrid.RowCount-1]:=IToCurr(TotalOvertime);
+  StrGrid.Cells[24,StrGrid.RowCount-1]:=IToCurr(TotalBiaya+TotalOvertime);
+  StrGrid.Cells[25,StrGrid.RowCount-1]:=IToCurr(TotalBiayaExc+TotalOvertime);
 
   StrGrid.CellStyle[9,StrGrid.RowCount-1].BGColor:=clSilver;
   StrGrid.CellStyle[10,StrGrid.RowCount-1].BGColor:=clSilver;
@@ -605,6 +618,7 @@ begin
   StrGrid.CellStyle[22,StrGrid.RowCount-1].BGColor:=clSilver;
   StrGrid.CellStyle[23,StrGrid.RowCount-1].BGColor:=clSilver;
   StrGrid.CellStyle[24,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[25,StrGrid.RowCount-1].BGColor:=clSilver;
 
   StrGrid.CellStyle[10,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
   StrGrid.CellStyle[11,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
@@ -621,6 +635,7 @@ begin
   StrGrid.CellStyle[22,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
   StrGrid.CellStyle[23,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
   StrGrid.CellStyle[24,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+  StrGrid.CellStyle[25,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
 
   Main.M_Normal;
 end;
@@ -750,7 +765,7 @@ begin
 
   if StrGrid.Cells[IntCol,IntRow]='v' then begin
     //ShowMessage(Trim(StrGrid.Cells[25, IntRow]));
-    if LowerCase(Trim(StrGrid.Cells[25,IntRow]))<>'completed' then begin
+    if LowerCase(Trim(StrGrid.Cells[26,IntRow]))<>'completed' then begin
       if StrGrid.Cells[IntCol,IntRow]='v' then begin
         StrGrid.Cells[IntCol,IntRow]:='';
         MessageBox(0,PChar('No SJ '+StrGrid.Cells[3, IntRow]+' Belum COMPLETED (Input Armada Masuk/Keluar) !!! '),'Checklist Integrate',MB_OK or MB_ICONWARNING);
@@ -824,7 +839,7 @@ begin
       end;
     end else begin
       for intCount:=1 to StrGrid.RowCount-2 do begin
-        if LowerCase(Trim(StrGrid.Cells[25,intCount]))='completed' then begin
+        if LowerCase(Trim(StrGrid.Cells[26,intCount]))='completed' then begin
           StrGrid.Cells[1,intCount]:='v';
         end;
       end;

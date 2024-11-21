@@ -551,10 +551,10 @@ begin
             StrTransId:='CCP'+LocationCode+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
                     FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+StrMaxId;
             StrQry:='INSERT INTO wh_cust_complain (cust_complain_id, company_id, location_id, vhc_trans_id, reserved_order_detail_id, reserved_order_detail_package_id, customer_id, customer_order_id '+
-                    ',driver,license_plate,route,update_user)'+
+                    ',driver,license_plate,route,update_user,created_date,created_user)'+
                     ' VALUES ('+Chr(39)+StrTransId+Chr(39)+
                     ','+CompanyId+','+LocationId+','+Chr(39)+NoSJ.Text+Chr(39)+','+QuotedStr(NoResvDetId.Text)+','+QuotedStr(NoResvDetPkgId.Text)+','+Chr(39)+Customer_Id.Text+Chr(39)+','+QuotedStr(NoReservasi.Text)+
-                    ','+QuotedStr(DriverDisp.Text)+','+QuotedStr(NoPolisi.Text)+','+QuotedStr(Route.Text)+','+Chr(39)+User+Chr(39)+');';
+                    ','+QuotedStr(DriverDisp.Text)+','+QuotedStr(NoPolisi.Text)+','+QuotedStr(Route.Text)+','+Chr(39)+User+Chr(39)+',getdate(),'+Chr(39)+User+Chr(39)+');';
             Qry.SQL.Clear;
             Main.WriteLog('SQL :'+StrQry,4);
             Qry.SQL.Add(StrQry);

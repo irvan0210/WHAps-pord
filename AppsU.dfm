@@ -1,6 +1,6 @@
 object Apps: TApps
-  Left = 459
-  Top = 269
+  Left = 569
+  Top = 139
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Aplikasi'
@@ -126,7 +126,27 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '09/11/2024 (6.1.5.48)'
+      '-Penambahan Master Pekerjaan Bengkel'
+      '-Fitur Delete pada Grid Serah Terima Barang'
+      '-Penambahan inputan KM Standard Pergantian pada Part'
+      ''
       'Penambahan/Perubahan/Perbaikan:'
+      '07/11/2024 (6.1.5.47)'
+      '-Penambahan Modul Training Driver & Helper'
+      '(Form Training, List Training, Laporan Training)'
+      '-Penambahan Fitur cek History Training di Form Driver & Helper'
+      '-Validasi saat non aktif armada, Cek jika masih ada Order'
+      'maka tidak bisa dinon aktif'
+      ''
+      '30/10/2024 (6.1.5.46)'
+      '-Penambahan form respon dikeluhan driver'
+      '-Penambahan kolom service request di keluhan driver'
+      '-Keluhan yang diambil untuk dijadikan service request'
+      'hanya yang sudah direspon dan tidak mempunyai'
+      'no service request'
+      '-Penambahan Filter Tanggal di List PKB'
+      ''
       '23/10/2024 (6.1.5.45)'
       '-Penambahan Form History Laka'
       '-Penambahan List History Laka'

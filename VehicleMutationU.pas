@@ -159,7 +159,7 @@ begin
     StrSBULocation:=CompanyArr[SBU.ItemIndex][2];
     StrSBUCompany:=CompanyArr[SBU.ItemIndex][1];
     if Main.OpenDb then begin
-     StrQry := 'SELECT * FROM dbo.wh_reserved_order_detail a '+
+     StrQry :=  ' SELECT * FROM dbo.wh_reserved_order_detail a '+
                 ' left join wh_reserved_order b on b.reserved_order_id=a.reserved_order_id '+
                 ' WHERE vehicle_id ='+Chr(39)+VhcId+Chr(39)+
                 ' AND FROM_date >= GETDATE() AND a.status =1 AND b.status=1;';

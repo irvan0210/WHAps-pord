@@ -186,7 +186,6 @@ type
     Panel2: TPanel;
     Simpan: TButton;
     Selesai: TButton;
-    Riwayat: TButton;
     Posisi: TEdit;
     IdKaryawan: TEdit;
     Label65: TLabel;
@@ -198,7 +197,11 @@ type
     cm: TLabel;
     kg: TLabel;
     Label68: TLabel;
+    GrpRiwayat: TGroupBox;
     HistoryCPCustomer: TButton;
+    Riwayat: TButton;
+    btnHistoryLaKA: TButton;
+    Button1: TButton;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SimpanClick(Sender: TObject);
@@ -255,6 +258,8 @@ type
     procedure NoHP2Change(Sender: TObject);
     procedure SamaKTPClick(Sender: TObject);
     procedure HistoryCPCustomerClick(Sender: TObject);
+    procedure btnHistoryLaKAClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
 
   private
     { Private declarations }
@@ -291,7 +296,8 @@ implementation
 Uses MainU, StrUtils, DateUtils,DB, ImageViewerU, EmployeeListU, EmployeeSearchU ,
   EmployeeHistoryListU, ArgoAllowanceFormU, EmployeeFamilyFormU,
   EmployeeEmergencyFormU, EmployeeVehicleFormU, RegistrationOLListU,
-  VehicleFormU, CustomerComplainRptU;
+  VehicleFormU, CustomerComplainRptU, EmployeeHistoryLakaRptU, 
+  EmployeeHistoryTrainingRptU;
 
 constructor TEmployeeForm.Create(AOwner:TComponent;EmployeeType:String;EmployeeId:String='';IsFoto_Only:Boolean=False;Is_ReadOnly:Boolean=True;Form_Request:String='');
 begin
@@ -334,6 +340,7 @@ begin
 //        PanelDept.Visible:=False;
         Label32.Visible:=False;
         Departemen.Visible:=False;
+        GrpRiwayat.Visible:=False;
       end;
     2:begin
         Caption:='Data Driver';
@@ -345,6 +352,7 @@ begin
 //        PanelDept.Visible:=False;
 //        Label32.Visible:=False;
 //        Departemen.Visible:=False;
+          GrpRiwayat.Visible:=True;
 
       end;
     3:begin
@@ -359,13 +367,14 @@ begin
         Label32.Visible:=True;
         Departemen.Visible:=True;
         PanelArmada.Visible:=False;
+        GrpRiwayat.Visible:=False;
       end;
     4:begin
         Caption:='Data BusBoy';
         LabelId.Caption:='No BusBoy';
 //        GroupInput2.Height:=220;
 //        EmployeeForm.Height:=153;
-
+      GrpRiwayat.Visible:=True;
 
 //        LabelKPPLama.Caption:='No BusBoy Lama';
 //        LabelReferensi.Caption:='No Id Sumber';
@@ -616,9 +625,15 @@ begin
     Qry.Open;
     IdKaryawan.Text:=Qry.FieldValues['employee_id'];
     if Qry.FieldValues['nik_karyawan']<>NULL then NikKaryawan.Text:=Qry.FieldValues['nik_karyawan'];
-    if Qry.FieldValues['status_karyawan']=1 then StatusKaryawan.ItemIndex:=0
-    else if Qry.FieldValues['status_karyawan']=2 then StatusKaryawan.ItemIndex:=1
-    else StatusKaryawan.ItemIndex:=-1;
+    if Qry.FieldValues['status_karyawan']=1 then begin
+      StatusKaryawan.ItemIndex:=0;
+    end else if Qry.FieldValues['status_karyawan']=2 then  begin
+      StatusKaryawan.ItemIndex:=1;
+    end else if Qry.FieldValues['status_karyawan']=3 then begin
+      StatusKaryawan.ItemIndex:=2;
+    end else begin
+      StatusKaryawan.ItemIndex:=-1;
+    end;
     if Qry.FieldValues['no_bpjs_kes']<>NULL then BpjsKes.Text:=Qry.FieldValues['no_bpjs_kes'];
     if Qry.FieldValues['no_bpjs_ket']<>NULL then BpjsKet.Text:=Qry.FieldValues['no_bpjs_ket'];
     if Qry.FieldValues['npp_bpjs_ket']<>NULL then Nppbpjsket.Text:=Qry.FieldValues['npp_bpjs_ket'];
@@ -994,6 +1009,8 @@ begin
           StrStatusKaryawan:='1';
         end else if StatusKaryawan.ItemIndex=1 then begin
           StrStatusKaryawan:='2';
+        end else if StatusKaryawan.ItemIndex=2 then begin
+          StrStatusKaryawan:='3';
         end;
         StrNoEtoll:='NULL';
         for IntCount:=0 to Length(EtollArr)-1 do
@@ -2458,6 +2475,31 @@ begin
     CustomerComplainRpt:=TCustomerComplainRpt.Create(Self,idKaryawan.Text,Nama.Text,'DRIVERFORM');
   end;
 
+end;
+
+procedure TEmployeeForm.btnHistoryLaKAClick(Sender: TObject);
+begin
+  if Main.IsFormOpen('EmployeeHistoryLakaRpt')=False then
+  begin
+    EmployeeHistoryLakaRpt:=TEmployeeHistoryLakaRpt.Create(Self,'DRIVERFORM',Nama.Text,idKaryawan.Text);
+  end;
+end;
+
+procedure TEmployeeForm.Button1Click(Sender: TObject);
+begin
+  if EmplType=2 then
+  begin
+    if Main.IsFormOpen('EmplHistoryTrainingRpt')=False then
+    begin
+      EmplHistoryTrainingRpt:=TEmplHistoryTrainingRpt.Create(Self,'DRIVERFORM',Nama.Text,idKaryawan.Text,'DRIVER');
+    end;
+  end else
+  begin
+    if Main.IsFormOpen('EmplHistoryTrainingRpt')=False then
+    begin
+      EmplHistoryTrainingRpt:=TEmplHistoryTrainingRpt.Create(Self,'DRIVERFORM',Nama.Text,idKaryawan.Text,'HELPER');
+    end;
+  end;
 end;
 
 end.

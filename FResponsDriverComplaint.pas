@@ -65,7 +65,7 @@ end;
 
 procedure TResponsDriverComplaint.keluarClick(Sender: TObject);
 begin
-Close;
+  Close;
 end;
 
 procedure TResponsDriverComplaint.FormShow(Sender: TObject);

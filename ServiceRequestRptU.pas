@@ -118,7 +118,7 @@ begin
   StrGrid.ColWidths[5]:=55;
   StrGrid.ColWidths[6]:=330;
   StrGrid.ColWidths[7]:=400;
-  StrGrid.ColWidths[8]:=150;
+  StrGrid.ColWidths[8]:=170;
   StrGrid.Cells[0,0]:='No';
   StrGrid.Cells[1,0]:='Pool';
   StrGrid.Cells[2,0]:='No SR';

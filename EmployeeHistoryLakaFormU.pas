@@ -41,7 +41,6 @@ type
     frxrprt: TfrxReport;
     frxdbdtst1: TfrxDBDataset;
     qryHistLaka: TADOQuery;
-    con1: TADOConnection;
     lblJamkejadian: TLabel;
     Jam: TMaskEdit;
     Kerusakan: TMemo;
@@ -72,6 +71,9 @@ type
     LamaBekerjaBulan: TMemo;
     Label14: TLabel;
     Label15: TLabel;
+    Armada: TEdit;
+    Label16: TLabel;
+    CariArmada: TButton;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BersihkanClick(Sender: TObject);
@@ -92,6 +94,7 @@ type
     procedure CetakClick(Sender: TObject);
     procedure frxrprtBeforePrint(Sender: TfrxReportComponent);
     procedure AmountDescKeyPress(Sender: TObject; var Key: Char);
+    procedure CariArmadaClick(Sender: TObject);
   private
     { Private declarations }
     StrQry,StrQry2,UnsafeAction,UnsafeCondition,PersonalFactor,JobFactor,EmplHistoryID,FormReq:String;
@@ -108,12 +111,12 @@ type
 
 var
   EmployeeHistoryLakaForm: TEmployeeHistoryLakaForm;
-  EmplId:string;
+  EmplId,VehicleIDHistLaka:string;
 
 implementation
 
 uses
-  MainU, EmployeeHistoryLakaListU;
+  MainU, EmployeeHistoryLakaListU, VehicleListU, EmployeeHistoryLakaRptU;
 
 {$R *.dfm}
 
@@ -149,6 +152,8 @@ begin
   NoteSpv.Text:='';
   NoteMR.Text:='';
   NoteDir.Text:='';
+  Armada.Text:='';
+  VehicleIDHistLaka:='';
   chkUnsafeAction.Checked:=False;
   chkUnsafeCondition.Checked:=False;
   chkPersonalFactor.Checked:=False;
@@ -265,7 +270,6 @@ begin
     IsOk:=True;
     Qry:=TADOQuery.Create(Self);
     Qry.Connection:=Main.MyConnection;
-//    EmplId;
 
     if Main.OpenDb then begin
       Main.TransStart;
@@ -300,7 +304,7 @@ begin
         StrQry2:='INSERT INTO wh_empl_history_laka (date,employee_id,location,time'+
         ',damage,victims_name,victims_age,tools,activity,amount,amount_desc,absent, '+
         ' chronology,incident1, incident2,note_spv, note_mr, note_direktur, unsafe_action,unsafe_condition, personal_factor, '+
-        ' job_factor, create_date, create_user,update_user,work_period_year,work_period_month,empl_history_id) VALUES (getdate(),'+
+        ' job_factor, create_date, create_user,update_user,work_period_year,work_period_month,empl_history_id,vehicle_id) VALUES (getdate(),'+
          QuotedStr(EmplId)+','+QuotedStr(Lokasi.Text)+','+QuotedStr(Jam.Text)+','+QuotedStr(Kerusakan.Text)+
          ','+QuotedStr(NamaKorban.Text)+
         ','+QuotedStr(UmurKorban.Text)+','+QuotedStr(AlatTerlibat.Text)+
@@ -308,9 +312,8 @@ begin
         ','+QuotedStr(Kronologi.Text)+','+QuotedStr(SebabLangsung.Text)+','+QuotedStr(SebabDasar.Text)+
         ','+QuotedStr(NoteSpv.Text)+','+QuotedStr(NoteMR.Text)+','+QuotedStr(NoteDir.Text)+
         ','+QuotedStr(UnsafeAction)+','+QuotedStr(UnsafeCondition)+','+QuotedStr(PersonalFactor)+','+QuotedStr(JobFactor)+
-      //  ','+QuotedStr(UnsafeAction)+','+UnsafeCondition+','+PersonalFactor+','+JobFactor+',getdate(),'+ +'
         ',getdate(),'+QuotedStr(User)+','+QuotedStr(User)+','+QuotedStr(LamaBekerjaTahun.Text)+','+QuotedStr(LamaBekerjaBulan.Text)+
-        ','+QuotedStr(EmplHistoryID)+');';
+        ','+QuotedStr(EmplHistoryID)+','+QuotedStr(VehicleIDHistLaka)+');';
 
         Qry.SQL.Clear;
         Qry.SQL.Add(StrQry2);
@@ -333,7 +336,7 @@ begin
         'incident2='+QuotedStr(SebabDasar.Text)+',note_spv='+QuotedStr(NoteSpv.Text)+', note_mr='+QuotedStr(NoteMR.Text)+','+
         'note_direktur='+QuotedStr(NoteDir.Text)+', unsafe_action='+QuotedStr(UnsafeAction)+','+
         'unsafe_condition='+QuotedStr(UnsafeCondition)+', personal_factor='+QuotedStr(PersonalFactor)+','+
-        'job_factor='+QuotedStr(JobFactor)+',update_user='+QuotedStr(User)+' WHERE '+
+        'job_factor='+QuotedStr(JobFactor)+',update_user='+QuotedStr(User)+',vehicle_id='+QuotedStr(VehicleIDHistLaka)+' WHERE '+
         'empl_history_id='+QuotedStr(EmplHistoryID)+';';
         Qry.SQL.Clear;
         Qry.SQL.Add(StrQry);
@@ -371,7 +374,7 @@ begin
         Simpan.Enabled:=False;
       end else begin
         MessageBox(0,PChar('Data LaKa Berhasil Diubah'),'History Laka Driver',MB_OK or MB_ICONINFORMATION);
-        if Main.IsFormOpen('EmployeeHistoryLakaList')=True then EmployeeHistoryLakaList.LihatDataClick(self);
+        if Main.IsFormOpen('EmployeeHistoryLakaRpt')=True then EmployeeHistoryLakaRpt.LihatDataClick(self);
       end;
     end else begin
 
@@ -385,9 +388,6 @@ begin
   end else begin
       MessageBox(0,PChar('Silahkan Lengkapi Kolom yang diperlukan'),'History Laka Driver',MB_OK or MB_ICONERROR);
   end;
-
-
-
 end;
 
 procedure TEmployeeHistoryLakaForm.AmountChange(Sender: TObject);
@@ -547,6 +547,11 @@ begin
   if Key=#13 then begin
     Kronologi.SetFocus;
   end;
+end;
+
+procedure TEmployeeHistoryLakaForm.CariArmadaClick(Sender: TObject);
+begin
+  if Main.IsFormOpen('VehicleList')=False then VehicleList:=TVehicleList.Create(Self,'Bus','FORM-HISTORY-LAKA');
 end;
 
 end.

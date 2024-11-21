@@ -619,9 +619,9 @@ begin
       IntBiaya:=BBMRp+(StoInt(OrderFeeArr[IntCount][16])*StoInt(OrderFeeArr[IntCount][15]))+(StoInt(OrderFeeArr[IntCount][17])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][18]);
       IntBiayaReimburse:=(StoInt(OrderFeeArr[IntCount][20])) + (StoInt(OrderFeeArr[IntCount][21])) + //*StoInt(OrderFeeArr[IntCount][15])
                          StoInt(OrderFeeArr[IntCount][22]) + StoInt(OrderFeeArr[IntCount][23]);
-      TotalBiaya:=TotalBiaya+IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19]);
+      TotalBiaya:=TotalBiaya+IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19])+StoInt(OrderFeeArr[IntCount][25]);
 
-      TotalBiayaExc:=TotalBiayaExc+IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19])-BBMRp_SPBU;
+      TotalBiayaExc:=TotalBiayaExc+IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19])-BBMRp_SPBU+StoInt(OrderFeeArr[IntCount][25]);
 
       TotalTopupBudget := TotalTopupBudget+StoInt(OrderFeeArr[IntCount][50]);
       TotalETollBudget := TotalETollBudget+StoInt(OrderFeeArr[IntCount][51]);
@@ -705,8 +705,8 @@ begin
       //if OrderFeeArr[IntCount][37]<>NULL then StrGrid.Cells[16,Count]:='';//eToll(OrderFeeArr[IntCount][37]);
       StrGrid.Cells[26,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][24]));
       StrGrid.Cells[27,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][25]));
-      StrGrid.Cells[28,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19]));
-      StrGrid.Cells[29,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19])-BBMRp_SPBU);
+      StrGrid.Cells[28,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19])+StoInt(OrderFeeArr[IntCount][25]));
+      StrGrid.Cells[29,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19])-BBMRp_SPBU+StoInt(OrderFeeArr[IntCount][25]));
       StrGrid.Cells[30,Count]:=OrderFeeArr[IntCount][26];
 
       if (OrderFeeArr[IntCount][55]='') or (OrderFeeArr[IntCount][55]='0') then begin

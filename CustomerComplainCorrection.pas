@@ -310,7 +310,7 @@ begin
     end;
     Qry.Close;
 
-    StrQry:='select b.name from wh_cust_complain_investigation_pic a '+
+    StrQry:='select DISTINCT b.name from wh_cust_complain_investigation_pic a '+
             'left join wh_employee b on a.employee_id=b.employee_id  where '+
     'cust_complain_investigation_id= '+QuotedStr(StrTransId)+' and status=1 and type=1;';
     Qry2.SQL.Clear;
@@ -329,7 +329,7 @@ begin
     end;
 
 
-    StrQry:='select b.name from wh_cust_complain_investigation_pic a '+
+    StrQry:='select DISTINCT b.name from wh_cust_complain_investigation_pic a '+
             'left join wh_employee b on a.employee_id=b.employee_id  where '+
     'cust_complain_investigation_id= '+QuotedStr(StrTransId)+' and status=1 and type=2;';
     Qry2.Close;

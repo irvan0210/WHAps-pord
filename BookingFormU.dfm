@@ -1,6 +1,6 @@
 object BookingForm: TBookingForm
-  Left = 103
-  Top = 140
+  Left = 209
+  Top = 127
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Penjadwalan'
@@ -87,7 +87,7 @@ object BookingForm: TBookingForm
     Width = 169
     Height = 17
     BevelOuter = bvNone
-    TabOrder = 10
+    TabOrder = 9
     object Status: TCheckBox
       Left = 0
       Top = 2
@@ -103,7 +103,7 @@ object BookingForm: TBookingForm
     Width = 75
     Height = 25
     Caption = 'Selesai'
-    TabOrder = 9
+    TabOrder = 8
     OnClick = SelesaiClick
   end
   object Simpan: TButton
@@ -112,7 +112,7 @@ object BookingForm: TBookingForm
     Width = 73
     Height = 25
     Caption = 'Simpan'
-    TabOrder = 6
+    TabOrder = 5
     OnClick = SimpanClick
   end
   object CetakUlang: TButton
@@ -121,7 +121,7 @@ object BookingForm: TBookingForm
     Width = 75
     Height = 25
     Caption = 'Cetak Ulang'
-    TabOrder = 8
+    TabOrder = 7
     OnClick = CetakUlangClick
   end
   object Bersihkan: TButton
@@ -130,7 +130,7 @@ object BookingForm: TBookingForm
     Width = 75
     Height = 25
     Caption = 'Bersihkan'
-    TabOrder = 7
+    TabOrder = 6
     OnClick = BersihkanClick
   end
   object GroupDetail: TGroupBox
@@ -138,7 +138,7 @@ object BookingForm: TBookingForm
     Top = 515
     Width = 465
     Height = 51
-    TabOrder = 5
+    TabOrder = 4
     object Label8: TLabel
       Left = 57
       Top = 9
@@ -155,158 +155,6 @@ object BookingForm: TBookingForm
       ReadOnly = True
       ScrollBars = ssVertical
       TabOrder = 0
-    end
-  end
-  object GroupOrder: TGroupBox
-    Left = 8
-    Top = 264
-    Width = 1057
-    Height = 247
-    Caption = 'Data Pesanan'
-    TabOrder = 4
-    object Label14: TLabel
-      Left = 77
-      Top = -2
-      Width = 5
-      Height = 16
-      Alignment = taRightJustify
-      Caption = '*'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clRed
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-    end
-    object StrGrid: TZColorStringGrid
-      Left = 8
-      Top = 16
-      Width = 1041
-      Height = 224
-      TabStop = False
-      ColCount = 10
-      DefaultRowHeight = 36
-      DefaultDrawing = False
-      FixedColor = clBtnFace
-      FixedCols = 0
-      RowCount = 3
-      FixedRows = 2
-      PopupMenu = PopupMenu1
-      TabOrder = 0
-      OnDblClick = StrGridDblClick
-      OnDrawCell = StrGridDrawCell
-      OnKeyDown = StrGridKeyDown
-      OnKeyUp = StrGridKeyUp
-      OnSelectCell = StrGridSelectCell
-      DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
-      DefaultCellStyle.Font.Color = clWindowText
-      DefaultCellStyle.Font.Height = -11
-      DefaultCellStyle.Font.Name = 'MS Sans Serif'
-      DefaultCellStyle.Font.Style = []
-      DefaultCellStyle.BGColor = clWindow
-      DefaultFixedCellStyle.Font.Charset = DEFAULT_CHARSET
-      DefaultFixedCellStyle.Font.Color = clWindowText
-      DefaultFixedCellStyle.Font.Height = -11
-      DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
-      DefaultFixedCellStyle.Font.Style = []
-      DefaultFixedCellStyle.BGColor = clBtnFace
-      LineDesign.LineUpColor = clWhite
-      ColWidths = (
-        64
-        64
-        64
-        64
-        64
-        64
-        64
-        64
-        64
-        64)
-    end
-    object TimeStandby: TMaskEdit
-      Left = 448
-      Top = 33
-      Width = 25
-      Height = 21
-      EditMask = '!90:00;1;_'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      MaxLength = 5
-      ParentFont = False
-      TabOrder = 1
-      Text = '  :  '
-      Visible = False
-      OnExit = TimeStandbyExit
-      OnKeyPress = TimeStandbyKeyPress
-    end
-    object DetailRemark: TMemo
-      Left = 688
-      Top = 24
-      Width = 137
-      Height = 25
-      TabOrder = 2
-      Visible = False
-      WantReturns = False
-      OnExit = DetailRemarkExit
-      OnKeyPress = DetailRemarkKeyPress
-    end
-    object DateStart: TDateTimePicker
-      Left = 488
-      Top = 48
-      Width = 89
-      Height = 21
-      Date = 41726.000000000000000000
-      Time = 41726.000000000000000000
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 3
-      Visible = False
-      OnExit = DateStartExit
-      OnKeyPress = DateStartKeyPress
-    end
-    object DateFinish: TDateTimePicker
-      Left = 592
-      Top = 24
-      Width = 89
-      Height = 21
-      Date = 41726.000000000000000000
-      Time = 41726.000000000000000000
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 4
-      Visible = False
-      OnExit = DateFinishExit
-      OnKeyPress = DateFinishKeyPress
-    end
-    object TimeStart: TMaskEdit
-      Left = 416
-      Top = 33
-      Width = 25
-      Height = 21
-      EditMask = '!90:00;1;_'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      MaxLength = 5
-      ParentFont = False
-      TabOrder = 5
-      Text = '  :  '
-      Visible = False
-      OnExit = TimeStartExit
-      OnKeyPress = TimeStartKeyPress
     end
   end
   object GroupBox1: TGroupBox
@@ -647,7 +495,7 @@ object BookingForm: TBookingForm
     Width = 97
     Height = 17
     BevelOuter = bvNone
-    TabOrder = 11
+    TabOrder = 10
     object Package: TCheckBox
       Left = 0
       Top = 0
@@ -664,7 +512,7 @@ object BookingForm: TBookingForm
     Width = 97
     Height = 17
     BevelOuter = bvNone
-    TabOrder = 12
+    TabOrder = 11
     object LockBooking: TCheckBox
       Left = 0
       Top = 0
@@ -686,7 +534,7 @@ object BookingForm: TBookingForm
       'Delete = Menghapus Penjadwalan'
       'F5       = Tampilkan semua Armada'
       'F6       = Tambahan Penjadwalan')
-    TabOrder = 13
+    TabOrder = 12
   end
   object GroupIsFix: TPanel
     Left = 888
@@ -694,7 +542,7 @@ object BookingForm: TBookingForm
     Width = 97
     Height = 18
     BevelOuter = bvNone
-    TabOrder = 14
+    TabOrder = 13
     object isFix: TCheckBox
       Left = 0
       Top = -1
@@ -702,6 +550,158 @@ object BookingForm: TBookingForm
       Height = 17
       Caption = 'Penjadwalan Fix'
       TabOrder = 0
+    end
+  end
+  object GroupOrder: TGroupBox
+    Left = 8
+    Top = 264
+    Width = 1057
+    Height = 247
+    Caption = 'Data Pesanan'
+    TabOrder = 14
+    object Label7: TLabel
+      Left = 77
+      Top = -2
+      Width = 5
+      Height = 16
+      Alignment = taRightJustify
+      Caption = '*'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+    end
+    object StrGrid: TZColorStringGrid
+      Left = 8
+      Top = 16
+      Width = 1041
+      Height = 224
+      TabStop = False
+      ColCount = 10
+      DefaultRowHeight = 36
+      DefaultDrawing = False
+      FixedColor = clBtnFace
+      FixedCols = 0
+      RowCount = 3
+      FixedRows = 2
+      PopupMenu = PopupMenu1
+      TabOrder = 0
+      OnDblClick = StrGridDblClick
+      OnDrawCell = StrGridDrawCell
+      OnKeyDown = StrGridKeyDown
+      OnKeyUp = StrGridKeyUp
+      OnSelectCell = StrGridSelectCell
+      DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
+      DefaultCellStyle.Font.Color = clWindowText
+      DefaultCellStyle.Font.Height = -11
+      DefaultCellStyle.Font.Name = 'MS Sans Serif'
+      DefaultCellStyle.Font.Style = []
+      DefaultCellStyle.BGColor = clWindow
+      DefaultFixedCellStyle.Font.Charset = DEFAULT_CHARSET
+      DefaultFixedCellStyle.Font.Color = clWindowText
+      DefaultFixedCellStyle.Font.Height = -11
+      DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
+      DefaultFixedCellStyle.Font.Style = []
+      DefaultFixedCellStyle.BGColor = clBtnFace
+      LineDesign.LineUpColor = clWhite
+      ColWidths = (
+        64
+        64
+        64
+        64
+        64
+        64
+        64
+        64
+        64
+        64)
+    end
+    object TimeStandby: TMaskEdit
+      Left = 448
+      Top = 33
+      Width = 25
+      Height = 21
+      EditMask = '!90:00;1;_'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      MaxLength = 5
+      ParentFont = False
+      TabOrder = 1
+      Text = '  :  '
+      Visible = False
+      OnExit = TimeStandbyExit
+      OnKeyPress = TimeStandbyKeyPress
+    end
+    object DetailRemark: TMemo
+      Left = 688
+      Top = 24
+      Width = 137
+      Height = 25
+      TabOrder = 2
+      Visible = False
+      WantReturns = False
+      OnExit = DetailRemarkExit
+      OnKeyPress = DetailRemarkKeyPress
+    end
+    object DateStart: TDateTimePicker
+      Left = 488
+      Top = 48
+      Width = 89
+      Height = 21
+      Date = 41726.000000000000000000
+      Time = 41726.000000000000000000
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 3
+      Visible = False
+      OnExit = DateStartExit
+      OnKeyPress = DateStartKeyPress
+    end
+    object DateFinish: TDateTimePicker
+      Left = 592
+      Top = 24
+      Width = 89
+      Height = 21
+      Date = 41726.000000000000000000
+      Time = 41726.000000000000000000
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 4
+      Visible = False
+      OnExit = DateFinishExit
+      OnKeyPress = DateFinishKeyPress
+    end
+    object TimeStart: TMaskEdit
+      Left = 416
+      Top = 33
+      Width = 25
+      Height = 21
+      EditMask = '!90:00;1;_'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      MaxLength = 5
+      ParentFont = False
+      TabOrder = 5
+      Text = '  :  '
+      Visible = False
+      OnExit = TimeStartExit
+      OnKeyPress = TimeStartKeyPress
     end
   end
   object ppReport: TppReport

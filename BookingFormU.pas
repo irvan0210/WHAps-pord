@@ -13,9 +13,6 @@ uses
 type
   TBookingForm = class(TForm)
     Label19: TLabel;
-    GroupOrder: TGroupBox;
-    Label14: TLabel;
-    StrGrid: TZColorStringGrid;
     GroupBatal: TPanel;
     Status: TCheckBox;
     GroupBox1: TGroupBox;
@@ -50,8 +47,6 @@ type
     GroupDetail: TGroupBox;
     Label8: TLabel;
     Label22: TLabel;
-    TimeStandby: TMaskEdit;
-    DetailRemark: TMemo;
     ppReport: TppReport;
     ppHeaderBand1: TppHeaderBand;
     ppLabel2: TppLabel;
@@ -243,10 +238,7 @@ type
     Label23: TLabel;
     GroupPackage: TPanel;
     Package: TCheckBox;
-    DateStart: TDateTimePicker;
-    DateFinish: TDateTimePicker;
     ppService8: TppLabel;
-    TimeStart: TMaskEdit;
     Label10: TLabel;
     ppLabel36: TppLabel;
     ppLabel37: TppLabel;
@@ -264,6 +256,14 @@ type
     PopupMenu2: TPopupMenu;
     MenuItem2: TMenuItem;
     GeserDriver1: TMenuItem;
+    GroupOrder: TGroupBox;
+    Label7: TLabel;
+    StrGrid: TZColorStringGrid;
+    TimeStandby: TMaskEdit;
+    DetailRemark: TMemo;
+    DateStart: TDateTimePicker;
+    DateFinish: TDateTimePicker;
+    TimeStart: TMaskEdit;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -1116,7 +1116,6 @@ var Qry,QryWehaOnline:TADOQuery;
     StrReqOrderNo,ParamJsonRsvId,StrJsonRsvId, StrJsonRsvIdWL :WideString;
     CallApi, isLessUnit:Boolean;
 begin
-
   if (OrderId.Text<>'') and (CustomerId.Text<>'')  then begin
       IsAuth:=True;
       IsOk:=True;
@@ -1142,21 +1141,16 @@ begin
 
               if IsAuth=False then
               begin
-//                Main.CloseDb;
                 Main.M_Normal;
                 IsInputGrid:=True;
                 IsInput:=True;
                 EnableInput;
                 Exit;
               end;
-
             end;
           end;
         end;
-
       end;
-
-
 
       Qry:=TADOQuery.Create(Self);
       Qry.Connection:=Main.MyConnection;
@@ -1457,7 +1451,7 @@ begin
                   StrFromTimes:=QuotedStr(StrGrid.Cells[6,IntCount]);
                   StrTimeStandby:=QuotedStr(StrGrid.Cells[7,IntCount]);
                   if StrGrid.Cells[19,IntCount]='2' then StrToTimes:=QuotedStr('23:59')
-  //             else StrToTimes:=QuotedStr(LeftStr(TimeToStr(StrToTime(StrGrid.Cells[6,IntCount])+EncodeTime(StrToInt(StrGrid.Cells[20,IntCount]),0,0,0)),5));
+  //              else StrToTimes:=QuotedStr(LeftStr(TimeToStr(StrToTime(StrGrid.Cells[6,IntCount])+EncodeTime(StrToInt(StrGrid.Cells[20,IntCount]),0,0,0)),5));
                   else StrToTimes:=QuotedStr(FormatDateTime('HH:nn',StrToTime(StrGrid.Cells[6,IntCount])+EncodeTime(StrToInt(StrGrid.Cells[20,IntCount]),0,0,0)));
                    StrToTimes:=QuotedStr('00:00') ;
 

@@ -1,6 +1,6 @@
 object EmployeeHistoryLakaForm: TEmployeeHistoryLakaForm
-  Left = 379
-  Top = 119
+  Left = 257
+  Top = 90
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Histori Laka Driver'
@@ -30,7 +30,7 @@ object EmployeeHistoryLakaForm: TEmployeeHistoryLakaForm
     TabOrder = 0
     object Label4: TLabel
       Left = 9
-      Top = 88
+      Top = 63
       Width = 99
       Height = 13
       Alignment = taRightJustify
@@ -53,8 +53,8 @@ object EmployeeHistoryLakaForm: TEmployeeHistoryLakaForm
       Caption = 'Tanggal'
     end
     object lblJamkejadian: TLabel
-      Left = 45
-      Top = 63
+      Left = 213
+      Top = 15
       Width = 63
       Height = 13
       Alignment = taRightJustify
@@ -164,9 +164,17 @@ object EmployeeHistoryLakaForm: TEmployeeHistoryLakaForm
       Alignment = taRightJustify
       Caption = 'Hari'
     end
+    object Label16: TLabel
+      Left = 71
+      Top = 88
+      Width = 37
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'Armada'
+    end
     object Pelapor: TEdit
       Left = 115
-      Top = 84
+      Top = 59
       Width = 241
       Height = 21
       Enabled = False
@@ -191,8 +199,8 @@ object EmployeeHistoryLakaForm: TEmployeeHistoryLakaForm
       TabOrder = 2
     end
     object Jam: TMaskEdit
-      Left = 115
-      Top = 60
+      Left = 283
+      Top = 12
       Width = 44
       Height = 21
       EditMask = '99:99;1;_'
@@ -303,6 +311,24 @@ object EmployeeHistoryLakaForm: TEmployeeHistoryLakaForm
       TabOrder = 13
       WantReturns = False
       WantTabs = True
+    end
+    object Armada: TEdit
+      Left = 115
+      Top = 84
+      Width = 241
+      Height = 21
+      Enabled = False
+      TabOrder = 14
+      OnKeyPress = PelaporKeyPress
+    end
+    object CariArmada: TButton
+      Left = 360
+      Top = 80
+      Width = 33
+      Height = 25
+      Caption = '...'
+      TabOrder = 15
+      OnClick = CariArmadaClick
     end
   end
   object pnl1: TPanel
@@ -8201,7 +8227,7 @@ object EmployeeHistoryLakaForm: TEmployeeHistoryLakaForm
       'work_period_month=work_period_month')
     DataSet = qryHistLaka
     BCDToCurrency = False
-    Left = 8
+    Left = 16
     Top = 16
   end
   object qryHistLaka: TADOQuery
@@ -8213,13 +8239,5 @@ object EmployeeHistoryLakaForm: TEmployeeHistoryLakaForm
       'WHERE empl_history_laka_id=13')
     Left = 64
     Top = 143
-  end
-  object con1: TADOConnection
-    ConnectionString = 
-      'Provider=SQLOLEDB.1;Persist Security Info=False;User ID=sa;Initi' +
-      'al Catalog=wh_dev;Data Source=192.168.10.247;'
-    Provider = 'SQLOLEDB.1'
-    Left = 8
-    Top = 144
   end
 end

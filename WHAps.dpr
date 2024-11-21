@@ -317,7 +317,18 @@ uses
   UserSubMenuListU in 'UserSubMenuListU.pas' {UserSubMenuList},
   UserSubMenuU in 'UserSubMenuU.pas' {UserSubMenuForm},
   EmployeeHistoryLakaListU in 'EmployeeHistoryLakaListU.pas' {EmployeeHistoryLakaList},
-  EmployeeHistoryLakaFormU in 'EmployeeHistoryLakaFormU.pas' {EmployeeHistoryLakaForm};
+  EmployeeHistoryLakaFormU in 'EmployeeHistoryLakaFormU.pas' {EmployeeHistoryLakaForm},
+  EmployeeHistoryLakaRptU in 'EmployeeHistoryLakaRptU.pas' {EmployeeHistoryLakaRpt},
+  EmployeeHistoryTrainingFormU in 'EmployeeHistoryTrainingFormU.pas' {EmployeeHistoryTrainingForm},
+  BrowseEmployeeU in 'BrowseEmployeeU.pas' {BrowseEmployee},
+  FResponsDriverComplaint in 'FResponsDriverComplaint.pas' {ResponsDriverComplaint},
+  EmployeeHistoryTrainingListU in 'EmployeeHistoryTrainingListU.pas' {EmployeeHistoryTrainingList},
+  EmployeeHistoryTrainingRptU in 'EmployeeHistoryTrainingRptU.pas' {EmplHistoryTrainingRpt},
+  FormNoOrderListU in 'FormNoOrderListU.pas' {FormNoOrderList},
+  MaintenanceJobFormEditU in 'MaintenanceJobFormEditU.pas' {MaintenanceJobFormEdit},
+  MaintenanceGroupJobListU in 'MaintenanceGroupJobListU.pas' {MaintenanceGroupJobList},
+  BrowsePartU in 'BrowsePartU.pas' {BrowsePart},
+  RekapHistoryArmadaPergantianPartU in 'RekapHistoryArmadaPergantianPartU.pas' {RekapHistoryArmadaPergantianPart};
 
 {$R *.res}
 

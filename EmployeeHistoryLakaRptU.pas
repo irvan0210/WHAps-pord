@@ -70,7 +70,7 @@ type
     procedure RefreshSeat;
   public
     { Public declarations }
-     constructor Create(AOwner:TComponent;FormReq:String;EmployeeName:string);Overload;
+     constructor Create(AOwner:TComponent;FormReq:String;EmployeeName:string;EmployeeID:string);Overload;
   end;
 
 var
@@ -83,12 +83,13 @@ uses MainU, EmployeeListU, EmployeeHistoryLakaFormU;
 
 {$R *.dfm}
 
-constructor TEmployeeHistoryLakaRpt.Create(AOwner:TComponent;FormReq:String;EmployeeName:string);
+constructor TEmployeeHistoryLakaRpt.Create(AOwner:TComponent;FormReq:String;EmployeeName:string;EmployeeID:string);
 begin
 
   if FormReq<>'' then FormRequest:=FormReq else FormRequest:='';
   if FormReq='DRIVERFORM' then
   begin
+    DriverIDHistLakaRpt:=EmployeeID;
     Employee_Name:=EmployeeName;
   end;
 
@@ -479,10 +480,10 @@ begin
   RefreshCombo;
   RefreshSeat;
   Initiation:=False;
-//  if FormRequest='DRIVERFORM' then
-//  begin
-//    LihatDataClick(Self);
-//  end;
+  if FormRequest='DRIVERFORM' then
+  begin
+    LihatDataClick(Self);
+  end;
 end;
 
 procedure TEmployeeHistoryLakaRpt.InitGrid;

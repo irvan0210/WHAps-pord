@@ -1,6 +1,6 @@
 object EmployeeForm: TEmployeeForm
-  Left = 237
-  Top = 0
+  Left = 155
+  Top = 9
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Karyawan'
@@ -2490,23 +2490,49 @@ object EmployeeForm: TEmployeeForm
       TabOrder = 1
       OnClick = SelesaiClick
     end
-    object Riwayat: TButton
-      Left = 285
-      Top = 4
-      Width = 80
-      Height = 25
-      Caption = 'Riwayat'
-      TabOrder = 2
-      OnClick = RiwayatClick
-    end
+  end
+  object GrpRiwayat: TGroupBox
+    Left = 504
+    Top = 528
+    Width = 361
+    Height = 89
+    Caption = 'Riwayat'
+    TabOrder = 17
     object HistoryCPCustomer: TButton
-      Left = 176
-      Top = 4
+      Left = 120
+      Top = 20
       Width = 105
       Height = 25
       Caption = 'Customer Complain'
-      TabOrder = 3
+      TabOrder = 0
       OnClick = HistoryCPCustomerClick
+    end
+    object Riwayat: TButton
+      Left = 9
+      Top = 20
+      Width = 104
+      Height = 25
+      Caption = 'Riwayat'
+      TabOrder = 1
+      OnClick = RiwayatClick
+    end
+    object btnHistoryLaKA: TButton
+      Left = 238
+      Top = 20
+      Width = 105
+      Height = 25
+      Caption = 'LaKa'
+      TabOrder = 2
+      OnClick = btnHistoryLaKAClick
+    end
+    object Button1: TButton
+      Left = 10
+      Top = 52
+      Width = 105
+      Height = 25
+      Caption = 'Training'
+      TabOrder = 3
+      OnClick = Button1Click
     end
   end
   object TimerCheck: TTimer

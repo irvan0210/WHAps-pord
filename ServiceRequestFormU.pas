@@ -1,7 +1,7 @@
 unit ServiceRequestFormU;
 
 interface
-                       
+
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, Jpeg, QuickRpt, QRCtrls, ADODB, WHUnit,
@@ -274,6 +274,8 @@ type
     pp2Superior1Sign: TppLabel;
     pp2Superior2Sign: TppLabel;
     ppParameterList1: TppParameterList;
+    Memo1: TMemo;
+    BtnTbhBarang: TButton;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -322,6 +324,7 @@ type
     procedure RejectClick(Sender: TObject);
     procedure CariKeluhanClick(Sender: TObject);
     procedure chkPermintaanBarangClick(Sender: TObject);
+    procedure BtnTbhBarangClick(Sender: TObject);
   private
     { Private declarations }
     VhcArr:Array of TArrString7;
@@ -354,6 +357,7 @@ type
     constructor Create(AOwner:TComponent;ServiceRequest_Id:String='';Form_Request:String='';Is_Input:Boolean=True);overload;
     procedure RePrint(No_SR:String);
     procedure SetVehicleId(Vehicle_Id:String);
+    procedure SetOdo(License_plate:String);
     procedure SetMaintenanceServiceId(MaintenanceService_Id:String);
     procedure SetWorkOrderId(WorkOrder_Id:String);
     procedure SetDriverComplainId(DriverComplainId:String);
@@ -370,7 +374,8 @@ implementation
 uses MainU, RePrintFormU, WorkOrderReprintU, AuthorizedFormU, DateUtils,
   VehicleListU, DB, ServiceRequestListU, MaintenanceServiceFormU,
   MaintenanceServiceListU, WorkOrderListU, DriverComplainList, Math, 
-  ItemServiceRequestU, NotRejectU, ImageViewerU;
+  ItemServiceRequestU, NotRejectU, ImageViewerU, IdHTTP, IdException, IdStack, 
+  uLkJSON, BrowsePartU, ListPartsU;
 
 {$R *.dfm}
 
@@ -410,6 +415,7 @@ begin
   Simpan.Enabled:=True;
   KeluhanDetail.Visible:=False;
   KeluhanGridSebelum.Visible:=False;
+  BtnTbhBarang.Enabled:=False;
   DisableInput;
   SetLength(GridRArr,0);
   SetLength(GridLArr,0);
@@ -421,7 +427,7 @@ begin
   ImageBack.Picture.Assign(nil);
   StartDate.Date:=Now;
   FinishDate.DateTime:=Now+1;
-  IntMaxRow:=10;
+  IntMaxRow:=40;
   IntCol:=0;
   IntRow:=0;
   MinRow2:=0;
@@ -478,7 +484,12 @@ begin
         else
           NoPolisi.Text:=Copy(Qry.FieldValues['license_plate'],1,2)+' '+Copy(Qry.FieldValues['license_plate'],3,4)+
                               ' '+Copy(Qry.FieldValues['license_plate'],7,Length(Qry.FieldValues['license_plate'])+1);
-        if Qry.FieldValues['odo_in']<>NULL then KMOdo.Text:=Qry.FieldValues['odo_in'] else KMOdo.Text:='0';
+
+        SetOdo(Qry.FieldValues['license_plate']);
+        if KMOdo.Text='0' then
+        begin
+          if Qry.FieldValues['odo_in']<>NULL then KMOdo.Text:=Qry.FieldValues['odo_in'] else KMOdo.Text:='0';
+        end;
         Request.Text:=Qry.FieldValues['request'];
       end;
       Qry.Close;
@@ -682,6 +693,37 @@ begin
   Main.M_Normal;
 end;
 
+procedure TServiceRequestForm.SetOdo(License_plate:String);
+var
+  js : TlkJSONbase;
+	IdHTTP: TIdHTTP;
+ resp: TMemoryStream;
+ url: String;
+begin
+ IdHTTP := TIdHTTP.Create(Self);
+ resp := TMemoryStream.Create;
+ url:='http://api.whitehorse.co.id/api_transtrack/vehicle.php?plate='+License_plate;
+// url:='http://api.whitehorse.co.id/api_transtrack/vehicle.php?plate=B7265PGA';
+ IdHTTP.Get(url, resp);
+ resp.Position := 0;
+ Memo1.Lines.LoadFromStream(resp);
+  js := TlkJSON.ParseText(Memo1.Text);
+  if Assigned(js) then
+  begin
+    js := js.Field['kmodo'];
+//    if Assigned(js) then
+//    begin
+//      js := js.Field['devices'];
+//      if Assigned(js) then
+//      begin
+//        js := js.Field['view'];
+//        if Assigned(js) then
+           KMOdo.Text:=(VarToStr(js.Value));
+//      end;
+//    end;
+  end;
+end;
+
 procedure TServiceRequestForm.SetVehicleId(Vehicle_Id:String);
 var StrQry:String;
     Qry:TADOQuery;
@@ -713,8 +755,13 @@ begin
         else
           NoPolisi.Text:=Copy(Qry.FieldValues['license_plate'],1,2)+' '+Copy(Qry.FieldValues['license_plate'],3,4)+
                               ' '+Copy(Qry.FieldValues['license_plate'],7,Length(Qry.FieldValues['license_plate'])+1);
-        if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
+        SetOdo(Qry.FieldValues['license_plate']);
+        if KMOdo.Text='0' then begin
+            if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
+        end;
+//        if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
       end;
+
       Qry.Close;
       StrQry:='SELECT c.vhc_type_detail_image_id,c.vhc_image '+
               'FROM wh_vehicle a '+
@@ -1406,8 +1453,8 @@ begin
   for IntCount:=0 to StrGrid2.RowCount-1 do
     for IntCount2:=0 to StrGrid2.ColCount-1 do
       StrGrid2.Cells[IntCount2,IntCount]:='';
-
-  StrGrid2.RowCount:=2;
+      
+  StrGrid2.RowCount:=1;
   StrGrid2.ColWidths[0]:=20;
   StrGrid2.ColWidths[1]:=250;
   StrGrid2.ColWidths[2]:=40;
@@ -1415,19 +1462,15 @@ begin
   StrGrid2.Cells[0,0]:='No';
   StrGrid2.Cells[1,0]:='Part';
   StrGrid2.Cells[2,0]:='Jumlah';
-  StrGrid2.Cells[3,0]:='Kode Part';
+
   StrGrid2.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid2.CellStyle[1,0].HorizontalAlignment:=taCenter;
   StrGrid2.CellStyle[2,0].HorizontalAlignment:=taCenter;
-
-
-
+  
   for IntCount:=0 to 2 do begin
     StrGrid2.Cells[IntCount,1]:='';
     StrGrid2.CellStyle[IntCount,1].BGColor:=clWindow;
   end;
-  StrGrid2.CellStyle[0,1].HorizontalAlignment:=taCenter;
-  StrGrid2.CellStyle[2,1].HorizontalAlignment:=taCenter;
 end;
 
 procedure TServiceRequestForm.FormShow(Sender: TObject);
@@ -1440,7 +1483,7 @@ begin
   StrGrid2.Enabled:=False;
   DibutuhkanBarangDate.Enabled:=False;
   MaxComponent:=Self.ComponentCount;
-//  RefreshCombo;
+
   Bersihkan.Visible:=True;
   CekOtorisasi;
   if IsInput then begin
@@ -2405,25 +2448,25 @@ var
   R: TRect;
 begin
   IntRow:=ARow;
-  IntCol:=ACol;
+//  IntCol:=ACol;
 //  if IsInputGrid then begin
-    if (ACol = 1) and (ARow > MinRowGrid) then begin
-      R := StrGrid2.CellRect(ACol, ARow);
-      R.Left := R.Left + StrGrid2.Left;
-      R.Right := R.Right + StrGrid2.Left;
-      R.Top := R.Top + StrGrid2.Top;
-      R.Bottom := R.Bottom + StrGrid2.Top;
-      with ItemDetail do begin
-        Left:=R.Left + 1;
-        Top := R.Top + 1;
-        Width := (R.Right + 1) - R.Left;
-        Height := (R.Bottom + 1) - R.Top;
-        if Trim(StrGrid2.Cells[ACol,ARow])<>'' then Text:=StrGrid2.Cells[ACol,ARow];
-        Visible:= True;
-        BringToFront;
-        SetFocus;
-      end;
-    end;
+//    if (ACol = 1) and (ARow > MinRowGrid) then begin
+//      R := StrGrid2.CellRect(ACol, ARow);
+//      R.Left := R.Left + StrGrid2.Left;
+//      R.Right := R.Right + StrGrid2.Left;
+//      R.Top := R.Top + StrGrid2.Top;
+//      R.Bottom := R.Bottom + StrGrid2.Top;
+//      with ItemDetail do begin
+//        Left:=R.Left + 1;
+//        Top := R.Top + 1;
+//        Width := (R.Right + 1) - R.Left;
+//        Height := (R.Bottom + 1) - R.Top;
+//        if Trim(StrGrid2.Cells[ACol,ARow])<>'' then Text:=StrGrid2.Cells[ACol,ARow];
+//        Visible:= True;
+//        BringToFront;
+//        SetFocus;
+//      end;
+//    end;
     if (ACol = 2) and (ARow > MinRowGrid) then begin
       R := StrGrid2.CellRect(ACol, ARow);
       R.Left := R.Left + StrGrid2.Left;
@@ -2497,19 +2540,19 @@ end;
 procedure TServiceRequestForm.QtyExit(Sender: TObject);
 var cel2 : string;
 begin
-  cel2:=StrGrid2.Cells[1,IntRow];
-  if Trim(Qty.Text)<>'' then begin
-    if StrGrid2.Cells[3,IntRow]='' then begin
-    MessageBox(0,PChar('Silahkan pilih produk terlebih dahulu'),'Service Request',MB_OK or MB_ICONWARNING);
-    end else
-    begin
-      StrGrid2.Cells[IntCol,IntRow]:=Qty.Text;
-      Calculate;
-    end;
-  end;
+//  cel2:=StrGrid2.Cells[1,IntRow];
+//  if Trim(Qty.Text)<>'' then begin
+//    if StrGrid2.Cells[3,IntRow]='' then begin
+//    MessageBox(0,PChar('Silahkan pilih produk terlebih dahulu'),'Service Request',MB_OK or MB_ICONWARNING);
+//    end else
+//    begin
+      StrGrid2.Cells[2,IntRow]:=Qty.Text;
+//      Calculate;
+//    end;
+//  end;
   Qty.Text:='';
   Qty.Visible := False;
-  StrGrid2.SetFocus;
+//  StrGrid2.SetFocus;
 end;
 
 procedure TServiceRequestForm.QtyKeyPress(Sender: TObject; var Key: Char);
@@ -2517,20 +2560,21 @@ var IntCount:Integer;
 begin
   if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
   if (Key=#13) then begin
+    StrGrid2.Cells[2,IntRow]:=Qty.Text;
     QtyExit(nil);
-
-    if StrGrid2.Cells[2,IntRow]<>'' then begin
-      Calculate;
-      if (StrGrid2.Row=StrGrid2.RowCount-1) AND (StrGrid2.RowCount<=IntMaxRow)  then begin
-        StrGrid2.RowCount:=StrGrid2.RowCount+1;
-        for IntCount:=0 to 4 do StrGrid2.Cells[IntCount,StrGrid2.RowCount-1]:='';
-        StrGrid2.CellStyle[0,StrGrid2.RowCount-1].HorizontalAlignment:=taCenter;
-        StrGrid2.CellStyle[2,StrGrid2.RowCount-1].HorizontalAlignment:=taCenter;
-      end;
-      StrGrid2.Col:=0;
-      StrGrid2.Row:=StrGrid2.Row+1;
-      StrGrid2.Col:=1;
-    end;
+//
+//    if StrGrid2.Cells[2,IntRow]<>'' then begin
+//      Calculate;
+//      if (StrGrid2.Row=StrGrid2.RowCount-1) AND (StrGrid2.RowCount<=IntMaxRow)  then begin
+//        StrGrid2.RowCount:=StrGrid2.RowCount+1;
+//        for IntCount:=0 to 4 do StrGrid2.Cells[IntCount,StrGrid2.RowCount-1]:='';
+//        StrGrid2.CellStyle[0,StrGrid2.RowCount-1].HorizontalAlignment:=taCenter;
+//        StrGrid2.CellStyle[2,StrGrid2.RowCount-1].HorizontalAlignment:=taCenter;
+//      end;
+//      StrGrid2.Col:=0;
+//      StrGrid2.Row:=StrGrid2.Row+1;
+//      StrGrid2.Col:=1;
+//    end;
   end;
   if (Key=#27) then begin
     QtyExit(nil);
@@ -2715,14 +2759,30 @@ procedure TServiceRequestForm.chkPermintaanBarangClick(Sender: TObject);
 begin
   if chkPermintaanBarang.Checked=True then
   begin
-//    DibutuhkanBarangDate.Date:=Now;
-    StrGrid2.Enabled:=True;
-    DibutuhkanBarangDate.Enabled:=True
+    if NoBody.Text='' then begin
+      chkPermintaanBarang.Checked:=False;
+      MessageBox(0,PChar('Pilih No Polisi Dahulu!'),'Service Request',MB_OK or MB_ICONERROR);
+    end else begin
+  //    DibutuhkanBarangDate.Date:=Now;
+      StrGrid2.Enabled:=True;
+      DibutuhkanBarangDate.Enabled:=True;
+      BtnTbhBarang.Enabled:=True;
+    end;
   end else begin
 //    DibutuhkanBarangDate.Date:=NOW;
     StrGrid2.Enabled:=False;
     DibutuhkanBarangDate.Enabled:=False;
     InitGrid2;
+    BtnTbhBarang.Enabled:=False;
+  end;
+end;
+
+procedure TServiceRequestForm.BtnTbhBarangClick(Sender: TObject);
+begin
+  if Main.IsFormOpen('BrowsePartU')=False then
+  begin
+    BrowsePartVehicleId:=VehicleId;
+    BrowsePart:=TBrowsePart.Create(Self);
   end;
 end;
 

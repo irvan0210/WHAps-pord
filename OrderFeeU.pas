@@ -1033,6 +1033,7 @@ begin
       if Qry.FieldValues['isRepeatOrder']<>null then
         SJArr[IntCount][43] := Qry.FieldValues['isRepeatOrder']
       else SJArr[IntCount][43] :='';
+
       SJArr[IntCount][44] := Qry.FieldValues['product_price_id'];
       Inc(IntCount);
       Qry.Next;

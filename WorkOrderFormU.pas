@@ -271,6 +271,7 @@ type
     Simpan: TButton;
     PanelMemoKhusus: TPanel;
     MemoKhusus: TCheckBox;
+    Memo1: TMemo;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure EksternalClick(Sender: TObject);
@@ -329,6 +330,7 @@ type
     procedure Calculate;
     procedure Calculate2;
     procedure Calculate4;
+    procedure SetOdo(License_plate:String);
   public
     { Public declarations }
 //    constructor Create(AOwner:TComponent);overload;
@@ -345,7 +347,8 @@ var
 implementation
 
 uses MainU, RePrintFormU, AuthorizedFormU, DateUtils,
-  VehicleListU, ServiceRequestListU, WorkOrderListU;
+  VehicleListU, ServiceRequestListU, WorkOrderListU, IdHTTP, IdException, 
+  IdStack, uLkJSON;
 
 {$R *.dfm}
 
@@ -357,6 +360,37 @@ begin
   Main.WriteLog('Form Open: WorkOrderForm='+WorkOrder_Id+','+Form_Request+','+BoolToStr(IsRead_Only),1);
   FormRequest:=Form_Request;
   inherited Create(AOwner);
+end;
+
+procedure TWorkOrderForm.SetOdo(License_plate:String);
+var
+  js : TlkJSONbase;
+	IdHTTP: TIdHTTP;
+ resp: TMemoryStream;
+ url: String;
+begin
+ IdHTTP := TIdHTTP.Create(Self);
+ resp := TMemoryStream.Create;
+ url:='http://api.whitehorse.co.id/api_transtrack/vehicle.php?plate='+License_plate;
+// url:='http://api.whitehorse.co.id/api_transtrack/vehicle.php?plate=B7265PGA';
+ IdHTTP.Get(url, resp);
+ resp.Position := 0;
+ Memo1.Lines.LoadFromStream(resp);
+  js := TlkJSON.ParseText(Memo1.Text);
+  if Assigned(js) then
+  begin
+    js := js.Field['kmodo'];
+//    if Assigned(js) then
+//    begin
+//      js := js.Field['devices'];
+//      if Assigned(js) then
+//      begin
+//        js := js.Field['view'];
+//        if Assigned(js) then
+           KMOdo.Text:=(VarToStr(js.Value));
+//      end;
+//    end;
+  end;
 end;
 
 procedure TWorkOrderForm.Init;
@@ -583,8 +617,11 @@ begin
         NoBody.Text:=Qry.FieldValues['body_id'];
 
         NoPolisi.Text:=LicensePlate(Qry.FieldValues['license_plate']);
-
-        if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
+        SetOdo(Qry.FieldValues['license_plate']);
+        if KMOdo.Text='0' then
+        begin
+          if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
+        end;
       end;
       Qry.Close;
     end;
@@ -598,7 +635,7 @@ end;
 
 procedure TWorkOrderForm.SetServiceRequestId(ServiceRequest_Id:String);
 var StrQry,Vehicle_Id:String;
-    Qry:TADOQuery;
+    Qry,Qry2:TADOQuery;
     IntCount:Integer;
 begin
   if ServiceRequest_Id<>'' then begin
@@ -617,6 +654,7 @@ begin
         VehicleId:=Qry.FieldValues['vehicle_id'];
 
         NoPolisi.Text:=LicensePlate(Qry.FieldValues['license_plate']);
+        SetOdo(Qry.FieldValues['license_plate']);
         NoBody.Text:=Qry.FieldValues['body_id'];
         StartDate.DateTime:=StrToDate(Qry.FieldValues['from_date']);
         if Qry.FieldValues['to_date']<> NULL then FinishDate.DateTime:=StrToDate(Qry.FieldValues['to_date']);
@@ -643,15 +681,20 @@ begin
         Inc(IntCount);
       end;
       Qry.Close;
-      StrQry:='EXEC GetVehicleDetail '+QuotedStr(VehicleId)+' ;';
-      Qry.SQL.Clear;
-      Main.WriteLog('SQL :'+StrQry,2);
-      Qry.SQL.Add(StrQry);
-      Qry.Open;
-      if (Qry.RecordCount>0) then begin
-        if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
+
+
+      if KMOdo.Text='0' then
+      begin
+        StrQry:='EXEC GetVehicleDetail '+QuotedStr(VehicleId)+' ;';
+        Qry.SQL.Clear;
+        Main.WriteLog('SQL :'+StrQry,2);
+        Qry.SQL.Add(StrQry);
+        Qry.Open;
+        if (Qry.RecordCount>0) then begin
+          if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
+        end;
+        Qry.Close;
       end;
-      Qry.Close;
 
       //Mekanik
       StrQry:='';

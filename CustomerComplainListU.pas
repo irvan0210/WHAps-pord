@@ -24,6 +24,7 @@ type
     TanggalSampai: TDateTimePicker;
     Lihat: TButton;
     Label5: TLabel;
+    Label6: TLabel;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure GridCCPSelectCell(Sender: TObject; ACol, ARow: Integer;
@@ -43,7 +44,7 @@ type
   private
     { Private declarations }
     CompanyArr:Array of TArrString5;
-    CCPArr:Array of TArrString20;
+    CCPArr:Array of TArrString25;
     IntRow,MinRowGrid,TipeData:Integer;
     FormRequest,CustomerId:String;
     Initiation:Boolean;
@@ -86,7 +87,7 @@ procedure TCustomerComplainList.InitGrid;
 var IntCount:Integer;
 begin
   MinRowGrid:=0;
-  GridCCP.ColCount:=20;
+  GridCCP.ColCount:=23;
   GridCCP.WordWrap:=False;
   GridCCP.ColWidths[0]:=70;
   GridCCP.ColWidths[1]:=90;
@@ -109,6 +110,9 @@ begin
   GridCCP.ColWidths[17]:=320;
   GridCCP.ColWidths[18]:=0;
   GridCCP.ColWidths[19]:=0;
+  GridCCP.ColWidths[20]:=500;
+  GridCCP.ColWidths[21]:=500;
+  GridCCP.ColWidths[22]:=500;
   GridCCP.SizingHeight:=True;
 
   GridCCP.Cells[0,0]:='Tanggal';
@@ -132,6 +136,9 @@ begin
   GridCCP.Cells[15,0]:='No Pesanan';
   GridCCP.Cells[16,0]:='Customer';
   GridCCP.Cells[17,0]:='Rute';
+  GridCCP.Cells[20,0]:='Analisa/Investigasi';
+  GridCCP.Cells[21,0]:='Perbaikan';
+  GridCCP.Cells[22,0]:='Rencana Tindakan Perbaikan';
   for IntCount:=0 to GridCCP.ColCount-1 do
     GridCCP.CellStyle[IntCount,0].HorizontalAlignment:=taCenter;
   for IntCount:=0 to GridCCP.ColCount-1 do
@@ -234,6 +241,14 @@ begin
        CCPArr[IntCount][18]:=Qry.FieldValues['route'];
        CCPArr[IntCount][19]:=Qry.FieldValues['reserved_order_detail_id'];
        CCPArr[IntCount][20]:=Qry.FieldValues['is_closed'];
+       if (Qry.FieldValues['no_ketidaksesuaian_perbaikan']<>NULL) then
+       CCPArr[IntCount][21]:=Qry.FieldValues['no_ketidaksesuaian_perbaikan'];
+       if (Qry.FieldValues['investigation']<>NULL) then
+       CCPArr[IntCount][22]:=Qry.FieldValues['investigation'];
+       if (Qry.FieldValues['handling']<>NULL) then
+       CCPArr[IntCount][23]:=Qry.FieldValues['handling'];
+       if (Qry.FieldValues['renc_tindakan_perbaikan']<>NULL) then
+       CCPArr[IntCount][24]:=Qry.FieldValues['renc_tindakan_perbaikan'];
        Inc(IntCount);
       Qry.Next;
     end;
@@ -268,7 +283,13 @@ begin
     GridCCP.Cells[15,IntCount+1]:=CCPArr[IntCount][15];
     GridCCP.Cells[16,IntCount+1]:=CCPArr[IntCount][16];
     GridCCP.Cells[17,IntCount+1]:=CCPArr[IntCount][17];
+    GridCCP.Cells[20,IntCount+1]:=CCPArr[IntCount][22];
+    GridCCP.Cells[21,IntCount+1]:=CCPArr[IntCount][23];
+    GridCCP.Cells[22,IntCount+1]:=CCPArr[IntCount][24];
     GridCCP.CellStyle[10,IntCount+1].WordWrap:=True;
+    GridCCP.CellStyle[22,IntCount+1].WordWrap:=True;
+    GridCCP.CellStyle[23,IntCount+1].WordWrap:=True;
+    GridCCP.CellStyle[24,IntCount+1].WordWrap:=True;
 
     GridCCP.CellStyle[5,IntCount+1].HorizontalAlignment:=taCenter;
     GridCCP.CellStyle[6,IntCount+1].HorizontalAlignment:=taCenter;
@@ -279,8 +300,10 @@ begin
 
     if (CCPArr[IntCount][20]='1') then begin
       for Count2:=0 to GridCCP.ColCount do GridCCP.CellStyle[Count2,IntCount+1].Font.Color:=clGreen;
-    end else begin
-      for Count2:=0 to GridCCP.ColCount do GridCCP.CellStyle[Count2,IntCount+1].Font.Color:=clWindowText;
+    end;
+
+    if (CCPArr[IntCount][21]<>'') and (CCPArr[IntCount][20]<>'1') then begin
+      for Count2:=0 to GridCCP.ColCount do GridCCP.CellStyle[Count2,IntCount+1].Font.Color:=clBlue;
     end;
 
   end;

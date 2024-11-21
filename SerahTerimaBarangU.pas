@@ -118,6 +118,8 @@ type
     procedure SimpanClick(Sender: TObject);
     procedure NoItemRequestChange(Sender: TObject);
     procedure CetakUlangClick(Sender: TObject);
+    procedure StrGridKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
     IntRow, IntCol: Integer;
@@ -371,6 +373,8 @@ begin
   NoTandaTerima.Text:='';
   DiterimaOleh.Text:='';
   NoItemRequest.Text:='';
+  TipeKendaraan.Text:='';
+  NoPol.Text:='';
   Catatan.Text:='';
 end;
 
@@ -650,6 +654,27 @@ procedure TSerahTerimaBarang.CetakUlangClick(Sender: TObject);
 begin
   if NoTandaTerima.Text<>'' then
   Reprint();
+end;
+
+procedure DeleteRow(Grid: TZColorStringGrid; ARow: Integer);
+var
+  i: Integer;
+begin
+  for i := ARow to Grid.RowCount - 2 do
+    Grid.Rows[i].Assign(Grid.Rows[i + 1]);
+  Grid.RowCount := Grid.RowCount - 1;
+end;
+
+procedure TSerahTerimaBarang.StrGridKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if IntRow>0 then begin
+    if Key=VK_DELETE then begin
+      if MessageBox(Handle,'Mau Menghapus Baris ini ?','Tanda Terima',MB_OKCANCEL or MB_ICONQUESTION or MB_SYSTEMMODAL or MB_SETFOREGROUND)=1 then begin
+        DeleteRow(StrGrid,IntRow);
+      end;
+    end;
+  end;
 end;
 
 end.

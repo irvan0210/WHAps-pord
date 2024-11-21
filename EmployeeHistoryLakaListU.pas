@@ -79,6 +79,7 @@ procedure TEmployeeHistoryLakaList.Init;
 var IntCount:Integer;
 myYear,myMonth,myDay : Word;
 begin
+
   MinRowGrid:=0;
   MinColGrid:=3;
   IntRow:=0;

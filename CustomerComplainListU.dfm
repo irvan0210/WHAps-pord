@@ -1,6 +1,6 @@
 object CustomerComplainList: TCustomerComplainList
-  Left = 87
-  Top = 422
+  Left = 183
+  Top = 159
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Daftar Komplain Customer'
@@ -84,6 +84,19 @@ object CustomerComplainList: TCustomerComplainList
     Caption = '>Closed<'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clGreen
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label6: TLabel
+    Left = 352
+    Top = 400
+    Width = 201
+    Height = 13
+    Caption = '>Sudah Cetak Ketidaksesuan & Perbaikan<'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlue
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
     Font.Style = []

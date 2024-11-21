@@ -64,7 +64,8 @@ Uses MainU, StrUtils, EmployeeFormU, MutasiKaryawanFormU,
   EmployeeHistoryFormU, EmployeeCommissionFormU, EmployeeHistoryRptU,
   EmployeeHistoryListU, AttandanceLeaveFormU, EmplAttedanceInfoU, 
   CustomerComplainListU, CustomerComplainRptU,
-  EmployeeHistoryLakaListU, EmployeeHistoryLakaFormU;
+  EmployeeHistoryLakaListU, EmployeeHistoryLakaFormU, EmployeeHistoryListRptU,
+  EmployeeHistoryLakaRptU, EmployeeHistoryTrainingRptU;
 
 constructor TEmployeeList.Create(AOwner:TComponent;EmployeeType:String;Status:Integer=1;Expired:Integer=0;Form_Request:String='');
 begin
@@ -547,6 +548,14 @@ begin
           end else if UpperCase(FormRequest)='HISTORYLAKALIST' then begin
             DriverIDHistoryLaka:=StrGrid.Cells[4,IntRow];
             EmployeeHistoryLakaList.Driver.Text:=StrGrid.Cells[5,IntRow];
+            Close;
+          end else if UpperCase(FormRequest)='LAPORANHISTORYLAKA' then begin
+            DriverIDHistLakaRpt:=StrGrid.Cells[4,IntRow];
+            EmployeeHistoryLakaRpt.Driver.Text:=StrGrid.Cells[5,IntRow];
+            Close;
+          end else if UpperCase(FormRequest)='LAPORANHISTORYTRAINING' then begin
+            DriverIDHistTrainingRpt:=StrGrid.Cells[4,IntRow];
+            EmplHistoryTrainingRpt.Driver.Text:=StrGrid.Cells[5,IntRow];
             Close;
           end else begin
             EmployeeForm:=TEmployeeForm.Create(nil,StrEmplType,StrGrid.Cells[4,IntRow],True,False,FormRequest);

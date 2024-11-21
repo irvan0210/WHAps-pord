@@ -60,7 +60,7 @@ end;
 
 procedure TListParts.Init;
 begin
-  Cari.Text;
+  Cari.Text:='';
 end;
 
 procedure TListParts.InitGrid;
@@ -68,32 +68,30 @@ var IntCount,IntGeserKolom:Integer;
 begin
   MinRowGrid:=2;
   StrGrid.RowCount:=2;
-  StrGrid.ColCount:=4;
+  StrGrid.ColCount:=5;
   StrGrid.ColWidths[0]:=28;
   StrGrid.ColWidths[1]:=100;
   StrGrid.ColWidths[2]:=450;
-  StrGrid.ColWidths[3]:=0;
+  StrGrid.ColWidths[3]:=100;
+  StrGrid.ColWidths[4]:=0;
 
   StrGrid.Cells[0,0]:='No';
   StrGrid.Cells[1,0]:='Kode Part GP';
-  StrGrid.Cells[2,0]:='ID Part';
+  StrGrid.Cells[2,0]:='Nama Part';
+  StrGrid.Cells[3,0]:='KM Standard Pergantian';
 
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[2,0].HorizontalAlignment:=taCenter;
-
+  StrGrid.CellStyle[3,0].HorizontalAlignment:=taCenter;
   for IntCount:=0 to StrGrid.ColCount-1 do
     StrGrid.Cells[IntCount,1]:='';
 end;
 
 procedure TListParts.RefreshData;
-var Qry,Qry2,Qry3:TADOQuery;
-    StrQry,StrTanggal,StrDepositDate1,StrDepositDate2,
-    StrBatch,StrSeat,StrCompanyId,StrLocationId,StrToDates,StrChkSewaLuar,StrPaid:String;
-    IntCount,IntCount2,IntCount3,IntRows,StartRow,IntTotal,IntTolParkir,IntBiayaLain, IntTotalUnit,No:Integer;
-    IntPayment:Array [0..2] of Integer;
-    StrPayment:Array [0..2] of String;
-    StrList,StrList2:TStringList;
+var Qry:TADOQuery;
+    StrQry,StrReq:String;
+    IntCount:Integer;
 begin
 
   Qry:=TADOQuery.Create(Self);
@@ -104,20 +102,26 @@ begin
   if Main.OpenDb then begin
     SetLength(WorkOrderArr,0);
 
-    StrQry:='SELECT * from wh_part where status=1';
+    if Cari.Text<>'' then begin
+      StrReq:='  AND (name LIKE ''%'+Cari.Text+'%'') '
+    end else begin
+      StrReq:='';
+    end;
+
+    StrQry:='SELECT * from wh_part where status=1 '+StrReq;
     Main.WriteLog('SQL :'+StrQry,2);
+    Qry.SQL.Clear;
     Qry.SQL.Add(StrQry);
     Qry.Open;
     IntCount:=0;
-    No:=0;
     if Qry.RecordCount>0 then while not(Qry.Eof) do begin
-      No:=No+1;
-
       SetLength(WorkOrderArr,IntCount+1);
-      WorkOrderArr[IntCount][0]:=IntToStr(No);
+      WorkOrderArr[IntCount][0]:=IntToStr(IntCount+1);
       WorkOrderArr[IntCount][1]:= Qry.FieldValues['kode_part_gp'] ;
       WorkOrderArr[IntCount][2]:=Qry.FieldValues['name'];
-      WorkOrderArr[IntCount][3]:=Qry.FieldValues['id_part'];
+      if Qry.FieldValues['standard_km_replacement']<> NULL then
+      WorkOrderArr[IntCount][3]:=SToCurr(Qry.FieldValues['standard_km_replacement']) else WorkOrderArr[IntCount][3]:='0';
+      WorkOrderArr[IntCount][4]:=Qry.FieldValues['id_part'];
 
       Inc(IntCount);
       Qry.Next;
@@ -151,26 +155,26 @@ begin
     StrGrid.Cells[1,IntCount+1]:=WorkOrderArr[IntCount][1];
     StrGrid.Cells[2,IntCount+1]:=WorkOrderArr[IntCount][2];
     StrGrid.Cells[3,IntCount+1]:=WorkOrderArr[IntCount][3];
+    StrGrid.Cells[4,IntCount+1]:=WorkOrderArr[IntCount][4];
 
     StrGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[1,IntCount+1].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[2,IntCount+1].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[3,IntCount+1].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[3,IntCount+1].HorizontalAlignment:=taRightJustify;
   end;
 end;
 
 procedure TListParts.Search;
 var Count,Count2,Count3,Count4,Count5:Integer;
     IsTrue:Boolean;
-
 begin
   if Trim(Cari.Text)<>'' then begin
     Main.M_Busy;
     Init;
-    Count2:=2;
+    Count2:=1;
     for Count:=0 to Length(WorkOrderArr)-1 do begin
       IsTrue:=False;
-      for Count3:=0 to 2 do
+      for Count3:=0 to 3 do
         if (StrPos(PChar(UpperCase(WorkOrderArr[Count][Count3])),PChar(UpperCase(Cari.Text)))<>nil) then IsTrue:=True;
           if IsTrue= True then begin
 
@@ -181,6 +185,7 @@ begin
               StrGrid.CellStyle[0,Count2+1].HorizontalAlignment:=taCenter;
               StrGrid.CellStyle[1,Count2+1].HorizontalAlignment:=taCenter;
               StrGrid.CellStyle[2,Count2+1].HorizontalAlignment:=taLeftJustify;
+              StrGrid.CellStyle[3,Count2+1].HorizontalAlignment:=taRightJustify;
             end;
 
             Inc(Count2);
@@ -207,20 +212,22 @@ end;
 
 procedure TListParts.btnTombolCariClick(Sender: TObject);
 begin
-  if Trim(Cari.Text)<>'' then begin
-    Search;
-  end else begin
-    Init;
-    InitGrid;
+//  if Trim(Cari.Text)<>'' then begin
+//    Search;
+//  end else begin
+//    Init;
+//    InitGrid;
     RefreshData;
     RefreshGrid;
-  end;
+//  end;
 end;
 
 procedure TListParts.CariKeyPress(Sender: TObject; var Key: Char);
 begin
-  if Trim(Cari.Text)<>'' then begin
-    if Key=#13 then Search;
+  if Key=#13 then
+  begin
+    RefreshData;
+    RefreshGrid;
   end;
 end;
 
@@ -236,7 +243,9 @@ begin
     Part:=TPart.Create(Self);
     Part.KodePart.Text:=StrGrid.Cells[1,IntRow];
     Part.PartName.Text:=StrGrid.Cells[2,IntRow];
-    IDPart :=StrGrid.Cells[3,IntRow];
+    Part.KmStandardPergantian.Text:=StrGrid.Cells[3,IntRow];
+    IDPart :=StrGrid.Cells[4,IntRow];
+    StatusPart:='UPDATE';
   end;
 end;
 

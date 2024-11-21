@@ -1,6 +1,6 @@
 object VehicleForm: TVehicleForm
-  Left = 488
-  Top = 364
+  Left = 315
+  Top = 177
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Armada'

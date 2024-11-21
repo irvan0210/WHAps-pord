@@ -1,6 +1,6 @@
 object WorkOrderForm: TWorkOrderForm
-  Left = 254
-  Top = 85
+  Left = 293
+  Top = 292
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Buka Perintah Kerja Bengkel'
@@ -3764,6 +3764,16 @@ object WorkOrderForm: TWorkOrderForm
       ParentFont = False
       TabOrder = 0
     end
+  end
+  object Memo1: TMemo
+    Left = 880
+    Top = -64
+    Width = 185
+    Height = 89
+    Lines.Strings = (
+      'Memo1')
+    TabOrder = 17
+    Visible = False
   end
   object ppReport: TppReport
     PrinterSetup.BinName = 'Default'

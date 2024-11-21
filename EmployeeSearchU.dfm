@@ -1,6 +1,6 @@
 object EmployeeSearch: TEmployeeSearch
-  Left = 332
-  Top = 144
+  Left = 528
+  Top = 401
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'EmployeeSearch'

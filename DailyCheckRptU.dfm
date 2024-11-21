@@ -1,6 +1,6 @@
 object DailyCheckRpt: TDailyCheckRpt
-  Left = 85
-  Top = 326
+  Left = 77
+  Top = 393
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Laporan Kontinuitas perArmada Jalan'

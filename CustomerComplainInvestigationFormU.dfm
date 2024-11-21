@@ -714,7 +714,6 @@ object CustomerComplainInvestigationForm: TCustomerComplainInvestigationForm
       Height = 20
       Date = 41964.570029108800000000
       Time = 41964.570029108800000000
-      Enabled = False
       TabOrder = 2
     end
   end

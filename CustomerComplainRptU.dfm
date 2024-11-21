@@ -1,6 +1,6 @@
 object CustomerComplainRpt: TCustomerComplainRpt
-  Left = 168
-  Top = 391
+  Left = 33
+  Top = 102
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Laporan Complain Customer'

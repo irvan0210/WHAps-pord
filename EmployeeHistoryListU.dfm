@@ -1,6 +1,6 @@
 object EmployeeHistoryList: TEmployeeHistoryList
-  Left = 300
-  Top = 367
+  Left = 159
+  Top = 215
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Riwayat Karyawan'

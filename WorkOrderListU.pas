@@ -97,7 +97,7 @@ begin
   StrGrid.ColWidths[0]:=20;
   StrGrid.ColWidths[1]:=70;
   StrGrid.ColWidths[2]:=100;
-  StrGrid.ColWidths[3]:=70;
+  StrGrid.ColWidths[3]:=80;
   StrGrid.ColWidths[4]:=110;
   StrGrid.ColWidths[5]:=100;
   StrGrid.ColWidths[6]:=300;
@@ -106,7 +106,7 @@ begin
   StrGrid.Cells[1,0]:='Pool';
   if IsBlok=0 then StrGrid.Cells[2,0]:='No WO'
   else StrGrid.Cells[2,0]:='No Blok';
-  StrGrid.Cells[3,0]:='Tanggal';
+  StrGrid.Cells[3,0]:='Tanggal Mulai';
   StrGrid.Cells[4,0]:='No Bodi/No Polisi';
   StrGrid.Cells[5,0]:='Jenis Pekerjaan';
   StrGrid.Cells[6,0]:='Detail';
@@ -173,7 +173,8 @@ begin
     StrLocationId:=CompanyArr[SBU.ItemIndex][2];
     StrTanggal:=',@Dates='+QuotedStr(FormatDateTime('yyyy/mm/dd',Tanggal.Date));
     if ToDates.Checked=True then StrToDates:=',@ToDates='+QuotedStr(FormatDateTime('yyyy/mm/dd',TanggalSampai.date)) else StrToDates:='';
-    if IsAll<>9 then StrIsAll:=',@Status='+IntToStr(IsAll) else StrIsAll:='';
+//    if IsAll<>9 then StrIsAll:=',@Status='+IntToStr(IsAll) else
+    StrIsAll:='';
     if IsBlok in [1,2] then StrIsBlok:=',@flag='+IntToStr(IsBlok) else StrIsBlok:='';
     StrQry:='EXEC GetWorkOrderLists '+StrCompanyId+','+StrLocationId+StrTanggal+StrToDates+StrIsAll+StrIsBlok+';';
     Qry.SQL.Add(StrQry);

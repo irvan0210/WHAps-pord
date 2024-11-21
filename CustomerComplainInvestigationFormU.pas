@@ -497,10 +497,10 @@ begin
 
 
       StrQry:='';
-      StrQry:='select b.name from wh_cust_complain_investigation_pic a '+
+      StrQry:='select DISTINCT b.name from wh_cust_complain_investigation_pic a '+
               'left join wh_employee b on a.employee_id=b.employee_id '+
               'where cust_complain_investigation_id='+QuotedStr(Qry.FieldValues['cust_complain_investigation_id'])+' AND '+
-              'status=1;';
+              'status=1 and type=1;';
       Qry2.SQL.Clear;
       Qry2.SQL.Add(StrQry);
       Qry2.Open;
@@ -861,6 +861,9 @@ begin
           MessageBox(0,PChar(StrMsg+Chr(13)+Chr(13)+'Kesalahan'+Chr(13)+StrEMsg),'Buka CCP',MB_OK or MB_ICONERROR);
           Main.M_Normal;
         end;
+        FreeAndNil(Qry);
+        FreeAndNil(Qry3);
+        FreeAndNil(Qry2);
         Qry3.Destroy;
         Qry2.Destroy;
         Qry.Destroy;

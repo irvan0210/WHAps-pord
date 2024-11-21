@@ -1,10 +1,10 @@
 object ServiceRequestForm: TServiceRequestForm
-  Left = 208
-  Top = 55
+  Left = 306
+  Top = 296
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Service Request'
-  ClientHeight = 551
+  ClientHeight = 533
   ClientWidth = 944
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -313,6 +313,16 @@ object ServiceRequestForm: TServiceRequestForm
         Caption = 'Memo Khusus'
         TabOrder = 6
       end
+      object Memo1: TMemo
+        Left = 576
+        Top = 8
+        Width = 185
+        Height = 89
+        Lines.Strings = (
+          'Memo1')
+        TabOrder = 7
+        Visible = False
+      end
     end
     object PanelArmada: TPanel
       Left = 447
@@ -580,25 +590,25 @@ object ServiceRequestForm: TServiceRequestForm
     Left = 328
     Top = 114
     Width = 337
-    Height = 214
+    Height = 279
     Caption = 'Barang'
     TabOrder = 11
     object Label13: TLabel
       Left = 7
-      Top = 20
+      Top = 14
       Width = 97
       Height = 13
       Caption = 'Tanggal Dibutuhkan'
     end
     object StrGrid2: TZColorStringGrid
       Left = 7
-      Top = 43
+      Top = 59
       Width = 322
-      Height = 148
+      Height = 214
       ColCount = 4
       DefaultRowHeight = 20
       DefaultDrawing = False
-      FixedColor = clBtnFace
+      FixedColor = clSkyBlue
       FixedCols = 0
       TabOrder = 0
       OnSelectCell = StrGrid2SelectCell
@@ -613,12 +623,12 @@ object ServiceRequestForm: TServiceRequestForm
       DefaultFixedCellStyle.Font.Height = -11
       DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
       DefaultFixedCellStyle.Font.Style = []
-      DefaultFixedCellStyle.BGColor = clBtnFace
+      DefaultFixedCellStyle.BGColor = clSkyBlue
       LineDesign.LineUpColor = clWhite
     end
     object ItemDetail: TEdit
-      Left = 7
-      Top = 53
+      Left = 15
+      Top = 95
       Width = 103
       Height = 21
       TabOrder = 1
@@ -628,7 +638,7 @@ object ServiceRequestForm: TServiceRequestForm
     end
     object Detail: TEdit
       Left = 122
-      Top = 53
+      Top = 79
       Width = 62
       Height = 21
       TabOrder = 2
@@ -636,7 +646,7 @@ object ServiceRequestForm: TServiceRequestForm
     end
     object Qty: TEdit
       Left = 204
-      Top = 53
+      Top = 79
       Width = 42
       Height = 21
       TabOrder = 3
@@ -646,7 +656,7 @@ object ServiceRequestForm: TServiceRequestForm
     end
     object chkPermintaanBarang: TCheckBox
       Left = 208
-      Top = 17
+      Top = 11
       Width = 112
       Height = 14
       Caption = 'Permintaan Barang'
@@ -654,14 +664,23 @@ object ServiceRequestForm: TServiceRequestForm
       OnClick = chkPermintaanBarangClick
     end
     object ListPart: TListBox
-      Left = 14
-      Top = 87
+      Left = 38
+      Top = 169
       Width = 252
       Height = 84
       ItemHeight = 13
       TabOrder = 5
       Visible = False
       OnDblClick = ListPartDblClick
+    end
+    object BtnTbhBarang: TButton
+      Left = 10
+      Top = 32
+      Width = 89
+      Height = 25
+      Caption = 'Tambah Barang'
+      TabOrder = 6
+      OnClick = BtnTbhBarangClick
     end
   end
   object GroupBox3: TGroupBox
@@ -732,7 +751,7 @@ object ServiceRequestForm: TServiceRequestForm
   end
   object DibutuhkanBarangDate: TDateTimePicker
     Left = 437
-    Top = 129
+    Top = 122
     Width = 88
     Height = 21
     Date = 41927.000000000000000000
@@ -945,7 +964,7 @@ object ServiceRequestForm: TServiceRequestForm
       ColCount = 2
       DefaultRowHeight = 20
       DefaultDrawing = False
-      FixedColor = clBtnFace
+      FixedColor = clSkyBlue
       FixedCols = 0
       TabOrder = 0
       OnSelectCell = StrGrid3SelectCell
@@ -960,7 +979,7 @@ object ServiceRequestForm: TServiceRequestForm
       DefaultFixedCellStyle.Font.Height = -11
       DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
       DefaultFixedCellStyle.Font.Style = []
-      DefaultFixedCellStyle.BGColor = clBtnFace
+      DefaultFixedCellStyle.BGColor = clSkyBlue
       LineDesign.LineUpColor = clWhite
     end
     object Analisa: TEdit
@@ -976,20 +995,20 @@ object ServiceRequestForm: TServiceRequestForm
   end
   object GroupBox5: TGroupBox
     Left = 328
-    Top = 329
+    Top = 393
     Width = 337
-    Height = 199
+    Height = 136
     Caption = 'Mekanik'
     TabOrder = 20
     object StrGridMekanik: TZColorStringGrid
       Left = 3
       Top = 17
       Width = 318
-      Height = 168
+      Height = 112
       ColCount = 3
       DefaultRowHeight = 20
       DefaultDrawing = False
-      FixedColor = clBtnFace
+      FixedColor = clSkyBlue
       FixedCols = 0
       TabOrder = 0
       OnSelectCell = StrGridMekanikSelectCell
@@ -1004,7 +1023,7 @@ object ServiceRequestForm: TServiceRequestForm
       DefaultFixedCellStyle.Font.Height = -11
       DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
       DefaultFixedCellStyle.Font.Style = []
-      DefaultFixedCellStyle.BGColor = clBtnFace
+      DefaultFixedCellStyle.BGColor = clSkyBlue
       LineDesign.LineUpColor = clWhite
       ColWidths = (
         64
@@ -1023,8 +1042,8 @@ object ServiceRequestForm: TServiceRequestForm
       OnKeyPress = MekanikKeyPress
     end
     object ListMekanik: TListBox
-      Left = 26
-      Top = 109
+      Left = 50
+      Top = 37
       Width = 252
       Height = 84
       ItemHeight = 13

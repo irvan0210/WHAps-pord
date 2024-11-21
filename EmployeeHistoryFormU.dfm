@@ -1,6 +1,6 @@
 object EmployeeHistoryForm: TEmployeeHistoryForm
-  Left = 490
-  Top = 302
+  Left = 330
+  Top = 165
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Latar Karyawan'

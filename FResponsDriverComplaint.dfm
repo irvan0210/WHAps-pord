@@ -1,9 +1,11 @@
 object ResponsDriverComplaint: TResponsDriverComplaint
   Left = 503
   Top = 110
-  Width = 529
-  Height = 451
+  BorderIcons = []
+  BorderStyle = bsNone
   Caption = 'Respons Driver Complaint'
+  ClientHeight = 412
+  ClientWidth = 513
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

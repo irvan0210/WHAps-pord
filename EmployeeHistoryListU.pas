@@ -122,8 +122,6 @@ begin
   StrGrid.Cells[0,0]:='Nama';
   StrGrid.Cells[1,0]:='Tempat/Tgl Lahir';
   StrGrid.Cells[2,0]:='Tgl. Bergabung';
-
-
   StrGrid.Cells[3,0]:='Tanggal';
   StrGrid.Cells[5,0]:='Pencapaian/ Kemunduran';
   StrGrid.Cells[6,0]:='Lokasi';

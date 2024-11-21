@@ -1,6 +1,6 @@
 object SerahTerimaBarang: TSerahTerimaBarang
-  Left = 278
-  Top = 190
+  Left = 312
+  Top = 365
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Tanda Terima'
@@ -31,6 +31,7 @@ object SerahTerimaBarang: TSerahTerimaBarang
     FixedColor = clBtnFace
     FixedCols = 0
     TabOrder = 0
+    OnKeyDown = StrGridKeyDown
     OnSelectCell = StrGridSelectCell
     DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
     DefaultCellStyle.Font.Color = clWindowText

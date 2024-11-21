@@ -1,6 +1,6 @@
 object FDriverComplainList: TFDriverComplainList
-  Left = 406
-  Top = 130
+  Left = 337
+  Top = 196
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Keluhan Driver'

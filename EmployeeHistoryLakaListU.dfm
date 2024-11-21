@@ -1,9 +1,9 @@
 object EmployeeHistoryLakaList: TEmployeeHistoryLakaList
-  Left = 244
-  Top = 46
+  Left = 196
+  Top = 392
   BorderIcons = []
   BorderStyle = bsNone
-  Caption = 'EmployeeHistoryLakaList'
+  Caption = 'Laka List - Driver'
   ClientHeight = 550
   ClientWidth = 915
   Color = clBtnFace
