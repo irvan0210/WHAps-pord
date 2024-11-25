@@ -1,6 +1,6 @@
 object ListParts: TListParts
-  Left = 314
-  Top = 395
+  Left = 461
+  Top = 193
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'List Parts'

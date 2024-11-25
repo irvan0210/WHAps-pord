@@ -47,7 +47,7 @@ var
 implementation
 
 uses
-  MainU, PartU;
+  MainU, PartU, RekapHistoryArmadaPergantianPartU;
 
 {$R *.dfm}
 
@@ -66,8 +66,8 @@ end;
 procedure TListParts.InitGrid;
 var IntCount,IntGeserKolom:Integer;
 begin
-  MinRowGrid:=2;
-  StrGrid.RowCount:=2;
+  MinRowGrid:=3;
+  StrGrid.RowCount:=3;
   StrGrid.ColCount:=5;
   StrGrid.ColWidths[0]:=28;
   StrGrid.ColWidths[1]:=100;
@@ -79,6 +79,11 @@ begin
   StrGrid.Cells[1,0]:='Kode Part GP';
   StrGrid.Cells[2,0]:='Nama Part';
   StrGrid.Cells[3,0]:='KM Standard Pergantian';
+
+  StrGrid.MergeCells.AddRectXY(0,0,0,1);
+  StrGrid.MergeCells.AddRectXY(1,0,1,1);
+  StrGrid.MergeCells.AddRectXY(2,0,2,1);
+  StrGrid.MergeCells.AddRectXY(3,0,3,1);
 
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
@@ -151,16 +156,16 @@ begin
   for IntCount:=0 to Length(WorkOrderArr)-1 do begin
     Application.ProcessMessages;
 
-    StrGrid.Cells[0,IntCount+1]:=WorkOrderArr[IntCount][0];
-    StrGrid.Cells[1,IntCount+1]:=WorkOrderArr[IntCount][1];
-    StrGrid.Cells[2,IntCount+1]:=WorkOrderArr[IntCount][2];
-    StrGrid.Cells[3,IntCount+1]:=WorkOrderArr[IntCount][3];
-    StrGrid.Cells[4,IntCount+1]:=WorkOrderArr[IntCount][4];
+    StrGrid.Cells[0,IntCount+2]:=WorkOrderArr[IntCount][0];
+    StrGrid.Cells[1,IntCount+2]:=WorkOrderArr[IntCount][1];
+    StrGrid.Cells[2,IntCount+2]:=WorkOrderArr[IntCount][2];
+    StrGrid.Cells[3,IntCount+2]:=WorkOrderArr[IntCount][3];
+    StrGrid.Cells[4,IntCount+2]:=WorkOrderArr[IntCount][4];
 
-    StrGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
-    StrGrid.CellStyle[1,IntCount+1].HorizontalAlignment:=taCenter;
-    StrGrid.CellStyle[2,IntCount+1].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[3,IntCount+1].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[0,IntCount+2].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[1,IntCount+2].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[2,IntCount+2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[3,IntCount+2].HorizontalAlignment:=taRightJustify;
   end;
 end;
 
@@ -238,14 +243,23 @@ end;
 
 procedure TListParts.StrGridDblClick(Sender: TObject);
 begin
-  if Main.IsFormOpen('Part')=False then
+  if FormRequest='REKAPHISTORYARMADAPERGANTIANPART' then
   begin
-    Part:=TPart.Create(Self);
-    Part.KodePart.Text:=StrGrid.Cells[1,IntRow];
-    Part.PartName.Text:=StrGrid.Cells[2,IntRow];
-    Part.KmStandardPergantian.Text:=StrGrid.Cells[3,IntRow];
-    IDPart :=StrGrid.Cells[4,IntRow];
-    StatusPart:='UPDATE';
+    with RekapHistoryArmadaPergantianPart do begin
+      kode_part_rekap_armada_id:=ListParts.StrGrid.Cells[1,IntRow];
+      Part.Text:=ListParts.StrGrid.Cells[2,IntRow];
+    end;
+    Close;
+  end else begin
+    if Main.IsFormOpen('Part')=False then
+    begin
+      Part:=TPart.Create(Self);
+      Part.KodePart.Text:=StrGrid.Cells[1,IntRow];
+      Part.PartName.Text:=StrGrid.Cells[2,IntRow];
+      Part.KmStandardPergantian.Text:=StrGrid.Cells[3,IntRow];
+      IDPart :=StrGrid.Cells[4,IntRow];
+      StatusPart:='UPDATE';
+    end;
   end;
 end;
 

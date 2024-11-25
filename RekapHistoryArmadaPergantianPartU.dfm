@@ -1,11 +1,11 @@
 object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
-  Left = 256
-  Top = 37
+  Left = 287
+  Top = 103
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Rekap History Armada Pergantian Part'
   ClientHeight = 558
-  ClientWidth = 988
+  ClientWidth = 896
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,8 +21,8 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
   PixelsPerInch = 96
   TextHeight = 13
   object ToXCel: TSpeedButton
-    Left = 889
-    Top = 439
+    Left = 481
+    Top = 527
     Width = 23
     Height = 22
     Glyph.Data = {
@@ -68,15 +68,15 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
     ParentFont = False
   end
   object Label6: TLabel
-    Left = 583
+    Left = 514
     Top = 53
-    Width = 38
+    Width = 93
     Height = 13
     Alignment = taRightJustify
-    Caption = 'Tanggal'
+    Caption = 'Tanggal Pergantian'
   end
   object Label2: TLabel
-    Left = 724
+    Left = 703
     Top = 53
     Width = 15
     Height = 13
@@ -109,13 +109,14 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
   object StrGrid: TZColorStringGrid
     Left = 2
     Top = 73
-    Width = 983
+    Width = 887
     Height = 449
     ColCount = 12
     DefaultRowHeight = 20
     DefaultDrawing = False
     FixedColor = clSkyBlue
     FixedCols = 0
+    RowCount = 4
     FixedRows = 3
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing]
     TabOrder = 1
@@ -134,7 +135,7 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
     LineDesign.LineUpColor = clWhite
   end
   object Selesai: TButton
-    Left = 441
+    Left = 369
     Top = 528
     Width = 75
     Height = 25
@@ -143,42 +144,20 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
     OnClick = SelesaiClick
   end
   object Button1: TButton
-    Left = 847
+    Left = 815
     Top = 28
     Width = 75
     Height = 25
     Caption = 'Lihat'
     TabOrder = 3
   end
-  object grpGroupTotal: TGroupBox
-    Left = 828
-    Top = 522
-    Width = 156
-    Height = 33
-    TabOrder = 4
-    object lbl1: TLabel
-      Left = 9
-      Top = 11
-      Width = 46
-      Height = 13
-      Caption = 'Total Unit'
-    end
-    object edtTotalUnitOperasi: TEdit
-      Left = 76
-      Top = 8
-      Width = 73
-      Height = 21
-      Enabled = False
-      TabOrder = 0
-    end
-  end
   object GroupBox1: TGroupBox
     Left = 235
     Top = 4
-    Width = 326
+    Width = 278
     Height = 64
     Caption = 'Armada'
-    TabOrder = 5
+    TabOrder = 4
     object Label4: TLabel
       Left = 14
       Top = 18
@@ -196,11 +175,12 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
     object Batch: TComboBox
       Left = 83
       Top = 14
-      Width = 238
+      Width = 190
       Height = 21
       Style = csDropDownList
       ItemHeight = 13
       TabOrder = 0
+      OnChange = BatchChange
     end
     object Seat: TComboBox
       Left = 84
@@ -210,49 +190,50 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
       Style = csDropDownList
       ItemHeight = 13
       TabOrder = 1
-      Visible = False
     end
   end
   object GroupBox2: TGroupBox
-    Left = 564
+    Left = 515
     Top = 7
-    Width = 273
+    Width = 294
     Height = 41
     Caption = 'Part'
-    TabOrder = 6
+    TabOrder = 5
     object Button2: TButton
-      Left = 238
-      Top = 12
+      Left = 260
+      Top = 10
       Width = 27
       Height = 25
       Caption = '..'
       TabOrder = 0
+      OnClick = Button2Click
     end
     object Part: TEdit
-      Left = 8
-      Top = 16
-      Width = 225
+      Left = 7
+      Top = 13
+      Width = 250
       Height = 21
       TabOrder = 1
+      OnChange = PartChange
     end
   end
   object Tanggal: TDateTimePicker
-    Left = 627
+    Left = 610
     Top = 50
     Width = 89
     Height = 21
     Date = 41780.000000000000000000
     Time = 41780.000000000000000000
-    TabOrder = 7
+    TabOrder = 6
   end
   object TglSampai: TDateTimePicker
-    Left = 750
+    Left = 722
     Top = 50
     Width = 89
     Height = 21
     Date = 41964.570029108800000000
     Time = 41964.570029108800000000
-    TabOrder = 8
+    TabOrder = 7
   end
   object PopupMenu1: TPopupMenu
     Left = 352

@@ -1,6 +1,6 @@
 object DailyOrderFeeRpt: TDailyOrderFeeRpt
-  Left = 293
-  Top = 319
+  Left = 308
+  Top = 540
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
   Caption = 'Laporan Uang Order Harian'

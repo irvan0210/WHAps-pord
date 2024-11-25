@@ -45,7 +45,7 @@ var
 
 implementation
 
-uses MainU, ServiceRequestFormU, PartU;
+uses MainU, ServiceRequestFormU, PartU, RekapHistoryArmadaPergantianPartU;
 
 {$R *.dfm}
 constructor TBrowsePart.Create(AOwner:TComponent;Form_Request:String='');
@@ -228,9 +228,10 @@ var
 begin
   IntRowCount:=ServiceRequestForm.StrGrid2.RowCount+1;
   ServiceRequestForm.StrGrid2.RowCount:=IntRowCount;
+  part:= BrowsePart.StrGrid.Cells[2,IntRow];
+  kode_part_gp:= BrowsePart.StrGrid.Cells[1,IntRow];
+
   with ServiceRequestForm do begin
-    part:= BrowsePart.StrGrid.Cells[2,IntRow];
-    kode_part_gp:= BrowsePart.StrGrid.Cells[1,IntRow];
     rowcount2:=StrGrid2.RowCount;
     StrGrid2.Cells[0,StrGrid2.RowCount-1]:=IntToStr(StrGrid2.RowCount-1);
     StrGrid2.Cells[1,StrGrid2.RowCount-1]:=part;
@@ -240,6 +241,7 @@ begin
     StrGrid2.CellStyle[1,StrGrid2.RowCount-1].HorizontalAlignment:=taLeftJustify;
     StrGrid2.CellStyle[2,StrGrid2.RowCount-1].HorizontalAlignment:=taCenter;
   end;
+
   Close;
 end;
 

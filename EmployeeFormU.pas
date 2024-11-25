@@ -1312,12 +1312,12 @@ begin
                 StrQryWehaOnline:= 'INSERT INTO Users '+
                               '(ContactID,CustomerNo,'+
                               'Email,Password,Role,LoginType,WehaUserID,'+
-                              'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate) VALUES '+
+                              'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,IsHelper) VALUES '+
                               '('+QuotedStr(QryWehaOnline.FieldValues['ContactID'])+' '+
                               ','+QuotedStr(NewIdS)+','+StrWehaUserID+' '+
-                              ',NULL,''HELPER'',''EMAIL'' '+
+                              ',NULL,''DRIVER'',''EMAIL'' '+
                               ','+StrWehaUserID+' '+
-                              ',1,0,GETDATE(),0,GETDATE()); ';
+                              ',1,0,GETDATE(),0,GETDATE(),1); ';
 
                 QryWehaOnline.SQL.Clear;
                 QryWehaOnline.SQL.Add(StrQryWehaOnline);
@@ -1429,7 +1429,7 @@ begin
               QryWehaOnline.SQL.Clear;
               QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
               QryWehaOnline.Open;
-              StrContactID:= QryWehaOnline.FieldValues['ContactID'];
+
 
               if QryWehaOnline.RecordCount=0 then
               begin
@@ -1492,6 +1492,7 @@ begin
                 end;
               end else
               begin
+                StrContactID:= QryWehaOnline.FieldValues['ContactID'];
                 StrQryWehaOnline:=  'UPDATE Contacts '+
                                     'SET FullName='+QuotedStr(Nama.Text)+',Gender=''M'','+
                                     'HP='+QuotedStr(NoHP.Text)+',ViewHisOwnData=0,IsMain=0,'+
@@ -1524,7 +1525,7 @@ begin
               QryWehaOnline.SQL.Clear;
               QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
               QryWehaOnline.Open;
-              StrContactID:= QryWehaOnline.FieldValues['ContactID'];
+
 
               if QryWehaOnline.RecordCount=0 then
               begin
@@ -1564,12 +1565,12 @@ begin
                 StrQryWehaOnline:= 'INSERT INTO Users '+
                               '(ContactID,CustomerNo,'+
                               'Email,Password,Role,LoginType,WehaUserID,'+
-                              'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate) VALUES '+
+                              'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,IsHelper) VALUES '+
                               '('+QuotedStr(QryWehaOnline.FieldValues['ContactID'])+' '+
                               ','+QuotedStr(IdKaryawan.Text)+','+StrWehaUserID+' '+
                               ',NULL,''DRIVER'',''EMAIL'' '+
                               ','+StrWehaUserID+' '+
-                              ',1,0,GETDATE(),0,GETDATE()); ';
+                              ',1,0,GETDATE(),0,GETDATE(),1); ';
 
                 QryWehaOnline.SQL.Clear;
                 QryWehaOnline.SQL.Add(StrQryWehaOnline);
@@ -1587,6 +1588,7 @@ begin
                 end;
               end else
               begin
+                StrContactID:= QryWehaOnline.FieldValues['ContactID'];
                 StrQryWehaOnline:=  'UPDATE Contacts '+
                                     'SET FullName='+QuotedStr(Nama.Text)+',Gender=''M'','+
                                     'HP='+QuotedStr(NoHP.Text)+',ViewHisOwnData=0,IsMain=0,'+

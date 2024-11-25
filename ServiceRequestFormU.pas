@@ -1120,7 +1120,7 @@ begin
     Qry.Open;
     IntCount:=0;
     if (Qry.RecordCount>0) then begin
-      
+
       if (Qry.FieldValues['approve']=2) then
       begin
         LabStat.Visible:=True;
@@ -1194,7 +1194,30 @@ begin
         GroupBox4.Enabled:=True;
         Panel1.Enabled:=True;
       end;
-
+      NoSR.Text:=Qry.FieldValues['service_request_id'];
+      if Qry.FieldValues['requested_date']<>NULL then DibutuhkanBarangDate.DateTime:=StrToDate(Qry.FieldValues['requested_date']);
+      if Qry.FieldValues['maintenance_service_id']<>NULL then NoSB.Text:=Qry.FieldValues['maintenance_service_id'];
+      if Qry.FieldValues['work_order_id']<>NULL then NoPKB.Text:=Qry.FieldValues['work_order_id'];
+      if Qry.FieldValues['driver_complain_id']<>NULL then NoKeluhan.Text:=Qry.FieldValues['driver_complain_id'];
+      Tanggal.Text:=Qry.FieldValues['submit_date'];
+      if IsCharAlpha(PChar(Copy(Qry.FieldValues['license_plate'],2,1))^)=False then
+        NoPolisi.Text:=Copy(Qry.FieldValues['license_plate'],1,1)+' '+Copy(Qry.FieldValues['license_plate'],2,4)+
+                       ' '+Copy(Qry.FieldValues['license_plate'],6,Length(Qry.FieldValues['license_plate'])+1)
+      else
+        NoPolisi.Text:=Copy(Qry.FieldValues['license_plate'],1,2)+' '+Copy(Qry.FieldValues['license_plate'],3,4)+
+                       ' '+Copy(Qry.FieldValues['license_plate'],7,Length(Qry.FieldValues['license_plate'])+1);
+      NoBody.Text:=Qry.FieldValues['body_id'];
+      KMOdo.Text:=IToCurr(Qry.FieldValues['odo_in']);
+//      if Qry.FieldValues['mekanik']<>NULL then Mekanik.Text:=Qry.FieldValues['mekanik'];
+      if (Qry.FieldValues['from_date']<>NULL) and (Qry.FieldValues['from_date']<>'') then begin
+        StartDate.DateTime:=StrToDate(Qry.FieldValues['from_date']);
+        if Qry.FieldValues['to_date']<> NULL then FinishDate.DateTime:=StrToDate(Qry.FieldValues['to_date']);
+      end else begin
+        FinishUnknown.Checked:=True;
+        StartDate.Enabled:=False;
+        FinishDate.Enabled:=False;
+      end;
+      Request.Text:=Qry.FieldValues['request'];
       if Qry.FieldValues['ismemo_khusus']=1 then MemoKhusus.Checked:=True else MemoKhusus.Checked:=False;
 
       if (Qry.FieldValues['tanda_terima_id']=NULL) AND (IntOtorisasi=1) AND (Qry.FieldValues['approve']<>2) then  Reject.Enabled:=True;
@@ -1276,30 +1299,7 @@ begin
       PanelArmada.Enabled:=False;
       PanelPKB.Enabled:=False;
       PanelSB.Enabled:=True;
-      NoSR.Text:=Qry.FieldValues['service_request_id'];
-      if Qry.FieldValues['requested_date']<>NULL then DibutuhkanBarangDate.DateTime:=StrToDate(Qry.FieldValues['requested_date']);
-      if Qry.FieldValues['maintenance_service_id']<>NULL then NoSB.Text:=Qry.FieldValues['maintenance_service_id'];
-      if Qry.FieldValues['work_order_id']<>NULL then NoPKB.Text:=Qry.FieldValues['work_order_id'];
-      if Qry.FieldValues['driver_complain_id']<>NULL then NoKeluhan.Text:=Qry.FieldValues['driver_complain_id'];
-      Tanggal.Text:=Qry.FieldValues['submit_date'];
-      if IsCharAlpha(PChar(Copy(Qry.FieldValues['license_plate'],2,1))^)=False then
-        NoPolisi.Text:=Copy(Qry.FieldValues['license_plate'],1,1)+' '+Copy(Qry.FieldValues['license_plate'],2,4)+
-                       ' '+Copy(Qry.FieldValues['license_plate'],6,Length(Qry.FieldValues['license_plate'])+1)
-      else
-        NoPolisi.Text:=Copy(Qry.FieldValues['license_plate'],1,2)+' '+Copy(Qry.FieldValues['license_plate'],3,4)+
-                       ' '+Copy(Qry.FieldValues['license_plate'],7,Length(Qry.FieldValues['license_plate'])+1);
-      NoBody.Text:=Qry.FieldValues['body_id'];
-      KMOdo.Text:=IToCurr(Qry.FieldValues['odo_in']);
-//      if Qry.FieldValues['mekanik']<>NULL then Mekanik.Text:=Qry.FieldValues['mekanik'];
-      if (Qry.FieldValues['from_date']<>NULL) and (Qry.FieldValues['from_date']<>'') then begin
-        StartDate.DateTime:=StrToDate(Qry.FieldValues['from_date']);
-        if Qry.FieldValues['to_date']<> NULL then FinishDate.DateTime:=StrToDate(Qry.FieldValues['to_date']);
-      end else begin
-        FinishUnknown.Checked:=True;
-        StartDate.Enabled:=False;
-        FinishDate.Enabled:=False;
-      end;
-      Request.Text:=Qry.FieldValues['request'];
+
     end;
     Qry.Close;
     StrQry:='EXEC GetServiceRequestDetailList '+QuotedStr(ServiceRequestId)+';';

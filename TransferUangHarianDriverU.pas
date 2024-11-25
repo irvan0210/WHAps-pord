@@ -388,7 +388,7 @@ begin
   StrIsIntegrate:=',@isIntegrate='+IntToStr(IsIntegrate);
   QStr:='EXEC GetRevenueVhcDayRpt2 '+StrLocationId+','+
         QuotedStr(FormatDateTime('dd-mm-yyyy',Tanggal.Date))+','+
-        QuotedStr(StrBatch)+','+StrCompanyId+StrToDates+',@Ordered=vhc_trans_id,@isAll='+StrisAll+StrIsIntegrate+';';
+        QuotedStr(StrBatch)+','+StrCompanyId+StrToDates+',@Ordered=vhc_trans_id,@isAll='+StrisAll+';';
   Qry.SQL.Clear;
   Qry.SQL.Add(QStr);
   Qry.Open;

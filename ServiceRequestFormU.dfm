@@ -1,6 +1,6 @@
 object ServiceRequestForm: TServiceRequestForm
-  Left = 306
-  Top = 296
+  Left = 291
+  Top = 149
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Service Request'
@@ -131,6 +131,7 @@ object ServiceRequestForm: TServiceRequestForm
       Height = 13
       Alignment = taRightJustify
       Caption = 'Mulai'
+      Visible = False
     end
     object Label10: TLabel
       Left = 11
@@ -184,6 +185,7 @@ object ServiceRequestForm: TServiceRequestForm
       Height = 15
       Caption = 'Tidak diketahui'
       TabOrder = 0
+      Visible = False
       OnClick = FinishUnknownClick
       OnKeyPress = FinishUnknownKeyPress
     end
