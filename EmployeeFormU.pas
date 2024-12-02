@@ -9,157 +9,42 @@ uses
 
 type
   TEmployeeForm = class(TForm)
-    GroupInput1: TGroupBox;
-    Nama: TEdit;
-    Label1: TLabel;
-    Label2: TLabel;
-    TempatLahir: TEdit;
-    Label17: TLabel;
-    Label8: TLabel;
-    Label11: TLabel;
-    Agama: TComboBox;
-    AgamaDisp: TEdit;
-    GroupNonInput: TGroupBox;
-    LabelId: TLabel;
-    NoKPPExpired: TMaskEdit;
-    GroupInput2: TGroupBox;
-    Simpan3: TButton;
-    TglGabung: TDateTimePicker;
-    Label19: TLabel;
-    TglLahir: TDateTimePicker;
-    KPPReferensi: TEdit;
-    LabelKPPLama: TLabel;
-    Label15: TLabel;
-    Label22: TLabel;
-    Referensi: TComboBox;
-    ReferensiDisp: TEdit;
-    LabelReferensi: TLabel;
-    ReferensiId: TEdit;
-    HistoryPanel: TGroupBox;
-    StrGrid: TZColorStringGrid;
     TimerCheck: TTimer;
-    NoKTP: TEdit;
-    Label13: TLabel;
-    Cari: TSpeedButton;
     ArgoPendapatan: TButton;
-    Label10: TLabel;
-    Label12: TLabel;
-    Label23: TLabel;
-    Label28: TLabel;
-    Label30: TLabel;
-    Label24: TLabel;
-    SIM: TComboBox;
-    SIMDisp: TEdit;
-    Label9: TLabel;
-    Label25: TLabel;
-    NoSIM: TEdit;
-    LabelShift: TLabel;
-    LabelReguler: TLabel;
-    PanelShift: TPanel;
-    ShiftPagi: TRadioButton;
-    ShiftMalam: TRadioButton;
-    ShiftSiang: TRadioButton;
-    PanelReguler: TPanel;
-    Eksekutif: TRadioButton;
-    Reguler: TRadioButton;
-    Label14: TLabel;
-    NoSIMExpired: TDateTimePicker;
-    Label26: TLabel;
-    SBU: TComboBox;
     Label29: TLabel;
     ImgTemp: TImage;
     Family: TButton;
     Vehicle: TButton;
     Emergency: TButton;
-    Label16: TLabel;
-    Panel1: TPanel;
-    Gentleman: TRadioButton;
-    Ladies: TRadioButton;
-    NoHPimei: TEdit;
-    Label31: TLabel;
-    NoKTPExpired: TDateTimePicker;
     PanelArmada: TPanel;
     Label33: TLabel;
     CariDriver: TSpeedButton;
     NoPolisi: TEdit;
-    grpGroupEtoll: TGroupBox;
-    CariNoEtoll: TEdit;
-    NoEtoll: TComboBox;
-    lbl1: TLabel;
     Label34: TLabel;
     RatingInt: TEdit;
-    Label37: TLabel;
-    IdAbsen: TEdit;
-    GroupBox3: TGroupBox;
-    BpjsKes: TEdit;
-    BpjsKet: TEdit;
-    Label18: TLabel;
-    Label38: TLabel;
-    GolDarah: TComboBox;
-    Label39: TLabel;
-    Label44: TLabel;
-    StatusPanel: TPanel;
-    StatusSingle: TRadioButton;
-    StatusMenikah: TRadioButton;
-    StatusCerai: TRadioButton;
-    Label7: TLabel;
-    Label45: TLabel;
-    Label21: TLabel;
-    Anak: TMaskEdit;
-    Label20: TLabel;
-    Label46: TLabel;
-    Label47: TLabel;
-    NikKaryawan: TEdit;
-    StatusKaryawan: TRadioGroup;
-    Label48: TLabel;
-    Label49: TLabel;
-    NPWP: TEdit;
-    GroupBox4: TGroupBox;
-    Label41: TLabel;
-    NoHPEmergency: TMaskEdit;
-    Label50: TLabel;
-    NamaKontakDarurat: TEdit;
-    GroupRekening: TGroupBox;
-    Label35: TLabel;
-    Label36: TLabel;
-    AccountNo: TEdit;
-    AccountName: TEdit;
-    HubunganKontDarurat: TEdit;
-    Label51: TLabel;
-    Bank: TComboBox;
-    Label52: TLabel;
-    Label53: TLabel;
-    DateBPJSKes: TDateTimePicker;
-    Label54: TLabel;
-    Label55: TLabel;
-    DateBpjsKet: TDateTimePicker;
-    Nppbpjsket: TEdit;
-    Label56: TLabel;
-    GroupBox5: TGroupBox;
-    Label3: TLabel;
-    Alamat: TMemo;
-    SamaKTP: TCheckBox;
-    Label27: TLabel;
-    Label42: TLabel;
-    Label43: TLabel;
-    AlamatSekarang: TMemo;
-    Label4: TLabel;
-    NoTelp: TMaskEdit;
-    lbl2: TLabel;
-    lbl4: TLabel;
-    NoHP: TMaskEdit;
-    lbl3: TLabel;
-    NoHP2: TMaskEdit;
-    Email: TEdit;
-    Label59: TLabel;
-    Label60: TLabel;
-    NoKK: TEdit;
+    pgDataKaryawan: TPageControl;
+    TabIdentitas: TTabSheet;
+    TabPekerjaan: TTabSheet;
     GroupBox6: TGroupBox;
     Label32: TLabel;
-    Departemen: TComboBox;
     Label57: TLabel;
-    Level: TComboBox;
     Label58: TLabel;
+    Departemen: TComboBox;
+    Level: TComboBox;
+    Posisi: TEdit;
+    TabAsuransi: TTabSheet;
+    GroupBox3: TGroupBox;
+    Label18: TLabel;
+    Label38: TLabel;
+    Label54: TLabel;
+    Label55: TLabel;
+    Label56: TLabel;
+    BpjsKes: TEdit;
+    BpjsKet: TEdit;
+    DateBPJSKes: TDateTimePicker;
+    DateBpjsKet: TDateTimePicker;
+    Nppbpjsket: TEdit;
+    TabLampiran: TTabSheet;
     GroupBox7: TGroupBox;
     GroupFoto: TGroupBox;
     Foto: TImage;
@@ -169,39 +54,165 @@ type
     FotoKTP: TImage;
     GroupSIM: TGroupBox;
     FotoSIM: TImage;
-    GroupBox8: TGroupBox;
-    Label5: TLabel;
-    PendidikanTerakhir: TComboBox;
-    PendidikanTerakhirDisp: TEdit;
-    Label61: TLabel;
-    Jurusan: TEdit;
-    Label62: TLabel;
-    TahunKelulusan: TEdit;
-    Label63: TLabel;
-    TahunMasuk: TEdit;
-    Label6: TLabel;
-    InstitusiPendidikan: TEdit;
-    Label64: TLabel;
-    ipk: TEdit;
     Panel2: TPanel;
-    Simpan: TButton;
-    Selesai: TButton;
-    Posisi: TEdit;
-    IdKaryawan: TEdit;
+    GroupNonInput: TGroupBox;
+    LabelId: TLabel;
+    Label15: TLabel;
+    Label47: TLabel;
+    Label53: TLabel;
+    NoKPPExpired: TMaskEdit;
+    NikKaryawan: TEdit;
+    StatusKaryawan: TRadioGroup;
+    GroupInput1: TGroupBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label17: TLabel;
+    Label8: TLabel;
+    Label11: TLabel;
+    Label19: TLabel;
+    LabelKPPLama: TLabel;
+    Label22: TLabel;
+    LabelReferensi: TLabel;
+    Label13: TLabel;
+    Cari: TSpeedButton;
+    Label10: TLabel;
+    Label12: TLabel;
+    Label23: TLabel;
+    Label28: TLabel;
+    Label30: TLabel;
+    Label16: TLabel;
+    Label31: TLabel;
+    Label37: TLabel;
+    Label39: TLabel;
+    Label7: TLabel;
+    Label45: TLabel;
+    Label21: TLabel;
+    Label46: TLabel;
+    Label48: TLabel;
+    Label49: TLabel;
+    Label59: TLabel;
+    Label60: TLabel;
     Label65: TLabel;
     Label40: TLabel;
     Label66: TLabel;
-    Tinggi: TEdit;
-    Berat: TEdit;
     Label67: TLabel;
     cm: TLabel;
     kg: TLabel;
+    Nama: TEdit;
+    TempatLahir: TEdit;
+    Agama: TComboBox;
+    AgamaDisp: TEdit;
+    TglGabung: TDateTimePicker;
+    TglLahir: TDateTimePicker;
+    KPPReferensi: TEdit;
+    Referensi: TComboBox;
+    ReferensiDisp: TEdit;
+    ReferensiId: TEdit;
+    NoKTP: TEdit;
+    SBU: TComboBox;
+    Panel1: TPanel;
+    Gentleman: TRadioButton;
+    Ladies: TRadioButton;
+    NoKTPExpired: TDateTimePicker;
+    IdAbsen: TEdit;
+    GolDarah: TComboBox;
+    StatusPanel: TPanel;
+    StatusSingle: TRadioButton;
+    StatusMenikah: TRadioButton;
+    StatusCerai: TRadioButton;
+    Anak: TMaskEdit;
+    NPWP: TEdit;
+    Email: TEdit;
+    NoKK: TEdit;
+    IdKaryawan: TEdit;
+    Tinggi: TEdit;
+    Berat: TEdit;
+    GroupBox5: TGroupBox;
+    Label3: TLabel;
+    Label27: TLabel;
+    Label42: TLabel;
+    Label43: TLabel;
+    Label4: TLabel;
+    lbl2: TLabel;
+    lbl4: TLabel;
+    lbl3: TLabel;
+    Alamat: TMemo;
+    SamaKTP: TCheckBox;
+    AlamatSekarang: TMemo;
+    NoTelp: TMaskEdit;
+    NoHP: TMaskEdit;
+    NoHP2: TMaskEdit;
+    GroupInputSimdanETol: TGroupBox;
+    Label24: TLabel;
+    Label9: TLabel;
+    Label25: TLabel;
+    LabelShift: TLabel;
+    LabelReguler: TLabel;
+    Label14: TLabel;
+    Label26: TLabel;
+    Label44: TLabel;
+    Label20: TLabel;
+    SIM: TComboBox;
+    SIMDisp: TEdit;
+    NoSIM: TEdit;
+    PanelShift: TPanel;
+    ShiftPagi: TRadioButton;
+    ShiftMalam: TRadioButton;
+    ShiftSiang: TRadioButton;
+    PanelReguler: TPanel;
+    Eksekutif: TRadioButton;
+    Reguler: TRadioButton;
+    NoSIMExpired: TDateTimePicker;
+    NoHPimei: TEdit;
+    grpGroupEtoll: TGroupBox;
+    lbl1: TLabel;
+    CariNoEtoll: TEdit;
+    NoEtoll: TComboBox;
+    GroupBox8: TGroupBox;
+    Label5: TLabel;
+    Label61: TLabel;
+    Label62: TLabel;
+    Label63: TLabel;
+    Label6: TLabel;
+    Label64: TLabel;
+    PendidikanTerakhir: TComboBox;
+    PendidikanTerakhirDisp: TEdit;
+    Jurusan: TEdit;
+    TahunKelulusan: TEdit;
+    TahunMasuk: TEdit;
+    InstitusiPendidikan: TEdit;
+    ipk: TEdit;
+    TabKontakDarurat: TTabSheet;
+    GroupRekening: TGroupBox;
+    Label35: TLabel;
+    Label36: TLabel;
+    Label52: TLabel;
+    AccountNo: TEdit;
+    AccountName: TEdit;
+    Bank: TComboBox;
+    GroupBox4: TGroupBox;
+    Label41: TLabel;
+    Label50: TLabel;
+    Label51: TLabel;
+    NoHPEmergency: TMaskEdit;
+    NamaKontakDarurat: TEdit;
+    HubunganKontDarurat: TEdit;
     Label68: TLabel;
+    TabMutasi: TTabSheet;
+    HistoryPanel: TGroupBox;
+    StrGrid: TZColorStringGrid;
     GrpRiwayat: TGroupBox;
     HistoryCPCustomer: TButton;
     Riwayat: TButton;
     btnHistoryLaKA: TButton;
-    Button1: TButton;
+    btTraining: TButton;
+    Panel3: TPanel;
+    Selesai: TButton;
+    Simpan: TButton;
+    Simpan3: TButton;
+    Label69: TLabel;
+    Label70: TLabel;
+    Label71: TLabel;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SimpanClick(Sender: TObject);
@@ -259,7 +270,8 @@ type
     procedure SamaKTPClick(Sender: TObject);
     procedure HistoryCPCustomerClick(Sender: TObject);
     procedure btnHistoryLaKAClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
+    procedure btTrainingClick(Sender: TObject);
+    procedure NoKTPExit(Sender: TObject);
 
   private
     { Private declarations }
@@ -332,21 +344,24 @@ begin
     1:begin
         Caption:='Data Mitra';
         LabelId.Caption:='No KPP';
-        GroupInput2.Height:=220;
-        EmployeeForm.Height:=153;
+       // GroupInput2.Height:=220;
+        GroupInputSimdanETol.Height := 87;
+       // EmployeeForm.Height:=153;
 
 //        LabelKPPLama.Caption:='No KPP Lama';
 //        LabelReferensi.Caption:='No KPP Sumber';
 //        PanelDept.Visible:=False;
         Label32.Visible:=False;
         Departemen.Visible:=False;
+        TabMutasi.Visible :=False;
         GrpRiwayat.Visible:=False;
       end;
     2:begin
         Caption:='Data Driver';
+        GroupInputSimdanETol.Height := 87;
+       // EmployeeForm.Height:=643;
 //        LabelId.Caption:='No Pengemudi';
 //        GroupInput2.Height:=85;
-//        EmployeeForm.Height:=725;
 //        LabelKPPLama.Caption:='No ID Lama';
 //        LabelReferensi.Caption:='No Id Sumber';
 //        PanelDept.Visible:=False;
@@ -358,8 +373,9 @@ begin
     3:begin
         Caption:='Data Karyawan';
         LabelId.Caption:='NIK';
-        GroupInput2.Height:=44;
-//        EmployeeForm.Height:=559;
+       // GroupInput2.Height:=44;
+        GroupInputSimdanETol.Height := 44;
+       // EmployeeForm.Height:=630;
 //        GroupInput2.Height:=147;
 //        LabelKPPLama.Caption:='NIK Lama';//'NIK Lama';
 //        LabelReferensi.Caption:='Identitas Sumber';
@@ -374,7 +390,7 @@ begin
         LabelId.Caption:='No BusBoy';
 //        GroupInput2.Height:=220;
 //        EmployeeForm.Height:=153;
-      GrpRiwayat.Visible:=True;
+        GrpRiwayat.Visible:=True;
 
 //        LabelKPPLama.Caption:='No BusBoy Lama';
 //        LabelReferensi.Caption:='No Id Sumber';
@@ -452,7 +468,8 @@ begin
   IsOkClose:=False;
   Simpan.Visible:=True;
   GroupInput1.Enabled:=True;
-  GroupInput2.Enabled:=True;
+  //GroupInput2.Enabled:=True;
+  GroupInputSimdanETol.Enabled:= True;
   Simpan3.Visible:=False;
   Family.Visible:=False;
   Emergency.Visible:=False;
@@ -474,13 +491,13 @@ end;
 procedure TEmployeeForm.DisableInput;
 begin
   GroupInput1.Enabled:=False;
-  GroupInput2.Enabled:=False;
+  GroupInputSimdanETol.Enabled:=False;
 end;
 
 procedure TEmployeeForm.EnableInput;
 begin
   GroupInput1.Enabled:=True;
-  GroupInput2.Enabled:=True;
+  GroupInputSimdanETol.Enabled:=True;
 end;
 
 procedure TEmployeeForm.RefreshCombo;
@@ -641,7 +658,6 @@ begin
     if Qry.FieldValues['date_bpjs_ket']<>NULL then DateBpjsKet.Date:=StrToDate(Qry.FieldValues['date_bpjs_ket']);
     if Qry.FieldValues['height']<>NULL then Tinggi.Text:=Qry.FieldValues['height'];
     if Qry.FieldValues['weight']<>NULL then Berat.Text:=Qry.FieldValues['weight'];
-//
     if Qry.FieldValues['gol_darah']='A' then GolDarah.ItemIndex:=0
     else if Qry.FieldValues['gol_darah']='B' then GolDarah.ItemIndex:=1
     else if Qry.FieldValues['gol_darah']='AB' then GolDarah.ItemIndex:=2
@@ -950,8 +966,6 @@ begin
   QryWehaOnline.CommandTimeout := 360000;
   QryWehaOnline.ParamCheck:=False;
 
-
-
   if (Trim(NikKaryawan.Text)<>'') then begin
     if (IdKaryawan.Text<>'') then begin
       StrQry:='SELECT nik_karyawan from wh_employee where nik_karyawan='+QuotedStr(NikKaryawan.Text)+' and employee_id<>'+QuotedStr(IdKaryawan.Text);
@@ -970,12 +984,13 @@ begin
 
       IsNoRecord:=True;
       StrException:='';
-      if (( (Trim(NikKaryawan.Text)<>'') AND (Trim(Nama.Text)<>'') and
+      if (((Trim(NikKaryawan.Text)<>'') AND (Trim(Nama.Text)<>'') and
       (Trim(NoKTP.Text)<>'') AND (Trim(Agama.Text)<>'') AND
-      (Trim(Alamat.Text)<>'') AND (Trim(AlamatSekarang.Text)<>'') AND
-      (StatusKaryawan.ItemIndex<>-1) AND (Trim(NoHP.Text)<>'') AND
-      (NoSIM.Text<>'') AND (EmplType in [1,2])) OR
-      ((Trim(Nama.Text)<>'') AND (Trim(Alamat.Text)<>'') AND (Trim(AlamatSekarang.Text)<>'') AND (EmplType in [3,4]) ))
+      (Trim(Alamat.Text)<>'') AND (Trim(AlamatSekarang.Text)<>'') AND(StatusKaryawan.ItemIndex<>-1)
+      AND (Trim(NoHP.Text)<>'') AND (NoSIM.Text<>'') AND (EmplType in [1,2])
+      AND (Departemen.ItemIndex<> -1) AND (Level.ItemIndex<>-1) AND (Posisi.Text <>'')) OR
+      ((Trim(Nama.Text)<>'') AND (Trim(Alamat.Text)<>'') AND (Trim(AlamatSekarang.Text)<>'') AND (EmplType in [3,4])
+      AND(Departemen.ItemIndex<> -1) AND (Level.ItemIndex<>-1) AND (Posisi.Text <>'')))
       then begin
         Main.M_Busy;
         IsOk:=True;
@@ -1433,7 +1448,6 @@ begin
 
               if QryWehaOnline.RecordCount=0 then
               begin
-
                 StrQryWehaOnline:= 'INSERT INTO Contacts '+
                               '(FullName,Gender,'+
                               'HP,ViewHisOwnData,IsMain,CreatedBy,CreatedDate,'+
@@ -1636,6 +1650,7 @@ begin
           StrMsg:='Inputan tanda * '+Chr(13)+'tidak boleh kosong !!';
           IsOk:=False;
       end;
+
       if IsOk then begin
         MessageBox(0,PChar(StrMsg),'Tambah/Rubah Data',MB_OK or MB_ICONINFORMATION);
         if IsOkClose then begin
@@ -2059,6 +2074,7 @@ begin
   Init;
   RefreshCombo;
   IsInputGrid:=not(IsReadOnly);
+  pgDataKaryawan.ActivePage := TabIdentitas;
   if FormRequest='' then begin
     if (LeftStr(IntToStr(TreeTag),4)='1202') OR (LeftStr(IntToStr(TreeTag),4)='1302') then begin
       if (RightStr(IntToStr(TreeTag),2)='02')  OR (RightStr(IntToStr(TreeTag),2)='05') OR
@@ -2088,7 +2104,7 @@ begin
         if (RightStr(IntToStr(TreeTag),2)='08') then begin
           Simpan.Visible:=False;
           GroupInput1.Enabled:=False;
-          GroupInput2.Enabled:=False;
+          GroupInputSimdanETol.Enabled:=False;
           Cari.Visible:=False;
         end;
         if IsFotoOnly=False then Riwayat.Visible:=True;
@@ -2105,6 +2121,7 @@ begin
         GroupSIM.Visible:=True;
         //PanelArmada.Visible:=True;
         Riwayat.Visible:=True;
+       // EmployeeForm.Height:= EmployeeForm.Height- (GroupInputSimdanETol.Height);
         if EmplType=2 then HistoryCPCustomer.Visible:=True else HistoryCPCustomer.Visible:=False;
         DisableInput;
         LoadData;
@@ -2120,6 +2137,7 @@ begin
       GroupSIM.Visible:=True;
     end;
   end;
+
   if IsReadOnly=False then begin
     EnableInput;
     GroupFoto.Visible:=True;
@@ -2134,13 +2152,30 @@ begin
   TimerCheck.Enabled:=False;
   if EmplId='' then begin
     if HistoryPanel.Visible then begin
-      EmployeeForm.Height:=EmployeeForm.Height-(HistoryPanel.Height);
-      HistoryPanel.Visible:=False;
+     // if EmplType = 2 then
+     //   EmployeeForm.Height := 650
+     // else
+     //  EmployeeForm.Height:= EmployeeForm.Height - (GroupInputSimdanETol.Height);
+
+   //   EmployeeForm.Height:=EmployeeForm.Height-(HistoryPanel.Height);
+   //   EmployeeForm.Height:= 600;
+      TabMutasi.TabVisible := False;
+     // HistoryPanel.Visible:=False;
+
+    end
+    else begin
+      EmployeeForm.Height:=650;
     end;
+
+    if EmplType = 2 then
+      EmployeeForm.Height := 650
+    else
+      EmployeeForm.Height:= EmployeeForm.Height - (GroupInputSimdanETol.Height);
   end else begin
     InitHistory;
     LoadHistory;
   end;
+
 end;
 
 procedure TEmployeeForm.NoKTPKeyPress(Sender: TObject; var Key: Char);
@@ -2487,7 +2522,7 @@ begin
   end;
 end;
 
-procedure TEmployeeForm.Button1Click(Sender: TObject);
+procedure TEmployeeForm.btTrainingClick(Sender: TObject);
 begin
   if EmplType=2 then
   begin
@@ -2500,6 +2535,20 @@ begin
     if Main.IsFormOpen('EmplHistoryTrainingRpt')=False then
     begin
       EmplHistoryTrainingRpt:=TEmplHistoryTrainingRpt.Create(Self,'DRIVERFORM',Nama.Text,idKaryawan.Text,'HELPER');
+    end;
+  end;
+end;
+
+procedure TEmployeeForm.NoKTPExit(Sender: TObject);
+var
+  StrMsg, StrNik : string;
+begin
+  if NoKTP.Text <> '' then begin
+    StrNik := inttostr(length(NoKTP.Text));
+    if StrNik <> '16' then begin
+      StrMsg:='No KTP'+Chr(13)+'Harus 16 digit !!';
+      MessageBox(0,PChar(StrMsg),'No KTP',MB_OK or MB_ICONWARNING);
+      NoKTP.SetFocus;
     end;
   end;
 end;
