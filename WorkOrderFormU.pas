@@ -309,7 +309,7 @@ type
     WOArr:Array of TArrString10;
     WODetArr:Array of TArrString2;
     IntRow,IntCol,CompId,MinRow:Integer;
-    FormRequest,WorkOrderId,VehicleId:String;
+    FormRequest,WorkOrderId,VehicleId,ApiTransTrack,StatusApiTransTrack:String;
     Initiation,IsReadOnly,IsInput:Boolean;
     procedure Init;
     procedure InitGrid;
@@ -371,7 +371,7 @@ var
 begin
  IdHTTP := TIdHTTP.Create(Self);
  resp := TMemoryStream.Create;
- url:='http://api.whitehorse.co.id/api_transtrack/vehicle.php?plate='+License_plate;
+ url:='http://'+ApiTransTrack+'/api_transtrack/vehicle.php?plate='+License_plate;
 // url:='http://api.whitehorse.co.id/api_transtrack/vehicle.php?plate=B7265PGA';
  IdHTTP.Get(url, resp);
  resp.Position := 0;
@@ -394,6 +394,9 @@ begin
 end;
 
 procedure TWorkOrderForm.Init;
+var StrQry:String;
+    Qry:TADOQuery;
+    Count:Integer;
 begin
   NoPKB.Text:='';
   Jam.Text:='';
@@ -427,6 +430,20 @@ begin
   IntMaxRow:=8;
   IntCol:=0;
   IntRow:=0;
+
+  Qry:=TADOQuery.Create(Self);
+  Qry.Connection:=Main.MyConnection;
+  if Main.OpenDb then begin
+    StrQry:='select * FROM wh_api_trans_track;';
+    Qry.SQL.Clear;
+    Main.WriteLog('SQL :'+StrQry,2);
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    if (Qry.RecordCount>0) then begin
+      ApiTransTrack:=Qry.FieldValues['api_trans_track'];
+      StatusApiTransTrack:=Qry.FieldValues['status'];
+    end;
+  end;
 end;
 
 procedure TWorkOrderForm.InitGrid;
@@ -617,10 +634,15 @@ begin
         NoBody.Text:=Qry.FieldValues['body_id'];
 
         NoPolisi.Text:=LicensePlate(Qry.FieldValues['license_plate']);
-        SetOdo(Qry.FieldValues['license_plate']);
-        if KMOdo.Text='0' then
+        if (CompanyId='2') AND (StatusApiTransTrack='1') then begin
+          SetOdo(Qry.FieldValues['license_plate']);
+          if KMOdo.Text='0' then
+          begin
+            if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
+          end;
+        end else
         begin
-          if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
+            if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
         end;
       end;
       Qry.Close;
@@ -654,7 +676,13 @@ begin
         VehicleId:=Qry.FieldValues['vehicle_id'];
 
         NoPolisi.Text:=LicensePlate(Qry.FieldValues['license_plate']);
-        SetOdo(Qry.FieldValues['license_plate']);
+
+        if (CompanyId='2') AND (StatusApiTransTrack='1') then begin
+          SetOdo(Qry.FieldValues['license_plate']);
+        end else
+        begin
+          KMOdo.Text:='0';
+        end;
         NoBody.Text:=Qry.FieldValues['body_id'];
         StartDate.DateTime:=StrToDate(Qry.FieldValues['from_date']);
         if Qry.FieldValues['to_date']<> NULL then FinishDate.DateTime:=StrToDate(Qry.FieldValues['to_date']);
@@ -968,8 +996,8 @@ begin
   begin
 //    WorkOrderForm.Width:='1059';
     GroupDetail.Visible:=True;
-    RefreshCombo;
-    RefreshGrid;
+//    RefreshCombo;
+//    RefreshGrid;
   end else
   begin
 //    WorkOrderForm.Width:='678';
@@ -988,6 +1016,8 @@ begin
   if UpperCase(FormRequest)='MAIN-ADDDETAIL' then begin
     AddDetail;
   end;
+
+
 end;
 
 procedure TWorkOrderForm.SetMobil;
@@ -1334,8 +1364,8 @@ begin
   InitGrid2;
   InitGrid3;
   InitGrid4;
-  RefreshCombo;
-  RefreshGrid;
+//  RefreshCombo;
+//  RefreshGrid;
 end;
 
 procedure TWorkOrderForm.PreparePrintData;

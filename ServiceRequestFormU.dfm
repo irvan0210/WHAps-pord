@@ -1,6 +1,6 @@
 object ServiceRequestForm: TServiceRequestForm
-  Left = 291
-  Top = 149
+  Left = 258
+  Top = 100
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Service Request'

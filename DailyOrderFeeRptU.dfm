@@ -1,6 +1,6 @@
 object DailyOrderFeeRpt: TDailyOrderFeeRpt
-  Left = 283
-  Top = 161
+  Left = 308
+  Top = 540
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
   Caption = 'Laporan Uang Order Harian'
@@ -402,7 +402,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
   object ppReportReimburse: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'invoice'
+    PrinterSetup.PaperName = 'Custom'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 5080
     PrinterSetup.mmMarginLeft = 6350
@@ -410,7 +410,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 140000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 192
+    PrinterSetup.PaperSize = 256
     Template.FileName = 'D:\Source\SC Delphi\06 Jan 2020\formReimburse.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'

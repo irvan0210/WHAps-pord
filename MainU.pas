@@ -2359,7 +2359,7 @@ begin
   {ADODB}
   if (Db='wh_prod') then
   begin
-    if (DbHost<>'103.96.147.245') OR (DbHost<>'10.10.27.221') or (DbHost<>'whapsdb.whitehorse.co.id') then
+    if (DbHost<>'103.96.147.245') AND (DbHost<>'10.10.27.221') AND (DbHost<>'whapsdb.whitehorse.co.id') then
     begin
       DbHost:='whapsdb.whitehorse.co.id';
     end;

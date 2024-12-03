@@ -1,11 +1,11 @@
 object WorkOrderForm: TWorkOrderForm
-  Left = 293
-  Top = 292
+  Left = 263
+  Top = 86
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Buka Perintah Kerja Bengkel'
   ClientHeight = 529
-  ClientWidth = 1032
+  ClientWidth = 664
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

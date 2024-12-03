@@ -126,7 +126,10 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
-      '09/11/2024 (6.1.5.48)'
+      '02/12/2024 (6.1.5.49)'
+      '-Menghapus List PKB pada Form Buka PKB'
+      ''
+      '22/11/2024 (6.1.5.48)'
       '-Penambahan Master Pekerjaan Bengkel'
       '-Fitur Delete pada Grid Serah Terima Barang'
       '-Penambahan inputan KM Standard Pergantian pada Part'

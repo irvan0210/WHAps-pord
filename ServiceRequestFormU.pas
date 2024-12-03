@@ -366,14 +366,14 @@ type
 
 var
   ServiceRequestForm: TServiceRequestForm;
-  VehicleId : string;
+  VehicleId,ApiTransTrack,StatusApiTransTrack : string;
   MinRowGrid,IntMaxRow,IntOtorisasi : Integer ;
 
 implementation
 
 uses MainU, RePrintFormU, WorkOrderReprintU, AuthorizedFormU, DateUtils,
   VehicleListU, DB, ServiceRequestListU, MaintenanceServiceFormU,
-  MaintenanceServiceListU, WorkOrderListU, DriverComplainList, Math, 
+  MaintenanceServiceListU, WorkOrderListU, DriverComplainList, Math,
   ItemServiceRequestU, NotRejectU, ImageViewerU, IdHTTP, IdException, IdStack, 
   uLkJSON, BrowsePartU, ListPartsU;
 
@@ -391,6 +391,9 @@ end;
 
 procedure TServiceRequestForm.Init;
 var IntCount:Integer;
+    StrQry:String;
+    Qry:TADOQuery;
+    Count:Integer;
 begin
   NoSR.Text:='';
   Tanggal.Text:='';
@@ -441,6 +444,20 @@ begin
   CetakFormulirBarang.Enabled:=False;
   FinishUnknown.Enabled:=True;
   Simpan.Enabled:=True;
+  Qry:=TADOQuery.Create(Self);
+  Qry.Connection:=Main.MyConnection;
+  if Main.OpenDb then begin
+    StrQry:='select * FROM wh_api_trans_track;';
+    Qry.SQL.Clear;
+    Main.WriteLog('SQL :'+StrQry,2);
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    if (Qry.RecordCount>0) then begin
+      ApiTransTrack:=Qry.FieldValues['api_trans_track'];
+      StatusApiTransTrack:=Qry.FieldValues['status'];
+    end;
+  end;
+
 end;
 
 
@@ -484,9 +501,13 @@ begin
         else
           NoPolisi.Text:=Copy(Qry.FieldValues['license_plate'],1,2)+' '+Copy(Qry.FieldValues['license_plate'],3,4)+
                               ' '+Copy(Qry.FieldValues['license_plate'],7,Length(Qry.FieldValues['license_plate'])+1);
-
-        SetOdo(Qry.FieldValues['license_plate']);
-        if KMOdo.Text='0' then
+        if (CompanyId='2') AND (StatusApiTransTrack='1') then begin
+          SetOdo(Qry.FieldValues['license_plate']);
+          if KMOdo.Text='0' then
+          begin
+            if Qry.FieldValues['odo_in']<>NULL then KMOdo.Text:=Qry.FieldValues['odo_in'] else KMOdo.Text:='0';
+          end;
+        end else
         begin
           if Qry.FieldValues['odo_in']<>NULL then KMOdo.Text:=Qry.FieldValues['odo_in'] else KMOdo.Text:='0';
         end;
@@ -700,20 +721,22 @@ var
  resp: TMemoryStream;
  url: String;
 begin
- IdHTTP := TIdHTTP.Create(Self);
- resp := TMemoryStream.Create;
- url:='http://api.whitehorse.co.id/api_transtrack/vehicle.php?plate='+License_plate;
-// url:='http://api.whitehorse.co.id/api_transtrack/vehicle.php?plate=B7265PGA';
- IdHTTP.Get(url, resp);
- resp.Position := 0;
- Memo1.Lines.LoadFromStream(resp);
+  IdHTTP := TIdHTTP.Create(Self);
+  resp := TMemoryStream.Create;
+
+//  url:='http://'+ApiTransTrack+'/api_transtrack/vehicle.php?plate='+License_plate;
+  url:='https://order-tracking.transtrack.id/api/v1/vehicles?api_key=key-XOkLrV88kwBPw0hr9ESqtv6nCGp3m4lk%20XAps5GFcpEk374Cwm1H4RwZkgMAelznP&search=AB7494JN';
+  IdHTTP.Get(url, resp);
+  resp.Position := 0;
+  Memo1.Lines.LoadFromStream(resp);
   js := TlkJSON.ParseText(Memo1.Text);
   if Assigned(js) then
   begin
-    js := js.Field['kmodo'];
-//    if Assigned(js) then
-//    begin
-//      js := js.Field['devices'];
+    js := js.Field['data'];
+    if Assigned(js) then
+    begin
+      js := js.Field['odometer'];
+    end;
 //      if Assigned(js) then
 //      begin
 //        js := js.Field['view'];
@@ -755,9 +778,13 @@ begin
         else
           NoPolisi.Text:=Copy(Qry.FieldValues['license_plate'],1,2)+' '+Copy(Qry.FieldValues['license_plate'],3,4)+
                               ' '+Copy(Qry.FieldValues['license_plate'],7,Length(Qry.FieldValues['license_plate'])+1);
-        SetOdo(Qry.FieldValues['license_plate']);
-        if KMOdo.Text='0' then begin
-            if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
+        if (CompanyId='2') AND (StatusApiTransTrack='1') then begin
+          SetOdo(Qry.FieldValues['license_plate']);
+          if KMOdo.Text='0' then begin
+              if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
+          end;
+        end else begin
+          if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
         end;
 //        if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
       end;

@@ -1,11 +1,11 @@
 object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
-  Left = 287
-  Top = 103
+  Left = 334
+  Top = 348
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Rekap History Armada Pergantian Part'
-  ClientHeight = 558
-  ClientWidth = 896
+  ClientHeight = 524
+  ClientWidth = 1078
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,8 +21,8 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
   PixelsPerInch = 96
   TextHeight = 13
   object ToXCel: TSpeedButton
-    Left = 481
-    Top = 527
+    Left = 579
+    Top = 491
     Width = 23
     Height = 22
     Glyph.Data = {
@@ -53,6 +53,7 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
       B2B5DFB3B2DBAF8AAF83FFFFFFDFF0E382C090B0D8B8C9E5CCCBE6CCC8E5C9C5
       E2C5C3E2C5C2E2C2BFE0BFBDDFBDBCDFBCBDDFBDB3D8B286AD80}
     Layout = blGlyphRight
+    OnClick = ToXCelClick
   end
   object Label3: TLabel
     Left = 8
@@ -67,20 +68,26 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
     Font.Style = []
     ParentFont = False
   end
-  object Label6: TLabel
-    Left = 514
-    Top = 53
-    Width = 93
-    Height = 13
-    Alignment = taRightJustify
-    Caption = 'Tanggal Pergantian'
-  end
   object Label2: TLabel
-    Left = 703
-    Top = 53
-    Width = 15
+    Left = 248
+    Top = 11
+    Width = 64
     Height = 13
-    Caption = 's/d'
+    Caption = 'Jenis Armada'
+  end
+  object Label4: TLabel
+    Left = 522
+    Top = 13
+    Width = 22
+    Height = 13
+    Caption = 'Seat'
+  end
+  object Label5: TLabel
+    Left = 610
+    Top = 12
+    Width = 20
+    Height = 13
+    Caption = 'Part'
   end
   object GroupCompany: TGroupBox
     Left = 8
@@ -108,8 +115,8 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
   end
   object StrGrid: TZColorStringGrid
     Left = 2
-    Top = 73
-    Width = 887
+    Top = 37
+    Width = 1071
     Height = 449
     ColCount = 12
     DefaultRowHeight = 20
@@ -135,8 +142,8 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
     LineDesign.LineUpColor = clWhite
   end
   object Selesai: TButton
-    Left = 369
-    Top = 528
+    Left = 467
+    Top = 492
     Width = 75
     Height = 25
     Caption = 'Selesai'
@@ -144,102 +151,65 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
     OnClick = SelesaiClick
   end
   object Button1: TButton
-    Left = 815
-    Top = 28
+    Left = 932
+    Top = 5
     Width = 75
     Height = 25
     Caption = 'Lihat'
     TabOrder = 3
+    OnClick = Button1Click
   end
-  object GroupBox1: TGroupBox
-    Left = 235
-    Top = 4
-    Width = 278
-    Height = 64
-    Caption = 'Armada'
+  object ProgressBar: TProgressBar
+    Left = 703
+    Top = 489
+    Width = 185
+    Height = 9
     TabOrder = 4
-    object Label4: TLabel
-      Left = 14
-      Top = 18
-      Width = 64
-      Height = 13
-      Caption = 'Jenis Armada'
-    end
-    object Label7: TLabel
-      Left = 15
-      Top = 39
-      Width = 22
-      Height = 13
-      Caption = 'Seat'
-    end
-    object Batch: TComboBox
-      Left = 83
-      Top = 14
-      Width = 190
-      Height = 21
-      Style = csDropDownList
-      ItemHeight = 13
-      TabOrder = 0
-      OnChange = BatchChange
-    end
-    object Seat: TComboBox
-      Left = 84
-      Top = 38
-      Width = 49
-      Height = 21
-      Style = csDropDownList
-      ItemHeight = 13
-      TabOrder = 1
-    end
   end
-  object GroupBox2: TGroupBox
-    Left = 515
-    Top = 7
-    Width = 294
-    Height = 41
-    Caption = 'Part'
+  object Memo1: TMemo
+    Left = 1109
+    Top = -24
+    Width = 185
+    Height = 89
+    Lines.Strings = (
+      'Memo1')
     TabOrder = 5
-    object Button2: TButton
-      Left = 260
-      Top = 10
-      Width = 27
-      Height = 25
-      Caption = '..'
-      TabOrder = 0
-      OnClick = Button2Click
-    end
-    object Part: TEdit
-      Left = 7
-      Top = 13
-      Width = 250
-      Height = 21
-      TabOrder = 1
-      OnChange = PartChange
-    end
+    Visible = False
   end
-  object Tanggal: TDateTimePicker
-    Left = 610
-    Top = 50
-    Width = 89
+  object Batch: TComboBox
+    Left = 318
+    Top = 10
+    Width = 190
     Height = 21
-    Date = 41780.000000000000000000
-    Time = 41780.000000000000000000
+    Style = csDropDownList
+    ItemHeight = 13
     TabOrder = 6
+    OnChange = BatchChange
   end
-  object TglSampai: TDateTimePicker
-    Left = 722
-    Top = 50
-    Width = 89
+  object Seat: TComboBox
+    Left = 549
+    Top = 10
+    Width = 49
     Height = 21
-    Date = 41964.570029108800000000
-    Time = 41964.570029108800000000
+    Style = csDropDownList
+    ItemHeight = 13
     TabOrder = 7
   end
-  object PopupMenu1: TPopupMenu
-    Left = 352
-    Top = 193
-    object Copy1: TMenuItem
-      Caption = '&Copy'
-    end
+  object Part: TEdit
+    Left = 635
+    Top = 9
+    Width = 250
+    Height = 21
+    TabOrder = 8
+    OnChange = PartChange
+  end
+  object Button2: TButton
+    Left = 888
+    Top = 6
+    Width = 27
+    Height = 25
+    Caption = '..'
+    TabOrder = 9
+    OnClick = Button2Click
   end
 end
