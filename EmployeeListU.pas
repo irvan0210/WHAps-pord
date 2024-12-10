@@ -43,7 +43,7 @@ type
     EmplType,StrCompanyId:Integer;
     Stat:Integer;
     Expd:Integer;
-    Initiation:Boolean;
+    Initiation,ChangeBusBoy :Boolean;
     procedure Init;
     procedure RefreshCombo;
   public
@@ -65,7 +65,7 @@ Uses MainU, StrUtils, EmployeeFormU, MutasiKaryawanFormU,
   EmployeeHistoryListU, AttandanceLeaveFormU, EmplAttedanceInfoU, 
   CustomerComplainListU, CustomerComplainRptU,
   EmployeeHistoryLakaListU, EmployeeHistoryLakaFormU, EmployeeHistoryListRptU,
-  EmployeeHistoryLakaRptU, EmployeeHistoryTrainingRptU;
+  EmployeeHistoryLakaRptU, EmployeeHistoryTrainingRptU, BookingFormU;
 
 constructor TEmployeeList.Create(AOwner:TComponent;EmployeeType:String;Status:Integer=1;Expired:Integer=0;Form_Request:String='');
 begin
@@ -79,6 +79,9 @@ begin
     EmplType:=2;
   end else if UpperCase(EmployeeType)='OFFICE' then begin
     EmplType:=3;
+  end else if UpperCase(EmployeeType)='BUSBOY' then begin
+   EmplType:=4;
+   ChangeBusBoy := True;
   end;
   Stat:=Status;
   Expd:=Expired;
@@ -184,7 +187,7 @@ begin
         StrGrid.Cells[11,0]:='';
         StrGrid.Cells[12,0]:='';
       end;
-    4:begin
+ 4..5:begin
         Caption:='Data Busboy';
         PanelJenis.Visible:=False;
         StrGrid.ColWidths[1]:=12;
@@ -424,6 +427,7 @@ var Str,QStr,EmpType:String;
     Result:Integer;
     QEmp:TADOQuery;
     StrEmplType:String;
+    IsMoveBusBoy : Boolean;
 begin
   if IntRow>=IntMinRow then begin
     if Main.IsFormOpen('EmployeeForm')=False then begin
@@ -444,6 +448,7 @@ begin
             StrEmplType:='Bus2';
             EmpType:='BusBoy ';
           end;
+
       end;
       if StrGrid.Cells[4,IntRow]<>'' then begin
         if FormRequest='' then begin
@@ -453,9 +458,16 @@ begin
             end;
           end else if (IntCol=4) and (StrEmplType='Office') then begin
               if (Main.IsFormOpen('EmplAttedanceInfo')=False) then
-                EmplAttedanceInfo := TEmplAttedanceInfo.Create(Self, StrGrid.Cells[4,IntRow]);
+                EmplAttedanceInfo := TEmplAttedanceInfo.Create(Self, StrGrid.Cells[5,IntRow]);
           end else begin
             if (RightStr(IntToStr(TreeTag),2)='02') then begin
+               if ChangeBusBoy = True then
+                 begin
+                  //BookingForm.SetEmployeeId(StrGrid.Cells[0,IntRow],True, '', True);
+                  BookingForm.SetEmp_BusBoy_Id(StrGrid.Cells[4,IntRow],True);
+                  Close;
+                 end
+                else
               EmployeeForm:=TEmployeeForm.Create(Self,StrEmplType,StrGrid.Cells[4,IntRow]);
             end else if (RightStr(IntToStr(TreeTag),2)='03') then begin
               if IntRow>0 then begin
@@ -484,16 +496,16 @@ begin
                 end;
               end;
             end else if (RightStr(IntToStr(TreeTag),2)='04')  then begin
-              if (StrGrid.CellStyle[1,IntRow].Font.Color<>clRed) or (StrGrid.Cells[22,IntRow]='1') or (StrGrid.Cells[22,IntRow]='2') then begin
-                if StrGrid.Cells[22,IntRow]='0' then begin
-                  EmployeeIdRenewal:=TEmployeeIdRenewal.Create(Self,StrGrid.Cells[4,IntRow],StrEmplType);
-                end else begin
-                  if (StrGrid.CellStyle[1,IntRow].Font.Color=clRed) then EmployeeMutationForm:=TEmployeeMutationForm.Create(Self,StrGrid.Cells[4,IntRow],StrEmplType,0)
-                  else EmployeeMutationForm:=TEmployeeMutationForm.Create(Self,StrGrid.Cells[4,IntRow],StrEmplType)
-                end;
-              end else MessageBox(0,PChar('Mitra Bermasalah Silahkan Otorisasi'),'Mutasi Karyawan/Mitra',MB_OK or MB_ICONERROR);
+                if (StrGrid.CellStyle[1,IntRow].Font.Color<>clRed) or (StrGrid.Cells[22,IntRow]='1') or (StrGrid.Cells[22,IntRow]='2') then begin
+                  if StrGrid.Cells[22,IntRow]='0' then begin
+                    EmployeeIdRenewal:=TEmployeeIdRenewal.Create(Self,StrGrid.Cells[4,IntRow],StrEmplType);
+                  end else begin
+                    if (StrGrid.CellStyle[1,IntRow].Font.Color=clRed) then EmployeeMutationForm:=TEmployeeMutationForm.Create(Self,StrGrid.Cells[4,IntRow],StrEmplType,0)
+                    else EmployeeMutationForm:=TEmployeeMutationForm.Create(Self,StrGrid.Cells[4,IntRow],StrEmplType)
+                  end;
+                end else MessageBox(0,PChar('Mitra Bermasalah Silahkan Otorisasi'),'Mutasi Karyawan/Mitra',MB_OK or MB_ICONERROR);
             end else if (RightStr(IntToStr(TreeTag),2)='05')  then begin
-              EmployeeForm:=TEmployeeForm.Create(nil,StrEmplType,StrGrid.Cells[4,IntRow]);
+               EmployeeForm:=TEmployeeForm.Create(nil,StrEmplType,StrGrid.Cells[4,IntRow]);
               //Close;
             end else if (RightStr(IntToStr(TreeTag),2)='09') then begin
               if EmpType='1' then
@@ -519,6 +531,15 @@ begin
             end else if (RightStr(IntToStr(TreeTag),2)='21') then begin
               EmployeeCommissionForm:=TEmployeeCommissionForm.Create(Self,StrGrid.Cells[4,IntRow],StrEmplType);
             end else begin
+             { if StrEmplType ='BusBoy' then
+                begin
+                  if IsMoveBusBoy Then
+                   BookingForm.SetEmployeeId(StrGrid.Cells[0,IntRow],True, '', True)
+                   else
+                   BookingForm.SetEmployeeId(StrGrid.Cells[0,IntRow],True);
+                  Close;
+                end
+              else  }
               EmployeeForm:=TEmployeeForm.Create(nil,StrEmplType,StrGrid.Cells[4,IntRow],False,True);
               //Close;
             end;

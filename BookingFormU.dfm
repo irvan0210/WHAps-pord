@@ -1,11 +1,11 @@
 object BookingForm: TBookingForm
-  Left = 209
-  Top = 127
+  Left = 249
+  Top = 303
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Penjadwalan'
   ClientHeight = 575
-  ClientWidth = 1081
+  ClientWidth = 1129
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -98,7 +98,7 @@ object BookingForm: TBookingForm
     end
   end
   object Selesai: TButton
-    Left = 990
+    Left = 992
     Top = 232
     Width = 75
     Height = 25
@@ -107,7 +107,7 @@ object BookingForm: TBookingForm
     OnClick = SelesaiClick
   end
   object Simpan: TButton
-    Left = 992
+    Left = 994
     Top = 136
     Width = 73
     Height = 25
@@ -116,7 +116,7 @@ object BookingForm: TBookingForm
     OnClick = SimpanClick
   end
   object CetakUlang: TButton
-    Left = 990
+    Left = 992
     Top = 200
     Width = 75
     Height = 25
@@ -125,7 +125,7 @@ object BookingForm: TBookingForm
     OnClick = CetakUlangClick
   end
   object Bersihkan: TButton
-    Left = 990
+    Left = 992
     Top = 168
     Width = 75
     Height = 25
@@ -523,7 +523,7 @@ object BookingForm: TBookingForm
     end
   end
   object ListKunciCepat: TMemo
-    Left = 888
+    Left = 889
     Top = 24
     Width = 169
     Height = 81
@@ -544,7 +544,7 @@ object BookingForm: TBookingForm
     BevelOuter = bvNone
     TabOrder = 13
     object isFix: TCheckBox
-      Left = 0
+      Left = -1
       Top = -1
       Width = 105
       Height = 17
@@ -555,7 +555,7 @@ object BookingForm: TBookingForm
   object GroupOrder: TGroupBox
     Left = 8
     Top = 264
-    Width = 1057
+    Width = 1116
     Height = 247
     Caption = 'Data Pesanan'
     TabOrder = 14
@@ -574,12 +574,12 @@ object BookingForm: TBookingForm
       ParentFont = False
     end
     object StrGrid: TZColorStringGrid
-      Left = 8
+      Left = 0
       Top = 16
-      Width = 1041
+      Width = 1099
       Height = 224
       TabStop = False
-      ColCount = 10
+      ColCount = 12
       DefaultRowHeight = 36
       DefaultDrawing = False
       FixedColor = clBtnFace
@@ -607,6 +607,8 @@ object BookingForm: TBookingForm
       DefaultFixedCellStyle.BGColor = clBtnFace
       LineDesign.LineUpColor = clWhite
       ColWidths = (
+        64
+        64
         64
         64
         64

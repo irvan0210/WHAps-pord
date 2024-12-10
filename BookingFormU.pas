@@ -320,15 +320,16 @@ type
     procedure DeleteOrderDetail;
     procedure DeleteVehicleDetail;
     procedure DeleteDriverDetail;
+    procedure DeleteBusboy;
     procedure ShowCustomerDetail;
   public
     { Public declarations }
     procedure SetOrderId(Order_Id:String);
     procedure RefreshHeader;
     procedure SetOrderDetail(Order_Detail_Id:String;Str_Reason:String='');
-
     procedure SetVehicleId(Vehicle_Id:String;Remarks:String='';IsMoveUnit:Boolean=False;VhcBatchId_Old:String='';VhcBatchId_New:String='');
     procedure SetEmployeeId(Employee_Id:String; Is_First:Boolean=True; Employee_Name:String=''; IsMoveDriver:Boolean=False);
+    procedure SetEmp_BusBoy_Id(Employee_Id:String; Is_First:Boolean=True; Employee_Name:String=''; IsMoveBusBoy:Boolean=False);
     procedure RePrint(Reserved_Id:String='';Customer_Order_Id:String='');
 //    constructor Create(AOwner:TComponent);Overload;
     constructor Create(AOwner:TComponent;Booking_Id:String='';Is_Input:Boolean=True;Form_Request:String='';Orders_Id:String='');Overload;
@@ -343,7 +344,7 @@ implementation
 uses MainU, DateUtils, ADODB, AuthorizedFormU, OrderFormU, OrderListU,
   VehicleRDListU, EmployeeRDListU, StrUtils, RePrintFormU, BookingListU,
   CustomerU
-  , IntersysAPI_New;
+  , IntersysAPI_New, EmployeeListU;
 
 {$R *.dfm}
 
@@ -457,7 +458,8 @@ begin
   StrGrid.ColWidths[8]:=55;
   StrGrid.ColWidths[9]:=80;
   StrGrid.ColWidths[10]:=80;
-  StrGrid.ColWidths[11]:=100;
+  StrGrid.ColWidths[11]:=80;
+  StrGrid.ColWidths[12]:=100;
   //col 12=product_price_id
   //col 13=customer_order_detail_id [00##00##00]
   //col 14=vhc_batch_id
@@ -470,7 +472,7 @@ begin
   //col 21=vhc_trans_id
   //col 22=vehicle_change_remark
   //col 23=reserved_order_detail_id
-  for IntCount:=12 to StrGrid.ColCount-1 do StrGrid.ColWidths[IntCount]:=0;
+  for IntCount:=13 to StrGrid.ColCount-1 do StrGrid.ColWidths[IntCount]:=0;
   StrGrid.MergeCells.AddRectXY(0,0,0,1);
   StrGrid.MergeCells.AddRectXY(1,0,1,1);
   StrGrid.MergeCells.AddRectXY(2,0,2,1);
@@ -481,6 +483,7 @@ begin
   StrGrid.MergeCells.AddRectXY(9,0,9,1);
   StrGrid.MergeCells.AddRectXY(10,0,10,1);
   StrGrid.MergeCells.AddRectXY(11,0,11,1);
+  StrGrid.MergeCells.AddRectXY(12,0,12,1);
   StrGrid.RowHeights[0]:=20;
   StrGrid.RowHeights[1]:=20;
   StrGrid.Cells[0,0]:='Armada';
@@ -492,7 +495,8 @@ begin
   StrGrid.Cells[8,0]:='No Body';
   StrGrid.Cells[9,0]:='Driver';
   StrGrid.Cells[10,0]:='Driver';
-  StrGrid.Cells[11,0]:='Keterangan';
+  StrGrid.Cells[11,0]:='Helper';
+  StrGrid.Cells[12,0]:='Keterangan';
   StrGrid.Cells[4,1]:='Berangkat';
   StrGrid.Cells[5,1]:='Selesai';
   StrGrid.Cells[6,1]:='Berangkat';
@@ -507,6 +511,7 @@ begin
   StrGrid.CellStyle[9,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[10,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[11,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[12,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[4,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[5,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[6,1].HorizontalAlignment:=taCenter;
@@ -688,13 +693,13 @@ begin
     StrGrid.Cells[4,IntFreeRow]:=StrFromDates;
     StrGrid.Cells[5,IntFreeRow]:=StrToDates;
     StrGrid.Cells[6,IntFreeRow]:=StrFromTime;
-    StrGrid.Cells[12,IntFreeRow]:=StrProductPrice;
-    StrGrid.Cells[13,IntFreeRow]:=Order_Detail_Id;
-    StrGrid.Cells[14,IntFreeRow]:=StrVhcBatchId;
-    StrGrid.Cells[17,IntFreeRow]:=StrSeat;
-    StrGrid.Cells[19,IntFreeRow]:=StrFullDay;
-    StrGrid.Cells[20,IntFreeRow]:=StrHour;
-    if Str_Reason<>'' then StrGrid.Cells[22,IntFreeRow]:=Str_Reason;
+    StrGrid.Cells[13,IntFreeRow]:=StrProductPrice;   //sudah diganti
+    StrGrid.Cells[14,IntFreeRow]:=Order_Detail_Id;  //sudah diganti
+    StrGrid.Cells[15,IntFreeRow]:=StrVhcBatchId;   //sudah diganti
+    StrGrid.Cells[18,IntFreeRow]:=StrSeat;       //sudah diganti
+    StrGrid.Cells[20,IntFreeRow]:=StrFullDay;     //sudah diganti
+    StrGrid.Cells[21,IntFreeRow]:=StrHour;         //sudah diganti
+    if Str_Reason<>'' then StrGrid.Cells[23,IntFreeRow]:=Str_Reason;    //sudah diganti
   end else
     MessageBox(Handle,'Jenis Kendaraan tidak Sama'+Chr(13)+Chr(13)+'Gagal Menambah Data','Penjadwalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
   if IntFreeRow>StrGrid.RowCount-2 then begin
@@ -714,10 +719,10 @@ begin
   if Vehicle_Id<>'' then begin
     IsFree:=True;
     for IntCount:=MinRowGrid+1 to StrGrid.RowCount-1 do
-      if (StrGrid.Cells[0,IntCount]<>'') and (StrGrid.Cells[13,IntCount]<>'') and (StrGrid.Cells[15,IntCount]<>'') then begin
+      if (StrGrid.Cells[0,IntCount]<>'') and (StrGrid.Cells[14,IntCount]<>'') and (StrGrid.Cells[16,IntCount]<>'') then begin    //sudah diganti
         if LeftStr(Vehicle_Id,8)<>'BU000000' then begin
           if (StrGrid.Cells[4,IntCount]=StrGrid.Cells[4,IntRow]) and (StrGrid.Cells[5,IntCount]=StrGrid.Cells[5,IntRow])
-          and (StrGrid.Cells[6,IntCount]=StrGrid.Cells[6,IntRow]) and (StrGrid.Cells[15,IntCount]=Vehicle_Id) then IsFree:=False;
+          and (StrGrid.Cells[6,IntCount]=StrGrid.Cells[6,IntRow]) and (StrGrid.Cells[16,IntCount]=Vehicle_Id) then IsFree:=False;   //sudah diganti
         end;
       end;
     StrBodyIdAsal := StrGrid.Cells[8,IntRow];
@@ -737,22 +742,22 @@ begin
             if (StrGrid.Cells[21,IntCount]='')   then begin
                 if Qry.RecordCount>0 then begin
                   if StrBodyIdAsal=StrGrid.Cells[8,IntCount] then begin
-                    StrGrid.Cells[15,IntCount]:=Qry.FieldValues['vehicle_id'];
+                    StrGrid.Cells[16,IntCount]:=Qry.FieldValues['vehicle_id'];  //sudah diganti
                     StrGrid.Cells[8,IntCount]:=Qry.FieldValues['body_id'];
-                    StrGrid.Cells[22,IntCount]:=StrGrid.Cells[22,IntCount]+StrRemark;
+                    StrGrid.Cells[23,IntCount]:=StrGrid.Cells[22,IntCount]+StrRemark;   //sudah diganti
                     if Qry.FieldValues['name']<>NULL then begin
                       StrGrid.Cells[9,IntCount]:=Qry.FieldValues['name'];
-                      StrGrid.Cells[16,IntCount]:=Qry.FieldValues['employee_id'];
-                      StrGrid.Cells[24,IntCount]:=Qry.FieldValues['name']; {driver name}
-                      StrGrid.Cells[25,IntCount]:=Qry.FieldValues['cellular_no'];
+                      StrGrid.Cells[17,IntCount]:=Qry.FieldValues['employee_id'];    //sudah diganti
+                      StrGrid.Cells[25,IntCount]:=Qry.FieldValues['name']; {driver name}   //sudah diganti
+                      StrGrid.Cells[26,IntCount]:=Qry.FieldValues['cellular_no'];      //sudah diganti
                     end;
-                    StrGrid.Cells[26,IntCount]:=LicensePlate(Qry.FieldValues['license_plate']);
+                    StrGrid.Cells[27,IntCount]:=LicensePlate(Qry.FieldValues['license_plate']);  //sudah diganti
 
                     if Trim(VhcBatchId_Old)<>Trim(VhcBatchId_New) Then begin
-                      StrGrid.Cells[27,IntCount] := VhcBatchId_Old+'|'+VhcBatchId_New;
+                      StrGrid.Cells[28,IntCount] := VhcBatchId_Old+'|'+VhcBatchId_New;   //sudah diganti
                       //StrGrid.Cells[22,IntCount] := StrGrid.Cells[22,IntCount]+StrRemark+VhcBatchId_Old+'|'+VhcBatchId_New;
                     end else begin
-                      StrGrid.Cells[27,IntCount] := '';
+                      StrGrid.Cells[28,IntCount] := '';   //sudah diganti
                       //StrGrid.Cells[22,IntCount] := StrGrid.Cells[22,IntCount]+StrRemark+VhcBatchId_Old+'|'+VhcBatchId_New;
                     end;
                   end;
@@ -761,22 +766,22 @@ begin
           end;
         end else begin
           if Qry.RecordCount>0 then begin
-            StrGrid.Cells[15,IntRow]:=Qry.FieldValues['vehicle_id'];
+            StrGrid.Cells[16,IntRow]:=Qry.FieldValues['vehicle_id'];  //sudah diganti
             StrGrid.Cells[8,IntRow]:=Qry.FieldValues['body_id'];
-            StrGrid.Cells[22,IntRow]:=StrGrid.Cells[22,IntRow]+StrRemark;
+            StrGrid.Cells[23,IntRow]:=StrGrid.Cells[22,IntRow]+StrRemark;   //sudah diganti
             if Qry.FieldValues['name']<>NULL then begin
               StrGrid.Cells[9,IntRow]:=Qry.FieldValues['name'];
-              StrGrid.Cells[16,IntRow]:=Qry.FieldValues['employee_id'];
-              StrGrid.Cells[24,IntRow]:=Qry.FieldValues['name']; {driver name}
-              StrGrid.Cells[25,IntRow]:=Qry.FieldValues['cellular_no'];
+              StrGrid.Cells[17,IntRow]:=Qry.FieldValues['employee_id'];  //sudah diganti
+              StrGrid.Cells[25,IntRow]:=Qry.FieldValues['name']; {driver name}  //sudah diganti
+              StrGrid.Cells[26,IntRow]:=Qry.FieldValues['cellular_no'];    //sudah diganti
             end;
-            StrGrid.Cells[26,IntRow]:=LicensePlate(Qry.FieldValues['license_plate']);
+            StrGrid.Cells[27,IntRow]:=LicensePlate(Qry.FieldValues['license_plate']);  //sudah diganti
 
             if Trim(VhcBatchId_Old)<>Trim(VhcBatchId_New) Then begin
-              StrGrid.Cells[27,IntRow] := VhcBatchId_Old+'|'+VhcBatchId_New;
+              StrGrid.Cells[28,IntRow] := VhcBatchId_Old+'|'+VhcBatchId_New;  //sudah diganti
               //StrGrid.Cells[22,IntRow] := StrGrid.Cells[22,IntRow]+StrRemark+VhcBatchId_Old+'|'+VhcBatchId_New;
             end else begin
-              StrGrid.Cells[27,IntRow] := '';
+              StrGrid.Cells[28,IntRow] := '';   //sudah diganti
               //StrGrid.Cells[22,IntRow] := StrGrid.Cells[22,IntRow]+StrRemark+VhcBatchId_Old+'|'+VhcBatchId_New;
             end;
 
@@ -806,13 +811,14 @@ begin
     if (StrPos(PChar(UpperCase(Employee_Name)),PChar(UpperCase('SEWA')))<>nil) then IsFound:=True;
 
     for IntCount:=MinRowGrid+1 to StrGrid.RowCount-1 do
-      if (StrGrid.Cells[0,IntCount]<>'') and (StrGrid.Cells[13,IntCount]<>'') and (StrGrid.Cells[15,IntCount]<>'') then begin
+      if (StrGrid.Cells[0,IntCount]<>'') and (StrGrid.Cells[14,IntCount]<>'') and (StrGrid.Cells[16,IntCount]<>'') then begin    //sudah diganti
         if (Employee_Id<>'BU00000001') or IsFound then begin
           if (StrGrid.Cells[4,IntCount]=StrGrid.Cells[4,IntRow]) and (StrGrid.Cells[5,IntCount]=StrGrid.Cells[5,IntRow])
           and (StrGrid.Cells[6,IntCount]=StrGrid.Cells[6,IntRow])
-          and ((StrGrid.Cells[16,IntCount]=Employee_Id) or (StrGrid.Cells[18,IntCount]=Employee_Id)) then IsFree:=False;
+          and ((StrGrid.Cells[17,IntCount]=Employee_Id) or (StrGrid.Cells[19,IntCount]=Employee_Id)) then IsFree:=False;   //sudah diganti
         end;
       end;
+
     if IsFree=True then begin
       Qry:=TADOQuery.Create(Self);
       Qry.Connection:=Main.MyConnection;
@@ -828,12 +834,12 @@ begin
             if Qry.RecordCount>0 then begin
               if Is_First then begin
                 StrGrid.Cells[9,IntCount]:=Qry.FieldValues['name'];
-                StrGrid.Cells[16,IntCount]:=Qry.FieldValues['employee_id'];
-                StrGrid.Cells[24,IntCount]:=Qry.FieldValues['name']; {driver name}
-                StrGrid.Cells[25,IntCount]:=Qry.FieldValues['cellular_no'];
+                StrGrid.Cells[17,IntCount]:=Qry.FieldValues['employee_id'];    //sudah diganti
+                StrGrid.Cells[25,IntCount]:=Qry.FieldValues['name']; {driver name}   //sudah diganti
+                StrGrid.Cells[26,IntCount]:=Qry.FieldValues['cellular_no'];     //sudah diganti
               end else begin
                 StrGrid.Cells[10,IntCount]:=Qry.FieldValues['name'];
-                StrGrid.Cells[18,IntCount]:=Qry.FieldValues['employee_id'];
+                StrGrid.Cells[19,IntCount]:=Qry.FieldValues['employee_id'];   //sudah diganti
               end;
             end;
           end;
@@ -842,12 +848,12 @@ begin
           if Qry.RecordCount>0 then begin
             if Is_First then begin
               StrGrid.Cells[9,IntRow]:=Qry.FieldValues['name'];
-              StrGrid.Cells[16,IntRow]:=Qry.FieldValues['employee_id'];
-              StrGrid.Cells[24,IntRow]:=Qry.FieldValues['name']; {driver name}
-              StrGrid.Cells[25,IntRow]:=Qry.FieldValues['cellular_no'];
+              StrGrid.Cells[17,IntRow]:=Qry.FieldValues['employee_id'];     //sudah diganti
+              StrGrid.Cells[25,IntRow]:=Qry.FieldValues['name']; {driver name}  //sudah diganti
+              StrGrid.Cells[26,IntRow]:=Qry.FieldValues['cellular_no'];    //sudah diganti
             end else begin
               StrGrid.Cells[10,IntRow]:=Qry.FieldValues['name'];
-              StrGrid.Cells[18,IntRow]:=Qry.FieldValues['employee_id'];
+              StrGrid.Cells[19,IntRow]:=Qry.FieldValues['employee_id'];   //sudah diganti
             end;
           end;
           Qry.Close;
@@ -860,6 +866,81 @@ begin
   end;
   Main.M_Normal;
 end;
+
+procedure TBookingForm.SetEmp_BusBoy_Id(Employee_Id:String; Is_First:Boolean=True; Employee_Name:String=''; IsMoveBusBoy:Boolean=False);
+var Qry:TADOQuery;
+    StrQry:String;
+    IntCount:Integer;
+    IsFree,IsFound:Boolean;
+begin
+  if Employee_Id<>'' then begin
+    IsFree:=True;
+    IsFound:=False;
+    if (StrPos(PChar(UpperCase(Employee_Name)),PChar(UpperCase('SEWA')))<>nil) then IsFound:=True;
+
+    for IntCount:=MinRowGrid+1 to StrGrid.RowCount-1 do
+      if (StrGrid.Cells[0,IntCount]<>'') and (StrGrid.Cells[14,IntCount]<>'') and (StrGrid.Cells[16,IntCount]<>'') then    //sudah diganti
+        begin
+          if (Employee_Id<>'BU00000001') or IsFound then begin
+           // MessageBox(0,PChar(StrGrid.Cells[16,IntRow]+' , '+StrGrid.Cells[18,IntRow]),'Penjadwalan',MB_OK or MB_ICONWARNING);
+            if (StrGrid.Cells[4,IntCount]=StrGrid.Cells[4,IntRow])  //tanggal
+            and (StrGrid.Cells[5,IntCount]=StrGrid.Cells[5,IntRow]) // tanggal
+            and (StrGrid.Cells[6,IntCount]=StrGrid.Cells[6,IntRow]) // jam
+            and ((StrGrid.Cells[33,IntCount]=Employee_Id)) then IsFree:=False; //or (StrGrid.Cells[18,IntCount]=Employee_Id)
+          end;
+        end;
+
+    if IsFree=True then begin
+      Qry:=TADOQuery.Create(Self);
+      Qry.Connection:=Main.MyConnection;
+      Qry.CommandTimeout := 3600;
+      Main.M_Busy;
+      if Main.OpenDb then begin
+        StrQry:='EXEC GetEmployeeDetail '+QuotedStr(Employee_Id)+';';
+        Main.WriteLog('SQL :'+StrQry,2);
+        Qry.SQL.Add(StrQry);
+        Qry.Open;
+        if IsMoveBusBoy Then begin
+          for IntCount:=MinRowGrid+1 to StrGrid.RowCount-1 do begin
+            if Qry.RecordCount>0 then begin
+              if Is_First then begin
+                StrGrid.Cells[11,IntCount]:=Qry.FieldValues['name'];
+                StrGrid.Cells[33,IntCount]:=Qry.FieldValues['employee_id'];
+
+              end else begin
+                StrGrid.Cells[11,IntCount]:=Qry.FieldValues['name'];
+                StrGrid.Cells[33,IntCount]:=Qry.FieldValues['employee_id'];
+
+              end;
+            end;
+          end;
+          Qry.Close;
+
+        end
+
+        else begin
+          if Qry.RecordCount>0 then begin
+            if Is_First then begin
+              StrGrid.Cells[11,IntRow]:=Qry.FieldValues['name'];
+              StrGrid.Cells[33,IntRow]:=Qry.FieldValues['employee_id'];
+
+            end else begin
+              StrGrid.Cells[11,IntRow]:=Qry.FieldValues['name'];
+              StrGrid.Cells[33,IntRow]:=Qry.FieldValues['employee_id'];
+            end;
+          end;
+          Qry.Close;
+        end;
+      end;
+      FreeAndNil(Qry);
+      Main.CloseDb;
+    end else
+      MessageBox(Handle,'Kernet sudah dijadwalkan, Silahkan cek kembali','Penjadwalan',MB_OK or MB_ICONINFORMATION or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+  end;
+  Main.M_Normal;
+end;
+
+
 
 procedure TBookingForm.LoadData;
 var Qry:TADOQuery;
@@ -943,34 +1024,34 @@ begin
       StrGrid.Cells[8,IntCount]:=Qry.FieldValues['body_id'];
       StrGrid.Cells[9,IntCount]:=Qry.FieldValues['driver_name'];
       if Qry.FieldValues['driver_name2']<>NULL then StrGrid.Cells[10,IntCount]:=Qry.FieldValues['driver_name2'];
-
-      if Qry.FieldValues['remark']<>NULL then StrGrid.Cells[11,IntCount]:=Qry.FieldValues['remark'];
-
-      StrGrid.Cells[12,IntCount]:=Qry.FieldValues['product_price_id'];
-      StrGrid.Cells[13,IntCount]:=LeftStr(Qry.FieldValues['customer_order_detail_id_resume'],Length(Qry.FieldValues['customer_order_detail_id_resume'])-2);
-      StrGrid.Cells[14,IntCount]:=Qry.FieldValues['vhc_batch_id'];
-      StrGrid.Cells[15,IntCount]:=Qry.FieldValues['vehicle_id'];
-      StrGrid.Cells[16,IntCount]:=Qry.FieldValues['employee_id'];
-      StrGrid.Cells[17,IntCount]:=Qry.FieldValues['seat'];
-      if Qry.FieldValues['employee_id2']<>NULL then StrGrid.Cells[18,IntCount]:=Qry.FieldValues['employee_id2'];
-      StrGrid.Cells[19,IntCount]:=Qry.FieldValues['full_day'];
-      StrGrid.Cells[20,IntCount]:=Qry.FieldValues['hour'];
-      for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount].Font.Color:=clWindowText;
+      if Qry.FieldValues['busboy_name']<>NULL then StrGrid.Cells[11,IntCount]:=Qry.FieldValues['busboy_name'];
+     // else StrGrid.Cells[11,IntCount]:='Tes Kenek';
+      if Qry.FieldValues['remark']<>NULL then StrGrid.Cells[12,IntCount]:=Qry.FieldValues['remark'];  //sudah diganti
+      StrGrid.Cells[13,IntCount]:=Qry.FieldValues['product_price_id'];     //sudah diganti
+      StrGrid.Cells[14,IntCount]:=LeftStr(Qry.FieldValues['customer_order_detail_id_resume'],Length(Qry.FieldValues['customer_order_detail_id_resume'])-2);    //sudah diganti
+      StrGrid.Cells[15,IntCount]:=Qry.FieldValues['vhc_batch_id'];   //sudah diganti
+      StrGrid.Cells[16,IntCount]:=Qry.FieldValues['vehicle_id'];    //sudah diganti
+      StrGrid.Cells[17,IntCount]:=Qry.FieldValues['employee_id'];    //sudah diganti
+      StrGrid.Cells[18,IntCount]:=Qry.FieldValues['seat'];        //sudah diganti
+      if Qry.FieldValues['employee_id2']<>NULL then StrGrid.Cells[19,IntCount]:=Qry.FieldValues['employee_id2'];   //sudah diganti
+      StrGrid.Cells[20,IntCount]:=Qry.FieldValues['full_day'];   //sudah diganti
+      StrGrid.Cells[21,IntCount]:=Qry.FieldValues['hour'];   //sudah diganti
+      for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount].Font.Color:=clWindowText;   //sudah diganti
       if (Qry.FieldValues['vhc_trans_id']<>NULL) AND (Qry.FieldValues['vhc_trans_id']<>'') then begin
-        StrGrid.Cells[21,IntCount]:=Qry.FieldValues['vhc_trans_id'];
+        StrGrid.Cells[22,IntCount]:=Qry.FieldValues['vhc_trans_id'];     //sudah diganti
         GroupBatal.Enabled:=False;
 //        IsCanCancel:=False;
         for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount].Font.Color:=clGreen;
       end;
-      StrGrid.Cells[23,IntCount]:=Qry.FieldValues['reserved_order_detail_id'];
-      StrGrid.Cells[24,IntCount]:=Qry.FieldValues['driver_name'];
-      StrGrid.Cells[25,IntCount]:=Qry.FieldValues['driver_cellphone'];
-      StrGrid.Cells[26,IntCount]:=LicensePlate(Qry.FieldValues['license_plate']);
-      StrGrid.Cells[28,IntCount]:=Qry.FieldValues['is_Auth'];
-      StrGrid.Cells[29,IntCount]:=Qry.FieldValues['is_AuthReason'];
-      StrGrid.Cells[30,IntCount]:=Qry.FieldValues['employee_id'];
-      StrGrid.Cells[31,IntCount]:=Qry.FieldValues['vehicle_id'];
-
+      StrGrid.Cells[24,IntCount]:=Qry.FieldValues['reserved_order_detail_id'];    //sudah diganti
+      StrGrid.Cells[25,IntCount]:=Qry.FieldValues['driver_name'];   //sudah diganti
+      StrGrid.Cells[26,IntCount]:=Qry.FieldValues['driver_cellphone'];   //sudah diganti
+      StrGrid.Cells[27,IntCount]:=LicensePlate(Qry.FieldValues['license_plate']);  //sudah diganti
+      StrGrid.Cells[29,IntCount]:=Qry.FieldValues['is_Auth'];  //sudah diganti
+      StrGrid.Cells[30,IntCount]:=Qry.FieldValues['is_AuthReason'];    //sudah diganti
+      StrGrid.Cells[31,IntCount]:=Qry.FieldValues['employee_id'];  //sudah diganti
+      StrGrid.Cells[32,IntCount]:=Qry.FieldValues['vehicle_id']; //sudah diganti
+      StrGrid.Cells[33,IntCount]:=Qry.FieldValues['busboy_id'];
       Qry.Next;
       Inc(IntCount)
     end;
@@ -1080,7 +1161,8 @@ begin
             BringToFront;
             SetFocus;
           end;
-        11:with DetailRemark do begin
+
+        12:with DetailRemark do begin   //sudah diganti
             Left:=R.Left + 1;
             Top := R.Top + 1;
             Width := (R.Right + 1) - R.Left;
@@ -1100,7 +1182,7 @@ procedure TBookingForm.SimpanClick(Sender: TObject);
 var Qry,QryWehaOnline:TADOQuery;
     StrQry,StrQryLog,StrOrderId,StrCustomerId,StrQryWehaOnlineUser,StrQryWehaOnline,StrQryWehaOnlineCek:String;
     StrProductPriceId,StrDestination,StrPickup,StrFromDates,StrToDates,StrFromTimes,StrToTimes,StrTimeStandby,StrRemark,StrRemarkChangeVehicle,
-    StrIsAuth,StrIsAuthReason,StrOrderDetailVehicleID,StrWehaUserID:String;
+    StrIsAuth,StrIsAuthReason,StrOrderDetailVehicleID,StrWehaUserID, StremployeeId3:String;
     StrBatchOld, StrBatchNew, StrSeatNew, StrSeatOld, StrEmployeeOld,StrVehicleOld, StrStatusOrderVehicleInfos: string;
     StrStatus,StrRevision,StrVehicleId,StrEmployeeId,StremployeeId2,StrFullDay,StrCustomerOrderId,StrTransIds,StrError:String;
     StrTransId2,StrVhcTransId,StrRemarkChange,StrLockBooking,StrFix:String;
@@ -1185,7 +1267,7 @@ begin
           IntUnits:=Qry.FieldValues['units'];
 
           for IntCount:=2 to StrGrid.RowCount-1 do begin
-            if (StrGrid.Cells[0,IntCount]<>'') and (StrGrid.Cells[13,IntCount]<>'') then
+            if (StrGrid.Cells[0,IntCount]<>'') and (StrGrid.Cells[14,IntCount]<>'') then    //sudah diganti
             begin
               if(StrGrid.Cells[7,IntCount]='') then
               begin
@@ -1198,7 +1280,7 @@ begin
                 EnableInput;
                 Exit;
               end;
-              if(StrGrid.Cells[15,IntCount]='') then
+              if(StrGrid.Cells[16,IntCount]='') then    //sudah diganti
               begin
                 StrEMsg:='No Body wajib diisi!';
                 MessageBox(Handle,PChar('Data Gagal Disimpan'+Chr(13)+Chr(13)+StrEMsg),'Penjadwalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
@@ -1209,7 +1291,7 @@ begin
                 EnableInput;
                 Exit;
               end;
-              if(StrGrid.Cells[16,IntCount]='') then
+              if(StrGrid.Cells[17,IntCount]='') then    //sudah diganti
               begin
                 StrEMsg:='Driver wajib diisi!';
                 MessageBox(Handle,PChar('Data Gagal Disimpan'+Chr(13)+Chr(13)+StrEMsg),'Penjadwalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
@@ -1393,7 +1475,7 @@ begin
             end;
           end;
 
-          if (StrIsOnline='1') AND (LeftStr(UpperCase(FormRequest),11)='WAITINGLIST') then
+          if (StrIsOnline='1') AND (LeftStr(UpperCase(FormRequest),12)='WAITINGLIST') then  //sudah diganti
           begin
             StrQryWehaOnlineCek:='SELECT a.OrderDetailVehicleID FROM OrderDetailVehicles a '+
                                  'LEFT JOIN OrderDetails b ON a.OrderDetailID=b.OrderDetailID '+
@@ -1436,54 +1518,56 @@ begin
               //ShowMessage(IntToStr(StrGrid.RowCount));
               for IntCount:=2 to StrGrid.RowCount-1 do begin
 
-                if (StrGrid.Cells[0,IntCount]<>'') and (StrGrid.Cells[13,IntCount]<>'')
-                and (StrGrid.Cells[15,IntCount]<>'') and (StrGrid.Cells[16,IntCount]<>'') then begin
+                if (StrGrid.Cells[0,IntCount]<>'') and (StrGrid.Cells[14,IntCount]<>'') //sudah diganti
+                and (StrGrid.Cells[15,IntCount]<>'') and (StrGrid.Cells[17,IntCount]<>'') then begin   //sudah diganti
                   Inc(IntCount2);
                   StrQry := '';
                   StrTransIds:=Format('%.*d',[5,StrToInt(StrTransId2)+IntCount2+1]);
                   StrTransIds:='RESR'+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
                                 FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+StrTransIds;
-                  StrProductPriceId:=QuotedStr(StrGrid.Cells[12,IntCount]);
+                  StrProductPriceId:=QuotedStr(StrGrid.Cells[13,IntCount]);  //sudah diganti
                   StrDestination:=QuotedStr(Trim(StrGrid.Cells[1,IntCount]));
                   StrPickup:=QuotedStr(Trim(StrGrid.Cells[2,IntCount]));
                   StrFromDates:=QuotedStr(FormatDateTime('yyyy-mm-dd',StrToDate(StrGrid.Cells[4,IntCount])));
                   StrToDates:=QuotedStr(FormatDateTime('yyyy-mm-dd',StrToDate(StrGrid.Cells[5,IntCount])));
                   StrFromTimes:=QuotedStr(StrGrid.Cells[6,IntCount]);
                   StrTimeStandby:=QuotedStr(StrGrid.Cells[7,IntCount]);
-                  if StrGrid.Cells[19,IntCount]='2' then StrToTimes:=QuotedStr('23:59')
+                  if StrGrid.Cells[20,IntCount]='2' then StrToTimes:=QuotedStr('23:59')   //sudah diganti
   //              else StrToTimes:=QuotedStr(LeftStr(TimeToStr(StrToTime(StrGrid.Cells[6,IntCount])+EncodeTime(StrToInt(StrGrid.Cells[20,IntCount]),0,0,0)),5));
-                  else StrToTimes:=QuotedStr(FormatDateTime('HH:nn',StrToTime(StrGrid.Cells[6,IntCount])+EncodeTime(StrToInt(StrGrid.Cells[20,IntCount]),0,0,0)));
+                  else StrToTimes:=QuotedStr(FormatDateTime('HH:nn',StrToTime(StrGrid.Cells[6,IntCount])+EncodeTime(StrToInt(StrGrid.Cells[22,IntCount]),0,0,0))); //sudah diganti
                    StrToTimes:=QuotedStr('00:00') ;
 
 //                  if StrPackage<>'1' then begin
-                    StrVehicleId:=QuotedStr(StrGrid.Cells[15,IntCount]);
-                    StrEmployeeId:=QuotedStr(StrGrid.Cells[16,IntCount]);
-                    if StrGrid.Cells[18,IntCount]<>'' then StremployeeId2:=QuotedStr(StrGrid.Cells[18,IntCount]) else StremployeeId2:='NULL';
-                    if StrGrid.Cells[21,IntCount]<>'' then StrVhcTransId:=QuotedStr(StrGrid.Cells[21,IntCount]) else StrVhcTransId:='NULL';
+                    StrVehicleId:=QuotedStr(StrGrid.Cells[16,IntCount]); //sudah diganti
+                    StrEmployeeId:=QuotedStr(StrGrid.Cells[17,IntCount]);  //sudah diganti
+                    if StrGrid.Cells[19,IntCount]<>'' then StremployeeId2:=QuotedStr(StrGrid.Cells[19,IntCount]) else StremployeeId2:='NULL'; //sudah diganti
+                    if StrGrid.Cells[22,IntCount]<>'' then StrVhcTransId:=QuotedStr(StrGrid.Cells[22,IntCount]) else StrVhcTransId:='NULL';   //sudah diganti
 //                  end else begin
 //                    StrVehicleId:='NULL';
 //                    StrEmployeeId:='NULL';
 //                    StremployeeId2:='NULL';
 //                    StrVhcTransId:='NULL';
 //                  end;
-                  StrFullDay:=StrGrid.Cells[19,IntCount];
-                  if StrGrid.Cells[11,IntCount]<>'' then StrRemark:=QuotedStr(StrGrid.Cells[11,IntCount]) else StrRemark:='NULL';
-                  if StrGrid.Cells[22,IntCount]<>'' then StrRemarkChange:=QuotedStr(StrGrid.Cells[22,IntCount]) else StrRemarkChange:='NULL';
+                  StrFullDay:=StrGrid.Cells[20,IntCount]; //sudah diganti
+                  if StrGrid.Cells[12,IntCount]<>'' then StrRemark:=QuotedStr(StrGrid.Cells[12,IntCount]) else StrRemark:='NULL'; //sudah diganti
+                  if StrGrid.Cells[23,IntCount]<>'' then StrRemarkChange:=QuotedStr(StrGrid.Cells[23,IntCount]) else StrRemarkChange:='NULL'; //sudah diganti
 
-                  if StrGrid.Cells[28,IntCount]<>'' then StrIsAuth:=QuotedStr(StrGrid.Cells[28,IntCount]) else StrIsAuth:='NULL';
-                  if StrGrid.Cells[29,IntCount]<>'' then StrIsAuthReason:=QuotedStr(StrGrid.Cells[29,IntCount]) else StrIsAuthReason:='NULL';
-
+                  if StrGrid.Cells[29,IntCount]<>'' then StrIsAuth:=QuotedStr(StrGrid.Cells[29,IntCount]) else StrIsAuth:='NULL';           //sudah diganti
+                  if StrGrid.Cells[30,IntCount]<>'' then StrIsAuthReason:=QuotedStr(StrGrid.Cells[30,IntCount]) else StrIsAuthReason:='NULL'; //sudah diganti
+                  if StrGrid.Cells[33,IntCount]<>'' then StremployeeId3:=QuotedStr(StrGrid.Cells[33,IntCount]) else StremployeeId3:='NULL';
 
   //                isAuth, isAuthReason,
                   if (StrVhcTransId='NULL') then begin
                     StrQry:='INSERT INTO wh_reserved_order_detail (reserved_order_detail_id,reserved_order_id'+
                             ',product_price_id,from_date,to_date,from_time,to_time,standby_time,route,pickup_point'+
-                            ',vehicle_id,employee_id,employee_id2,vhc_trans_id,full_day,remark,remark_change,update_user,isAuth, isAuthReason) VALUES '+
+                            ',vehicle_id,employee_id,employee_id2,vhc_trans_id,full_day,remark,remark_change,update_user,isAuth, '+
+                            ' isAuthReason,employee_id3 ) VALUES '+
                             '('+QuotedStr(StrTransIds)+','+QuotedStr(StrTransId)+','+StrProductPriceId+
                             ','+StrFromDates+','+StrToDates+','+StrFromTimes+','+StrToTimes+','+StrTimeStandby+
                             ','+StrDestination+','+StrPickup+','+StrVehicleId+','+StrEmployeeId+','+StremployeeId2+
-                            ','+StrVhcTransId+','+StrFullDay+','+StrRemark+','+StrRemarkChange+','+QuotedStr(User)+','+StrIsAuth+','+StrIsAuthReason+');';
-                    StrList:=SplitStrings(StrGrid.Cells[13,IntCount],'##');
+                            ','+StrVhcTransId+','+StrFullDay+','+StrRemark+','+StrRemarkChange+','+QuotedStr(User)+
+                            ','+StrIsAuth+','+StrIsAuthReason+','+StremployeeId3+');';
+                    StrList:=SplitStrings(StrGrid.Cells[14,IntCount],'##'); //sudah diganti
 
                     for IntCount3:=0 to StrList.Count-1 do begin
                       if Trim(StrList.Strings[IntCount3])<>'' then begin
@@ -1496,12 +1580,14 @@ begin
                   end else if (StrVhcTransId<>'NULL') then begin
                     StrQry:='INSERT INTO wh_reserved_order_detail (reserved_order_detail_id,reserved_order_id'+
                             ',product_price_id,from_date,to_date,from_time,to_time,standby_time,route,pickup_point'+
-                            ',vehicle_id,employee_id,employee_id2,vhc_trans_id,full_day,remark,remark_change,update_user,isAuth, isAuthReason) VALUES '+
+                            ',vehicle_id,employee_id,employee_id2,vhc_trans_id,full_day,remark,remark_change,update_user,isAuth,'+
+                            ' isAuthReason, employee_id3) VALUES '+
                             '('+QuotedStr(StrTransIds)+','+QuotedStr(StrTransId)+','+StrProductPriceId+
                             ','+StrFromDates+','+StrToDates+','+StrFromTimes+','+StrToTimes+','+StrTimeStandby+
                             ','+StrDestination+','+StrPickup+','+StrVehicleId+','+StrEmployeeId+','+StremployeeId2+
-                            ','+StrVhcTransId+','+StrFullDay+','+StrRemark+','+StrRemarkChange+','+QuotedStr(User)+','+StrIsAuth+','+StrIsAuthReason+');';
-                    StrList:=SplitStrings(StrGrid.Cells[13,IntCount],'##');
+                            ','+StrVhcTransId+','+StrFullDay+','+StrRemark+','+StrRemarkChange+','+QuotedStr(User)+
+                            ','+StrIsAuth+','+StrIsAuthReason+','+StremployeeId3+');';
+                    StrList:=SplitStrings(StrGrid.Cells[14,IntCount],'##'); //sudah diganti
 
                     for IntCount3:=0 to StrList.Count-1 do begin
                       if Trim(StrList.Strings[IntCount3])<>'' then begin
@@ -1531,7 +1617,7 @@ begin
 //                    end;
 //                  end;
 
-                  StrEmployeeOld:=QuotedStr(StrGrid.Cells[30,IntCount]);
+                  StrEmployeeOld:=QuotedStr(StrGrid.Cells[31,IntCount]); //sudah diganti
 
   //                GESER UNIT
                   if (StrIsOnline='1') AND (LeftStr(UpperCase(FormRequest),11)<>'WAITINGLIST') then
@@ -1571,7 +1657,7 @@ begin
                                         'HP,ViewHisOwnData,IsMain,CreatedBy,CreatedDate,'+
                                         'ModifiedBy,ModifiedDate,ViewGroupOnly) VALUES '+
                                         '('+QuotedStr(StrGrid.Cells[9,IntCount])+',''M'' '+
-                                        ','+QuotedStr(StrGrid.Cells[25,IntCount])+',0,0,0 '+
+                                        ','+QuotedStr(StrGrid.Cells[26,IntCount])+',0,0,0 '+ //sudah diganti
                                         ',GETDATE(),0,GETDATE(),0); ';
 
                           QryWehaOnline.SQL.Clear;
@@ -1641,10 +1727,10 @@ begin
                                             ' DriverID='+QuotedStr(QryWehaOnline.FieldValues['UserID'])+','+
                                             ' DriverName='+QuotedStr(QryWehaOnline.FieldValues['FullName'])+', '+
                                             ' DriverPhone='+QuotedStr(QryWehaOnline.FieldValues['HP'])+', '+
-                                            ' VehiclePlateNo='+QuotedStr(StrGrid.Cells[26,IntCount])+', '+
+                                            ' VehiclePlateNo='+QuotedStr(StrGrid.Cells[27,IntCount])+', '+  //sudah diganti
                                             ' IsFixed='+StrFix+ StrStatusOrderVehicleInfos+', '+
                                             ' WEHACustomerNo='+StrEmployeeId+' '+
-                                            ' WHERE WehaReservedCode='+QuotedStr(StrGrid.Cells[23,IntCount])+';';
+                                            ' WHERE WehaReservedCode='+QuotedStr(StrGrid.Cells[24,IntCount])+';';  //sudah diganti
                       end else
                       begin
                         isOk := False;
@@ -1659,7 +1745,7 @@ begin
                   end;
 
   //                WAITINGLIST
-                  if (StrIsOnline='1') AND (LeftStr(UpperCase(FormRequest),11)='WAITINGLIST') then
+                  if (StrIsOnline='1') AND (LeftStr(UpperCase(FormRequest),12)='WAITINGLIST') then   //sudah diganti
                   begin
 
                     StrOrderDetailVehicleID:= StrOrderDetailVehicleID;
@@ -1680,7 +1766,7 @@ begin
                                         ',ModifiedDate,WEHACustomerNo) VALUES '+
                                         '('+QuotedStr(StrOrderDetailVehicleID)+' '+
                                         ','+QuotedStr(StrTransIds)+' '+
-                                        ','+QuotedStr(StrGrid.Cells[26,IntCount])+' '+
+                                        ','+QuotedStr(StrGrid.Cells[27,IntCount])+' '+    //sudah diganti
                                         ','+QuotedStr(QryWehaOnline.FieldValues['FullName'])+' '+
                                         ','+QuotedStr(QryWehaOnline.FieldValues['HP'])+' '+
                                         ',''ORDERED'',588,0 '+
@@ -1690,11 +1776,11 @@ begin
                   end;
 
                   StrQryLog:='';
-                  StrRemarkChangeVehicle:=QuotedStr(StrGrid.Cells[27,IntCount]);
-                  StrList:=SplitStrings(StrGrid.Cells[27,IntCount],'|');
+                  StrRemarkChangeVehicle:=QuotedStr(StrGrid.Cells[28,IntCount]);   //sudah diganti
+                  StrList:=SplitStrings(StrGrid.Cells[28,IntCount],'|');  //sudah diganti
                   StrBatchOld := StrList.Strings[0];
-                  StrSeatOld  := StrGrid.Cells[17,IntCount];
-                  StrVehicleOld:=StrGrid.Cells[31,IntCount];
+                  StrSeatOld  := StrGrid.Cells[18,IntCount]; //sudah diganti
+                  StrVehicleOld:=StrGrid.Cells[33,IntCount]; //sudah diganti
 
 
   //                if (StrEmployeeId<>StrEmployeeOld) then begin
@@ -1915,7 +2001,7 @@ begin
                   Exit;
                 end;
               end;
-              if LeftStr(UpperCase(FormRequest),11)='WAITINGLIST' then
+              if LeftStr(UpperCase(FormRequest),12)='WAITINGLIST' then  //sudah diganti
               begin
                 if Status.Checked=True then
                 begin
@@ -2084,7 +2170,7 @@ begin
             end else begin
               Main.TransRollback;
               Main.WriteLog('Form Save: Fail='+StrEMsg,1);
-              if LeftStr(UpperCase(FormRequest),11)='WAITINGLIST' then begin
+              if LeftStr(UpperCase(FormRequest),12)='WAITINGLIST' then begin  //sudah diganti
                 MessageBox(Handle,PChar('Data Gagal Disimpan..'+Chr(13)+Chr(13)+StrEMsgAPI+Chr(13)+Chr(13)),'Penjadwalan Data Tunggu',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
               end else begin
                 MessageBox(Handle,PChar('Data Gagal Disimpan..'+Chr(13)+Chr(13)+StrEMsg+Chr(13)+Chr(13)),'Penjadwalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
@@ -2115,7 +2201,7 @@ begin
   RefreshCombo;
   RefreshHeader;
   GroupIsFix.Enabled:=True;
-  if LeftStr(UpperCase(FormRequest),11)='WAITINGLIST' then begin
+  if LeftStr(UpperCase(FormRequest),12)='WAITINGLIST' then begin
     Caption:='Penjadwalan Data Tunggu';
     ListKunciCepat.Lines.Clear;
     LockBooking.Visible:=False;
@@ -2131,7 +2217,7 @@ begin
 //    end else begin
       Caption:='Data Penjadwalan';
       ListKunciCepat.Lines.Add('Insert = Menambah Penjadwalan');
-      ListKunciCepat.Lines.Add('Delete = Menghapus Penjadwalan');
+      ListKunciCepat.Lines.Add('Delete = Menghapus Helper');
       ListKunciCepat.Lines.Add('F5 = Tampilkan semua Armada');
       ListKunciCepat.Lines.Add('F6 = Tambahan Penjadwalan');
       LockBooking.Visible:=True;
@@ -2152,6 +2238,7 @@ begin
     ReservedDate.Text:=Main.Status.Panels.Items[0].Text;
     ReservationUser.Text:=FullName;
   end;
+
   if UpperCase(FormRequest)='MAIN-BOOKINGLOCK' then begin
     if LockBooking.Checked=False then begin
       LockBooking.Checked:=True;
@@ -2193,7 +2280,7 @@ end;
 procedure TBookingForm.GetOrderDetail;
 begin
   if (Main.IsFormOpen('OrderForm')=False) and (OrderId.Text<>'') then
-    if LeftStr(UpperCase(FormRequest),11)='WAITINGLIST' then begin
+    if LeftStr(UpperCase(FormRequest),12)='WAITINGLIST' then begin    //sudah diganti
       OrderForm:=TOrderForm.Create(Self,OrderId.Text,False,'WaitingList-Allocate')
     end else begin
       if UpperCase(FormRequest)='MAIN-FORCEADD' then begin
@@ -2219,7 +2306,7 @@ var IntCount:Integer;
 begin
   if IntRow>MinRowGrid then begin
     if MessageBox(Handle,'Mau Mengosongkan jadwal Armada ini ?','Surat Pesanan',MB_OKCANCEL or MB_ICONQUESTION or MB_SYSTEMMODAL or MB_SETFOREGROUND)=1 then begin
-      StrGrid.Cells[15,IntRow]:='';
+      StrGrid.Cells[16,IntRow]:=''; //sudah diganti
       StrGrid.Cells[8,IntRow]:='';
     end;
   end;
@@ -2232,10 +2319,26 @@ begin
     if MessageBox(Handle,'Mau Mengosongkaln jadwal Driver ini ?','Surat Pesanan',MB_OKCANCEL or MB_ICONQUESTION or MB_SYSTEMMODAL or MB_SETFOREGROUND)=1 then begin
       if IntCol=9 then begin
         StrGrid.Cells[9,IntRow]:='';
-        StrGrid.Cells[16,IntRow]:='';
+        StrGrid.Cells[17,IntRow]:='';  //sudah diganti
       end else begin
         StrGrid.Cells[10,IntRow]:='';
-        StrGrid.Cells[18,IntRow]:='';
+        StrGrid.Cells[19,IntRow]:='';//sudah diganti
+      end;
+    end;
+  end;
+end;
+
+procedure TBookingForm.DeleteBusboy;
+var IntCount:Integer;
+begin
+  if IntRow>MinRowGrid then begin
+    if  MessageBox(0,PChar('Helper '+StrGrid.Cells[11,IntCount]+' Mau Dihapus ?') ,'Helper',MB_OKCANCEL or MB_ICONINFORMATION)=1 then begin
+      if IntCol=11 then begin
+        StrGrid.Cells[11,IntRow]:='';  //sudah diganti
+        StrGrid.Cells[33,IntRow]:='';    //sudah Ada
+      end else begin
+        StrGrid.Cells[11,IntRow]:='';     //sudah diganti
+        StrGrid.Cells[33,IntRow]:='';     //sudah Ada
       end;
     end;
   end;
@@ -2518,7 +2621,6 @@ begin
   if (IsInput) and (LeftStr(UpperCase(FormRequest),11)<>'WAITINGLIST') then begin
     if Key=VK_INSERT then GetOrderDetail;
     if Key=VK_F5 then begin
-
       IsAuth:=True;
       AuthorizedForm.FormId:='131101';
       AuthorizedForm.StrMessage:=' Otorisasi Alokasi Seluruh Armada';
@@ -2532,8 +2634,15 @@ begin
 //      else if (StrGrid.Cells[IntCol,IntRow]<>'') then DeleteDriverDetail;
   end;
   if (Key=VK_F6) and (UpperCase(FormRequest)='MAIN-FORCEADD') then
-    if (Main.IsFormOpen('OrderForm')=False) and (OrderId.Text<>'') then OrderForm:=TOrderForm.Create(Self,OrderId.Text,False,'Reserved-ForceAdd')
+    if (Main.IsFormOpen('OrderForm')=False) and (OrderId.Text<>'') then OrderForm:=TOrderForm.Create(Self,OrderId.Text,False,'Reserved-ForceAdd');
 
+  if Key=VK_DELETE then
+    begin
+      if (IntCol = 11)then
+      begin
+        DeleteBusboy;
+      end;
+    end;
 end;
 
 procedure TBookingForm.TimeStandbyExit(Sender: TObject);
@@ -2578,10 +2687,12 @@ begin
 //      end;
 //    end;
 //  end;
+ // if IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'Bus2');
 
-
+//  end;
 //    if (IntRow > MinRowGrid) and (StrGrid.Cells[21,IntRow]='') and (IsAuth=True)  then begin
-  if (IntRow > MinRowGrid) and (StrGrid.Cells[21,IntRow]='') then begin
+
+  if (IntRow > MinRowGrid) and (StrGrid.Cells[23,IntRow]='') then begin   //sudah diganti
     Case IntCol Of
       0..4:begin
             GetOrderDetail;
@@ -2589,15 +2700,15 @@ begin
         end;
       8:begin
           if (Main.IsFormOpen('VehicleList')=False) and (StrGrid.Cells[0,IntRow]<>'') then
-            if LeftStr(UpperCase(FormRequest),11)='WAITINGLIST' then begin
+            if LeftStr(UpperCase(FormRequest),12)='WAITINGLIST' then begin
               VehicleRDList:=TVehicleRDList.Create(Self,'Bus','','','WaitingList-Allocate',FormatDateTime('yyyy/mm/dd',StrToDate(StrGrid.Cells[4,IntRow])),FormatDateTime('yyyy/mm/dd',StrToDate(StrGrid.Cells[5,IntRow])),StrGrid.Cells[6,IntRow],True );
             end else begin
-              VehicleRDList:=TVehicleRDList.Create(Self,'Bus',StrGrid.Cells[14,IntRow],StrGrid.Cells[17,IntRow],'Reserved-Create',FormatDateTime('yyyy/mm/dd',StrToDate(StrGrid.Cells[4,IntRow])),FormatDateTime('yyyy/mm/dd',StrToDate(StrGrid.Cells[5,IntRow])),StrGrid.Cells[6,IntRow] );
+              VehicleRDList:=TVehicleRDList.Create(Self,'Bus',StrGrid.Cells[16,IntRow],StrGrid.Cells[18,IntRow],'Reserved-Create',FormatDateTime('yyyy/mm/dd',StrToDate(StrGrid.Cells[4,IntRow])),FormatDateTime('yyyy/mm/dd',StrToDate(StrGrid.Cells[5,IntRow])),StrGrid.Cells[6,IntRow] );  //sudah diganti
             end;
         end;
       9:begin
           if (Main.IsFormOpen('EmployeeList')=False) and (StrGrid.Cells[0,IntRow]<>'') then
-            if LeftStr(UpperCase(FormRequest),11)='WAITINGLIST' then begin
+            if LeftStr(UpperCase(FormRequest),13)='WAITINGLIST' then begin    //sudah diganti
               EmployeeRDList:=TEmployeeRDList.Create(Self,'Bus',1,0,'WaitingList-Allocate',FormatDateTime('yyyy/mm/dd',StrToDate(StrGrid.Cells[4,IntRow])),FormatDateTime('yyyy/mm/dd',StrToDate(StrGrid.Cells[5,IntRow])));
             end else begin
               EmployeeRDList:=TEmployeeRDList.Create(Self,'Bus',1,0,'Reserved-Create',FormatDateTime('yyyy/mm/dd',StrToDate(StrGrid.Cells[4,IntRow])),FormatDateTime('yyyy/mm/dd',StrToDate(StrGrid.Cells[5,IntRow])));
@@ -2611,10 +2722,17 @@ begin
           if (Main.IsFormOpen('EmployeeList')=False) and (StrGrid.Cells[0,IntRow]<>'') and (hari>1) then
             EmployeeRDList:=TEmployeeRDList.Create(Self,'Bus',1,0,'Reserved-Create-CoDriver',FormatDateTime('yyyy/mm/dd',StrToDate(StrGrid.Cells[4,IntRow])),FormatDateTime('yyyy/mm/dd',StrToDate(StrGrid.Cells[5,IntRow])));
         end;
+
     end;
   end;
+
+  if IntCol = 11 then
+    begin
+     //  MessageBox(0,PChar(StrGrid.Cells[11,IntRow]),'Penjadwalan',MB_OK or MB_ICONWARNING);
+       if Main.IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'BUSBOY');
+    end;
 //  end else begin
-//    MessageBox(0,PChar('Order Paket harus menggunakan fitur Geser Unit' +Chr(13)+StrEMessage),'Penjadwalan',MB_OK or MB_ICONWARNING);
+//   MessageBox(0,PChar('Order Paket harus menggunakan fitur Geser Unit' +Chr(13)+StrEMessage),'Penjadwalan',MB_OK or MB_ICONWARNING);
 //  end;
 
 end;
@@ -2632,7 +2750,7 @@ end;
 procedure TBookingForm.DetailRemarkExit(Sender: TObject);
 begin
   if Trim(DetailRemark.Text)<>'' then begin
-    StrGrid.Cells[11,IntRow]:=DetailRemark.Text;
+    StrGrid.Cells[13,IntRow]:=DetailRemark.Text;   //sudah diganti
     DetailRemark.Text:='';
   end;
   if (StrGrid.Row=StrGrid.RowCount-1) and (StrGrid.RowCount>MinRowGrid+1) and (StrGrid.Cells[0,IntRow]<>'') then begin
@@ -2809,7 +2927,7 @@ var
 begin
   IsOk:=True;
   for IntCount:=2 to StrGrid.RowCount-1 do begin
-    if (StrGrid.Cells[21,IntCount]<>'') AND (Package.Checked=True) then
+    if (StrGrid.Cells[23,IntCount]<>'') AND (Package.Checked=True) then  //sudah diganti
     begin
       IsOk:=False;
       StrEMsg:='Butuh otorisasi!';
@@ -2854,7 +2972,7 @@ var
 begin
   IsOk:=True;
   for IntCount:=2 to StrGrid.RowCount-1 do begin
-    if (StrGrid.Cells[21,IntCount]<>'') AND (Package.Checked=True) then
+    if (StrGrid.Cells[23,IntCount]<>'') AND (Package.Checked=True) then
     begin
       IsOk:=False;
       StrEMsg:='Butuh otorisasi!';
