@@ -445,7 +445,7 @@ var IntCount:Integer;
 begin
   MinRowGrid:=1;
   StrGrid.RowCount:=3;
-  StrGrid.ColCount:=31;
+  StrGrid.ColCount:=34;
   StrGrid.WordWrap:=True;
   StrGrid.ColWidths[0]:=100;
   StrGrid.ColWidths[1]:=200;
@@ -869,7 +869,7 @@ end;
 
 procedure TBookingForm.SetEmp_BusBoy_Id(Employee_Id:String; Is_First:Boolean=True; Employee_Name:String=''; IsMoveBusBoy:Boolean=False);
 var Qry:TADOQuery;
-    StrQry:String;
+    StrQry,helpername:String;
     IntCount:Integer;
     IsFree,IsFound:Boolean;
 begin
@@ -906,11 +906,12 @@ begin
               if Is_First then begin
                 StrGrid.Cells[11,IntCount]:=Qry.FieldValues['name'];
                 StrGrid.Cells[33,IntCount]:=Qry.FieldValues['employee_id'];
+                StrGrid.Cells[34,IntCount]:=Qry.FieldValues['cellular_no'];
 
               end else begin
                 StrGrid.Cells[11,IntCount]:=Qry.FieldValues['name'];
                 StrGrid.Cells[33,IntCount]:=Qry.FieldValues['employee_id'];
-
+                StrGrid.Cells[34,IntCount]:=Qry.FieldValues['cellular_no'];
               end;
             end;
           end;
@@ -923,10 +924,12 @@ begin
             if Is_First then begin
               StrGrid.Cells[11,IntRow]:=Qry.FieldValues['name'];
               StrGrid.Cells[33,IntRow]:=Qry.FieldValues['employee_id'];
-
+              StrGrid.Cells[34,IntRow]:=Qry.FieldValues['cellular_no'];
             end else begin
               StrGrid.Cells[11,IntRow]:=Qry.FieldValues['name'];
               StrGrid.Cells[33,IntRow]:=Qry.FieldValues['employee_id'];
+              StrGrid.Cells[34,IntRow]:=Qry.FieldValues['cellular_no'];
+
             end;
           end;
           Qry.Close;
@@ -1051,7 +1054,8 @@ begin
       StrGrid.Cells[30,IntCount]:=Qry.FieldValues['is_AuthReason'];    //sudah diganti
       StrGrid.Cells[31,IntCount]:=Qry.FieldValues['employee_id'];  //sudah diganti
       StrGrid.Cells[32,IntCount]:=Qry.FieldValues['vehicle_id']; //sudah diganti
-      StrGrid.Cells[33,IntCount]:=Qry.FieldValues['busboy_id'];
+      if (Qry.FieldValues['busboy_id']<>NULL) then StrGrid.Cells[33,IntCount]:=Qry.FieldValues['busboy_id'] else StrGrid.Cells[33,IntCount]:='';
+      if (Qry.FieldValues['busboy_cellphone']<>NULL) then StrGrid.Cells[34,IntCount]:=Qry.FieldValues['busboy_cellphone'] else StrGrid.Cells[34,IntCount]:='';
       Qry.Next;
       Inc(IntCount)
     end;
@@ -1179,10 +1183,10 @@ begin
 end;
 
 procedure TBookingForm.SimpanClick(Sender: TObject);
-var Qry,QryWehaOnline:TADOQuery;
+var Qry,QryWehaOnline,QryWehaOnline2:TADOQuery;
     StrQry,StrQryLog,StrOrderId,StrCustomerId,StrQryWehaOnlineUser,StrQryWehaOnline,StrQryWehaOnlineCek:String;
     StrProductPriceId,StrDestination,StrPickup,StrFromDates,StrToDates,StrFromTimes,StrToTimes,StrTimeStandby,StrRemark,StrRemarkChangeVehicle,
-    StrIsAuth,StrIsAuthReason,StrOrderDetailVehicleID,StrWehaUserID, StremployeeId3:String;
+    StrIsAuth,StrIsAuthReason,StrOrderDetailVehicleID,StrWehaUserID, StremployeeId3,StrHelperName,StrHelperPhone:String;
     StrBatchOld, StrBatchNew, StrSeatNew, StrSeatOld, StrEmployeeOld,StrVehicleOld, StrStatusOrderVehicleInfos: string;
     StrStatus,StrRevision,StrVehicleId,StrEmployeeId,StremployeeId2,StrFullDay,StrCustomerOrderId,StrTransIds,StrError:String;
     StrTransId2,StrVhcTransId,StrRemarkChange,StrLockBooking,StrFix:String;
@@ -1243,6 +1247,11 @@ begin
       QryWehaOnline.Connection:=Main.MyConnectionWehaOnline;
       QryWehaOnline.CommandTimeout := 360000;
       QryWehaOnline.ParamCheck:=False;
+
+      QryWehaOnline2:=TADOQuery.Create(Self);
+      QryWehaOnline2.Connection:=Main.MyConnectionWehaOnline;
+      QryWehaOnline2.CommandTimeout := 360000;
+      QryWehaOnline2.ParamCheck:=False;
 
 
 
@@ -1534,7 +1543,7 @@ begin
                   StrTimeStandby:=QuotedStr(StrGrid.Cells[7,IntCount]);
                   if StrGrid.Cells[20,IntCount]='2' then StrToTimes:=QuotedStr('23:59')   //sudah diganti
   //              else StrToTimes:=QuotedStr(LeftStr(TimeToStr(StrToTime(StrGrid.Cells[6,IntCount])+EncodeTime(StrToInt(StrGrid.Cells[20,IntCount]),0,0,0)),5));
-                  else StrToTimes:=QuotedStr(FormatDateTime('HH:nn',StrToTime(StrGrid.Cells[6,IntCount])+EncodeTime(StrToInt(StrGrid.Cells[22,IntCount]),0,0,0))); //sudah diganti
+                  else StrToTimes:=QuotedStr(FormatDateTime('HH:nn',StrToTime(StrGrid.Cells[6,IntCount])+EncodeTime(StrToInt(StrGrid.Cells[21,IntCount]),0,0,0))); //sudah diganti
                    StrToTimes:=QuotedStr('00:00') ;
 
 //                  if StrPackage<>'1' then begin
@@ -1555,6 +1564,8 @@ begin
                   if StrGrid.Cells[29,IntCount]<>'' then StrIsAuth:=QuotedStr(StrGrid.Cells[29,IntCount]) else StrIsAuth:='NULL';           //sudah diganti
                   if StrGrid.Cells[30,IntCount]<>'' then StrIsAuthReason:=QuotedStr(StrGrid.Cells[30,IntCount]) else StrIsAuthReason:='NULL'; //sudah diganti
                   if StrGrid.Cells[33,IntCount]<>'' then StremployeeId3:=QuotedStr(StrGrid.Cells[33,IntCount]) else StremployeeId3:='NULL';
+                  if StrGrid.Cells[11,IntCount]<>'' then StrHelperName:=QuotedStr(StrGrid.Cells[11,IntCount]) else StrHelperName:='NULL';
+                  if StrGrid.Cells[34,IntCount]<>'' then StrHelperPhone:=QuotedStr(StrGrid.Cells[34,IntCount]) else StrHelperPhone:='NULL';
 
   //                isAuth, isAuthReason,
                   if (StrVhcTransId='NULL') then begin
@@ -1722,6 +1733,95 @@ begin
 
                         end;
 
+
+
+                        if StremployeeId3<>'NULL' then
+                        begin
+
+                          StrQryWehaOnlineCek:='SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
+                                                 'left join Users b ON a.ContactID=b.ContactID WHERE '+
+                                                 'b.CustomerNo='+StremployeeId3+' AND b.IsActive=1';
+                          QryWehaOnline2.Close;
+                          QryWehaOnline2.SQL.Clear;
+                          QryWehaOnline2.SQL.Add(StrQryWehaOnlineCek);
+                          QryWehaOnline2.Open;
+
+
+                          if QryWehaOnline2.RecordCount=0 then begin
+                            StrQryWehaOnlineUser:= 'INSERT INTO Contacts '+
+                                          '(FullName,Gender,'+
+                                          'HP,ViewHisOwnData,IsMain,CreatedBy,CreatedDate,'+
+                                          'ModifiedBy,ModifiedDate,ViewGroupOnly) VALUES '+
+                                          '('+StrHelperName+',''M'' '+
+                                          ','+StrHelperPhone+',0,0,0 '+
+                                          ',GETDATE(),0,GETDATE(),0); ';
+
+                            QryWehaOnline2.SQL.Clear;
+                            QryWehaOnline2.SQL.Add(StrQryWehaOnlineUser);
+                            try
+                              QryWehaOnline2.ExecSQL;
+                            except
+                              on E:Exception do begin
+                                Main.TransRollback;
+                                IsOk:=False;
+                                EnableInput;
+                                StrEMsg:=StrEMsg+E.Message;
+                                MessageBox(Handle,PChar('Surat Jalan tidak bisa diinput '+Chr(13)+Chr(13)+StrEMsg),'Surat jalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+                                Exit;
+                              end;
+                            end;
+
+
+                            StrQryWehaOnlineCek:='SELECT TOP 1 ContactID FROM Contacts '+
+                                                 'WHERE CreatedBy=0 Order By ContactID DESC';
+                            QryWehaOnline2.Close;
+                            QryWehaOnline2.SQL.Clear;
+                            QryWehaOnline2.SQL.Add(StrQryWehaOnlineCek);
+                            QryWehaOnline2.Open;
+
+                            StrWehaUserID:=StringReplace(StrHelperName,' ','.',[rfReplaceAll]);
+
+                            StrQryWehaOnlineUser:= 'INSERT INTO Users '+
+                                          '(ContactID,CustomerNo,'+
+                                          'Email,Password,Role,LoginType,WehaUserID,'+
+                                          'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,IsHelper) VALUES '+
+                                          '('+QuotedStr(QryWehaOnline2.FieldValues['ContactID'])+' '+
+                                          ','+StremployeeId3+','+StrWehaUserID+' '+
+                                          ',NULL,''DRIVER'',''EMAIL'' '+
+                                          ','+StrWehaUserID+' '+
+                                          ',1,0,GETDATE(),0,GETDATE(),1); ';
+
+                            QryWehaOnline2.SQL.Clear;
+                            QryWehaOnline2.SQL.Add(StrQryWehaOnlineUser);
+                            try
+                              QryWehaOnline2.ExecSQL;
+                            except
+                              on E:Exception do begin
+                                Main.TransRollback;
+                                IsOk:=False;
+                                EnableInput;
+                                StrEMsg:=StrEMsg+E.Message;
+                                MessageBox(Handle,PChar('Driver tidak bisa diinput '+Chr(13)+Chr(13)+StrEMsg),'Surat Jalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+                                Exit;
+                              end;
+                            end;
+
+                            StrQryWehaOnlineCek:='SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
+                                               'left join Users b ON a.ContactID=b.ContactID WHERE '+
+                                               'b.CustomerNo='+StremployeeId3+' AND b.IsActive=1';
+                            QryWehaOnline2.Close;
+                            QryWehaOnline2.SQL.Clear;
+                            QryWehaOnline2.SQL.Add(StrQryWehaOnlineCek);
+                            QryWehaOnline2.Open;
+
+                          end;
+
+//                          StrQry:=' UPDATE OrderDetailVehicleInfos SET WorkOrderNo='+QuotedStr(StrTransId)+
+//                                ' ,HelperName='+QuotedStr(QryWehaOnline2.FieldValues['FullName'])+',HelperPhone='+QuotedStr(QryWehaOnline2.FieldValues['HP'])+
+//                                ' ,WEHAHelperCustomerNo='+StremployeeId3+',HelperID='+QuotedStr(QryWehaOnline2.FieldValues['UserID'])+
+//                                ' WHERE WehaReservedCode='+StrReservedOrderDetailId;
+                        end;
+
                         StrQryWehaOnline:=  StrQryWehaOnline+' UPDATE OrderDetailVehicleInfos SET '+
                                             ' WehaReservedCode='+QuotedStr(StrTransIds)+', '+
                                             ' DriverID='+QuotedStr(QryWehaOnline.FieldValues['UserID'])+','+
@@ -1729,8 +1829,11 @@ begin
                                             ' DriverPhone='+QuotedStr(QryWehaOnline.FieldValues['HP'])+', '+
                                             ' VehiclePlateNo='+QuotedStr(StrGrid.Cells[27,IntCount])+', '+  //sudah diganti
                                             ' IsFixed='+StrFix+ StrStatusOrderVehicleInfos+', '+
-                                            ' WEHACustomerNo='+StrEmployeeId+' '+
+                                            ' WEHACustomerNo='+StrEmployeeId+',HelperName='+QuotedStr(QryWehaOnline2.FieldValues['FullName'])+','+
+                                            'HelperPhone='+QuotedStr(QryWehaOnline2.FieldValues['HP'])+','+
+                                            'WEHAHelperCustomerNo='+StremployeeId3+',HelperID='+QuotedStr(QryWehaOnline2.FieldValues['UserID'])+
                                             ' WHERE WehaReservedCode='+QuotedStr(StrGrid.Cells[24,IntCount])+';';  //sudah diganti
+
                       end else
                       begin
                         isOk := False;
