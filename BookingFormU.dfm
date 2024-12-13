@@ -1,6 +1,6 @@
 object BookingForm: TBookingForm
-  Left = 125
-  Top = 218
+  Left = 149
+  Top = 241
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Penjadwalan'
@@ -4107,6 +4107,10 @@ object BookingForm: TBookingForm
     object GeserDriver1: TMenuItem
       Caption = 'Geser Driver'
       OnClick = GeserDriver1Click
+    end
+    object GeserHelper: TMenuItem
+      Caption = 'Geser Helper'
+      OnClick = GeserHelperClick
     end
   end
   object PopupMenu2: TPopupMenu

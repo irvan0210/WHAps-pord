@@ -1,6 +1,6 @@
 object EmployeeRDList: TEmployeeRDList
-  Left = 360
-  Top = 283
+  Left = 569
+  Top = 149
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Karyawan'
