@@ -1,6 +1,6 @@
 object BookingForm: TBookingForm
-  Left = 149
-  Top = 241
+  Left = 142
+  Top = 121
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Penjadwalan'
