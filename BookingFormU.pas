@@ -874,15 +874,15 @@ var Qry:TADOQuery;
     StrQry,helpername:String;
     IntCount:Integer;
     IsFree,IsFound:Boolean;
+    StrBodyIdAsal:String;
 begin
   if Employee_Id<>'' then begin
     IsFree:=True;
     IsFound:=False;
     if (StrPos(PChar(UpperCase(Employee_Name)),PChar(UpperCase('SEWA')))<>nil) then IsFound:=True;
-
     for IntCount:=MinRowGrid+1 to StrGrid.RowCount-1 do
-      if (StrGrid.Cells[0,IntCount]<>'') and (StrGrid.Cells[14,IntCount]<>'') and (StrGrid.Cells[16,IntCount]<>'') then    //sudah diganti
-        begin
+    if (StrGrid.Cells[0,IntCount]<>'') and (StrGrid.Cells[14,IntCount]<>'') and (StrGrid.Cells[16,IntCount]<>'') then    //sudah diganti
+      begin
           if (Employee_Id<>'BU00000001') or IsFound then begin
            // MessageBox(0,PChar(StrGrid.Cells[16,IntRow]+' , '+StrGrid.Cells[18,IntRow]),'Penjadwalan',MB_OK or MB_ICONWARNING);
             if (StrGrid.Cells[4,IntCount]=StrGrid.Cells[4,IntRow])  //tanggal
@@ -890,8 +890,8 @@ begin
             and (StrGrid.Cells[6,IntCount]=StrGrid.Cells[6,IntRow]) // jam
             and ((StrGrid.Cells[33,IntCount]=Employee_Id)) then IsFree:=False; //or (StrGrid.Cells[18,IntCount]=Employee_Id)
           end;
-        end;
-
+      end;
+    StrBodyIdAsal := StrGrid.Cells[8,IntRow];
     if IsFree=True then begin
       Qry:=TADOQuery.Create(Self);
       Qry.Connection:=Main.MyConnection;
@@ -905,34 +905,38 @@ begin
         if IsMoveBusBoy Then begin
           for IntCount:=MinRowGrid+1 to StrGrid.RowCount-1 do begin
             if Qry.RecordCount>0 then begin
-              if Is_First then begin
-                StrGrid.Cells[11,IntCount]:=Qry.FieldValues['name'];
-                StrGrid.Cells[33,IntCount]:=Qry.FieldValues['employee_id'];
-                StrGrid.Cells[34,IntCount]:=Qry.FieldValues['cellular_no'];
+              if StrBodyIdAsal=StrGrid.Cells[8,IntCount] then begin
+                if Is_First then begin
+                  StrGrid.Cells[11,IntCount]:=Qry.FieldValues['name'];
+                  StrGrid.Cells[33,IntCount]:=Qry.FieldValues['employee_id'];
+                  StrGrid.Cells[34,IntCount]:=Qry.FieldValues['cellular_no'];
 
-              end else begin
-                StrGrid.Cells[11,IntCount]:=Qry.FieldValues['name'];
-                StrGrid.Cells[33,IntCount]:=Qry.FieldValues['employee_id'];
-                StrGrid.Cells[34,IntCount]:=Qry.FieldValues['cellular_no'];
-              end;
+                end else begin
+                  StrGrid.Cells[11,IntCount]:=Qry.FieldValues['name'];
+                  StrGrid.Cells[33,IntCount]:=Qry.FieldValues['employee_id'];
+                  StrGrid.Cells[34,IntCount]:=Qry.FieldValues['cellular_no'];
+                end;
+              end
+              else
+              MessageBox(Handle,'Kendaraan Tidak Sama, Silahkan cek kembali','Penjadwalan Kernek',MB_OK or MB_ICONWARNING or MB_SYSTEMMODAL or MB_SETFOREGROUND);
             end;
           end;
           Qry.Close;
-
         end
-
         else begin
           if Qry.RecordCount>0 then begin
-            if Is_First then begin
-              StrGrid.Cells[11,IntRow]:=Qry.FieldValues['name'];
-              StrGrid.Cells[33,IntRow]:=Qry.FieldValues['employee_id'];
-              StrGrid.Cells[34,IntRow]:=Qry.FieldValues['cellular_no'];
-            end else begin
-              StrGrid.Cells[11,IntRow]:=Qry.FieldValues['name'];
-              StrGrid.Cells[33,IntRow]:=Qry.FieldValues['employee_id'];
-              StrGrid.Cells[34,IntRow]:=Qry.FieldValues['cellular_no'];
+           // if StrBodyIdAsal=StrGrid.Cells[8,IntCount] then begin
+              if Is_First then begin
+                StrGrid.Cells[11,IntRow]:=Qry.FieldValues['name'];
+                StrGrid.Cells[33,IntRow]:=Qry.FieldValues['employee_id'];
+                StrGrid.Cells[34,IntRow]:=Qry.FieldValues['cellular_no'];
+              end else begin
+                StrGrid.Cells[11,IntRow]:=Qry.FieldValues['name'];
+                StrGrid.Cells[33,IntRow]:=Qry.FieldValues['employee_id'];
+                StrGrid.Cells[34,IntRow]:=Qry.FieldValues['cellular_no'];
 
-            end;
+              end;
+           // end;
           end;
           Qry.Close;
         end;
@@ -944,8 +948,6 @@ begin
   end;
   Main.M_Normal;
 end;
-
-
 
 procedure TBookingForm.LoadData;
 var Qry:TADOQuery;
@@ -3096,7 +3098,7 @@ var
 begin
   IsOk:=True;
   for IntCount:=2 to StrGrid.RowCount-1 do begin
-    if (StrGrid.Cells[23,IntCount]<>'') AND (Package.Checked=True) then
+    if (StrGrid.Cells[24,IntCount]<>'') AND (Package.Checked=True) then
     begin
       IsOk:=False;
       StrEMsg:='Butuh otorisasi!';
@@ -3120,6 +3122,19 @@ var
   StrEMsg: string;
   IntCount:Integer;
 begin
+  {for IntCount:=MinRowGrid+1 to StrGrid.RowCount-1 do
+      if (StrGrid.Cells[0,IntCount]<>'') and (StrGrid.Cells[14,IntCount]<>'') and (StrGrid.Cells[16,IntCount]<>'') then begin    //sudah diganti
+        if (Employee_Id<>'BU00000001') or IsFound then begin
+          if (StrGrid.Cells[4,IntCount]=StrGrid.Cells[4,IntRow]) and (StrGrid.Cells[5,IntCount]=StrGrid.Cells[5,IntRow])
+          and (StrGrid.Cells[6,IntCount]=StrGrid.Cells[6,IntRow])
+          and ((StrGrid.Cells[17,IntCount]=Employee_Id) or (StrGrid.Cells[19,IntCount]=Employee_Id)) then IsFree:=False;   //sudah diganti
+        end;
+      end;}
+
+
+ // MessageBox(Handle,PChar('StrGrid 17 ='+Chr(13)+Chr(13)+StrGrid.Cells[17,IntRow]),'Penjadwalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+  // MessageBox(Handle,PChar('StrGrid 19 =,'+Chr(13)+Chr(13)+StrGrid.Cells[19,IntRow]),'Penjadwalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+  //  MessageBox(Handle,PChar('StrGrid 8 =,'+Chr(13)+Chr(13)+StrGrid.Cells[8,IntRow]),'Penjadwalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
   IsOk := True;
   if isOk=True then begin
     IsAuth:=True;
