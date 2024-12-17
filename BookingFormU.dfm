@@ -1,5 +1,5 @@
 object BookingForm: TBookingForm
-  Left = 253
+  Left = 228
   Top = 103
   BorderIcons = []
   BorderStyle = bsSingle

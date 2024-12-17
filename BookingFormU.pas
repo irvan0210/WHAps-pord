@@ -874,7 +874,7 @@ var Qry:TADOQuery;
     StrQry,helpername:String;
     IntCount:Integer;
     IsFree,IsFound:Boolean;
-    StrBodyIdAsal:String;
+    StrBodyIdAsal, StrNoSJ:String;
 begin
   if Employee_Id<>'' then begin
     IsFree:=True;
@@ -892,6 +892,7 @@ begin
           end;
       end;
     StrBodyIdAsal := StrGrid.Cells[8,IntRow];
+  
     if IsFree=True then begin
       Qry:=TADOQuery.Create(Self);
       Qry.Connection:=Main.MyConnection;
@@ -905,26 +906,29 @@ begin
         if IsMoveBusBoy Then begin
           for IntCount:=MinRowGrid+1 to StrGrid.RowCount-1 do begin
             if Qry.RecordCount>0 then begin
-              if StrBodyIdAsal=StrGrid.Cells[8,IntCount] then begin
-                if Is_First then begin
-                  StrGrid.Cells[11,IntCount]:=Qry.FieldValues['name'];
-                  StrGrid.Cells[33,IntCount]:=Qry.FieldValues['employee_id'];
-                  StrGrid.Cells[34,IntCount]:=Qry.FieldValues['cellular_no'];
-
-                end else begin
-                  StrGrid.Cells[11,IntCount]:=Qry.FieldValues['name'];
-                  StrGrid.Cells[33,IntCount]:=Qry.FieldValues['employee_id'];
-                  StrGrid.Cells[34,IntCount]:=Qry.FieldValues['cellular_no'];
-                end;
-              end
-              else
-              MessageBox(Handle,'Kendaraan Tidak Sama, Silahkan cek kembali','Penjadwalan Kernek',MB_OK or MB_ICONWARNING or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+              if (StrGrid.Cells[22,IntCount] = null) or (StrGrid.Cells[22,IntCount] = '') then begin
+                if StrBodyIdAsal=StrGrid.Cells[8,IntCount] then begin
+                  if Is_First then begin
+                    StrGrid.Cells[11,IntCount]:=Qry.FieldValues['name'];
+                    StrGrid.Cells[33,IntCount]:=Qry.FieldValues['employee_id'];
+                    StrGrid.Cells[34,IntCount]:=Qry.FieldValues['cellular_no'];
+                  end else begin
+                    StrGrid.Cells[11,IntCount]:=Qry.FieldValues['name'];
+                    StrGrid.Cells[33,IntCount]:=Qry.FieldValues['employee_id'];
+                    StrGrid.Cells[34,IntCount]:=Qry.FieldValues['cellular_no'];
+                  end;
+                end else
+               MessageBox(Handle,'Kendaraan Tidak Sama, Silahkan cek kembali','Penjadwalan Kernek',MB_OK or MB_ICONWARNING or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+              end else
+             // MessageBox(Handle,'Kendaraan Tidak Sama, Silahkan cek kembali','Penjadwalan Kernek',MB_OK or MB_ICONWARNING or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+             // MessageBox(Handle,PChar('Helper tidak bisa dirubah'+Chr(13)+Chr(13)+'Sudah ada surat jalan'),'Geser Helper',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
             end;
           end;
           Qry.Close;
         end
         else begin
           if Qry.RecordCount>0 then begin
+            if (StrGrid.Cells[22,IntRow] = null) or (StrGrid.Cells[22,IntRow] = '') then begin
            // if StrBodyIdAsal=StrGrid.Cells[8,IntCount] then begin
               if Is_First then begin
                 StrGrid.Cells[11,IntRow]:=Qry.FieldValues['name'];
@@ -934,9 +938,9 @@ begin
                 StrGrid.Cells[11,IntRow]:=Qry.FieldValues['name'];
                 StrGrid.Cells[33,IntRow]:=Qry.FieldValues['employee_id'];
                 StrGrid.Cells[34,IntRow]:=Qry.FieldValues['cellular_no'];
-
               end;
-           // end;
+            end else
+             MessageBox(Handle,PChar('Helper tidak bisa dirubah'+Chr(13)+Chr(13)+'Sudah ada surat jalan'),'Geser Helper',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
           end;
           Qry.Close;
         end;
@@ -1118,7 +1122,6 @@ procedure TBookingForm.StrGridSelectCell(Sender: TObject; ACol,
   ARow: Integer; var CanSelect: Boolean);
 var R:TRect;
 begin
-
   IntRow:=ARow;
   IntCol:=ACol;
   if (IsInputGrid) then begin
@@ -2450,15 +2453,21 @@ procedure TBookingForm.DeleteBusboy;
 var IntCount:Integer;
 begin
   if IntRow>MinRowGrid then begin
-    if  MessageBox(0,PChar('Helper '+StrGrid.Cells[11,IntCount]+' Mau Dihapus ?') ,'Helper',MB_OKCANCEL or MB_ICONINFORMATION)=1 then begin
-      if IntCol=11 then begin
-        StrGrid.Cells[11,IntRow]:='';  //sudah diganti
-        StrGrid.Cells[33,IntRow]:='';    //sudah Ada
-      end else begin
-        StrGrid.Cells[11,IntRow]:='';     //sudah diganti
-        StrGrid.Cells[33,IntRow]:='';     //sudah Ada
-      end;
-    end;
+    if  StrGrid.Cells[11,IntRow] <>'' then begin
+      if (StrGrid.Cells[22,IntRow] = null) or (StrGrid.Cells[22,IntRow] = '') then begin
+        if  MessageBox(0,PChar('Helper '+StrGrid.Cells[11,IntRow]+' Mau Dihapus ?') ,'Helper',MB_OKCANCEL or MB_ICONINFORMATION)=1 then begin
+          if IntCol=11 then begin
+            StrGrid.Cells[11,IntRow]:='';  //sudah diganti
+            StrGrid.Cells[33,IntRow]:='';    //sudah Ada
+          end else begin
+            StrGrid.Cells[11,IntRow]:='';     //sudah diganti
+            StrGrid.Cells[33,IntRow]:='';     //sudah Ada   'Helper tidak bisa dirubah'+Chr(13)+Chr(13)+'Sudah ada surat jalan'
+          end;
+        end;
+      end else
+     MessageBox(Handle,PChar('Helper tidak bisa dihapus'+Chr(13)+'Sudah ada surat jalan'),'Hapus Helper',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+    end else
+    MessageBox(Handle,PChar('Helper tidak ada'),'Hapus Helper',MB_OK or MB_ICONWARNING or MB_SYSTEMMODAL or MB_SETFOREGROUND);
   end;
 end;
 
@@ -2846,8 +2855,10 @@ begin
 
   if (IntCol = 11) AND (CompanyId='2') then
     begin
-     //  MessageBox(0,PChar(StrGrid.Cells[11,IntRow]),'Penjadwalan',MB_OK or MB_ICONWARNING);
+      if (StrGrid.Cells[22,IntRow] = null) or (StrGrid.Cells[22,IntRow] = '') then begin
        if Main.IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'BUSBOY');
+      end else
+       MessageBox(Handle,PChar('Helper tidak bisa dirubah'+Chr(13)+Chr(13)+'Sudah ada surat jalan'),'Geser Helper',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
     end;
 //  end else begin
 //   MessageBox(0,PChar('Order Paket harus menggunakan fitur Geser Unit' +Chr(13)+StrEMessage),'Penjadwalan',MB_OK or MB_ICONWARNING);
@@ -3122,16 +3133,8 @@ var
   StrEMsg: string;
   IntCount:Integer;
 begin
-  {for IntCount:=MinRowGrid+1 to StrGrid.RowCount-1 do
-      if (StrGrid.Cells[0,IntCount]<>'') and (StrGrid.Cells[14,IntCount]<>'') and (StrGrid.Cells[16,IntCount]<>'') then begin    //sudah diganti
-        if (Employee_Id<>'BU00000001') or IsFound then begin
-          if (StrGrid.Cells[4,IntCount]=StrGrid.Cells[4,IntRow]) and (StrGrid.Cells[5,IntCount]=StrGrid.Cells[5,IntRow])
-          and (StrGrid.Cells[6,IntCount]=StrGrid.Cells[6,IntRow])
-          and ((StrGrid.Cells[17,IntCount]=Employee_Id) or (StrGrid.Cells[19,IntCount]=Employee_Id)) then IsFree:=False;   //sudah diganti
-        end;
-      end;}
-
-
+//  MessageBox(Handle,PChar('vhc_tras ID'+Chr(13)+Chr(13)+StrGrid.Cells[22,IntRow]),'Penjadwalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+ if (StrGrid.Cells[22,IntRow] = null) or (StrGrid.Cells[22,IntRow] = '') then begin    //  StrGrid.Cells[0,IntRow]
  // MessageBox(Handle,PChar('StrGrid 17 ='+Chr(13)+Chr(13)+StrGrid.Cells[17,IntRow]),'Penjadwalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
   // MessageBox(Handle,PChar('StrGrid 19 =,'+Chr(13)+Chr(13)+StrGrid.Cells[19,IntRow]),'Penjadwalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
   //  MessageBox(Handle,PChar('StrGrid 8 =,'+Chr(13)+Chr(13)+StrGrid.Cells[8,IntRow]),'Penjadwalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
@@ -3143,6 +3146,8 @@ begin
     if (AuthorizedForm.ShowModal<>1) then IsAuth:=False;
     if IsAuth then EmployeeRDList:=TEmployeeRDList.Create(Self,'Bus2',1,0,'Reserved-Create',FormatDateTime('yyyy/mm/dd',StrToDate(StrGrid.Cells[4,IntRow])),FormatDateTime('yyyy/mm/dd',StrToDate(StrGrid.Cells[5,IntRow])), true);
   end;
+  end else
+    MessageBox(Handle,PChar('Helper tidak bisa dirubah'+Chr(13)+Chr(13)+'Sudah ada surat jalan'),'Geser Helper',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
 end;
 
 end.
