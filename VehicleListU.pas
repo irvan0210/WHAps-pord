@@ -36,7 +36,7 @@ type
   private
     { Private declarations }
     SelectedRow,MaxCol,VhcCompanyId:Integer;
-    VehicleArr:Array of TArrString30;
+    VehicleArr:Array of TArrString32;
     CompanyArr,GroupArr:Array of TArrString5;
     OrderBy,Sorted:String;
     IntRow,IntCol,IntColPrev:Integer;
@@ -67,23 +67,23 @@ constructor TVehicleList.Create(AOwner:TComponent;VehicleType:String;Form_Reques
 begin
   if UpperCase(VehicleType)='TAXI' then begin
     VhcType:=1;
-    MaxCol:=13;
+    MaxCol:=16;
     VhcCompanyId:=3;
   end else if UpperCase(VehicleType)='BUS' then begin
     VhcType:=2;
-    MaxCol:=28;
+    MaxCol:=31;
     VhcCompanyId:=2;
   end else if UpperCase(VehicleType)='GRAYLINE' then begin
     VhcType:=3;
-    MaxCol:=12;
+    MaxCol:=15;
     VhcCompanyId:=7;
   end else begin
     if (CompanyId='2') or (CompanyId='9') or (CompanyId='11') then begin
       VhcType:=2;
-      MaxCol:=28;
+      MaxCol:=31;
     end else if (CompanyId='3') then begin
       VhcType:=1;
-      MaxCol:=13;
+      MaxCol:=16;
     end;
     VhcCompanyId:=StrToInt(CompanyId);
   end;
@@ -109,79 +109,86 @@ begin
   SelectedRow:=0;
   StrGrid.RowCount:=3;
   StrGrid.ColWidths[0]:=1;
-  StrGrid.Cells[0,0]:='Id';
-  StrGrid.Cells[1,0]:='Lokasi';
-  StrGrid.Cells[2,0]:='No Bodi';
-  StrGrid.Cells[3,0]:='No Mesin';
-  StrGrid.Cells[4,0]:='No Rangka';
-  StrGrid.Cells[5,0]:='No Polisi';
-  StrGrid.Cells[6,0]:='Tahun';
-  StrGrid.Cells[7,0]:='STNK s/d';
-  StrGrid.Cells[8,0]:='KIR S/d';
-  StrGrid.Cells[9,0]:='KIU S/d';
-  StrGrid.Cells[10,0]:='KP S/d';
+  StrGrid.Cells[0,0]:='KIR';
+  StrGrid.Cells[1,0]:='STNK';
+  StrGrid.Cells[2,0]:='KSP';
+  StrGrid.Cells[3,0]:='Id';
+  StrGrid.Cells[4,0]:='Lokasi';
+  StrGrid.Cells[5,0]:='No Bodi';
+  StrGrid.Cells[6,0]:='No Mesin';
+  StrGrid.Cells[7,0]:='No Rangka';
+  StrGrid.Cells[8,0]:='No Polisi';
+  StrGrid.Cells[9,0]:='Tahun';
+  StrGrid.Cells[10,0]:='STNK s/d';
+  StrGrid.Cells[11,0]:='KIR S/d';
+  StrGrid.Cells[12,0]:='KIU S/d';
+  StrGrid.Cells[13,0]:='KP S/d';
   case VhcType of
     1:begin
-        StrGrid.Cells[11,0]:='Tera S/d';
-        StrGrid.Cells[12,0]:='Exc/Reg';
-        StrGrid.ColWidths[11]:=65;
-        StrGrid.ColWidths[12]:=70;
+        StrGrid.Cells[14,0]:='Tera S/d';
+        StrGrid.Cells[15,0]:='Exc/Reg';
+        StrGrid.ColWidths[14]:=65;
+        StrGrid.ColWidths[15]:=70;
       end;
     2:begin
-        StrGrid.Cells[11,0]:='Pajak S/d';
-        StrGrid.Cells[12,0]:='Seat';
-        StrGrid.ColWidths[11]:=65;
-        StrGrid.Cells[13,0]:='Facelift';
-        StrGrid.Cells[14,0]:='No Uji KIR';
-        StrGrid.Cells[15,0]:='No EToll';
-        StrGrid.Cells[16,0]:='No KP';
-        StrGrid.Cells[17,0]:='STNK Pemilik';
+        StrGrid.Cells[14,0]:='Pajak S/d';
+        StrGrid.Cells[15,0]:='Seat';
+        StrGrid.ColWidths[14]:=65;
+        StrGrid.Cells[16,0]:='Facelift';
+        StrGrid.Cells[17,0]:='No Uji KIR';
+        StrGrid.Cells[18,0]:='No EToll';
+        StrGrid.Cells[19,0]:='No KP';
+        StrGrid.Cells[20,0]:='STNK Pemilik';
 
-        StrGrid.Cells[18,0]:='No SIM Card';
-        StrGrid.Cells[19,0]:='SSID';
-        StrGrid.Cells[20,0]:='No Asset';
-        StrGrid.Cells[21,0]:='Router';
+        StrGrid.Cells[21,0]:='No SIM Card';
+        StrGrid.Cells[22,0]:='SSID';
+        StrGrid.Cells[23,0]:='No Asset';
+        StrGrid.Cells[24,0]:='Router';
 
-        StrGrid.Cells[23,0]:='No Polis';
-        StrGrid.Cells[24,0]:='Penerbit Polis';
-        StrGrid.Cells[25,0]:='Tanggal Awal';
-        StrGrid.Cells[26,0]:='Tanggal Akhir';
-        StrGrid.Cells[27,0]:='Nilai Asuransi';
+        StrGrid.Cells[26,0]:='No Polis';
+        StrGrid.Cells[27,0]:='Penerbit Polis';
+        StrGrid.Cells[28,0]:='Tanggal Awal';
+        StrGrid.Cells[29,0]:='Tanggal Akhir';
+        StrGrid.Cells[30,0]:='Nilai Asuransi';
 
-        StrGrid.ColWidths[13]:=50;
-        StrGrid.ColWidths[14]:=130;
-        StrGrid.ColWidths[15]:=150;
-        StrGrid.ColWidths[16]:=100;
-        StrGrid.ColWidths[17]:=150;
+        StrGrid.ColWidths[16]:=50;
+        StrGrid.ColWidths[17]:=130;
+        StrGrid.ColWidths[18]:=150;
+        StrGrid.ColWidths[19]:=100;
+        StrGrid.ColWidths[20]:=150;
 
-        StrGrid.ColWidths[18]:=80;
-        StrGrid.ColWidths[19]:=80;
-        StrGrid.ColWidths[20]:=100;
-        StrGrid.ColWidths[21]:=150;
-        StrGrid.ColWidths[22]:=0;
+        StrGrid.ColWidths[21]:=80;
+        StrGrid.ColWidths[22]:=80;
+        StrGrid.ColWidths[23]:=100;
+        StrGrid.ColWidths[24]:=150;
+        StrGrid.ColWidths[25]:=0;
 
-        StrGrid.ColWidths[23]:=200;
-        StrGrid.ColWidths[24]:=200;
-        StrGrid.ColWidths[25]:=80;
-        StrGrid.ColWidths[26]:=80;
-        StrGrid.ColWidths[27]:=100;
+        StrGrid.ColWidths[26]:=200;
+        StrGrid.ColWidths[27]:=200;
+        StrGrid.ColWidths[28]:=200;
+        StrGrid.ColWidths[29]:=200;
+        StrGrid.ColWidths[30]:=100;
         //StrGrid.ColWidths[12]:=40;
       end;
   end;
 
+  StrGrid.ColWidths[0]:=30;
+  StrGrid.ColWidths[1]:=30;
+  StrGrid.ColWidths[2]:=30;
+
   if VhcType=1 then begin
   end;
-  StrGrid.ColWidths[0]:=0;
-  StrGrid.ColWidths[1]:=80;
-  StrGrid.ColWidths[2]:=50;
-  StrGrid.ColWidths[3]:=120;
-  StrGrid.ColWidths[4]:=130;
-  StrGrid.ColWidths[5]:=65;
-  StrGrid.ColWidths[6]:=40;
-  StrGrid.ColWidths[7]:=65;
+  StrGrid.ColWidths[3]:=0;
+  StrGrid.ColWidths[4]:=80;
+  StrGrid.ColWidths[5]:=50;
+  StrGrid.ColWidths[6]:=120;
+  StrGrid.ColWidths[7]:=130;
   StrGrid.ColWidths[8]:=65;
-  StrGrid.ColWidths[9]:=65;
+  StrGrid.ColWidths[9]:=40;
   StrGrid.ColWidths[10]:=65;
+  StrGrid.ColWidths[11]:=65;
+  StrGrid.ColWidths[12]:=65;
+  StrGrid.ColWidths[13]:=65;
 
   if VhcType=1 then begin
   end;
@@ -269,61 +276,65 @@ begin
     Count:=0;
     if (QVhc.RecordCount>0) then while not(QVhc.Eof) do begin
       SetLength(VehicleArr,Count+1);
-        VehicleArr[Count][0]:=QVhc.FieldValues['vehicle_id'];
-        VehicleArr[Count][1]:=QVhc.FieldValues['location'];
-        VehicleArr[Count][2]:=QVhc.FieldValues['body_id'];
+        VehicleArr[Count][0]:=QVhc.FieldValues['kir_image'];
+        VehicleArr[Count][1]:=QVhc.FieldValues['kir_image'];
+        VehicleArr[Count][2]:=QVhc.FieldValues['ksp_image'];
+
+        VehicleArr[Count][3]:=QVhc.FieldValues['vehicle_id'];
+        VehicleArr[Count][4]:=QVhc.FieldValues['location'];
+        VehicleArr[Count][5]:=QVhc.FieldValues['body_id'];
         if QVhc.FieldValues['engine_id']<>NULL then
-          VehicleArr[Count][3]:=QVhc.FieldValues['engine_id'];
+          VehicleArr[Count][6]:=QVhc.FieldValues['engine_id'];
         if QVhc.FieldValues['chasis_id']<>NULL then
-        VehicleArr[Count][4]:=QVhc.FieldValues['chasis_id'];
+        VehicleArr[Count][7]:=QVhc.FieldValues['chasis_id'];
         if IsCharAlpha(PChar(Copy(QVhc.FieldValues['license_plate'],2,1))^)=False then
-          VehicleArr[Count][5]:=Copy(QVhc.FieldValues['license_plate'],1,1)+' '+Copy(QVhc.FieldValues['license_plate'],2,4)+
+          VehicleArr[Count][8]:=Copy(QVhc.FieldValues['license_plate'],1,1)+' '+Copy(QVhc.FieldValues['license_plate'],2,4)+
                               ' '+Copy(QVhc.FieldValues['license_plate'],6,Length(QVhc.FieldValues['license_plate'])+1)
         else
-          VehicleArr[Count][5]:=Copy(QVhc.FieldValues['license_plate'],1,2)+' '+Copy(QVhc.FieldValues['license_plate'],3,4)+
+          VehicleArr[Count][8]:=Copy(QVhc.FieldValues['license_plate'],1,2)+' '+Copy(QVhc.FieldValues['license_plate'],3,4)+
                               ' '+Copy(QVhc.FieldValues['license_plate'],7,Length(QVhc.FieldValues['license_plate'])+1);
         if QVhc.FieldValues['year']<>NULL then
-          VehicleArr[Count][6]:=QVhc.FieldValues['year'];
+          VehicleArr[Count][9]:=QVhc.FieldValues['year'];
 //        VehicleArr[Count][7]:=QVhc.FieldValues['vhc_batch_id'];
         if QVhc.FieldValues['stnk']<>NULL then
-          VehicleArr[Count][7]:=QVhc.FieldValues['stnk'];
+          VehicleArr[Count][10]:=QVhc.FieldValues['stnk'];
         if QVhc.FieldValues['kir']<>NULL then
-          VehicleArr[Count][8]:=QVhc.FieldValues['kir'];
+          VehicleArr[Count][11]:=QVhc.FieldValues['kir'];
         if QVhc.FieldValues['kiu']<>NULL then
-          VehicleArr[Count][9]:=QVhc.FieldValues['kiu'];
+          VehicleArr[Count][12]:=QVhc.FieldValues['kiu'];
         if QVhc.FieldValues['kio']<>NULL then
-          VehicleArr[Count][10]:=QVhc.FieldValues['kio'];
+          VehicleArr[Count][13]:=QVhc.FieldValues['kio'];
         case VhcType of
           1:begin
-              if QVhc.FieldValues['tera']<>NULL then VehicleArr[Count][11]:=QVhc.FieldValues['tera'];
-              if QVhc.FieldValues['reguler']=1 then VehicleArr[Count][12]:='Reguler' else VehicleArr[Count][12]:='Eksekutif';
+              if QVhc.FieldValues['tera']<>NULL then VehicleArr[Count][14]:=QVhc.FieldValues['tera'];
+              if QVhc.FieldValues['reguler']=1 then VehicleArr[Count][15]:='Reguler' else VehicleArr[Count][16]:='Eksekutif';
             end;
           2:begin
-              if QVhc.FieldValues['tera']<>NULL then VehicleArr[Count][11]:=QVhc.FieldValues['tera'];
-              if QVhc.FieldValues['seat']<>NULL then VehicleArr[Count][12]:=QVhc.FieldValues['seat'];
+              if QVhc.FieldValues['tera']<>NULL then VehicleArr[Count][14]:=QVhc.FieldValues['tera'];
+              if QVhc.FieldValues['seat']<>NULL then VehicleArr[Count][15]:=QVhc.FieldValues['seat'];
               if QVhc.FieldValues['is_facelift']<>NULL then begin
-                if (QVhc.FieldValues['is_facelift']=1) then VehicleArr[Count][13]:='V' else VehicleArr[Count][13]:='';
+                if (QVhc.FieldValues['is_facelift']=1) then VehicleArr[Count][16]:='V' else VehicleArr[Count][13]:='';
               end;
 
-              if QVhc.FieldValues['no_uji_kir']<>NULL then VehicleArr[Count][14]:=QVhc.FieldValues['no_uji_kir'];
+              if QVhc.FieldValues['no_uji_kir']<>NULL then VehicleArr[Count][17]:=QVhc.FieldValues['no_uji_kir'];
               
-              if QVhc.FieldValues['etoll_number']<>NULL then VehicleArr[Count][15]:=QVhc.FieldValues['etoll_number'];
-              if QVhc.FieldValues['no_kp']<>NULL then VehicleArr[Count][16]:=QVhc.FieldValues['no_kp'];
-              if QVhc.FieldValues['stnk_owner_name']<>NULL then VehicleArr[Count][17]:=QVhc.FieldValues['stnk_owner_name'];
+              if QVhc.FieldValues['etoll_number']<>NULL then VehicleArr[Count][18]:=QVhc.FieldValues['etoll_number'];
+              if QVhc.FieldValues['no_kp']<>NULL then VehicleArr[Count][19]:=QVhc.FieldValues['no_kp'];
+              if QVhc.FieldValues['stnk_owner_name']<>NULL then VehicleArr[Count][20]:=QVhc.FieldValues['stnk_owner_name'];
 
-              if QVhc.FieldValues['msisdn']<>NULL then VehicleArr[Count][18]:=QVhc.FieldValues['msisdn'];
-              if QVhc.FieldValues['ssid']<>NULL then VehicleArr[Count][19]:=QVhc.FieldValues['ssid'];
-              if QVhc.FieldValues['asset_no']<>NULL then VehicleArr[Count][20]:=QVhc.FieldValues['asset_no'];
-              if QVhc.FieldValues['router']<>NULL then VehicleArr[Count][21]:=QVhc.FieldValues['router'];
+              if QVhc.FieldValues['msisdn']<>NULL then VehicleArr[Count][21]:=QVhc.FieldValues['msisdn'];
+              if QVhc.FieldValues['ssid']<>NULL then VehicleArr[Count][22]:=QVhc.FieldValues['ssid'];
+              if QVhc.FieldValues['asset_no']<>NULL then VehicleArr[Count][23]:=QVhc.FieldValues['asset_no'];
+              if QVhc.FieldValues['router']<>NULL then VehicleArr[Count][24]:=QVhc.FieldValues['router'];
 
-              if QVhc.FieldValues['asset_id']<>NULL then VehicleArr[Count][22]:=QVhc.FieldValues['asset_id'];
+              if QVhc.FieldValues['asset_id']<>NULL then VehicleArr[Count][25]:=QVhc.FieldValues['asset_id'];
 
-              if QVhc.FieldValues['insurance_number']<>NULL then VehicleArr[Count][23]:=QVhc.FieldValues['insurance_number'];
-              if QVhc.FieldValues['insurance_name']<>NULL then VehicleArr[Count][24]:=QVhc.FieldValues['insurance_name'];
-              if QVhc.FieldValues['insurance_from_date']<>NULL then VehicleArr[Count][25]:=QVhc.FieldValues['insurance_from_date'];
-              if QVhc.FieldValues['insurance_to_date']<>NULL then VehicleArr[Count][26]:=QVhc.FieldValues['insurance_to_date'];
-              if QVhc.FieldValues['insurance_amount']<>NULL then VehicleArr[Count][27]:= SToCurr(QVhc.FieldValues['insurance_amount']);
-              if QVhc.FieldValues['batch_name']<>NULL then VehicleArr[Count][28]:= QVhc.FieldValues['batch_name'];
+              if QVhc.FieldValues['insurance_number']<>NULL then VehicleArr[Count][26]:=QVhc.FieldValues['insurance_number'];
+              if QVhc.FieldValues['insurance_name']<>NULL then VehicleArr[Count][27]:=QVhc.FieldValues['insurance_name'];
+              if QVhc.FieldValues['insurance_from_date']<>NULL then VehicleArr[Count][28]:=QVhc.FieldValues['insurance_from_date'];
+              if QVhc.FieldValues['insurance_to_date']<>NULL then VehicleArr[Count][29]:=QVhc.FieldValues['insurance_to_date'];
+              if QVhc.FieldValues['insurance_amount']<>NULL then VehicleArr[Count][30]:= SToCurr(QVhc.FieldValues['insurance_amount']);
+              if QVhc.FieldValues['batch_name']<>NULL then VehicleArr[Count][31]:= QVhc.FieldValues['batch_name'];
 
             end;
         end;
@@ -391,18 +402,18 @@ begin
   end else begin
     if FormRequest='' then begin
       if (LeftStr(IntToStr(TreeTag),2)='12') then begin
-        if (RightStr(IntToStr(TreeTag),2)='02') then if Main.IsFormOpen('VehicleForm')=False then VehicleForm:=TVehicleForm.Create(Self,'Taxi',StrGrid.Cells[0,IntRow],False);
-        if (RightStr(IntToStr(TreeTag),2)='04') then if Main.IsFormOpen('VehicleMutation')=False then VehicleMutation:=TVehicleMutation.Create(Self,StrGrid.Cells[0,IntRow]);
-        if (RightStr(IntToStr(TreeTag),2)='05') then if Main.IsFormOpen('VehicleForm')=False then VehicleForm:=TVehicleForm.Create(Self,'Taxi',StrGrid.Cells[0,IntRow]);
+        if (RightStr(IntToStr(TreeTag),2)='02') then if Main.IsFormOpen('VehicleForm')=False then VehicleForm:=TVehicleForm.Create(Self,'Taxi',StrGrid.Cells[3,IntRow],False);
+        if (RightStr(IntToStr(TreeTag),2)='04') then if Main.IsFormOpen('VehicleMutation')=False then VehicleMutation:=TVehicleMutation.Create(Self,StrGrid.Cells[3,IntRow]);
+        if (RightStr(IntToStr(TreeTag),2)='05') then if Main.IsFormOpen('VehicleForm')=False then VehicleForm:=TVehicleForm.Create(Self,'Taxi',StrGrid.Cells[3,IntRow]);
       end else if (LeftStr(IntToStr(TreeTag),2)='13') then begin
-        if (RightStr(IntToStr(TreeTag),2)='02') then if Main.IsFormOpen('VehicleForm')=False then VehicleForm:=TVehicleForm.Create(Self,'Bus',StrGrid.Cells[0,IntRow],False);
-        if (RightStr(IntToStr(TreeTag),2)='04') then if Main.IsFormOpen('VehicleMutation')=False then VehicleMutation:=TVehicleMutation.Create(Self,StrGrid.Cells[0,IntRow]);
-        if (RightStr(IntToStr(TreeTag),2)='05') then if Main.IsFormOpen('VehicleForm')=False then VehicleForm:=TVehicleForm.Create(Self,'Bus',StrGrid.Cells[0,IntRow]);
-        if (RightStr(IntToStr(TreeTag),2)='22') then if Main.IsFormOpen('VehicleTopUpKuotaForm')=False then VehicleTopUpKuotaForm:=TVehicleTopUpKuotaForm.Create(Self,StrGrid.Cells[0,IntRow]);
+        if (RightStr(IntToStr(TreeTag),2)='02') then if Main.IsFormOpen('VehicleForm')=False then VehicleForm:=TVehicleForm.Create(Self,'Bus',StrGrid.Cells[3,IntRow],False);
+        if (RightStr(IntToStr(TreeTag),2)='04') then if Main.IsFormOpen('VehicleMutation')=False then VehicleMutation:=TVehicleMutation.Create(Self,StrGrid.Cells[3,IntRow]);
+        if (RightStr(IntToStr(TreeTag),2)='05') then if Main.IsFormOpen('VehicleForm')=False then VehicleForm:=TVehicleForm.Create(Self,'Bus',StrGrid.Cells[3,IntRow]);
+        if (RightStr(IntToStr(TreeTag),2)='22') then if Main.IsFormOpen('VehicleTopUpKuotaForm')=False then VehicleTopUpKuotaForm:=TVehicleTopUpKuotaForm.Create(Self,StrGrid.Cells[3,IntRow]);
       end else if (LeftStr(IntToStr(TreeTag),2)='17') then begin
-        if (RightStr(IntToStr(TreeTag),2)='02') then if Main.IsFormOpen('VehicleForm')=False then VehicleForm:=TVehicleForm.Create(Self,'GrayLine',StrGrid.Cells[0,IntRow],False);
-        if (RightStr(IntToStr(TreeTag),2)='04') then if Main.IsFormOpen('VehicleMutation')=False then VehicleMutation:=TVehicleMutation.Create(Self,StrGrid.Cells[0,IntRow]);
-        if (RightStr(IntToStr(TreeTag),2)='05') then if Main.IsFormOpen('VehicleForm')=False then VehicleForm:=TVehicleForm.Create(Self,'GrayLine',StrGrid.Cells[0,IntRow]);
+        if (RightStr(IntToStr(TreeTag),2)='02') then if Main.IsFormOpen('VehicleForm')=False then VehicleForm:=TVehicleForm.Create(Self,'GrayLine',StrGrid.Cells[3,IntRow],False);
+        if (RightStr(IntToStr(TreeTag),2)='04') then if Main.IsFormOpen('VehicleMutation')=False then VehicleMutation:=TVehicleMutation.Create(Self,StrGrid.Cells[3,IntRow]);
+        if (RightStr(IntToStr(TreeTag),2)='05') then if Main.IsFormOpen('VehicleForm')=False then VehicleForm:=TVehicleForm.Create(Self,'GrayLine',StrGrid.Cells[3,IntRow]);
       end
     end else begin
       if UpperCase(FormRequest)='WORKORDER-CREATE' then begin
