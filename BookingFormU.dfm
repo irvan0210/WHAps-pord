@@ -1,11 +1,11 @@
 object BookingForm: TBookingForm
-  Left = 228
-  Top = 103
+  Left = 150
+  Top = 57
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Penjadwalan'
   ClientHeight = 575
-  ClientWidth = 1129
+  ClientWidth = 1141
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -555,7 +555,7 @@ object BookingForm: TBookingForm
   object GroupOrder: TGroupBox
     Left = 8
     Top = 264
-    Width = 1116
+    Width = 1129
     Height = 247
     Caption = 'Data Pesanan'
     TabOrder = 14
@@ -576,7 +576,7 @@ object BookingForm: TBookingForm
     object StrGrid: TZColorStringGrid
       Left = 0
       Top = 16
-      Width = 1099
+      Width = 1121
       Height = 224
       TabStop = False
       ColCount = 12
