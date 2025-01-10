@@ -34,8 +34,9 @@ type
     RadPilihDriver: TRadioButton;
     CariDriver: TButton;
     Label5: TLabel;
-    CBKategory: TComboBox;
+    GroupBox2: TGroupBox;
     Label6: TLabel;
+    CBKategory: TComboBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure LihatDataClick(Sender: TObject);

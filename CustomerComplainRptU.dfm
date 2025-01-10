@@ -1,6 +1,6 @@
 object CustomerComplainRpt: TCustomerComplainRpt
-  Left = 33
-  Top = 102
+  Left = 14
+  Top = 162
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Laporan Complain Customer'
@@ -65,7 +65,7 @@ object CustomerComplainRpt: TCustomerComplainRpt
     Caption = 's/d'
   end
   object Label1: TLabel
-    Left = 607
+    Left = 575
     Top = 44
     Width = 30
     Height = 13
@@ -85,8 +85,8 @@ object CustomerComplainRpt: TCustomerComplainRpt
     ParentFont = False
   end
   object LihatData: TButton
-    Left = 1107
-    Top = 12
+    Left = 1123
+    Top = 42
     Width = 86
     Height = 26
     Caption = 'Lihat'
@@ -134,7 +134,7 @@ object CustomerComplainRpt: TCustomerComplainRpt
   object GroupCompany: TGroupBox
     Left = 8
     Top = 5
-    Width = 281
+    Width = 249
     Height = 33
     TabOrder = 3
     object Label4: TLabel
@@ -156,7 +156,7 @@ object CustomerComplainRpt: TCustomerComplainRpt
     end
   end
   object Periode: TRadioGroup
-    Left = 296
+    Left = 264
     Top = 5
     Width = 305
     Height = 57
@@ -168,7 +168,7 @@ object CustomerComplainRpt: TCustomerComplainRpt
     OnClick = PeriodeClick
   end
   object Bulan: TDateTimePicker
-    Left = 372
+    Left = 340
     Top = 38
     Width = 89
     Height = 20
@@ -178,7 +178,7 @@ object CustomerComplainRpt: TCustomerComplainRpt
     TabOrder = 5
   end
   object TglSampai: TDateTimePicker
-    Left = 506
+    Left = 474
     Top = 16
     Width = 89
     Height = 20
@@ -187,7 +187,7 @@ object CustomerComplainRpt: TCustomerComplainRpt
     TabOrder = 6
   end
   object CekTglSampai: TCheckBox
-    Left = 490
+    Left = 458
     Top = 18
     Width = 15
     Height = 17
@@ -196,7 +196,7 @@ object CustomerComplainRpt: TCustomerComplainRpt
     OnClick = CekTglSampaiClick
   end
   object Tanggal: TDateTimePicker
-    Left = 372
+    Left = 340
     Top = 16
     Width = 89
     Height = 20
@@ -205,7 +205,7 @@ object CustomerComplainRpt: TCustomerComplainRpt
     TabOrder = 8
   end
   object GroupBox1: TGroupBox
-    Left = 607
+    Left = 575
     Top = 5
     Width = 201
     Height = 31
@@ -228,7 +228,7 @@ object CustomerComplainRpt: TCustomerComplainRpt
     end
   end
   object CBStatus: TComboBox
-    Left = 642
+    Left = 610
     Top = 40
     Width = 145
     Height = 21
@@ -241,13 +241,13 @@ object CustomerComplainRpt: TCustomerComplainRpt
       'Belum Tutup')
   end
   object Panel1: TPanel
-    Left = 816
+    Left = 784
     Top = 8
     Width = 282
     Height = 57
     TabOrder = 11
     object Label5: TLabel
-      Left = 253
+      Left = 197
       Top = 10
       Width = 53
       Height = 13
@@ -288,6 +288,37 @@ object CustomerComplainRpt: TCustomerComplainRpt
       Caption = '..'
       TabOrder = 3
       OnClick = CariDriverClick
+    end
+  end
+  object GroupBox2: TGroupBox
+    Left = 1072
+    Top = 3
+    Width = 217
+    Height = 37
+    TabOrder = 12
+    object Label6: TLabel
+      Left = 9
+      Top = 12
+      Width = 42
+      Height = 13
+      Caption = 'Kategory'
+    end
+    object CBKategory: TComboBox
+      Left = 64
+      Top = 10
+      Width = 139
+      Height = 21
+      ItemHeight = 13
+      TabOrder = 0
+      Text = 'Semua'
+      Items.Strings = (
+        'Semua'
+        'Kebersihan'
+        'Fasilitas'
+        'Pelayanan'
+        'Penjemputan'
+        'Mogok'
+        'Driver bermasalah')
     end
   end
 end
