@@ -34,6 +34,8 @@ type
     RadPilihDriver: TRadioButton;
     CariDriver: TButton;
     Label5: TLabel;
+    CBKategory: TComboBox;
+    Label6: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure LihatDataClick(Sender: TObject);
@@ -377,7 +379,7 @@ begin
 end;
 
 procedure TCustomerComplainRpt.RefreshData;
-var StrQry,StrAllFoward,StrLocation,StrCompanyId,StrCustomerId,StrDate,StrDatesTo,StrOrder,StrJenisFilterTgl,StrClose,StrDriverID:String;
+var StrQry,StrAllFoward,StrLocation,StrCompanyId,StrCustomerId,StrDate,StrDatesTo,StrOrder,StrJenisFilterTgl,StrClose,StrDriverID,StrKategory:String;
     Qry:TADOQuery;
     IntCount:Integer;
     myYear, myMonth, myDay : Word;
@@ -434,9 +436,22 @@ begin
       StrDriverID:='';
     end;
 
+    if CBKategory.ItemIndex =1 then
+    StrKategory :=', @FilterKategory='+QuotedStr('kebersihan_status')
+    else if CBKategory.ItemIndex =2 then
+    StrKategory :=', @FilterKategory='+QuotedStr('fasilitas_status')
+    else if CBKategory.ItemIndex =3 then
+    StrKategory :=', @FilterKategory='+QuotedStr('pelayanan_status')
+    else if CBKategory.ItemIndex =4 then
+    StrKategory :=', @FilterKategory='+QuotedStr('penjemputan_status')
+    else if CBKategory.ItemIndex =5 then
+    StrKategory :=', @FilterKategory='+QuotedStr('mogok_status')
+    else if CBKategory.ItemIndex =6 then
+    StrKategory :=', @FilterKategory='+QuotedStr('deiver_bermasalah_status')
+    else StrKategory := '';
 
     {StrQry:='EXEC GetVhcOutComplainList '+LocationId+',1,'+CompanyId+StrAllFoward+',@List=1; ';}
-    StrQry:='EXEC GetCustomerComplainRpt '+StrLocation+',1,'+StrCompanyId+StrDate+StrDatesTo+StrJenisFilterTgl+StrClose+StrDriverID;
+    StrQry:='EXEC GetCustomerComplainRpt '+StrLocation+',1,'+StrCompanyId+StrDate+StrDatesTo+StrJenisFilterTgl+StrClose+StrDriverID+StrKategory;
 
     Qry.SQL.Clear;
     Main.WriteLog('SQL :'+StrQry,2);
