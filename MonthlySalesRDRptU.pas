@@ -52,11 +52,11 @@ type
     { Private declarations }
     CompId,Month:Integer;
     FormRequest,CustId:String;
-    OrderArr,CompanyArr:Array of TArrString32;
+    OrderArr,CompanyArr:Array of TArrString35;
     SegmentArr:Array of TArrString10;
     ResumeArr:Array of TArrString4;
     IntRow,IntCol,IsAll,MinRowGrid,CustomerSegment,isSummary:Integer;
-    IntTotalSum,IntTotalSumA,IntTotalSumB,IntTotalProjection:Int64;
+    IntTotalSum,IntTotalSumA,IntTotalSumB,IntTotalProjection,IntTotalSumPPN,IntTotalSumPPH,IntTotalSumPayment:Int64;
     procedure Init;
     procedure InitGrid;
     procedure RefreshCombo;
@@ -162,7 +162,7 @@ var IntCount,IntCount2:Integer;
 begin
   MinRowGrid:=1;
   StrGrid.RowCount:=3;
-  StrGrid.ColCount:=31;
+  StrGrid.ColCount:=34;
   StrGrid.ColWidths[0]:=70;
   StrGrid.ColWidths[1]:=110;
   StrGrid.ColWidths[2]:=100;
@@ -171,7 +171,7 @@ begin
   StrGrid.ColWidths[5]:=180;
 
   StrGrid.ColWidths[6]:=120;
-  StrGrid.ColWidths[7]:=40;
+  StrGrid.ColWidths[7]:=80;
   StrGrid.ColWidths[8]:=100;
   StrGrid.ColWidths[9]:=35;
   StrGrid.ColWidths[10]:=50;
@@ -183,10 +183,14 @@ begin
   StrGrid.ColWidths[19]:=80;
   StrGrid.ColWidths[20]:=80;
   StrGrid.ColWidths[21]:=80;
+  StrGrid.ColWidths[22]:=110;
   StrGrid.ColWidths[27]:=80;
   StrGrid.ColWidths[28]:=100;
   StrGrid.ColWidths[29]:=120;
-  StrGrid.ColWidths[30]:=0;
+  StrGrid.ColWidths[30]:=120;
+  StrGrid.ColWidths[31]:=180;
+  StrGrid.ColWidths[32]:=180;
+  StrGrid.ColWidths[33]:=0;
 
   StrGrid.MergeCells.AddRectXY(0,0,0,1);
   StrGrid.MergeCells.AddRectXY(1,0,1,1);
@@ -209,10 +213,14 @@ begin
   StrGrid.MergeCells.AddRectXY(19,0,19,1);
   StrGrid.MergeCells.AddRectXY(20,0,20,1);
   StrGrid.MergeCells.AddRectXY(21,0,21,1);
-  StrGrid.MergeCells.AddRectXY(22,0,27,0);
-  StrGrid.MergeCells.AddRectXY(28,0,28,1);
+  StrGrid.MergeCells.AddRectXY(22,0,22,1);
+//  StrGrid.MergeCells.AddRectXY(23,0,23,1);
+  StrGrid.MergeCells.AddRectXY(23,0,28,0);
   StrGrid.MergeCells.AddRectXY(29,0,29,1);
   StrGrid.MergeCells.AddRectXY(30,0,30,1);
+  StrGrid.MergeCells.AddRectXY(31,0,31,1);
+  StrGrid.MergeCells.AddRectXY(32,0,32,1);
+//  StrGrid.MergeCells.AddRectXY(32,0,32,1);
   StrGrid.Cells[0,0]:='Tanggal';
   StrGrid.Cells[1,0]:='No Pesanan';
   StrGrid.Cells[2,0]:='Customer ID GP';
@@ -236,19 +244,22 @@ begin
   StrGrid.Cells[17,0]:='Tol Parkir';
   StrGrid.Cells[18,0]:='Biaya Lain';
   StrGrid.Cells[19,0]:='Nett';
-  StrGrid.Cells[20,0]:='PPH';
-  StrGrid.Cells[21,0]:='Nett-PPH';
+  StrGrid.Cells[20,0]:='PPN';
+  StrGrid.Cells[21,0]:='PPH';
+  StrGrid.Cells[22,0]:='Total Payment';
 
-  StrGrid.Cells[22,0]:='Pembayaran';
-  StrGrid.Cells[22,1]:='Tgl';
-  StrGrid.Cells[23,1]:='DP 1';
-  StrGrid.Cells[24,1]:='Tgl';
-  StrGrid.Cells[25,1]:='DP 2';
-  StrGrid.Cells[26,1]:='Tgl';
-  StrGrid.Cells[27,1]:='Pelunasan';
-  StrGrid.Cells[28,0]:='Keterangan';
-  StrGrid.Cells[29,0]:='No Invoice';
-  StrGrid.Cells[30,0]:='Discount/Unit';
+  StrGrid.Cells[23,0]:='Pembayaran';
+  StrGrid.Cells[23,1]:='Tgl';
+  StrGrid.Cells[24,1]:='DP 1';
+  StrGrid.Cells[25,1]:='Tgl';
+  StrGrid.Cells[26,1]:='DP 2';
+  StrGrid.Cells[27,1]:='Tgl';
+  StrGrid.Cells[28,1]:='Pelunasan';
+  StrGrid.Cells[29,0]:='Keterangan';
+  StrGrid.Cells[30,0]:='No Invoice';
+  StrGrid.Cells[31,0]:='NPWP';
+  StrGrid.Cells[32,0]:='NIK';
+  StrGrid.Cells[33,0]:='Discount/Unit';
 
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
@@ -274,6 +285,8 @@ begin
   StrGrid.CellStyle[21,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[25,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[22,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[23,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[24,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[9,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[10,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[11,1].HorizontalAlignment:=taCenter;
@@ -288,7 +301,11 @@ begin
   StrGrid.CellStyle[27,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[28,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[29,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[28,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[29,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[30,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[31,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[32,0].HorizontalAlignment:=taCenter;
 
   for IntCount:=0 to StrGrid.ColCount-1 do
     StrGrid.Cells[IntCount,2]:='';
@@ -550,13 +567,23 @@ begin
             end;
             OrderArr[IntCount][19]:=IToCurr(QryOrder.FieldValues['total_order']);
 
-            if (QryOrder.FieldValues['IsUsingTax']=True) then begin
+            if (QryOrder.FieldValues['PphDeduction']>0) then begin
               OrderArr[IntCount][30]:=IToCurr(QryOrder.FieldValues['PphDeduction']);
-              OrderArr[IntCount][31]:=IToCurr(QryOrder.FieldValues['total_order']-QryOrder.FieldValues['PphDeduction']);
+              OrderArr[IntCount][31]:=IToCurr(QryOrder.FieldValues['total_order']-QryOrder.FieldValues['PphDeduction']+QryOrder.FieldValues['PpnAddition']);
             end else begin
               OrderArr[IntCount][30]:='0';
-              OrderArr[IntCount][31]:=IToCurr(QryOrder.FieldValues['total_order']);
+              OrderArr[IntCount][31]:=IToCurr(QryOrder.FieldValues['total_order']+QryOrder.FieldValues['PpnAddition']);
             end;
+
+            OrderArr[IntCount][32]:=IToCurr(QryOrder.FieldValues['PpnAddition']);
+            if QryOrder.FieldValues['PpnAddition']=0 then
+            begin
+              if QryOrder.FieldValues['npwp']<>NULL then OrderArr[IntCount][33]:=QryOrder.FieldValues['npwp'];
+              if QryOrder.FieldValues['nik_number']<>NULL then OrderArr[IntCount][34]:=QryOrder.FieldValues['nik_number'];
+            end;
+//            OrderArr[IntCount][33]:=IToCurr(QryOrder.FieldValues['total_order']+QryOrder.FieldValues['PpnAddition']);
+
+
             {
             if QryOrder.FieldValues['discount_percent']>0 then
               OrderArr[IntCount][19]:=IToCurr( QryOrder.FieldValues['total_order']-(QryOrder.FieldValues['total_order']*QryOrder.FieldValues['discount_percent']/100) )
@@ -574,7 +601,7 @@ begin
             end;
             if QryOrder.FieldValues['invoice_no']<>NULL then OrderArr[IntCount][27]:=QryOrder.FieldValues['invoice_no'];
             if SToInt(OrderArr[IntCount][19])<=(IntPayment[0]+IntPayment[1]+IntPayment[2]) then OrderArr[IntCount][26]:='Lunas';
-            if QryOrder.FieldValues['discount_per_unit']<>NULL then OrderArr[IntCount][28]:=QryOrder.FieldValues['discount_per_unit'];
+              if QryOrder.FieldValues['discount_per_unit']<>NULL then OrderArr[IntCount][28]:=QryOrder.FieldValues['discount_per_unit'];
             //Qry2.Next;
           //if not(Qry2.Eof) then Inc(IntCount);
           //end;
@@ -671,6 +698,9 @@ begin
   StrOrderId:='';
   IntTotal:=0;
   IntTotalSum:=0;
+  IntTotalSumPPN:=0;
+  IntTotalSumPPH:=0;
+  IntTotalSumPayment:=0;
   for IntCount:=0 to Length(OrderArr)-1 do begin
     ProgressBar.Position:=80+Round((20/Length(OrderArr))*IntCount);
     if StrOrderId<>OrderArr[IntCount][1] then begin
@@ -690,18 +720,26 @@ begin
       StrGrid.Cells[17,IntCount+2]:=OrderArr[IntCount][17];
       StrGrid.Cells[18,IntCount+2]:=OrderArr[IntCount][18];
       StrGrid.Cells[19,IntCount+2]:=OrderArr[IntCount][19];
-      StrGrid.Cells[22,IntCount+2]:=OrderArr[IntCount][20];
-      StrGrid.Cells[23,IntCount+2]:=OrderArr[IntCount][21];
-      StrGrid.Cells[24,IntCount+2]:=OrderArr[IntCount][22];
-      StrGrid.Cells[25,IntCount+2]:=OrderArr[IntCount][23];
-      StrGrid.Cells[26,IntCount+2]:=OrderArr[IntCount][24];
-      StrGrid.Cells[27,IntCount+2]:=OrderArr[IntCount][25];
-      StrGrid.Cells[28,IntCount+2]:=OrderArr[IntCount][26];
-      StrGrid.Cells[29,IntCount+2]:=OrderArr[IntCount][27];
-      StrGrid.Cells[20,IntCount+2]:=OrderArr[IntCount][30];
-      StrGrid.Cells[21,IntCount+2]:=OrderArr[IntCount][31];
+      StrGrid.Cells[23,IntCount+2]:=OrderArr[IntCount][20];
+      StrGrid.Cells[24,IntCount+2]:=OrderArr[IntCount][21];
+      StrGrid.Cells[25,IntCount+2]:=OrderArr[IntCount][22];
+      StrGrid.Cells[26,IntCount+2]:=OrderArr[IntCount][23];
+      StrGrid.Cells[27,IntCount+2]:=OrderArr[IntCount][24];
+      StrGrid.Cells[28,IntCount+2]:=OrderArr[IntCount][25];
+      StrGrid.Cells[29,IntCount+2]:=OrderArr[IntCount][26];
+      StrGrid.Cells[30,IntCount+2]:=OrderArr[IntCount][27];
+      StrGrid.Cells[31,IntCount+2]:=OrderArr[IntCount][33];
+      StrGrid.Cells[32,IntCount+2]:=OrderArr[IntCount][34];
+
+      StrGrid.Cells[22,IntCount+2]:=OrderArr[IntCount][31];
+
+      StrGrid.Cells[20,IntCount+2]:=OrderArr[IntCount][32];
+      StrGrid.Cells[21,IntCount+2]:=OrderArr[IntCount][30];
 
       IntTotalSum:=IntTotalSum+StrToInt64(ToString(OrderArr[IntCount][19]));
+      IntTotalSumPPN:=IntTotalSumPPN+StrToInt64(ToString(OrderArr[IntCount][32]));
+      IntTotalSumPPH:=IntTotalSumPPH+StrToInt64(ToString(OrderArr[IntCount][30]));
+      IntTotalSumPayment:=IntTotalSumPayment+StrToInt64(ToString(OrderArr[IntCount][31]));
       IsDrawRect:=False;
       IsResumeMatch:=False;
       IntResume:=0;
@@ -742,6 +780,9 @@ begin
       StrGrid.MergeCells.AddRectXY(27,IntStartRow+2,27,IntCount+2);
       StrGrid.MergeCells.AddRectXY(28,IntStartRow+2,28,IntCount+2);
       StrGrid.MergeCells.AddRectXY(29,IntStartRow+2,29,IntCount+2);
+      StrGrid.MergeCells.AddRectXY(30,IntStartRow+2,30,IntCount+2);
+      StrGrid.MergeCells.AddRectXY(31,IntStartRow+2,31,IntCount+2);
+      StrGrid.MergeCells.AddRectXY(32,IntStartRow+2,32,IntCount+2);
       IntTotal:=IntTotal+SToInt(StrGrid.Cells[19,IntStartRow+2]);
     end;
     StrGrid.Cells[8,IntCount+2]:=OrderArr[IntCount][8];
@@ -751,7 +792,7 @@ begin
     StrGrid.Cells[12,IntCount+2]:=OrderArr[IntCount][12];
     StrGrid.Cells[13,IntCount+2]:=OrderArr[IntCount][13];
     StrGrid.Cells[14,IntCount+2]:=OrderArr[IntCount][14];
-    StrGrid.Cells[28,IntCount+2]:=OrderArr[IntCount][26];
+//    StrGrid.Cells[26,IntCount+2]:=OrderArr[IntCount][26];
     StrGrid.CellStyle[4,IntCount+2].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[7,IntCount+2].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[9,IntCount+2].HorizontalAlignment:=taCenter;
@@ -762,9 +803,11 @@ begin
     StrGrid.CellStyle[19,IntCount+2].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[20,IntCount+2].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[21,IntCount+2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[22,IntCount+2].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[23,IntCount+2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[25,IntCount+2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[27,IntCount+2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[24,IntCount+2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[26,IntCount+2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[28,IntCount+2].HorizontalAlignment:=taRightJustify;
   end;
   ProgressBar.Position:=100;
   StrGrid.RowCount:=StrGrid.RowCount+1;
@@ -772,6 +815,12 @@ begin
   StrGrid.Cells[18,StrGrid.RowCount-1]:='Total';
   StrGrid.Cells[19,StrGrid.RowCount-1]:=IToCurr(IntTotalSum);
   StrGrid.CellStyle[19,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+  StrGrid.Cells[20,StrGrid.RowCount-1]:=IToCurr(IntTotalSumPPN);
+  StrGrid.CellStyle[20,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+  StrGrid.Cells[21,StrGrid.RowCount-1]:=IToCurr(IntTotalSumPPH);
+  StrGrid.CellStyle[21,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+  StrGrid.Cells[22,StrGrid.RowCount-1]:=IToCurr(IntTotalSumPayment);
+  StrGrid.CellStyle[22,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
   StrGrid.RowCount:=StrGrid.RowCount+1;
   for IntCount2:=0 to Length(ResumeArr)-1 do begin
     StrGrid.RowCount:=StrGrid.RowCount+1;
