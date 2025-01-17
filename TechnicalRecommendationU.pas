@@ -87,8 +87,9 @@ type
     ppLabel32: TppLabel;
     ppLabel33: TppLabel;
     MerkdanSpesifikasi: TMemo;
-    ppLabelMerkdanSpek: TppLabel;
     ppImage1: TppImage;
+    ppLabelUser: TppLabel;
+    ppLabelMerkdanSpek: TppMemo;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SelesaiClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -236,6 +237,16 @@ begin
       if status.Checked = True then StrStatus := '1'
       else StrStatus := '0';
 
+      if StrRekomNO = '' then begin
+          StrQry:='SELECT dbo.GetNewTechnicalRecommendationsId('+CompanyId+') AS hasil;';
+          Qry.SQL.Clear;
+          Qry.SQL.Add(StrQry);
+          Qry.Open;
+          if Qry.RecordCount>0 then
+            StrRekomNO :=Qry.FieldValues['hasil'];
+      end;
+
+
       if TechnicalRekomNO.Text <> '' then begin
          StrQry := 'UPDATE wh_technical_recommendations SET date ='+QuotedStr(FormatDateTime('yyyy/mm/dd',tgl_rekomendasi.Date))+', '+
                     'type_of_good ='+QuotedStr(JenisBarang.Text)+','+
@@ -258,7 +269,7 @@ begin
         StrQry := 'INSERT INTO wh_technical_recommendations (technical_recommendation_no, date, type_of_good, '+
                'reason_for_procurement, old_device_no, department_id, user_requestor, qty,              '+
                'brand_and_specification, price_forecasts, recommendation_expired,location, status, user_id, create_time,    '+
-               'update_user, update_time) VALUES ((SELECT dbo.GetNewTechnicalRecommendationsId('+CompanyId+') AS hasil),GETDATE(),'+//QuotedStr(StrTechnicalRekomNO)+','+
+               'update_user, update_time) VALUES ('+QuotedStr(StrRekomNO)+',GETDATE(),'+//QuotedStr(StrTechnicalRekomNO)+','+  (SELECT dbo.GetNewTechnicalRecommendationsId('+CompanyId+') AS hasil)
                 QuotedStr(JenisBarang.Text)+','+QuotedStr(AlasanPengadaan.Text)+','+QuotedStr(NoPerangkatLama.Text)+','+
                 QuotedStr(StrDepartemenId)+','+QuotedStr(Requestor.Text)+','+QuotedStr(Jumlah.Text)+','+
                 QuotedStr(MerkdanSpesifikasi.Text)+','+ToString(PerkiraanHarga.Text)+','+QuotedStr(FormatDateTime('yyyy/mm/dd',RecomExpired.Date))+', '+
@@ -281,10 +292,11 @@ begin
       Qry.Close;
       Main.CloseDb;
     end;
+    
     if IsOk then begin
       MessageBox(0,PChar(StrPesan),'Rekomendasi Teknis',MB_OK or MB_ICONINFORMATION);
       if MessageBox(0,PChar('Cetak Rekomendasi Teknis?') ,'Rekomendasi Teknis',MB_OKCANCEL or MB_ICONINFORMATION)=1 then begin
-         cetakClick(Sender);
+        cetakClick(Sender);
       end;
       Init;
       close;
@@ -292,12 +304,14 @@ begin
       MessageBox(0,PChar(StrMsg+Chr(13)+Chr(13)+'Kesalahan:'+Chr(13)+StrException),'Rekomendasi Teknis',MB_OK or MB_ICONERROR);
     end;
   end;
+
   if Main.IsFormOpen('TechnicalRecommendationList') then begin
-    TechnicalRecommendationList.Init;
+    //TechnicalRecommendationList.Init;
     TechnicalRecommendationList.LoadData;
-   // TechnicalRecommendationList.RefreshList;
+    TechnicalRecommendationList.RefreshList;
   end;
-  if IsOk then SubMenuForm.Close;
+
+//  if IsOk then SubMenuForm.Close;
 
 end;
 
@@ -440,10 +454,11 @@ begin
         ppLabelRequestor.Caption := Qry.FieldValues['user_requestor'];//Requestor.Text;
         ppLabelQTY.Caption := SToCurr(Qry.FieldValues['qty']);//Jumlah.Text;
        // MessageBox(0,PChar(MerkdanSpesifikasi.Text),'Rekomendasi Teknis',MB_OK or MB_ICONINFORMATION);
-        ppLabelMerkdanSpek.Caption :=MerkdanSpesifikasi.Text;//TStringList(MerkdanSpesifikasi.Lines);
+       // ppLabelMerkdanSpek.Caption :=MerkdanSpesifikasi.Text;//TStringList(MerkdanSpesifikasi.Lines);
+        ppLabelMerkdanSpek.Lines := MerkdanSpesifikasi.Lines;
         ppLabelPerkiraanHarga.Caption := SToCurr(Qry.FieldValues['price_forecasts']); //PerkiraanHarga.Text;
         ppLabelRecomExpired.Caption := Qry.FieldValues['recommendation_expired']; //StrToDateTime(DateToStr(RecomExpired.Date);
-
+        ppLabelUser.Caption := user;
         Main.M_Normal;
         ppReportRekomendasiTknis.PreviewFormSettings.WindowState:=wsMaximized;
         ppReportRekomendasiTknis.Print;
