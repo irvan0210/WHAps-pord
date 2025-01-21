@@ -332,13 +332,14 @@ object TechnicalRecommendation: TTechnicalRecommendation
         TextAlignment = taCentered
         Transparent = True
         mmHeight = 8731
-        mmLeft = 47890
+        mmLeft = 53975
         mmTop = 28840
         mmWidth = 85461
         BandType = 0
       end
       object ppLabelNomor: TppLabel
         UserName = 'LabelNomor'
+        AutoSize = False
         Border.BorderPositions = []
         Border.Color = clBlack
         Border.Style = psSolid
@@ -350,13 +351,14 @@ object TechnicalRecommendation: TTechnicalRecommendation
         Font.Style = []
         Transparent = True
         mmHeight = 4586
-        mmLeft = 60590
+        mmLeft = 65088
         mmTop = 38365
-        mmWidth = 34660
+        mmWidth = 37835
         BandType = 0
       end
       object ppLabel9: TppLabel
         UserName = 'Label9'
+        AutoSize = False
         Border.BorderPositions = []
         Border.Color = clBlack
         Border.Style = psSolid
@@ -370,13 +372,14 @@ object TechnicalRecommendation: TTechnicalRecommendation
         TextAlignment = taCentered
         Transparent = True
         mmHeight = 4586
-        mmLeft = 96573
+        mmLeft = 103452
         mmTop = 38365
         mmWidth = 14182
         BandType = 0
       end
       object ppLabelTanggalBuat: TppLabel
         UserName = 'LabelNomor1'
+        AutoSize = False
         Border.BorderPositions = []
         Border.Color = clBlack
         Border.Style = psSolid
@@ -388,18 +391,19 @@ object TechnicalRecommendation: TTechnicalRecommendation
         Font.Style = []
         Transparent = True
         mmHeight = 4586
-        mmLeft = 111654
+        mmLeft = 118269
         mmTop = 38365
         mmWidth = 17198
         BandType = 0
       end
       object ppLabel2: TppLabel
         UserName = 'Label2'
+        AutoSize = False
         Border.BorderPositions = []
         Border.Color = clBlack
         Border.Style = psSolid
         Border.Visible = False
-        Caption = 'No : '
+        Caption = 'No :'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Name = 'Arial'
@@ -408,9 +412,9 @@ object TechnicalRecommendation: TTechnicalRecommendation
         TextAlignment = taCentered
         Transparent = True
         mmHeight = 4586
-        mmLeft = 53446
+        mmLeft = 58208
         mmTop = 38365
-        mmWidth = 7620
+        mmWidth = 6562
         BandType = 0
       end
       object ppImage1: TppImage
