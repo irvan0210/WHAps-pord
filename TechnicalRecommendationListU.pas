@@ -33,7 +33,7 @@ type
 var
   TechnicalRecommendationList: TTechnicalRecommendationList;
   TechnicalRecomArr:Array of TArrString14;
-  IntRow:Integer;
+  IntRow, IntCol:Integer;
 
 implementation
 
@@ -45,13 +45,13 @@ procedure TTechnicalRecommendationList.Init;
 var IntCount:Integer;
 begin
   StrGrid.RowCount:=7;
-  StrGrid.ColWidths[0]:=125;
+  StrGrid.ColWidths[0]:=150;
   StrGrid.ColWidths[1]:=100;
   StrGrid.ColWidths[2]:=150;
-  StrGrid.ColWidths[3]:=200;
+  StrGrid.ColWidths[3]:=300;
   StrGrid.ColWidths[4]:=50;
-  StrGrid.ColWidths[5]:=150;
-  StrGrid.ColWidths[6]:=150;
+  StrGrid.ColWidths[5]:=175;
+  StrGrid.ColWidths[6]:=175;
   StrGrid.Cells[0,0]:='Nomor';
   StrGrid.Cells[1,0]:='Tanggal';
   StrGrid.Cells[2,0]:='Jenis Barang';
@@ -59,8 +59,26 @@ begin
   StrGrid.Cells[4,0]:='Jumlah';
   StrGrid.Cells[5,0]:='Departemen';
   StrGrid.Cells[6,0]:='User / Requestor';
+  StrGrid.CellStyle[0,0].HorizontalAlignment := taCenter;
+  StrGrid.CellStyle[1,0].HorizontalAlignment := taCenter;
+  StrGrid.CellStyle[2,0].HorizontalAlignment := taCenter;
+  StrGrid.CellStyle[3,0].HorizontalAlignment := taCenter;
+  StrGrid.CellStyle[4,0].HorizontalAlignment := taCenter;
+  StrGrid.CellStyle[5,0].HorizontalAlignment := taCenter;
+  StrGrid.CellStyle[6,0].HorizontalAlignment := taCenter;
+  StrGrid.CellStyle[0,0].BGColor:=clSkyBlue;
+  StrGrid.CellStyle[1,0].BGColor:=clSkyBlue;
+  StrGrid.CellStyle[2,0].BGColor:=clSkyBlue;
+  StrGrid.CellStyle[3,0].BGColor:=clSkyBlue;
+  StrGrid.CellStyle[4,0].BGColor:=clSkyBlue;
+  StrGrid.CellStyle[5,0].BGColor:=clSkyBlue;
+  StrGrid.CellStyle[6,0].BGColor:=clSkyBlue;
+
+
+  StrGrid.WordWrap:=True;
   for IntCount:=0 to 6 do
     StrGrid.Cells[IntCount,1]:='';
+
 end;
 
 procedure TTechnicalRecommendationList.LoadData;
@@ -71,7 +89,7 @@ begin
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
   if Main.OpenDb then begin
-    StrQry:= 'EXEC GetTechnicalRecommendationList;';
+    StrQry:= 'EXEC GetTechnicalRecommendationList'+QuotedStr(CompanyId)+';';
     Qry.SQL.Add(StrQry);
     Qry.Open;
     if Qry.RecordCount>0 then begin
@@ -110,6 +128,10 @@ begin
     StrGrid.Cells[4,IntCount+1]:=TechnicalRecomArr[IntCount][4];
     StrGrid.Cells[5,IntCount+1]:=TechnicalRecomArr[IntCount][5];
     StrGrid.Cells[6,IntCount+1]:=TechnicalRecomArr[IntCount][6];
+
+    StrGrid.CellStyle[0,IntCount+1].HorizontalAlignment :=taCenter;
+    StrGrid.CellStyle[1,IntCount+1].HorizontalAlignment :=taCenter;
+    StrGrid.CellStyle[4,IntCount+1].HorizontalAlignment :=taRightJustify;
   end;
 end;
 
@@ -202,6 +224,7 @@ procedure TTechnicalRecommendationList.StrGridSelectCell(Sender: TObject; ACol,
   ARow: Integer; var CanSelect: Boolean);
 begin
   IntRow:=ARow;
+  IntCol:=ACol;
 end;
 
 procedure TTechnicalRecommendationList.StrGridDblClick(Sender: TObject);

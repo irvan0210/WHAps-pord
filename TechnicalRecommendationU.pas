@@ -164,7 +164,7 @@ begin
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
   if Main.OpenDb then begin
-    StrQry:= 'EXEC GetTechnicalRecommendationList '+QuotedStr(StrRekomNO)+';';
+    StrQry:= 'EXEC GetTechnicalRecommendationList '+QuotedStr(CompanyId)+','+QuotedStr(StrRekomNO)+';';
     Qry.SQL.Add(StrQry);
     Qry.Open;
     if Qry.RecordCount>0 then begin
@@ -440,7 +440,7 @@ begin
     Qry.Connection:=Main.MyConnection;
     Qry.CommandTimeout := 3600;
     if Main.OpenDb then begin
-      StrQry:= 'EXEC GetTechnicalRecommendationList '+QuotedStr(StrRekomNO)+';';
+      StrQry:= 'EXEC GetTechnicalRecommendationList '+QuotedStr(CompanyId)+','+QuotedStr(StrRekomNO)+';';
       Qry.SQL.Add(StrQry);
       Qry.Open;
       if Qry.RecordCount > 0 then begin
@@ -458,7 +458,7 @@ begin
         ppLabelMerkdanSpek.Lines := MerkdanSpesifikasi.Lines;
         ppLabelPerkiraanHarga.Caption := SToCurr(Qry.FieldValues['price_forecasts']); //PerkiraanHarga.Text;
         ppLabelRecomExpired.Caption := Qry.FieldValues['recommendation_expired']; //StrToDateTime(DateToStr(RecomExpired.Date);
-        ppLabelUser.Caption := user;
+        ppLabelUser.Caption := FullName;
         Main.M_Normal;
         ppReportRekomendasiTknis.PreviewFormSettings.WindowState:=wsMaximized;
         ppReportRekomendasiTknis.Print;

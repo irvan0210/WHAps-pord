@@ -1,11 +1,11 @@
 object TechnicalRecommendationList: TTechnicalRecommendationList
-  Left = 617
-  Top = 213
+  Left = 221
+  Top = 251
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Daftar Rekomendasi Teknis'
-  ClientHeight = 333
-  ClientWidth = 781
+  ClientHeight = 447
+  ClientWidth = 1125
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -38,8 +38,8 @@ object TechnicalRecommendationList: TTechnicalRecommendationList
   object StrGrid: TZColorStringGrid
     Left = 6
     Top = 32
-    Width = 766
-    Height = 249
+    Width = 1111
+    Height = 361
     ColCount = 7
     DefaultRowHeight = 20
     DefaultDrawing = False
@@ -64,8 +64,8 @@ object TechnicalRecommendationList: TTechnicalRecommendationList
     LineDesign.LineUpColor = clWhite
   end
   object Selesai: TButton
-    Left = 328
-    Top = 296
+    Left = 536
+    Top = 408
     Width = 75
     Height = 25
     Caption = 'Selesai'

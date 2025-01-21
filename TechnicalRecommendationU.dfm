@@ -169,14 +169,14 @@ object TechnicalRecommendation: TTechnicalRecommendation
     Height = 38
     Align = alBottom
     BevelOuter = bvNone
-    TabOrder = 9
+    TabOrder = 10
     object Selesai: TButton
       Left = 226
       Top = 7
       Width = 75
       Height = 25
       Caption = 'Selesai'
-      TabOrder = 0
+      TabOrder = 1
       OnClick = SelesaiClick
     end
     object Simpan: TButton
@@ -185,7 +185,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
       Width = 75
       Height = 25
       Caption = 'Simpan'
-      TabOrder = 1
+      TabOrder = 0
       OnClick = SimpanClick
     end
     object cetak: TButton
@@ -212,7 +212,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 8
+    TabOrder = 9
     OnKeyPress = RecomExpiredKeyPress
   end
   object PerkiraanHarga: TMemo
@@ -223,7 +223,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
     Alignment = taRightJustify
     Color = clWhite
     MaxLength = 25
-    TabOrder = 7
+    TabOrder = 8
     WantReturns = False
     WantTabs = True
     OnChange = PerkiraanHargaChange
@@ -268,7 +268,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
-    TabOrder = 10
+    TabOrder = 11
     OnKeyPress = RecomExpiredKeyPress
   end
   object status: TCheckBox
@@ -278,14 +278,15 @@ object TechnicalRecommendation: TTechnicalRecommendation
     Height = 17
     Alignment = taLeftJustify
     Caption = 'Status'
-    TabOrder = 11
+    TabOrder = 12
   end
   object MerkdanSpesifikasi: TMemo
     Left = 169
     Top = 190
     Width = 327
     Height = 71
-    TabOrder = 12
+    TabOrder = 7
+    OnKeyPress = MerkdanSpesifikasiKeyPress
   end
   object ppReportRekomendasiTknis: TppReport
     PrinterSetup.BinName = 'Default'
@@ -349,7 +350,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
         Font.Style = []
         Transparent = True
         mmHeight = 4586
-        mmLeft = 60854
+        mmLeft = 60590
         mmTop = 38365
         mmWidth = 34660
         BandType = 0
@@ -369,7 +370,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
         TextAlignment = taCentered
         Transparent = True
         mmHeight = 4586
-        mmLeft = 95515
+        mmLeft = 96573
         mmTop = 38365
         mmWidth = 14182
         BandType = 0
@@ -387,7 +388,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
         Font.Style = []
         Transparent = True
         mmHeight = 4586
-        mmLeft = 110596
+        mmLeft = 111654
         mmTop = 38365
         mmWidth = 17198
         BandType = 0
