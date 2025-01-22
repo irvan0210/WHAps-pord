@@ -90,6 +90,7 @@ begin
   Qry.Connection:=Main.MyConnection;
   if Main.OpenDb then begin
     StrQry:= 'EXEC GetTechnicalRecommendationList'+QuotedStr(CompanyId)+';';
+    Qry.SQL.Clear;
     Qry.SQL.Add(StrQry);
     Qry.Open;
     if Qry.RecordCount>0 then begin

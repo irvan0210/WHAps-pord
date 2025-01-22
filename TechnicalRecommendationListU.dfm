@@ -1,6 +1,6 @@
 object TechnicalRecommendationList: TTechnicalRecommendationList
-  Left = 221
-  Top = 251
+  Left = 230
+  Top = 188
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Daftar Rekomendasi Teknis'

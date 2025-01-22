@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ADODB, ExtCtrls, ComCtrls, WHUnit, ppComm, ppRelatv,
   ppProd, ppClass, ppReport, ppPrnabl, ppCtrls, ppBands, ppCache, ppStrtch,
-  ppMemo, pngimage;
+  ppMemo, pngimage, jpeg;
 
 type
   TTechnicalRecommendation = class(TForm)
@@ -87,9 +87,9 @@ type
     ppLabel32: TppLabel;
     ppLabel33: TppLabel;
     MerkdanSpesifikasi: TMemo;
-    ppImage1: TppImage;
     ppLabelUser: TppLabel;
     ppLabelMerkdanSpek: TppMemo;
+    ppImage2: TppImage;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SelesaiClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
