@@ -59,7 +59,7 @@ implementation
 uses MainU, VehicleMutationU, StrUtils, VehicleFormU, WorkOrderFormU,
   VehicleEquipmentFormU, VehicleEquipmentCheckU, ServiceRequestFormU,
   MaintenanceServiceFormU, BlockUnitFormU, VehicleTopUpKuotaFormU, 
-  EmployeeHistoryLakaFormU;
+  EmployeeHistoryLakaFormU, RekapPergantianPartperArmadaU;
 
 {$R *.dfm}
 
@@ -71,7 +71,7 @@ begin
     VhcCompanyId:=3;
   end else if UpperCase(VehicleType)='BUS' then begin
     VhcType:=2;
-    MaxCol:=31;
+    MaxCol:=32;
     VhcCompanyId:=2;
   end else if UpperCase(VehicleType)='GRAYLINE' then begin
     VhcType:=3;
@@ -80,7 +80,7 @@ begin
   end else begin
     if (CompanyId='2') or (CompanyId='9') or (CompanyId='11') then begin
       VhcType:=2;
-      MaxCol:=31;
+      MaxCol:=32;
     end else if (CompanyId='3') then begin
       VhcType:=1;
       MaxCol:=16;
@@ -111,7 +111,7 @@ begin
   StrGrid.ColWidths[0]:=1;
   StrGrid.Cells[0,0]:='KIR';
   StrGrid.Cells[1,0]:='STNK';
-  StrGrid.Cells[2,0]:='KSP';
+  StrGrid.Cells[2,0]:='KPS';
   StrGrid.Cells[3,0]:='Id';
   StrGrid.Cells[4,0]:='Lokasi';
   StrGrid.Cells[5,0]:='No Bodi';
@@ -150,6 +150,7 @@ begin
         StrGrid.Cells[28,0]:='Tanggal Awal';
         StrGrid.Cells[29,0]:='Tanggal Akhir';
         StrGrid.Cells[30,0]:='Nilai Asuransi';
+        StrGrid.Cells[31,0]:='Armada';
 
         StrGrid.ColWidths[16]:=50;
         StrGrid.ColWidths[17]:=130;
@@ -168,6 +169,7 @@ begin
         StrGrid.ColWidths[28]:=200;
         StrGrid.ColWidths[29]:=200;
         StrGrid.ColWidths[30]:=100;
+        StrGrid.ColWidths[31]:=0;
         //StrGrid.ColWidths[12]:=40;
       end;
   end;
@@ -194,6 +196,12 @@ begin
   end;
   for IntCount:=0 to MaxCol-1 do
     StrGrid.Cells[IntCount,1]:='';
+
+  for IntCount:=0 to StrGrid.ColCount-1 do
+  begin
+    StrGrid.CellStyle[IntCount,0].HorizontalAlignment:=taCenter;
+  end;
+
   OrderBy:='';
   Sorted:='';
   if StrToInt(CompanyId)=1 then SBU.Enabled:=True else SBU.Enabled:=False;
@@ -277,7 +285,7 @@ begin
     if (QVhc.RecordCount>0) then while not(QVhc.Eof) do begin
       SetLength(VehicleArr,Count+1);
         VehicleArr[Count][0]:=QVhc.FieldValues['kir_image'];
-        VehicleArr[Count][1]:=QVhc.FieldValues['kir_image'];
+        VehicleArr[Count][1]:=QVhc.FieldValues['stnk_image'];
         VehicleArr[Count][2]:=QVhc.FieldValues['ksp_image'];
 
         VehicleArr[Count][3]:=QVhc.FieldValues['vehicle_id'];
@@ -348,7 +356,7 @@ begin
   if Length(VehicleArr)>0 then StrGrid.RowCount:=Length(VehicleArr)+1
   else StrGrid.RowCount:=2;
   For Count:=0 to Length(VehicleArr)-1 do begin
-    for Count2:=0 to 27 do
+    for Count2:=0 to 32 do
     StrGrid.Cells[Count2,Count+1]:=VehicleArr[Count][Count2];
   end;
   Total.Text:=IntToStr(Length(VehicleArr));
@@ -375,11 +383,11 @@ begin
     Count2:=2;
     for Count:=0 to Length(VehicleArr)-1 do begin
       IsTrue:=False;
-      for Count3:=0 to 27 do
+      for Count3:=0 to 32 do
       if (StrPos(PChar(UpperCase(VehicleArr[Count][Count3])),PChar(UpperCase(Cari.Text)))<>nil) then IsTrue:=True;
       if IsTrue then begin
           StrGrid.RowCount:=Count2;
-          for Count4:=0 to 27 do
+          for Count4:=0 to 32 do
           StrGrid.Cells[Count4,Count2-1]:=VehicleArr[Count][Count4];
           Inc(Count2);
       end;
@@ -397,6 +405,7 @@ begin
 end;
 
 procedure TVehicleList.StrGridDblClick(Sender: TObject);
+var StrArmada:String;
 begin
   if IntRow=0 then begin
   end else begin
@@ -417,43 +426,50 @@ begin
       end
     end else begin
       if UpperCase(FormRequest)='WORKORDER-CREATE' then begin
-        WorkOrderForm.SetVehicleId(StrGrid.Cells[0,IntRow]); 
+        WorkOrderForm.SetVehicleId(StrGrid.Cells[3,IntRow]);
         Close;
       end;
       if UpperCase(FormRequest)='VEHICLEEQUIPMENT-ADD' then begin
-        VehicleEquipmentForm.SetVehicleId(StrGrid.Cells[0,IntRow]);
+        VehicleEquipmentForm.SetVehicleId(StrGrid.Cells[3,IntRow]);
         Close;
       end;
       if UpperCase(FormRequest)='VEHICLEEQUIPMENT-LIST' then begin
-        VehicleEquipmentForm:=TVehicleEquipmentForm.Create(nil,'VehicleList',StrGrid.Cells[0,IntRow]);
+        VehicleEquipmentForm:=TVehicleEquipmentForm.Create(nil,'VehicleList',StrGrid.Cells[3,IntRow]);
       end;
       if UpperCase(FormRequest)='VEHICLEEQUIPMENT-CHANGE' then begin
-        VehicleEquipmentForm:=TVehicleEquipmentForm.Create(nil,'VehicleEquipment-Change',StrGrid.Cells[0,IntRow],True);
+        VehicleEquipmentForm:=TVehicleEquipmentForm.Create(nil,'VehicleEquipment-Change',StrGrid.Cells[3,IntRow],True);
         Close;
       end;
       if UpperCase(FormRequest)='VEHICLEEQUIPMENTCHECK-INPUT' then begin
-        VehicleEquipmentCheck.SetVehicleId(StrGrid.Cells[0,IntRow]);
+        VehicleEquipmentCheck.SetVehicleId(StrGrid.Cells[3,IntRow]);
         Close;
       end;
       if UpperCase(FormRequest)='VEHICLEEQUIPMENTCHECK' then begin
-        VehicleEquipmentCheck.SetVehicleId(StrGrid.Cells[0,IntRow]);
+        VehicleEquipmentCheck.SetVehicleId(StrGrid.Cells[3,IntRow]);
         Close;
       end;
       if UpperCase(FormRequest)='SERVICEREQUEST-CREATE' then begin
-        ServiceRequestForm.SetVehicleId(StrGrid.Cells[0,IntRow]);
+        ServiceRequestForm.SetVehicleId(StrGrid.Cells[3,IntRow]);
         Close;
       end;
       if UpperCase(FormRequest)='MAINTENANCESERVICE-CREATE' then begin
-        MaintenanceServiceForm.SetVehicleId(StrGrid.Cells[0,IntRow]);
+        MaintenanceServiceForm.SetVehicleId(StrGrid.Cells[3,IntRow]);
         Close;
       end;
       if UpperCase(FormRequest)='BLOCK-CREATE' then begin
-        BlockUnitForm.SetVehicleId(StrGrid.Cells[0,IntRow]); 
+        BlockUnitForm.SetVehicleId(StrGrid.Cells[3,IntRow]);
         Close;
       end;
+      StrArmada:= StrGrid.Cells[8,IntRow] +' ('+StrGrid.Cells[31,IntRow]+' '+StrGrid.Cells[15,IntRow]+' Seat)';
       if UpperCase(FormRequest)='FORM-HISTORY-LAKA' then begin
-        VehicleIDHistLaka:=StrGrid.Cells[0,IntRow];
-        EmployeeHistoryLakaForm.Armada.Text:=StrGrid.Cells[5,IntRow] +' ('+VehicleArr[IntRow-1][28]+' '+VehicleArr[IntRow-1][12]+' Seat)';
+        VehicleIDHistLaka:=StrGrid.Cells[3,IntRow];
+        EmployeeHistoryLakaForm.Armada.Text:=StrArmada;
+        Close;
+      end;
+
+      if UpperCase(FormRequest)='REKAPPERGANTIANPARTPERARMADA' then begin
+        StrVehicleIDRekapPergantianPart:=StrGrid.Cells[3,IntRow];
+        RekapPergantianPartperArmada.PlateNo.Text:=StrArmada;
         Close;
       end;
     end;

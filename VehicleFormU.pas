@@ -9,30 +9,13 @@ uses
 
 type
   TVehicleForm = class(TForm)
-    GroupInput2: TGroupBox;
-    Label6: TLabel;
-    Label7: TLabel;
-    Label8: TLabel;
-    Label9: TLabel;
-    Label10: TLabel;
-    KIU: TMaskEdit;
-    KIO: TMaskEdit;
-    Tera: TMaskEdit;
-    Simpan: TButton;
-    Selesai: TButton;
-    KIR: TMaskEdit;
+    CheckData: TTimer;
+    PageControl1: TPageControl;
+    TabDataArmada: TTabSheet;
+    TabRiwayat: TTabSheet;
+    TabLampiran: TTabSheet;
     GroupRiwayat: TGroupBox;
     StrGrid: TZColorStringGrid;
-    CheckData: TTimer;
-    Bersihkan: TButton;
-    Label25: TLabel;
-    Perlengkapan: TButton;
-    STNK: TMaskEdit;
-    VhcImage: TImage;
-    GroupDriver: TPanel;
-    Label17: TLabel;
-    Driver: TEdit;
-    CariDriver: TSpeedButton;
     GroupInput: TGroupBox;
     Label1: TLabel;
     Label2: TLabel;
@@ -68,39 +51,71 @@ type
     isFacelift: TCheckBox;
     GroupNoUjiKir: TPanel;
     Label26: TLabel;
-    NoUjiKIR: TEdit;
     Label27: TLabel;
-    ETollNumber: TEdit;
-    OwnerVhc: TComboBox;
     Label29: TLabel;
     Label28: TLabel;
-    NoKP: TEdit;
-    eDealer: TComboBox;
     Label30: TLabel;
-    eKaroseri: TComboBox;
     Label31: TLabel;
     Label32: TLabel;
+    Label40: TLabel;
+    Label41: TLabel;
+    Label42: TLabel;
+    NoUjiKIR: TEdit;
+    ETollNumber: TEdit;
+    OwnerVhc: TComboBox;
+    NoKP: TEdit;
+    eDealer: TComboBox;
+    eKaroseri: TComboBox;
     eGPcode: TComboBox;
+    AssetOwner: TComboBox;
+    isOutsideRent: TCheckBox;
+    isSafetyBelt: TCheckBox;
+    GroupInput2: TGroupBox;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label10: TLabel;
+    Label25: TLabel;
+    KIU: TMaskEdit;
+    KIO: TMaskEdit;
+    Tera: TMaskEdit;
+    KIR: TMaskEdit;
+    STNK: TMaskEdit;
     GroupInput3: TGroupBox;
     Label33: TLabel;
     Label34: TLabel;
     Label35: TLabel;
     Label36: TLabel;
     Label38: TLabel;
+    Label37: TLabel;
+    Label39: TLabel;
+    lbl1: TLabel;
     nomsisdn: TEdit;
     router: TEdit;
     password: TEdit;
     ssid: TEdit;
-    Label37: TLabel;
     operator: TEdit;
-    Label39: TLabel;
     noasset: TEdit;
-    lbl1: TLabel;
     X1: TMemo;
-    isOutsideRent: TCheckBox;
-    Label40: TLabel;
-    AssetOwner: TComboBox;
-    isSafetyBelt: TCheckBox;
+    Panel1: TPanel;
+    Perlengkapan: TButton;
+    Bersihkan: TButton;
+    Selesai: TButton;
+    Simpan: TButton;
+    GroupLampiran: TGroupBox;
+    GroupFoto: TGroupBox;
+    FotoKIR: TImage;
+    GroupBox1: TGroupBox;
+    FotoSTNK: TImage;
+    GroupBox2: TGroupBox;
+    FotoKSP: TImage;
+    GroupBox3: TGroupBox;
+    VhcImage: TImage;
+    GroupDriver: TPanel;
+    CariDriver: TSpeedButton;
+    Driver: TEdit;
+    Label17: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SelesaiClick(Sender: TObject);
     procedure SimpanClick(Sender: TObject);
@@ -128,6 +143,10 @@ type
     procedure NoPolisi2KeyPress(Sender: TObject; var Key: Char);
     procedure CariDriverClick(Sender: TObject);
     procedure NoPolisiChange(Sender: TObject);
+    procedure isOutsideRentClick(Sender: TObject);
+    procedure FotoKIRDblClick(Sender: TObject);
+    procedure FotoSTNKDblClick(Sender: TObject);
+    procedure FotoKSPDblClick(Sender: TObject);
   private
     { Private declarations }
     GroupArr,JenisArr,OwnerArr,DealerArr,KaroseriArr,GPCodeArr,AssetArr:Array of TArrString2;
@@ -154,12 +173,14 @@ type
 
 var
   VehicleForm: TVehicleForm;
+  VhcTypeDetailImageTypeId : string;
 
 implementation
 
 {$R *.dfm}
 
-Uses MainU, VehicleEquipmentCheckU, DB, ImageViewerU, EmployeeFormU;
+Uses MainU, VehicleEquipmentCheckU, DB, ImageViewerU, EmployeeFormU, StrUtils, 
+  VehicleListU;
 
 constructor TVehicleForm.Create(AOwner:TComponent;VehicleType:String;VehicleId:String;IsRead_Only:Boolean=True;Body_Id:String='');
 begin
@@ -231,6 +252,7 @@ begin
   operator.Clear;
   ssid.Clear;
   password.Clear;
+  PageControl1.ActivePage := TabDataArmada;
 end;
 
 procedure TVehicleForm.InitGrid;
@@ -299,6 +321,8 @@ begin
 
   OwnerVhc.Items.Clear;
   OwnerVhc.Text:='';
+  AssetOwner.Items.Clear;
+  AssetOwner.Text:='';
   SetLength(JenisArr,0);
   SetLength(OwnerArr,0);
   eDealer.Items.Clear;
@@ -461,7 +485,7 @@ end;
 
 procedure TVehicleForm.LoadData;
 var IntCount:Integer;
-    StrQry,VhcTypeDetailImageTypeId,VhcTypeDetailId,VhcOwner,Karoseri,Dealer,GPCode,AssetId:String;
+    StrQry,VhcTypeDetailId,VhcOwner,Karoseri,Dealer,GPCode,AssetId:String;
     Qry:TADOQuery;
     StmImage:TMemoryStream;
     JPG:TJPEGImage;
@@ -543,6 +567,82 @@ begin
       end;
     end;
     Qry.Close;
+
+    //foto KIR
+    StrQry:='SELECT * FROM wh_vhc_image WHERE vhc_image_id='+
+          '(SELECT MAX(vhc_image_id) FROM wh_vhc_image '+
+          ' WHERE vehicle_id='+Chr(39)+VhcId+Chr(39)+' AND image_id=6);';
+    Main.WriteLog('SQL :'+StrQry);
+    Qry.SQL.Clear;
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    try
+      StmImage:=TMemoryStream.Create;
+      TBlobField(Qry.FieldByName('image')).SaveToStream(StmImage);
+      if StmImage.Size > 0 then begin
+        JPG:=TJPEGImage.Create;
+        StmImage.Position := 0;
+        JPG.LoadFromStream(StmImage);
+        FotoKIR.Picture.Assign(JPG);
+        FotoKIR.Stretch:=True;
+      end;
+    except
+      on E: EInvalidGraphic do begin
+        ShowMessage('Image file is corrupted.')
+      end;
+    end;
+    Qry.Close;
+
+    //foto STNK
+    StrQry:='SELECT * FROM wh_vhc_image WHERE vhc_image_id='+
+          '(SELECT MAX(vhc_image_id) FROM wh_vhc_image '+
+          ' WHERE vehicle_id='+Chr(39)+VhcId+Chr(39)+' AND image_id=7);';
+    Main.WriteLog('SQL :'+StrQry);
+    Qry.SQL.Clear;
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    try
+      StmImage:=TMemoryStream.Create;
+      TBlobField(Qry.FieldByName('image')).SaveToStream(StmImage);
+      if StmImage.Size > 0 then begin
+        JPG:=TJPEGImage.Create;
+        StmImage.Position := 0;
+        JPG.LoadFromStream(StmImage);
+        FotoSTNK.Picture.Assign(JPG);
+        FotoSTNK.Stretch:=True;
+      end;
+    except
+      on E: EInvalidGraphic do begin
+        ShowMessage('Image file is corrupted.')
+      end;
+    end;
+    Qry.Close;
+
+    //foto KSP
+    StrQry:='SELECT * FROM wh_vhc_image WHERE vhc_image_id='+
+          '(SELECT MAX(vhc_image_id) FROM wh_vhc_image '+
+          ' WHERE vehicle_id='+Chr(39)+VhcId+Chr(39)+' AND image_id=8);';
+    Main.WriteLog('SQL :'+StrQry);
+    Qry.SQL.Clear;
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    try
+      StmImage:=TMemoryStream.Create;
+      TBlobField(Qry.FieldByName('image')).SaveToStream(StmImage);
+      if StmImage.Size > 0 then begin
+        JPG:=TJPEGImage.Create;
+        StmImage.Position := 0;
+        JPG.LoadFromStream(StmImage);
+        FotoKSP.Picture.Assign(JPG);
+        FotoKSP.Stretch:=True;
+      end;
+    except
+      on E: EInvalidGraphic do begin
+        ShowMessage('Image file is corrupted.')
+      end;
+    end;
+    Qry.Close;
+
   end;
   FreeAndNil(Qry);
   Main.CloseDb;
@@ -611,7 +711,8 @@ var QVhc:TADOQuery;
 begin
   Ok:=True;
   if ( (Trim(NoBodi.Text)<>'') AND (Trim(NoRangka.Text)<>'') AND (Trim(NoMesin.Text)<>'') AND
-  (Trim(NoPolisi.Text)<>'') AND (Trim(Tahun.Text)<>'') AND (Trim(Group.Text)<>'')  AND (Trim(Jenis.Text)<>'') ) then begin
+  (Trim(NoPolisi.Text)<>'') AND (Trim(Tahun.Text)<>'') AND (Trim(Group.Text)<>'')  AND (Trim(Jenis.Text)<>'') AND
+  (Trim(OwnerVhc.Text)<>'') AND (Trim(AssetOwner.Text)<>'')) then begin
     QVhc:=TADOQuery.Create(Self);
     QVhc.Connection:=Main.MyConnection;
     StrNoPolisi:=QuotedStr(StringReplace(NoPolisi.Text,' ','',[rfReplaceAll]));
@@ -662,8 +763,8 @@ begin
       QVhc.SQL.Clear;
       Main.WriteLog('SQL :'+StrQry,2);
       QVhc.SQL.Add(StrQry);
-
       QVhc.Open;
+      
       if QVhc.RecordCount<1 then begin
         NoRecord:=True;
       end else begin
@@ -781,14 +882,14 @@ begin
         Main.WriteLog('SQL :'+StrQry,4);
         QVhc.SQL.Add(StrQry);
         try
-           QVhc.ExecSQL;
+          QVhc.ExecSQL;
         except
           on E:Exception do Ok:=False;
         end;
         if Ok then begin
           Main.TransCommit;
           MessageBox(0,'Penambahan/Perubahan Armada Berhasil','Tambah Armada',MB_OK or MB_ICONINFORMATION);
-          if VhcId='' then Bersihkan.SetFocus
+          if VhcId='' then Bersihkan.Click()
           else LoadGrid;
         end else begin
           Main.TransRollback;
@@ -802,6 +903,9 @@ begin
     end;
     QVhc.Destroy;
     Main.CloseDb;
+  end else
+  begin
+    MessageBox(0,'Silahkan lengkapi kolom!!','Tambah Armada',MB_OK or MB_ICONWARNING);
   end;
 
 end;
@@ -883,6 +987,7 @@ begin
     LoadData;
     LoadGrid;
   end;
+
   if IsReadOnly=True then begin
     DisableInput;
     Perlengkapan.Visible:=True;
@@ -909,6 +1014,9 @@ begin
   GroupInput.Enabled:=False;
   GroupInput2.Enabled:=False;
   GroupInput3.Enabled:=False;
+  Simpan.Visible :=False;
+  bersihkan.Visible:=False;
+
 end;
 
 
@@ -916,11 +1024,13 @@ procedure TVehicleForm.CheckDataTimer(Sender: TObject);
 begin
   CheckData.Enabled:=False;
   if NoBodi.Text<>'' then begin
-    VehicleForm.Height:=587;
-    VehicleForm.Width:=833;
+    TabRiwayat.TabVisible := True;
+   // VehicleForm.Height:=587;
+   // VehicleForm.Width:=833;
   end else begin
-    VehicleForm.Height:=462;
-    VehicleForm.Width:=595;
+    TabRiwayat.TabVisible := False;
+   // VehicleForm.Height:=462;
+   // VehicleForm.Width:=595;
   end;
 end;
 
@@ -1020,6 +1130,206 @@ begin
 //  end;
 //  QVhc.Destroy;
 //  Main.CloseDb;
+end;
+
+procedure TVehicleForm.isOutsideRentClick(Sender: TObject);
+begin
+//  if isOutsideRent.Checked:=True then
+//  begin
+//    AssetOwner.ItemIndex:=-1;
+//    Label41.Visible:=False;
+//  end else begin
+//    Label41.Visible:=True;
+//  end;
+end;
+
+procedure TVehicleForm.FotoKIRDblClick(Sender: TObject);
+var StmImage:TMemoryStream;
+    ImgJPG:TJPEGImage;
+    Qry:TADOQuery;
+    StrQry:String;
+    StrPath:String;
+begin
+  if (RightStr(IntToStr(TreeTag),2)='02') OR (RightStr(IntToStr(TreeTag),2)='08') OR (RightStr(IntToStr(TreeTag),2)='14')  then begin     //or (IsFotoOnly)
+    StrPath:=GetImgFile;
+    if Trim(StrPath)<>'' then begin
+      Main.M_Busy;
+      ImgJPG:=TJPEGImage.Create;
+      FotoKIR.Picture:=nil;
+      ImgJPG.LoadFromFile(StrPath);
+//      if (ImgJPG.Width < 820) AND (ImgJPG.Height<620) then begin
+      if ((ImgJPG.Width <2000 ) AND (ImgJPG.Height<2700)) or ((ImgJPG.Width <2700 ) AND (ImgJPG.Height<2000)) then begin
+        StmImage:=TMemoryStream.Create;
+        Qry:=TADOQuery.Create(Self);
+        Qry.Connection:=Main.MyConnection;
+        try
+          FotoKIR.Picture.Assign(ImgJPG);
+        except
+          on E: EInvalidGraphic do begin
+            ShowMessage('Image file is corrupted.')
+          end;
+        end;
+        FotoKIR.Stretch:=True;
+        if Main.OpenDb then begin
+          ImgJPG.SaveToStream(StmImage);
+          StmImage.Position:=0;
+          StrQry:='SELECT Top 1 * FROM wh_vhc_image ORDER BY update_time DESC;';
+         // StrQry:='SELECT * FROM wh_vhc_image WHERE (vhc_type_detail_image_type_id='+
+         //       QuotedStr(VhcTypeDetailImageTypeId)+') AND (vhc_image_type_id=6) ORDER BY vhc_type_detail_image_id DESC;';
+          Main.WriteLog('SQL :'+StrQry);
+          Qry.SQL.Clear;
+          Qry.SQL.Add(StrQry);
+          Qry.Open;
+          Qry.Append;
+          TBlobField(Qry.FieldByName('vehicle_id')).Value:= VhcId;
+          TBlobField(Qry.FieldByName('image_id')).Value:='6';
+          TBlobField(Qry.FieldByName('image')).LoadFromStream(StmImage);
+          TBlobField(Qry.FieldByName('update_user')).Value:=User;
+          Qry.Post;
+          Qry.Close;
+          Main.CloseDb;
+          ImgJPG.Free;
+          StmImage.Free;
+        end;
+        MessageBox(Handle,PChar('KIR Berhasil Disimpan'),'Armada',MB_OK or MB_ICONINFORMATION or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+        with VehicleList do
+        begin
+          RefreshList;
+        end;
+      end else
+        MessageBox(0,'  Tidak Dapat mengupdate Foto KIR,'+Chr(13)+Chr(13)+'Ukuran gambar maksimal 600x800','Update Foto',MB_OK or MB_ICONWARNING);
+      Main.M_Normal;
+    end;
+  end else begin
+    if Assigned(FotoKIR.Picture.Graphic) then
+      ImageViewer:=TImageViewer.Create(Self, 6,VhcId,1);
+  end;
+end;
+
+procedure TVehicleForm.FotoSTNKDblClick(Sender: TObject);
+var StmImage:TMemoryStream;
+    ImgJPG:TJPEGImage;
+    Qry:TADOQuery;
+    StrQry:String;
+    StrPath:String;
+begin
+  if (RightStr(IntToStr(TreeTag),2)='02') OR (RightStr(IntToStr(TreeTag),2)='08') OR (RightStr(IntToStr(TreeTag),2)='14')  then begin     //or (IsFotoOnly)
+    StrPath:=GetImgFile;
+    if Trim(StrPath)<>'' then begin
+      Main.M_Busy;
+      ImgJPG:=TJPEGImage.Create;
+      FotoSTNK.Picture:=nil;
+      ImgJPG.LoadFromFile(StrPath);
+//      if (ImgJPG.Width < 820) AND (ImgJPG.Height<620) then begin
+      if ((ImgJPG.Width <2000 ) AND (ImgJPG.Height<2700)) or ((ImgJPG.Width <2700 ) AND (ImgJPG.Height<2000)) then begin
+        StmImage:=TMemoryStream.Create;
+        Qry:=TADOQuery.Create(Self);
+        Qry.Connection:=Main.MyConnection;
+        try
+          FotoSTNK.Picture.Assign(ImgJPG);
+        except
+          on E: EInvalidGraphic do begin
+            ShowMessage('Image file is corrupted.')
+          end;
+        end;
+        FotoSTNK.Stretch:=True;
+        if Main.OpenDb then begin
+          ImgJPG.SaveToStream(StmImage);
+          StmImage.Position:=0;
+          StrQry:='SELECT Top 1 * FROM wh_vhc_image ORDER BY update_time DESC;';
+         // StrQry:='SELECT * FROM wh_vhc_image WHERE (vhc_type_detail_image_type_id='+
+         //       QuotedStr(VhcTypeDetailImageTypeId)+') AND (vhc_image_type_id=6) ORDER BY vhc_type_detail_image_id DESC;';
+          Main.WriteLog('SQL :'+StrQry);
+          Qry.SQL.Clear;
+          Qry.SQL.Add(StrQry);
+          Qry.Open;
+          Qry.Append;
+          TBlobField(Qry.FieldByName('vehicle_id')).Value:= VhcId;
+          TBlobField(Qry.FieldByName('image_id')).Value:='7';
+          TBlobField(Qry.FieldByName('image')).LoadFromStream(StmImage);
+          TBlobField(Qry.FieldByName('update_user')).Value:=User;
+          Qry.Post;
+          Qry.Close;
+          Main.CloseDb;
+          ImgJPG.Free;
+          StmImage.Free;
+        end;
+        MessageBox(Handle,PChar('STNK Berhasil Disimpan'),'Armada',MB_OK or MB_ICONINFORMATION or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+        with VehicleList do
+        begin
+          RefreshList;
+        end;
+      end else
+        MessageBox(0,'  Tidak Dapat mengupdate Foto STNK,'+Chr(13)+Chr(13)+'Ukuran gambar maksimal 600x800','Update Foto',MB_OK or MB_ICONWARNING);
+      Main.M_Normal;
+    end;
+  end else begin
+    if Assigned(FotoSTNK.Picture.Graphic) then
+      ImageViewer:=TImageViewer.Create(Self, 7,VhcId,1);
+  end;
+end;
+
+procedure TVehicleForm.FotoKSPDblClick(Sender: TObject);
+var StmImage:TMemoryStream;
+    ImgJPG:TJPEGImage;
+    Qry:TADOQuery;
+    StrQry:String;
+    StrPath:String;
+begin
+  if (RightStr(IntToStr(TreeTag),2)='02') OR (RightStr(IntToStr(TreeTag),2)='08') OR (RightStr(IntToStr(TreeTag),2)='14')  then begin     //or (IsFotoOnly)
+    StrPath:=GetImgFile;
+    if Trim(StrPath)<>'' then begin
+      Main.M_Busy;
+      ImgJPG:=TJPEGImage.Create;
+      FotoKSP.Picture:=nil;
+      ImgJPG.LoadFromFile(StrPath);
+//      if (ImgJPG.Width < 820) AND (ImgJPG.Height<620) then begin
+      if ((ImgJPG.Width <2000 ) AND (ImgJPG.Height<2700)) or ((ImgJPG.Width <2700 ) AND (ImgJPG.Height<2000)) then begin
+        StmImage:=TMemoryStream.Create;
+        Qry:=TADOQuery.Create(Self);
+        Qry.Connection:=Main.MyConnection;
+        try
+          FotoKSP.Picture.Assign(ImgJPG);
+        except
+          on E: EInvalidGraphic do begin
+            ShowMessage('Image file is corrupted.')
+          end;
+        end;
+        FotoKSP.Stretch:=True;
+        if Main.OpenDb then begin
+          ImgJPG.SaveToStream(StmImage);
+          StmImage.Position:=0;
+          StrQry:='SELECT Top 1 * FROM wh_vhc_image ORDER BY update_time DESC;';
+         // StrQry:='SELECT * FROM wh_vhc_image WHERE (vhc_type_detail_image_type_id='+
+         //       QuotedStr(VhcTypeDetailImageTypeId)+') AND (vhc_image_type_id=6) ORDER BY vhc_type_detail_image_id DESC;';
+          Main.WriteLog('SQL :'+StrQry);
+          Qry.SQL.Clear;
+          Qry.SQL.Add(StrQry);
+          Qry.Open;
+          Qry.Append;
+          TBlobField(Qry.FieldByName('vehicle_id')).Value:= VhcId;
+          TBlobField(Qry.FieldByName('image_id')).Value:='8';
+          TBlobField(Qry.FieldByName('image')).LoadFromStream(StmImage);
+          TBlobField(Qry.FieldByName('update_user')).Value:=User;
+          Qry.Post;
+          Qry.Close;
+          Main.CloseDb;
+          ImgJPG.Free;
+          StmImage.Free;
+        end;
+        MessageBox(Handle,PChar('KPS Berhasil Disimpan'),'Armada',MB_OK or MB_ICONINFORMATION or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+        with VehicleList do
+        begin
+          RefreshList;
+        end;
+      end else
+        MessageBox(0,'  Tidak Dapat mengupdate Foto KSP,'+Chr(13)+Chr(13)+'Ukuran gambar maksimal 600x800','Update Foto',MB_OK or MB_ICONWARNING);
+      Main.M_Normal;
+    end;
+  end else begin
+    if Assigned(FotoKSP.Picture.Graphic) then
+      ImageViewer:=TImageViewer.Create(Self, 8,VhcId,1);
+  end;
 end;
 
 end.

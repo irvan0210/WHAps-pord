@@ -1,6 +1,6 @@
 object SerahTerimaBarang: TSerahTerimaBarang
-  Left = 312
-  Top = 365
+  Left = 298
+  Top = 142
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Tanda Terima'
@@ -621,17 +621,17 @@ object SerahTerimaBarang: TSerahTerimaBarang
         Border.Color = clBlack
         Border.Style = psSolid
         Border.Visible = False
-        Caption = 'Jl.Husein Sastranegara No. 175'
+        Caption = 'Jl.Husein Sastranegara No. 111'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Name = 'Arial'
         Font.Size = 8
         Font.Style = []
         Transparent = True
-        mmHeight = 3810
+        mmHeight = 3260
         mmLeft = 129911
         mmTop = 9525
-        mmWidth = 47361
+        mmWidth = 39751
         BandType = 0
       end
       object ppLabel6: TppLabel

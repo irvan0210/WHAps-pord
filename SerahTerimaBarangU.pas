@@ -144,7 +144,7 @@ var
 
 implementation
 
-uses MainU, ListTerimaBarangU, RePrintFormU, DB, ListSerahTerimaBarangU;
+uses MainU, ListTerimaBarangU, RePrintFormU, DB, ListSerahTerimaBarangU, Math;
 
 {$R *.dfm}
 
@@ -165,10 +165,8 @@ begin
       Qry.Open;
 
       Count:=1;
-      if Qry.RecordCount>0 then StrGrid.RowCount:=Qry.RecordCount+1 else StrGrid.RowCount:=0;
-
       if Qry.RecordCount>0 then while not (Qry.Eof) do begin
-
+        StrGrid.RowCount:=Count+1;
         StrGrid.Cells[0,Count]:=IntToStr(Count);
         StrGrid.Cells[1,Count]:=Qry.FieldValues['item_detail'];
         StrGrid.Cells[2,Count]:=Qry.FieldValues['qty'];
@@ -289,6 +287,7 @@ var StrQry:String;
     Qry:TADOQuery;
     ppDBPipe:TppDBPipeline;
     ppDataSrc:TDataSource;
+    IntRowLimit,IntCount:Integer;
 begin
   RePrintForm.ReportName:='Tanda Terima';
   RePrintForm.ReportId:=NoTandaTerima.Text;
@@ -323,7 +322,25 @@ begin
                        ' '+Copy(Qry.FieldValues['license_plate'],7,Length(Qry.FieldValues['license_plate'])+1);
         ppTypeKendaraan.Caption:=Qry.FieldValues['tipe_kendaraan'];
       end;
-      Qry.Close;               
+      Qry.Close;
+
+      StrQry:='SELECT id_tanda_terima_detail  '+
+              'from wh_tanda_terima_detail '+
+              'WHERE (tanda_terima_id='+QuotedStr(NoTandaTerima.Text)+' AND status=1)';
+
+      Qry.SQL.Clear;
+      Qry.SQL.Add(StrQry);
+      Qry.Open;
+      if Qry.RecordCount<=10 then begin
+        IntCount:=10;
+      end else if (Qry.RecordCount>10) and (Qry.RecordCount<=20) then
+      begin
+        IntCount:=20;
+      end else begin
+        IntCount:=30;
+      end;
+
+
       StrQry:='	With BlankRow(a,b,c,d,e) AS ( '+
               'SELECT CAST(NULL AS INT) '+
               ', CAST(NULL AS VARCHAR(1)) '+
@@ -332,7 +349,7 @@ begin
               ', CAST(NULL AS VARCHAR(1)) '+
               ' UNION ALL '+
               'SELECT * FROM BlankRow	) '+
-              'SELECT TOP 10 * FROM ( '+
+              'SELECT TOP '+IntToStr(IntCount)+' * FROM ( '+
               'SELECT ROW_NUMBER() OVER (ORDER BY tanda_terima_id) AS no, item_detail, qty,kode_part_gp,keterangan '+
               'from wh_tanda_terima_detail '+
               'WHERE (tanda_terima_id='+QuotedStr(NoTandaTerima.Text)+' AND status=1) UNION ALL '+
@@ -347,7 +364,10 @@ begin
       ppDBPipe.DataSource:=ppDataSrc;
       ppReport.DataPipeline:=ppDBPipe;
       Qry.Open;
+      IntRowLimit:=Qry.RecordCount;
       Main.M_Normal;
+
+      ppReport.PageLimit:=Floor(IntRowLimit/3);
       ppReport.Print;
       Qry.Close;
     end;
@@ -472,9 +492,16 @@ end;
 procedure TSerahTerimaBarang.NoTandaTerimaChange(Sender: TObject);
 begin
   if NoTandaTerima.Text<>'' then
-    CetakUlang.Enabled:=True
-  else
+  begin
+    CetakUlang.Enabled:=True;
+    Simpan.Enabled:=False;
+    Bersihkan.Enabled:=False;
+  end else
+  begin
     CetakUlang.Enabled:=False;
+    Simpan.Enabled:=True;
+    Bersihkan.Enabled:=True;
+  end;
 end;
 
 procedure TSerahTerimaBarang.StrGridSelectCell(Sender: TObject; ACol,
