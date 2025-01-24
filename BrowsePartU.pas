@@ -45,7 +45,8 @@ var
 
 implementation
 
-uses MainU, ServiceRequestFormU, PartU, RekapHistoryArmadaPergantianPartU;
+uses MainU, ServiceRequestFormU, PartU, RekapHistoryArmadaPergantianPartU, 
+  RekapPergantianPartperArmadaU;
 
 {$R *.dfm}
 constructor TBrowsePart.Create(AOwner:TComponent;Form_Request:String='');
@@ -168,7 +169,7 @@ var IntCount,IntCount2,IntStartRow,IntTotal,IntStartRow2,lengt:Integer;
     StrOrderId,StrCustOrderDetailId:String;
     IsDrawRect,IsDrawRect2:Boolean;
 begin
-  if Length(WorkOrderArr)>0 then StrGrid.RowCount:=Length(WorkOrderArr)+1
+  if Length(WorkOrderArr)>0 then StrGrid.RowCount:=Length(WorkOrderArr)+2
   else begin
     StrGrid.RowCount:=1;
   end;
@@ -223,26 +224,46 @@ end;
 
 procedure TBrowsePart.StrGridDblClick(Sender: TObject);
 var
-  IntRowCount,rowcount2:Integer;
+  IntRowCount,rowcount2,IntCount:Integer;
   kode_part_gp,part:string;
 begin
-  IntRowCount:=ServiceRequestForm.StrGrid2.RowCount+1;
-  ServiceRequestForm.StrGrid2.RowCount:=IntRowCount;
   part:= BrowsePart.StrGrid.Cells[2,IntRow];
   kode_part_gp:= BrowsePart.StrGrid.Cells[1,IntRow];
+  if FormRequest='SERVICEREQUESTFORM' then
+  begin
+    IntRowCount:=ServiceRequestForm.StrGrid2.RowCount+1;
+    ServiceRequestForm.StrGrid2.RowCount:=IntRowCount;
 
-  with ServiceRequestForm do begin
-    rowcount2:=StrGrid2.RowCount;
-    StrGrid2.Cells[0,StrGrid2.RowCount-1]:=IntToStr(StrGrid2.RowCount-1);
-    StrGrid2.Cells[1,StrGrid2.RowCount-1]:=part;
-    StrGrid2.Cells[2,StrGrid2.RowCount-1]:='1';
-    StrGrid2.Cells[3,StrGrid2.RowCount-1]:=kode_part_gp;
-    StrGrid2.CellStyle[0,StrGrid2.RowCount-1].HorizontalAlignment:=taCenter;
-    StrGrid2.CellStyle[1,StrGrid2.RowCount-1].HorizontalAlignment:=taLeftJustify;
-    StrGrid2.CellStyle[2,StrGrid2.RowCount-1].HorizontalAlignment:=taCenter;
+    with ServiceRequestForm do begin
+      rowcount2:=StrGrid2.RowCount;
+      StrGrid2.Cells[0,StrGrid2.RowCount-1]:=IntToStr(StrGrid2.RowCount-1);
+      StrGrid2.Cells[1,StrGrid2.RowCount-1]:=part;
+      StrGrid2.Cells[2,StrGrid2.RowCount-1]:='1';
+      StrGrid2.Cells[3,StrGrid2.RowCount-1]:=kode_part_gp;
+      StrGrid2.CellStyle[0,StrGrid2.RowCount-1].HorizontalAlignment:=taCenter;
+      StrGrid2.CellStyle[1,StrGrid2.RowCount-1].HorizontalAlignment:=taLeftJustify;
+      StrGrid2.CellStyle[2,StrGrid2.RowCount-1].HorizontalAlignment:=taCenter;
+    end;
+    Close;
+  end else if FormRequest='REKAPPERGANTIANPARTPERARMADA' then
+  begin
+    if Trim(part)<>'' then
+    begin
+      for IntCount:=4 to RekapPergantianPartperArmada.StrGrid.RowCount-1 do begin
+        if Trim(part)=RekapPergantianPartperArmada.StrGrid.Cells[1,IntCount-1] then
+        begin
+          MessageBox(0,PChar('Part sudah dipilih'),'List Part',MB_OK or MB_ICONWARNING);
+          Exit;
+        end;
+      end;
+    end;
+
+    RekapPergantianPartperArmada.StrGrid.Cells[0,RekapPergantianPartperArmada.StrGrid.RowCount-1]:=IntToStr(RekapPergantianPartperArmada.StrGrid.RowCount-3);
+    RekapPergantianPartperArmada.StrGrid.Cells[1,RekapPergantianPartperArmada.StrGrid.RowCount-1]:=part;
+    RekapPergantianPartperArmada.StrGrid.Cells[10,RekapPergantianPartperArmada.StrGrid.RowCount-1]:=kode_part_gp;
+    RekapPergantianPartperArmada.StrGrid.CellStyle[0,RekapPergantianPartperArmada.StrGrid.RowCount-1].HorizontalAlignment:=taCenter;
+    RekapPergantianPartperArmada.StrGrid.RowCount:=RekapPergantianPartperArmada.StrGrid.RowCount+1;
   end;
-
-  Close;
 end;
 
 procedure TBrowsePart.btnTombolCariClick(Sender: TObject);

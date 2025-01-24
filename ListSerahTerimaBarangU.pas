@@ -38,7 +38,7 @@ type
     FormRequest,FormFunction:String;
     DepartmentArr,LocationArr:Array of TArrString4;
     CompanyArr:Array of TArrString7;
-    WorkOrderArr:Array of TArrString14;
+    DataArr:Array of TArrString14;
     IntRow,IsAll,IsBlok,MaxCol,MinRowGrid:Integer;
     Initiation:Boolean;
 
@@ -157,7 +157,7 @@ begin
 
   IntTotalUnit:=0;
   if Main.OpenDb then begin
-    SetLength(WorkOrderArr,0);
+    SetLength(DataArr,0);
 
     StrQry:='SELECT a.tanda_terima_id,CONVERT(VARCHAR(10),a.submit_time,103) tgl,'+
             'a.item_request_id,a.diterima,d.license_plate,e.name tipe_kendaraan,'+
@@ -169,7 +169,7 @@ begin
             'LEFT JOIN wh_vhc_batch e ON d.vhc_batch_id=e.vhc_batch_id '+
             'WHERE (a.submit_time BETWEEN '+QuotedStr(FormatDateTime('yyyy-mm-dd',Tanggal.Date))+' AND '+
             ''+QuotedStr(FormatDateTime('yyyy-mm-dd',TglSampai.Date+1))+') AND '+
-            'a.company_id='+StrCompanyId+' AND a.location_id='+StrLocationId+' and a.status=1 order by b.request_date DESC';
+            'a.company_id='+StrCompanyId+' AND a.location_id='+StrLocationId+' and a.status=1 order by a.submit_time DESC';
     Main.WriteLog('SQL :'+StrQry,2);
     Qry.SQL.Add(StrQry);
     Qry.Open;
@@ -178,17 +178,17 @@ begin
     if Qry.RecordCount>0 then while not(Qry.Eof) do begin
       No:=No+1;
 
-      SetLength(WorkOrderArr,IntCount+1);
-      WorkOrderArr[IntCount][0]:=IntToStr(No);
-      WorkOrderArr[IntCount][1]:= Qry.FieldValues['tgl'] ;
-      WorkOrderArr[IntCount][2]:=Qry.FieldValues['tanda_terima_id'];
-      WorkOrderArr[IntCount][3]:=Qry.FieldValues['diterima'];
-      WorkOrderArr[IntCount][4]:=Qry.FieldValues['item_request_id'];
-      WorkOrderArr[IntCount][7]:=Qry.FieldValues['license_plate'];
-      WorkOrderArr[IntCount][8]:=Qry.FieldValues['tipe_kendaraan'];
-      WorkOrderArr[IntCount][9]:=Qry.FieldValues['tgl_pengajuan'];
-      WorkOrderArr[IntCount][10]:=Qry.FieldValues['tgl_dibutuhkan'];
-      WorkOrderArr[IntCount][11]:=Qry.FieldValues['notes'];
+      SetLength(DataArr,IntCount+1);
+      DataArr[IntCount][0]:=IntToStr(No);
+      DataArr[IntCount][1]:= Qry.FieldValues['tgl'] ;
+      DataArr[IntCount][2]:=Qry.FieldValues['tanda_terima_id'];
+      DataArr[IntCount][3]:=Qry.FieldValues['diterima'];
+      DataArr[IntCount][4]:=Qry.FieldValues['item_request_id'];
+      DataArr[IntCount][7]:=Qry.FieldValues['license_plate'];
+      DataArr[IntCount][8]:=Qry.FieldValues['tipe_kendaraan'];
+      DataArr[IntCount][9]:=Qry.FieldValues['tgl_pengajuan'];
+      DataArr[IntCount][10]:=Qry.FieldValues['tgl_dibutuhkan'];
+      DataArr[IntCount][11]:=Qry.FieldValues['notes'];
 
       StrQry:='select * from wh_tanda_terima_detail where '+
             'tanda_terima_id='+QuotedStr(Qry.FieldValues['tanda_terima_id'])+' and status=1';
@@ -200,20 +200,20 @@ begin
       if Qry2.RecordCount>0 then while not(Qry2.Eof) do begin
         if IntCount2>0 then begin
           Inc(IntCount);
-          SetLength(WorkOrderArr,IntCount+1);
-          WorkOrderArr[IntCount][0]:=IntToStr(No);
-          WorkOrderArr[IntCount][1]:= Qry.FieldValues['tgl'] ;
-          WorkOrderArr[IntCount][2]:=Qry.FieldValues['tanda_terima_id'];
-          WorkOrderArr[IntCount][3]:=Qry.FieldValues['diterima'];
-          WorkOrderArr[IntCount][4]:=Qry.FieldValues['item_request_id'];
-          WorkOrderArr[IntCount][7]:=Qry.FieldValues['license_plate'];
-          WorkOrderArr[IntCount][8]:=Qry.FieldValues['tipe_kendaraan'];
-          WorkOrderArr[IntCount][9]:=Qry.FieldValues['tgl_pengajuan'];
-          WorkOrderArr[IntCount][10]:=Qry.FieldValues['tgl_dibutuhkan'];
+          SetLength(DataArr,IntCount+1);
+          DataArr[IntCount][0]:=IntToStr(No);
+          DataArr[IntCount][1]:= Qry.FieldValues['tgl'] ;
+          DataArr[IntCount][2]:=Qry.FieldValues['tanda_terima_id'];
+          DataArr[IntCount][3]:=Qry.FieldValues['diterima'];
+          DataArr[IntCount][4]:=Qry.FieldValues['item_request_id'];
+          DataArr[IntCount][7]:=Qry.FieldValues['license_plate'];
+          DataArr[IntCount][8]:=Qry.FieldValues['tipe_kendaraan'];
+          DataArr[IntCount][9]:=Qry.FieldValues['tgl_pengajuan'];
+          DataArr[IntCount][10]:=Qry.FieldValues['tgl_dibutuhkan'];
 
         end;
-        if Qry2.FieldValues['item_detail']<>NULL then WorkOrderArr[IntCount][5]:=Qry2.FieldValues['item_detail'];
-        if Qry2.FieldValues['qty']<>NULL then WorkOrderArr[IntCount][6]:=Qry2.FieldValues['qty'];
+        if Qry2.FieldValues['item_detail']<>NULL then DataArr[IntCount][5]:=Qry2.FieldValues['item_detail'];
+        if Qry2.FieldValues['qty']<>NULL then DataArr[IntCount][6]:=Qry2.FieldValues['qty'];
 
         Inc(IntCount2);
         Application.ProcessMessages;
@@ -236,39 +236,46 @@ var IntCount,IntCount2,IntStartRow,IntTotal,IntStartRow2,lengt:Integer;
     StrOrderId,StrCustOrderDetailId:String;
     IsDrawRect,IsDrawRect2:Boolean;
 begin
-//  for IntCount:=0 to StrGrid.ColCount-1 do
-//    for IntCount2:=3 to StrGrid.RowCount-1 do begin
-//      IntTotal:=StrGrid.MergeCells.InMergeRange(IntCount,IntCount2);
-//      if IntTotal>=0 then StrGrid.MergeCells.DeleteItem(IntTotal);
-//    end;
-  if Length(WorkOrderArr)>0 then StrGrid.RowCount:=Length(WorkOrderArr)+1
+
+  for IntCount:=0 to StrGrid.ColCount-1 do
+    for IntCount2:=3 to StrGrid.RowCount-1 do begin
+      IntTotal:=StrGrid.MergeCells.InMergeRange(IntCount,IntCount2);
+      if IntTotal>=0 then StrGrid.MergeCells.DeleteItem(IntTotal);
+    end;
+  if Length(DataArr)>0 then StrGrid.RowCount:=Length(DataArr)+1
   else begin
     StrGrid.RowCount:=1;
   end;
-//  for IntCount:=0 to StrGrid.ColCount-1 do begin
-//    StrGrid.Cells[IntCount,3]:='';
-//    StrGrid.CellStyle[IntCount,3].Font.Color:=clWindowText;
+  for IntCount:=0 to StrGrid.ColCount-1 do begin
+    StrGrid.Cells[IntCount,3]:='';
+    StrGrid.CellStyle[IntCount,3].Font.Color:=clWindowText;
+  end;
+
+//  if Length(DataArr)>0 then StrGrid.RowCount:=Length(DataArr)+1
+//  else begin
+//    StrGrid.RowCount:=1;
 //  end;
+
   IntStartRow:=0;
   StrOrderId:='';
   IntTotal:=0;
-  lengt:= Length(WorkOrderArr)-1;
-  for IntCount:=0 to Length(WorkOrderArr)-1 do begin
+  lengt:= Length(DataArr)-1;
+  for IntCount:=0 to Length(DataArr)-1 do begin
     Application.ProcessMessages;
-    if (StrOrderId<>WorkOrderArr[IntCount][2])  then begin
-      StrOrderId:=WorkOrderArr[IntCount][2];
+    if (StrOrderId<>DataArr[IntCount][2])  then begin
+      StrOrderId:=DataArr[IntCount][2];
       IntStartRow:=IntCount;
       IntStartRow2:=IntCount;
-      StrGrid.Cells[0,IntCount+1]:=WorkOrderArr[IntCount][0];
-      StrGrid.Cells[1,IntCount+1]:=WorkOrderArr[IntCount][1];
-      StrGrid.Cells[2,IntCount+1]:=WorkOrderArr[IntCount][2];
-      StrGrid.Cells[3,IntCount+1]:=WorkOrderArr[IntCount][3];
-      StrGrid.Cells[4,IntCount+1]:=WorkOrderArr[IntCount][4];
-      StrGrid.Cells[7,IntCount+1]:=WorkOrderArr[IntCount][7];
-      StrGrid.Cells[8,IntCount+1]:=WorkOrderArr[IntCount][8];
-      StrGrid.Cells[9,IntCount+1]:=WorkOrderArr[IntCount][9];
-      StrGrid.Cells[10,IntCount+1]:=WorkOrderArr[IntCount][10];
-      StrGrid.Cells[11,IntCount+1]:=WorkOrderArr[IntCount][11];
+      StrGrid.Cells[0,IntCount+1]:=DataArr[IntCount][0];
+      StrGrid.Cells[1,IntCount+1]:=DataArr[IntCount][1];
+      StrGrid.Cells[2,IntCount+1]:=DataArr[IntCount][2];
+      StrGrid.Cells[3,IntCount+1]:=DataArr[IntCount][3];
+      StrGrid.Cells[4,IntCount+1]:=DataArr[IntCount][4];
+      StrGrid.Cells[7,IntCount+1]:=DataArr[IntCount][7];
+      StrGrid.Cells[8,IntCount+1]:=DataArr[IntCount][8];
+      StrGrid.Cells[9,IntCount+1]:=DataArr[IntCount][9];
+      StrGrid.Cells[10,IntCount+1]:=DataArr[IntCount][10];
+      StrGrid.Cells[11,IntCount+1]:=DataArr[IntCount][11];
 
       IsDrawRect:=False;
       IsDrawRect2:=False;
@@ -283,8 +290,8 @@ begin
       StrGrid.CellStyle[10,IntCount+1].HorizontalAlignment:=taCenter;
       StrGrid.CellStyle[11,IntCount+1].HorizontalAlignment:=taLeftJustify;
 
-    end else if (IntCount<Length(WorkOrderArr)-1) then begin
-      if (StrOrderId<>WorkOrderArr[IntCount+1][2]) then IsDrawRect:=True;
+    end else if (IntCount<Length(DataArr)-1) then begin
+      if (StrOrderId<>DataArr[IntCount+1][2]) then IsDrawRect:=True;
     end else IsDrawRect:=True;
     if IsDrawRect=True then begin
       StrGrid.MergeCells.AddRectXY(0,IntStartRow+1,0,IntCount+1);
@@ -298,12 +305,9 @@ begin
       StrGrid.MergeCells.AddRectXY(10,IntStartRow+1,10,IntCount+1);
       StrGrid.MergeCells.AddRectXY(11,IntStartRow+1,11,IntCount+1);
     end;
-    StrGrid.Cells[5,IntCount+1]:=WorkOrderArr[IntCount][5];
-    StrGrid.Cells[6,IntCount+1]:=WorkOrderArr[IntCount][6];
+    StrGrid.Cells[5,IntCount+1]:=DataArr[IntCount][5];
+    StrGrid.Cells[6,IntCount+1]:=DataArr[IntCount][6];
     StrGrid.CellStyle[6,IntCount+1].HorizontalAlignment:=taCenter;
-
-
-
   end;
 end;
 
@@ -388,9 +392,10 @@ begin
                        ' '+Copy(StrGrid.Cells[7,IntRow],7,Length(StrGrid.Cells[7,IntRow])+1);
     SerahTerimaBarang.TipeKendaraan.Text:=StrGrid.Cells[8,IntRow];
     SerahTerimaBarang.Catatan.Text:=StrGrid.Cells[11,IntRow];
-    SerahTerimaBarang.getByID;
-    SerahTerimaBarang.Refreshpart;
+
   end;
+  SerahTerimaBarang.Refreshpart;
+  SerahTerimaBarang.getByID;
 end;
 
 procedure TListSerahTerimaBarang.LihatClick(Sender: TObject);
@@ -401,13 +406,16 @@ end;
 
 procedure TListSerahTerimaBarang.TglSampaiChange(Sender: TObject);
 begin
-  if TglSampai.Date<Tanggal.Date then
-  MessageDlgPos('Tanggal tidak boleh lebih kecil!', mtError, [mbOK], 0, 300, 300);
+  if TglSampai.Date<Tanggal.Date then begin
+    Tanggal.Date:= TglSampai.Date;
+  end
 end;
 
 procedure TListSerahTerimaBarang.TanggalChange(Sender: TObject);
 begin
-  if Tanggal.Date>TglSampai.Date then TglSampai.Date:=Tanggal.Date;
+  if Tanggal.Date>TglSampai.Date then begin
+    TglSampai.Date:=Tanggal.Date;
+  end;
 end;
 
 end.

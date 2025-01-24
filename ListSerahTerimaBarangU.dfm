@@ -1,6 +1,6 @@
 object ListSerahTerimaBarang: TListSerahTerimaBarang
-  Left = 217
-  Top = 343
+  Left = 312
+  Top = 451
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'List SerahTerima Barang'
@@ -24,11 +24,11 @@ object ListSerahTerimaBarang: TListSerahTerimaBarang
   PixelsPerInch = 96
   TextHeight = 13
   object lbl2: TLabel
-    Left = 396
+    Left = 449
     Top = 10
-    Width = 95
+    Width = 38
     Height = 13
-    Caption = 'Tanggal Dibutuhkan'
+    Caption = 'Tanggal'
   end
   object lbl3: TLabel
     Left = 248
@@ -111,7 +111,7 @@ object ListSerahTerimaBarang: TListSerahTerimaBarang
   object StrGrid: TZColorStringGrid
     Left = 4
     Top = 35
-    Width = 1085
+    Width = 1173
     Height = 409
     Anchors = [akLeft, akTop, akRight]
     ColCount = 20

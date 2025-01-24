@@ -1,38 +1,30 @@
-object VehicleList: TVehicleList
-  Left = 271
-  Top = 255
+object RekapPergantianPartperArmada: TRekapPergantianPartperArmada
+  Left = 207
+  Top = 443
   BorderIcons = []
   BorderStyle = bsNone
-  Caption = 'Data Armada'
-  ClientHeight = 389
-  ClientWidth = 810
+  Caption = 'Rekap Pergantian Part perArmada'
+  ClientHeight = 521
+  ClientWidth = 1222
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'MS Sans Serif'
+  Font.Name = 'Tahoma'
   Font.Style = []
   FormStyle = fsMDIChild
   OldCreateOrder = False
-  Position = poScreenCenter
+  Position = poDesktopCenter
   Visible = True
   OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 648
-    Top = 11
-    Width = 18
-    Height = 13
-    Caption = 'Cari'
-  end
   object ToXCel: TSpeedButton
-    Left = 776
-    Top = 360
+    Left = 778
+    Top = 462
     Width = 23
     Height = 22
-    BiDiMode = bdLeftToRight
     Glyph.Data = {
       36030000424D3603000000000000360000002800000010000000100000000100
       1800000000000003000000000000000000000000000000000000FFFFFFFFFFFF
@@ -61,105 +53,40 @@ object VehicleList: TVehicleList
       B2B5DFB3B2DBAF8AAF83FFFFFFDFF0E382C090B0D8B8C9E5CCCBE6CCC8E5C9C5
       E2C5C3E2C5C2E2C2BFE0BFBDDFBDBCDFBCBDDFBDB3D8B286AD80}
     Layout = blGlyphRight
-    ParentBiDiMode = False
-    OnClick = ToXCelClick
   end
-  object Label4: TLabel
-    Left = 261
-    Top = 8
-    Width = 29
+  object Label3: TLabel
+    Left = 207
+    Top = 456
+    Width = 80
     Height = 13
-    Caption = 'Group'
+    AutoSize = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -8
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
   end
-  object GroupBox1: TGroupBox
-    Left = 16
-    Top = 344
-    Width = 97
-    Height = 33
-    Enabled = False
-    TabOrder = 4
-    object Label3: TLabel
-      Left = 8
-      Top = 8
-      Width = 24
-      Height = 13
-      Caption = 'Total'
-    end
-    object Total: TEdit
-      Left = 40
-      Top = 8
-      Width = 41
-      Height = 21
-      TabOrder = 0
-    end
-  end
-  object Cari: TEdit
-    Left = 672
-    Top = 8
-    Width = 121
-    Height = 21
-    TabOrder = 2
-    OnChange = CariChange
-  end
-  object Keluar: TButton
-    Left = 304
-    Top = 352
-    Width = 75
-    Height = 25
-    Caption = 'Keluar'
-    TabOrder = 3
-    OnClick = KeluarClick
-  end
-  object Group: TComboBox
-    Left = 296
-    Top = 8
-    Width = 273
-    Height = 21
-    Style = csDropDownList
-    ItemHeight = 13
-    TabOrder = 1
-    OnChange = GroupChange
-  end
-  object GroupCompany: TGroupBox
-    Left = 8
-    Top = 0
-    Width = 241
-    Height = 33
-    TabOrder = 0
-    object Label5: TLabel
-      Left = 16
-      Top = 8
-      Width = 22
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'SBU'
-    end
-    object SBU: TComboBox
-      Left = 48
-      Top = 8
-      Width = 185
-      Height = 21
-      Style = csDropDownList
-      ItemHeight = 13
-      TabOrder = 0
-      OnChange = SBUChange
-    end
+  object Label2: TLabel
+    Left = 7
+    Top = 10
+    Width = 37
+    Height = 13
+    Caption = 'Armada'
   end
   object StrGrid: TZColorStringGrid
-    Left = 9
-    Top = 40
-    Width = 792
-    Height = 305
-    ColCount = 31
+    Left = 0
+    Top = 35
+    Width = 1217
+    Height = 449
+    ColCount = 12
     DefaultRowHeight = 20
     DefaultDrawing = False
     FixedColor = clSkyBlue
     FixedCols = 0
-    RowCount = 2
+    FixedRows = 3
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing]
-    TabOrder = 5
-    OnDblClick = StrGridDblClick
-    OnSelectCell = StrGridSelectCell
+    TabOrder = 0
     DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
     DefaultCellStyle.Font.Color = clWindowText
     DefaultCellStyle.Font.Height = -11
@@ -173,5 +100,70 @@ object VehicleList: TVehicleList
     DefaultFixedCellStyle.Font.Style = []
     DefaultFixedCellStyle.BGColor = clSkyBlue
     LineDesign.LineUpColor = clWhite
+    WordWrap = True
+  end
+  object Selesai: TButton
+    Left = 554
+    Top = 489
+    Width = 75
+    Height = 25
+    Caption = 'Selesai'
+    TabOrder = 1
+    OnClick = SelesaiClick
+  end
+  object Button1: TButton
+    Left = 435
+    Top = 7
+    Width = 75
+    Height = 25
+    Caption = 'Lihat'
+    TabOrder = 2
+    OnClick = Button1Click
+  end
+  object Memo1: TMemo
+    Left = 1222
+    Top = 51
+    Width = 185
+    Height = 89
+    Lines.Strings = (
+      'Memo1')
+    TabOrder = 3
+    Visible = False
+  end
+  object Button2: TButton
+    Left = 261
+    Top = 5
+    Width = 27
+    Height = 25
+    Caption = '..'
+    TabOrder = 4
+    OnClick = Button2Click
+  end
+  object PlateNo: TEdit
+    Left = 51
+    Top = 8
+    Width = 203
+    Height = 21
+    ReadOnly = True
+    TabOrder = 5
+    OnChange = PlateNoChange
+  end
+  object Button3: TButton
+    Left = 315
+    Top = 7
+    Width = 109
+    Height = 25
+    Caption = 'Pilih Part'
+    TabOrder = 6
+    OnClick = Button3Click
+  end
+  object Bersihkan: TButton
+    Left = 523
+    Top = 7
+    Width = 75
+    Height = 25
+    Caption = 'Bersihkan'
+    TabOrder = 7
+    OnClick = BersihkanClick
   end
 end
