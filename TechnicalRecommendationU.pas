@@ -164,7 +164,9 @@ begin
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
   if Main.OpenDb then begin
-    StrQry:= 'EXEC GetTechnicalRecommendationList '+QuotedStr(CompanyId)+','+QuotedStr(StrRekomNO)+';';
+
+
+    StrQry:= 'EXEC GetTechnicalRecommendationList '+QuotedStr(CompanyId)+','''','''',''0'','+QuotedStr(StrRekomNO)+';';
     Qry.SQL.Add(StrQry);
     Qry.Open;
     if Qry.RecordCount>0 then begin
@@ -440,7 +442,7 @@ begin
     Qry.Connection:=Main.MyConnection;
     Qry.CommandTimeout := 3600;
     if Main.OpenDb then begin
-      StrQry:= 'EXEC GetTechnicalRecommendationList '+QuotedStr(CompanyId)+','+QuotedStr(StrRekomNO)+';';
+      StrQry:= 'EXEC GetTechnicalRecommendationList '+QuotedStr(CompanyId)+','''','''',''0'','+QuotedStr(StrRekomNO)+';';
       Qry.SQL.Add(StrQry);
       Qry.Open;
       if Qry.RecordCount > 0 then begin

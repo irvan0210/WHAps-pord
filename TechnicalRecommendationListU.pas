@@ -4,14 +4,23 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Grids, ZColorStringGrid, WHUnit;
+  Dialogs, StdCtrls, Grids, ZColorStringGrid, WHUnit, ComCtrls, Buttons;
 
 type
   TTechnicalRecommendationList = class(TForm)
-    Label1: TLabel;
-    Cari: TEdit;
     StrGrid: TZColorStringGrid;
     Selesai: TButton;
+    GroupCompany: TGroupBox;
+    Label2: TLabel;
+    Departemen: TComboBox;
+    Label6: TLabel;
+    Tanggal: TDateTimePicker;
+    lbl1: TLabel;
+    Tanggal2: TDateTimePicker;
+    GroupBox1: TGroupBox;
+    Label1: TLabel;
+    Cari: TEdit;
+    CariOffering: TSpeedButton;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -19,6 +28,8 @@ type
     procedure StrGridSelectCell(Sender: TObject; ACol, ARow: Integer;
       var CanSelect: Boolean);
     procedure StrGridDblClick(Sender: TObject);
+    procedure RefreshDepartemen;
+    procedure CariOfferingClick(Sender: TObject);
   private
     { Private declarations }
 
@@ -44,7 +55,7 @@ uses MainU, ADODB, UserGroupTreeMenuU, StrUtils, TechnicalRecommendationU;
 procedure TTechnicalRecommendationList.Init;
 var IntCount:Integer;
 begin
-  StrGrid.RowCount:=7;
+  //StrGrid.RowCount:=7;
   StrGrid.ColWidths[0]:=150;
   StrGrid.ColWidths[1]:=100;
   StrGrid.ColWidths[2]:=150;
@@ -73,8 +84,7 @@ begin
   StrGrid.CellStyle[4,0].BGColor:=clSkyBlue;
   StrGrid.CellStyle[5,0].BGColor:=clSkyBlue;
   StrGrid.CellStyle[6,0].BGColor:=clSkyBlue;
-
-
+  
   StrGrid.WordWrap:=True;
   for IntCount:=0 to 6 do
     StrGrid.Cells[IntCount,1]:='';
@@ -83,13 +93,20 @@ end;
 
 procedure TTechnicalRecommendationList.LoadData;
 var Qry:TADOQuery;
-    StrQry:String;
+    StrQry, StrTgl,StrDepartemenId:String;
     IntCount:Integer;
 begin
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
   if Main.OpenDb then begin
-    StrQry:= 'EXEC GetTechnicalRecommendationList'+QuotedStr(CompanyId)+';';
+    StrTgl := QuotedStr(FormatDateTime('yyyy/mm/dd',Tanggal.Date))+','+QuotedStr(FormatDateTime('yyyy/mm/dd',Tanggal2.Date));
+
+    for IntCount:=0 to Length(DepartemenArr)-1 do
+      if DepartemenArr[IntCount][1]=Departemen.Text then StrDepartemenId:=DepartemenArr[IntCount][0];
+
+    // MessageBox(0,PChar(StrDepartemenId),'Rekomendasi Teknis',MB_OK or MB_ICONINFORMATION);
+
+    StrQry:= 'EXEC GetTechnicalRecommendationList'+QuotedStr(CompanyId)+','+StrTgl+','+QuotedStr(StrDepartemenId)+';';
     Qry.SQL.Clear;
     Qry.SQL.Add(StrQry);
     Qry.Open;
@@ -109,6 +126,26 @@ begin
         Inc(IntCount);
         Qry.Next;
       end;
+    end
+    else begin
+     MessageBox(0,'Tidak Ada Data ..!','Rekomendasi Teknis',MB_OK or MB_ICONINFORMATION);
+       for IntCount:=0 to 6 do
+      StrGrid.Cells[IntCount,1]:='';
+    { SetLength(TechnicalRecomArr,Qry.RecordCount);
+      IntCount:=0;
+      while not(Qry.Eof) do begin
+        TechnicalRecomArr[IntCount][0]:=Qry.FieldValues['technical_recommendation_no'];
+        TechnicalRecomArr[IntCount][1]:=Qry.FieldValues['date'];
+        TechnicalRecomArr[IntCount][2]:=Qry.FieldValues['type_of_good'];
+        TechnicalRecomArr[IntCount][3]:=Qry.FieldValues['reason_for_procurement'];
+        TechnicalRecomArr[IntCount][4]:=Qry.FieldValues['qty'];
+        TechnicalRecomArr[IntCount][5]:=Qry.FieldValues['departement_name'];
+        TechnicalRecomArr[IntCount][6]:=Qry.FieldValues['user_requestor'];
+       // if Qry.FieldValues['active']=1 then TechnicalRecomArr[IntCount][4]:='Active'
+      //  else TechnicalRecomArr[IntCount][4]:='Disable';
+        Inc(IntCount);
+        Qry.Next;
+      end;}
     end;
     Qry.Close;
     Main.CloseDb;
@@ -182,6 +219,7 @@ end;
 
 procedure TTechnicalRecommendationList.SelesaiClick(Sender: TObject);
 begin
+
   TechnicalRecommendationList.Close;
 end;
 
@@ -194,9 +232,13 @@ end;
 procedure TTechnicalRecommendationList.FormShow(Sender: TObject);
 begin
   Cari.Text:='';
+  RefreshDepartemen;
+  Departemen.ItemIndex := 0;
+  Tanggal.date:=NOW();
+  Tanggal2.date:=NOW()+30;
   Init;
-  LoadData;
-  RefreshList;
+  //LoadData;
+  //RefreshList;
 end;
 
 procedure TTechnicalRecommendationList.CariChange(Sender: TObject);
@@ -235,6 +277,48 @@ begin
    { if (RightStr(IntToStr(TreeTag),2)='04') then TechnicalRecommendation:=TTechnicalRecommendation.Create(Self,StrGrid.Cells[0,IntRow],True)
     else if (RightStr(IntToStr(TreeTag),2)='03') then AskDelete(StrGrid.Cells[0,IntRow])
     else TechnicalRecommendation:=TTechnicalRecommendation.Create(Self,StrGrid.Cells[0,IntRow]); }
+end;
+
+procedure TTechnicalRecommendationList.RefreshDepartemen;
+var Qry:TADOQuery;
+    StrQry:String;
+    IntCount:Integer;
+begin
+  Qry:=TADOQuery.Create(Self);
+  Qry.Connection:=Main.MyConnection;
+  SetLength(DepartemenArr,0);
+  if Main.OpenDb then begin
+    StrQry:='SELECT 0 AS department_id, ''All'' AS name UNION ALL SELECT department_id,name FROM wh_department WHERE active =1;';
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    if Qry.RecordCount>0 then begin
+      SetLength(DepartemenArr,Qry.RecordCount);
+      IntCount:=0;
+      while Not(Qry.Eof) do begin
+        DepartemenArr[IntCount][0]:=Qry.FieldValues['department_id'];
+        DepartemenArr[IntCount][1]:=Qry.FieldValues['name'];
+        Inc(IntCount);
+        Qry.Next;
+      end;
+    end;
+    Qry.Close;
+    Main.CloseDb;
+  end;
+  Qry.Destroy;
+
+  if StrLastDepartemenId<>'' then begin
+    SetLength(DepartemenArr,Length(DepartemenArr)+1);
+    DepartemenArr[Length(DepartemenArr)-1][0]:=StrLastDepartemenId;
+    DepartemenArr[Length(DepartemenArr)-1][1]:=StrLastDepartemen;
+  end;
+  for IntCount:=0 to Length(DepartemenArr)-1 do
+    Departemen.Items.Add(DepartemenArr[IntCount][1]);
+end;
+
+procedure TTechnicalRecommendationList.CariOfferingClick(Sender: TObject);
+begin
+LoadData;
+RefreshList;
 end;
 
 end.
