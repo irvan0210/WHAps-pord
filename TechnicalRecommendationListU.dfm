@@ -20,8 +20,8 @@ object TechnicalRecommendationList: TTechnicalRecommendationList
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object CariOffering: TSpeedButton
-    Left = 1027
+  object Search: TSpeedButton
+    Left = 603
     Top = 8
     Width = 30
     Height = 28
@@ -60,7 +60,7 @@ object TechnicalRecommendationList: TTechnicalRecommendationList
       F8F5F5F5F7F7F8F7F6F6F7F7F7F7F7F80000F5F7F6F6F6F6F6F4F5F9FAFAF9F9
       F9EADFE0D9BFBFD6B8B8E1CBCDF0E9EAF8F9F9F6F7F8F6F6F5F6F7F8F7F7F7F7
       F7F7F7F8F8F7F7F70000}
-    OnClick = CariOfferingClick
+    OnClick = SearchClick
   end
   object StrGrid: TZColorStringGrid
     Left = 6
@@ -107,9 +107,9 @@ object TechnicalRecommendationList: TTechnicalRecommendationList
     Height = 38
     TabOrder = 2
     object Label2: TLabel
-      Left = 4
+      Left = 11
       Top = 13
-      Width = 65
+      Width = 58
       Height = 13
       Alignment = taRightJustify
       Caption = 'Departemen'
@@ -138,6 +138,7 @@ object TechnicalRecommendationList: TTechnicalRecommendationList
       Style = csDropDownList
       ItemHeight = 13
       TabOrder = 0
+      OnChange = DepartemenChange
     end
     object Tanggal: TDateTimePicker
       Left = 342
@@ -147,6 +148,7 @@ object TechnicalRecommendationList: TTechnicalRecommendationList
       Date = 41780.000000000000000000
       Time = 41780.000000000000000000
       TabOrder = 1
+      OnChange = TanggalChange
     end
     object Tanggal2: TDateTimePicker
       Left = 465
@@ -156,10 +158,11 @@ object TechnicalRecommendationList: TTechnicalRecommendationList
       Date = 41780.000000000000000000
       Time = 41780.000000000000000000
       TabOrder = 2
+      OnChange = Tanggal2Change
     end
   end
   object GroupBox1: TGroupBox
-    Left = 779
+    Left = 843
     Top = 1
     Width = 246
     Height = 38
@@ -167,7 +170,7 @@ object TechnicalRecommendationList: TTechnicalRecommendationList
     object Label1: TLabel
       Left = 10
       Top = 13
-      Width = 23
+      Width = 18
       Height = 13
       Caption = 'Cari'
     end

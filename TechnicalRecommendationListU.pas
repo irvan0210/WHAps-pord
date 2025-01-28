@@ -20,7 +20,7 @@ type
     GroupBox1: TGroupBox;
     Label1: TLabel;
     Cari: TEdit;
-    CariOffering: TSpeedButton;
+    Search: TSpeedButton;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -29,7 +29,10 @@ type
       var CanSelect: Boolean);
     procedure StrGridDblClick(Sender: TObject);
     procedure RefreshDepartemen;
-    procedure CariOfferingClick(Sender: TObject);
+    procedure SearchClick(Sender: TObject);
+    procedure DepartemenChange(Sender: TObject);
+    procedure TanggalChange(Sender: TObject);
+    procedure Tanggal2Change(Sender: TObject);
   private
     { Private declarations }
 
@@ -110,7 +113,7 @@ begin
     Qry.SQL.Clear;
     Qry.SQL.Add(StrQry);
     Qry.Open;
-    if Qry.RecordCount>0 then begin
+    //if Qry.RecordCount>0 then begin
       SetLength(TechnicalRecomArr,Qry.RecordCount);
       IntCount:=0;
       while not(Qry.Eof) do begin
@@ -121,16 +124,14 @@ begin
         TechnicalRecomArr[IntCount][4]:=Qry.FieldValues['qty'];
         TechnicalRecomArr[IntCount][5]:=Qry.FieldValues['departement_name'];
         TechnicalRecomArr[IntCount][6]:=Qry.FieldValues['user_requestor'];
-       // if Qry.FieldValues['active']=1 then TechnicalRecomArr[IntCount][4]:='Active'
-      //  else TechnicalRecomArr[IntCount][4]:='Disable';
         Inc(IntCount);
         Qry.Next;
       end;
-    end
-    else begin
-     MessageBox(0,'Tidak Ada Data ..!','Rekomendasi Teknis',MB_OK or MB_ICONINFORMATION);
-       for IntCount:=0 to 6 do
-      StrGrid.Cells[IntCount,1]:='';
+    //end
+   // else begin
+     //MessageBox(0,'Tidak Ada Data ..!','Rekomendasi Teknis',MB_OK or MB_ICONINFORMATION);
+      // for IntCount:=0 to 6 do
+     // StrGrid.Cells[IntCount,1]:='';
     { SetLength(TechnicalRecomArr,Qry.RecordCount);
       IntCount:=0;
       while not(Qry.Eof) do begin
@@ -141,12 +142,10 @@ begin
         TechnicalRecomArr[IntCount][4]:=Qry.FieldValues['qty'];
         TechnicalRecomArr[IntCount][5]:=Qry.FieldValues['departement_name'];
         TechnicalRecomArr[IntCount][6]:=Qry.FieldValues['user_requestor'];
-       // if Qry.FieldValues['active']=1 then TechnicalRecomArr[IntCount][4]:='Active'
-      //  else TechnicalRecomArr[IntCount][4]:='Disable';
         Inc(IntCount);
         Qry.Next;
-      end;}
-    end;
+      end;
+    end; }
     Qry.Close;
     Main.CloseDb;
   end;
@@ -235,10 +234,10 @@ begin
   RefreshDepartemen;
   Departemen.ItemIndex := 0;
   Tanggal.date:=NOW();
-  Tanggal2.date:=NOW()+30;
+  Tanggal2.date:=NOW();
   Init;
-  //LoadData;
-  //RefreshList;
+  LoadData;
+  RefreshList;
 end;
 
 procedure TTechnicalRecommendationList.CariChange(Sender: TObject);
@@ -315,10 +314,30 @@ begin
     Departemen.Items.Add(DepartemenArr[IntCount][1]);
 end;
 
-procedure TTechnicalRecommendationList.CariOfferingClick(Sender: TObject);
+procedure TTechnicalRecommendationList.SearchClick(Sender: TObject);
 begin
 LoadData;
 RefreshList;
+end;
+
+procedure TTechnicalRecommendationList.DepartemenChange(Sender: TObject);
+begin
+  //LoadData;
+ // RefreshList;
+end;
+
+procedure TTechnicalRecommendationList.TanggalChange(Sender: TObject);
+begin
+  if Tanggal.Date > Tanggal2.Date then
+    Tanggal2.Date := Tanggal.Date;
+  //LoadData;
+  //RefreshList;
+end;
+
+procedure TTechnicalRecommendationList.Tanggal2Change(Sender: TObject);
+begin
+    if Tanggal2.DateTime < Tanggal.DateTime then
+    Tanggal.Date := Tanggal2.Date;
 end;
 
 end.
