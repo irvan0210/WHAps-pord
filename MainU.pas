@@ -237,7 +237,8 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   EmployeeHistoryLakaListU, EmployeeHistoryLakaRptU, 
   EmployeeHistoryTrainingFormU, EmployeeHistoryTrainingListU,
   EmployeeHistoryTrainingRptU, MaintenanceGroupJobListU, 
-  RekapHistoryArmadaPergantianPartU;
+  RekapHistoryArmadaPergantianPartU, TechnicalRecommendationU,
+  TechnicalRecommendationListU;
 
 
 constructor TClockThread.Create;
@@ -1545,14 +1546,28 @@ begin
               end;
            end;
         end;
+
+        {162501..162505 Rekomendasi Teknis}
+        162501..162503:begin
+          case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03']) of
+            0:begin
+              if IsFormOpen('TechnicalRecommendation')=False then TechnicalRecommendation:=TTechnicalRecommendation.Create(Self,'',False);
+            end;
+            1:begin
+              if IsFormOpen('TechnicalRecommendationList')=False then TechnicalRecommendationList:=TTechnicalRecommendationList.Create(Self);
+            end;
+
+          end;
+        end;
+
         {170701..170704 Lead Car Rental}
         170701..170704:begin
-                         case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04']) of
-                         0:if IsFormOpen('Lead')=False then Lead :=TLead.Create(Self);
-                         1:if IsFormOpen('LeadList')=False then LeadList:=TLeadList.Create(Self,'GrayLine','Main-Change');
-                         else
-                           if IsFormOpen('LeadList')=False then LeadList:=TLeadList.Create(Self,'GrayLine');
-                         end;
+           case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04']) of
+           0:if IsFormOpen('Lead')=False then Lead :=TLead.Create(Self);
+           1:if IsFormOpen('LeadList')=False then LeadList:=TLeadList.Create(Self,'GrayLine','Main-Change');
+           else
+             if IsFormOpen('LeadList')=False then LeadList:=TLeadList.Create(Self,'GrayLine');
+           end;
         end;
         {170706..170709 Lead Order Car Rental}
         170706..170715:begin
@@ -1715,6 +1730,38 @@ begin
               end;
           end;
         end;
+
+        {HR Master Gaji }
+       { 180201..180211:begin
+          case CaseStr(RightStr(IntToStr(Tag),2),['01','02','04','05','07','08','10','11']) of
+            0:begin
+                if IsFormOpen('MasterProvinsiForm')=False then MasterProvinsiForm:=TMasterProvinsiForm.Create(Self);
+              end;
+            1:begin
+                if IsFormOpen('MasterProvinsiForm')=False then MasterProvinsiForm:=TMasterProvinsiForm.Create(Self);
+              end;
+            2:begin
+                if IsFormOpen('MasterProvinsiForm')=False then MasterProvinsiForm:=TMasterProvinsiForm.Create(Self);
+              end;
+            3:begin
+                if IsFormOpen('MasterProvinsiForm')=False then MasterProvinsiForm:=TMasterProvinsiForm.Create(Self);
+              end;
+            4:begin
+                if IsFormOpen('MasterProvinsiForm')=False then MasterProvinsiForm:=TMasterProvinsiForm.Create(Self);
+              end;
+            5:begin
+                if IsFormOpen('MasterProvinsiForm')=False then MasterProvinsiForm:=TMasterProvinsiForm.Create(Self);
+              end;
+            6:begin
+                if IsFormOpen('MasterProvinsiForm')=False then MasterProvinsiForm:=TMasterProvinsiForm.Create(Self);
+              end;
+            7:begin
+                if IsFormOpen('MasterProvinceList')=False then MasterProvinceList:=TMasterProvinceList.Create(Self);
+              end;
+          end;
+        end;  }
+
+        //
         {190101 Laporan Data Mitra}
         190101:begin
           if IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'Taxi',9);
@@ -2823,6 +2870,7 @@ procedure TMain.TimerMessageTimer(Sender: TObject);
 begin
   TimerMessage.Enabled:=False;
   CheckMessage;
+
 end;
 
 procedure TMain.CheckMessage;

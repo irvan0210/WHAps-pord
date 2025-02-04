@@ -1,6 +1,6 @@
 object Main: TMain
-  Left = 176
-  Top = 129
+  Left = 288
+  Top = 277
   BorderStyle = bsSingle
   Caption = 'WHAps ( White Horse Application )'
   ClientHeight = 540

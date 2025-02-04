@@ -5833,3 +5833,362 @@
 17/01/2025 13:40:08	Finish Return Local Settings
 17/01/2025 13:40:08	Destroying Object
 17/01/2025 13:40:08	Closing Apps
+04/02/2025 13:44:13	Get Local Settings
+04/02/2025 13:44:13	Start Change Local Settings
+04/02/2025 13:44:13	Change short date format
+04/02/2025 13:44:13	Change Long date format
+04/02/2025 13:44:13	Finish Change Local Settings
+04/02/2025 13:44:13	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+04/02/2025 13:44:13	Registry Read/Write
+04/02/2025 13:44:13	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+04/02/2025 13:44:13	Setting DB Param
+04/02/2025 13:44:13	Create DB Object
+04/02/2025 13:44:13	Create DB Object
+04/02/2025 13:44:13	Init DB
+04/02/2025 13:44:13	Finish Init DB
+04/02/2025 13:44:13	Get File Version
+04/02/2025 13:44:13	Change  Caption
+04/02/2025 13:44:13	Init Shortkey
+04/02/2025 13:44:15	Setting DB Param
+04/02/2025 13:44:15	Create DB Object
+04/02/2025 13:44:15	Create DB Object
+04/02/2025 13:44:15	Init DB
+04/02/2025 13:44:15	Finish Init DB
+04/02/2025 13:44:24	Update new version check
+04/02/2025 13:44:24	Open DB Connection
+04/02/2025 13:44:47	SQL :
+04/02/2025 13:44:47	Update check version
+04/02/2025 13:44:47	Open DB Connection
+04/02/2025 13:44:47	SQL :SELECT version FROM wh_application WHERE application_id=(SELECT MAX(application_id) FROM wh_application);
+04/02/2025 13:44:47	Start Login
+04/02/2025 13:44:47	Open DB Connection
+04/02/2025 13:44:47	SQL :EXEC AuthenticateUser 'irvan.ruswanto','0b1dd5fabd221ef63c58c026bce4cf6b';
+04/02/2025 13:44:47	SQL :INSERT INTO wh_log (user_id,app_date,app_version,app_version_svr,location_id,company_id,department_id,host_name,ip_address)  VALUES ('irvan.ruswanto','04/02/2025','6.1.5.52','6.1.5.51',6,2,00,'IT-WEHA','192.168.25.215');
+04/02/2025 13:44:47	Open DB Connection
+04/02/2025 13:44:47	SQL :EXEC GetUserMenu 'irvan.ruswanto';
+04/02/2025 13:44:47	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','11';
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1101',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1102',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1103',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1104',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1105',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1106',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1107',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1108',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1109',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1110',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1111',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1112',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1113',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1114',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1115',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1116',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1117',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1121',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1198',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1199',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','13';
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1301',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1302',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1303',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1304',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1305',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1306',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1307',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1308',@CompanyId=2;
+04/02/2025 13:44:48	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1309',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1310',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1311',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1312',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1313',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1314',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1315',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1316',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1317',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1318',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1319',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1320',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1321',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1322',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','14';
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1401',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1402',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1403',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1404',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1406',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1408',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1410',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1411',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1412',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1413',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1414',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','15';
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1501',@CompanyId=2;
+04/02/2025 13:44:49	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1502',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1503',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1504',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1505',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1506',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1507',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1508',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1509',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1510',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1511',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','16';
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1601',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1602',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1603',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1604',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1605',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1606',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1607',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1608',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1609',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1610',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1611',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1612',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1613',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1614',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1615',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1616',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1619',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1620',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1624',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1625',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','18';
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1801',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1802',@CompanyId=2;
+04/02/2025 13:44:50	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','19';
+04/02/2025 13:44:50	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1901',@CompanyId=2;
+04/02/2025 13:44:51	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1902',@CompanyId=2;
+04/02/2025 13:44:51	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1903',@CompanyId=2;
+04/02/2025 13:44:51	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1904',@CompanyId=2;
+04/02/2025 13:44:51	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1905',@CompanyId=2;
+04/02/2025 13:44:51	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1906',@CompanyId=2;
+04/02/2025 13:44:51	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1907',@CompanyId=2;
+04/02/2025 13:44:51	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1908',@CompanyId=2;
+04/02/2025 13:44:51	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1909',@CompanyId=2;
+04/02/2025 13:44:51	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1910',@CompanyId=2;
+04/02/2025 13:44:51	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1911',@CompanyId=2;
+04/02/2025 13:44:51	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1912',@CompanyId=2;
+04/02/2025 13:44:51	SQL :SELECT CONVERT(VARCHAR(8),GETDATE(),108) AS hour_minute;
+04/02/2025 13:44:51	SQL :SELECT CONVERT(VARCHAR(10),GETDATE(),103) AS date_time;
+04/02/2025 13:44:51	Loading Setting
+04/02/2025 13:44:51	Open DB Connection
+04/02/2025 13:44:51	SQL :SELECT * FROM wh_setting WHERE setting_name='Hold_Less_Deposit';
+04/02/2025 13:44:51	SQL :SELECT * FROM wh_setting WHERE setting_name='Max_Less_Deposit';
+04/02/2025 13:44:51	SQL :SELECT * FROM wh_setting WHERE setting_name='Dashboard_2';
+04/02/2025 13:44:51	Finish Logging
+04/02/2025 13:44:51	SQL :SELECT value_string FROM wh_setting WHERE (setting_name='Interval_CheckInDate') AND (active=1);
+04/02/2025 13:44:51	SQL :SELECT value_string FROM wh_setting WHERE (setting_name='Interval_CheckInTime') AND (active=1);
+04/02/2025 13:44:51	SQL :SELECT value_string FROM wh_setting WHERE (setting_name='ChatEnable') and (active=1);
+04/02/2025 13:44:52	Message:Port Check
+04/02/2025 13:44:52	Message:Open DB Connection
+04/02/2025 13:44:52	SQL :EXEC GetMessage '01','irvan.ruswanto';
+04/02/2025 13:44:52	SQL :SELECT CONVERT(VARCHAR(8),GETDATE(),108) AS hour_minute;
+04/02/2025 13:44:52	SQL :SELECT CONVERT(VARCHAR(10),GETDATE(),103) AS date_time;
+04/02/2025 13:45:01	Open Menu :162502
+04/02/2025 13:45:01	Open DB Connection
+04/02/2025 13:45:01	SQL :EXEC AuthMenu 'irvan.ruswanto',162502;
+04/02/2025 13:45:07	Form Check :Setting
+04/02/2025 13:45:07	Form Open: Setting
+04/02/2025 13:45:14	Open Menu :162501
+04/02/2025 13:45:14	Open DB Connection
+04/02/2025 13:45:14	SQL :EXEC AuthMenu 'irvan.ruswanto',162501;
+04/02/2025 13:45:19	Open Menu :162501
+04/02/2025 13:45:19	Open DB Connection
+04/02/2025 13:45:19	SQL :EXEC AuthMenu 'irvan.ruswanto',162501;
+04/02/2025 13:45:21	Form Check :Setting
+04/02/2025 13:45:21	Form Open: Setting
+04/02/2025 13:45:26	Form Check :Setting
+04/02/2025 13:45:30	Form Check :ChatClient
+04/02/2025 13:45:31	Form Check :AuthorizedForm
+04/02/2025 13:45:31	Form Check :RePrintForm
+04/02/2025 13:45:31	Form Check :EmployeeSearch
+04/02/2025 13:45:31	Form Check :TimeInputForm
+04/02/2025 13:45:31	Log Out
+04/02/2025 13:45:34	Start Return Local Settings
+04/02/2025 13:45:34	Finish Return Local Settings
+04/02/2025 13:45:34	Destroying Object
+04/02/2025 13:45:34	Closing Apps
+04/02/2025 13:47:13	Get Local Settings
+04/02/2025 13:47:13	Start Change Local Settings
+04/02/2025 13:47:13	Change short date format
+04/02/2025 13:47:13	Change Long date format
+04/02/2025 13:47:13	Finish Change Local Settings
+04/02/2025 13:47:13	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+04/02/2025 13:47:13	Registry Read/Write
+04/02/2025 13:47:13	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+04/02/2025 13:47:13	Setting DB Param
+04/02/2025 13:47:13	Create DB Object
+04/02/2025 13:47:13	Create DB Object
+04/02/2025 13:47:13	Init DB
+04/02/2025 13:47:13	Finish Init DB
+04/02/2025 13:47:13	Get File Version
+04/02/2025 13:47:13	Change  Caption
+04/02/2025 13:47:13	Init Shortkey
+04/02/2025 13:47:15	Setting DB Param
+04/02/2025 13:47:15	Create DB Object
+04/02/2025 13:47:15	Create DB Object
+04/02/2025 13:47:15	Init DB
+04/02/2025 13:47:15	Finish Init DB
+04/02/2025 13:47:22	Update new version check
+04/02/2025 13:47:22	Open DB Connection
+04/02/2025 13:47:44	SQL :
+04/02/2025 13:47:44	Update check version
+04/02/2025 13:47:44	Open DB Connection
+04/02/2025 13:47:44	SQL :SELECT version FROM wh_application WHERE application_id=(SELECT MAX(application_id) FROM wh_application);
+04/02/2025 13:47:45	Start Login
+04/02/2025 13:47:45	Open DB Connection
+04/02/2025 13:47:45	SQL :EXEC AuthenticateUser 'irvan.ruswanto','0b1dd5fabd221ef63c58c026bce4cf6b';
+04/02/2025 13:47:45	SQL :INSERT INTO wh_log (user_id,app_date,app_version,app_version_svr,location_id,company_id,department_id,host_name,ip_address)  VALUES ('irvan.ruswanto','04/02/2025','6.1.5.52','6.1.5.51',6,2,00,'IT-WEHA','192.168.25.215');
+04/02/2025 13:47:45	Open DB Connection
+04/02/2025 13:47:45	SQL :EXEC GetUserMenu 'irvan.ruswanto';
+04/02/2025 13:47:45	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','11';
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1101',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1102',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1103',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1104',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1105',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1106',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1107',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1108',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1109',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1110',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1111',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1112',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1113',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1114',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1115',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1116',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1117',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1121',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1198',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1199',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','13';
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1301',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1302',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1303',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1304',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1305',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1306',@CompanyId=2;
+04/02/2025 13:47:45	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1307',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1308',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1309',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1310',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1311',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1312',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1313',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1314',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1315',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1316',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1317',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1318',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1319',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1320',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1321',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1322',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','14';
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1401',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1402',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1403',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1404',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1406',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1408',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1410',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1411',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1412',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1413',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1414',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','15';
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1501',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1502',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1503',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1504',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1505',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1506',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1507',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1508',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1509',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1510',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1511',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','16';
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1601',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1602',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1603',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1604',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1605',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1606',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1607',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1608',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1609',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1610',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1611',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1612',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1613',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1614',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1615',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1616',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1619',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1620',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1624',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1625',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','18';
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1801',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1802',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserSubMenu 'irvan.ruswanto','19';
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1901',@CompanyId=2;
+04/02/2025 13:47:46	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1902',@CompanyId=2;
+04/02/2025 13:47:47	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1903',@CompanyId=2;
+04/02/2025 13:47:47	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1904',@CompanyId=2;
+04/02/2025 13:47:47	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1905',@CompanyId=2;
+04/02/2025 13:47:47	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1906',@CompanyId=2;
+04/02/2025 13:47:47	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1907',@CompanyId=2;
+04/02/2025 13:47:47	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1908',@CompanyId=2;
+04/02/2025 13:47:47	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1909',@CompanyId=2;
+04/02/2025 13:47:47	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1910',@CompanyId=2;
+04/02/2025 13:47:47	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1911',@CompanyId=2;
+04/02/2025 13:47:47	SQL :EXEC GetUserTreeMenu 'irvan.ruswanto','1912',@CompanyId=2;
+04/02/2025 13:47:47	SQL :SELECT CONVERT(VARCHAR(8),GETDATE(),108) AS hour_minute;
+04/02/2025 13:47:47	SQL :SELECT CONVERT(VARCHAR(10),GETDATE(),103) AS date_time;
+04/02/2025 13:47:47	Loading Setting
+04/02/2025 13:47:47	Open DB Connection
+04/02/2025 13:47:47	SQL :SELECT * FROM wh_setting WHERE setting_name='Hold_Less_Deposit';
+04/02/2025 13:47:47	SQL :SELECT * FROM wh_setting WHERE setting_name='Max_Less_Deposit';
+04/02/2025 13:47:47	SQL :SELECT * FROM wh_setting WHERE setting_name='Dashboard_2';
+04/02/2025 13:47:47	Finish Logging
+04/02/2025 13:47:47	SQL :SELECT value_string FROM wh_setting WHERE (setting_name='Interval_CheckInDate') AND (active=1);
+04/02/2025 13:47:47	SQL :SELECT value_string FROM wh_setting WHERE (setting_name='Interval_CheckInTime') AND (active=1);
+04/02/2025 13:47:47	SQL :SELECT value_string FROM wh_setting WHERE (setting_name='ChatEnable') and (active=1);
+04/02/2025 13:47:48	Message:Port Check
+04/02/2025 13:47:48	Message:Open DB Connection
+04/02/2025 13:47:48	SQL :EXEC GetMessage '01','irvan.ruswanto';
+04/02/2025 13:47:48	SQL :SELECT CONVERT(VARCHAR(8),GETDATE(),108) AS hour_minute;
+04/02/2025 13:47:48	SQL :SELECT CONVERT(VARCHAR(10),GETDATE(),103) AS date_time;
+04/02/2025 13:47:55	Open Menu :162502
+04/02/2025 13:47:55	Open DB Connection
+04/02/2025 13:47:55	SQL :EXEC AuthMenu 'irvan.ruswanto',162502;
+04/02/2025 13:47:55	Form Check :TechnicalRecommendationList
+04/02/2025 13:47:56	Open DB Connection
+04/02/2025 13:47:56	Open DB Connection
+04/02/2025 13:48:07	Form Check :TechnicalRecommendation
+04/02/2025 13:48:07	Open DB Connection
+04/02/2025 13:48:07	Open DB Connection
+04/02/2025 13:48:08	Open DB Connection
+04/02/2025 13:48:31	Open Menu :162502
+04/02/2025 13:48:31	Open DB Connection
+04/02/2025 13:48:31	SQL :EXEC AuthMenu 'irvan.ruswanto',162502;
+04/02/2025 13:48:31	Form Check :TechnicalRecommendationList
+04/02/2025 13:48:31	Open DB Connection
+04/02/2025 13:48:31	Open DB Connection
+04/02/2025 13:48:32	Form Check :TechnicalRecommendation
+04/02/2025 13:48:32	Open DB Connection
+04/02/2025 13:48:33	Open DB Connection
+04/02/2025 13:48:38	Form Check :TechnicalRecommendation
+04/02/2025 13:48:38	Open DB Connection
+04/02/2025 13:48:38	Open DB Connection
+04/02/2025 13:48:41	Form Check :ChatClient
+04/02/2025 13:48:42	Form Check :AuthorizedForm
+04/02/2025 13:48:42	Form Check :RePrintForm
+04/02/2025 13:48:42	Form Check :EmployeeSearch
+04/02/2025 13:48:42	Form Check :TimeInput

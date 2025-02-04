@@ -52,7 +52,7 @@ type
     { Private declarations }
     CompId,Month:Integer;
     FormRequest,CustId:String;
-    OrderArr,CompanyArr:Array of TArrString35;
+    OrderArr,CompanyArr:Array of TArrString41;
     SegmentArr:Array of TArrString10;
     ResumeArr:Array of TArrString4;
     IntRow,IntCol,IsAll,MinRowGrid,CustomerSegment,isSummary:Integer;

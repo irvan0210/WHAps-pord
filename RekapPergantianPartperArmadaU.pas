@@ -31,7 +31,7 @@ type
     { Private declarations }
     FormRequest:String;
     MinRowGrid:Integer;
-    RekapArr:Array of TArrString11;
+    RekapArr:Array of TArrString14;
     CompanyArr:Array of TArrString7;
 //    procedure Init;
     procedure InitGrid;
