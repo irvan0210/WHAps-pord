@@ -90,6 +90,9 @@ type
     ppLabelUser: TppLabel;
     ppLabelMerkdanSpek: TppMemo;
     ppImage2: TppImage;
+    Label12: TLabel;
+    Label23: TLabel;
+    Label13: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SelesaiClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -224,11 +227,11 @@ end;
 
 procedure TTechnicalRecommendation.SimpanClick(Sender: TObject);
 var Qry:TADOQuery;
-    StrQry,StrMsg,StrException, StrTechnicalRekomNO, StrDepartemenId, StrStatus, StrPesan:String;
+    StrQry,StrMsg,StrException, StrTechnicalRekomNO, StrDepartemenId, StrStatus, StrPesan, StrPerkiraanHarga:String;
     IntCount:Integer;
     IsOk:Boolean;
 begin
-  if Trim(JenisBarang.Text)<>'' then begin
+  if (Trim(JenisBarang.Text)<>'') and (Departemen.ItemIndex<>-1) and (Requestor.Text <>'') then begin
     IsOk:=True;
     Qry:=TADOQuery.Create(Self);
     Qry.Connection:=Main.MyConnection;
@@ -248,6 +251,10 @@ begin
             StrRekomNO :=Qry.FieldValues['hasil'];
       end;
 
+      if PerkiraanHarga.Text ='' then
+         StrPerkiraanHarga := '0'
+      else StrPerkiraanHarga := PerkiraanHarga.Text;
+
 
       if TechnicalRekomNO.Text <> '' then begin
          StrQry := 'UPDATE wh_technical_recommendations SET date ='+QuotedStr(FormatDateTime('yyyy/mm/dd',tgl_rekomendasi.Date))+', '+
@@ -256,9 +263,9 @@ begin
                     'old_device_no = '+QuotedStr(NoPerangkatLama.Text)+','+
                     'department_id = '+QuotedStr(StrDepartemenId)+','+
                     'user_requestor = '+QuotedStr(Requestor.Text)+','+
-                    'qty = '+QuotedStr(Jumlah.Text)+','+
+                    'qty = '+ToString(Jumlah.Text)+','+
                     'brand_and_specification = '+QuotedStr(MerkdanSpesifikasi.Text)+','+
-                    'price_forecasts ='+ToString(PerkiraanHarga.Text)+','+
+                    'price_forecasts ='+ToString(StrPerkiraanHarga)+','+
                     'recommendation_expired ='+QuotedStr(FormatDateTime('yyyy/mm/dd',RecomExpired.Date))+','+
                     'location ='+QuotedStr(CompanyId)+','+
                     'status ='+QuotedStr(StrStatus)+','+
@@ -273,8 +280,8 @@ begin
                'brand_and_specification, price_forecasts, recommendation_expired,location, status, user_id, create_time,    '+
                'update_user, update_time) VALUES ('+QuotedStr(StrRekomNO)+',GETDATE(),'+//QuotedStr(StrTechnicalRekomNO)+','+  (SELECT dbo.GetNewTechnicalRecommendationsId('+CompanyId+') AS hasil)
                 QuotedStr(JenisBarang.Text)+','+QuotedStr(AlasanPengadaan.Text)+','+QuotedStr(NoPerangkatLama.Text)+','+
-                QuotedStr(StrDepartemenId)+','+QuotedStr(Requestor.Text)+','+QuotedStr(Jumlah.Text)+','+
-                QuotedStr(MerkdanSpesifikasi.Text)+','+ToString(PerkiraanHarga.Text)+','+QuotedStr(FormatDateTime('yyyy/mm/dd',RecomExpired.Date))+', '+
+                QuotedStr(StrDepartemenId)+','+QuotedStr(Requestor.Text)+','+ToString(Jumlah.Text)+','+
+                QuotedStr(MerkdanSpesifikasi.Text)+','+ToString(StrPerkiraanHarga)+','+QuotedStr(FormatDateTime('yyyy/mm/dd',RecomExpired.Date))+', '+
                 CompanyId+','+QuotedStr(StrStatus)+', '+QuotedStr(User)+',GETDATE(),'+QuotedStr(User)+',GETDATE());';
         StrPesan:= 'Berhasil menyimpan rekomendasi teknis';
       end;
@@ -290,28 +297,34 @@ begin
           StrException:=E.Message;
         end;
       end;
-      TechnicalRecommendationList.LoadData;
       Qry.Close;
       Main.CloseDb;
     end;
     
     if IsOk then begin
       MessageBox(0,PChar(StrPesan),'Rekomendasi Teknis',MB_OK or MB_ICONINFORMATION);
-      if MessageBox(0,PChar('Cetak Rekomendasi Teknis?') ,'Rekomendasi Teknis',MB_OKCANCEL or MB_ICONINFORMATION)=1 then begin
-        cetakClick(Sender);
+      if status.Checked <> False then begin
+        if MessageBox(0,PChar('Cetak Rekomendasi Teknis?') ,'Rekomendasi Teknis',MB_OKCANCEL or MB_ICONINFORMATION)=1 then begin
+           cetakClick(Sender);
+        end;
       end;
+
+      if Main.IsFormOpen('TechnicalRecommendationList') then begin
+        TechnicalRecommendationList.RefreshDepartemen;
+        TechnicalRecommendationList.SearchClick(Sender);
+      end;
+
       Init;
       close;
     end else begin
       MessageBox(0,PChar(StrMsg+Chr(13)+Chr(13)+'Kesalahan:'+Chr(13)+StrException),'Rekomendasi Teknis',MB_OK or MB_ICONERROR);
     end;
+  end else begin
+    StrMsg:='Inputan tanda * '+Chr(13)+'tidak boleh kosong !!';
+    MessageBox(0,PChar(StrMsg),'Rekomendasi Teknis',MB_OK or MB_ICONINFORMATION);
   end;
 
-  if Main.IsFormOpen('TechnicalRecommendationList') then begin
-    //TechnicalRecommendationList.Init;
-    TechnicalRecommendationList.LoadData;
-    TechnicalRecommendationList.RefreshList;
-  end;
+
 
 //  if IsOk then SubMenuForm.Close;
 

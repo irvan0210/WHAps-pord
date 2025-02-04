@@ -328,7 +328,9 @@ uses
   MaintenanceJobFormEditU in 'MaintenanceJobFormEditU.pas' {MaintenanceJobFormEdit},
   MaintenanceGroupJobListU in 'MaintenanceGroupJobListU.pas' {MaintenanceGroupJobList},
   BrowsePartU in 'BrowsePartU.pas' {BrowsePart},
-  RekapHistoryArmadaPergantianPartU in 'RekapHistoryArmadaPergantianPartU.pas' {RekapHistoryArmadaPergantianPart};
+  RekapHistoryArmadaPergantianPartU in 'RekapHistoryArmadaPergantianPartU.pas' {RekapHistoryArmadaPergantianPart},
+  TechnicalRecommendationListU in 'TechnicalRecommendationListU.pas' {TechnicalRecommendationList},
+  TechnicalRecommendationU in 'TechnicalRecommendationU.pas' {TechnicalRecommendation};
 
 {$R *.res}
 

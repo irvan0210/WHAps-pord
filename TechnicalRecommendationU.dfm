@@ -114,6 +114,46 @@ object TechnicalRecommendation: TTechnicalRecommendation
     Caption = 'Tanggal Rekomendasi'
     WordWrap = True
   end
+  object Label12: TLabel
+    Left = 158
+    Top = 116
+    Width = 6
+    Height = 20
+    Alignment = taRightJustify
+    Caption = '*'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label23: TLabel
+    Left = 158
+    Top = 51
+    Width = 6
+    Height = 20
+    Caption = '*'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label13: TLabel
+    Left = 159
+    Top = 140
+    Width = 6
+    Height = 20
+    Caption = '*'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
   object GroupId: TPanel
     Left = 168
     Top = 23
