@@ -14,10 +14,14 @@ type
     Label1: TLabel;
     AddPoint: TEdit;
     Label2: TLabel;
-    Label3: TLabel;
-    CBSuratJalan: TComboBox;
     Label4: TLabel;
     CBInvoice: TComboBox;
+    GroupBox2: TGroupBox;
+    Label3: TLabel;
+    CBSuratJalan: TComboBox;
+    Label5: TLabel;
+    TopSJ: TEdit;
+    Label6: TLabel;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SimpanClick(Sender: TObject);
@@ -43,7 +47,9 @@ uses MainU;
 procedure TPrintSetting.Init;
 begin
   AddPoint.Text:='';
-
+  TopSJ.Text:='0';
+  CBSuratJalan.ItemIndex:=0;
+  CBInvoice.ItemIndex:=0;
 end;
 
 procedure TPrintSetting.LoadData;
@@ -64,7 +70,7 @@ end;
 
 procedure TPrintSetting.SimpanClick(Sender: TObject);
 var Qry:TADOQuery;
-    StrQry,StrEMessage,RegSuratJalan,RegInvoice:String;
+    StrQry,StrEMessage,RegSuratJalan,RegInvoice,RegTambahanTopSJ:String;
     IntCount:Integer;
     IsOk:Boolean;
     Regs:TRegistry;
@@ -87,57 +93,36 @@ begin
       end;
     end;
 
-    if (CBSuratJalan.ItemIndex<>-1)  then begin
-//      WriteReg('Print Surat Jalan',’ini_passwordku’);
-//      Main.WriteLog('Print Surat jalam'+CBSuratJalan.Text);
-      RegSuratJalan:=CBSuratJalan.Text;
-      try
-        Regs:=TRegistry.Create;
-        Regs.RootKey:=HKEY_LOCAL_MACHINE;
-        try
-          if Regs.OpenKey(RegPath,True) then begin
-            Regs.WriteString('SetPrinterSJ',RegSuratJalan);
-            SetPrinterSJ:=RegSuratJalan;
-          end;
-          IsOk:=True;
-        except
-          on E:Exception do begin
-            Main.WriteLog('Registry Save:Fail'+E.Message,1);
-            IsOk:=False;
-          end;
-        end;
-      finally
-        Regs.CloseKey;
-        FreeAndNil(Regs)
-      end;
-      Main.InitReg;
-    end;
 
-    if (CBInvoice.ItemIndex<>-1)  then begin
 //      WriteReg('Print Surat Jalan',’ini_passwordku’);
 //      Main.WriteLog('Print Surat jalam'+CBSuratJalan.Text);
-      RegInvoice:=CBInvoice.Text;
+    RegSuratJalan:=CBSuratJalan.Text;
+    RegInvoice:=CBInvoice.Text;
+    if TopSJ.Text<>'' then RegTambahanTopSJ:=TopSJ.Text else RegTambahanTopSJ:='0';
+    try
+      Regs:=TRegistry.Create;
+      Regs.RootKey:=HKEY_LOCAL_MACHINE;
       try
-        Regs:=TRegistry.Create;
-        Regs.RootKey:=HKEY_LOCAL_MACHINE;
-        try
-          if Regs.OpenKey(RegPath,True) then begin
-            Regs.WriteString('SetPrinterSJ',RegInvoice);
-            SetPrinterINV:=RegInvoice;
-          end;
-          IsOk:=True;
-        except
-          on E:Exception do begin
-            Main.WriteLog('Registry Save:Fail'+E.Message,1);
-            IsOk:=False;
-          end;
+        if Regs.OpenKey(RegPath,True) then begin
+          Regs.WriteString('SetPrinterSJ',RegSuratJalan);
+          Regs.WriteString('SetPrinterINV',RegInvoice);
+          Regs.WriteString('SetTambahanTopSJ',RegTambahanTopSJ);
+          SetPrinterINV:=RegInvoice;
+          SetPrinterSJ:=RegSuratJalan;
+          SetTambahanTopSJ:=RegTambahanTopSJ;
         end;
-      finally
-        Regs.CloseKey;
-        FreeAndNil(Regs)
+        IsOk:=True;
+      except
+        on E:Exception do begin
+          Main.WriteLog('Registry Save:Fail'+E.Message,1);
+          IsOk:=False;
+        end;
       end;
-      Main.InitReg;
+    finally
+      Regs.CloseKey;
+      FreeAndNil(Regs)
     end;
+    Main.InitReg;
 
     if IsOk then begin
       Main.TransCommit;
@@ -169,12 +154,12 @@ begin
   LoadData;
 
 
-  Regs:=TRegistry.Create(KEY_READ or $0100);
-  Regs.RootKey:=HKEY_LOCAL_MACHINE;
-
-  if Regs.OpenKeyReadOnly(RegPath) then begin
-    SetPrinterSJ:=Regs.ReadString('SetPrinterSJ');
-    SetPrinterINV:=Regs.ReadString('SetPrinterINV');
+//  Regs:=TRegistry.Create(KEY_READ or $0100);
+//  Regs.RootKey:=HKEY_LOCAL_MACHINE;
+//
+//  if Regs.OpenKeyReadOnly(RegPath) then begin
+//    SetPrinterSJ:=Regs.ReadString('SetPrinterSJ');
+//    SetPrinterINV:=Regs.ReadString('SetPrinterINV');
     if SetPrinterSJ='EPSON LX-310' then
     CBSuratJalan.ItemIndex:=1
     else CBSuratJalan.ItemIndex:=0;
@@ -182,9 +167,11 @@ begin
     if SetPrinterINV='EPSON LX-310' then
     CBInvoice.ItemIndex:=1
     else CBInvoice.ItemIndex:=0;
-  end;
-  Regs.CloseKey;
-  FreeAndNil(Regs);
+
+    if SetTambahanTopSJ='' then TopSJ.Text:='0' else TopSJ.Text:=SetTambahanTopSJ;
+//  end;
+//  Regs.CloseKey;
+//  FreeAndNil(Regs);
 
 end;
 

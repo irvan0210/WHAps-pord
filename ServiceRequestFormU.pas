@@ -276,6 +276,8 @@ type
     ppParameterList1: TppParameterList;
     Memo1: TMemo;
     BtnTbhBarang: TButton;
+    Label15: TLabel;
+    ListKunciCepat: TMemo;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -325,6 +327,12 @@ type
     procedure CariKeluhanClick(Sender: TObject);
     procedure chkPermintaanBarangClick(Sender: TObject);
     procedure BtnTbhBarangClick(Sender: TObject);
+    procedure StrGrid2KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure StrGrid3KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure StrGridMekanikKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
     VhcArr:Array of TArrString7;
@@ -724,19 +732,19 @@ begin
   IdHTTP := TIdHTTP.Create(Self);
   resp := TMemoryStream.Create;
 
-//  url:='http://'+ApiTransTrack+'/api_transtrack/vehicle.php?plate='+License_plate;
-  url:='https://order-tracking.transtrack.id/api/v1/vehicles?api_key=key-XOkLrV88kwBPw0hr9ESqtv6nCGp3m4lk%20XAps5GFcpEk374Cwm1H4RwZkgMAelznP&search=AB7494JN';
+  url:='http://'+ApiTransTrack+'/api_transtrack/vehicle.php?plate='+License_plate;
+//  url:='https://order-tracking.transtrack.id/api/v1/vehicles?api_key=key-XOkLrV88kwBPw0hr9ESqtv6nCGp3m4lk%20XAps5GFcpEk374Cwm1H4RwZkgMAelznP&search=AB7494JN';
   IdHTTP.Get(url, resp);
   resp.Position := 0;
   Memo1.Lines.LoadFromStream(resp);
   js := TlkJSON.ParseText(Memo1.Text);
   if Assigned(js) then
   begin
-    js := js.Field['data'];
-    if Assigned(js) then
-    begin
-      js := js.Field['odometer'];
-    end;
+//    js := js.Field['data'];
+//    if Assigned(js) then
+//    begin
+//      js := js.Field['odometer'];
+//    end;
 //      if Assigned(js) then
 //      begin
 //        js := js.Field['view'];
@@ -1167,6 +1175,9 @@ begin
         GroupBox2.Enabled:=False;
         GroupBox3.Enabled:=False;
         GroupBox4.Enabled:=False;
+        StrGrid2.Enabled:=False;
+        StrGrid3.Enabled:=False;
+        StrGridMekanik.Enabled:=False;
         Panel1.Enabled:=False;
       end else if (Qry.FieldValues['approve']=1) then
       begin
@@ -1186,6 +1197,9 @@ begin
         GroupBox2.Enabled:=False;
         GroupBox3.Enabled:=False;
         GroupBox4.Enabled:=False;
+        StrGrid2.Enabled:=False;
+        StrGrid3.Enabled:=False;
+        StrGridMekanik.Enabled:=False;
         Panel1.Enabled:=False;
       end else if (IntOtorisasi=1) then
       begin
@@ -1203,6 +1217,9 @@ begin
         GroupBox2.Enabled:=True;
         GroupBox3.Enabled:=True;
         GroupBox4.Enabled:=True;
+        StrGrid2.Enabled:=True;
+        StrGrid3.Enabled:=True;
+        StrGridMekanik.Enabled:=True;
         Panel1.Enabled:=True;
       end else begin
         LabStat.Visible:=True;
@@ -1220,6 +1237,9 @@ begin
         GroupBox3.Enabled:=True;
         GroupBox4.Enabled:=True;
         Panel1.Enabled:=True;
+        StrGrid2.Enabled:=True;
+        StrGrid3.Enabled:=True;
+        StrGridMekanik.Enabled:=True;
       end;
       NoSR.Text:=Qry.FieldValues['service_request_id'];
       if Qry.FieldValues['requested_date']<>NULL then DibutuhkanBarangDate.DateTime:=StrToDate(Qry.FieldValues['requested_date']);
@@ -1935,6 +1955,9 @@ begin
   GroupInput.Enabled:=True;
   Request.Enabled:=True;
   FinishUnknown.Enabled:=True;
+  StrGrid2.Enabled:=True;
+  StrGrid3.Enabled:=True;
+  StrGridMekanik.Enabled:=True;
 end;
 
 procedure TServiceRequestForm.BersihkanClick(Sender: TObject);
@@ -2769,11 +2792,23 @@ begin
 end;
 
 procedure TServiceRequestForm.RejectClick(Sender: TObject);
+var Qry:TADOQuery;
+    StrQry:String;
 begin
-  if Main.IsFormOpen('NoteReject')=False then begin
-    NoteReject:=TNoteReject.Create(Self);
-    NoSRReject:=NoSR.Text;
-  end;
+  Qry:=TADOQuery.Create(Self);
+  Qry.Connection:=Main.MyConnection;
+  StrQry:='SELECT * FROM wh_work_order WHERE service_request_id='+QuotedStr(NoSR.Text)+' AND status<>0 ;';
+  Qry.SQL.Clear;
+  Qry.SQL.Add(StrQry);
+  Qry.Open;
+  if Qry.RecordCount>0 then begin
+    MessageBox(0,'Service Request sudah dibuat PKB','Service Request',MB_OK or MB_ICONERROR);
+  end else begin
+    if Main.IsFormOpen('NoteReject')=False then begin
+      NoteReject:=TNoteReject.Create(Self);
+      NoSRReject:=NoSR.Text;
+    end;
+  end;;
 end;
 
 procedure TServiceRequestForm.CariKeluhanClick(Sender: TObject);
@@ -2809,7 +2844,86 @@ begin
   if Main.IsFormOpen('BrowsePartU')=False then
   begin
     BrowsePartVehicleId:=VehicleId;
-    BrowsePart:=TBrowsePart.Create(Self);
+    BrowsePart:=TBrowsePart.Create(Self,'SERVICEREQUESTFORM');
+  end;
+end;
+
+procedure DeleteRow(Grid: TZColorStringGrid; ARow: Integer);
+var
+  i: Integer;
+begin
+  for i := ARow to Grid.RowCount - 2 do
+    Grid.Rows[i].Assign(Grid.Rows[i + 1]);
+  Grid.RowCount := Grid.RowCount - 1;
+end;
+
+procedure TServiceRequestForm.StrGrid2KeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+  var i: integer;
+begin
+  if IntRow>0 then begin
+    if Key=VK_DELETE then begin
+      if MessageBox(Handle,'Mau Menghapus Baris ini ?','Tanda Terima',MB_OKCANCEL or MB_ICONQUESTION or MB_SYSTEMMODAL or MB_SETFOREGROUND)=1 then begin
+        DeleteRow(StrGrid2,IntRow);
+
+        for i:=1 to StrGrid2.RowCount do
+        begin
+          StrGrid2.Cells[0,i]:=IntToStr(i);
+        end;
+
+
+      end;
+    end;
+  end;
+end;
+
+procedure TServiceRequestForm.StrGrid3KeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+  var i: integer;
+begin
+  if IntRow>0 then begin
+    if Key=VK_DELETE then begin
+      if MessageBox(Handle,'Mau Menghapus Baris ini ?','Tanda Terima',MB_OKCANCEL or MB_ICONQUESTION or MB_SYSTEMMODAL or MB_SETFOREGROUND)=1 then begin
+        if (IntRow=1) and (StrGrid3.RowCount=2) then begin
+          StrGrid3.Cells[0,IntRow]:='';
+          StrGrid3.Cells[1,IntRow]:='';
+        end else begin
+          DeleteRow(StrGrid3,IntRow);
+          for i:=1 to StrGrid3.RowCount do
+          begin
+            if StrGrid3.Cells[1,i]<>'' then begin
+              StrGrid3.Cells[0,i]:=IntToStr(i);
+            end;
+          end;
+        end;
+      end;
+    end;
+  end;
+end;
+
+procedure TServiceRequestForm.StrGridMekanikKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+  var i: integer;
+begin
+
+  if IntRow>0 then begin
+    if Key=VK_DELETE then begin
+      if MessageBox(Handle,'Mau Menghapus Baris ini ?','Tanda Terima',MB_OKCANCEL or MB_ICONQUESTION or MB_SYSTEMMODAL or MB_SETFOREGROUND)=1 then begin
+        if (IntRow=1) and (StrGridMekanik.RowCount=2) then begin
+          StrGridMekanik.Cells[0,IntRow]:='';
+          StrGridMekanik.Cells[1,IntRow]:='';
+          StrGridMekanik.Cells[2,IntRow]:='';
+        end else begin
+          DeleteRow(StrGridMekanik,IntRow);
+          for i:=1 to StrGridMekanik.RowCount do
+          begin
+            if StrGridMekanik.Cells[1,i]<>'' then begin
+              StrGridMekanik.Cells[0,i]:=IntToStr(i);
+            end;
+          end;
+        end;
+      end;
+    end;
   end;
 end;
 

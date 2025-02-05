@@ -52,7 +52,7 @@ type
     { Private declarations }
     CompId,Month:Integer;
     FormRequest,CustId:String;
-    OrderArr,CompanyArr:Array of TArrString41;
+    OrderArr,CompanyArr:Array of TArrString35;
     SegmentArr:Array of TArrString10;
     ResumeArr:Array of TArrString4;
     IntRow,IntCol,IsAll,MinRowGrid,CustomerSegment,isSummary:Integer;
@@ -303,7 +303,7 @@ begin
   StrGrid.CellStyle[29,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[28,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[29,1].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[30,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[30,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[31,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[32,0].HorizontalAlignment:=taCenter;
 

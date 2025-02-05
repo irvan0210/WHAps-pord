@@ -167,7 +167,7 @@ object EmployeeForm: TEmployeeForm
     Top = 0
     Width = 511
     Height = 566
-    ActivePage = TabIdentitas
+    ActivePage = TabLampiran
     Align = alClient
     MultiLine = True
     TabOrder = 5

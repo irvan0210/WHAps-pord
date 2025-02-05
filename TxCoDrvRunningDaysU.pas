@@ -199,7 +199,7 @@ begin
     if Qry2.RecordCount>0 then while Not(Qry2.Eof) do begin
 //      StrGrid.Cells[(3+Qry2.FieldValues['tgl']),Count]:='1';
       for Count4:=Qry2.FieldValues['tgl'] to Qry2.FieldValues['tgl_selesai'] do
-        StrGrid.Cells[(3+Count4),Count]:=Qry2.FieldValues['body_id'];
+        StrGrid.Cells[(3+Count4),Count]:=Qry2.FieldValues['license_plate'];
       Qry2.Next;
     end;
     Qry2.Close;

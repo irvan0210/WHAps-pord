@@ -113,7 +113,8 @@ begin
   GridHistLaka.ColWidths[4]:=50;
   GridHistLaka.ColWidths[5]:=80;
   GridHistLaka.ColWidths[6]:=170;
-  GridHistLaka.ColWidths[7]:=0;
+  GridHistLaka.ColWidths[7]:=130;
+  GridHistLaka.ColWidths[8]:=0;
 
   GridHistLaka.Cells[0,0]:='No.';
   GridHistLaka.Cells[1,0]:='Tanggal';
@@ -122,7 +123,8 @@ begin
   GridHistLaka.Cells[4,0]:='Jam Kejadian';
   GridHistLaka.Cells[5,0]:='Nilai Materi';
   GridHistLaka.Cells[6,0]:='Keterangan Materi';
-  GridHistLaka.Cells[7,0]:='';
+  GridHistLaka.Cells[7,0]:='Jenis Kecelakaan';
+  GridHistLaka.Cells[8,0]:='';
 
 
   for IntCount:=0 to GridHistLaka.ColCount-1 do
@@ -311,6 +313,13 @@ begin
       if Qry.FieldValues['employee_id']<>NULL then
       OrderArr[IntCount][26]:=Qry.FieldValues['employee_id'] else
       OrderArr[IntCount][26]:='';
+      if Qry.FieldValues['accident_type_id']<>NULL then
+      OrderArr[IntCount][27]:=Qry.FieldValues['accident_type_id'] else
+      OrderArr[IntCount][27]:='';
+      if Qry.FieldValues['accident_type']<>NULL then
+      OrderArr[IntCount][28]:=Qry.FieldValues['accident_type'] else
+      OrderArr[IntCount][28]:='';
+      OrderArr[IntCount][29]:=FormatDateTime('dd/MM/YYYY', Qry.FieldValues['create_date']);
 
       Inc(IntCount);
       Qry.Next;
@@ -371,7 +380,8 @@ begin
   with EmployeeHistoryLakaForm do
   begin
     EmplID:=OrderArr[IntRow-1][26];
-    Tgl.Text:=OrderArr[IntRow-1][1];
+    TglKejadian.Date:=StrToDate(OrderArr[IntRow-1][1]);
+    Tgl.Text:=OrderArr[IntRow-29][1];
     Pelapor.Text:=OrderArr[IntRow-1][2];
     Lokasi.Text:=OrderArr[IntRow-1][3];
     Jam.Text:=OrderArr[IntRow-1][4];
@@ -395,6 +405,7 @@ begin
     if (OrderArr[IntRow-1][23]='1') then chkUnsafeCondition.Checked:=True else chkUnsafeCondition.Checked:=False;
     if (OrderArr[IntRow-1][24]='1') then chkPersonalFactor.Checked:=True else chkPersonalFactor.Checked:=False;
     if (OrderArr[IntRow-1][25]='1') then chkJobFactor.Checked:=True else chkJobFactor.Checked:=False;
+    JenisKecelakaan.ItemIndex:=JenisKecelakaan.Items.IndexOf(VarToStr(OrderArr[IntRow-1][28]));
   end;
 end;
 

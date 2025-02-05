@@ -1,11 +1,11 @@
 object TxDrvRunningDaysRpt: TTxDrvRunningDaysRpt
-  Left = 51
-  Top = 147
+  Left = 229
+  Top = 50
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan Running Days Driver & Helper'
   ClientHeight = 470
-  ClientWidth = 1194
+  ClientWidth = 1261
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,7 +21,7 @@ object TxDrvRunningDaysRpt: TTxDrvRunningDaysRpt
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 464
+    Left = 618
     Top = 21
     Width = 27
     Height = 13
@@ -65,35 +65,42 @@ object TxDrvRunningDaysRpt: TTxDrvRunningDaysRpt
     OnClick = ToXCelClick
   end
   object Label4: TLabel
-    Left = 576
+    Left = 722
     Top = 20
     Width = 31
     Height = 13
     Caption = 'Tahun'
   end
   object lbl1: TLabel
-    Left = 668
+    Left = 810
     Top = 20
     Width = 63
     Height = 13
     Caption = 'Jenis Armada'
   end
   object lbl2: TLabel
-    Left = 1012
+    Left = 1093
     Top = 19
     Width = 22
     Height = 13
     Caption = 'Seat'
   end
   object lbl3: TLabel
-    Left = 312
+    Left = 301
     Top = 21
     Width = 23
     Height = 13
     Caption = 'Mitra'
   end
+  object Label2: TLabel
+    Left = 444
+    Top = 20
+    Width = 80
+    Height = 13
+    Caption = 'Status Karyawan'
+  end
   object Selesai: TButton
-    Left = 376
+    Left = 624
     Top = 440
     Width = 75
     Height = 25
@@ -102,7 +109,7 @@ object TxDrvRunningDaysRpt: TTxDrvRunningDaysRpt
     OnClick = SelesaiClick
   end
   object Bulan: TComboBox
-    Left = 496
+    Left = 650
     Top = 17
     Width = 65
     Height = 21
@@ -110,7 +117,7 @@ object TxDrvRunningDaysRpt: TTxDrvRunningDaysRpt
     TabOrder = 1
   end
   object Tahun: TEdit
-    Left = 616
+    Left = 762
     Top = 17
     Width = 41
     Height = 21
@@ -119,7 +126,7 @@ object TxDrvRunningDaysRpt: TTxDrvRunningDaysRpt
     OnKeyPress = TahunKeyPress
   end
   object LihatData: TButton
-    Left = 1112
+    Left = 1183
     Top = 14
     Width = 75
     Height = 25
@@ -130,7 +137,7 @@ object TxDrvRunningDaysRpt: TTxDrvRunningDaysRpt
   object StrGrid: TZColorStringGrid
     Left = 8
     Top = 48
-    Width = 1185
+    Width = 1249
     Height = 385
     ColCount = 32
     DefaultRowHeight = 20
@@ -180,9 +187,9 @@ object TxDrvRunningDaysRpt: TTxDrvRunningDaysRpt
     end
   end
   object Batch: TComboBox
-    Left = 736
+    Left = 878
     Top = 17
-    Width = 261
+    Width = 208
     Height = 21
     Style = csDropDownList
     ItemHeight = 13
@@ -190,7 +197,7 @@ object TxDrvRunningDaysRpt: TTxDrvRunningDaysRpt
     OnChange = BatchChange
   end
   object Seat: TComboBox
-    Left = 1044
+    Left = 1125
     Top = 16
     Width = 49
     Height = 21
@@ -199,7 +206,7 @@ object TxDrvRunningDaysRpt: TTxDrvRunningDaysRpt
     TabOrder = 7
   end
   object Mitra: TComboBox
-    Left = 344
+    Left = 329
     Top = 17
     Width = 105
     Height = 21
@@ -210,5 +217,20 @@ object TxDrvRunningDaysRpt: TTxDrvRunningDaysRpt
     Items.Strings = (
       'Driver'
       'Helper')
+  end
+  object StatusKaryawan: TComboBox
+    Left = 527
+    Top = 17
+    Width = 82
+    Height = 21
+    ItemHeight = 13
+    ItemIndex = 0
+    TabOrder = 9
+    Text = 'Semua'
+    Items.Strings = (
+      'Semua'
+      'Kontrak'
+      'Tetap'
+      'Harian')
   end
 end

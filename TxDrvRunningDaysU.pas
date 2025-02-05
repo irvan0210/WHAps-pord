@@ -26,6 +26,8 @@ type
     Seat: TComboBox;
     lbl3: TLabel;
     Mitra: TComboBox;
+    StatusKaryawan: TComboBox;
+    Label2: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure SelesaiClick(Sender: TObject);
@@ -100,6 +102,7 @@ begin
   Batch.ItemIndex:=1;
   SBU.Items.Clear;
   SBU.ItemIndex:=-1;
+  StatusKaryawan.ItemIndex:=0;
   StrGrid.RowCount:=2;
   StrGrid.ColCount:=32+6;
   StrGrid.ColWidths[0]:=30;
@@ -226,9 +229,9 @@ begin
 end;
 
 procedure TTxDrvRunningDaysRpt.RefreshData;
-var QStr,QAddParam,AkhirBulan,AwalBulan,StrLocationId,StrCompanyId, StrBatchId, StrSeat, StrMitra:String;
+var QStr,QAddParam,AkhirBulan,AwalBulan,StrLocationId,StrCompanyId, StrBatchId, StrSeat, StrMitra, StrHelper:String;
     Qry,Qry2:TADOQuery;
-    Count,Count2,Count3,Count4,Ijin,Sakit,Cuti,Hadir:Integer;
+    Count,Count2,Count3,Count4,Ijin,Sakit,Cuti,Hadir,tgl:Integer;
 begin
 
   Main.M_Busy;
@@ -258,23 +261,27 @@ begin
     StrGrid.CellStyle[Count,0].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[Count,0].BGColor:=clBtnFace;
   end;
-  StrBatchId:='' ;                      
+  StrBatchId:='0' ;
   if Batch.Text<>'All' then begin
-      StrBatchId:='and d.vhc_batch_id='+BatchArr[Batch.ItemIndex][0];
+//      StrBatchId:='and d.vhc_batch_id='+BatchArr[Batch.ItemIndex][0];
+      StrBatchId:=BatchArr[Batch.ItemIndex][0];
   end;
 
-  StrSeat:='';
+  StrSeat:='0';
 
   if (Seat.Text<>'All') and (Seat.Text<>'') then begin
-      StrSeat:=' and e.seat='+Seat.Text;
+//      StrSeat:=' and e.seat='+Seat.Text;
+      StrSeat:=Seat.Text;
   end;
 
   StrMitra:='';
   if Mitra.Text='Driver' then begin
       StrMitra:='2';
+      StrHelper:=' ';
   end
   else  begin
       StrMitra:='4';
+      StrHelper:=' ,@isDriver=0 ' ;
   end;
 
 
@@ -288,20 +295,20 @@ begin
   QAddParam:='';                
   StrLocationId:=' AND (b.location_id='+CompanyArr[SBU.ItemIndex][2]+')';
   StrCompanyId:=CompanyArr[SBU.ItemIndex][1];
-  QStr:='SELECT * FROM wh_employee AS a '+
-        ' INNER JOIN wh_empl_mutation AS b ON b.empl_mutation_id=(SELECT MAX(empl_mutation_id) FROM wh_empl_mutation '+
-        ' WHERE (employee_id=a.employee_id) AND (from_date<='+Chr(39)+
-        FormatDateTime('yyyy-mm-dd',VarToDateTime(AkhirBulan))+Chr(39)+') ) '+
-        ' LEFT JOIN wh_working_schedule AS c ON c.working_schedule_id='+
-        '(SELECT MAX(working_schedule_id) FROM wh_working_schedule WHERE (employee_id=a.employee_id) AND '+
-        '(from_date<='+Chr(39)+FormatDateTime('yyyy-mm-dd',VarToDateTime(AwalBulan))+Chr(39)+') ) '+
-        ' LEFT JOIN wh_vehicle AS d ON d.vehicle_id=c.vehicle_id '+
-        ' LEFT JOIN wh_vhc_type_detail e ON d.vhc_type_detail_id=e.vhc_type_detail_id '+
-        ' WHERE (b.employment_type_id='+StrMitra+') AND '+
-        '(a.active=1) '+StrLocationId + StrBatchId + StrSeat +' ORDER BY name;';
-        //' d.vhc_batch_id='+BatchArr[Batch.ItemIndex][0]+' AND '+
-        //' e.seat='+Seat.Text+' '+
-
+//  QStr:='SELECT * FROM wh_employee AS a '+
+//        ' INNER JOIN wh_empl_mutation AS b ON b.empl_mutation_id=(SELECT MAX(empl_mutation_id) FROM wh_empl_mutation '+
+//        ' WHERE (employee_id=a.employee_id) AND (from_date<='+Chr(39)+
+//        FormatDateTime('yyyy-mm-dd',VarToDateTime(AkhirBulan))+Chr(39)+') ) '+
+//        ' LEFT JOIN wh_working_schedule AS c ON c.working_schedule_id='+
+//        '(SELECT MAX(working_schedule_id) FROM wh_working_schedule WHERE (employee_id=a.employee_id) AND '+
+//        '(from_date<='+Chr(39)+FormatDateTime('yyyy-mm-dd',VarToDateTime(AwalBulan))+Chr(39)+') ) '+
+//        ' LEFT JOIN wh_vehicle AS d ON d.vehicle_id=c.vehicle_id '+
+//        ' LEFT JOIN wh_vhc_type_detail e ON d.vhc_type_detail_id=e.vhc_type_detail_id '+
+//        ' WHERE (b.employment_type_id='+StrMitra+') AND '+
+//        '(a.active=1) '+StrLocationId + StrBatchId + StrSeat +' ORDER BY name;';
+  QStr:='EXEC GetEmployeeListRD @FromDate='+Chr(39)+FormatDateTime('yyyy-mm-dd',VarToDateTime(AwalBulan))+Chr(39)+',@ToDate='+Chr(39)+
+        FormatDateTime('yyyy-mm-dd',VarToDateTime(AkhirBulan))+Chr(39)+',@Mitra='+StrMitra+',@BatchID='+StrBatchId+',@Seat='+StrSeat+','+
+        '@LocationID='+CompanyArr[SBU.ItemIndex][2]+',@StatusKaryawan='+QuotedStr(StatusKaryawan.Text)+' ';
   Qry.SQL.Clear;
   Qry.SQL.Add(QStr);
   Qry.Open;
@@ -326,7 +333,7 @@ begin
 //    StrGrid.Cells[3,Count]:=Qry.FieldValues['license_plate'];
     QStr:='EXEC GetEmployeeRunningDays '+QuotedStr(Qry.FieldValues['employee_id'])+
           ',@FromDate='+QuotedStr(FormatDateTime('yyyy-mm-dd',VarToDateTime(AwalBulan)))+
-          ',@ToDate='+QuotedStr(FormatDateTime('yyyy-mm-dd',VarToDateTime(AkhirBulan)))+';';
+          ',@ToDate='+QuotedStr(FormatDateTime('yyyy-mm-dd',VarToDateTime(AkhirBulan)))+ StrHelper+' ;';
     Qry2.SQL.Clear;
     Qry2.SQL.Add(QStr);
     Qry2.Open;
@@ -337,9 +344,12 @@ begin
     if Qry2.RecordCount>0 then while Not(Qry2.Eof) do begin
 //      StrGrid.Cells[(3+Qry2.FieldValues['tgl']),Count]:='1';
       for Count4:=Qry2.FieldValues['tgl'] to Qry2.FieldValues['tgl_selesai'] do
-        if(Qry2.FieldValues['license_plate']='HADIR') OR (Qry2.FieldValues['license_plate']<>'IJIN') OR (Qry2.FieldValues['license_plate']<>'SAKIT') OR (Qry2.FieldValues['license_plate']<>'CUTI') then
-        Hadir:=Hadir+1;
-
+      begin
+        if (Qry2.FieldValues['type_absen']='3') then
+        begin
+          if (StrGrid.Cells[(3+Count4),Count]='') then
+          Hadir:=Hadir+1;
+        end;
         if(Qry2.FieldValues['license_plate']='IJIN') then
         Ijin:=Ijin+1;
 
@@ -351,23 +361,23 @@ begin
 
         if  (Qry2.FieldValues['license_plate']='HADIR') OR (Qry2.FieldValues['license_plate']='IJIN') OR (Qry2.FieldValues['license_plate']='SAKIT') OR (Qry2.FieldValues['license_plate']='CUTI') then
         begin
-          StrGrid.CellStyle[(3+Count4-1),Count].BGColor:=clWindow;
-          StrGrid.Cells[(3+Count4-1),Count]:=Qry2.FieldValues['license_plate'];
+          StrGrid.CellStyle[(3+Count4),Count].BGColor:=clWindow;
+          StrGrid.Cells[(3+Count4),Count]:=Qry2.FieldValues['license_plate'];
           if Qry2.FieldValues['status_approve']='IN PROGRESS' then
           begin
-            StrGrid.CellStyle[(3+Count4-1),Count].BGColor:=clYellow;
+            StrGrid.CellStyle[(3+Count4),Count].BGColor:=clYellow;
           end;
         end
         else
         begin
           if IsCharAlpha(PChar(Copy(Qry2.FieldValues['license_plate'],2,1))^)=False then
-            StrGrid.Cells[(3+Count4-1),Count]:=Copy(Qry2.FieldValues['license_plate'],1,1)+' '+Copy(Qry2.FieldValues['license_plate'],2,4)+
+            StrGrid.Cells[(3+Count4),Count]:=Copy(Qry2.FieldValues['license_plate'],1,1)+' '+Copy(Qry2.FieldValues['license_plate'],2,4)+
                 ' '+Copy(Qry2.FieldValues['license_plate'],6,Length(Qry2.FieldValues['license_plate'])+1)
           else
-          StrGrid.Cells[(3+Count4-1),Count]:=Copy(Qry2.FieldValues['license_plate'],1,2)+' '+Copy(Qry2.FieldValues['license_plate'],3,4)+
+          StrGrid.Cells[(3+Count4),Count]:=Copy(Qry2.FieldValues['license_plate'],1,2)+' '+Copy(Qry2.FieldValues['license_plate'],3,4)+
                 ' '+Copy(Qry2.FieldValues['license_plate'],7,Length(Qry2.FieldValues['license_plate'])+1);
         end;
-
+      end;
       Qry2.Next;
     end;
     StrGrid.Cells[32+(Days-28),Count]:=IntToStr(Ijin);

@@ -329,6 +329,7 @@ uses
   MaintenanceGroupJobListU in 'MaintenanceGroupJobListU.pas' {MaintenanceGroupJobList},
   BrowsePartU in 'BrowsePartU.pas' {BrowsePart},
   RekapHistoryArmadaPergantianPartU in 'RekapHistoryArmadaPergantianPartU.pas' {RekapHistoryArmadaPergantianPart},
+  RekapPergantianPartperArmadaU in 'RekapPergantianPartperArmadaU.pas' {RekapPergantianPartperArmada},
   TechnicalRecommendationListU in 'TechnicalRecommendationListU.pas' {TechnicalRecommendationList},
   TechnicalRecommendationU in 'TechnicalRecommendationU.pas' {TechnicalRecommendation};
 

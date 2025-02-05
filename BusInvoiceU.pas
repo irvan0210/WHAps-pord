@@ -212,13 +212,18 @@ type
     ppAddress3: TppMemo;
     ppMemoFooter3: TppMemo;
     ppDBText16: TppDBText;
-    LabelPph: TLabel;
     PphPercen: TMemo;
     PphDeduction: TMemo;
     ppPph: TppLabel;
     ppPphDeduction: TppLabel;
-    LabelIn_pph: TLabel;
-    TotalInv_PPH: TMemo;
+    PpnAddition: TMemo;
+    Label15: TLabel;
+    PPNPercen: TMemo;
+    ppPPNLabel: TppLabel;
+    ppPPNAddition: TppLabel;
+    PPHLabel: TLabel;
+    Label18: TLabel;
+    TotInvoice_PPH: TMemo;
     procedure SelesaiClick(Sender: TObject);
     procedure BersihkanClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -307,7 +312,7 @@ begin
   SubTotal.Text:='';
   Discount.Text:='';
   Total.Text:='';
-  LabelPph.Caption:='';
+  TotInvoice_PPH.Text:='';
   PphPercen.Text:='';
   PphDeduction.Text:='';
   Panel2.Enabled:=False;
@@ -476,7 +481,7 @@ end;
 //    Qry.ExecSQL;
 //  except
 //    on E:Exception do begin
-//      IsOk:=False;
+//      IsOk:=False;                        
 //      StrMsg:=E.Message;
 //    end;
 //  end;
@@ -520,37 +525,32 @@ begin
       end;
       if Qry.FieldValues['cust_contract_id']<>NULL then ContractId.Text:=Qry.FieldValues['cust_contract_id'];
       SalesPerson.Text:=Qry.FieldValues['sales_name'];
-      if Qry.FieldValues['IsUsingTax']=True then
+      if Qry.FieldValues['PphDeduction']>0 then
       begin
-        LabelPph.Visible:=True;
-        PphPercen.Visible:=True;
-        PphDeduction.Visible:=True;
-        LabelIn_pph.Visible:=True;
-        TotalInv_PPH.Visible:=True;
-        LabelPph.Caption:=Qry.FieldValues['Pph'];
-        LabelIn_pph.Caption:='Total Invoice - '+ Qry.FieldValues['Pph'];
+        Panel2.Height:=145;
         PphPercen.Text:=IToCurr(Qry.FieldValues['PphPercentage'])+'%';
         PphDeduction.Text:=IToCurr(Qry.FieldValues['PphDeduction']);
-        TotalInv_PPH.Text:= IToCurr(Qry.FieldValues['total']- Qry.FieldValues['PphDeduction']);
+        TotInvoice_PPH.Text:= IToCurr(Qry.FieldValues['total']-Qry.FieldValues['PphDeduction']+Qry.FieldValues['PpnAddition']);
       end else begin
-        LabelPph.Caption:='';
+        Panel2.Height:=94;
+//        PPHLabel.Caption:='';
         PphPercen.Text:='';
         PphDeduction.Text:='';
-        LabelIn_pph.Caption:='';
-        TotalInv_PPH.Text:='';
-        LabelPph.Visible:=False;
-        PphPercen.Visible:=False;
-        PphDeduction.Visible:=False;
-        LabelIn_pph.Visible:=False;
-        TotalInv_PPH.Visible:=False;
+        TotInvoice_PPH.Text:='';
       end;
+      Total.Text:=IToCurr(Qry.FieldValues['total']+Qry.FieldValues['PpnAddition']);
+      if Qry.FieldValues['PpnAddition']<> null then
+      PpnAddition.Text:=IToCurr(Qry.FieldValues['PpnAddition']);
+      if Qry.FieldValues['PpnPercentage']<> null then
+      PPNPercen.Text:=IntToStr(Qry.FieldValues['PpnPercentage'])+'%';
+//      PPNPercen.Text:='%';
 
-      if Qry.FieldValues['discount_price']<>NULL then DiscountPrice.Text:=IToCurr(Qry.FieldValues['discount_price']);
-      if Qry.FieldValues['discount_percent']<>NULL then DiscountPercent.Text:=Qry.FieldValues['discount_percent'];
-      if Qry.FieldValues['discount_amount']>0 then Discount.Text:=IToCurr(Qry.FieldValues['discount_amount']);
+      if Qry.FieldValues['discount_price']<>NULL then DiscountPrice.Text:=IToCurr(Qry.FieldValues['discount_price']) else DiscountPrice.Text:='0';
+      if Qry.FieldValues['discount_percent']<>NULL then DiscountPercent.Text:=Qry.FieldValues['discount_percent'] else DiscountPercent.Text:='0';
+      if Qry.FieldValues['discount_amount']>0 then Discount.Text:=IToCurr(Qry.FieldValues['discount_amount']) else Discount.Text:='0';
       if (Qry.FieldValues['contract_discount_price']<>'0') OR (Qry.FieldValues['contract_discount_percent']<>'0') then PanelDiscount.Enabled:=False;
       if Qry.FieldValues['remark']<>NULL then Remark.Text:=Qry.FieldValues['remark'];
-      Total.Text:=IToCurr(Qry.FieldValues['total']);
+
       if Qry.FieldValues['fixed_invoice']<>NULL then begin
         FixedInvoice.Checked:=True;
         Panel2.Enabled:=True;
@@ -1119,7 +1119,7 @@ begin
     LoadData;
     RefreshGrid;
     if not(IsInput) then DisableInput;
-    Simpan.Caption:='Simpan'; 
+    Simpan.Caption:='Simpan';
     Bersihkan.Enabled:=False;
   end else begin
     InvoiceDate.Text:=Main.Status.Panels.Items[0].Text;
@@ -1463,14 +1463,27 @@ begin
 
         end;
 
-        if Qry.FieldValues['IsUsingTax']=True then
+        if (Qry.FieldValues['PphDeduction']> '0') then
         begin
-          ppPph.Caption:= Qry.FieldValues['Pph'] +'('+IToCurr(Qry.FieldValues['PphPercentage'])+'%)';
+          ppPph.Caption:= 'PPH 23 ' +'('+IToCurr(Qry.FieldValues['PphPercentage'])+'%)';
           ppPphDeduction.Caption:=  IToCurr(Qry.FieldValues['PphDeduction']);
 
         end else begin
           ppPph.Caption:='';
           ppPphDeduction.Caption:='';
+        end;
+
+        if (Qry.FieldValues['PpnAddition']> '0')  then
+        begin
+          ppPPNAddition.Caption:= IToCurr(Qry.FieldValues['PpnAddition']);
+          ppPPNLabel.Caption:=  'PPN ('+ IToCurr(Qry.FieldValues['PpnPercentage'])+' %)';
+          ppPPNAddition.Visible:=True;
+          ppPPNLabel.Visible:=True;
+        end else begin
+          ppPPNAddition.Caption:='';
+          ppPPNLabel.Caption:='';
+          ppPPNAddition.Visible:=False;
+          ppPPNLabel.Visible:=False;
         end;
 
 
@@ -1501,8 +1514,10 @@ begin
         StrDates:=Qry.FieldValues['invoice_dates'];
         StrOrderId:=Qry.FieldValues['customer_order_id'];
         StrSubTotal:=IToCurr(Qry.FieldValues['total']+IntTotalDiscount);
-        StrTotal:=IToCurr(Qry.FieldValues['total']);
-        StrAmountSaid:=AmountSaid(Qry.FieldValues['total']);
+        StrTotal:=IToCurr(Qry.FieldValues['total']+Qry.FieldValues['ppnAddition']);
+
+        StrAmountSaid:=AmountSaid(Qry.FieldValues['total']+Qry.FieldValues['ppnAddition']);
+
         if (Qry.FieldValues['service_resume']<>'') AND (Qry.FieldValues['service_resume']<>NULL) then begin
           StrService:=LeftStr(Qry.FieldValues['service_resume'],Length(Qry.FieldValues['service_resume'])-1);
           if (Qry.FieldValues['service_price']<>'0') then StrServiceTotal:=Qry.FieldValues['service_price']
@@ -1655,7 +1670,7 @@ begin
         if IntRowNum>3 then begin
           IntRowLimit:=Floor(IntRowNum/3)*3;
           if (IntRowNum mod 3=0) then begin
-            ppPageCount.Caption:=IntToStr(IntRowLimit);
+            ppPageCount .Caption:=IntToStr(IntRowLimit);
             IntRowLimit:=IntRowLimit-3;
           end else begin
             ppPageCount.Caption:=IntToStr(Floor(IntRowNum/3)+1);
@@ -1673,6 +1688,10 @@ begin
           ppLabelDiscount.Visible:=False;
           ppDiscount.Visible:=False;
           ppTotal.Visible:=False;
+          ppPPNLabel.Visible:=False;
+          ppPPNAddition.Visible:=False;
+          ppPph.Visible:=False;
+          ppPphDeduction.Visible:=False;
           ppAmountSaid.Visible:=False;
           ppRemark.Visible:=False;
           ppSignature.Visible:=False;
@@ -1701,6 +1720,10 @@ begin
           ppLabelDiscount.Visible:=True;
           ppDiscount.Visible:=True;
           ppTotal.Visible:=True;
+          ppPPNLabel.Visible:=True;
+          ppPPNAddition.Visible:=True;
+          ppPph.Visible:=True;
+          ppPphDeduction.Visible:=True;
 
           ppAmountSaid.Visible:=True;
           ppRemark.Visible:=True;
@@ -1738,6 +1761,8 @@ begin
             ppAmountSaid.Visible:=False;
             ppRemark.Visible:=False;
             ppSignature.Visible:=False;
+            ppPph.Visible:=False;
+            ppPphDeduction.Visible:=False;
           end;
           ppReport.PreviewFormSettings.WindowState:=wsMaximized;
           ppReport.PageLimit:=1;

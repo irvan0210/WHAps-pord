@@ -1,6 +1,6 @@
 object OrderFeeAdd: TOrderFeeAdd
-  Left = 288
-  Top = 76
+  Left = 252
+  Top = 547
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Uang Order'

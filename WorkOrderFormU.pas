@@ -379,7 +379,7 @@ begin
   js := TlkJSON.ParseText(Memo1.Text);
   if Assigned(js) then
   begin
-    js := js.Field['kmodo'];
+//    js := js.Field['kmodo'];
 //    if Assigned(js) then
 //    begin
 //      js := js.Field['devices'];

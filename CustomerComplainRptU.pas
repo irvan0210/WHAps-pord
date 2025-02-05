@@ -170,7 +170,7 @@ procedure TCustomerComplainRpt.InitGrid;
 var IntCount:Integer;
 begin
   MinRowGrid:=0;
-  GridCCP.ColCount:=22;
+  GridCCP.ColCount:=23;
   GridCCP.RowCount:=1;
   GridCCP.WordWrap:=True;
   GridCCP.ColWidths[0]:=30;
@@ -195,8 +195,8 @@ begin
   GridCCP.ColWidths[18]:=50;
   GridCCP.ColWidths[19]:=150;
   GridCCP.ColWidths[20]:=150;
-  GridCCP.ColWidths[21]:=50;
-
+  GridCCP.ColWidths[21]:=180;
+  GridCCP.ColWidths[22]:=50;
 
   GridCCP.SizingHeight:=True;
 
@@ -221,7 +221,9 @@ begin
   GridCCP.Cells[18,0]:='Teknikal';
   GridCCP.Cells[19,0]:='Verifikasi Hasil Perbaikan';
   GridCCP.Cells[20,0]:='Verifikasi Tindakan Perbaikan';
-  GridCCP.Cells[21,0]:='Closed';
+  GridCCP.Cells[21,0]:='Ketidaksesuaian';
+  GridCCP.Cells[22,0]:='Closed';
+
 
   for IntCount:=0 to GridCCP.ColCount-1 do
   begin
@@ -271,7 +273,8 @@ begin
     GridCCP.Cells[18,IntCount+1]:=CCPArr[IntCount][18];
     GridCCP.Cells[19,IntCount+1]:=CCPArr[IntCount][22];
     GridCCP.Cells[20,IntCount+1]:=CCPArr[IntCount][23];
-    GridCCP.Cells[21,IntCount+1]:=CCPArr[IntCount][19];
+    GridCCP.Cells[22,IntCount+1]:=CCPArr[IntCount][19];
+    GridCCP.Cells[21,IntCount+1]:=CCPArr[IntCount][24];
     GridCCP.CellStyle[0,IntCount+1].WordWrap:=False;
     GridCCP.CellStyle[1,IntCount+1].WordWrap:=True;
     GridCCP.CellStyle[2,IntCount+1].WordWrap:=True;
@@ -292,6 +295,8 @@ begin
     GridCCP.CellStyle[18,IntCount+1].WordWrap:=False;
     GridCCP.CellStyle[19,IntCount+1].WordWrap:=False;
     GridCCP.CellStyle[20,IntCount+1].WordWrap:=False;
+    GridCCP.CellStyle[20,IntCount+1].WordWrap:=False;
+    GridCCP.CellStyle[22,IntCount+1].WordWrap:=False;
 
     GridCCP.CellStyle[5,IntCount+1].HorizontalAlignment:=taCenter;
     GridCCP.CellStyle[6,IntCount+1].HorizontalAlignment:=taCenter;
@@ -304,9 +309,10 @@ begin
     GridCCP.CellStyle[18,IntCount+1].HorizontalAlignment:=taCenter;
     GridCCP.CellStyle[19,IntCount+1].HorizontalAlignment:=taCenter;
     GridCCP.CellStyle[20,IntCount+1].HorizontalAlignment:=taCenter;
-    GridCCP.CellStyle[21,IntCount+1].HorizontalAlignment:=taCenter;
+    GridCCP.CellStyle[21,IntCount+1].HorizontalAlignment:=taLeftJustify;
+    GridCCP.CellStyle[22,IntCount+1].HorizontalAlignment:=taCenter;
 
-    if (GridCCP.Cells[21,IntCount+1])='v' then begin
+    if (GridCCP.Cells[22,IntCount+1])='v' then begin
       for Count2:=0 to GridCCP.ColCount do GridCCP.CellStyle[Count2,IntCount+1].Font.Color:=clGreen;
     end else begin
       for Count2:=0 to GridCCP.ColCount do GridCCP.CellStyle[Count2,IntCount+1].Font.Color:=clWindowText;
@@ -487,6 +493,7 @@ begin
        if Qry.FieldValues['renc_tindakan_perbaikan']<>NULL then CCPArr[IntCount][21]:=Qry.FieldValues['renc_tindakan_perbaikan'];
        if Qry.FieldValues['tgl_perlu_verifikasi_ulang_hasil']<>NULL then CCPArr[IntCount][22]:='v';
        if Qry.FieldValues['tgl_perlu_verifikasi_ulang_tindakan']<>NULL then CCPArr[IntCount][23]:='v';
+       if Qry.FieldValues['no_ketidaksesuaian_perbaikan']<>NULL then CCPArr[IntCount][24]:=Qry.FieldValues['no_ketidaksesuaian_perbaikan'];
        Inc(IntCount);
       Qry.Next;
     end;

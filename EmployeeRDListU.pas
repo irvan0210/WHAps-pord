@@ -37,7 +37,7 @@ type
     Stat:Integer;
     Expd:Integer;
     FormRequest,FromDate,ToDate:String;
-    IsMoveDriver, IsMoveHelper : Boolean;
+    IsMoveDriver : Boolean;
     procedure Init;
     procedure RefreshCombo;
   public
@@ -63,15 +63,11 @@ begin
   end else if UpperCase(EmployeeType)='BUS' then begin
     EmplType:=2;
     StrCompanyId:=2;
-  end else if UpperCase(EmployeeType)='BUS2' then begin
-    EmplType:=4;
-    StrCompanyId:=2
   end else begin
     EmplType:=3;
     StrCompanyId:=1;
   end;
   IsMoveDriver:=Is_Move_Driver;
-  IsMoveHelper:=Is_Move_Driver;
   Stat:=Status;
   Expd:=Expired;
   FormRequest:=Form_Request;
@@ -87,7 +83,6 @@ begin
     1:Caption:='Data Mitra';
     2:Caption:='Data Driver';
     3:Caption:='Data Karyawan';
-    4:Caption:='Data Helper';
   end;
   IntRow:=0;
   IntCol:=0;
@@ -264,22 +259,13 @@ begin
                 Qry2.CommandTimeout := 3600;
                 Main.M_Busy;
                 if Main.OpenDb then begin
-                  if EmplType=4 then   begin
-                    StrQry:='SELECT b.customer_order_id,DATEDIFF(DAY,a.from_date,a.to_date)+1 hari '+
-                          'FROM wh_reserved_order_detail a '+
-                          'LEFT JOIN wh_reserved_order b ON a.reserved_order_id=b.reserved_order_id '+
-                          'WHERE ('+QuotedStr(FromDate)+' BETWEEN FORMAT(a.from_date,''yyyy/MM/dd'') '+
-                          'AND FORMAT(a.to_date,''yyyy/MM/dd'')) AND '+
-                          '( a.employee_id3='+QuotedStr(StrEmployeeID) +') AND b.status=1 AND a.status=1;';
-                  end else begin
-                   StrQry:='SELECT b.customer_order_id,DATEDIFF(DAY,a.from_date,a.to_date)+1 hari '+
+                  StrQry:='SELECT b.customer_order_id,DATEDIFF(DAY,a.from_date,a.to_date)+1 hari '+
                           'FROM wh_reserved_order_detail a '+
                           'LEFT JOIN wh_reserved_order b ON a.reserved_order_id=b.reserved_order_id '+
                           'WHERE ('+QuotedStr(FromDate)+' BETWEEN FORMAT(a.from_date,''yyyy/MM/dd'') '+
                           'AND FORMAT(a.to_date,''yyyy/MM/dd'')) AND '+
                           '(a.employee_id='+QuotedStr(StrEmployeeID) +' OR '+
                           'a.employee_id2='+QuotedStr(StrEmployeeID) +') AND b.status=1 AND a.status=1;';
-                  end;
                   Qry.Close;
                   Qry.SQL.Clear;
           //        Main.WriteLog('SQL :'+StrQry,2);
@@ -291,75 +277,50 @@ begin
                           'WHERE a.status=1 AND b.status=1 AND b.status_approve=''APPROVED'' AND  '+
                           'b.employee_id='+QuotedStr(StrEmployeeID)+' AND '+
                           '(a.date_leave BETWEEN '+QuotedStr(FromDate)+' AND '+QuotedStr(ToDate)+')';
-                          
                   Qry2.Close;
                   Qry2.SQL.Clear;
                   Qry2.SQL.Add(StrQry);
                   Qry2.Open;
                 end;
-
                 if (Qry2.RecordCount>0) then begin
-                  if EmplType=4 then
-                    MessageBox(0,PChar('Helper tidak dapat dipilih' +Chr(13)+Chr(13)+'Driver ada ijin'+Chr(13)),'Penjadwalan',MB_OK or MB_ICONWARNING)
-                   else
-                    MessageBox(0,PChar('Driver tidak dapat dipilih' +Chr(13)+Chr(13)+'Helper ada ijin'+Chr(13)),'Penjadwalan',MB_OK or MB_ICONWARNING);
+
+                  MessageBox(0,PChar('Driver tidak dapat dipilih' +Chr(13)+Chr(13)+'Driver ada ijin'+Chr(13)),'Penjadwalan',MB_OK or MB_ICONWARNING);
                   Main.M_Normal;
                   Qry2.Close;
                   Exit;
                 end
 //        //                if (Qry.FieldValues['hari']>0) then begin
                 else
-                if (Qry.RecordCount>0) then begin
+                 if (Qry.RecordCount>0) then begin
                   StrCustomerOrderID:= Qry.FieldValues['customer_order_id'];
-                    if EmplType=4 then begin
-                      MessageBox(0,PChar('Helper tidak dapat dipilih' +Chr(13)+Chr(13)+'Helper sudah ada penjadwalan di order '+StrCustomerOrderID),'Penjadwalan',MB_OK or MB_ICONWARNING);
-                      Main.M_Normal;
-                      if IsMoveHelper Then
-                        BookingForm.SetEmp_BusBoy_Id(StrGrid.Cells[0,IntRow],True, '', True)
-                      else
-                        BookingForm.SetEmp_BusBoy_Id(StrGrid.Cells[0,IntRow],True);
-                        Close;
-                    end else begin
+                  MessageBox(0,PChar('Driver tidak dapat dipilih' +Chr(13)+Chr(13)+'Driver sudah ada penjadwalan di order '+StrCustomerOrderID),'Penjadwalan',MB_OK or MB_ICONWARNING);
+                  Main.M_Normal;
+                  //StrQry:='SELECT * FROM wh_user_auth_form WHERE user_id='+QuotedStr(User)+' AND form_id=''131101'' and active=1;';
 
-                      MessageBox(0,PChar('Driver tidak dapat dipilih' +Chr(13)+Chr(13)+'Driver sudah ada penjadwalan di order '+StrCustomerOrderID),'Penjadwalan',MB_OK or MB_ICONWARNING);
-                      Main.M_Normal;
-                      //StrQry:='SELECT * FROM wh_user_auth_form WHERE user_id='+QuotedStr(User)+' AND form_id=''131101'' and active=1;';
+                  //Qry.Close;
+                  //Qry.SQL.Clear;
+                  //Qry.SQL.Add(StrQry);
+                  //Qry.Open;
 
-                      //Qry.Close;
-                      //Qry.SQL.Clear;
-                      //Qry.SQL.Add(StrQry);
-                      //Qry.Open;
+                  //if Qry.RecordCount>0 then begin
+                  if IsMoveDriver Then
+                    BookingForm.SetEmployeeId(StrGrid.Cells[0,IntRow],True, '', True)
+                  else
+                    BookingForm.SetEmployeeId(StrGrid.Cells[0,IntRow],True);
+                  Close;
+                  //end;
 
-                        //if Qry.RecordCount>0 then begin
-                      if IsMoveDriver Then
-                        BookingForm.SetEmployeeId(StrGrid.Cells[0,IntRow],True, '', True)
-                      else
-                        BookingForm.SetEmployeeId(StrGrid.Cells[0,IntRow],True);
-                        Close;
-                    //end;
-                    end;
                   Qry.Close;
                   Exit;
                 end else
                 begin
-                  if EmplType=4 then begin
-                    if IsMoveHelper Then
-                      BookingForm.SetEmp_BusBoy_Id(StrGrid.Cells[0,IntRow],True, '', True)
-                    else
-                      BookingForm.SetEmp_BusBoy_Id(StrGrid.Cells[0,IntRow],True);
-                    Close;
-                  end else begin
-                    if IsMoveDriver Then
-                      BookingForm.SetEmployeeId(StrGrid.Cells[0,IntRow],True, '', True)
-                    else
-                      BookingForm.SetEmployeeId(StrGrid.Cells[0,IntRow],True);
-                    Close;
-                  end;
+                  if IsMoveDriver Then
+                    BookingForm.SetEmployeeId(StrGrid.Cells[0,IntRow],True, '', True)
+                  else
+                    BookingForm.SetEmployeeId(StrGrid.Cells[0,IntRow],True);
+                  Close;
                 end;
              end;
-
-             //end
-
              if UpperCase(FormRequest)='RESERVED-CREATE-CODRIVER' then begin
                 StrEmployeeID:= StrGrid.Cells[0,IntRow];
                 Qry:=TADOQuery.Create(Self);
@@ -401,12 +362,13 @@ begin
                   Exit;
                 end else
                 begin
+
                   BookingForm.SetEmployeeId(StrGrid.Cells[0,IntRow],False);
                   Close;
                 end;
              end;
-
              if FormRequest='SJ-Driver1' then begin
+
 
                 StrEmployeeID:= StrGrid.Cells[0,IntRow];
                 Qry:=TADOQuery.Create(Self);

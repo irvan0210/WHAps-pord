@@ -1,11 +1,11 @@
 object ListItemRequest: TListItemRequest
-  Left = 216
-  Top = 73
+  Left = 204
+  Top = 236
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'List Permintaan Barang'
-  ClientHeight = 483
-  ClientWidth = 1094
+  ClientHeight = 585
+  ClientWidth = 1272
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,12 +19,12 @@ object ListItemRequest: TListItemRequest
   OnClose = FormClose
   OnShow = FormShow
   DesignSize = (
-    1094
-    483)
+    1272
+    585)
   PixelsPerInch = 96
   TextHeight = 13
   object lbl2: TLabel
-    Left = 396
+    Left = 456
     Top = 10
     Width = 95
     Height = 13
@@ -38,7 +38,7 @@ object ListItemRequest: TListItemRequest
     Caption = 'Group'
   end
   object lbl4: TLabel
-    Left = 588
+    Left = 648
     Top = 9
     Width = 15
     Height = 13
@@ -99,7 +99,7 @@ object ListItemRequest: TListItemRequest
     end
   end
   object Tanggal: TDateTimePicker
-    Left = 498
+    Left = 558
     Top = 7
     Width = 89
     Height = 21
@@ -108,37 +108,6 @@ object ListItemRequest: TListItemRequest
     TabOrder = 1
     OnChange = TanggalChange
   end
-  object StrGrid: TZColorStringGrid
-    Left = 4
-    Top = 35
-    Width = 1085
-    Height = 409
-    Anchors = [akLeft, akTop, akRight]
-    ColCount = 20
-    DefaultRowHeight = 20
-    DefaultDrawing = False
-    FixedColor = clSkyBlue
-    FixedCols = 0
-    FixedRows = 2
-    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goColMoving]
-    TabOrder = 2
-    OnDblClick = StrGridDblClick
-    OnSelectCell = StrGridSelectCell
-    DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
-    DefaultCellStyle.Font.Color = clWindowText
-    DefaultCellStyle.Font.Height = -11
-    DefaultCellStyle.Font.Name = 'MS Sans Serif'
-    DefaultCellStyle.Font.Style = []
-    DefaultCellStyle.BGColor = clWindow
-    DefaultFixedCellStyle.Font.Charset = DEFAULT_CHARSET
-    DefaultFixedCellStyle.Font.Color = clWindowText
-    DefaultFixedCellStyle.Font.Height = -11
-    DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
-    DefaultFixedCellStyle.Font.Style = []
-    DefaultFixedCellStyle.BGColor = clSkyBlue
-    LineDesign.LineUpColor = clWhite
-    WordWrap = True
-  end
   object GroupCompany: TGroupBox
     Left = 8
     Top = 0
@@ -146,7 +115,7 @@ object ListItemRequest: TListItemRequest
     Height = 33
     Color = clBtnFace
     ParentColor = False
-    TabOrder = 3
+    TabOrder = 2
     object lbl6: TLabel
       Left = 19
       Top = 8
@@ -166,32 +135,79 @@ object ListItemRequest: TListItemRequest
     end
   end
   object TglSampai: TDateTimePicker
-    Left = 609
+    Left = 669
     Top = 7
     Width = 89
     Height = 21
     Date = 41964.570029108800000000
     Time = 41964.570029108800000000
-    TabOrder = 4
+    TabOrder = 3
     OnChange = TglSampaiChange
   end
   object Button1: TButton
-    Left = 530
+    Left = 708
     Top = 448
     Width = 75
     Height = 25
     Anchors = [akTop, akRight]
     Caption = 'Keluar'
-    TabOrder = 5
+    TabOrder = 4
     OnClick = Button1Click
   end
   object Lihat: TButton
-    Left = 728
+    Left = 788
     Top = 5
     Width = 75
     Height = 25
     Caption = 'Lihat'
-    TabOrder = 6
+    TabOrder = 5
     OnClick = LihatClick
+  end
+  object StrGrid: TZColorStringGrid
+    Left = 1
+    Top = 35
+    Width = 1264
+    Height = 510
+    DefaultRowHeight = 20
+    DefaultDrawing = False
+    FixedColor = clSkyBlue
+    FixedCols = 0
+    FixedRows = 3
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing]
+    TabOrder = 6
+    OnDblClick = StrGridDblClick
+    OnSelectCell = StrGridSelectCell
+    DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
+    DefaultCellStyle.Font.Color = clWindowText
+    DefaultCellStyle.Font.Height = -11
+    DefaultCellStyle.Font.Name = 'MS Sans Serif'
+    DefaultCellStyle.Font.Style = []
+    DefaultCellStyle.BGColor = clWindow
+    DefaultFixedCellStyle.Font.Charset = DEFAULT_CHARSET
+    DefaultFixedCellStyle.Font.Color = clWindowText
+    DefaultFixedCellStyle.Font.Height = -11
+    DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
+    DefaultFixedCellStyle.Font.Style = []
+    DefaultFixedCellStyle.BGColor = clSkyBlue
+    LineDesign.LineUpColor = clWhite
+    WordWrap = True
+  end
+  object Button2: TButton
+    Left = 644
+    Top = 549
+    Width = 75
+    Height = 25
+    Caption = 'Selesai'
+    TabOrder = 7
+    OnClick = Button2Click
+  end
+  object Button3: TButton
+    Left = 876
+    Top = 5
+    Width = 75
+    Height = 25
+    Caption = 'Clear'
+    TabOrder = 8
+    OnClick = Button3Click
   end
 end

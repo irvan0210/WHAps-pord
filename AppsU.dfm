@@ -1,6 +1,6 @@
 object Apps: TApps
-  Left = 569
-  Top = 139
+  Left = 527
+  Top = 120
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Aplikasi'
@@ -126,6 +126,29 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '05/02/2025 (6.1.6.2)'
+      '-Penambahan Modul Rekomendasi Teknis'
+      ''
+      '03/02/2025 (6.1.6.1)'
+      '-Penambahan Clear pada saat panggil no Surat Jalan'
+      'di form Penambahan/Pengembalian Uang Order'
+      ''
+      '22/01/2025 (6.1.6.0)'
+      '-Penambahan Upload KIR, STNK, dan KPS'
+      '-Penambahan Laporan Rekap Pergantian Part perArmada'
+      ''
+      '26/12/2024 (6.1.5.52)'
+      '-Penambahan Filter Status Karyawan Di Running Days Driver'
+      '-Penambahan Laporan Rekap History Armada Pergantian Part '
+      ''
+      '23/12/2024 (6.1.5.51)'
+      '-Penambahan PPN di Modul Invoice'
+      '-Penambahan kolom PPN di Laporan Pesanan Bulanan'
+      'perArmada Jalan dan Laporan Pesanan Bulanan'
+      ''
+      '13/12/2024 (6.1.5.50)'
+      '-Update Template Surat Jalan Terbaru (Versi 2)'
+      ''
       '02/12/2024 (6.1.5.49)'
       '-Menghapus List PKB pada Form Buka PKB'
       ''

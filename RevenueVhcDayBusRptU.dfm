@@ -1,6 +1,6 @@
 object RevenueVhcDayBusRpt: TRevenueVhcDayBusRpt
-  Left = 187
-  Top = 142
+  Left = 19
+  Top = 230
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
   Caption = 'Laporan Pengeluaran perArmada'

@@ -614,7 +614,7 @@ begin
   Qry.Connection:=Main.MyConnection;
   if Main.OpenDb then begin
     Main.M_Busy;
-    StrQry:='EXEC GetWorkOrderLists '+CompanyId+','+LocationId+';';
+    StrQry:='EXEC GetWorkOrderLists '+CompanyId+','+LocationId+',@Status=1;';
     Qry.SQL.Add(StrQry);
     Qry.Open;
     IntCount:=0;
@@ -980,13 +980,12 @@ begin
       end;
 
 //      CEK PART
-      StrQry:='';
-//      StrQry:='select * from wh_work_order_part where work_order_id= '+QuotedStr(WorkOrderId)+' and status=1;';
-      StrQry:='SELECT a.*,d.IsUsed FROM wh_tanda_terima_detail a '+
-            'LEFT JOIN wh_tanda_terima b ON a.tanda_terima_id=b.tanda_terima_id '+
-            'LEFT JOIN wh_item_request c ON b.item_request_id=c.item_request_id '+
-            'LEFT JOIN wh_work_order_part d on a.kode_part_gp=d.kode_part_gp and d.status=1 '+
-            'WHERE c.no_request='+QuotedStr(ServiceRequestId)+' AND a.status=1;';
+      StrQry:='EXEC GetPartDiterima '+QuotedStr(ServiceRequestId)+' ;';
+//      StrQry:='SELECT a.*,d.IsUsed FROM wh_tanda_terima_detail a '+
+//            'LEFT JOIN wh_tanda_terima b ON a.tanda_terima_id=b.tanda_terima_id '+
+//            'LEFT JOIN wh_item_request c ON b.item_request_id=c.item_request_id '+
+//            'LEFT JOIN wh_work_order_part d on a.kode_part_gp=d.kode_part_gp and d.status=1 '+
+//            'WHERE c.no_request='+QuotedStr(ServiceRequestId)+' AND a.status=1;';
       IntCount:=0;
       Qry2.SQL.Clear;
       Qry2.Close;

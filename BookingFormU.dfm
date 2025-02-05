@@ -1,11 +1,11 @@
 object BookingForm: TBookingForm
-  Left = 150
-  Top = 57
+  Left = 546
+  Top = 522
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Penjadwalan'
   ClientHeight = 575
-  ClientWidth = 1141
+  ClientWidth = 1123
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -98,7 +98,7 @@ object BookingForm: TBookingForm
     end
   end
   object Selesai: TButton
-    Left = 992
+    Left = 990
     Top = 232
     Width = 75
     Height = 25
@@ -107,7 +107,7 @@ object BookingForm: TBookingForm
     OnClick = SelesaiClick
   end
   object Simpan: TButton
-    Left = 994
+    Left = 992
     Top = 136
     Width = 73
     Height = 25
@@ -116,7 +116,7 @@ object BookingForm: TBookingForm
     OnClick = SimpanClick
   end
   object CetakUlang: TButton
-    Left = 992
+    Left = 990
     Top = 200
     Width = 75
     Height = 25
@@ -125,7 +125,7 @@ object BookingForm: TBookingForm
     OnClick = CetakUlangClick
   end
   object Bersihkan: TButton
-    Left = 992
+    Left = 990
     Top = 168
     Width = 75
     Height = 25
@@ -523,7 +523,7 @@ object BookingForm: TBookingForm
     end
   end
   object ListKunciCepat: TMemo
-    Left = 889
+    Left = 888
     Top = 24
     Width = 169
     Height = 81
@@ -544,7 +544,7 @@ object BookingForm: TBookingForm
     BevelOuter = bvNone
     TabOrder = 13
     object isFix: TCheckBox
-      Left = -1
+      Left = 0
       Top = -1
       Width = 105
       Height = 17
@@ -555,7 +555,7 @@ object BookingForm: TBookingForm
   object GroupOrder: TGroupBox
     Left = 8
     Top = 264
-    Width = 1129
+    Width = 1105
     Height = 247
     Caption = 'Data Pesanan'
     TabOrder = 14
@@ -574,12 +574,12 @@ object BookingForm: TBookingForm
       ParentFont = False
     end
     object StrGrid: TZColorStringGrid
-      Left = 0
+      Left = 8
       Top = 16
-      Width = 1121
+      Width = 1089
       Height = 224
       TabStop = False
-      ColCount = 12
+      ColCount = 10
       DefaultRowHeight = 36
       DefaultDrawing = False
       FixedColor = clBtnFace
@@ -607,8 +607,6 @@ object BookingForm: TBookingForm
       DefaultFixedCellStyle.BGColor = clBtnFace
       LineDesign.LineUpColor = clWhite
       ColWidths = (
-        64
-        64
         64
         64
         64
@@ -4107,10 +4105,6 @@ object BookingForm: TBookingForm
     object GeserDriver1: TMenuItem
       Caption = 'Geser Driver'
       OnClick = GeserDriver1Click
-    end
-    object GeserHelper: TMenuItem
-      Caption = 'Geser Helper'
-      OnClick = GeserHelperClick
     end
   end
   object PopupMenu2: TPopupMenu

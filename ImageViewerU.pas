@@ -80,6 +80,9 @@ begin
       2:StrQry:='SELECT * FROM wh_service_request_image WHERE service_request_image_id='+
                 '(SELECT MAX(service_request_image_id) FROM wh_service_request_image '+
                 ' WHERE service_request_id='+QuotedStr(TableId)+' );';
+      3:StrQry:='SELECT * FROM wh_empl_laka_image WHERE empl_laka_image_id='+
+                '(SELECT MAX(empl_laka_image_id) FROM wh_empl_laka_image '+
+                ' WHERE empl_history_laka_id='+QuotedStr(TableId)+' AND image_id='+IntToStr(ImgType)+' );';
     end;
     Qry.SQL.Add(StrQry);
     Qry.Open;

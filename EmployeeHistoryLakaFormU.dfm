@@ -1,11 +1,11 @@
 object EmployeeHistoryLakaForm: TEmployeeHistoryLakaForm
-  Left = 257
-  Top = 90
+  Left = 195
+  Top = 78
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Histori Laka Driver'
-  ClientHeight = 436
-  ClientWidth = 872
+  ClientHeight = 517
+  ClientWidth = 905
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,538 +20,765 @@ object EmployeeHistoryLakaForm: TEmployeeHistoryLakaForm
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object GroupBox1: TGroupBox
+  object PageControl1: TPageControl
     Left = 0
     Top = 0
-    Width = 872
-    Height = 185
-    Align = alTop
-    Caption = 'Data'
-    TabOrder = 0
-    object Label4: TLabel
-      Left = 9
-      Top = 63
-      Width = 99
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Pelapor/Nama Driver'
-    end
-    object Label3: TLabel
-      Left = 79
-      Top = 38
-      Width = 29
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Lokasi'
-    end
-    object Label7: TLabel
-      Left = 70
-      Top = 15
-      Width = 38
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Tanggal'
-    end
-    object lblJamkejadian: TLabel
-      Left = 213
-      Top = 15
-      Width = 63
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Jam Kejadian'
-    end
-    object Label5: TLabel
-      Left = 430
-      Top = 16
-      Width = 64
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Nama Korban'
-    end
-    object Label6: TLabel
-      Left = 432
-      Top = 38
-      Width = 62
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Umur Korban'
-    end
-    object Label8: TLabel
-      Left = 430
-      Top = 64
-      Width = 64
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Lama Bekerja'
-    end
-    object lblTools: TLabel
-      Left = 411
-      Top = 87
-      Width = 83
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Alat yang terlibat'
-    end
-    object lblProsess: TLabel
-      Left = 413
-      Top = 110
-      Width = 81
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Proses / Aktifitas'
-    end
-    object lblAbsent: TLabel
-      Left = 408
-      Top = 133
-      Width = 86
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Tidak Masuk Kerja'
-    end
-    object lblMateriSejumlah: TLabel
-      Left = 416
-      Top = 157
-      Width = 76
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Materi Sejumlah'
-    end
-    object lblKet_materi: TLabel
-      Left = 611
-      Top = 156
-      Width = 49
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Ket Materi'
-    end
-    object Label1: TLabel
-      Left = 23
-      Top = 114
-      Width = 85
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Kerusakan/Cidera'
-    end
-    object Label12: TLabel
-      Left = 541
-      Top = 62
-      Width = 30
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Tahun'
-    end
-    object Label13: TLabel
-      Left = 621
-      Top = 62
-      Width = 26
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Bulan'
-    end
-    object Label14: TLabel
-      Left = 565
-      Top = 39
-      Width = 30
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Tahun'
-    end
-    object Label15: TLabel
-      Left = 563
-      Top = 133
-      Width = 19
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Hari'
-    end
-    object Label16: TLabel
-      Left = 71
-      Top = 88
-      Width = 37
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Armada'
-    end
-    object Pelapor: TEdit
-      Left = 115
-      Top = 59
-      Width = 241
-      Height = 21
-      Enabled = False
-      TabOrder = 0
-      Text = 'Pelapor'
-      OnKeyPress = PelaporKeyPress
-    end
-    object Lokasi: TEdit
-      Left = 115
-      Top = 36
-      Width = 286
-      Height = 21
-      TabOrder = 1
-      OnKeyPress = LokasiKeyPress
-    end
-    object Tgl: TEdit
-      Left = 115
-      Top = 12
-      Width = 81
-      Height = 21
-      Enabled = False
-      TabOrder = 2
-    end
-    object Jam: TMaskEdit
-      Left = 283
-      Top = 12
-      Width = 44
-      Height = 21
-      EditMask = '99:99;1;_'
-      MaxLength = 5
-      TabOrder = 3
-      Text = '  :  '
-      OnKeyPress = JamKeyPress
-    end
-    object Kerusakan: TMemo
-      Left = 115
-      Top = 110
-      Width = 281
-      Height = 65
-      Lines.Strings = (
-        'Kerusakan')
-      TabOrder = 4
-      OnKeyPress = KerusakanKeyPress
-    end
-    object NamaKorban: TEdit
-      Left = 501
-      Top = 12
-      Width = 204
-      Height = 21
-      TabOrder = 5
-      OnKeyPress = NamaKorbanKeyPress
-    end
-    object UmurKorban: TSpinEdit
-      Left = 502
-      Top = 35
-      Width = 59
-      Height = 22
-      MaxValue = 0
-      MinValue = 0
-      TabOrder = 6
-      Value = 0
-      OnKeyPress = UmurKorbanKeyPress
-    end
-    object AlatTerlibat: TEdit
-      Left = 502
-      Top = 83
-      Width = 273
-      Height = 21
-      TabOrder = 7
-      OnKeyPress = AlatTerlibatKeyPress
-    end
-    object Proses: TEdit
-      Left = 502
-      Top = 106
-      Width = 273
-      Height = 21
-      TabOrder = 8
-      OnKeyPress = ProsesKeyPress
-    end
-    object AmountDesc: TEdit
-      Left = 666
-      Top = 152
-      Width = 164
-      Height = 21
-      MaxLength = 50
-      TabOrder = 9
-      OnKeyPress = AmountDescKeyPress
-    end
-    object Amount: TMemo
-      Left = 502
-      Top = 152
-      Width = 99
-      Height = 21
-      Alignment = taRightJustify
-      MaxLength = 25
-      TabOrder = 10
-      WantReturns = False
-      WantTabs = True
-      OnChange = AmountChange
-      OnEnter = AmountEnter
-      OnExit = AmountExit
-      OnKeyPress = AmountKeyPress
-    end
-    object TdkMasukKerja: TSpinEdit
-      Left = 502
-      Top = 128
-      Width = 59
-      Height = 22
-      MaxValue = 0
-      MinValue = 0
-      TabOrder = 11
-      Value = 0
-    end
-    object LamaBekerjaTahun: TMemo
-      Left = 502
-      Top = 59
-      Width = 35
-      Height = 21
-      Alignment = taRightJustify
-      Enabled = False
-      MaxLength = 25
-      TabOrder = 12
-      WantReturns = False
-      WantTabs = True
-    end
-    object LamaBekerjaBulan: TMemo
-      Left = 582
-      Top = 59
-      Width = 35
-      Height = 21
-      Alignment = taRightJustify
-      Enabled = False
-      MaxLength = 25
-      TabOrder = 13
-      WantReturns = False
-      WantTabs = True
-    end
-    object Armada: TEdit
-      Left = 115
-      Top = 84
-      Width = 241
-      Height = 21
-      Enabled = False
-      TabOrder = 14
-      OnKeyPress = PelaporKeyPress
-    end
-    object CariArmada: TButton
-      Left = 360
-      Top = 80
-      Width = 33
-      Height = 25
-      Caption = '...'
-      TabOrder = 15
-      OnClick = CariArmadaClick
-    end
-  end
-  object pnl1: TPanel
-    Left = 0
-    Top = 185
-    Width = 872
-    Height = 210
+    Width = 905
+    Height = 517
+    ActivePage = TabSheet1
     Align = alClient
-    TabOrder = 1
-    object labelAccident: TLabel
-      Left = 30
-      Top = 75
-      Width = 57
-      Height = 39
-      Alignment = taRightJustify
-      Caption = 'Penyebab '#13#10'Kecelakaan '#13#10
-      WordWrap = True
-    end
-    object LabelKet: TLabel
-      Left = 43
-      Top = 13
-      Width = 44
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Kronologi'
-      WordWrap = True
-    end
-    object lblSaranAtasan: TLabel
-      Left = 468
-      Top = 15
-      Width = 101
-      Height = 26
-      Alignment = taRightJustify
-      Caption = 'Saran / Rekomendasi'#13#10' Atasan Terkait'
-    end
-    object lblSaranQHSE: TLabel
-      Left = 468
-      Top = 77
-      Width = 101
-      Height = 26
-      Alignment = taRightJustify
-      Caption = 'Saran / Rekomendasi'#13#10' QHSE / MR'
-    end
-    object lblSaranDireaksi: TLabel
-      Left = 468
-      Top = 144
-      Width = 101
-      Height = 26
-      Alignment = taRightJustify
-      Caption = 'Saran / Rekomendasi'#13#10'Direktur Oprasional'
-    end
-    object Label2: TLabel
-      Left = 45
-      Top = 26
-      Width = 41
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Kejadian'
-      WordWrap = True
-    end
-    object Label9: TLabel
-      Left = 1
-      Top = 102
-      Width = 87
-      Height = 13
-      Alignment = taRightJustify
-      Caption = '(Sebab Langsung)'
-      WordWrap = True
-    end
-    object Label10: TLabel
-      Left = 28
-      Top = 146
-      Width = 57
-      Height = 39
-      Alignment = taRightJustify
-      Caption = 'Penyebab '#13#10'Kecelakaan '#13#10
-      WordWrap = True
-    end
-    object Label11: TLabel
-      Left = 17
-      Top = 174
-      Width = 69
-      Height = 13
-      Alignment = taRightJustify
-      Caption = '(Sebab Dasar)'
-      WordWrap = True
-    end
-    object SebabDasar: TMemo
-      Left = 88
-      Top = 145
-      Width = 289
-      Height = 60
-      TabOrder = 0
-    end
-    object SebabLangsung: TMemo
-      Left = 89
-      Top = 75
-      Width = 286
-      Height = 65
-      TabOrder = 1
-    end
-    object Kronologi: TMemo
-      Left = 89
-      Top = 12
-      Width = 367
-      Height = 60
-      TabOrder = 2
-    end
-    object NoteSpv: TMemo
-      Left = 576
-      Top = 12
-      Width = 281
-      Height = 60
-      TabOrder = 3
-    end
-    object NoteMR: TMemo
-      Left = 576
-      Top = 76
-      Width = 281
-      Height = 65
-      TabOrder = 4
-    end
-    object NoteDir: TMemo
-      Left = 576
-      Top = 140
-      Width = 281
-      Height = 60
-      TabOrder = 5
-    end
-    object pnlunsafe: TPanel
-      Left = 378
-      Top = 75
-      Width = 79
-      Height = 61
-      TabOrder = 6
-      object chkUnsafeAction: TCheckBox
-        Left = 5
-        Top = 2
-        Width = 70
-        Height = 25
-        Caption = 'Unsafe action'
+    TabOrder = 0
+    object TabSheet1: TTabSheet
+      Caption = 'Data'
+      object GroupBox1: TGroupBox
+        Left = 0
+        Top = 0
+        Width = 897
+        Height = 217
+        Align = alTop
+        Caption = 'Data'
         TabOrder = 0
-        WordWrap = True
+        object Label4: TLabel
+          Left = 9
+          Top = 88
+          Width = 99
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Pelapor/Nama Driver'
+        end
+        object Label3: TLabel
+          Left = 79
+          Top = 63
+          Width = 29
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Lokasi'
+        end
+        object Label7: TLabel
+          Left = 70
+          Top = 15
+          Width = 38
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Tanggal'
+        end
+        object lblJamkejadian: TLabel
+          Left = 288
+          Top = 40
+          Width = 63
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Jam Kejadian'
+        end
+        object Label5: TLabel
+          Left = 430
+          Top = 16
+          Width = 64
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Nama Korban'
+        end
+        object Label6: TLabel
+          Left = 432
+          Top = 38
+          Width = 62
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Umur Korban'
+        end
+        object Label8: TLabel
+          Left = 430
+          Top = 64
+          Width = 64
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Lama Bekerja'
+        end
+        object lblTools: TLabel
+          Left = 411
+          Top = 87
+          Width = 83
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Alat yang terlibat'
+        end
+        object lblProsess: TLabel
+          Left = 413
+          Top = 110
+          Width = 81
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Proses / Aktifitas'
+        end
+        object lblAbsent: TLabel
+          Left = 408
+          Top = 133
+          Width = 86
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Tidak Masuk Kerja'
+        end
+        object lblMateriSejumlah: TLabel
+          Left = 416
+          Top = 157
+          Width = 76
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Materi Sejumlah'
+        end
+        object lblKet_materi: TLabel
+          Left = 611
+          Top = 156
+          Width = 49
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Ket Materi'
+        end
+        object Label1: TLabel
+          Left = 23
+          Top = 139
+          Width = 85
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Kerusakan/Cidera'
+        end
+        object Label12: TLabel
+          Left = 541
+          Top = 62
+          Width = 30
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Tahun'
+        end
+        object Label13: TLabel
+          Left = 621
+          Top = 62
+          Width = 26
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Bulan'
+        end
+        object Label14: TLabel
+          Left = 565
+          Top = 39
+          Width = 30
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Tahun'
+        end
+        object Label15: TLabel
+          Left = 563
+          Top = 133
+          Width = 19
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Hari'
+        end
+        object Label16: TLabel
+          Left = 71
+          Top = 113
+          Width = 37
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Armada'
+        end
+        object Label17: TLabel
+          Left = 26
+          Top = 38
+          Width = 82
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Tanggal Kejadian'
+        end
+        object Label18: TLabel
+          Left = 411
+          Top = 179
+          Width = 81
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Jenis Kecelakaan'
+        end
+        object Pelapor: TEdit
+          Left = 115
+          Top = 84
+          Width = 241
+          Height = 21
+          Enabled = False
+          TabOrder = 0
+          Text = 'Pelapor'
+          OnKeyPress = PelaporKeyPress
+        end
+        object Lokasi: TEdit
+          Left = 115
+          Top = 61
+          Width = 286
+          Height = 21
+          TabOrder = 1
+          OnKeyPress = LokasiKeyPress
+        end
+        object Tgl: TEdit
+          Left = 115
+          Top = 12
+          Width = 81
+          Height = 21
+          Enabled = False
+          TabOrder = 2
+        end
+        object Jam: TMaskEdit
+          Left = 358
+          Top = 37
+          Width = 43
+          Height = 21
+          EditMask = '99:99;1;_'
+          MaxLength = 5
+          TabOrder = 3
+          Text = '  :  '
+          OnKeyPress = JamKeyPress
+        end
+        object Kerusakan: TMemo
+          Left = 115
+          Top = 135
+          Width = 281
+          Height = 65
+          Lines.Strings = (
+            'Kerusakan')
+          TabOrder = 4
+          OnKeyPress = KerusakanKeyPress
+        end
+        object NamaKorban: TEdit
+          Left = 501
+          Top = 12
+          Width = 204
+          Height = 21
+          TabOrder = 5
+          OnKeyPress = NamaKorbanKeyPress
+        end
+        object UmurKorban: TSpinEdit
+          Left = 502
+          Top = 35
+          Width = 59
+          Height = 22
+          MaxValue = 0
+          MinValue = 0
+          TabOrder = 6
+          Value = 0
+          OnKeyPress = UmurKorbanKeyPress
+        end
+        object AlatTerlibat: TEdit
+          Left = 502
+          Top = 83
+          Width = 273
+          Height = 21
+          TabOrder = 7
+          OnKeyPress = AlatTerlibatKeyPress
+        end
+        object Proses: TEdit
+          Left = 502
+          Top = 106
+          Width = 273
+          Height = 21
+          TabOrder = 8
+          OnKeyPress = ProsesKeyPress
+        end
+        object AmountDesc: TEdit
+          Left = 666
+          Top = 152
+          Width = 164
+          Height = 21
+          MaxLength = 50
+          TabOrder = 9
+          OnKeyPress = AmountDescKeyPress
+        end
+        object Amount: TMemo
+          Left = 502
+          Top = 152
+          Width = 99
+          Height = 21
+          Alignment = taRightJustify
+          MaxLength = 25
+          TabOrder = 10
+          WantReturns = False
+          WantTabs = True
+          OnChange = AmountChange
+          OnEnter = AmountEnter
+          OnExit = AmountExit
+          OnKeyPress = AmountKeyPress
+        end
+        object TdkMasukKerja: TSpinEdit
+          Left = 502
+          Top = 128
+          Width = 59
+          Height = 22
+          MaxValue = 0
+          MinValue = 0
+          TabOrder = 11
+          Value = 0
+        end
+        object LamaBekerjaTahun: TMemo
+          Left = 502
+          Top = 59
+          Width = 35
+          Height = 21
+          Alignment = taRightJustify
+          Enabled = False
+          MaxLength = 25
+          TabOrder = 12
+          WantReturns = False
+          WantTabs = True
+        end
+        object LamaBekerjaBulan: TMemo
+          Left = 582
+          Top = 59
+          Width = 35
+          Height = 21
+          Alignment = taRightJustify
+          Enabled = False
+          MaxLength = 25
+          TabOrder = 13
+          WantReturns = False
+          WantTabs = True
+        end
+        object Armada: TEdit
+          Left = 115
+          Top = 109
+          Width = 241
+          Height = 21
+          Enabled = False
+          TabOrder = 14
+          OnKeyPress = PelaporKeyPress
+        end
+        object CariArmada: TButton
+          Left = 360
+          Top = 105
+          Width = 33
+          Height = 25
+          Caption = '...'
+          TabOrder = 15
+          OnClick = CariArmadaClick
+        end
+        object TglKejadian: TDateTimePicker
+          Left = 115
+          Top = 36
+          Width = 89
+          Height = 21
+          Date = 41192.934186550920000000
+          Time = 41192.934186550920000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 16
+        end
+        object JenisKecelakaan: TComboBox
+          Left = 502
+          Top = 176
+          Width = 243
+          Height = 21
+          ItemHeight = 13
+          TabOrder = 17
+          Text = 'JenisKecelakaan'
+        end
       end
-      object chkUnsafeCondition: TCheckBox
-        Left = 5
-        Top = 34
-        Width = 70
-        Height = 25
-        Caption = 'Unsafe condition'
+      object pnl1: TPanel
+        Left = 0
+        Top = 217
+        Width = 897
+        Height = 231
+        Align = alClient
         TabOrder = 1
-        WordWrap = True
+        object labelAccident: TLabel
+          Left = 30
+          Top = 75
+          Width = 57
+          Height = 39
+          Alignment = taRightJustify
+          Caption = 'Penyebab '#13#10'Kecelakaan '#13#10
+          WordWrap = True
+        end
+        object LabelKet: TLabel
+          Left = 43
+          Top = 13
+          Width = 44
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Kronologi'
+          WordWrap = True
+        end
+        object lblSaranAtasan: TLabel
+          Left = 468
+          Top = 15
+          Width = 101
+          Height = 26
+          Alignment = taRightJustify
+          Caption = 'Saran / Rekomendasi'#13#10' Atasan Terkait'
+        end
+        object lblSaranQHSE: TLabel
+          Left = 468
+          Top = 77
+          Width = 101
+          Height = 26
+          Alignment = taRightJustify
+          Caption = 'Saran / Rekomendasi'#13#10' QHSE / MR'
+        end
+        object lblSaranDireaksi: TLabel
+          Left = 468
+          Top = 144
+          Width = 101
+          Height = 26
+          Alignment = taRightJustify
+          Caption = 'Saran / Rekomendasi'#13#10'Direktur Oprasional'
+        end
+        object Label2: TLabel
+          Left = 45
+          Top = 26
+          Width = 41
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'Kejadian'
+          WordWrap = True
+        end
+        object Label9: TLabel
+          Left = 1
+          Top = 102
+          Width = 87
+          Height = 13
+          Alignment = taRightJustify
+          Caption = '(Sebab Langsung)'
+          WordWrap = True
+        end
+        object Label10: TLabel
+          Left = 28
+          Top = 146
+          Width = 57
+          Height = 39
+          Alignment = taRightJustify
+          Caption = 'Penyebab '#13#10'Kecelakaan '#13#10
+          WordWrap = True
+        end
+        object Label11: TLabel
+          Left = 17
+          Top = 174
+          Width = 69
+          Height = 13
+          Alignment = taRightJustify
+          Caption = '(Sebab Dasar)'
+          WordWrap = True
+        end
+        object SebabDasar: TMemo
+          Left = 88
+          Top = 145
+          Width = 289
+          Height = 60
+          TabOrder = 0
+        end
+        object SebabLangsung: TMemo
+          Left = 89
+          Top = 75
+          Width = 286
+          Height = 65
+          TabOrder = 1
+        end
+        object Kronologi: TMemo
+          Left = 89
+          Top = 12
+          Width = 367
+          Height = 60
+          TabOrder = 2
+        end
+        object NoteSpv: TMemo
+          Left = 576
+          Top = 12
+          Width = 281
+          Height = 60
+          TabOrder = 3
+        end
+        object NoteMR: TMemo
+          Left = 576
+          Top = 76
+          Width = 281
+          Height = 65
+          TabOrder = 4
+        end
+        object NoteDir: TMemo
+          Left = 576
+          Top = 140
+          Width = 281
+          Height = 60
+          TabOrder = 5
+        end
+        object pnlunsafe: TPanel
+          Left = 378
+          Top = 75
+          Width = 79
+          Height = 61
+          TabOrder = 6
+          object chkUnsafeAction: TCheckBox
+            Left = 5
+            Top = 2
+            Width = 70
+            Height = 25
+            Caption = 'Unsafe action'
+            TabOrder = 0
+            WordWrap = True
+          end
+          object chkUnsafeCondition: TCheckBox
+            Left = 5
+            Top = 34
+            Width = 70
+            Height = 25
+            Caption = 'Unsafe condition'
+            TabOrder = 1
+            WordWrap = True
+          end
+        end
+        object pnlfactor: TPanel
+          Left = 378
+          Top = 139
+          Width = 80
+          Height = 64
+          TabOrder = 7
+          object chkPersonalFactor: TCheckBox
+            Left = 5
+            Top = 4
+            Width = 70
+            Height = 25
+            Caption = 'Personal factor'
+            TabOrder = 0
+            WordWrap = True
+          end
+          object chkJobFactor: TCheckBox
+            Left = 5
+            Top = 32
+            Width = 70
+            Height = 25
+            Caption = 'Job factor'
+            TabOrder = 1
+            WordWrap = True
+          end
+        end
+      end
+      object Panel1: TPanel
+        Left = 0
+        Top = 448
+        Width = 897
+        Height = 41
+        Align = alBottom
+        TabOrder = 2
+        object Simpan: TButton
+          Left = 304
+          Top = 7
+          Width = 75
+          Height = 25
+          Caption = 'Simpan'
+          TabOrder = 0
+          OnClick = SimpanClick
+        end
+        object Selesai: TButton
+          Left = 468
+          Top = 8
+          Width = 75
+          Height = 24
+          Caption = 'Selesai'
+          TabOrder = 1
+          OnClick = SelesaiClick
+        end
+        object Cetak: TButton
+          Left = 387
+          Top = 7
+          Width = 75
+          Height = 25
+          Caption = 'Cetak'
+          TabOrder = 2
+          OnClick = CetakClick
+        end
+        object Bersihkan: TButton
+          Left = 790
+          Top = 8
+          Width = 75
+          Height = 24
+          Caption = 'Bersihkan'
+          TabOrder = 3
+          Visible = False
+          OnClick = BersihkanClick
+        end
       end
     end
-    object pnlfactor: TPanel
-      Left = 378
-      Top = 139
-      Width = 80
-      Height = 64
-      TabOrder = 7
-      object chkPersonalFactor: TCheckBox
-        Left = 5
-        Top = 4
-        Width = 70
-        Height = 25
-        Caption = 'Personal factor'
+    object ts1: TTabSheet
+      Caption = 'Lampiran'
+      ImageIndex = 1
+      object GroupBox4: TGroupBox
+        Left = 0
+        Top = 0
+        Width = 897
+        Height = 163
+        Align = alTop
+        Caption = 'Lampiran'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clMaroon
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
         TabOrder = 0
-        WordWrap = True
+        object GroupFoto: TGroupBox
+          Left = 14
+          Top = 15
+          Width = 110
+          Height = 105
+          Caption = 'Foto'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 0
+          object Foto: TImage
+            Left = 8
+            Top = 16
+            Width = 93
+            Height = 73
+            OnDblClick = FotoDblClick
+          end
+        end
+        object GroupBox2: TGroupBox
+          Left = 135
+          Top = 15
+          Width = 110
+          Height = 105
+          Caption = 'Kronologi'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 1
+          object FotoKronologi: TImage
+            Left = 8
+            Top = 17
+            Width = 95
+            Height = 72
+            OnDblClick = FotoKronologiDblClick
+          end
+        end
+        object GroupBox3: TGroupBox
+          Left = 259
+          Top = 15
+          Width = 110
+          Height = 105
+          Caption = 'Sanksi'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 2
+          object FotoSanksi: TImage
+            Left = 7
+            Top = 18
+            Width = 96
+            Height = 72
+            OnDblClick = FotoSanksiDblClick
+          end
+        end
+        object GroupSIM: TGroupBox
+          Left = 382
+          Top = 15
+          Width = 110
+          Height = 105
+          Caption = 'Tindakan Perbaikan'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 3
+          object FotoTindakanPerbaikan: TImage
+            Left = 8
+            Top = 21
+            Width = 95
+            Height = 72
+            OnDblClick = FotoTindakanPerbaikanDblClick
+          end
+        end
+        object UploadFileFoto: TButton
+          Left = 32
+          Top = 112
+          Width = 75
+          Height = 25
+          Caption = 'Upload File'
+          TabOrder = 4
+          OnClick = UploadFileFotoClick
+        end
+        object UploadFileKronologi: TButton
+          Left = 152
+          Top = 112
+          Width = 75
+          Height = 25
+          Caption = 'Upload File'
+          TabOrder = 5
+          OnClick = UploadFileKronologiClick
+        end
+        object UploadFileSanksi: TButton
+          Left = 277
+          Top = 111
+          Width = 75
+          Height = 25
+          Caption = 'Upload File'
+          TabOrder = 6
+          OnClick = UploadFileSanksiClick
+        end
+        object UploadFileTindakanPerbaikan: TButton
+          Left = 401
+          Top = 112
+          Width = 75
+          Height = 25
+          Caption = 'Upload File'
+          TabOrder = 7
+          OnClick = UploadFileTindakanPerbaikanClick
+        end
       end
-      object chkJobFactor: TCheckBox
-        Left = 5
-        Top = 32
-        Width = 70
-        Height = 25
-        Caption = 'Job factor'
+      object Panel2: TPanel
+        Left = 0
+        Top = 448
+        Width = 897
+        Height = 41
+        Align = alBottom
         TabOrder = 1
-        WordWrap = True
+        object Button2: TButton
+          Left = 468
+          Top = 8
+          Width = 75
+          Height = 24
+          Caption = 'Selesai'
+          TabOrder = 0
+          OnClick = SelesaiClick
+        end
+        object Button3: TButton
+          Left = 387
+          Top = 7
+          Width = 75
+          Height = 25
+          Caption = 'Cetak'
+          TabOrder = 1
+          OnClick = CetakClick
+        end
+        object Button4: TButton
+          Left = 790
+          Top = 8
+          Width = 75
+          Height = 24
+          Caption = 'Bersihkan'
+          TabOrder = 2
+          Visible = False
+          OnClick = BersihkanClick
+        end
       end
-    end
-  end
-  object Panel1: TPanel
-    Left = 0
-    Top = 395
-    Width = 872
-    Height = 41
-    Align = alBottom
-    TabOrder = 2
-    object Simpan: TButton
-      Left = 304
-      Top = 7
-      Width = 75
-      Height = 25
-      Caption = 'Simpan'
-      TabOrder = 0
-      OnClick = SimpanClick
-    end
-    object Selesai: TButton
-      Left = 468
-      Top = 8
-      Width = 75
-      Height = 24
-      Caption = 'Selesai'
-      TabOrder = 1
-      OnClick = SelesaiClick
-    end
-    object Cetak: TButton
-      Left = 387
-      Top = 7
-      Width = 75
-      Height = 25
-      Caption = 'Cetak'
-      TabOrder = 2
-      OnClick = CetakClick
-    end
-    object Bersihkan: TButton
-      Left = 790
-      Top = 8
-      Width = 75
-      Height = 24
-      Caption = 'Bersihkan'
-      TabOrder = 3
-      Visible = False
-      OnClick = BersihkanClick
     end
   end
   object frxrprt: TfrxReport
@@ -8227,8 +8454,8 @@ object EmployeeHistoryLakaForm: TEmployeeHistoryLakaForm
       'work_period_month=work_period_month')
     DataSet = qryHistLaka
     BCDToCurrency = False
-    Left = 16
-    Top = 16
+    Left = 648
+    Top = 432
   end
   object qryHistLaka: TADOQuery
     CursorType = ctStatic
@@ -8237,7 +8464,7 @@ object EmployeeHistoryLakaForm: TEmployeeHistoryLakaForm
       'SELECT b.name,a.* FROM wh_empl_history_laka a'
       'LEFT JOIN wh_employee b ON a.employee_id=b.employee_id'
       'WHERE empl_history_laka_id=13')
-    Left = 64
-    Top = 143
+    Left = 600
+    Top = 439
   end
 end

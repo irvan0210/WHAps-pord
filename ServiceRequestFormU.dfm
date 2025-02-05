@@ -1,10 +1,10 @@
 object ServiceRequestForm: TServiceRequestForm
-  Left = 258
-  Top = 100
+  Left = 237
+  Top = 378
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Service Request'
-  ClientHeight = 533
+  ClientHeight = 539
   ClientWidth = 944
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -27,6 +27,19 @@ object ServiceRequestForm: TServiceRequestForm
     Width = 37
     Height = 13
     Caption = 'Catatan'
+  end
+  object Label15: TLabel
+    Left = 672
+    Top = 462
+    Width = 72
+    Height = 13
+    Caption = 'Tombol Cepat :'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = 8404992
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
   end
   object GroupRight: TGroupBox
     Left = 479
@@ -613,6 +626,7 @@ object ServiceRequestForm: TServiceRequestForm
       FixedColor = clSkyBlue
       FixedCols = 0
       TabOrder = 0
+      OnKeyDown = StrGrid2KeyDown
       OnSelectCell = StrGrid2SelectCell
       DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
       DefaultCellStyle.Font.Color = clWindowText
@@ -969,6 +983,7 @@ object ServiceRequestForm: TServiceRequestForm
       FixedColor = clSkyBlue
       FixedCols = 0
       TabOrder = 0
+      OnKeyDown = StrGrid3KeyDown
       OnSelectCell = StrGrid3SelectCell
       DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
       DefaultCellStyle.Font.Color = clWindowText
@@ -1013,6 +1028,7 @@ object ServiceRequestForm: TServiceRequestForm
       FixedColor = clSkyBlue
       FixedCols = 0
       TabOrder = 0
+      OnKeyDown = StrGridMekanikKeyDown
       OnSelectCell = StrGridMekanikSelectCell
       DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
       DefaultCellStyle.Font.Color = clWindowText
@@ -1068,6 +1084,17 @@ object ServiceRequestForm: TServiceRequestForm
         'EXTERNAL')
     end
   end
+  object ListKunciCepat: TMemo
+    Left = 671
+    Top = 478
+    Width = 169
+    Height = 35
+    BorderStyle = bsNone
+    Color = clBtnFace
+    Lines.Strings = (
+      'Delete = Menghapus Baris')
+    TabOrder = 21
+  end
   object ppReport: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
@@ -1091,8 +1118,8 @@ object ServiceRequestForm: TServiceRequestForm
     PreviewFormSettings.WindowState = wsMaximized
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
-    Left = 765
-    Top = 458
+    Left = 901
+    Top = 370
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand2: TppHeaderBand
@@ -3031,8 +3058,8 @@ object ServiceRequestForm: TServiceRequestForm
     PreviewFormSettings.WindowState = wsMaximized
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
-    Left = 688
-    Top = 454
+    Left = 888
+    Top = 334
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand1: TppHeaderBand

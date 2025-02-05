@@ -231,6 +231,62 @@ type
     ppFooterBand1: TppFooterBand;
     ppSummaryBand1: TppSummaryBand;
     ppParameterList1: TppParameterList;
+    ppReport3: TppReport;
+    ppHeaderBand3: TppHeaderBand;
+    ppNoOrder3: TppLabel;
+    ppCustomer3: TppLabel;
+    ppTanggalReservasi3: TppLabel;
+    ppAlamat3: TppMemo;
+    ppAcara3: TppMemo;
+    ppTanggal3: TppLabel;
+    ppTandaPetugas3: TppLabel;
+    ppSeat3: TppLabel;
+    ppGuide3: TppLabel;
+    ppGuidePhone3: TppLabel;
+    ppNoSPJ3: TppLabel;
+    ppJamReservasi3: TppLabel;
+    ppCopy3: TppLabel;
+    ppGroupName3: TppLabel;
+    ppDetailBand3: TppDetailBand;
+    ppFooterBand3: TppFooterBand;
+    ppSummaryBand3: TppSummaryBand;
+    ppParameterList3: TppParameterList;
+    ppNama3: TppLabel;
+    ppTelpHP3: TppLabel;
+    ppKernet3: TppLabel;
+    ppKernetHP3: TppLabel;
+    ppNoPolisi3: TppLabel;
+    ppCatatan3: TppMemo;
+    ppNoBody3: TppLabel;
+    ppReport4: TppReport;
+    ppHeaderBand4: TppHeaderBand;
+    ppLabel32: TppLabel;
+    ppLabel33: TppLabel;
+    ppLabel34: TppLabel;
+    ppMemo1: TppMemo;
+    ppMemo2: TppMemo;
+    ppLabel35: TppLabel;
+    ppLabel36: TppLabel;
+    ppLabel37: TppLabel;
+    ppLabel38: TppLabel;
+    ppLabel39: TppLabel;
+    ppLabel40: TppLabel;
+    ppLabel41: TppLabel;
+    ppLabel42: TppLabel;
+    ppLabel43: TppLabel;
+    ppLabel44: TppLabel;
+    ppLabel45: TppLabel;
+    ppLabel46: TppLabel;
+    ppLabel47: TppLabel;
+    ppLabel48: TppLabel;
+    ppMemo3: TppMemo;
+    ppLabel49: TppLabel;
+    ppDetailBand4: TppDetailBand;
+    ppFooterBand4: TppFooterBand;
+    ppSummaryBand4: TppSummaryBand;
+    ppParameterList4: TppParameterList;
+    ppdriver23: TppLabel;
+    ppHpDriver23: TppLabel;
     procedure KeluarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure GridMitraSelectCell(Sender: TObject; ACol, ARow: Integer;
@@ -2086,7 +2142,7 @@ end;
 procedure TSPJFormBus.RePrint(No_SPJ:String);
 var StrNoBody:String;
     Qry,Qry2:TADOQuery;
-    StrQry,StrWEHAmart:String;
+    StrQry,StrWEHAmart,StrLokasiStandBy:String;
 begin
   if No_SPJ<>'' then begin
     PreparePrint;
@@ -2115,8 +2171,9 @@ begin
         Qry.SQL.Add(StrQry);
         Qry.Open;
         if Qry.RecordCount>0 then begin
+          if PickupPoint.Text<>'' then StrLokasiStandBy:='Lokasi Standby '+PickupPoint.Text else StrLokasiStandBy:='';
+          if SetTambahanTopSJ='' then SetTambahanTopSJ:='0';
           If SPJ_Form=1 then begin
-
             StrWEHAmart:='';
             StrQry:='EXEC GetCustomerOrderServiceList '+QuotedStr(OrderId.Text)+', @isWEHAmart=1;';
             Qry2.SQL.Clear;
@@ -2174,7 +2231,6 @@ begin
               else ppGuidePhone.Caption:='';
             end;
 
-
             ppAlamat.Lines.Add(UpperCase(Qry.FieldValues['pickup_point']));
             ppAcara.Lines.Add(UpperCase(Qry.FieldValues['route']));
             if Qry.FieldValues['description']<>NULL then ppCatatan.Lines.Add(UpperCase(Qry.FieldValues['description']));
@@ -2194,6 +2250,30 @@ begin
               ppMessage.Top:= ppMessage.Top+0.3;
               ppCatatan.Left:= ppCatatan.Left+0.14;
               ppMessage.Left:= ppMessage.Left+0.14;
+            end else begin
+              ppNoSPJ.Top:=ppNoSPJ.Top+ StrToFloat(SetTambahanTopSJ);
+              ppcustomer.Top:=ppcustomer.Top+ StrToFloat(SetTambahanTopSJ);
+              ppGroupName.Top:=ppGroupName.Top+ StrToFloat(SetTambahanTopSJ);
+              ppTanggalReservasi.Top:=ppTanggalReservasi.Top+ StrToFloat(SetTambahanTopSJ);
+              ppAlamat.Top:=ppAlamat.Top+ StrToFloat(SetTambahanTopSJ);
+
+              ppNoOrder.Top:=ppNoOrder.Top+ StrToFloat(SetTambahanTopSJ);
+              ppSeat.Top:=ppSeat.Top+ StrToFloat(SetTambahanTopSJ);
+              ppGuide.Top:=ppGuide.Top+ StrToFloat(SetTambahanTopSJ);
+              ppGuidePhone.Top:=ppGuidePhone.Top+ StrToFloat(SetTambahanTopSJ);
+              ppJamReservasi.Top:=ppJamReservasi.Top+ StrToFloat(SetTambahanTopSJ);
+              ppAcara.Top:=ppAcara.Top+ StrToFloat(SetTambahanTopSJ);
+              ppNama.Top:=ppNama.Top+ StrToFloat(SetTambahanTopSJ);
+              ppTelpHP.Top:=ppTelpHP.Top+ StrToFloat(SetTambahanTopSJ);
+              ppdriver2.Top:=ppdriver2.Top+ StrToFloat(SetTambahanTopSJ);
+              ppHpDriver2.Top:=ppHpDriver2.Top+ StrToFloat(SetTambahanTopSJ);
+              ppKernet.Top:=ppKernet.Top+ StrToFloat(SetTambahanTopSJ);
+              ppKernetHP.Top:=ppKernetHP.Top+ StrToFloat(SetTambahanTopSJ);
+              ppNoPolisi.Top:=ppNoPolisi.Top+ StrToFloat(SetTambahanTopSJ);
+              ppNoBody.Top:=ppNoBody.Top+ StrToFloat(SetTambahanTopSJ);
+              ppCatatan.Top:=ppCatatan.Top+ StrToFloat(SetTambahanTopSJ);
+              ppTanggal.Top:=ppTanggal.Top+ StrToFloat(SetTambahanTopSJ);
+              ppTandaPetugas.Top:=ppTandaPetugas.Top+ StrToFloat(SetTambahanTopSJ);
             end;
             ppReport.Print;
 //            ppReport3.Print;
@@ -2224,6 +2304,116 @@ begin
             ppAlamat2.Lines.Add(UpperCase(Qry.FieldValues['pickup_point']));
             ppAcara2.Lines.Add(UpperCase(Qry.FieldValues['route']));
             ppReport2.Print;
+          end;
+
+          If SPJ_Form=3 then begin
+
+            StrWEHAmart:='';
+            StrQry:='EXEC GetCustomerOrderServiceList '+QuotedStr(OrderId.Text)+', @isWEHAmart=1;';
+            Qry2.SQL.Clear;
+            Main.WriteLog('SQL :'+StrQry,2);
+            Qry2.SQL.Add(StrQry);
+            Qry2.Open;
+
+            if Qry2.RecordCount>0 then while not(Qry2.Eof) do begin
+              if Qry2.RecNo=1 then StrWEHAmart:=Qry2.FieldValues['name']
+              else StrWEHAmart:=StrWEHAmart+', '+Qry2.FieldValues['name'];
+              Qry2.Next;
+            end;
+            Qry2.Close;
+
+            ppNoSPJ3.Caption:=UpperCase(Qry.FieldValues['vhc_trans_id']);
+            ppTanggal3.Caption:=Qry.FieldValues['from_dates'];
+            if (Qry.FieldValues['from_dates']=Qry.FieldValues['to_dates']) then
+              ppTanggalReservasi3.Caption:=Qry.FieldValues['from_dates']
+            else
+              ppTanggalReservasi3.Caption:=Qry.FieldValues['from_dates']+' s/d '+Qry.FieldValues['to_dates'];
+            ppJamReservasi3.Caption:=Qry.FieldValues['standby_time'];
+            ppNoOrder3.Caption:=UpperCase(Qry.FieldValues['customer_order_id']);
+            ppNoBody3.Caption:=UpperCase(Qry.FieldValues['body_id']);
+            ppKernet3.Caption:=UpperCase(VarToStr(Qry.FieldValues['busboyname_name']));
+            ppKernetHP3.Caption:=UpperCase(VarToStr(Qry.FieldValues['busboyname_telp']));
+            ppNoPolisi3.Caption:=LicensePlate(Qry.FieldValues['license_plate']);
+            ppSeat3.Caption:=IntToStr(Qry.FieldValues['seat']);
+            ppNama3.Caption:=UpperCase(Qry.FieldValues['name']);
+            ppTelpHP3.Caption:=Qry.FieldValues['phone_no'];
+            if Qry.FieldValues['driver_name2']<> null then
+            begin
+              ppdriver23.Caption:=UpperCase(Qry.FieldValues['driver_name2']);
+              ppHpDriver23.Caption:=UpperCase(Qry.FieldValues['cellular_no_driver2']);
+            end else
+            begin
+              ppdriver23.Caption:='';
+              ppHpDriver23.Caption:='';
+            end;
+
+            ppTandaPetugas3.Caption:=UpperCase(User);
+            ppCustomer3.Caption:=UpperCase(Qry.FieldValues['customer_name']);
+            if Qry.FieldValues['group_name']<>NULL then ppGroupName3.Caption:=UpperCase(Qry.FieldValues['group_name']) else ppGroupName3.Caption:='';
+            if Qry.FieldValues['field_contact']<>NULL then
+              ppGuide3.Caption:=UpperCase(Qry.FieldValues['field_contact'])
+            else begin
+              if (Qry.FieldValues['contact_name']<>NULL) then ppGuide3.Caption:=Qry.FieldValues['contact_name']
+              else ppGuide3.Caption:='';
+            end;
+
+            //CEK YA
+            if (Qry.FieldValues['field_contact_cellular_no']<>NULL) AND (Trim(VarToStr(Qry.FieldValues['field_contact_cellular_no']))<>'') then ppGuidePhone3.Caption:=Qry.FieldValues['field_contact_cellular_no']
+            else begin
+              if (Qry.FieldValues['contact_hp']<>NULL) AND (Trim(VarToStr(Qry.FieldValues['contact_hp']))<>'') then ppGuidePhone3.Caption:=Qry.FieldValues['contact_hp']
+              else ppGuidePhone3.Caption:='';
+            end;
+            ppAcara3.Clear;
+            ppAlamat3.Clear;
+            ppCatatan3.Clear;
+
+            ppAlamat3.Lines.Add(UpperCase(Qry.FieldValues['pickup_point']));
+            ppAcara3.Lines.Add(UpperCase(Qry.FieldValues['route']));
+
+            if (Qry.FieldValues['description']<>NULL) then begin
+              ppCatatan3.Lines.Add(UpperCase(Qry.FieldValues['description'])+sLineBreak+StrLokasiStandBy);
+            end;
+
+            ppNoSPJ3.Top:=ppNoSPJ3.Top+ StrToFloat(SetTambahanTopSJ);
+            ppcustomer3.Top:=ppcustomer3.Top+ StrToFloat(SetTambahanTopSJ);
+            ppGroupName3.Top:=ppGroupName3.Top+ StrToFloat(SetTambahanTopSJ);
+            ppTanggalReservasi3.Top:=ppTanggalReservasi3.Top+ StrToFloat(SetTambahanTopSJ);
+            ppAlamat3.Top:=ppAlamat3.Top+ StrToFloat(SetTambahanTopSJ);
+
+            ppNoOrder3.Top:=ppNoOrder3.Top+ StrToFloat(SetTambahanTopSJ);
+            ppSeat3.Top:=ppSeat3.Top+ StrToFloat(SetTambahanTopSJ);
+            ppGuide3.Top:=ppGuide3.Top+ StrToFloat(SetTambahanTopSJ);
+            ppGuidePhone3.Top:=ppGuidePhone3.Top+ StrToFloat(SetTambahanTopSJ);
+            ppJamReservasi3.Top:=ppJamReservasi3.Top+ StrToFloat(SetTambahanTopSJ);
+            ppAcara3.Top:=ppAcara3.Top+ StrToFloat(SetTambahanTopSJ);
+            ppNama3.Top:=ppNama3.Top+ StrToFloat(SetTambahanTopSJ);
+            ppTelpHP3.Top:=ppTelpHP3.Top+ StrToFloat(SetTambahanTopSJ);
+            ppdriver23.Top:=ppdriver23.Top+ StrToFloat(SetTambahanTopSJ);
+            ppHpDriver23.Top:=ppHpDriver23.Top+ StrToFloat(SetTambahanTopSJ);
+            ppKernet3.Top:=ppKernet3.Top+ StrToFloat(SetTambahanTopSJ);
+            ppKernetHP3.Top:=ppKernetHP3.Top+ StrToFloat(SetTambahanTopSJ);
+            ppNoPolisi3.Top:=ppNoPolisi3.Top+ StrToFloat(SetTambahanTopSJ);
+            ppNoBody3.Top:=ppNoBody3.Top+ StrToFloat(SetTambahanTopSJ);
+            ppCatatan3.Top:=ppCatatan3.Top+ StrToFloat(SetTambahanTopSJ);
+            ppTanggal3.Top:=ppTanggal3.Top+ StrToFloat(SetTambahanTopSJ);
+            ppTandaPetugas3.Top:=ppTandaPetugas3.Top+ StrToFloat(SetTambahanTopSJ);
+//            if SetPrinterSJ='EPSON LX-310' then
+//            begin
+//              ppcustomer3.Top:= ppcustomer3.Top+0.08;
+//              ppGroupName3.Top:= ppGroupName3.Top+0.08;
+//              ppTanggalReservasi3.Top:= ppTanggalReservasi3.Top+0.08;
+//              ppAlamat3.Top:= ppAlamat3.Top+0.08;
+//              ppSeat3.Top:= ppSeat3.Top-0.08;
+//              ppGuide3.Top:= ppGuide3.Top-0.08;
+//              ppGuidePhone3.Top:= ppGuidePhone3.Top-0.08;
+//              ppAcara3.Top:= ppAcara3.Top+0.08;
+//              ppTanggal3.Top:= ppTanggal3.Top+0.08;
+//              ppTandaPetugas3.Top:= ppTandaPetugas3.Top+0.25;
+//              ppCatatan3.Top:= ppCatatan3.Top+0.3;
+//              ppCatatan3.Left:= ppCatatan3.Left+0.14;
+//            end;
+
+            ppReport3.Print;
           end;
         end;
         Qry.Close;

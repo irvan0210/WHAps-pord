@@ -222,6 +222,11 @@ type
     LabelPph: TLabel;
     PphPercen: TMemo;
     PphDeduction: TMemo;
+    PPNPercen: TMemo;
+    PpnAddition: TMemo;
+    Label25: TLabel;
+    Label26: TLabel;
+    TotInvoice_PPH: TMemo;
     procedure SimpanClick(Sender: TObject);
     procedure SelesaiClick(Sender: TObject);
     procedure StrGridSelectCell(Sender: TObject; ACol, ARow: Integer;
@@ -388,6 +393,7 @@ begin
   SubTotal.Text:='';
   Discount.Text:='';
   Total.Text:='';
+  TotInvoice_PPH.Text:='';
   LabelPph.Caption:='';
   PphPercen.Text:='';
   PphDeduction.Text:='';
@@ -953,7 +959,7 @@ begin
       if (Qry.FieldValues['contract_discount_price']<>NULL) OR (Qry.FieldValues['contract_discount_percent']<>NULL) then PanelDiscount.Enabled:=False;
       if Qry.FieldValues['remark']<>NULL then Remark.Text:=Qry.FieldValues['remark'];
       if Qry.FieldValues['inv_later']<>NULL then if Qry.FieldValues['inv_later']=1 then Authorization.Checked:=True;
-      Total.Text:=IToCurr(Qry.FieldValues['total']);
+      Total.Text:=IToCurr(Qry.FieldValues['total']+Qry.FieldValues['PpnAddition']);
       Discount.Text:=IToCurr(Qry.FieldValues['discount_amount']);
       if Qry.FieldValues['discount_amount']>0 then Discount.Text:=IToCurr(Qry.FieldValues['discount_amount']);
 //      IntDiscount:=Qry.FieldValues['discount_price']+Round((IntTotal*Qry.FieldValues['discount_percent'])/100);
@@ -964,22 +970,29 @@ begin
       if Qry.FieldValues['is_booking']='1' then isBooked.Checked:=True else isBooked.Checked:=False;
       if Qry.FieldValues['is_service']='1' then IsService.Checked:=True else IsService.Checked:=False;
 
-      if Qry.FieldValues['IsUsingTax']=True then
+      if Qry.FieldValues['PphDeduction']>0 then
       begin
         LabelPph.Visible:=True;
         PphPercen.Visible:=True;
         PphDeduction.Visible:=True;
-        LabelPph.Caption:=Qry.FieldValues['Pph'];
+        LabelPph.Caption:='PPH';
         PphPercen.Text:=IToCurr(Qry.FieldValues['PphPercentage'])+'%';
         PphDeduction.Text:=IToCurr(Qry.FieldValues['PphDeduction']);
+        TotInvoice_PPH.Text:= IToCurr(Qry.FieldValues['total']-Qry.FieldValues['PphDeduction']+Qry.FieldValues['PpnAddition']);
       end else begin
         LabelPph.Caption:='';
         PphPercen.Text:='';
         PphDeduction.Text:='';
+        TotInvoice_PPH.Text:='';
         LabelPph.Visible:=False;
         PphPercen.Visible:=False;
         PphDeduction.Visible:=False;
       end;
+
+      if Qry.FieldValues['PpnAddition']<> null then
+      PpnAddition.Text:=IToCurr(Qry.FieldValues['PpnAddition']);
+      if Qry.FieldValues['PpnPercentage']<> null then
+      PPNPercen.Text:=IntToStr(Qry.FieldValues['PpnPercentage'])+'%';
 
 
       cb_pilihan_service.ItemIndex:=cb_pilihan_service.Items.IndexOf(Qry.FieldValues['JenisOrder']);

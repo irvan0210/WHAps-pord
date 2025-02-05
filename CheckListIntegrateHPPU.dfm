@@ -1,6 +1,6 @@
 object CheckListIntegrateHpp: TCheckListIntegrateHpp
-  Left = 268
-  Top = 148
+  Left = 282
+  Top = 497
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
   Caption = 'Checklist SJ Posting Integrate'

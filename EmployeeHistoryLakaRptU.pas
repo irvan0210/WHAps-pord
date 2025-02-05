@@ -38,6 +38,8 @@ type
     Label7: TLabel;
     Seat: TComboBox;
     SBUtemp: TComboBox;
+    Label8: TLabel;
+    JenisKecelakaan: TComboBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SelesaiClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -56,8 +58,8 @@ type
     procedure BatchChange(Sender: TObject);
   private
     { Private declarations }
-    LokasiArr,BatchArr,SeatArr:Array of TArrString2;
-    EmplHistLaKaArr:Array of TArrString31;
+    LokasiArr,BatchArr,SeatArr,JenisKecelakaanArr:Array of TArrString2;
+    EmplHistLaKaArr:Array of TArrString35;
     CompanyArr,CompanyArrTemp,CompanyLocationArr:Array of TArrString8;
     Days,IntColumnWidth,IntRow,IntCol,MinRowGrid,MinColGrid:Integer;
     Initiation:Boolean;
@@ -291,6 +293,32 @@ begin
       Qry.Next;
     end;
     Qry.Close;
+
+    JenisKecelakaan.Clear;
+
+    Qry.Close;
+    StrQry:='SELECT * FROM wh_accident_type WHERE status=1';
+    Main.WriteLog('SQL :'+StrQry);
+    Qry.SQL.Clear;
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    IntCount:=0;
+    if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+      SetLength(JenisKecelakaanArr,IntCount+1);
+      JenisKecelakaanArr[IntCount][0]:=Qry.FieldValues['accident_type_id'];
+      JenisKecelakaanArr[IntCount][1]:=Qry.FieldValues['accident_type'];
+      Qry.Next;
+      Inc(IntCount)
+    end;
+    Qry.Close;
+
+    JenisKecelakaan.Text:='';
+    JenisKecelakaan.Items.Clear;
+    JenisKecelakaan.ItemIndex:=-1;
+    JenisKecelakaan.Items.Add('Semua');
+    for IntCount:=0 to Length(JenisKecelakaanArr)-1 do
+      JenisKecelakaan.Items.Add(JenisKecelakaanArr[IntCount][1]);
+    JenisKecelakaan.ItemIndex:=0;
   end;
   FreeAndNil(Qry);
   Main.CloseDb;
@@ -302,7 +330,7 @@ begin
 end;
 
 procedure TEmployeeHistoryLakaRpt.RefreshData;
-var StrQry,StrAllFoward,StrLocation,StrCompanyId,StrCustomerId,StrDate,StrDatesTo,StrOrder,
+var StrQry,StrAllFoward,StrLocation,StrCompanyId,StrCustomerId,StrDate,StrDatesTo,StrOrder,StrJenisKecelakaan,
 StrJenisFilterTgl,StrClose,StrDriverID,StrBatchId,StrSeat:String;
     Qry:TADOQuery;
     IntCount:Integer;
@@ -348,9 +376,13 @@ begin
       StrSeat:=',@Seat='+Seat.Text;
     end else StrSeat:='';
 
+    if (JenisKecelakaan.Text<>'Semua') then
+    begin
+      StrJenisKecelakaan:=',@JenisKecelakaan='+JenisKecelakaanArr[JenisKecelakaan.ItemIndex-1][0];
+    end else StrJenisKecelakaan:='';
 
     {StrQry:='EXEC GetVhcOutComplainList '+LocationId+',1,'+CompanyId+StrAllFoward+',@List=1; ';}
-    StrQry:='EXEC GetEmployeeHistoryLakaList '+StrLocation+StrDate+StrDatesTo+StrJenisFilterTgl+StrDriverID+StrBatchId+StrSeat;
+    StrQry:='EXEC GetEmployeeHistoryLakaList '+StrLocation+StrDate+StrDatesTo+StrJenisFilterTgl+StrDriverID+StrBatchId+StrSeat+StrJenisKecelakaan;
 
     Qry.SQL.Clear;
     Main.WriteLog('SQL :'+StrQry,2);
@@ -400,6 +432,9 @@ begin
        
        if Qry.FieldValues['batch_name'] <> NULL then EmplHistLaKaArr[IntCount][30]:=Qry.FieldValues['batch_name'];
        if Qry.FieldValues['seat'] <> NULL then EmplHistLaKaArr[IntCount][31]:=Qry.FieldValues['seat'];
+       if Qry.FieldValues['create_date'] <> NULL then EmplHistLaKaArr[IntCount][32]:=Qry.FieldValues['create_date'];
+       if Qry.FieldValues['accident_type_id'] <> NULL then EmplHistLaKaArr[IntCount][33]:=Qry.FieldValues['accident_type_id'];
+       if Qry.FieldValues['accident_type'] <> NULL then EmplHistLaKaArr[IntCount][34]:=Qry.FieldValues['accident_type'];
        Inc(IntCount);
       Qry.Next;
     end;
@@ -413,53 +448,64 @@ end;
 
 procedure TEmployeeHistoryLakaRpt.RefreshGrid;
 var IntCount,Count2,Count:Integer;
+IntTotalSum : Int64;
 begin
-  for Count:=0 to 23 do begin
-    for Count2:=1 to GridHistLaka.RowCount do begin    // reset baris ke 3
+  for Count:=0 to 24 do begin
+    for Count2:=1 to GridHistLaka.RowCount do begin  
       GridHistLaka.Cells[Count,Count2]:='';
       GridHistLaka.CellStyle[Count,Count2].BGColor:=clWindow;
     end;
   end;
   GridHistLaka.RowCount:=Length(EmplHistLaKaArr)+1;
-
+  IntTotalSum:=0;
   for IntCount:=0 to Length(EmplHistLaKaArr)-1 do begin
     GridHistLaka.Cells[0,IntCount+1]:=EmplHistLaKaArr[IntCount][0];
     GridHistLaka.Cells[1,IntCount+1]:=EmplHistLaKaArr[IntCount][1];
     GridHistLaka.Cells[2,IntCount+1]:=EmplHistLaKaArr[IntCount][2];
     GridHistLaka.Cells[3,IntCount+1]:=EmplHistLaKaArr[IntCount][3];
     GridHistLaka.Cells[4,IntCount+1]:=EmplHistLaKaArr[IntCount][4];
-    GridHistLaka.Cells[5,IntCount+1]:=EmplHistLaKaArr[IntCount][5];
-    GridHistLaka.Cells[6,IntCount+1]:=EmplHistLaKaArr[IntCount][6];
-    GridHistLaka.Cells[7,IntCount+1]:=EmplHistLaKaArr[IntCount][7]+' Tahun';
-    GridHistLaka.Cells[8,IntCount+1]:=EmplHistLaKaArr[IntCount][8]+' Tahun '+EmplHistLaKaArr[IntCount][24]+' Bulan';
-    GridHistLaka.Cells[9,IntCount+1]:=EmplHistLaKaArr[IntCount][9];
-    GridHistLaka.Cells[10,IntCount+1]:=EmplHistLaKaArr[IntCount][10];
-    GridHistLaka.Cells[11,IntCount+1]:=EmplHistLaKaArr[IntCount][11];
-    GridHistLaka.Cells[12,IntCount+1]:=EmplHistLaKaArr[IntCount][12];
+    GridHistLaka.Cells[5,IntCount+1]:=EmplHistLaKaArr[IntCount][34];
+    GridHistLaka.Cells[6,IntCount+1]:=EmplHistLaKaArr[IntCount][5];
+    GridHistLaka.Cells[7,IntCount+1]:=EmplHistLaKaArr[IntCount][6];
+    GridHistLaka.Cells[8,IntCount+1]:=EmplHistLaKaArr[IntCount][7]+' Tahun';
+    GridHistLaka.Cells[9,IntCount+1]:=EmplHistLaKaArr[IntCount][8]+' Tahun '+EmplHistLaKaArr[IntCount][24]+' Bulan';
+    GridHistLaka.Cells[10,IntCount+1]:=EmplHistLaKaArr[IntCount][9];
+    GridHistLaka.Cells[11,IntCount+1]:=EmplHistLaKaArr[IntCount][10];
+    GridHistLaka.Cells[12,IntCount+1]:=EmplHistLaKaArr[IntCount][11];
+    GridHistLaka.Cells[13,IntCount+1]:=EmplHistLaKaArr[IntCount][12];
 
-    GridHistLaka.Cells[13,IntCount+1]:=EmplHistLaKaArr[IntCount][13];
-    GridHistLaka.Cells[14,IntCount+1]:=EmplHistLaKaArr[IntCount][14];
-    GridHistLaka.Cells[15,IntCount+1]:=EmplHistLaKaArr[IntCount][15];
-    GridHistLaka.Cells[16,IntCount+1]:=EmplHistLaKaArr[IntCount][16];
-    GridHistLaka.Cells[17,IntCount+1]:=EmplHistLaKaArr[IntCount][17];
+    GridHistLaka.Cells[14,IntCount+1]:=EmplHistLaKaArr[IntCount][13];
+    GridHistLaka.Cells[15,IntCount+1]:=EmplHistLaKaArr[IntCount][14];
+    GridHistLaka.Cells[16,IntCount+1]:=EmplHistLaKaArr[IntCount][15];
+    GridHistLaka.Cells[17,IntCount+1]:=EmplHistLaKaArr[IntCount][16];
+    GridHistLaka.Cells[18,IntCount+1]:=EmplHistLaKaArr[IntCount][17];
 
-    GridHistLaka.Cells[18,IntCount+1]:=EmplHistLaKaArr[IntCount][18];
-    GridHistLaka.Cells[19,IntCount+1]:=EmplHistLaKaArr[IntCount][19];
-    GridHistLaka.Cells[20,IntCount+1]:=EmplHistLaKaArr[IntCount][20];
-    GridHistLaka.Cells[21,IntCount+1]:=EmplHistLaKaArr[IntCount][21];
-    GridHistLaka.Cells[22,IntCount+1]:=EmplHistLaKaArr[IntCount][22];
-    GridHistLaka.Cells[23,IntCount+1]:=EmplHistLaKaArr[IntCount][23];
+    GridHistLaka.Cells[19,IntCount+1]:=EmplHistLaKaArr[IntCount][18];
+    GridHistLaka.Cells[20,IntCount+1]:=EmplHistLaKaArr[IntCount][19];
+    GridHistLaka.Cells[21,IntCount+1]:=EmplHistLaKaArr[IntCount][20];
+    GridHistLaka.Cells[22,IntCount+1]:=EmplHistLaKaArr[IntCount][21];
+    GridHistLaka.Cells[23,IntCount+1]:=EmplHistLaKaArr[IntCount][22];
+    GridHistLaka.Cells[24,IntCount+1]:=EmplHistLaKaArr[IntCount][23];
+
+    IntTotalSum:=IntTotalSum+StrToInt64(ToString(EmplHistLaKaArr[IntCount][11]));
 
     GridHistLaka.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
     GridHistLaka.CellStyle[4,IntCount+1].HorizontalAlignment:=taCenter;
+    GridHistLaka.CellStyle[12,IntCount+1].HorizontalAlignment:=taRightJustify;
+    GridHistLaka.CellStyle[14,IntCount+1].HorizontalAlignment:=taRightJustify;
 
 
-    if (GridHistLaka.Cells[21,IntCount+1])='v' then begin
+    if (GridHistLaka.Cells[22,IntCount+1])='v' then begin
       for Count2:=0 to GridHistLaka.ColCount do GridHistLaka.CellStyle[Count2,IntCount+1].Font.Color:=clGreen;
     end else begin
       for Count2:=0 to GridHistLaka.ColCount do GridHistLaka.CellStyle[Count2,IntCount+1].Font.Color:=clWindowText;
     end;
   end;
+  GridHistLaka.RowCount:=GridHistLaka.RowCount+1;
+  GridHistLaka.Cells[11,GridHistLaka.RowCount-1]:='TOTAL';
+  GridHistLaka.Cells[12,GridHistLaka.RowCount-1]:=IToCurr(IntTotalSum);
+  GridHistLaka.CellStyle[11,GridHistLaka.RowCount-1].HorizontalAlignment:=taRightJustify;
+  GridHistLaka.CellStyle[12,GridHistLaka.RowCount-1].HorizontalAlignment:=taRightJustify;
 end;
 
 procedure TEmployeeHistoryLakaRpt.FormClose(Sender: TObject;
@@ -480,17 +526,14 @@ begin
   RefreshCombo;
   RefreshSeat;
   Initiation:=False;
-  if FormRequest='DRIVERFORM' then
-  begin
-    LihatDataClick(Self);
-  end;
+  LihatDataClick(Self);
 end;
 
 procedure TEmployeeHistoryLakaRpt.InitGrid;
 var IntCount:Integer;
 begin
   MinRowGrid:=0;
-  GridHistLaka.ColCount:=20;
+  GridHistLaka.ColCount:=21;
   GridHistLaka.RowCount:=1;
   GridHistLaka.WordWrap:=True;
   GridHistLaka.ColWidths[0]:=30;
@@ -500,19 +543,20 @@ begin
   GridHistLaka.ColWidths[4]:=50;
   GridHistLaka.ColWidths[5]:=150;
   GridHistLaka.ColWidths[6]:=150;
-  GridHistLaka.ColWidths[7]:=70;
-  GridHistLaka.ColWidths[8]:=90;
-  GridHistLaka.ColWidths[9]:=180;
-  GridHistLaka.ColWidths[10]:=150;
-  GridHistLaka.ColWidths[11]:=100;
+  GridHistLaka.ColWidths[7]:=150;
+  GridHistLaka.ColWidths[8]:=70;
+  GridHistLaka.ColWidths[9]:=90;
+  GridHistLaka.ColWidths[10]:=180;
+  GridHistLaka.ColWidths[11]:=150;
   GridHistLaka.ColWidths[12]:=100;
-  GridHistLaka.ColWidths[13]:=70;
-  GridHistLaka.ColWidths[14]:=450;
+  GridHistLaka.ColWidths[13]:=100;
+  GridHistLaka.ColWidths[14]:=70;
   GridHistLaka.ColWidths[15]:=450;
   GridHistLaka.ColWidths[16]:=450;
   GridHistLaka.ColWidths[17]:=450;
   GridHistLaka.ColWidths[18]:=450;
   GridHistLaka.ColWidths[19]:=450;
+  GridHistLaka.ColWidths[20]:=450;
 
   GridHistLaka.SizingHeight:=True;
 
@@ -521,25 +565,27 @@ begin
   GridHistLaka.Cells[2,0]:='Pelapor/Driver';
   GridHistLaka.Cells[3,0]:='Lokasi';
   GridHistLaka.Cells[4,0]:='Jam';
-  GridHistLaka.Cells[5,0]:='Kerusakan/Cedera';
-  GridHistLaka.Cells[6,0]:='Nama Korban';
-  GridHistLaka.Cells[7,0]:='Umur Korban';
-  GridHistLaka.Cells[8,0]:='Lama Bekerja';
-  GridHistLaka.Cells[9,0]:='Alat Yang Terlibat';
-  GridHistLaka.Cells[10,0]:='Proses/Aktifitas';
-  GridHistLaka.Cells[11,0]:='Materi Sejumlah';
-  GridHistLaka.Cells[12,0]:='Keterangan Materi';
-  GridHistLaka.Cells[13,0]:='Tidak Masuk Kerja';
-  GridHistLaka.Cells[14,0]:='Kronologi';
-  GridHistLaka.Cells[15,0]:='Penyebab (Sebab Langsung)';
-  GridHistLaka.Cells[16,0]:='Penyebab (Sebab Dasar)';
-  GridHistLaka.Cells[17,0]:='Saran Head of Crew';
-  GridHistLaka.Cells[18,0]:='Saran QHSE/MR';
-  GridHistLaka.Cells[19,0]:='Saran Direktur Operasional';
-  GridHistLaka.Cells[20,0]:='Unsafe Action';
-  GridHistLaka.Cells[21,0]:='Unsafe Condition';
-  GridHistLaka.Cells[22,0]:='Personal Factor';
-  GridHistLaka.Cells[23,0]:='Job Factor';
+  GridHistLaka.Cells[5,0]:='Jenis Kecelakaan';
+
+  GridHistLaka.Cells[6,0]:='Kerusakan/Cedera';
+  GridHistLaka.Cells[7,0]:='Nama Korban';
+  GridHistLaka.Cells[8,0]:='Umur Korban';
+  GridHistLaka.Cells[9,0]:='Lama Bekerja';
+  GridHistLaka.Cells[10,0]:='Alat Yang Terlibat';
+  GridHistLaka.Cells[11,0]:='Proses/Aktifitas';
+  GridHistLaka.Cells[12,0]:='Materi Sejumlah';
+  GridHistLaka.Cells[13,0]:='Keterangan Materi';
+  GridHistLaka.Cells[14,0]:='Tidak Masuk Kerja';
+  GridHistLaka.Cells[15,0]:='Kronologi';
+  GridHistLaka.Cells[16,0]:='Penyebab (Sebab Langsung)';
+  GridHistLaka.Cells[17,0]:='Penyebab (Sebab Dasar)';
+  GridHistLaka.Cells[18,0]:='Saran Head of Crew';
+  GridHistLaka.Cells[19,0]:='Saran QHSE/MR';
+  GridHistLaka.Cells[20,0]:='Saran Direktur Operasional';
+  GridHistLaka.Cells[21,0]:='Unsafe Action';
+  GridHistLaka.Cells[22,0]:='Unsafe Condition';
+  GridHistLaka.Cells[23,0]:='Personal Factor';
+  GridHistLaka.Cells[24,0]:='Job Factor';
 
   for IntCount:=0 to GridHistLaka.ColCount-1 do
   begin
@@ -651,7 +697,8 @@ begin
   with EmployeeHistoryLakaForm do
   begin
     EmplID:=EmplHistLaKaArr[IntRow-1][25];
-    Tgl.Text:=EmplHistLaKaArr[IntRow-1][1];
+    TglKejadian.Date:=StrToDate(EmplHistLaKaArr[IntRow-1][1]);
+    Tgl.Text:=EmplHistLaKaArr[IntRow-1][32];
     Pelapor.Text:=EmplHistLaKaArr[IntRow-1][2];
     Lokasi.Text:=EmplHistLaKaArr[IntRow-1][3];
     Jam.Text:=EmplHistLaKaArr[IntRow-1][4];
@@ -672,6 +719,7 @@ begin
     LamaBekerjaTahun.Text:=EmplHistLaKaArr[IntRow-1][8];
     LamaBekerjaBulan.Text:=EmplHistLaKaArr[IntRow-1][24];
     VehicleIDHistLaka:= EmplHistLaKaArr[IntRow-1][28];
+    JenisKecelakaan.ItemIndex:=JenisKecelakaan.Items.IndexOf(VarToStr(EmplHistLaKaArr[IntRow-1][34]));
     if VehicleIDHistLaka<>'' then
     Armada.Text:= EmplHistLaKaArr[IntRow-1][29]+' ('+EmplHistLaKaArr[IntRow-1][30]+' '+EmplHistLaKaArr[IntRow-1][31]+' Seat)';
     if (EmplHistLaKaArr[IntRow-1][20]='1') then chkUnsafeAction.Checked:=True else chkUnsafeAction.Checked:=False;

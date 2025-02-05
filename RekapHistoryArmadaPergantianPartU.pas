@@ -26,6 +26,7 @@ type
     Part: TEdit;
     Button2: TButton;
     Label5: TLabel;
+    Button3: TButton;
     procedure SelesaiClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -34,21 +35,22 @@ type
     procedure PartChange(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure ToXCelClick(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
   private
     { Private declarations }
     FormRequest:String;
     MinRowGrid:Integer;
-    RekapArr:Array of TArrString9;
+    RekapArr:Array of TArrString11;
     BatchArr,SeatArr:Array of TArrString2;
     CompanyArr:Array of TArrString7;
-    KMOdoSekarang: String;
+    KMOdoSekarang,ApiTransTrack,StatusApiTransTrack: String;
     procedure Init;
     procedure InitGrid;
     procedure RefreshCombo;
     procedure RefreshSeat;
     procedure RefreshData;
     procedure RefreshGrid;
-    procedure SetOdo(License_plate:String);
+    procedure SetOdo;
   public
     { Public declarations }
     constructor Create(AOwner:TComponent;Form_Request:String='');Overload;
@@ -61,7 +63,8 @@ var
 
 implementation
 
-uses MainU, ListPartsU, BrowsePartU, IdHTTP, IdException, IdStack, uLkJSON;
+uses MainU, ListPartsU, BrowsePartU, IdHTTP, IdException, IdStack, uLkJSON,
+  StrUtils;
 
 {$R *.dfm}
 constructor TRekapHistoryArmadaPergantianPart.Create(AOwner:TComponent;Form_Request:String='');
@@ -71,34 +74,46 @@ begin
   Inherited Create(AOwner);
 end;
 
-procedure TRekapHistoryArmadaPergantianPart.SetOdo(License_plate:String);
+procedure TRekapHistoryArmadaPergantianPart.SetOdo;
 var
   js : TlkJSONbase;
-	IdHTTP: TIdHTTP;
- resp: TMemoryStream;
- url: String;
+  IdHTTP: TIdHTTP;
+  resp: TMemoryStream;
+  url,respon,StrQry: String;
+  Qry,Qry2:TADOQuery;
 begin
- IdHTTP := TIdHTTP.Create(Self);
- resp := TMemoryStream.Create;
- url:='http://api.whitehorse.co.id/api_transtrack/vehicle.php?plate='+License_plate;
-// url:='http://api.whitehorse.co.id/api_transtrack/vehicle.php?plate=B7265PGA';
- IdHTTP.Get(url, resp);
- resp.Position := 0;
- Memo1.Lines.LoadFromStream(resp);
+  Main.M_Busy;
+  IdHTTP := TIdHTTP.Create(Self);
+  resp := TMemoryStream.Create;
+
+  url:='http://'+ApiTransTrack+'/api_transtrack/vehicle_get_all.php';
+//  url:='https://order-tracking.transtrack.id/api/v1/vehicles?api_key=key-XOkLrV88kwBPw0hr9ESqtv6nCGp3m4lk%20XAps5GFcpEk374Cwm1H4RwZkgMAelznP&search=AB7494JN';
+  IdHTTP.Get(url, resp);
+  resp.Position := 0;
+  Memo1.Lines.LoadFromStream(resp);
   js := TlkJSON.ParseText(Memo1.Text);
   if Assigned(js) then
   begin
-    js := js.Field['kmodo'];
-//    if Assigned(js) then
-//    begin
-//      js := js.Field['devices'];
-//      if Assigned(js) then
-//      begin
-//        js := js.Field['view'];
-//        if Assigned(js) then
-           KMOdoSekarang:=(VarToStr(js.Value));
-//      end;
-//    end;
+    if (VarToStr(js.Value))='Success' then
+    begin
+      Qry:=TADOQuery.Create(Self);
+      Qry.Connection:=Main.MyConnection;
+      if Main.OpenDb then begin
+        StrQry:='INSERT INTO wh_log_get_odo (username)'+
+                  ' VALUES ('+QuotedStr(User)+');';
+        Qry.SQL.Clear;
+        Qry.SQL.Add(StrQry);
+        Qry.ExecSQL;
+      end;
+      Qry.Close;
+      Main.CloseDb;
+
+      MessageBox(0,'Berhasil mengambil Odo','Rekap Armada Pergantian Part',MB_OK);
+      Main.M_Normal;
+    end else begin
+      MessageBox(0,'Gagal mengambil Odo','Rekap Armada Pergantian Part',MB_OK or MB_ICONERROR );
+      Main.M_Normal;
+    end;
   end;
 end;
 
@@ -129,13 +144,23 @@ begin
     StrGrid.Cells[7,IntCount+3]:=RekapArr[IntCount][7];
     StrGrid.Cells[8,IntCount+3]:=RekapArr[IntCount][8];
     StrGrid.Cells[9,IntCount+3]:=RekapArr[IntCount][9];
+    StrGrid.Cells[10,IntCount+3]:=RekapArr[IntCount][10];
     
     StrGrid.CellStyle[0,IntCount+3].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[3,IntCount+3].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[8,IntCount+3].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[4,IntCount+3].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[5,IntCount+3].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[6,IntCount+3].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[7,IntCount+3].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[9,IntCount+3].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[10,IntCount+3].HorizontalAlignment:=taRightJustify;
+
+    if LeftStr(RekapArr[IntCount][10],1)<>'-' then
+    begin
+      StrGrid.CellStyle[10,IntCount+3].Font.Color:=clRed;
+    end;
+
   end;
   ProgressBar.Position:=100;
   ProgressBar.Visible:=False;
@@ -158,7 +183,7 @@ begin
     Qry.CommandTimeout := 3600;
     Main.M_Busy;
 
-    if (Batch.Text<>'All') then
+    if (Batch.Text<>'') then
     StrBatch:=' AND a.vhc_batch_id='+BatchArr[Batch.ItemIndex][0]+' '
     else StrBatch:='';
 
@@ -174,7 +199,7 @@ begin
               'zz.km_terakhir_ganti+zz.standard_km_replacement ELSE NULL END) km_estimasi, '+
               '(CASE WHEN zz.km_terakhir_ganti IS NOT NULL AND zz.standard_km_replacement '+
               'IS NOT NULL THEN ((zz.standard_km_replacement/zz.km_hari)+zz.tgl_terakhir_ganti) ELSE NULL end) tgl_estimasi_ganti '+
-              'FROM (SELECT a.vehicle_id,a.license_plate,a.vhc_batch_id,g.seat,a.odo_update_gps,coalesce(f.name,'''') as driver,(SELECT TOP 1 bb.odo_in '+
+              'FROM (SELECT a.vehicle_id,a.license_plate,a.vhc_batch_id,concat(h.name,'' '',g.seat) armada,a.odo_update_gps,coalesce(f.name,'''') as driver,(SELECT TOP 1 bb.odo_in '+
               'FROM wh_work_order_part aa '+
               'LEFT JOIN wh_work_order bb ON aa.work_order_id=bb.work_order_id '+
               'WHERE bb.status=2 AND aa.status=1 AND aa.IsUsed=1 '+
@@ -197,6 +222,7 @@ begin
               'AND (e.from_date<=CONVERT(VARCHAR(10), GETDATE(),111)) AND (to_date>=CONVERT(VARCHAR(10), GETDATE(),111))) '+
               'LEFT JOIN wh_employee f ON f.employee_id=e.employee_id '+
               'LEFT JOIN wh_vhc_type_detail g ON a.vhc_type_detail_id=g.vhc_type_detail_id '+
+              'LEFT JOIN wh_vhc_batch h on a.vhc_batch_id=h.vhc_batch_id '+
               'WHERE  (a.active=1) AND (a.company_id=2) '+StrBatch+StrSeat+'  AND (a.isOutsideRent is NULL OR a.isOutsideRent=0) AND '+
               '(b.location_id=6) ) zz ORDER BY zz.license_plate ASC;';
       Main.WriteLog('SQL :'+StrQry,2);
@@ -215,7 +241,6 @@ begin
             RekapArr[IntCount][1]:=Copy(Qry.FieldValues['license_plate'],1,2)+' '+Copy(Qry.FieldValues['license_plate'],3,4)+
                                 ' '+Copy(Qry.FieldValues['license_plate'],7,Length(Qry.FieldValues['license_plate'])+1);
 
-
         RekapArr[IntCount][2]:=Qry.FieldValues['driver'];
         if Qry.FieldValues['tgl_terakhir_ganti']<> NULL then
         RekapArr[IntCount][3]:=Qry.FieldValues['tgl_terakhir_ganti'] else RekapArr[IntCount][3]:='';
@@ -227,9 +252,16 @@ begin
         if Qry.FieldValues['km_estimasi']<> NULL then
         RekapArr[IntCount][7]:=SToCurr(Qry.FieldValues['km_estimasi']) else RekapArr[IntCount][7]:='';
 //        SetOdo(Qry.FieldValues['license_plate']);
-        if (Qry.FieldValues['standard_km_replacement']<>NULL) and (Qry.FieldValues['km_hari']<>NULL) and (Qry.FieldValues['tgl_terakhir_ganti']<>NULL) then
         if (Qry.FieldValues['tgl_estimasi_ganti']<>NULL) then RekapArr[IntCount][8]:=Qry.FieldValues['tgl_estimasi_ganti'] else RekapArr[IntCount][8]:='';
         if (Qry.FieldValues['odo_update_gps']<>NULL) then RekapArr[IntCount][9]:=SToCurr(Qry.FieldValues['odo_update_gps']) else RekapArr[IntCount][9]:='';
+
+        if (Qry.FieldValues['odo_update_gps']<>NULL) AND (Qry.FieldValues['km_estimasi']<>NULL) then
+        begin
+          RekapArr[IntCount][10]:= SToCurr(Qry.FieldValues['odo_update_gps']-Qry.FieldValues['km_estimasi']);
+        end else begin
+          RekapArr[IntCount][10]:='';
+        end;
+          RekapArr[IntCount][11]:=Qry.FieldValues['armada'];
         Inc(IntCount);
         Qry.Next;
       end;
@@ -255,9 +287,9 @@ begin
   Seat.Items.Clear;
   Seat.ItemIndex:=1;
   SetLength(SeatArr,1);
-  SeatArr[0][0]:='All';
+  SeatArr[0][0]:='';
   StrCompanyId:=CompanyArr[SBU.ItemIndex][1];
-  if (Main.OpenDb) and (Batch.Text<>'All') then begin
+  if (Main.OpenDb) and (Batch.Text<>'') then begin
     QStr:='EXEC GetVehicleTypeDetail '+StrCompanyId+','+BatchArr[Batch.ItemIndex][0]+',@FieldSelect='+QuotedStr('seat')+';';
     Qry.SQL.Clear;
     Qry.SQL.Add(QStr);
@@ -274,22 +306,58 @@ begin
   FreeAndNil(Qry);
   Main.CloseDb;
   for IntCount:=0 to Length(SeatArr)-1 do Seat.Items.Add(SeatArr[IntCount][0]);
-  Seat.ItemIndex:=Seat.Items.IndexOf('All');
+  Seat.ItemIndex:=Seat.Items.IndexOf('');
   Main.M_Normal;
 end;
 
 procedure TRekapHistoryArmadaPergantianPart.Init;
+var StrQry:String;
+    Qry:TADOQuery;
 begin
   Part.Text:='';
   kode_part_rekap_armada_id:='';
+  Qry:=TADOQuery.Create(Self);
+  Qry.Connection:=Main.MyConnection;
+
+  if Main.OpenDb then begin
+    StrQry:='select * FROM wh_api_trans_track;';
+    Qry.SQL.Clear;
+    Main.WriteLog('SQL :'+StrQry,2);
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    if (Qry.RecordCount>0) then begin
+      ApiTransTrack:=Qry.FieldValues['api_trans_track'];
+      StatusApiTransTrack:=Qry.FieldValues['status'];
+    end;
+    Qry.Close
+  end;
+  Main.CloseDb;
+
 end;
 
 procedure TRekapHistoryArmadaPergantianPart.InitGrid;
 var IntCount:Integer;
+    Qry:TADOQuery;
+    StrQry,UpdateTimeGetOdo:string;
 begin
-  MinRowGrid:=3;
+  Qry:=TADOQuery.Create(Self);
+  Qry.Connection:=Main.MyConnection;
+  if Main.OpenDb then begin
+    StrQry:='select TOP 1 FORMAT(update_time, ''dd-MM-yy hh:mm'') update_time2 FROM wh_log_get_odo Order By update_time DESC;';
+    Qry.Close;
+    Qry.SQL.Clear;
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    if (Qry.RecordCount>0) then begin
+      UpdateTimeGetOdo:= Qry.FieldValues['update_time2'];
+    end;
+    Qry.Close
+  end;
+  Main.CloseDb;
+
+  MinRowGrid:=2;
   StrGrid.RowCount:=4;
-  StrGrid.ColCount:=10;
+  StrGrid.ColCount:=11;
   StrGrid.ColWidths[0]:=28;
   StrGrid.ColWidths[1]:=80;
   StrGrid.ColWidths[2]:=150;
@@ -297,9 +365,10 @@ begin
   StrGrid.ColWidths[4]:=100;
   StrGrid.ColWidths[5]:=100;
   StrGrid.ColWidths[6]:=100;
-  StrGrid.ColWidths[7]:=122;
-  StrGrid.ColWidths[8]:=134;
+  StrGrid.ColWidths[7]:=100;
+  StrGrid.ColWidths[8]:=100;
   StrGrid.ColWidths[9]:=100;
+  StrGrid.ColWidths[10]:=100;
 
   StrGrid.Cells[0,0]:='No';
   StrGrid.Cells[1,0]:='No Polisi';
@@ -308,36 +377,37 @@ begin
   StrGrid.Cells[3,1]:='Pergantian Terakhir';
   StrGrid.Cells[3,2]:='Tanggal';
   StrGrid.Cells[4,2]:='KM';
-  StrGrid.Cells[5,1]:='KM Standard';
+  StrGrid.Cells[5,1]:='KM';
   StrGrid.Cells[5,2]:='KM/Hari';
   StrGrid.Cells[6,2]:='KM Standard';
-  StrGrid.Cells[8,1]:='Estimasi Pergantian';
-  StrGrid.Cells[7,2]:='KM Estimasi Pergantian';
-  StrGrid.Cells[8,2]:='Tanggal Estimasi Pergantian';
+  StrGrid.Cells[7,1]:='Estimasi Pergantian';
+  StrGrid.Cells[7,2]:='KM Estimasi';
+  StrGrid.Cells[8,2]:='Tanggal Estimasi';
+  StrGrid.Cells[9,1]:='Update Terakhir '+ UpdateTimeGetOdo;
   StrGrid.Cells[9,2]:='KM Sekarang';
+  StrGrid.Cells[10,2]:='KM Pencapaian';
 
   StrGrid.MergeCells.AddRectXY(0,0,0,2);
   StrGrid.MergeCells.AddRectXY(1,0,1,2);
   StrGrid.MergeCells.AddRectXY(2,0,2,2);
 
-  StrGrid.MergeCells.AddRectXY(3,0,8,0);
+  StrGrid.MergeCells.AddRectXY(3,0,10,0);
+  StrGrid.MergeCells.AddRectXY(3,1,4,1);
+  StrGrid.MergeCells.AddRectXY(5,1,6,1);
+  StrGrid.MergeCells.AddRectXY(7,1,8,1);
+  StrGrid.MergeCells.AddRectXY(9,1,10,1);
 
-  StrGrid.MergeCells.AddRectXY(3,0,4,1);
-  StrGrid.MergeCells.AddRectXY(5,0,8,1);
-
-
-//  StrGrid.MergeCells.AddRectXY(5,0,6,1);
 
 
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[2,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[3,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[4,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[5,0].HorizontalAlignment:=taCenter;
 
   StrGrid.CellStyle[3,1].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[4,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[5,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[7,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[9,1].HorizontalAlignment:=taCenter;
 
   StrGrid.CellStyle[3,2].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[4,2].HorizontalAlignment:=taCenter;
@@ -346,8 +416,10 @@ begin
   StrGrid.CellStyle[7,2].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[8,2].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[9,2].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[10,2].HorizontalAlignment:=taCenter;
+
   for IntCount:=0 to StrGrid.ColCount-1 do
-    StrGrid.Cells[IntCount,1]:='';
+    StrGrid.Cells[IntCount,4]:='';
 end;
 
 procedure TRekapHistoryArmadaPergantianPart.SelesaiClick(Sender: TObject);
@@ -410,8 +482,8 @@ begin
     Qry.SQL.Add(StrQry);
     Qry.Open;
     SetLength(BatchArr,Qry.RecordCount+1);
-    BatchArr[0][0]:='All';
-    BatchArr[0][1]:='All';
+    BatchArr[0][0]:='';
+    BatchArr[0][1]:='';
     IntCount:=1;
     if Qry.RecordCount>0 then while Not(Qry.Eof) do begin
       BatchArr[IntCount][0]:=Qry.FieldValues['vhc_batch_id'];
@@ -424,7 +496,7 @@ begin
   FreeAndNil(Qry);
   Main.CloseDb;
   for IntCount:=0 to Length(BatchArr)-1 do Batch.Items.Add(BatchArr[IntCount][1]);
-  Batch.ItemIndex:=Batch.Items.IndexOf('All');
+  Batch.ItemIndex:=Batch.Items.IndexOf('');
 
   Main.M_Normal;
 end;
@@ -457,6 +529,12 @@ procedure TRekapHistoryArmadaPergantianPart.ToXCelClick(Sender: TObject);
 begin
   if ToExcel4(StrGrid) then ShowMessage('Export ke Excel Berhasil')
   else ShowMessage('Export ke Excel Gagal');
+end;
+
+procedure TRekapHistoryArmadaPergantianPart.Button3Click(Sender: TObject);
+begin
+  SetOdo;
+  InitGrid;
 end;
 
 end.

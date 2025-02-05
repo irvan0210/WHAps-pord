@@ -413,20 +413,21 @@ begin
         Main.WriteLog('SQL :'+StrQry,2);
         Qry.SQL.Add(StrQry);
         Qry.Open;
-      end;
-      if Qry.RecordCount=1 then begin
-         ServiceRequestForm.SetDriverComplainId(StrDriveComplainID);
-         Close;
-      end else if Qry.RecordCount>1 then begin
-        with FDriverComplainListDetail do
-        begin
-          DriverComplainID:=StrDriveComplainID;
-          RequestName:=StrRequest;
-          LicensePlate:=StrLicensePlate;
-          StrOdoIn:=StrKmOdo;
-          StrVehicleID2 :=StrVehicle_ID;
+
+        if Qry.RecordCount=1 then begin
+           ServiceRequestForm.SetDriverComplainId(StrDriveComplainID);
+           Close;
+        end else if Qry.RecordCount>1 then begin
+          with FDriverComplainListDetail do
+          begin
+            DriverComplainID:=StrDriveComplainID;
+            RequestName:=StrRequest;
+            LicensePlate:=StrLicensePlate;
+            StrOdoIn:=StrKmOdo;
+            StrVehicleID2 :=StrVehicle_ID;
+          end;
+          if Main.IsFormOpen('FDriverComplainListDetail')=False then FDriverComplainListDetail:=TFDriverComplainListDetail.Create(Self);
         end;
-        if Main.IsFormOpen('FDriverComplainListDetail')=False then FDriverComplainListDetail:=TFDriverComplainListDetail.Create(Self);
       end;
       Qry.Destroy;
       Main.CloseDb;

@@ -517,6 +517,7 @@ begin
   Main.M_Busy;
   isIntegrate := False;
   if SJ_Id<>'' then begin
+    BersihkanClick(Self);
     SJId:=SJ_Id;
     Qry:=TADOQuery.Create(Self);
     Qry.Connection:=Main.MyConnection;

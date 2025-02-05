@@ -759,7 +759,7 @@ begin
       Main.TransStart;
       DisableInput;
       StrQry:='SELECT * FROM wh_vehicle WHERE ( (body_id='+Chr(39)+Trim(NoBodi.Text)+Chr(39)+
-            ') OR (UPPER(license_plate)='+QuotedStr(UpperCase(Trim(NoPolisi.Text)))+') AND company_id='+QuotedStr(StrCompanyId)+');';
+            ') OR (UPPER(license_plate)='+QuotedStr(UpperCase(Trim(NoPolisi.Text)))+');';
       QVhc.SQL.Clear;
       Main.WriteLog('SQL :'+StrQry,2);
       QVhc.SQL.Add(StrQry);
@@ -1173,7 +1173,7 @@ begin
         if Main.OpenDb then begin
           ImgJPG.SaveToStream(StmImage);
           StmImage.Position:=0;
-          StrQry:='SELECT Top 1 * FROM wh_vhc_image ORDER BY update_time DESC;';
+          StrQry:='SELECT Top 1 * FROM wh_empl_laka_image ORDER BY update_time DESC;';
          // StrQry:='SELECT * FROM wh_vhc_image WHERE (vhc_type_detail_image_type_id='+
          //       QuotedStr(VhcTypeDetailImageTypeId)+') AND (vhc_image_type_id=6) ORDER BY vhc_type_detail_image_id DESC;';
           Main.WriteLog('SQL :'+StrQry);

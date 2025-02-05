@@ -25,6 +25,8 @@ type
   TArrString31 = Array [0..31] of String;
   TArrString30 = Array [0..30] of String;
   TArrString32 = Array [0..32] of String;
+  TArrString33 = Array [0..33] of String;
+  TArrString35 = Array [0..35] of String;
   TArrString20 = Array [0..20] of String;
   TArrString21 = Array [0..21] of String;
   TArrString22 = Array [0..22] of String;
@@ -35,6 +37,7 @@ type
   TArrString17 = Array [0..17] of String;
   TArrString16 = Array [0..16] of String;
   TArrString14 = Array [0..14] of String;
+  TArrString11 = Array [0..11] of String;
   TArrString10 = Array [0..10] of String;
   TArrString9 = Array [0..9] of String;
   TArrString8 = Array [0..8] of String;

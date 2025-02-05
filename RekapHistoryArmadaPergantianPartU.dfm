@@ -1,11 +1,11 @@
 object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
-  Left = 334
-  Top = 348
+  Left = 210
+  Top = 301
   BorderIcons = []
   BorderStyle = bsNone
-  Caption = 'Rekap History Armada Pergantian Part'
+  Caption = 'Rekap Armada Pergantian Part'
   ClientHeight = 524
-  ClientWidth = 1078
+  ClientWidth = 1112
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -69,21 +69,21 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
     ParentFont = False
   end
   object Label2: TLabel
-    Left = 248
+    Left = 239
     Top = 11
     Width = 64
     Height = 13
     Caption = 'Jenis Armada'
   end
   object Label4: TLabel
-    Left = 522
+    Left = 513
     Top = 13
     Width = 22
     Height = 13
     Caption = 'Seat'
   end
   object Label5: TLabel
-    Left = 610
+    Left = 601
     Top = 12
     Width = 20
     Height = 13
@@ -116,14 +116,13 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
   object StrGrid: TZColorStringGrid
     Left = 2
     Top = 37
-    Width = 1071
+    Width = 1111
     Height = 449
     ColCount = 12
     DefaultRowHeight = 20
     DefaultDrawing = False
     FixedColor = clSkyBlue
     FixedCols = 0
-    RowCount = 4
     FixedRows = 3
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing]
     TabOrder = 1
@@ -140,6 +139,7 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
     DefaultFixedCellStyle.Font.Style = []
     DefaultFixedCellStyle.BGColor = clSkyBlue
     LineDesign.LineUpColor = clWhite
+    WordWrap = True
   end
   object Selesai: TButton
     Left = 467
@@ -151,8 +151,8 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
     OnClick = SelesaiClick
   end
   object Button1: TButton
-    Left = 932
-    Top = 5
+    Left = 912
+    Top = 7
     Width = 75
     Height = 25
     Caption = 'Lihat'
@@ -167,7 +167,7 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
     TabOrder = 4
   end
   object Memo1: TMemo
-    Left = 1109
+    Left = 1152
     Top = -24
     Width = 185
     Height = 89
@@ -177,7 +177,7 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
     Visible = False
   end
   object Batch: TComboBox
-    Left = 318
+    Left = 309
     Top = 10
     Width = 190
     Height = 21
@@ -187,7 +187,7 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
     OnChange = BatchChange
   end
   object Seat: TComboBox
-    Left = 549
+    Left = 540
     Top = 10
     Width = 49
     Height = 21
@@ -196,7 +196,7 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
     TabOrder = 7
   end
   object Part: TEdit
-    Left = 635
+    Left = 626
     Top = 9
     Width = 250
     Height = 21
@@ -204,12 +204,21 @@ object RekapHistoryArmadaPergantianPart: TRekapHistoryArmadaPergantianPart
     OnChange = PartChange
   end
   object Button2: TButton
-    Left = 888
+    Left = 879
     Top = 6
     Width = 27
     Height = 25
     Caption = '..'
     TabOrder = 9
     OnClick = Button2Click
+  end
+  object Button3: TButton
+    Left = 993
+    Top = 7
+    Width = 116
+    Height = 25
+    Caption = 'Tarik Odo KM Terbaru'
+    TabOrder = 10
+    OnClick = Button3Click
   end
 end

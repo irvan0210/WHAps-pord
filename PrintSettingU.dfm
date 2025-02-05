@@ -1,11 +1,11 @@
 object PrintSetting: TPrintSetting
-  Left = 907
-  Top = 179
+  Left = 829
+  Top = 164
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Pengaturan Pencetakan'
-  ClientHeight = 166
-  ClientWidth = 238
+  ClientHeight = 210
+  ClientWidth = 233
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,23 +20,16 @@ object PrintSetting: TPrintSetting
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Label3: TLabel
-    Left = 8
-    Top = 72
-    Width = 53
-    Height = 13
-    Caption = 'Surat Jalan'
-  end
   object Label4: TLabel
     Left = 9
-    Top = 96
+    Top = 150
     Width = 35
     Height = 13
     Caption = 'Invoice'
   end
   object Simpan: TButton
     Left = 64
-    Top = 123
+    Top = 177
     Width = 75
     Height = 25
     Caption = 'Simpan'
@@ -45,7 +38,7 @@ object PrintSetting: TPrintSetting
   end
   object Selesai: TButton
     Left = 144
-    Top = 123
+    Top = 177
     Width = 75
     Height = 25
     Caption = 'Selesai'
@@ -84,9 +77,9 @@ object PrintSetting: TPrintSetting
       OnKeyPress = AddPointKeyPress
     end
   end
-  object CBSuratJalan: TComboBox
+  object CBInvoice: TComboBox
     Left = 76
-    Top = 68
+    Top = 146
     Width = 145
     Height = 21
     ItemHeight = 13
@@ -97,17 +90,53 @@ object PrintSetting: TPrintSetting
       'EPSON LX-300+ II'
       'EPSON LX-310')
   end
-  object CBInvoice: TComboBox
-    Left = 76
-    Top = 92
-    Width = 145
-    Height = 21
-    ItemHeight = 13
-    ItemIndex = 0
+  object GroupBox2: TGroupBox
+    Left = 8
+    Top = 64
+    Width = 217
+    Height = 73
+    Caption = 'Surat Jalan'
     TabOrder = 4
-    Text = 'EPSON LX-300+ II'
-    Items.Strings = (
-      'EPSON LX-300+ II'
-      'EPSON LX-310')
+    object Label3: TLabel
+      Left = 36
+      Top = 22
+      Width = 21
+      Height = 13
+      Caption = 'Tipe'
+    end
+    object Label5: TLabel
+      Left = 8
+      Top = 48
+      Width = 51
+      Height = 13
+      Caption = 'Tambahan'
+    end
+    object Label6: TLabel
+      Left = 158
+      Top = 48
+      Width = 22
+      Height = 13
+      Caption = 'TOP'
+    end
+    object CBSuratJalan: TComboBox
+      Left = 61
+      Top = 20
+      Width = 145
+      Height = 21
+      ItemHeight = 13
+      ItemIndex = 0
+      TabOrder = 0
+      Text = 'EPSON LX-300+ II'
+      Items.Strings = (
+        'EPSON LX-300+ II'
+        'EPSON LX-310')
+    end
+    object TopSJ: TEdit
+      Left = 61
+      Top = 45
+      Width = 92
+      Height = 21
+      TabOrder = 1
+    end
   end
 end

@@ -1,10 +1,10 @@
 object OrderForm: TOrderForm
-  Left = 106
-  Top = 457
+  Left = 91
+  Top = 16
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Pesanan'
-  ClientHeight = 608
+  ClientHeight = 662
   ClientWidth = 1112
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -54,7 +54,7 @@ object OrderForm: TOrderForm
     Left = 880
     Top = 513
     Width = 209
-    Height = 96
+    Height = 136
     BevelOuter = bvNone
     Enabled = False
     TabOrder = 6
@@ -76,7 +76,7 @@ object OrderForm: TOrderForm
     end
     object Label11: TLabel
       Left = 32
-      Top = 52
+      Top = 73
       Width = 24
       Height = 13
       Alignment = taRightJustify
@@ -84,11 +84,26 @@ object OrderForm: TOrderForm
     end
     object LabelPph: TLabel
       Left = 22
-      Top = 74
+      Top = 95
       Width = 34
       Height = 13
       Alignment = taRightJustify
       Caption = 'PPH12'
+    end
+    object Label25: TLabel
+      Left = 35
+      Top = 52
+      Width = 22
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'PPN'
+    end
+    object Label26: TLabel
+      Left = -1
+      Top = 120
+      Width = 93
+      Height = 13
+      Caption = 'Total Invoice - PPH'
     end
     object SubTotal: TMemo
       Left = 64
@@ -110,7 +125,7 @@ object OrderForm: TOrderForm
     end
     object Total: TMemo
       Left = 64
-      Top = 48
+      Top = 69
       Width = 141
       Height = 22
       Alignment = taRightJustify
@@ -119,7 +134,7 @@ object OrderForm: TOrderForm
     end
     object PphPercen: TMemo
       Left = 64
-      Top = 71
+      Top = 92
       Width = 40
       Height = 22
       Alignment = taRightJustify
@@ -128,11 +143,38 @@ object OrderForm: TOrderForm
     end
     object PphDeduction: TMemo
       Left = 107
-      Top = 71
+      Top = 92
       Width = 97
       Height = 22
       Alignment = taRightJustify
       TabOrder = 4
+      WantReturns = False
+    end
+    object PPNPercen: TMemo
+      Left = 65
+      Top = 47
+      Width = 40
+      Height = 22
+      Alignment = taRightJustify
+      TabOrder = 5
+      WantReturns = False
+    end
+    object PpnAddition: TMemo
+      Left = 108
+      Top = 47
+      Width = 97
+      Height = 22
+      Alignment = taRightJustify
+      TabOrder = 6
+      WantReturns = False
+    end
+    object TotInvoice_PPH: TMemo
+      Left = 64
+      Top = 114
+      Width = 139
+      Height = 22
+      Alignment = taRightJustify
+      TabOrder = 7
       WantReturns = False
     end
   end

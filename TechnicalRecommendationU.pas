@@ -150,9 +150,9 @@ begin
   AlasanPengadaan.Clear;
   NoPerangkatLama.Clear;
   Requestor.Clear;
-  Jumlah.Clear;
+  Jumlah.Text:='0';
   MerkdanSpesifikasi.Clear;
-  PerkiraanHarga.Clear;
+  PerkiraanHarga.Text:='0';
   RecomExpired.Date := Now;
   tgl_rekomendasi.Date := Now;
   tgl_rekomendasi.Enabled := False;

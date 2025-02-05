@@ -538,8 +538,8 @@ begin
             Catatan.Text:=Qry.FieldValues['remark'];
           end;
           if Qry.FieldValues['service_resume']<>NULL then begin
-            Remark.Text:=Remark.Text+Qry.FieldValues['service_resume'];
-            Catatan.Text:=Catatan.Text+Qry.FieldValues['service_resume'];
+            Remark.Text:=Remark.Text+sLineBreak+Qry.FieldValues['service_resume'];
+            Catatan.Text:=Catatan.Text+sLineBreak+Qry.FieldValues['service_resume'];
           end;
           if Qry.FieldValues['daily_package']<>NULL then Package.Checked:=True;
           if Qry.FieldValues['short_name']='SV' then OutService.Checked:=True;

@@ -1,10 +1,10 @@
 object BusInvoice: TBusInvoice
-  Left = 222
-  Top = 52
+  Left = 59
+  Top = 211
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Invoice'
-  ClientHeight = 624
+  ClientHeight = 635
   ClientWidth = 996
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -37,8 +37,9 @@ object BusInvoice: TBusInvoice
     Left = 728
     Top = 488
     Width = 257
-    Height = 121
+    Height = 145
     BevelOuter = bvNone
+    Enabled = False
     TabOrder = 1
     object Label9: TLabel
       Left = 69
@@ -58,26 +59,33 @@ object BusInvoice: TBusInvoice
     end
     object Label11: TLabel
       Left = 53
-      Top = 52
+      Top = 75
       Width = 62
       Height = 13
       Alignment = taRightJustify
       Caption = 'Total Invoice'
     end
-    object LabelPph: TLabel
-      Left = 82
-      Top = 75
-      Width = 34
+    object Label15: TLabel
+      Left = 93
+      Top = 53
+      Width = 22
       Height = 13
       Alignment = taRightJustify
-      Caption = 'PPH12'
+      Caption = 'PPN'
     end
-    object LabelIn_pph: TLabel
-      Left = 24
+    object PPHLabel: TLabel
+      Left = 95
       Top = 97
+      Width = 22
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'PPH'
+    end
+    object Label18: TLabel
+      Left = 23
+      Top = 120
       Width = 93
       Height = 13
-      Alignment = taRightJustify
       Caption = 'Total Invoice - PPH'
     end
     object SubTotal: TMemo
@@ -103,8 +111,8 @@ object BusInvoice: TBusInvoice
       OnKeyPress = DiscountKeyPress
     end
     object Total: TMemo
-      Left = 123
-      Top = 48
+      Left = 124
+      Top = 71
       Width = 121
       Height = 22
       Alignment = taRightJustify
@@ -115,7 +123,7 @@ object BusInvoice: TBusInvoice
     end
     object PphPercen: TMemo
       Left = 124
-      Top = 71
+      Top = 92
       Width = 30
       Height = 22
       Alignment = taRightJustify
@@ -126,7 +134,7 @@ object BusInvoice: TBusInvoice
     end
     object PphDeduction: TMemo
       Left = 155
-      Top = 71
+      Top = 92
       Width = 89
       Height = 22
       Alignment = taRightJustify
@@ -135,13 +143,33 @@ object BusInvoice: TBusInvoice
       OnEnter = TotalEnter
       OnKeyPress = TotalKeyPress
     end
-    object TotalInv_PPH: TMemo
-      Left = 124
-      Top = 93
-      Width = 121
+    object PpnAddition: TMemo
+      Left = 155
+      Top = 48
+      Width = 89
       Height = 22
       Alignment = taRightJustify
       TabOrder = 5
+      WantReturns = False
+      OnEnter = TotalEnter
+      OnKeyPress = TotalKeyPress
+    end
+    object PPNPercen: TMemo
+      Left = 124
+      Top = 48
+      Width = 30
+      Height = 22
+      Alignment = taRightJustify
+      TabOrder = 6
+      WantReturns = False
+    end
+    object TotInvoice_PPH: TMemo
+      Left = 124
+      Top = 116
+      Width = 121
+      Height = 22
+      Alignment = taRightJustify
+      TabOrder = 7
       WantReturns = False
       OnEnter = TotalEnter
       OnKeyPress = TotalKeyPress
@@ -682,6 +710,7 @@ object BusInvoice: TBusInvoice
     PrinterSetup.mmPaperHeight = 139700
     PrinterSetup.mmPaperWidth = 210079
     PrinterSetup.PaperSize = 256
+    Template.FileName = 'D:\WHAPS\CetakInovicePPHdiketerangan.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
     OutlineSettings.CreateNode = True
@@ -992,7 +1021,7 @@ object BusInvoice: TBusInvoice
     end
     object ppDetailBand1: TppDetailBand
       mmBottomOffset = 0
-      mmHeight = 15080
+      mmHeight = 14288
       mmPrintPosition = 0
       object ppDateUse: TppDBText
         UserName = 'DateUse'
@@ -1068,7 +1097,7 @@ object BusInvoice: TBusInvoice
         Transparent = True
         mmHeight = 3598
         mmLeft = 23813
-        mmTop = 4233
+        mmTop = 3704
         mmWidth = 126736
         BandType = 4
       end
@@ -1087,7 +1116,7 @@ object BusInvoice: TBusInvoice
         Transparent = True
         mmHeight = 3598
         mmLeft = 24342
-        mmTop = 7673
+        mmTop = 6879
         mmWidth = 126736
         BandType = 4
       end
@@ -1104,9 +1133,9 @@ object BusInvoice: TBusInvoice
         Font.Size = 9
         Font.Style = []
         Transparent = True
-        mmHeight = 3704
+        mmHeight = 3175
         mmLeft = 24342
-        mmTop = 11377
+        mmTop = 10583
         mmWidth = 126736
         BandType = 4
       end
@@ -1231,7 +1260,7 @@ object BusInvoice: TBusInvoice
         Transparent = True
         mmHeight = 4233
         mmLeft = 161290
-        mmTop = 4498
+        mmTop = 1588
         mmWidth = 25400
         BandType = 8
       end
@@ -1251,7 +1280,7 @@ object BusInvoice: TBusInvoice
         Transparent = True
         mmHeight = 3979
         mmLeft = 110067
-        mmTop = 4498
+        mmTop = 1588
         mmWidth = 29898
         BandType = 8
       end
@@ -1292,6 +1321,47 @@ object BusInvoice: TBusInvoice
         mmHeight = 3810
         mmLeft = 161396
         mmTop = 17463
+        mmWidth = 25400
+        BandType = 8
+      end
+      object ppPPNLabel: TppLabel
+        UserName = 'PPNLabel'
+        Border.BorderPositions = []
+        Border.Color = clBlack
+        Border.Style = psSolid
+        Border.Visible = False
+        Caption = 'PPN'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Name = 'Arial'
+        Font.Size = 9
+        Font.Style = []
+        TextAlignment = taRightJustified
+        Transparent = True
+        mmHeight = 3704
+        mmLeft = 116152
+        mmTop = 6350
+        mmWidth = 23283
+        BandType = 8
+      end
+      object ppPPNAddition: TppLabel
+        UserName = 'PPNAddition'
+        AutoSize = False
+        Border.BorderPositions = []
+        Border.Color = clBlack
+        Border.Style = psSolid
+        Border.Visible = False
+        Caption = '0'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Name = 'Arial'
+        Font.Size = 9
+        Font.Style = []
+        TextAlignment = taRightJustified
+        Transparent = True
+        mmHeight = 4233
+        mmLeft = 161396
+        mmTop = 6350
         mmWidth = 25400
         BandType = 8
       end

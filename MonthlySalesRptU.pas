@@ -45,7 +45,7 @@ type
     ResumeArr:Array of TArrString4;
     SegmentArr:Array of TArrString2;
     IntRow,IntCol,IsAll,MinRowGrid:Integer;
-    IntTotalSum:Int64;
+    IntTotalSum,IntTotalSumPpn,IntTotalSumPph,IntTotalSumPayment:Int64;
     Initiation,UpdateTime:Boolean;
     procedure Init;
     procedure InitGrid;
@@ -140,7 +140,7 @@ var IntCount:Integer;
 begin
   MinRowGrid:=1;
   StrGrid.RowCount:=3;
-  StrGrid.ColCount:=26;
+  StrGrid.ColCount:=28;
   StrGrid.ColWidths[0]:=70;
   StrGrid.ColWidths[1]:=70;
   StrGrid.ColWidths[2]:=120;
@@ -152,10 +152,13 @@ begin
   StrGrid.ColWidths[8]:=35;
   StrGrid.ColWidths[9]:=50;
   StrGrid.ColWidths[10]:=60;
-  StrGrid.ColWidths[11]:=40;
-  StrGrid.ColWidths[12]:=160;
+  StrGrid.ColWidths[11]:=60;
+  StrGrid.ColWidths[12]:=200;
   StrGrid.ColWidths[14]:=50;
   StrGrid.ColWidths[18]:=80;
+  StrGrid.ColWidths[19]:=80;
+  StrGrid.ColWidths[20]:=80;
+  StrGrid.ColWidths[21]:=80;
 
   StrGrid.MergeCells.AddRectXY(0,0,0,1);
   StrGrid.MergeCells.AddRectXY(1,0,1,1);
@@ -174,8 +177,11 @@ begin
   StrGrid.MergeCells.AddRectXY(16,0,16,1);
   StrGrid.MergeCells.AddRectXY(17,0,17,1);
   StrGrid.MergeCells.AddRectXY(18,0,18,1);
-  StrGrid.MergeCells.AddRectXY(19,0,24,0);
-  StrGrid.MergeCells.AddRectXY(25,0,25,1);
+  StrGrid.MergeCells.AddRectXY(19,0,19,1);
+  StrGrid.MergeCells.AddRectXY(20,0,20,1);
+  StrGrid.MergeCells.AddRectXY(21,0,21,1);
+  StrGrid.MergeCells.AddRectXY(22,0,27,0);
+  StrGrid.MergeCells.AddRectXY(28,0,28,1);
   if UpdateTime=False then StrGrid.Cells[0,0]:='Tanggal'
   else StrGrid.Cells[0,0]:='Tanggal Batal';
   StrGrid.Cells[1,0]:='Tanggal Buat';
@@ -188,24 +194,28 @@ begin
   StrGrid.Cells[7,0]:='Keberangkatan';
   StrGrid.Cells[8,0]:='Unit';
   StrGrid.Cells[9,0]:='Armada';
-  StrGrid.Cells[10,0]:='Rute';
+  StrGrid.Cells[12,0]:='Rute';
   StrGrid.Cells[13,0]:='Gross';
   StrGrid.Cells[14,0]:='Discount';
   StrGrid.Cells[15,0]:='CN (%)';
   StrGrid.Cells[16,0]:='Tol Parkir';
   StrGrid.Cells[17,0]:='Biaya Lain';
   StrGrid.Cells[18,0]:='Nett';
-  StrGrid.Cells[19,0]:='Pembayaran';
-  StrGrid.Cells[25,0]:='Keterangan';
+  StrGrid.Cells[19,0]:='PPN';
+  StrGrid.Cells[20,0]:='PPH';
+  StrGrid.Cells[21,0]:='Total Payment';
+
+  StrGrid.Cells[22,0]:='Pembayaran';
+  StrGrid.Cells[28,0]:='Keterangan';
   StrGrid.Cells[9,1]:='Seat';
   StrGrid.Cells[10,1]:='Jenis';
   StrGrid.Cells[11,1]:='Brand';
-  StrGrid.Cells[19,1]:='Tgl';
-  StrGrid.Cells[20,1]:='DP 1';
-  StrGrid.Cells[21,1]:='Tgl';
-  StrGrid.Cells[22,1]:='DP 2';
-  StrGrid.Cells[23,1]:='Tgl';
-  StrGrid.Cells[24,1]:='Pelunasan';
+  StrGrid.Cells[22,1]:='Tgl';
+  StrGrid.Cells[23,1]:='DP 1';
+  StrGrid.Cells[24,1]:='Tgl';
+  StrGrid.Cells[25,1]:='DP 2';
+  StrGrid.Cells[26,1]:='Tgl';
+  StrGrid.Cells[27,1]:='Pelunasan';
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[2,0].HorizontalAlignment:=taCenter;
@@ -224,16 +234,19 @@ begin
   StrGrid.CellStyle[17,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[18,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[19,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[25,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[20,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[21,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[22,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[28,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[9,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[10,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[11,1].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[19,1].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[20,1].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[21,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[22,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[23,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[24,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[25,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[26,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[27,1].HorizontalAlignment:=taCenter;
   for IntCount:=0 to StrGrid.ColCount-1 do
     StrGrid.Cells[IntCount,2]:='';
 end;
@@ -335,6 +348,9 @@ begin
     if Main.OpenDb then begin
       SetLength(OrderArr,0);
       IntTotalSum:=0;
+      IntTotalSumPpn:=0;
+      IntTotalSumPph:=0;
+      IntTotalSumPayment:=0;
       StrCompanyId:=CompanyArr[SBU.ItemIndex][1];
       if AllSales.Checked=True then StrSales:=''
       else StrSales:=',@SalesId='+QuotedStr(SalesPerson.Text);
@@ -413,6 +429,16 @@ begin
 //              OrderArr[IntCount][18]:=IToCurr(IntTotal+IntTolParkir+IntBiayaLain);
             end;
             OrderArr[IntCount][18]:=IToCurr(Qry.FieldValues['total_order']);
+            OrderArr[IntCount][26]:=IToCurr(Qry.FieldValues['PpnAddition']);
+            if (Qry.FieldValues['PphDeduction']>0) then begin
+              OrderArr[IntCount][27]:=IToCurr(Qry.FieldValues['PphDeduction']);
+              OrderArr[IntCount][28]:=IToCurr(Qry.FieldValues['total_order']-Qry.FieldValues['PphDeduction']+Qry.FieldValues['PpnAddition']);
+            end else begin
+              OrderArr[IntCount][27]:='0';
+              OrderArr[IntCount][28]:=IToCurr(Qry.FieldValues['total_order']+Qry.FieldValues['PpnAddition']);
+            end;
+
+
             for IntCount2:=0 to 1 do begin
               if (IntPayment[IntCount2]>0) then begin
                 OrderArr[IntCount][19+(IntCount2*2)]:=StrPayment[IntCount2];
@@ -428,6 +454,9 @@ begin
           end;
           Qry2.Close;
           IntTotalSum:=IntTotalSum+StrToInt(ToString(OrderArr[IntCount][18]));
+          IntTotalSumPpn:=IntTotalSumPpn+StrToInt(ToString(OrderArr[IntCount][26]));
+          IntTotalSumPph:=IntTotalSumPph+StrToInt(ToString(OrderArr[IntCount][27]));
+          IntTotalSumPayment:=IntTotalSumPayment+StrToInt(ToString(OrderArr[IntCount][28]));
           Qry.Next;
           Inc(IntCount)
         end;
@@ -484,13 +513,18 @@ begin
       StrGrid.Cells[16,IntCount+2]:=OrderArr[IntCount][16];
       StrGrid.Cells[17,IntCount+2]:=OrderArr[IntCount][17];
       StrGrid.Cells[18,IntCount+2]:=OrderArr[IntCount][18];
-      StrGrid.Cells[19,IntCount+2]:=OrderArr[IntCount][19];
-      StrGrid.Cells[20,IntCount+2]:=OrderArr[IntCount][20];
-      StrGrid.Cells[21,IntCount+2]:=OrderArr[IntCount][21];
-      StrGrid.Cells[22,IntCount+2]:=OrderArr[IntCount][22];
-      StrGrid.Cells[23,IntCount+2]:=OrderArr[IntCount][23];
-      StrGrid.Cells[24,IntCount+2]:=OrderArr[IntCount][24];
-      StrGrid.Cells[25,IntCount+2]:=OrderArr[IntCount][25];
+
+      StrGrid.Cells[19,IntCount+2]:=OrderArr[IntCount][26];
+      StrGrid.Cells[20,IntCount+2]:=OrderArr[IntCount][27];
+      StrGrid.Cells[21,IntCount+2]:=OrderArr[IntCount][28];
+
+      StrGrid.Cells[22,IntCount+2]:=OrderArr[IntCount][19];
+      StrGrid.Cells[23,IntCount+2]:=OrderArr[IntCount][20];
+      StrGrid.Cells[24,IntCount+2]:=OrderArr[IntCount][21];
+      StrGrid.Cells[25,IntCount+2]:=OrderArr[IntCount][22];
+      StrGrid.Cells[26,IntCount+2]:=OrderArr[IntCount][23];
+      StrGrid.Cells[27,IntCount+2]:=OrderArr[IntCount][24];
+      StrGrid.Cells[28,IntCount+2]:=OrderArr[IntCount][25];
 
 
       IsDrawRect:=False;
@@ -512,13 +546,18 @@ begin
       StrGrid.MergeCells.AddRectXY(16,IntStartRow+2,16,IntCount+2);
       StrGrid.MergeCells.AddRectXY(17,IntStartRow+2,17,IntCount+2);
       StrGrid.MergeCells.AddRectXY(18,IntStartRow+2,18,IntCount+2);
+
       StrGrid.MergeCells.AddRectXY(19,IntStartRow+2,19,IntCount+2);
       StrGrid.MergeCells.AddRectXY(20,IntStartRow+2,20,IntCount+2);
       StrGrid.MergeCells.AddRectXY(21,IntStartRow+2,21,IntCount+2);
+
       StrGrid.MergeCells.AddRectXY(22,IntStartRow+2,22,IntCount+2);
       StrGrid.MergeCells.AddRectXY(23,IntStartRow+2,23,IntCount+2);
       StrGrid.MergeCells.AddRectXY(24,IntStartRow+2,24,IntCount+2);
       StrGrid.MergeCells.AddRectXY(25,IntStartRow+2,25,IntCount+2);
+      StrGrid.MergeCells.AddRectXY(26,IntStartRow+2,26,IntCount+2);
+      StrGrid.MergeCells.AddRectXY(27,IntStartRow+2,27,IntCount+2);
+      StrGrid.MergeCells.AddRectXY(28,IntStartRow+2,28,IntCount+2);
     end;
     StrGrid.Cells[7,IntCount+2]:=OrderArr[IntCount][7];
     StrGrid.Cells[8,IntCount+2]:=OrderArr[IntCount][8];
@@ -535,9 +574,12 @@ begin
     StrGrid.CellStyle[16,IntCount+2].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[17,IntCount+2].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[18,IntCount+2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[19,IntCount+2].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[20,IntCount+2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[22,IntCount+2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[24,IntCount+2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[21,IntCount+2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[23,IntCount+2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[25,IntCount+2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[27,IntCount+2].HorizontalAlignment:=taRightJustify;
   end;
   ProgressBar.Position:=100;
   StrGrid.RowCount:=StrGrid.RowCount+1;
@@ -545,6 +587,12 @@ begin
   StrGrid.Cells[17,StrGrid.RowCount-1]:='Total';
   StrGrid.Cells[18,StrGrid.RowCount-1]:=IToCurr(IntTotalSum);
   StrGrid.CellStyle[18,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+  StrGrid.Cells[19,StrGrid.RowCount-1]:=IToCurr(IntTotalSumPpn);
+  StrGrid.CellStyle[19,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+  StrGrid.Cells[20,StrGrid.RowCount-1]:=IToCurr(IntTotalSumPph);
+  StrGrid.CellStyle[20,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+  StrGrid.Cells[21,StrGrid.RowCount-1]:=IToCurr(IntTotalSumPayment);
+  StrGrid.CellStyle[21,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
   ProgressBar.Visible:=False;
 end;
 

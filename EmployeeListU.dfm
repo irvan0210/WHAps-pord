@@ -1,6 +1,6 @@
 object EmployeeList: TEmployeeList
-  Left = 509
-  Top = 170
+  Left = 768
+  Top = 361
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Karyawan'

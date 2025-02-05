@@ -1,11 +1,11 @@
 object EmployeeHistoryLakaRpt: TEmployeeHistoryLakaRpt
-  Left = 132
-  Top = 355
+  Left = 90
+  Top = 170
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan History LaKa'
   ClientHeight = 551
-  ClientWidth = 1218
+  ClientWidth = 1255
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -58,7 +58,7 @@ object EmployeeHistoryLakaRpt: TEmployeeHistoryLakaRpt
     OnClick = ToXCelClick
   end
   object Label2: TLabel
-    Left = 405
+    Left = 371
     Top = 14
     Width = 15
     Height = 13
@@ -77,10 +77,17 @@ object EmployeeHistoryLakaRpt: TEmployeeHistoryLakaRpt
     Font.Style = []
     ParentFont = False
   end
+  object Label8: TLabel
+    Left = 1035
+    Top = 22
+    Width = 81
+    Height = 13
+    Caption = 'Jenis Kecelakaan'
+  end
   object LihatData: TButton
-    Left = 1126
-    Top = 28
-    Width = 86
+    Left = 1037
+    Top = 42
+    Width = 212
     Height = 26
     Caption = 'Lihat'
     TabOrder = 0
@@ -89,12 +96,12 @@ object EmployeeHistoryLakaRpt: TEmployeeHistoryLakaRpt
   object GridHistLaka: TZColorStringGrid
     Left = 0
     Top = 72
-    Width = 1217
+    Width = 1249
     Height = 441
     ColCount = 9
     DefaultRowHeight = 22
     DefaultDrawing = False
-    FixedColor = clBtnFace
+    FixedColor = clSkyBlue
     FixedCols = 0
     RowCount = 2
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine]
@@ -112,7 +119,7 @@ object EmployeeHistoryLakaRpt: TEmployeeHistoryLakaRpt
     DefaultFixedCellStyle.Font.Height = -11
     DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
     DefaultFixedCellStyle.Font.Style = []
-    DefaultFixedCellStyle.BGColor = clBtnFace
+    DefaultFixedCellStyle.BGColor = clSkyBlue
     LineDesign.LineUpColor = clWhite
   end
   object Selesai: TButton
@@ -127,7 +134,7 @@ object EmployeeHistoryLakaRpt: TEmployeeHistoryLakaRpt
   object GroupCompany: TGroupBox
     Left = 8
     Top = 5
-    Width = 241
+    Width = 209
     Height = 33
     TabOrder = 3
     object Label4: TLabel
@@ -141,7 +148,7 @@ object EmployeeHistoryLakaRpt: TEmployeeHistoryLakaRpt
     object SBU: TComboBox
       Left = 48
       Top = 8
-      Width = 185
+      Width = 153
       Height = 21
       Style = csDropDownList
       ItemHeight = 13
@@ -149,7 +156,7 @@ object EmployeeHistoryLakaRpt: TEmployeeHistoryLakaRpt
     end
   end
   object Periode: TRadioGroup
-    Left = 253
+    Left = 219
     Top = 5
     Width = 305
     Height = 57
@@ -161,7 +168,7 @@ object EmployeeHistoryLakaRpt: TEmployeeHistoryLakaRpt
     OnClick = PeriodeClick
   end
   object Bulan: TDateTimePicker
-    Left = 329
+    Left = 295
     Top = 38
     Width = 89
     Height = 20
@@ -171,7 +178,7 @@ object EmployeeHistoryLakaRpt: TEmployeeHistoryLakaRpt
     TabOrder = 5
   end
   object TglSampai: TDateTimePicker
-    Left = 463
+    Left = 429
     Top = 16
     Width = 89
     Height = 20
@@ -181,7 +188,7 @@ object EmployeeHistoryLakaRpt: TEmployeeHistoryLakaRpt
     OnChange = TglSampaiChange
   end
   object CekTglSampai: TCheckBox
-    Left = 447
+    Left = 413
     Top = 18
     Width = 15
     Height = 17
@@ -190,7 +197,7 @@ object EmployeeHistoryLakaRpt: TEmployeeHistoryLakaRpt
     OnClick = CekTglSampaiClick
   end
   object Tanggal: TDateTimePicker
-    Left = 329
+    Left = 295
     Top = 16
     Width = 89
     Height = 20
@@ -200,13 +207,13 @@ object EmployeeHistoryLakaRpt: TEmployeeHistoryLakaRpt
     OnChange = TanggalChange
   end
   object Panel1: TPanel
-    Left = 563
+    Left = 525
     Top = 8
-    Width = 282
+    Width = 276
     Height = 57
     TabOrder = 9
     object Label5: TLabel
-      Left = 253
+      Left = 293
       Top = 10
       Width = 52
       Height = 13
@@ -215,7 +222,7 @@ object EmployeeHistoryLakaRpt: TEmployeeHistoryLakaRpt
     object Driver: TEdit
       Left = 105
       Top = 29
-      Width = 144
+      Width = 136
       Height = 21
       Enabled = False
       ReadOnly = True
@@ -240,7 +247,7 @@ object EmployeeHistoryLakaRpt: TEmployeeHistoryLakaRpt
       OnClick = RadPilihDriverClick
     end
     object CariDriver: TButton
-      Left = 252
+      Left = 242
       Top = 27
       Width = 26
       Height = 23
@@ -274,9 +281,9 @@ object EmployeeHistoryLakaRpt: TEmployeeHistoryLakaRpt
     end
   end
   object GroupBox1: TGroupBox
-    Left = 856
+    Left = 804
     Top = 8
-    Width = 265
+    Width = 229
     Height = 57
     TabOrder = 11
     object Label6: TLabel
@@ -296,7 +303,7 @@ object EmployeeHistoryLakaRpt: TEmployeeHistoryLakaRpt
     object Batch: TComboBox
       Left = 73
       Top = 11
-      Width = 189
+      Width = 152
       Height = 21
       Style = csDropDownList
       ItemHeight = 13
@@ -314,13 +321,23 @@ object EmployeeHistoryLakaRpt: TEmployeeHistoryLakaRpt
     end
   end
   object SBUtemp: TComboBox
-    Left = 64
-    Top = 72
+    Left = -16
+    Top = 40
     Width = 185
     Height = 21
     Style = csDropDownList
     ItemHeight = 13
     TabOrder = 12
     Visible = False
+  end
+  object JenisKecelakaan: TComboBox
+    Left = 1120
+    Top = 19
+    Width = 129
+    Height = 21
+    Style = csDropDownList
+    ItemHeight = 13
+    TabOrder = 13
+    OnChange = BatchChange
   end
 end
