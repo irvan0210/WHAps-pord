@@ -245,6 +245,14 @@ type
     lbl1: TLabel;
     lbl2: TLabel;
     Label5: TLabel;
+    Label9: TLabel;
+    CreateUser: TEdit;
+    Label10: TLabel;
+    CreateDate: TEdit;
+    Label12: TLabel;
+    UpdateUser: TEdit;
+    UpdateDate: TEdit;
+    Label13: TLabel;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -439,6 +447,14 @@ begin
         BlokMudik.Checked:=True;
       end;
 
+      if Qry.FieldValues['create_name']<>null then
+      begin
+        CreateUser.Text:=Qry.FieldValues['create_name'];
+        CreateDate.Text:=FormatDateTime('dd/mm/yyyy',StrToDate(Qry.FieldValues['create_date_work_order']));
+      end;
+      UpdateUser.Text:=Qry.FieldValues['update_name'];
+      UpdateDate.Text:=FormatDateTime('dd/mm/yyyy',StrToDate(Qry.FieldValues['update_date_work_order']));
+
       KMOdo.Text:=IToCurr(Qry.FieldValues['odo_in']);
       NoPKB.Text:=Qry.FieldValues['work_order_id'];
       StartDate.Date:=StrToDate(Qry.FieldValues['date_in']);
@@ -593,10 +609,10 @@ begin
           StrTransId:='BLC'+LocationCode+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
                   FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+StrMaxId;
           StrQry:='INSERT INTO wh_work_order (work_order_id,vehicle_id,job_inex_id,odo_in,date_in'+
-                  ',time_in,date_out, flag, update_user)'+
+                  ',time_in,date_out, flag, update_user,create_user,create_date)'+
                   ' VALUES ('+QuotedStr(StrTransId)+
                   ','+StrVhcId+','+IntToStr(IntJobInEx)+','+StrKMOdo+','+StrStartDate+',GETDATE()'+
-                  ','+StrFinishDate+', '+StrFlag+', '+Chr(39)+User+Chr(39)+');';
+                  ','+StrFinishDate+', '+StrFlag+', '+Chr(39)+User+Chr(39)+', '+Chr(39)+User+Chr(39)+',GETDATE());';
           Qry.SQL.Clear;
           Main.WriteLog('SQL :'+StrQry,4);
           Qry.SQL.Add(StrQry);

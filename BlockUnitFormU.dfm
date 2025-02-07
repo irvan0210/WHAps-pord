@@ -4,7 +4,7 @@ object BlockUnitForm: TBlockUnitForm
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Blok Unit'
-  ClientHeight = 232
+  ClientHeight = 280
   ClientWidth = 484
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,7 +23,7 @@ object BlockUnitForm: TBlockUnitForm
   TextHeight = 13
   object Label11: TLabel
     Left = 12
-    Top = 204
+    Top = 253
     Width = 76
     Height = 13
     Alignment = taRightJustify
@@ -31,7 +31,7 @@ object BlockUnitForm: TBlockUnitForm
   end
   object Label4: TLabel
     Left = 20
-    Top = 179
+    Top = 228
     Width = 67
     Height = 13
     Alignment = taRightJustify
@@ -39,7 +39,7 @@ object BlockUnitForm: TBlockUnitForm
   end
   object Label2: TLabel
     Left = 51
-    Top = 143
+    Top = 192
     Width = 32
     Height = 13
     Alignment = taRightJustify
@@ -47,7 +47,7 @@ object BlockUnitForm: TBlockUnitForm
   end
   object lbl1: TLabel
     Left = 89
-    Top = 109
+    Top = 158
     Width = 5
     Height = 16
     Alignment = taRightJustify
@@ -61,7 +61,7 @@ object BlockUnitForm: TBlockUnitForm
   end
   object Label5: TLabel
     Left = 87
-    Top = 141
+    Top = 190
     Width = 5
     Height = 16
     Alignment = taRightJustify
@@ -75,7 +75,7 @@ object BlockUnitForm: TBlockUnitForm
   end
   object Selesai: TButton
     Left = 395
-    Top = 147
+    Top = 196
     Width = 75
     Height = 25
     Caption = 'Selesai'
@@ -84,7 +84,7 @@ object BlockUnitForm: TBlockUnitForm
   end
   object Bersihkan: TButton
     Left = 395
-    Top = 83
+    Top = 132
     Width = 75
     Height = 25
     Caption = 'Bersihkan'
@@ -109,7 +109,7 @@ object BlockUnitForm: TBlockUnitForm
   end
   object Simpan: TButton
     Left = 395
-    Top = 51
+    Top = 100
     Width = 75
     Height = 25
     Caption = 'Simpan'
@@ -118,7 +118,7 @@ object BlockUnitForm: TBlockUnitForm
   end
   object GroupBox1: TGroupBox
     Left = 8
-    Top = 40
+    Top = 89
     Width = 378
     Height = 64
     TabOrder = 1
@@ -262,7 +262,7 @@ object BlockUnitForm: TBlockUnitForm
     Left = 8
     Top = 0
     Width = 465
-    Height = 33
+    Height = 89
     Enabled = False
     TabOrder = 0
     object Label3: TLabel
@@ -275,10 +275,42 @@ object BlockUnitForm: TBlockUnitForm
     end
     object Label6: TLabel
       Left = 368
-      Top = 8
+      Top = 10
       Width = 19
       Height = 13
       Caption = 'Jam'
+    end
+    object Label9: TLabel
+      Left = 22
+      Top = 36
+      Width = 56
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'Dibuat Oleh'
+    end
+    object Label10: TLabel
+      Left = 262
+      Top = 35
+      Width = 64
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'Tanggal Buat'
+    end
+    object Label12: TLabel
+      Left = 1
+      Top = 59
+      Width = 77
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'Update Terakhir'
+    end
+    object Label13: TLabel
+      Left = 249
+      Top = 59
+      Width = 77
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'Tanggal Update'
     end
     object NoPKB: TEdit
       Left = 96
@@ -294,10 +326,42 @@ object BlockUnitForm: TBlockUnitForm
       Height = 21
       TabOrder = 1
     end
+    object CreateUser: TEdit
+      Left = 96
+      Top = 32
+      Width = 121
+      Height = 21
+      ReadOnly = True
+      TabOrder = 2
+    end
+    object CreateDate: TEdit
+      Left = 336
+      Top = 32
+      Width = 121
+      Height = 21
+      ReadOnly = True
+      TabOrder = 3
+    end
+    object UpdateUser: TEdit
+      Left = 96
+      Top = 56
+      Width = 121
+      Height = 21
+      ReadOnly = True
+      TabOrder = 4
+    end
+    object UpdateDate: TEdit
+      Left = 336
+      Top = 56
+      Width = 121
+      Height = 21
+      ReadOnly = True
+      TabOrder = 5
+    end
   end
   object GroupInput: TPanel
     Left = 96
-    Top = 173
+    Top = 222
     Width = 249
     Height = 54
     BevelOuter = bvNone
@@ -3426,14 +3490,14 @@ object BlockUnitForm: TBlockUnitForm
   end
   object Alasan: TMemo
     Left = 96
-    Top = 140
+    Top = 189
     Width = 281
     Height = 33
     TabOrder = 6
   end
   object BlokUnit: TRadioButton
     Left = 96
-    Top = 112
+    Top = 161
     Width = 113
     Height = 17
     Caption = 'Blok Unit'
@@ -3441,7 +3505,7 @@ object BlockUnitForm: TBlockUnitForm
   end
   object BlokMudik: TRadioButton
     Left = 168
-    Top = 112
+    Top = 161
     Width = 113
     Height = 17
     Caption = 'Blok Mudik'
@@ -3470,7 +3534,7 @@ object BlockUnitForm: TBlockUnitForm
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
     Left = 296
-    Top = 188
+    Top = 237
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand4: TppHeaderBand
