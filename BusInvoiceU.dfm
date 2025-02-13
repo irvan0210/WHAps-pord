@@ -1,6 +1,6 @@
 object BusInvoice: TBusInvoice
-  Left = 59
-  Top = 211
+  Left = 186
+  Top = 48
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Invoice'
@@ -701,7 +701,7 @@ object BusInvoice: TBusInvoice
   object ppReport: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Custom'
+    PrinterSetup.PaperName = '1/2 A4'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 3810
     PrinterSetup.mmMarginLeft = 2540
@@ -709,7 +709,7 @@ object BusInvoice: TBusInvoice
     PrinterSetup.mmMarginTop = 6350
     PrinterSetup.mmPaperHeight = 139700
     PrinterSetup.mmPaperWidth = 210079
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 134
     Template.FileName = 'D:\WHAPS\CetakInovicePPHdiketerangan.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
@@ -1417,7 +1417,7 @@ object BusInvoice: TBusInvoice
   object pp2Report: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Custom'
+    PrinterSetup.PaperName = 'German Std Fanfold'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 3810
     PrinterSetup.mmMarginLeft = 6350
@@ -1425,7 +1425,7 @@ object BusInvoice: TBusInvoice
     PrinterSetup.mmMarginTop = 6350
     PrinterSetup.mmPaperHeight = 304801
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 40
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
     OutlineSettings.CreateNode = True
@@ -2017,7 +2017,7 @@ object BusInvoice: TBusInvoice
   object pp3Report: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Custom'
+    PrinterSetup.PaperName = '1/2 A4'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 3810
     PrinterSetup.mmMarginLeft = 2540
@@ -2025,7 +2025,7 @@ object BusInvoice: TBusInvoice
     PrinterSetup.mmMarginTop = 6350
     PrinterSetup.mmPaperHeight = 140208
     PrinterSetup.mmPaperWidth = 210079
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 134
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
     OutlineSettings.CreateNode = True

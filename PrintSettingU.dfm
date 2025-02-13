@@ -4,7 +4,7 @@ object PrintSetting: TPrintSetting
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Pengaturan Pencetakan'
-  ClientHeight = 210
+  ClientHeight = 287
   ClientWidth = 233
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -20,16 +20,9 @@ object PrintSetting: TPrintSetting
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Label4: TLabel
-    Left = 9
-    Top = 150
-    Width = 35
-    Height = 13
-    Caption = 'Invoice'
-  end
   object Simpan: TButton
     Left = 64
-    Top = 177
+    Top = 227
     Width = 75
     Height = 25
     Caption = 'Simpan'
@@ -38,7 +31,7 @@ object PrintSetting: TPrintSetting
   end
   object Selesai: TButton
     Left = 144
-    Top = 177
+    Top = 227
     Width = 75
     Height = 25
     Caption = 'Selesai'
@@ -77,26 +70,13 @@ object PrintSetting: TPrintSetting
       OnKeyPress = AddPointKeyPress
     end
   end
-  object CBInvoice: TComboBox
-    Left = 76
-    Top = 146
-    Width = 145
-    Height = 21
-    ItemHeight = 13
-    ItemIndex = 0
-    TabOrder = 3
-    Text = 'EPSON LX-300+ II'
-    Items.Strings = (
-      'EPSON LX-300+ II'
-      'EPSON LX-310')
-  end
   object GroupBox2: TGroupBox
     Left = 8
     Top = 64
     Width = 217
     Height = 73
     Caption = 'Surat Jalan'
-    TabOrder = 4
+    TabOrder = 3
     object Label3: TLabel
       Left = 36
       Top = 22
@@ -134,6 +114,55 @@ object PrintSetting: TPrintSetting
     object TopSJ: TEdit
       Left = 61
       Top = 45
+      Width = 92
+      Height = 21
+      TabOrder = 1
+    end
+  end
+  object GroupBox3: TGroupBox
+    Left = 8
+    Top = 144
+    Width = 217
+    Height = 81
+    Caption = 'Invoice'
+    TabOrder = 4
+    object Label4: TLabel
+      Left = 36
+      Top = 14
+      Width = 21
+      Height = 13
+      Caption = 'Tipe'
+    end
+    object Label7: TLabel
+      Left = 11
+      Top = 39
+      Width = 51
+      Height = 13
+      Caption = 'Tambahan'
+    end
+    object Label8: TLabel
+      Left = 161
+      Top = 39
+      Width = 22
+      Height = 13
+      Caption = 'TOP'
+    end
+    object CBInvoice: TComboBox
+      Left = 64
+      Top = 12
+      Width = 145
+      Height = 21
+      ItemHeight = 13
+      ItemIndex = 0
+      TabOrder = 0
+      Text = 'EPSON LX-300+ II'
+      Items.Strings = (
+        'EPSON LX-300+ II'
+        'EPSON LX-310')
+    end
+    object TopInv: TEdit
+      Left = 64
+      Top = 36
       Width = 92
       Height = 21
       TabOrder = 1

@@ -14,14 +14,18 @@ type
     Label1: TLabel;
     AddPoint: TEdit;
     Label2: TLabel;
-    Label4: TLabel;
-    CBInvoice: TComboBox;
     GroupBox2: TGroupBox;
     Label3: TLabel;
     CBSuratJalan: TComboBox;
     Label5: TLabel;
     TopSJ: TEdit;
     Label6: TLabel;
+    GroupBox3: TGroupBox;
+    CBInvoice: TComboBox;
+    Label4: TLabel;
+    Label7: TLabel;
+    TopInv: TEdit;
+    Label8: TLabel;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SimpanClick(Sender: TObject);
@@ -48,6 +52,7 @@ procedure TPrintSetting.Init;
 begin
   AddPoint.Text:='';
   TopSJ.Text:='0';
+  TopInv.Text:='0';
   CBSuratJalan.ItemIndex:=0;
   CBInvoice.ItemIndex:=0;
 end;
@@ -70,7 +75,7 @@ end;
 
 procedure TPrintSetting.SimpanClick(Sender: TObject);
 var Qry:TADOQuery;
-    StrQry,StrEMessage,RegSuratJalan,RegInvoice,RegTambahanTopSJ:String;
+    StrQry,StrEMessage,RegSuratJalan,RegInvoice,RegTambahanTopSJ,RegTambahanTopInv:String;
     IntCount:Integer;
     IsOk:Boolean;
     Regs:TRegistry;
@@ -99,6 +104,7 @@ begin
     RegSuratJalan:=CBSuratJalan.Text;
     RegInvoice:=CBInvoice.Text;
     if TopSJ.Text<>'' then RegTambahanTopSJ:=TopSJ.Text else RegTambahanTopSJ:='0';
+    if TopInv.Text<>'' then RegTambahanTopInv:=TopInv.Text else RegTambahanTopInv:='0';
     try
       Regs:=TRegistry.Create;
       Regs.RootKey:=HKEY_LOCAL_MACHINE;
@@ -107,9 +113,11 @@ begin
           Regs.WriteString('SetPrinterSJ',RegSuratJalan);
           Regs.WriteString('SetPrinterINV',RegInvoice);
           Regs.WriteString('SetTambahanTopSJ',RegTambahanTopSJ);
+          Regs.WriteString('SetTambahanTopInv',RegTambahanTopInv);
           SetPrinterINV:=RegInvoice;
           SetPrinterSJ:=RegSuratJalan;
           SetTambahanTopSJ:=RegTambahanTopSJ;
+          SetTambahanTopInv:=RegTambahanTopInv;
         end;
         IsOk:=True;
       except
@@ -154,12 +162,14 @@ begin
   LoadData;
 
 
-//  Regs:=TRegistry.Create(KEY_READ or $0100);
-//  Regs.RootKey:=HKEY_LOCAL_MACHINE;
+  Regs:=TRegistry.Create(KEY_READ or $0100);
+  Regs.RootKey:=HKEY_LOCAL_MACHINE;
 //
-//  if Regs.OpenKeyReadOnly(RegPath) then begin
-//    SetPrinterSJ:=Regs.ReadString('SetPrinterSJ');
-//    SetPrinterINV:=Regs.ReadString('SetPrinterINV');
+  if Regs.OpenKeyReadOnly(RegPath) then begin
+    SetPrinterSJ:=Regs.ReadString('SetPrinterSJ');
+    SetPrinterINV:=Regs.ReadString('SetPrinterINV');
+    SetTambahanTopSJ:=Regs.ReadString('SetTambahanTopSJ');
+    SetTambahanTopInv:=Regs.ReadString('SetTambahanTopInv');
     if SetPrinterSJ='EPSON LX-310' then
     CBSuratJalan.ItemIndex:=1
     else CBSuratJalan.ItemIndex:=0;
@@ -169,9 +179,10 @@ begin
     else CBInvoice.ItemIndex:=0;
 
     if SetTambahanTopSJ='' then TopSJ.Text:='0' else TopSJ.Text:=SetTambahanTopSJ;
-//  end;
-//  Regs.CloseKey;
-//  FreeAndNil(Regs);
+    if SetTambahanTopInv='' then TopInv.Text:='0' else TopInv.Text:=SetTambahanTopInv;
+  end;
+  Regs.CloseKey;
+  FreeAndNil(Regs);
 
 end;
 

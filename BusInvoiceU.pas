@@ -1609,27 +1609,27 @@ begin
 //        if (GroupId ='26') or (GroupId ='53') then
         if SetPrinterINV ='EPSON LX-310' then
         begin
-          ppHeaderBand1.Height:= ppHeaderBand1.Height+0.10;
-          ppInvoiceId.Top:= ppInvoiceId.Top+0.1;
-          ppOrderId.Top:= ppOrderId.Top+0.1;
-          ppSales.Top:= ppSales.Top+0.1;
-          ppDueDate.Top:= ppDueDate.Top+0.1;
-          ppCustomer.Top:= ppCustomer.Top+0.1;
-          ppCustomerName.Top:= ppCustomerName.Top+0.1;
-          ppGroupName.Top:= ppGroupName.Top+0.1;
-          ppReprinted.Top:= ppReprinted.Top+0.1;
-          ppNPWP.Top:= ppNPWP.Top+0.1;
-          ppDates.Top:= ppDates.Top+0.1;
-          ppPageNo.Top:= ppPageNo.Top+0.1;
-          ppSysPageNo.Top:= ppSysPageNo.Top+0.1;
-          ppPageCount.Top:= ppPageCount.Top+0.1;
-          ppSysPageCount.Top:= ppSysPageCount.Top+0.1;
-          ppLabel3.Top:= ppLabel3.Top+0.1;
-          ppAmountSaid.Top:= ppAmountSaid.Top+0.08;
-          ppSignature.Top:= ppSignature.Top+0.34;
-          ppRemark.Top:= ppRemark.Top+0.34;
-          ppTotal.Top:= ppTotal.Top+0.02;
-          ppFooterBand1.Height:= ppFooterBand1.Height+0.30;
+          ppHeaderBand1.Height:= ppHeaderBand1.Height+0.10+StrToFloat(SetTambahanTopSJ);
+          ppInvoiceId.Top:= ppInvoiceId.Top+0.1+StrToFloat(SetTambahanTopSJ);
+          ppOrderId.Top:= ppOrderId.Top+0.1+StrToFloat(SetTambahanTopSJ);
+          ppSales.Top:= ppSales.Top+0.1+StrToFloat(SetTambahanTopSJ);
+          ppDueDate.Top:= ppDueDate.Top+0.1+StrToFloat(SetTambahanTopSJ);
+          ppCustomer.Top:= ppCustomer.Top+0.1+StrToFloat(SetTambahanTopSJ);
+          ppCustomerName.Top:= ppCustomerName.Top+0.1+StrToFloat(SetTambahanTopSJ);
+          ppGroupName.Top:= ppGroupName.Top+0.1+StrToFloat(SetTambahanTopSJ);
+          ppReprinted.Top:= ppReprinted.Top+0.1+StrToFloat(SetTambahanTopSJ);
+          ppNPWP.Top:= ppNPWP.Top+0.1+StrToFloat(SetTambahanTopSJ);
+          ppDates.Top:= ppDates.Top+0.1+StrToFloat(SetTambahanTopSJ);
+          ppPageNo.Top:= ppPageNo.Top+0.1+StrToFloat(SetTambahanTopSJ);
+          ppSysPageNo.Top:= ppSysPageNo.Top+0.1+StrToFloat(SetTambahanTopSJ);
+          ppPageCount.Top:= ppPageCount.Top+0.1+StrToFloat(SetTambahanTopSJ);
+          ppSysPageCount.Top:= ppSysPageCount.Top+0.1+StrToFloat(SetTambahanTopSJ);
+          ppLabel3.Top:= ppLabel3.Top+0.1+StrToFloat(SetTambahanTopSJ);
+          ppAmountSaid.Top:= ppAmountSaid.Top+0.08+StrToFloat(SetTambahanTopSJ);
+          ppSignature.Top:= ppSignature.Top+0.34+StrToFloat(SetTambahanTopSJ);
+          ppRemark.Top:= ppRemark.Top+0.34+StrToFloat(SetTambahanTopSJ);
+          ppTotal.Top:= ppTotal.Top+0.02+StrToFloat(SetTambahanTopSJ);
+          ppFooterBand1.Height:= ppFooterBand1.Height+0.30+StrToFloat(SetTambahanTopSJ);
         end
         else
         begin
