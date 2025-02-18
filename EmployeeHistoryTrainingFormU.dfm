@@ -1,6 +1,6 @@
 object EmployeeHistoryTrainingForm: TEmployeeHistoryTrainingForm
-  Left = 745
-  Top = 21
+  Left = 460
+  Top = 87
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Driver Training Form'

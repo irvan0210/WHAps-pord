@@ -11,21 +11,29 @@ type
     Label1: TLabel;
     Selesai: TButton;
     KolomCari: TEdit;
-    StrGrid: TZColorStringGrid;
-    GroupTotal: TGroupBox;
-    Label4: TLabel;
-    Total: TEdit;
     PanelJenis: TPanel;
     Label3: TLabel;
     Jenis: TComboBox;
     GroupCompany: TGroupBox;
     Label5: TLabel;
     SBU: TComboBox;
-    CheckSelect: TCheckBox;
     Label2: TLabel;
     MemDriverdiPilih: TMemo;
     Submit: TButton;
+    GroupBox1: TGroupBox;
+    StrGridTemp: TZColorStringGrid;
+    GroupBox2: TGroupBox;
+    StrGrid: TZColorStringGrid;
+    CheckSelect: TCheckBox;
+    GroupTotal: TGroupBox;
+    Label4: TLabel;
+    Total: TEdit;
     chk1: TCheckBox;
+    Label7: TLabel;
+    GroupBox3: TGroupBox;
+    Label6: TLabel;
+    TotalTemp: TEdit;
+    Bersihkan: TButton;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure KolomCariChange(Sender: TObject);
@@ -35,18 +43,26 @@ type
     procedure CheckSelectExit(Sender: TObject);
     procedure SubmitClick(Sender: TObject);
     procedure chk1Click(Sender: TObject);
+    procedure StrGridTempSelectCell(Sender: TObject; ACol, ARow: Integer;
+      var CanSelect: Boolean);
+    procedure StrGridDblClick(Sender: TObject);
+    procedure StrGridTempKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure BersihkanClick(Sender: TObject);
   private
     { Private declarations }
     FormRequest:String;
     EmployeeArr:Array of TArrString30;
     CompanyArr,JenisArr:Array of TArrString5;
-    IntRow,IntCol,IntMinRow:Integer;
+    IntRow,IntCol,IntRowTemp,IntColTemp,IntMinRow, MinRowGridTemp:Integer;
     EmplType,StrCompanyId:Integer;
     Stat:Integer;
     Expd:Integer;
     IsInput,Initiation:Boolean;
     procedure Init;
+    procedure InitGridTemp;
     procedure RefreshCombo;
+
   public
     { Public declarations }
     constructor Create(AOwner:TComponent;EmployeeType:String;Status:Integer=1;Expired:Integer=0;Form_Request:String='');Overload;
@@ -58,7 +74,7 @@ var
 
 implementation
 
-uses MainU, EmployeeHistoryTrainingFormU;
+uses MainU, EmployeeHistoryTrainingFormU, Math;
 
 {$R *.dfm}
 constructor TBrowseEmployee.Create(AOwner:TComponent;EmployeeType:String;Status:Integer=1;Expired:Integer=0;Form_Request:String='');
@@ -113,8 +129,8 @@ begin
   IntRow:=0;
   IntCol:=0;
   StrGrid.RowCount:=2;
-  StrGrid.ColWidths[0]:=30;
-  StrGrid.ColWidths[1]:=75;
+  StrGrid.ColWidths[0]:=0;
+  StrGrid.ColWidths[1]:=105;
   StrGrid.ColWidths[2]:=150;
   StrGrid.ColWidths[3]:=140;
   StrGrid.ColWidths[4]:=300;
@@ -131,6 +147,30 @@ begin
   for IntCount:=0 to 6 do
     StrGrid.Cells[IntCount,1]:='';
   if StrToInt(CompanyId)=1 then SBU.Enabled:=True else SBU.Enabled:=False;
+end;
+
+procedure TBrowseEmployee.InitGridTemp;
+var IntCount:Integer;
+begin
+  MinRowGridTemp:=1;
+  IntRowTemp:=0;
+  IntColTemp:=0;
+  StrGridTemp.RowCount:=1;
+  StrGridTemp.ColWidths[0]:=105;
+  StrGridTemp.ColWidths[1]:=150;
+  StrGridTemp.ColWidths[2]:=140;
+  StrGridTemp.ColWidths[3]:=300;
+  StrGridTemp.ColWidths[4]:=90;
+
+  StrGridTemp.Cells[0,0]:='NIP';
+  StrGridTemp.Cells[1,0]:='Nama';
+  StrGridTemp.Cells[2,0]:='Tanggal Lahir';
+  StrGridTemp.Cells[3,0]:='Alamat';
+  StrGridTemp.Cells[4,0]:='No Telpon';
+  for IntCount:=0 to StrGridTemp.ColCount-1 do StrGridTemp.CellStyle[IntCount,0].HorizontalAlignment:=taCenter;
+  for IntCount:=0 to 5 do
+    StrGridTemp.Cells[IntCount,1]:='';
+  TotalTemp.Text:= IntToStr(StrGridTemp.RowCount-1);
 end;
 
 procedure TBrowseEmployee.RefreshCombo;
@@ -280,7 +320,7 @@ begin
   IntCol:=ACol;
   MinRowGrid:=0;
 
-  if (ARow > MinRowGrid) And (StrGrid.Cells[1,ARow]<>'')  then begin
+ { if (ARow > MinRowGrid) And (StrGrid.Cells[1,ARow]<>'')  then begin
     R := StrGrid.CellRect(ACol, ARow);
     R.Left := R.Left + StrGrid.Left;
     R.Right := R.Right + StrGrid.Left;
@@ -302,30 +342,55 @@ begin
           SetFocus;
         end;
     end;
-  end;
-
+  end; }
 end;
 
 procedure TBrowseEmployee.FormShow(Sender: TObject);
 begin
   Init;
+  InitGridTemp;
   RefreshCombo;
   RefreshList;
   Initiation:=False;
+
 end;
 
 procedure TBrowseEmployee.CheckSelectExit(Sender: TObject);
+var
+ StrPeserta,StrTambahanPeserta: string;
+ IntCount, StrGridPesertaRowCount :Integer;  //,IntRowCount,rowcount2
 begin
-  if CheckSelect.Checked=True then begin
-    StrGrid.Cells[IntCol,IntRow]:='v';
-    MemDriverdiPilih.Text:= StrGrid.Cells[2,IntRow];
+{  if CheckSelect.Checked=True then begin
+    StrGridPesertaRowCount := EmployeeHistoryTrainingForm.StrGridPeserta.RowCount;
+    StrTambahanPeserta := StrGrid.Cells[1,IntRow];
+     if StrGridPesertaRowCount >1 then begin
+        for IntCount:=1 to StrGridPesertaRowCount-1 do begin
+           StrPeserta := EmployeeHistoryTrainingForm.StrGridPeserta.Cells[0,IntCount];
+          if Trim(StrTambahanPeserta) = Trim(StrPeserta) then begin
+            MessageBox(0,PChar('Peserta sudah ada..!'),'Peserta',MB_OK or MB_ICONWARNING);
+            CheklistTemp;
+            //StrGrid.Cells[IntCol,IntRow]:='';
+            SetFocus;
+            break;
+          end
+          else begin
+           // StrGrid.Cells[IntCol,IntRow]:='v';
+            MemDriverdiPilih.Text:= StrGrid.Cells[2,IntRow];
+          end;
+        end;
+     end else begin
+       CheklistTemp;
+       //StrGrid.Cells[0,IntRow]:='v';
+       MemDriverdiPilih.Text:= StrGrid.Cells[2,IntRow];
+     end;
   end else begin
-    StrGrid.Cells[IntCol,IntRow]:='';
+    CheklistTemp;
+    //StrGrid.Cells[IntCol,IntRow]:='';
   end;
-
+  RefreshList;
   CheckSelect.Checked:=False;
   CheckSelect.Visible:=False;
-  StrGrid.SetFocus;
+  StrGrid.SetFocus;  }
 end;
 
 procedure TBrowseEmployee.SubmitClick(Sender: TObject);
@@ -333,17 +398,18 @@ var
   IntCount,IntRowCount,rowcount2:Integer;
   EmplName,EmplID : string;
 begin
-  for IntCount:=1 to StrGrid.RowCount-1 do begin
-    if StrGrid.Cells[0,IntCount]='v' then begin
+  for IntCount:=1 to StrGridTemp.RowCount-1 do begin
+    if StrGridTemp.Cells[0,IntCount]<>'' then begin
       IntRowCount:=EmployeeHistoryTrainingForm.StrGridPeserta.RowCount+1;
       EmployeeHistoryTrainingForm.StrGridPeserta.RowCount:=IntRowCount;
       with EmployeeHistoryTrainingForm do begin
-        EmplName:= StrGrid.Cells[2,IntCount];
-        EmplID:= StrGrid.Cells[1,IntCount];
+        EmplName:= StrGridTemp.Cells[1,IntCount];
+        EmplID:= StrGridTemp.Cells[0,IntCount];
         rowcount2:=StrGridPeserta.RowCount;
         StrGridPeserta.Cells[0,StrGridPeserta.RowCount-1]:=EmplID;
         StrGridPeserta.Cells[1,StrGridPeserta.RowCount-1]:=EmplName;
       end;
+
     end;
   end;
   EmployeeHistoryTrainingForm.Total.Text:=IntToStr(EmployeeHistoryTrainingForm.StrGridPeserta.RowCount-1);
@@ -363,6 +429,83 @@ begin
           StrGrid.Cells[0,intCount]:='v';
       end;
     end;
+end;
+
+procedure TBrowseEmployee.StrGridTempSelectCell(Sender: TObject; ACol,
+  ARow: Integer; var CanSelect: Boolean);
+begin
+  IntRowTemp:=ARow;
+  IntColTemp:=ACol;
+end;
+
+procedure TBrowseEmployee.StrGridDblClick(Sender: TObject);
+var
+  IntCount,IntRowCount,rowcount2:Integer;
+ StrTambahanPesertaID, StrTambahanPesertaName : string;
+begin
+  StrTambahanPesertaID := StrGrid.Cells[1,IntRow];
+  StrTambahanPesertaName := StrGrid.Cells[2,IntRow];
+  if StrTambahanPesertaID<>'' then
+    begin
+     // MessageBox(0,PChar(StrGrid.Cells[1,IntRow]),'Peserta',MB_OK or MB_ICONWARNING);
+      for IntCount:=2 to StrGridTemp.RowCount do begin
+        if Trim(StrTambahanPesertaID)=StrGridTemp.Cells[0,IntCount-1] then begin
+          MessageBox(0,PChar('Peserta sudah dipilih..!'),'Peserta',MB_OK or MB_ICONWARNING);
+          Exit;
+        end;
+      end;
+     // MessageBox(0,PChar(StrGrid.Cells[2,IntRow]),'Peserta dipilih',MB_OK or MB_ICONWARNING);
+      for IntCount:=2 to EmployeeHistoryTrainingForm.StrGridPeserta.RowCount do begin
+      // MessageBox(0,PChar(EmployeeHistoryTrainingForm.StrGridPeserta.Cells[1,IntCount-1]),'Daftar Peserta',MB_OK or MB_ICONWARNING);
+        if StrTambahanPesertaName=EmployeeHistoryTrainingForm.StrGridPeserta.Cells[1,IntCount-1] then begin
+          MessageBox(0,PChar('Peserta sudah ada di data peserta..!'),'Daftar Peserta',MB_OK or MB_ICONWARNING);
+          Exit;
+        end ;
+      end;
+    end;
+  StrGridTemp.RowCount := StrGridTemp.RowCount+1;
+  StrGridTemp.Cells[0,StrGridTemp.RowCount-1]:=StrGrid.Cells[1,IntRow];
+  StrGridTemp.Cells[1,StrGridTemp.RowCount-1]:=StrGrid.Cells[2,IntRow];
+  StrGridTemp.Cells[2,StrGridTemp.RowCount-1]:=StrGrid.Cells[3,IntRow];
+  StrGridTemp.Cells[3,StrGridTemp.RowCount-1]:=StrGrid.Cells[4,IntRow];
+  StrGridTemp.Cells[4,StrGridTemp.RowCount-1]:=StrGrid.Cells[5,IntRow];
+
+  TotalTemp.Text:= IntToStr(StrGridTemp.RowCount-1);
+end;
+
+procedure DeleteRow(Grid: TZColorStringGrid; ARow: Integer);
+var
+  i: Integer;
+begin
+  for i := ARow to Grid.RowCount - 2 do
+    Grid.Rows[i].Assign(Grid.Rows[i + 1]);
+  Grid.RowCount := Grid.RowCount - 1;
+end;
+
+procedure TBrowseEmployee.StrGridTempKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+  var
+  IntCount:Integer;
+  StrNamaPeserta : string;
+begin
+  StrNamaPeserta := StrGridTemp.Cells[1,IntRowTemp];
+  if IntRowTemp>0 then begin
+    if Key=VK_DELETE then begin
+      if MessageBox(Handle,PChar('Mau Menghapus '+QuotedStr(StrNamaPeserta)+' ?'),'Peserta Dipilih',MB_OKCANCEL or MB_ICONQUESTION or MB_SYSTEMMODAL or MB_SETFOREGROUND)=1 then begin
+       // for IntCount:=0 to StrGridTemp.ColCount-1  do
+         // StrGridTemp.Cells[IntCount,IntRowTemp]:= '';
+       DeleteRow(StrGridTemp,IntRowTemp);
+       TotalTemp.Text:= IntToStr(StrGridTemp.RowCount-1);
+       MessageBox(0,PChar('Peserta berhasil dihapus.'),'Peserta Dipilih',MB_OK or MB_ICONINFORMATION);
+      end;
+    end;
+  end;
+end;
+
+procedure TBrowseEmployee.BersihkanClick(Sender: TObject);
+var
+  IntCount : Integer;
+begin
+  InitGridTemp;
 end;
 
 end.

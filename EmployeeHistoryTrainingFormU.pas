@@ -225,9 +225,10 @@ procedure TEmployeeHistoryTrainingForm.StrGridPesertaKeyDown(
 begin
   if IntRow>0 then begin
     if Key=VK_DELETE then begin
-      if MessageBox(Handle,'Mau Menghapus Peserta ini ?','Training Form',MB_OKCANCEL or MB_ICONQUESTION or MB_SYSTEMMODAL or MB_SETFOREGROUND)=1 then begin
+      if MessageBox(Handle,PChar('Mau Menghapus '+QuotedStr(StrGridPeserta.Cells[1,IntRow])+' ?'),'Training Form',MB_OKCANCEL or MB_ICONQUESTION or MB_SYSTEMMODAL or MB_SETFOREGROUND)=1 then begin
         DeleteRow(StrGridPeserta,IntRow);
         Total.Text:=IntToStr(StrGridPeserta.RowCount-1);
+        MessageBox(0,PChar('Peserta berhasil dihapus.'),'Peserta Dipilih',MB_OK or MB_ICONINFORMATION);
       end;
     end;
   end;

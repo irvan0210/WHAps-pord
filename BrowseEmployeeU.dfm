@@ -1,11 +1,11 @@
 object BrowseEmployee: TBrowseEmployee
-  Left = 341
-  Top = 219
+  Left = 403
+  Top = 280
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'BrowseEmployee'
-  ClientHeight = 407
-  ClientWidth = 830
+  ClientHeight = 537
+  ClientWidth = 840
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -28,8 +28,8 @@ object BrowseEmployee: TBrowseEmployee
     Caption = 'Cari'
   end
   object Label2: TLabel
-    Left = 128
-    Top = 435
+    Left = 120
+    Top = 575
     Width = 108
     Height = 13
     Caption = 'Pengemudi yang dipilih'
@@ -37,7 +37,7 @@ object BrowseEmployee: TBrowseEmployee
   end
   object Selesai: TButton
     Left = 416
-    Top = 374
+    Top = 495
     Width = 75
     Height = 25
     Caption = 'Selesai'
@@ -52,73 +52,13 @@ object BrowseEmployee: TBrowseEmployee
     TabOrder = 1
     OnChange = KolomCariChange
   end
-  object StrGrid: TZColorStringGrid
-    Left = 6
-    Top = 40
-    Width = 819
-    Height = 329
-    ColCount = 6
-    DefaultRowHeight = 20
-    DefaultDrawing = False
-    FixedColor = clBtnFace
-    FixedCols = 0
-    RowCount = 2
-    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing]
-    TabOrder = 2
-    OnSelectCell = StrGridSelectCell
-    DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
-    DefaultCellStyle.Font.Color = clWindowText
-    DefaultCellStyle.Font.Height = -11
-    DefaultCellStyle.Font.Name = 'MS Sans Serif'
-    DefaultCellStyle.Font.Style = []
-    DefaultCellStyle.BGColor = clWindow
-    DefaultFixedCellStyle.Font.Charset = DEFAULT_CHARSET
-    DefaultFixedCellStyle.Font.Color = clWindowText
-    DefaultFixedCellStyle.Font.Height = -11
-    DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
-    DefaultFixedCellStyle.Font.Style = []
-    DefaultFixedCellStyle.BGColor = clBtnFace
-    LineDesign.LineUpColor = clWhite
-  end
-  object GroupTotal: TGroupBox
-    Left = 16
-    Top = 371
-    Width = 217
-    Height = 33
-    TabOrder = 3
-    object Label4: TLabel
-      Left = 126
-      Top = 11
-      Width = 24
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Total'
-    end
-    object Total: TEdit
-      Left = 157
-      Top = 8
-      Width = 41
-      Height = 21
-      Enabled = False
-      TabOrder = 0
-    end
-    object chk1: TCheckBox
-      Left = 12
-      Top = 9
-      Width = 82
-      Height = 17
-      Caption = 'Ceklis semua'
-      TabOrder = 1
-      OnClick = chk1Click
-    end
-  end
   object PanelJenis: TPanel
     Left = 248
     Top = 2
     Width = 209
     Height = 31
     BevelOuter = bvNone
-    TabOrder = 4
+    TabOrder = 2
     object Label3: TLabel
       Left = 10
       Top = 8
@@ -141,7 +81,7 @@ object BrowseEmployee: TBrowseEmployee
     Top = 0
     Width = 241
     Height = 33
-    TabOrder = 5
+    TabOrder = 3
     object Label5: TLabel
       Left = 19
       Top = 8
@@ -160,30 +100,175 @@ object BrowseEmployee: TBrowseEmployee
       TabOrder = 0
     end
   end
-  object CheckSelect: TCheckBox
-    Left = 79
-    Top = 94
-    Width = 14
-    Height = 15
-    TabOrder = 6
-    Visible = False
-    OnExit = CheckSelectExit
-  end
   object MemDriverdiPilih: TMemo
     Left = 248
-    Top = 427
+    Top = 580
     Width = 489
     Height = 89
-    TabOrder = 7
+    TabOrder = 4
     Visible = False
   end
   object Submit: TButton
     Left = 331
-    Top = 374
+    Top = 495
     Width = 75
     Height = 25
     Caption = 'Submit'
-    TabOrder = 8
+    TabOrder = 5
     OnClick = SubmitClick
+  end
+  object GroupBox1: TGroupBox
+    Left = 8
+    Top = 288
+    Width = 825
+    Height = 201
+    Caption = 'Peserta Dipilih'
+    TabOrder = 6
+    object Label7: TLabel
+      Left = 626
+      Top = 171
+      Width = 163
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'F5    =  Menghapus Peserta Dipilih'
+    end
+    object StrGridTemp: TZColorStringGrid
+      Left = 5
+      Top = 21
+      Width = 807
+      Height = 140
+      DefaultRowHeight = 20
+      DefaultDrawing = False
+      FixedColor = clBtnFace
+      FixedCols = 0
+      RowCount = 1
+      FixedRows = 0
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing]
+      TabOrder = 0
+      OnKeyDown = StrGridTempKeyDown
+      OnSelectCell = StrGridTempSelectCell
+      DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
+      DefaultCellStyle.Font.Color = clWindowText
+      DefaultCellStyle.Font.Height = -11
+      DefaultCellStyle.Font.Name = 'MS Sans Serif'
+      DefaultCellStyle.Font.Style = []
+      DefaultCellStyle.BGColor = clWindow
+      DefaultFixedCellStyle.Font.Charset = DEFAULT_CHARSET
+      DefaultFixedCellStyle.Font.Color = clWindowText
+      DefaultFixedCellStyle.Font.Height = -11
+      DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
+      DefaultFixedCellStyle.Font.Style = []
+      DefaultFixedCellStyle.BGColor = clBtnFace
+      LineDesign.LineUpColor = clWhite
+    end
+    object GroupBox3: TGroupBox
+      Left = 12
+      Top = 162
+      Width = 93
+      Height = 33
+      TabOrder = 1
+      object Label6: TLabel
+        Left = 5
+        Top = 11
+        Width = 24
+        Height = 13
+        Alignment = taRightJustify
+        Caption = 'Total'
+      end
+      object TotalTemp: TEdit
+        Left = 36
+        Top = 8
+        Width = 41
+        Height = 21
+        Enabled = False
+        TabOrder = 0
+      end
+    end
+    object Bersihkan: TButton
+      Left = 113
+      Top = 168
+      Width = 73
+      Height = 25
+      Caption = 'Bersihkan'
+      TabOrder = 2
+      OnClick = BersihkanClick
+    end
+  end
+  object GroupBox2: TGroupBox
+    Left = 8
+    Top = 40
+    Width = 825
+    Height = 247
+    TabOrder = 7
+    object StrGrid: TZColorStringGrid
+      Left = 5
+      Top = 15
+      Width = 815
+      Height = 193
+      ColCount = 6
+      DefaultRowHeight = 20
+      DefaultDrawing = False
+      FixedColor = clBtnFace
+      FixedCols = 0
+      RowCount = 2
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing]
+      TabOrder = 0
+      OnDblClick = StrGridDblClick
+      OnSelectCell = StrGridSelectCell
+      DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
+      DefaultCellStyle.Font.Color = clWindowText
+      DefaultCellStyle.Font.Height = -11
+      DefaultCellStyle.Font.Name = 'MS Sans Serif'
+      DefaultCellStyle.Font.Style = []
+      DefaultCellStyle.BGColor = clWindow
+      DefaultFixedCellStyle.Font.Charset = DEFAULT_CHARSET
+      DefaultFixedCellStyle.Font.Color = clWindowText
+      DefaultFixedCellStyle.Font.Height = -11
+      DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
+      DefaultFixedCellStyle.Font.Style = []
+      DefaultFixedCellStyle.BGColor = clBtnFace
+      LineDesign.LineUpColor = clWhite
+    end
+    object CheckSelect: TCheckBox
+      Left = 119
+      Top = 106
+      Width = 14
+      Height = 15
+      TabOrder = 1
+      Visible = False
+      OnExit = CheckSelectExit
+    end
+    object GroupTotal: TGroupBox
+      Left = 12
+      Top = 207
+      Width = 93
+      Height = 33
+      TabOrder = 2
+      object Label4: TLabel
+        Left = 6
+        Top = 11
+        Width = 24
+        Height = 13
+        Alignment = taRightJustify
+        Caption = 'Total'
+      end
+      object Total: TEdit
+        Left = 37
+        Top = 8
+        Width = 41
+        Height = 21
+        Enabled = False
+        TabOrder = 0
+      end
+      object chk1: TCheckBox
+        Left = 148
+        Top = 11
+        Width = 82
+        Height = 17
+        Caption = 'Ceklis semua'
+        TabOrder = 1
+        OnClick = chk1Click
+      end
+    end
   end
 end
