@@ -262,7 +262,7 @@ object VehicleForm: TVehicleForm
           Width = 161
           Height = 21
           Style = csDropDownList
-          ItemHeight = 0
+          ItemHeight = 13
           TabOrder = 0
           TabStop = False
         end
@@ -332,7 +332,7 @@ object VehicleForm: TVehicleForm
           Width = 217
           Height = 21
           Style = csDropDownList
-          ItemHeight = 0
+          ItemHeight = 13
           TabOrder = 7
           OnKeyPress = JenisKeyPress
         end
@@ -342,7 +342,7 @@ object VehicleForm: TVehicleForm
           Width = 217
           Height = 21
           Style = csDropDownList
-          ItemHeight = 0
+          ItemHeight = 13
           TabOrder = 6
           OnChange = GroupChange
           OnKeyPress = GroupKeyPress
@@ -482,7 +482,7 @@ object VehicleForm: TVehicleForm
             Width = 217
             Height = 21
             Style = csDropDownList
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 2
             OnKeyPress = JenisKeyPress
           end
@@ -499,7 +499,7 @@ object VehicleForm: TVehicleForm
             Width = 217
             Height = 21
             Style = csDropDownList
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 4
             OnKeyPress = JenisKeyPress
           end
@@ -509,7 +509,7 @@ object VehicleForm: TVehicleForm
             Width = 217
             Height = 21
             Style = csDropDownList
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 5
             OnKeyPress = JenisKeyPress
           end
@@ -519,7 +519,7 @@ object VehicleForm: TVehicleForm
             Width = 217
             Height = 21
             Style = csDropDownList
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 6
             OnKeyPress = JenisKeyPress
           end
@@ -529,7 +529,7 @@ object VehicleForm: TVehicleForm
             Width = 217
             Height = 21
             Style = csDropDownList
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 7
             OnKeyPress = JenisKeyPress
           end

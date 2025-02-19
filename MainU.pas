@@ -147,7 +147,7 @@ end;
 var
   Main: TMain;
   RegPath,FullName,User,LocationId,CompanyId,GroupId,DepartmentId,DepartmentName:String;
-  LocationCode,CompanyCode,CompanyShortCode,DepartmentCode,SetPrinterSJ,SetPrinterINV,SetTambahanTopSJ:String;
+  LocationCode,CompanyCode,CompanyShortCode,DepartmentCode,SetPrinterSJ,SetPrinterINV,SetTambahanTopSJ,SetTambahanTopInv:String;
   Filename,StrConnection,StrConnectionWehaOnline:String;
   app_edt_km_awal: String;
   Interval_CheckInDate,Interval_CheckInTime,SetHeightInv:Integer;
@@ -2344,6 +2344,10 @@ begin
     Regs.RootKey:=HKEY_LOCAL_MACHINE;
     try
       if Regs.OpenKeyReadOnly(RegPath) then begin
+        SetPrinterSJ:=Regs.ReadString('SetPrinterSJ');
+        SetPrinterINV:=Regs.ReadString('SetPrinterINV');
+        SetTambahanTopSJ:=Regs.ReadString('SetTambahanTopSJ');
+        SetTambahanTopInv:=Regs.ReadString('SetTambahanTopInv');
         DbHost:=Regs.ReadString('Host');
         Db:=Decrypt(Regs.ReadString('Db'),3);
         DbUser:=Decrypt(Regs.ReadString('Username'),4);
@@ -2838,7 +2842,7 @@ procedure TMain.TimerMessageTimer(Sender: TObject);
 begin
   TimerMessage.Enabled:=False;
   CheckMessage;
-end;
+ end;
 
 procedure TMain.CheckMessage;
 var Qry:TADOQuery;

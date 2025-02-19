@@ -1153,10 +1153,10 @@ begin
           StrTransId:='PKB'+LocationCode+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
                   FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+StrMaxId;
           StrQry:='INSERT INTO wh_work_order (work_order_id,service_request_id,vehicle_id,job_inex_id,odo_in,date_in'+
-                  ',time_in,date_out,general_repair,body_repair,insurance,update_user)'+
+                  ',time_in,date_out,general_repair,body_repair,insurance,update_user,create_user,create_date)'+
                   ' VALUES ('+QuotedStr(StrTransId)+','+StrServiceRequestId+
                   ','+StrVhcId+','+IntToStr(IntJobInEx)+','+StrKMOdo+','+StrStartDate+',GETDATE()'+
-                  ','+StrFinishDate+','+StrGenRep+','+StrBodRep+','+StrAnsur+','+Chr(39)+User+Chr(39)+');';
+                  ','+StrFinishDate+','+StrGenRep+','+StrBodRep+','+StrAnsur+','+Chr(39)+User+Chr(39)+', '+Chr(39)+User+Chr(39)+',GETDATE());';
           Qry.SQL.Clear;
           Main.WriteLog('SQL :'+StrQry,4);
           Qry.SQL.Add(StrQry);

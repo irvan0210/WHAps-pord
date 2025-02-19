@@ -321,7 +321,7 @@ begin
               if QVhc.FieldValues['tera']<>NULL then VehicleArr[Count][14]:=QVhc.FieldValues['tera'];
               if QVhc.FieldValues['seat']<>NULL then VehicleArr[Count][15]:=QVhc.FieldValues['seat'];
               if QVhc.FieldValues['is_facelift']<>NULL then begin
-                if (QVhc.FieldValues['is_facelift']=1) then VehicleArr[Count][16]:='V' else VehicleArr[Count][13]:='';
+                if (QVhc.FieldValues['is_facelift']=1) then VehicleArr[Count][16]:='V' else VehicleArr[Count][16]:='';
               end;
 
               if QVhc.FieldValues['no_uji_kir']<>NULL then VehicleArr[Count][17]:=QVhc.FieldValues['no_uji_kir'];

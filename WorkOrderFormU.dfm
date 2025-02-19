@@ -1,6 +1,6 @@
 object WorkOrderForm: TWorkOrderForm
-  Left = 263
-  Top = 86
+  Left = 326
+  Top = 310
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Buka Perintah Kerja Bengkel'
@@ -3424,7 +3424,7 @@ object WorkOrderForm: TWorkOrderForm
       Caption = 'No PKB'
     end
     object Label6: TLabel
-      Left = 248
+      Left = 214
       Top = 10
       Width = 19
       Height = 13
@@ -3438,7 +3438,7 @@ object WorkOrderForm: TWorkOrderForm
       TabOrder = 0
     end
     object Jam: TEdit
-      Left = 280
+      Left = 246
       Top = 8
       Width = 57
       Height = 21

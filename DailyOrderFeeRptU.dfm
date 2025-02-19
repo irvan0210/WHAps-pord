@@ -1,11 +1,11 @@
 object DailyOrderFeeRpt: TDailyOrderFeeRpt
-  Left = 308
-  Top = 540
-  BorderIcons = [biSystemMenu]
+  Left = 250
+  Top = 133
+  BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan Uang Order Harian'
   ClientHeight = 499
-  ClientWidth = 1037
+  ClientWidth = 1090
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,7 +19,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
   OnClose = FormClose
   OnShow = FormShow
   DesignSize = (
-    1037
+    1090
     499)
   PixelsPerInch = 96
   TextHeight = 13
@@ -31,7 +31,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     Caption = 'Tanggal'
   end
   object ToXCel: TSpeedButton
-    Left = 1007
+    Left = 1060
     Top = 464
     Width = 25
     Height = 22
@@ -220,7 +220,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     OnChange = BatchChange
   end
   object Refresh: TButton
-    Left = 959
+    Left = 1012
     Top = 18
     Width = 75
     Height = 21
@@ -232,7 +232,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
   object StrGrid: TZColorStringGrid
     Left = 1
     Top = 87
-    Width = 1036
+    Width = 1089
     Height = 364
     Anchors = [akLeft, akTop, akRight]
     ColCount = 45
@@ -320,7 +320,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     TabOrder = 9
   end
   object GroupBox1: TGroupBox
-    Left = 608
+    Left = 601
     Top = 10
     Width = 151
     Height = 33
@@ -357,12 +357,19 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     OnKeyPress = edtCariKeyPress
   end
   object GroupBox2: TGroupBox
-    Left = 608
+    Left = 601
     Top = 42
-    Width = 473
+    Width = 488
     Height = 40
     Caption = ' Filter '
     TabOrder = 12
+    object Label9: TLabel
+      Left = 267
+      Top = 17
+      Width = 55
+      Height = 13
+      Caption = 'BBM SPBU'
+    end
     object cbCancel: TCheckBox
       Left = 7
       Top = 14
@@ -380,29 +387,34 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
       TabOrder = 1
       OnClick = CekTglMasukClick
     end
-    object CekBBM: TCheckBox
-      Left = 283
-      Top = 14
-      Width = 115
-      Height = 17
-      Caption = 'Blm Isi BBM SPBU'
-      TabOrder = 2
-      OnClick = CekTglSampaiClick
-    end
     object CekTglInput: TCheckBox
-      Left = 179
+      Left = 169
       Top = 14
       Width = 70
       Height = 17
       Caption = 'Tgl Input'
-      TabOrder = 3
+      TabOrder = 2
       OnClick = CekTglInputClick
+    end
+    object ComboBBMSPBU: TComboBox
+      Left = 328
+      Top = 13
+      Width = 137
+      Height = 21
+      ItemHeight = 13
+      ItemIndex = 0
+      TabOrder = 3
+      Text = 'Semua'
+      Items.Strings = (
+        'Semua'
+        'Sudah Isi BBM SPBU'
+        'Belum Isi BBM SPBU')
     end
   end
   object ppReportReimburse: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Custom'
+    PrinterSetup.PaperName = '1/2 A4'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 5080
     PrinterSetup.mmMarginLeft = 6350
@@ -410,7 +422,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 140000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 134
     Template.FileName = 'D:\Source\SC Delphi\06 Jan 2020\formReimburse.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'

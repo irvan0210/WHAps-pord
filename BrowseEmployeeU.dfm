@@ -1,6 +1,6 @@
 object BrowseEmployee: TBrowseEmployee
-  Left = 403
-  Top = 280
+  Left = 319
+  Top = 71
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'BrowseEmployee'
@@ -125,12 +125,12 @@ object BrowseEmployee: TBrowseEmployee
     Caption = 'Peserta Dipilih'
     TabOrder = 6
     object Label7: TLabel
-      Left = 626
+      Left = 641
       Top = 171
-      Width = 163
+      Width = 170
       Height = 13
       Alignment = taRightJustify
-      Caption = 'F5    =  Menghapus Peserta Dipilih'
+      Caption = 'Delete = Menghapus Peserta Dipilih'
     end
     object StrGridTemp: TZColorStringGrid
       Left = 5

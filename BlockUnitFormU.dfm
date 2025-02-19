@@ -289,7 +289,7 @@ object BlockUnitForm: TBlockUnitForm
       Caption = 'Dibuat Oleh'
     end
     object Label10: TLabel
-      Left = 262
+      Left = 283
       Top = 35
       Width = 64
       Height = 13
@@ -305,7 +305,7 @@ object BlockUnitForm: TBlockUnitForm
       Caption = 'Update Terakhir'
     end
     object Label13: TLabel
-      Left = 249
+      Left = 270
       Top = 59
       Width = 77
       Height = 13
@@ -335,9 +335,9 @@ object BlockUnitForm: TBlockUnitForm
       TabOrder = 2
     end
     object CreateDate: TEdit
-      Left = 336
+      Left = 360
       Top = 32
-      Width = 121
+      Width = 97
       Height = 21
       ReadOnly = True
       TabOrder = 3
@@ -351,9 +351,9 @@ object BlockUnitForm: TBlockUnitForm
       TabOrder = 4
     end
     object UpdateDate: TEdit
-      Left = 336
+      Left = 360
       Top = 56
-      Width = 121
+      Width = 97
       Height = 21
       ReadOnly = True
       TabOrder = 5

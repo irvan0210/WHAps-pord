@@ -126,6 +126,11 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '14/02/2025 (6.1.6.3)'
+      
+        '-Penambahan Filter Sudah isi BBM SPBU dan Belum Isi BBM SPBU di ' +
+        'Uang Order'
+      ''
       '05/02/2025 (6.1.6.2)'
       '-Penambahan Modul Rekomendasi Teknis'
       ''

@@ -1244,7 +1244,8 @@ begin
         {Reimburse}
         StrQry:=''; {BBM Reimburse}
         StrQry:=' UPDATE wh_vhc_trans_detail SET Status=0 WHERE Status=1 AND vhc_trans_id='+QuotedStr(TransId)+' AND '+
-                ' transaction_type_id in (140107,140108,140109,140111,140112,140113) ;';  // Cek 140113
+                //' transaction_type_id in (140107,140108,140109,140111,140112,140113) ;';  // Cek 140113
+                ' transaction_type_id in (140107,140108,140109,140111,140112) ;';  // Cek 140113
         if BBMReimburse.Text<>'0' then begin
           TransType:=QuotedStr('140107');
           Amount:=ToString(BBMReimburse.Text);

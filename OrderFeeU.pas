@@ -1166,6 +1166,8 @@ begin
         DriverFeeTotal2.Text:='0';
       end;
 
+
+
 //      TripType.ItemIndex:=TripType.Items.IndexOf(Trim(Qry.FieldValues['trip_type_name']));
 
 
@@ -1242,6 +1244,16 @@ begin
       end else begin
         TollTotal.Text:='0';
         Toll.Text:='0';
+      end;
+
+      if (Qry.FieldValues['overtime']<>NULL) then
+      begin
+        Overtime.Text:=IToCurr(Qry.FieldValues['overtime']);
+        OvertimeTotal.Text:=IToCurr(Qry.FieldValues['overtime']);
+      end else
+      begin
+        Overtime.Text:='0';
+        OvertimeTotal.Text:='0';
       end;
 
       if Qry.FieldValues['overnight']<>NULL then begin
@@ -1334,6 +1346,8 @@ begin
         DriverDisp.Text:=SJArr[ArrayIndexOf(SJArr,NoSJ.Text,0)][4];
         DriverFee2.ReadOnly:=True;
       end;
+
+
 
       Trip_type:=SJArr[ArrayIndexOf(SJArr,NoSJ.Text,0)][41];
       if Trip_type='' then  TripType.ItemIndex:=-1 else
@@ -2306,7 +2320,7 @@ begin
       StrTanggal:=Qry.FieldValues['from_dates'];
       StrNoSJ:=Qry.FieldValues['vhc_trans_id'];
       StrNoReservasi:=Qry.FieldValues['customer_order_id'];
-      if TotDriver=2 then
+      if Qry.FieldValues['driver2']<>NULL then
       begin
          StrDriverName:=Qry.FieldValues['name'] +' & '+ Qry.FieldValues['driver2'];
       end else

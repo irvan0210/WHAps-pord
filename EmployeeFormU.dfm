@@ -167,7 +167,7 @@ object EmployeeForm: TEmployeeForm
     Top = 0
     Width = 511
     Height = 566
-    ActivePage = TabLampiran
+    ActivePage = TabIdentitas
     Align = alClient
     MultiLine = True
     TabOrder = 5
@@ -1905,7 +1905,7 @@ object EmployeeForm: TEmployeeForm
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 13
+          ItemHeight = 0
           ParentFont = False
           TabOrder = 0
         end
@@ -2056,7 +2056,7 @@ object EmployeeForm: TEmployeeForm
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 13
+          ItemHeight = 0
           ParentFont = False
           TabOrder = 0
           OnChange = PendidikanTerakhirChange

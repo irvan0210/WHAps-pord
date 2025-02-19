@@ -319,6 +319,10 @@ begin
   NoPolisi.Text:='';
   KMOdo.Text:='';
   Alasan.Text:='';
+  CreateUser.Text:='';
+  CreateDate.Text:='';
+  UpdateUser.Text:='';
+  UpdateDate.Text:='';
 
   QNoPolisi.Caption:='';
   QNoPKB.Caption:='';
@@ -452,8 +456,15 @@ begin
         CreateUser.Text:=Qry.FieldValues['create_name'];
         CreateDate.Text:=FormatDateTime('dd/mm/yyyy',StrToDate(Qry.FieldValues['create_date_work_order']));
       end;
-      UpdateUser.Text:=Qry.FieldValues['update_name'];
-      UpdateDate.Text:=FormatDateTime('dd/mm/yyyy',StrToDate(Qry.FieldValues['update_date_work_order']));
+      if Qry.FieldValues['create_date_work_order'] <> Qry.FieldValues['update_date_work_order'] then
+      begin
+        UpdateUser.Text:=Qry.FieldValues['update_name'];
+        UpdateDate.Text:=FormatDateTime('dd/mm/yyyy',StrToDate(Qry.FieldValues['update_date_work_order']));
+      end else begin
+        UpdateUser.Text:='';
+        UpdateDate.Text:='';
+      end;
+
 
       KMOdo.Text:=IToCurr(Qry.FieldValues['odo_in']);
       NoPKB.Text:=Qry.FieldValues['work_order_id'];
@@ -685,7 +696,11 @@ begin
           Main.TransCommit;
           DisableInput;
           if WorkOrderId='' then begin
-            StrQry:='SELECT CONVERT(VARCHAR(5),time_in,108) AS time_in FROM wh_work_order WHERE work_order_id='+Chr(39)+StrTransId+Chr(39)+';';
+            StrQry:='SELECT CONVERT(VARCHAR(5),a.time_in,108) AS time_in,k.name create_name,l.name update_name,CONVERT(VARCHAR(10),a.create_date,103) create_date_work_order '+
+                    'FROM wh_work_order a '+
+                    'LEFT JOIN wh_user k on a.create_user=k.username '+
+			              'LEFT JOIN wh_user l on a.update_user=l.username '+
+                    'WHERE work_order_id='+Chr(39)+StrTransId+Chr(39)+';';
             Qry.Close;
             Qry.SQL.Clear;
             Main.WriteLog('SQL :'+StrQry,2);
@@ -694,6 +709,8 @@ begin
             if Qry.RecordCount>0 then begin
               NoPKB.Text:=StrTransId;
               Jam.Text:=Qry.FieldValues['time_in'];
+              CreateUser.Text:=Qry.FieldValues['create_name'];
+              CreateDate.Text:=FormatDateTime('dd/mm/yyyy',StrToDate(Qry.FieldValues['create_date_work_order']));
             end;
             Qry.Close;
           end;

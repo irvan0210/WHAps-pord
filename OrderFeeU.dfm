@@ -1,11 +1,11 @@
 object OrderFee: TOrderFee
-  Left = 218
-  Top = 0
+  Left = 256
+  Top = 472
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Uang Order'
   ClientHeight = 668
-  ClientWidth = 975
+  ClientWidth = 988
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -3842,7 +3842,7 @@ object OrderFee: TOrderFee
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 121
     Template.FileName = 'D:\WH App\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'
@@ -4218,7 +4218,7 @@ object OrderFee: TOrderFee
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 121
     Template.FileName = 'D:\WH App\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'
@@ -5063,7 +5063,7 @@ object OrderFee: TOrderFee
   object ppReportSPPB: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Custom'
+    PrinterSetup.PaperName = '1/2 A4'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 5080
     PrinterSetup.mmMarginLeft = 6350
@@ -5071,7 +5071,7 @@ object OrderFee: TOrderFee
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 140000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 134
     Template.FileName = 'D:\WH App\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'
@@ -6583,7 +6583,7 @@ object OrderFee: TOrderFee
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 121
     Template.FileName = 'D:\PRAM\SC Delphi\23 Jan 2018\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'

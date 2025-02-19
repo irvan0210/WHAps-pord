@@ -93,9 +93,10 @@ type
     GroupBox2: TGroupBox;
     cbCancel: TCheckBox;
     CekTglMasuk: TCheckBox;
-    CekBBM: TCheckBox;
     CekTglInput: TCheckBox;
     lbl2: TLabel;
+    ComboBBMSPBU: TComboBox;
+    Label9: TLabel;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure RefreshClick(Sender: TObject);
@@ -166,6 +167,7 @@ begin
   Batch.Items.Clear;
   Batch.ItemIndex:=0;
   Batch.Text:='';
+  ComboBBMSPBU.ItemIndex:=0;
   CekTglSampai.Checked:=False;
   TglSampai.Enabled:=False;
   if StrToInt(CompanyId)=1 then SBU.Enabled:=True else SBU.Enabled:=False;
@@ -1053,8 +1055,15 @@ begin
 
   if CekTglMasuk.Checked=True then StrInDate:=',@IsInDates=1';
   if CekTglInput.Checked=True then StrInputDate:=',@IsInputDates=1';
-  if CekBBM.Checked=True then StrIsFilledFuel:=',@IsFilledFuel=1';
+//  if CekBBM.Checked=True then StrIsFilledFuel:=',@IsFilledFuel=1';
 
+  if ComboBBMSPBU.ItemIndex=1 then begin
+     StrIsFilledFuel:=',@IsFilledFuel=2';
+  end else if ComboBBMSPBU.ItemIndex=2 then begin
+     StrIsFilledFuel:=',@IsFilledFuel=1';
+  end else begin
+     StrIsFilledFuel:='';
+  end;
 
   QStr:='EXEC GetRevenueVhcDayRpt2 '+StrLocationId+','+
         QuotedStr(FormatDateTime('dd-mm-yyyy',Tanggal.Date))+','+
@@ -1805,8 +1814,9 @@ begin
 
           StrGrid.Cells[26,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][24]));
           StrGrid.Cells[27,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][25]));
-          StrGrid.Cells[28,Count2-1]:=IToCurr(IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][19]));
-          StrGrid.Cells[29,Count2-1]:=IToCurr(IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][19])-BBMRp_SPBU);
+
+          StrGrid.Cells[28,Count2-1]:=IToCurr(IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][19])+StoInt(OrderFeeArr[Count][25]));
+          StrGrid.Cells[29,Count2-1]:=IToCurr(IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][19])-BBMRp_SPBU+StoInt(OrderFeeArr[Count][25]));
           StrGrid.Cells[30,Count2-1]:=OrderFeeArr[Count][26];
 
           if (OrderFeeArr[Count][55]='') or (OrderFeeArr[Count][55]='0') then begin
