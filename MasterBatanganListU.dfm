@@ -1,10 +1,10 @@
 object MasterBatanganList: TMasterBatanganList
-  Left = 242
-  Top = 255
+  Left = 171
+  Top = 253
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Daftar Master Batangan'
-  ClientHeight = 380
+  ClientHeight = 386
   ClientWidth = 1051
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -28,8 +28,8 @@ object MasterBatanganList: TMasterBatanganList
     Caption = 'Cari'
   end
   object ToXCel: TSpeedButton
-    Left = 13
-    Top = 353
+    Left = 938
+    Top = 354
     Width = 23
     Height = 22
     Glyph.Data = {
@@ -85,8 +85,8 @@ object MasterBatanganList: TMasterBatanganList
     OnChange = CariChange
   end
   object Selesai: TButton
-    Left = 444
-    Top = 352
+    Left = 510
+    Top = 353
     Width = 75
     Height = 25
     Caption = 'Selesai'
@@ -180,5 +180,27 @@ object MasterBatanganList: TMasterBatanganList
     ItemHeight = 13
     TabOrder = 7
     Visible = False
+  end
+  object grpGroupTotal: TGroupBox
+    Left = 8
+    Top = 348
+    Width = 156
+    Height = 33
+    TabOrder = 8
+    object lbl1: TLabel
+      Left = 9
+      Top = 11
+      Width = 46
+      Height = 13
+      Caption = 'Total Unit'
+    end
+    object TotalUnit: TEdit
+      Left = 76
+      Top = 8
+      Width = 73
+      Height = 21
+      Enabled = False
+      TabOrder = 0
+    end
   end
 end

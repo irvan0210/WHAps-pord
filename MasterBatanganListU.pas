@@ -22,6 +22,9 @@ type
     LihatData: TButton;
     SBUtemp: TComboBox;
     SBU: TComboBox;
+    grpGroupTotal: TGroupBox;
+    lbl1: TLabel;
+    TotalUnit: TEdit;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure CariChange(Sender: TObject);
@@ -422,6 +425,7 @@ procedure TMasterBatanganList.FormShow(Sender: TObject);
 begin
   Init;
   RefreshCombo;
+  RefreshSeat;
  // RefreshList;
 end;
 
@@ -442,7 +446,7 @@ begin
 end;
 
 procedure TMasterBatanganList.RefreshData;
-var Count,Count2, IntCount, IntCount2:Integer;
+var Count,Count2, IntCount, IntCount2, IntTotalUnit:Integer;
     StrLocation,StrCompany,QStr,Nama,StrHelper, StrBatchName,
     StrCompanyId,StrLocationId,StrBatchId,StrSeat:String;
     Qry:TADOQuery;
@@ -454,7 +458,8 @@ begin
         StrGrid.Cells[Count2,Count+1]:=''
     end;
   end;}
-   IntCount:=1;
+  IntTotalUnit:=0;
+  IntCount:=1;
   SetLength(SchArr,0);
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
@@ -515,6 +520,7 @@ begin
       Qry.Next;
       Inc(Count);
    end;
+   //edtTotalUnitOperasi.Text := IToCurr(IntTotalUnit);
     Qry.Close;
     Main.CloseDb;
  end;
@@ -528,6 +534,8 @@ begin
         StrGrid.Cells[Count2,Count+2]:=SchArr[Count][Count2];
     end;
   end;
+
+  TotalUnit.Text :=IntToStr(Length(SchArr)-1);
   
  { for IntCount:=1 to 31 do IntCategory[IntCount]:=0;
    For Count:=0 to Length(SchArr)-1 do begin

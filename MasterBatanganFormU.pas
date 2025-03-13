@@ -476,26 +476,34 @@ begin
          end else begin
           QStr:='SELECT MAX(working_schedule_id) AS working_schedule_id FROM wh_working_schedule '+
               'WHERE vehicle_id='+Chr(39)+StrVhcId+Chr(39)+' AND is_helper= '+StrHelper+' ;';
-             // ' AND employee_id='+Chr(39)+StrDriverId+Chr(39)+';';
           Qry.SQL.Add(QStr);
           Qry.Open;
           QStr:='';
-            if (Qry.RecordCount>0) then begin
+            if (Qry.RecordCount>0)  AND (Qry.FieldValues['working_schedule_id']<>NULL )  then begin
               //Qry.FieldValues['working_schedule_id'];
               QStr:='UPDATE wh_working_schedule SET employee_id='+Chr(39)+StrDriverId+Chr(39)+',vehicle_id='+
                     Chr(39)+StrVhcId+Chr(39)+',from_date='+Chr(39)+FormatDateTime('yyyy-mm-dd',driver_tgldari.Date)+Chr(39)+
                     ',to_date='+Chr(39)+FormatDateTime('yyyy-mm-dd',driver_tglsampai.Date)+Chr(39)+
                     ' WHERE working_schedule_id='+QuotedStr(Qry.FieldValues['working_schedule_id'])+
                     ' AND vehicle_id='+Chr(39)+StrVhcId+Chr(39)+';';
-              Qry.SQL.Add(QStr);
-              try
-                Qry.ExecSQL;
-              except
-                on E:Exception do begin
-                  IsOk:=False;
-                end
-              end;
+             end else begin
+               QStr:=' INSERT INTO wh_working_schedule (employee_id,vehicle_id,from_date,to_date,'+
+                        'location_id,update_user,is_helper)'+
+                        ' VALUES ('+QuotedStr(StrDriverId)+','+QuotedStr(StrVhcId)+
+                        ','+QuotedStr(FormatDateTime('yyyy-mm-dd',driver_tgldari.Date))+
+                        ','+QuotedStr(FormatDateTime('yyyy-mm-dd',driver_tglsampai.Date))+
+                        ','+LocationId+','+QuotedStr(User)+','+StrHelper+');';
              end;
+            Qry.SQL.Clear;
+            Qry.SQL.Add(QStr);
+            try
+              Qry.ExecSQL;
+            except
+              on E:Exception do begin
+                IsOk:=False;
+              end
+            end;
+
          end;
 
        end;
@@ -508,6 +516,8 @@ begin
         Qry:=TADOQuery.Create(Self);
         Qry.Connection:=Main.MyConnection;
         if Main.OpenDb then begin
+        // MessageBox(0,PChar(SchId),'VHC',MB_OK or MB_ICONINFORMATION);
+        //end;
           if SchId='' then  begin
             QStr:='SELECT MAX(working_schedule_id) AS working_schedule_id FROM wh_working_schedule '+
               'WHERE employee_id='+Chr(39)+StrHelperId+Chr(39)+' AND is_helper ='+StrHelper+
@@ -536,40 +546,54 @@ begin
             end;
 
          end else begin
+
           QStr:='SELECT MAX(working_schedule_id) AS working_schedule_id FROM wh_working_schedule '+
               'WHERE vehicle_id='+Chr(39)+StrVhcId+Chr(39)+' AND is_helper='+StrHelper+';';
           Qry.SQL.Add(QStr);
           Qry.Open;
           QStr:='';
-            if (Qry.RecordCount>0) then begin
+          MessageBox(0,PChar(StrVhcId),'VHC',MB_OK or MB_ICONINFORMATION);
+          MessageBox(0,PChar(StrHelperId),'VHC',MB_OK or MB_ICONINFORMATION);
+         // StrVhcId
+
+            if (Qry.RecordCount>0) AND (Qry.FieldValues['working_schedule_id']<>NULL ) then begin
               QStr:='UPDATE wh_working_schedule SET employee_id='+Chr(39)+StrHelperId+Chr(39)+',vehicle_id='+
                     Chr(39)+StrVhcId+Chr(39)+',from_date='+Chr(39)+FormatDateTime('yyyy-mm-dd',helper_tgldari.Date)+Chr(39)+
                     ',to_date='+Chr(39)+FormatDateTime('yyyy-mm-dd',helper_tglsampai.Date)+Chr(39)+
                     ' WHERE working_schedule_id='+QuotedStr(Qry.FieldValues['working_schedule_id'])+
                     ' AND vehicle_id='+Chr(39)+StrVhcId+Chr(39)+';';
-              Qry.SQL.Add(QStr);
-              try
-                Qry.ExecSQL;
-              except
-                on E:Exception do begin
-                  IsOk:=False;
-                end
-              end;
+             end else begin
+               QStr:=' INSERT INTO wh_working_schedule (employee_id,vehicle_id,from_date,to_date,'+
+                        'location_id,update_user,is_helper)'+
+                        ' VALUES ('+QuotedStr(StrHelperId)+','+QuotedStr(StrVhcId)+
+                        ','+QuotedStr(FormatDateTime('yyyy-mm-dd',helper_tgldari.Date))+
+                        ','+QuotedStr(FormatDateTime('yyyy-mm-dd',helper_tglsampai.Date))+
+                        ','+LocationId+','+QuotedStr(User)+','+StrHelper+');';
              end;
+            Qry.SQL.Clear;
+            Qry.SQL.Add(QStr);
+            try
+              Qry.ExecSQL;
+            except
+              on E:Exception do begin
+                IsOk:=False;
+              end
+            end;
          end;
 
        end;
      end;
      
-      if IsOk then begin
-            MessageBox(0,'Penambahan/Perubahan Jadwal Berhasil','Tambah Jadwal',MB_OK or MB_ICONINFORMATION);
-            Init;
-            RefreshDriver;
-            RefreshVehicle;
-      end else
-          MessageBox(0,'Penambahan/Perubahan Jadwal Gagal','Tambah Jadwal',MB_OK or MB_ICONWARNING);
-        Qry.Close;
-        Main.CloseDb;
+    if IsOk then begin
+          MessageBox(0,'Penambahan/Perubahan Jadwal Berhasil','Tambah Jadwal',MB_OK or MB_ICONINFORMATION);
+          Init;
+          RefreshDriver;
+          RefreshVehicle;
+    end else  begin
+    MessageBox(0,'Penambahan/Perubahan Jadwal Gagal','Tambah Jadwal',MB_OK or MB_ICONWARNING);
+      Qry.Close;
+      Main.CloseDb;
+      end;
 
   end;
  { if ( (Trim(Driver.Text)<>'') AND (Trim(Vechile.Text)<>'')  ) then begin
