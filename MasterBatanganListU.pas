@@ -536,23 +536,23 @@ begin
   end;
 
   TotalUnit.Text :=IntToStr(Length(SchArr)-1);
-  
- { for IntCount:=1 to 31 do IntCategory[IntCount]:=0;
-   For Count:=0 to Length(SchArr)-1 do begin
+ 
+
+  { For Count:=0 to Length(SchArr)-1 do begin
     if StrBatchName<>SchArr[Count][0] then begin
       if StrBatchName<>'' then begin
-        StrGrid.RowCount:=StrGrid.RowCount+2;
+        StrGrid.RowCount:=StrGrid.RowCount+1;
         for Count2:= 0 to Length(SchArr)-1 do begin
-          StrGrid.Cells[Count2,Count+2]:=SchArr[Count][Count2];
-          StrGrid.CellStyle[Count2,Count+2].BGColor:=clSilver;
+          StrGrid.Cells[Count2,Count]:='';//SchArr[Count][Count2];
+          StrGrid.CellStyle[Count2,Count].BGColor:=clSilver;
         end;
         StrGrid.CellStyle[0,Count].BGColor:=clSilver;
        // for Count2:=1 to 10 do StrGrid.Cells[0,Count+2]:=IntToStr(IntCategory[Count2]);
 
         (*Tambah*)
         //Inc(Count);
-       // StrGrid.RowCount:=StrGrid.RowCount+2;
-        //SetLength(SchArr,Length(SchArr)+1);
+        StrGrid.RowCount:=StrGrid.RowCount+1;
+        SetLength(SchArr,Length(SchArr)+1);
 
         (*end tambah*)
         //for Count2:=1 to 31 do IntCategory[Count2]:=0;
@@ -563,23 +563,23 @@ begin
       StrBatchName:=SchArr[Count][0];
       //Cek
         for Count2:=0 to StrGrid.RowCount-1 do begin
-          StrGrid.Cells[Count2,Count]:='';
-          StrGrid.CellStyle[Count2,Count].BGColor:=clWindow;
+          StrGrid.Cells[Count2,Count+2]:='';
+          StrGrid.CellStyle[Count2,Count+2].BGColor:=clWindow;
           //Application.ProcessMessages;
         end;
-        StrGrid.RowCount:=StrGrid.RowCount+1;
-        StrGrid.CellStyle[0,Count].BGColor:=clSkyBlue;
-        StrGrid.CellStyle[0,Count].Font.Color:=clWindowText;
-        StrGrid.CellStyle[0,Count].Font.Style:=[fsBold];
-        StrGrid.CellStyle[0,Count].HorizontalAlignment:=taLeftJustify;
-        StrGrid.CellStyle[1,Count].BGColor:=clSkyBlue;
-        StrGrid.MergeCells.AddRectXY(1,Count,10,Count);
-        StrGrid.MergeCells.AddRectXY(0,Count,1,Count);
-        StrGrid.Cells[0,Count]:=StrBatchName;
+        //StrGrid.RowCount:=StrGrid.RowCount+1;
+        StrGrid.CellStyle[0,Count+2].BGColor:=clSkyBlue;
+        StrGrid.CellStyle[0,Count+2].Font.Color:=clWindowText;
+        StrGrid.CellStyle[0,Count+2].Font.Style:=[fsBold];
+        StrGrid.CellStyle[0,Count+2].HorizontalAlignment:=taLeftJustify;
+        StrGrid.CellStyle[1,Count+2].BGColor:=clSkyBlue;
+        StrGrid.MergeCells.AddRectXY(3,Count+2,10,Count+2);
+        StrGrid.MergeCells.AddRectXY(0,Count+2,2,Count+2);
+        StrGrid.Cells[0,Count+2]:=StrBatchName;
         //Inc(Count);
         //SetLength(SchArr,Length(SchArr)+1);
 
-     end;
+     end; 
    end;  }
 
 

@@ -552,8 +552,8 @@ begin
           Qry.SQL.Add(QStr);
           Qry.Open;
           QStr:='';
-          MessageBox(0,PChar(StrVhcId),'VHC',MB_OK or MB_ICONINFORMATION);
-          MessageBox(0,PChar(StrHelperId),'VHC',MB_OK or MB_ICONINFORMATION);
+          //MessageBox(0,PChar(StrVhcId),'VHC',MB_OK or MB_ICONINFORMATION);
+          //MessageBox(0,PChar(StrHelperId),'VHC',MB_OK or MB_ICONINFORMATION);
          // StrVhcId
 
             if (Qry.RecordCount>0) AND (Qry.FieldValues['working_schedule_id']<>NULL ) then begin
