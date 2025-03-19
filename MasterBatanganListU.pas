@@ -478,7 +478,7 @@ begin
    Qry.Open;
    Count := 0;
    if Qry.RecordCount > 0 then while not(Qry.Eof) do begin
-     SetLength(SchArr,Count+1);
+     SetLength(SchArr,Count+2);
      StrBatchName:=Qry.FieldValues['jenis_armada']+' '+IntToStr(Qry.FieldValues['seat']);
      SchArr[Count][0]:=StrBatchName;
      SchArr[Count][1]:=Qry.FieldValues['body_id'];
@@ -527,7 +527,7 @@ begin
 
   if Length(SchArr)>0 then StrGrid.RowCount:=Length(SchArr)+1
   else StrGrid.RowCount:=2;
-  Nama:='';
+ // Nama:='';
 
   For Count:=0 to Length(SchArr)-1 do begin
     for Count2:=0 to StrGrid.ColCount-1 do begin
@@ -536,7 +536,7 @@ begin
   end;
 
   TotalUnit.Text :=IntToStr(Length(SchArr)-1);
- 
+
 
   { For Count:=0 to Length(SchArr)-1 do begin
     if StrBatchName<>SchArr[Count][0] then begin

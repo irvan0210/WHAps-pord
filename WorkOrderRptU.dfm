@@ -1,6 +1,6 @@
 object WorkOrderRpt: TWorkOrderRpt
-  Left = 327
-  Top = 120
+  Left = 210
+  Top = 186
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan PKB'
@@ -104,6 +104,7 @@ object WorkOrderRpt: TWorkOrderRpt
       F8F5F5F5F7F7F8F7F6F6F7F7F7F7F7F80000F5F7F6F6F6F6F6F4F5F9FAFAF9F9
       F9EADFE0D9BFBFD6B8B8E1CBCDF0E9EAF8F9F9F6F7F8F6F6F5F6F7F8F7F7F7F7
       F7F7F7F8F8F7F7F70000}
+    Visible = False
     OnClick = TombolCariClick
   end
   object Label2: TLabel
@@ -159,7 +160,7 @@ object WorkOrderRpt: TWorkOrderRpt
     OnClick = LihatClick
   end
   object Cari: TEdit
-    Left = 869
+    Left = 868
     Top = 8
     Width = 113
     Height = 21
@@ -194,7 +195,7 @@ object WorkOrderRpt: TWorkOrderRpt
     DefaultFixedCellStyle.Font.Height = -11
     DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
     DefaultFixedCellStyle.Font.Style = []
-    DefaultFixedCellStyle.BGColor = clBtnFace
+    DefaultFixedCellStyle.BGColor = clSkyBlue
     LineDesign.LineUpColor = clWhite
   end
   object GroupCompany: TGroupBox
