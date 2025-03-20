@@ -28,6 +28,7 @@ type
     lbl1: TLabel;
     edtnopol: TEdit;
     Label5: TLabel;
+    Label6: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SelesaiClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -43,8 +44,9 @@ type
     procedure ToDatesClick(Sender: TObject);
     procedure TanggalChange(Sender: TObject);
     procedure TanggalSampaiChange(Sender: TObject);
+    procedure edtnopolChange(Sender: TObject);
   private
-    FormRequest,FormFunction:String;
+    FormRequest,FormFunction, StrDecId, StrTimeOut:String;
     StatusArr,LocationArr:Array of TArrString4;
     CompanyArr:Array of TArrString7;
     WorkOrderArr:Array of TArrString14;
@@ -214,7 +216,8 @@ end;
 
 procedure TWorkOrderRpt.RefreshData;
 var Qry, Qry2:TADOQuery;
-    StrQry,StrQry2,AwalBulan,StrCompanyId,StrLocationId,STrTanggal,StrStatus,StrToDates:String;
+    StrQry,StrQry2,AwalBulan,StrCompanyId,StrLocationId,
+    STrTanggal,StrStatus,StrToDates:String;
     IntCount,IntCount2:Integer;
 begin
   Qry:=TADOQuery.Create(Self);
@@ -226,6 +229,8 @@ begin
   Main.M_Busy;
   if Main.OpenDb then begin
     //SetLength(WorkOrderArr,0);
+    StrTimeOut := '';
+    StrDecId := '';
     StrCompanyId:=CompanyArr[SBU.ItemIndex][1];
     StrLocationId:=CompanyArr[SBU.ItemIndex][2];
     StrTanggal:=',@Dates='+QuotedStr(FormatDateTime('yyyy/mm/dd',Tanggal.Date));
@@ -259,11 +264,16 @@ begin
       WorkOrderArr[IntCount][10]:=Qry.FieldValues['work_resume'];
       WorkOrderArr[IntCount][11]:=Qry.FieldValues['part_name'];
       //WorkOrderArr[IntCount][12]:=Qry.FieldValues['time_out'];
-      if Qry.FieldValues['time_out']<>NULL then
-        WorkOrderArr[IntCount][12]:=Qry.FieldValues['time_out']
-      else WorkOrderArr[IntCount][12]:='';
+      if Qry.FieldValues['time_out']<>NULL then  begin
+        WorkOrderArr[IntCount][12]:=Qry.FieldValues['time_out'];
+        StrTimeOut := Qry.FieldValues['time_out'];
+      end else begin
+         WorkOrderArr[IntCount][12]:='';
+         StrTimeOut :='';
+      end;
+      
       WorkOrderArr[IntCount][13] := Qry.FieldValues['description_id'];
-
+      StrDecId := Qry.FieldValues['description_id'];
       Inc(IntCount);
       Qry.Next;
 
@@ -393,10 +403,15 @@ begin
     StrGrid.CellStyle[5,IntCount+2].HorizontalAlignment:=taCenter;
 
     if WorkOrderArr[IntCount][12]<>'' then
-       for IntCount2:=0 to StrGrid.ColCount-1 do
-       StrGrid.CellStyle[IntCount2,IntCount+2].Font.Color:=clGreen;
+    //if StrTimeOut <> '' then begin
+    begin
+     for IntCount2:=0 to StrGrid.ColCount-1 do
+     StrGrid.CellStyle[IntCount2,IntCount+2].Font.Color:=clGreen;
+    end;
 
-    if WorkOrderArr[IntCount][13]= '1' then begin
+    if WorkOrderArr[IntCount][13]= '1' then
+    //If StrDecId = '1' then
+    begin
       for IntCount2:=0 to StrGrid.ColCount-1 do
         StrGrid.CellStyle[9,IntCount+2].font.Color := clBlue;
     end;
@@ -448,14 +463,18 @@ begin
       StrGrid.CellStyle[4,IntCount+2].HorizontalAlignment:=taCenter;
       StrGrid.CellStyle[5,IntCount+2].HorizontalAlignment:=taCenter;
 
-   { if WorkOrderArr[IntCount][12]<>'' then
+       //if WorkOrderArr[IntCount][12]<>'' then
+    if StrTimeOut <> '' then begin
        for IntCount2:=0 to StrGrid.ColCount-1 do
        StrGrid.CellStyle[IntCount2,IntCount+2].Font.Color:=clGreen;
+    end;
 
-    if WorkOrderArr[IntCount][13]= '1' then begin
+   // if WorkOrderArr[IntCount][13]= '1' then
+    If StrDecId = '1' then
+    begin
       for IntCount2:=0 to StrGrid.ColCount-1 do
         StrGrid.CellStyle[9,IntCount+2].font.Color := clBlue;
-    end; }
+    end;
 
   end;
 end;
@@ -537,32 +556,46 @@ begin
 end;
 
 procedure TWorkOrderRpt.Search;
-var IntCount,IntCount2,IntCount3,IntCount4,IntMaxCol,IntStartRow, IntTotal:Integer;
+var Count,Count2,Count3,Count4, IntCount, IntCount2, IntStartRow:Integer;
     IsTrue, IsDrawRect:Boolean;
     StrWorkOrderId : string;
-    Count,Count2,Count3, Count4 : Integer;
 begin
-  if Trim(Cari.Text)<>'' then begin
-    InitGrid;
+  if (Trim(Cari.Text)<>'') OR (Trim(edtnopol.Text)<>'') then begin //(Cari.Text='') and (edtnopol.Text='')
+    RefreshGrid2;
     Count2:=2;
     for Count:=0 to Length(WorkOrderArr)-1 do begin
       IsTrue:=False;
-      for Count3:=0 to 13 do
-      if ((StrPos(PChar(UpperCase(WorkOrderArr[Count][Count3])),PChar(UpperCase(Cari.Text)))<>nil )
-          OR (StrPos(PChar(UpperCase(WorkOrderArr[Count][Count3])),PChar(UpperCase(edtnopol.Text)))<>nil) )
+      for Count3:=0 to 9 do
+      if ((StrPos(PChar(UpperCase(WorkOrderArr[Count][Count3])),PChar(UpperCase(Cari.Text)))<>nil)
+          OR (StrPos(PChar(UpperCase(WorkOrderArr[Count][Count3])),PChar(UpperCase(edtnopol.Text)))<>nil))
       then IsTrue:=True;
 
       if IsTrue then begin
-          StrGrid.RowCount:=Count2+1;
-          for Count4:=0 to 13 do
+        StrGrid.RowCount:= Count2+1;
+        for Count4:=0 to 13 do
           StrGrid.Cells[Count4,Count2]:= WorkOrderArr[Count][Count4];
-          Inc(Count2);
-      end;
+        Inc(Count2);
+
+        //for IntCount:=0 to Length(WorkOrderArr)-1 do begin
+
+          if StrTimeOut <> '' then begin
+             for IntCount2:=0 to 13 do
+             StrGrid.CellStyle[IntCount2,Count+2].Font.Color:=clGreen;
+          end;
+          MessageBox(Handle,PChar(StrDecId),'TESSSS',MB_ICONINFORMATION);
+          If StrDecId = '1' then
+          begin
+            for IntCount2:=0 to 13 do
+              StrGrid.CellStyle[9,Count+2].font.Color := clBlue;
+          end;
+        end;
     end;
-  end else begin
-    RefreshData;
-    RefreshGrid;
+    //end;
+ // end else begin
+ //   RefreshData;
+ //   RefreshGrid;
   end;
+//end;
 
  { //if Trim(Cari.Text)<>'' then begin
     InitGrid;
@@ -624,7 +657,7 @@ var Count,Count2,Count3,Count4, IntCount, IntCount2, IntStartRow:Integer;
     IsTrue, IsDrawRect:Boolean;
     StrWorkOrderId : string;
 begin
-  if Trim(Cari.Text)<>'' then begin
+  if Trim(Cari.Text)<>'' then begin //(Cari.Text='') and (edtnopol.Text='')
     RefreshGrid2;
     Count2:=2;
     for Count:=0 to Length(WorkOrderArr)-1 do begin
@@ -638,33 +671,27 @@ begin
         StrGrid.RowCount:= Count2+1;
         for Count4:=0 to 13 do
           StrGrid.Cells[Count4,Count2]:= WorkOrderArr[Count][Count4];
-        Inc(Count2);
-       // IntStartRow:=0;
 
-        for IntCount:=0 to Length(WorkOrderArr)-1 do begin
-          if WorkOrderArr[IntCount][12]<>'' then
-             for IntCount2:=0 to StrGrid.ColCount-1 do
-             StrGrid.CellStyle[IntCount2,IntCount+2].Font.Color:=clGreen;
+        //for IntCount:=0 to Length(WorkOrderArr)-1 do begin
 
-          if WorkOrderArr[IntCount][13]= '1' then begin
-            for IntCount2:=0 to StrGrid.ColCount-1 do
-              StrGrid.CellStyle[9,IntCount+2].font.Color := clBlue;
-          end;
-        end;
+        //  if StrTimeOut <> '' then begin
+            // for IntCount2:=0 to 13 do
+         //    StrGrid.CellStyle[IntCount2,Count+2].Font.Color:=clGreen;
+        //  end;
+        //  MessageBox(Handle,PChar(StrDecId),'TESSSS',MB_ICONINFORMATION);
+        //  If StrDecId = '1' then
+        //  begin
+           // for IntCount2:=0 to 13 do
+         //     StrGrid.CellStyle[9,Count+2].font.Color := clBlue;
+        //  end;
+       Inc(Count2);
       end;
+  //  end;
     end;
   end else begin
     RefreshData;
     RefreshGrid;
   end;
-
-
-// Search;
-
- { if (Cari.Text='') and (edtnopol.Text='') then begin
-    RefreshData;
-    RefreshGrid;
-  end;  }
 end;
 
 procedure TWorkOrderRpt.CariKeyPress(Sender: TObject; var Key: Char);
@@ -690,6 +717,15 @@ end;
 procedure TWorkOrderRpt.TanggalSampaiChange(Sender: TObject);
 begin
   if Tanggal.Date>TanggalSampai.Date then Tanggal.Date:=TanggalSampai.Date;
+end;
+
+procedure TWorkOrderRpt.edtnopolChange(Sender: TObject);
+begin
+  if (Cari.Text='') and (edtnopol.Text='') then begin
+    InitGrid;
+    RefreshData;
+    RefreshGrid;
+  end;
 end;
 
 end.
