@@ -93,6 +93,7 @@ begin
   TanggalSampai.Date:=Now();
   ToDates.Checked:=False;
   TanggalSampai.Enabled:=False;
+  if(cari.text <>'') then TombolCari.Enabled := True;
   //IntRow:=0;
   if StrToInt(CompanyId)=1 then GroupCompany.Enabled:=True else GroupCompany.Enabled:=False;
 end;
@@ -217,7 +218,7 @@ end;
 procedure TWorkOrderRpt.RefreshData;
 var Qry, Qry2:TADOQuery;
     StrQry,StrQry2,AwalBulan,StrCompanyId,StrLocationId,
-    STrTanggal,StrStatus,StrToDates:String;
+    STrTanggal,StrStatus,StrToDates,StrLike, StrLike2:String;
     IntCount,IntCount2:Integer;
 begin
   Qry:=TADOQuery.Create(Self);
@@ -236,7 +237,13 @@ begin
     StrTanggal:=',@Dates='+QuotedStr(FormatDateTime('yyyy/mm/dd',Tanggal.Date));
     if Status.Text<>'Semua' then StrStatus:=',@Status='+StatusArr[Status.ItemIndex][0] else StrStatus:='';
     if ToDates.Checked=True then StrToDates:=',@ToDates='+QuotedStr(FormatDateTime('yyyy/mm/dd',TanggalSampai.date)) else StrToDates:='';
-    StrQry:='EXEC GetWorkOrderLists '+StrCompanyId+','+StrLocationId+StrTanggal+StrToDates+StrStatus+';';
+
+    if (Cari.Text <> '') then
+     StrLike := ',@like ='+QuotedStr(Cari.Text)
+     else StrLike := '';
+    // MessageBox(Handle,PChar(Trim(Cari.Text)+Chr(13)+Chr(13)),'Penjadwalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+
+    StrQry:='EXEC GetWorkOrderLists '+StrCompanyId+','+StrLocationId+StrTanggal+StrToDates+StrStatus+StrLike+';';
     Qry.SQL.Add(StrQry);
     Qry.Open;
     SetLength(WorkOrderArr,Qry.RecordCount);
@@ -556,46 +563,76 @@ begin
 end;
 
 procedure TWorkOrderRpt.Search;
+//begin
 var Count,Count2,Count3,Count4, IntCount, IntCount2, IntStartRow:Integer;
     IsTrue, IsDrawRect:Boolean;
     StrWorkOrderId : string;
 begin
-  if (Trim(Cari.Text)<>'') OR (Trim(edtnopol.Text)<>'') then begin //(Cari.Text='') and (edtnopol.Text='')
-    RefreshGrid2;
-    Count2:=2;
-    for Count:=0 to Length(WorkOrderArr)-1 do begin
-      IsTrue:=False;
-      for Count3:=0 to 9 do
-      if ((StrPos(PChar(UpperCase(WorkOrderArr[Count][Count3])),PChar(UpperCase(Cari.Text)))<>nil)
-          OR (StrPos(PChar(UpperCase(WorkOrderArr[Count][Count3])),PChar(UpperCase(edtnopol.Text)))<>nil))
-      then IsTrue:=True;
+    if Trim(Cari.Text)<>'' then begin //(Cari.Text='') and (edtnopol.Text='')
+      RefreshGrid2;
+      Count2:=2;
+      for Count:=0 to Length(WorkOrderArr)-1 do begin
+        IsTrue:=False;
+        for Count3:=0 to 9 do
+        if ((StrPos(PChar(UpperCase(WorkOrderArr[Count][Count3])),PChar(UpperCase(Cari.Text)))<>nil)
+            OR (StrPos(PChar(UpperCase(WorkOrderArr[Count][Count3])),PChar(UpperCase(edtnopol.Text)))<>nil))
+        then IsTrue:=True;
 
-      if IsTrue then begin
-        StrGrid.RowCount:= Count2+1;
-        for Count4:=0 to 13 do
-          StrGrid.Cells[Count4,Count2]:= WorkOrderArr[Count][Count4];
-        Inc(Count2);
-
-        //for IntCount:=0 to Length(WorkOrderArr)-1 do begin
-
-          if StrTimeOut <> '' then begin
-             for IntCount2:=0 to 13 do
-             StrGrid.CellStyle[IntCount2,Count+2].Font.Color:=clGreen;
+        if IsTrue then begin
+          StrGrid.RowCount:= Count2+1;
+          for Count4:=0 to 13 do begin
+            StrGrid.Cells[Count4,Count2]:= WorkOrderArr[Count][Count4];
           end;
-          MessageBox(Handle,PChar(StrDecId),'TESSSS',MB_ICONINFORMATION);
-          If StrDecId = '1' then
-          begin
-            for IntCount2:=0 to 13 do
-              StrGrid.CellStyle[9,Count+2].font.Color := clBlue;
-          end;
+          Inc(Count2);
         end;
+       end;
+
+    {  IntStartRow:=0;
+      StrWorkOrderId:='';
+     // IntTotal:=0;
+
+      for IntCount:=0 to Length(WorkOrderArr)-1 do begin
+        if (StrWorkOrderId<>WorkOrderArr[IntCount][1])  then begin
+          StrWorkOrderId:=WorkOrderArr[IntCount][1];
+          IntStartRow:=IntCount;
+          StrGrid.Cells[0,IntCount+2]:=WorkOrderArr[IntCount][0];
+          StrGrid.Cells[1,IntCount+2]:=WorkOrderArr[IntCount][1];
+          StrGrid.Cells[2,IntCount+2]:=WorkOrderArr[IntCount][2];
+          StrGrid.Cells[3,IntCount+2]:=WorkOrderArr[IntCount][3];
+          StrGrid.Cells[4,IntCount+2]:=WorkOrderArr[IntCount][4];
+          StrGrid.Cells[5,IntCount+2]:=WorkOrderArr[IntCount][5];
+          StrGrid.Cells[6,IntCount+2]:=WorkOrderArr[IntCount][6];
+          StrGrid.Cells[7,IntCount+2]:=WorkOrderArr[IntCount][7];
+          StrGrid.Cells[8,IntCount+2]:=WorkOrderArr[IntCount][8];
+          StrGrid.Cells[10,IntCount+2]:=WorkOrderArr[IntCount][10];
+          StrGrid.Cells[11,IntCount+2]:=WorkOrderArr[IntCount][11];
+          //StrGrid.Cells[12,IntCount+2]:=WorkOrderArr[IntCount][12];
+          IsDrawRect:=False;
+        end else if (IntCount<Length(WorkOrderArr)-1) then begin
+          if (StrWorkOrderId<>WorkOrderArr[IntCount+1][1]) then IsDrawRect:=True;
+        end else IsDrawRect:=True;
+
+        if IsDrawRect=True then begin
+          StrGrid.MergeCells.AddRectXY(0,IntStartRow+2,0,IntCount+2);
+          StrGrid.MergeCells.AddRectXY(1,IntStartRow+2,1,IntCount+2);
+          StrGrid.MergeCells.AddRectXY(2,IntStartRow+2,2,IntCount+2);
+          StrGrid.MergeCells.AddRectXY(3,IntStartRow+2,3,IntCount+2);
+          StrGrid.MergeCells.AddRectXY(4,IntStartRow+2,4,IntCount+2);
+          StrGrid.MergeCells.AddRectXY(5,IntStartRow+2,5,IntCount+2);
+          StrGrid.MergeCells.AddRectXY(6,IntStartRow+2,6,IntCount+2);
+          StrGrid.MergeCells.AddRectXY(7,IntStartRow+2,7,IntCount+2);
+          StrGrid.MergeCells.AddRectXY(8,IntStartRow+2,8,IntCount+2);
+          StrGrid.MergeCells.AddRectXY(10,IntStartRow+2,10,IntCount+2);
+          StrGrid.MergeCells.AddRectXY(11,IntStartRow+2,11,IntCount+2);
+          //StrGrid.MergeCells.AddRectXY(12,IntStartRow+2,12,IntCount+2);
+        end;
+        StrGrid.Cells[9,IntCount+2]:=WorkOrderArr[IntCount][9];
+
+      end;      }
+    end else begin
+      RefreshData;
+      RefreshGrid;
     end;
-    //end;
- // end else begin
- //   RefreshData;
- //   RefreshGrid;
-  end;
-//end;
 
  { //if Trim(Cari.Text)<>'' then begin
     InitGrid;
@@ -649,7 +686,9 @@ end;
 
 procedure TWorkOrderRpt.TombolCariClick(Sender: TObject);
 begin
-  Search;
+ // Search;
+  RefreshData;
+  RefreshGrid;
 end;
 
 procedure TWorkOrderRpt.CariChange(Sender: TObject);
@@ -657,10 +696,14 @@ var Count,Count2,Count3,Count4, IntCount, IntCount2, IntStartRow:Integer;
     IsTrue, IsDrawRect:Boolean;
     StrWorkOrderId : string;
 begin
-  if Trim(Cari.Text)<>'' then begin //(Cari.Text='') and (edtnopol.Text='')
+
+ { if Trim(Cari.Text)<>'' then begin //(Cari.Text='') and (edtnopol.Text='')
     RefreshGrid2;
     Count2:=2;
     for Count:=0 to Length(WorkOrderArr)-1 do begin
+      IntStartRow:=0;
+      StrWorkOrderId:='';
+      //IntTotal:=0;
       IsTrue:=False;
       for Count3:=0 to 9 do
       if ((StrPos(PChar(UpperCase(WorkOrderArr[Count][Count3])),PChar(UpperCase(Cari.Text)))<>nil)
@@ -669,29 +712,85 @@ begin
 
       if IsTrue then begin
         StrGrid.RowCount:= Count2+1;
-        for Count4:=0 to 13 do
+        for Count4:=0 to 13 do begin
           StrGrid.Cells[Count4,Count2]:= WorkOrderArr[Count][Count4];
+         //RefreshGrid;
+        // end;
 
-        //for IntCount:=0 to Length(WorkOrderArr)-1 do begin
+         // IntStartRow:=0;
+         // StrWorkOrderId:='';
+          //IntTotal:=0;
+        // for IntCount:=0 to Length(WorkOrderArr)-1 do begin
+          if (StrWorkOrderId<>WorkOrderArr[Count][1])  then begin
+            StrWorkOrderId:=WorkOrderArr[Count][1];
+            IntStartRow:=Count;
+            StrGrid.Cells[0,Count+2]:=WorkOrderArr[Count][0];
+            StrGrid.Cells[1,Count+2]:=WorkOrderArr[Count][1];
+            StrGrid.Cells[2,Count+2]:=WorkOrderArr[Count][2];
+            StrGrid.Cells[3,Count+2]:=WorkOrderArr[Count][3];
+            StrGrid.Cells[4,Count+2]:=WorkOrderArr[Count][4];
+            StrGrid.Cells[5,Count+2]:=WorkOrderArr[Count][5];
+            StrGrid.Cells[6,Count+2]:=WorkOrderArr[Count][6];
+            StrGrid.Cells[7,Count+2]:=WorkOrderArr[Count][7];
+            StrGrid.Cells[8,Count+2]:=WorkOrderArr[Count][8];
+            StrGrid.Cells[10,Count+2]:=WorkOrderArr[Count][10];
+            StrGrid.Cells[11,Count+2]:=WorkOrderArr[Count][11];
+            //StrGrid.Cells[12,IntCount+2]:=WorkOrderArr[IntCount][12];
+            IsDrawRect:=False;
+          end else if (Count<Length(WorkOrderArr)-1) then begin
+            if (StrWorkOrderId<>WorkOrderArr[Count+2][1]) then IsDrawRect:=True;
+          end else IsDrawRect:=True;
 
-        //  if StrTimeOut <> '' then begin
-            // for IntCount2:=0 to 13 do
-         //    StrGrid.CellStyle[IntCount2,Count+2].Font.Color:=clGreen;
-        //  end;
-        //  MessageBox(Handle,PChar(StrDecId),'TESSSS',MB_ICONINFORMATION);
-        //  If StrDecId = '1' then
-        //  begin
-           // for IntCount2:=0 to 13 do
-         //     StrGrid.CellStyle[9,Count+2].font.Color := clBlue;
-        //  end;
+          if IsDrawRect=True then begin
+            StrGrid.MergeCells.AddRectXY(0,IntStartRow+2,0,Count+2);
+            StrGrid.MergeCells.AddRectXY(1,IntStartRow+2,1,Count+2);
+            StrGrid.MergeCells.AddRectXY(2,IntStartRow+2,2,Count+2);
+            StrGrid.MergeCells.AddRectXY(3,IntStartRow+2,3,Count+2);
+            StrGrid.MergeCells.AddRectXY(4,IntStartRow+2,4,Count+2);
+            StrGrid.MergeCells.AddRectXY(5,IntStartRow+2,5,Count+2);
+            StrGrid.MergeCells.AddRectXY(6,IntStartRow+2,6,Count+2);
+            StrGrid.MergeCells.AddRectXY(7,IntStartRow+2,7,Count+2);
+            StrGrid.MergeCells.AddRectXY(8,IntStartRow+2,8,Count+2);
+            StrGrid.MergeCells.AddRectXY(10,IntStartRow+2,10,Count+2);
+            StrGrid.MergeCells.AddRectXY(11,IntStartRow+2,11,Count+2);
+            //StrGrid.MergeCells.AddRectXY(12,IntStartRow+2,12,IntCount+2);
+          end;
+          StrGrid.Cells[9,Count+2]:=WorkOrderArr[Count][9];
+
+         { StrGrid.CellStyle[1,IntCount].HorizontalAlignment:=taCenter;
+          StrGrid.CellStyle[4,IntCount+2].HorizontalAlignment:=taCenter;
+          StrGrid.CellStyle[5,IntCount+2].HorizontalAlignment:=taCenter;
+
+          if WorkOrderArr[IntCount][12]<>'' then
+          //if StrTimeOut <> '' then begin
+          begin
+           for IntCount2:=0 to StrGrid.ColCount-1 do
+           StrGrid.CellStyle[IntCount2,IntCount+2].Font.Color:=clGreen;
+          end;
+
+          if WorkOrderArr[IntCount][13]= '1' then
+          //If StrDecId = '1' then
+          begin
+            for IntCount2:=0 to StrGrid.ColCount-1 do
+              StrGrid.CellStyle[9,IntCount+2].font.Color := clBlue;
+          end;
+
+        end;
        Inc(Count2);
       end;
-  //  end;
     end;
+    //end;
   end else begin
     RefreshData;
     RefreshGrid;
-  end;
+  end;}
+  if (Cari.Text='') then begin
+    TombolCari.Enabled := False;
+    InitGrid;
+    RefreshData;
+    RefreshGrid;
+  end else TombolCari.Enabled := True;
+
 end;
 
 procedure TWorkOrderRpt.CariKeyPress(Sender: TObject; var Key: Char);

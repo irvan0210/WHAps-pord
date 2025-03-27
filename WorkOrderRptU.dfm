@@ -1,6 +1,6 @@
 object WorkOrderRpt: TWorkOrderRpt
-  Left = 295
-  Top = 153
+  Left = 268
+  Top = 184
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan PKB'
@@ -69,6 +69,7 @@ object WorkOrderRpt: TWorkOrderRpt
     Top = 6
     Width = 23
     Height = 23
+    Enabled = False
     Glyph.Data = {
       26040000424D2604000000000000360000002800000012000000120000000100
       180000000000F003000000000000000000000000000000000000F8F8F8F8F8F8
@@ -104,7 +105,6 @@ object WorkOrderRpt: TWorkOrderRpt
       F8F5F5F5F7F7F8F7F6F6F7F7F7F7F7F80000F5F7F6F6F6F6F6F4F5F9FAFAF9F9
       F9EADFE0D9BFBFD6B8B8E1CBCDF0E9EAF8F9F9F6F7F8F6F6F5F6F7F8F7F7F7F7
       F7F7F7F8F8F7F7F70000}
-    Visible = False
     OnClick = TombolCariClick
   end
   object Label2: TLabel
@@ -182,7 +182,7 @@ object WorkOrderRpt: TWorkOrderRpt
     OnKeyPress = CariKeyPress
   end
   object StrGrid: TZColorStringGrid
-    Left = 8
+    Left = 16
     Top = 42
     Width = 1001
     Height = 383
