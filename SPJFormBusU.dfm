@@ -1,10 +1,10 @@
 object SPJFormBus: TSPJFormBus
-  Left = 255
-  Top = 41
+  Left = 179
+  Top = 44
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Surat Jalan'
-  ClientHeight = 534
+  ClientHeight = 559
   ClientWidth = 919
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -22,16 +22,16 @@ object SPJFormBus: TSPJFormBus
   PixelsPerInch = 96
   TextHeight = 13
   object Label2: TLabel
-    Left = 371
-    Top = 370
+    Left = 344
+    Top = 443
     Width = 41
     Height = 13
     Alignment = taRightJustify
     Caption = 'No Body'
   end
   object Label10: TLabel
-    Left = 370
-    Top = 424
+    Left = 343
+    Top = 468
     Width = 37
     Height = 13
     Alignment = taRightJustify
@@ -45,14 +45,6 @@ object SPJFormBus: TSPJFormBus
     Alignment = taRightJustify
     Caption = 'Cari Driver'
     Visible = False
-  end
-  object Label5: TLabel
-    Left = 371
-    Top = 396
-    Width = 31
-    Height = 13
-    Alignment = taRightJustify
-    Caption = 'Kenek'
   end
   object Label23: TLabel
     Left = 13
@@ -95,19 +87,19 @@ object SPJFormBus: TSPJFormBus
     Visible = False
   end
   object lbl1: TLabel
-    Left = 673
-    Top = 372
+    Left = 646
+    Top = 445
     Width = 22
     Height = 13
     Alignment = taRightJustify
     Caption = 'Seat'
   end
   object Catatan: TMemo
-    Left = 423
-    Top = 432
+    Left = 396
+    Top = 465
     Width = 275
     Height = 89
-    TabOrder = 7
+    TabOrder = 6
   end
   object Driver: TComboBox
     Left = 792
@@ -123,29 +115,29 @@ object SPJFormBus: TSPJFormBus
   end
   object Simpan: TButton
     Left = 823
-    Top = 359
+    Top = 345
     Width = 75
     Height = 25
     Caption = 'Simpan'
-    TabOrder = 10
+    TabOrder = 9
     OnClick = SimpanClick
   end
   object Keluar: TButton
     Left = 823
-    Top = 491
+    Top = 505
     Width = 75
     Height = 25
     Caption = 'Keluar'
-    TabOrder = 13
+    TabOrder = 12
     OnClick = KeluarClick
   end
   object Bersihkan: TButton
     Left = 823
-    Top = 391
+    Top = 377
     Width = 75
     Height = 25
     Caption = '&Bersihkan'
-    TabOrder = 11
+    TabOrder = 10
     OnClick = BersihkanClick
   end
   object GroupMitra: TGroupBox
@@ -154,7 +146,7 @@ object SPJFormBus: TSPJFormBus
     Width = 397
     Height = 217
     Caption = 'Data Driver'
-    TabOrder = 9
+    TabOrder = 8
     Visible = False
     object Label16: TLabel
       Left = 240
@@ -201,11 +193,11 @@ object SPJFormBus: TSPJFormBus
   end
   object CetakUlang: TButton
     Left = 823
-    Top = 423
+    Top = 437
     Width = 75
     Height = 25
     Caption = 'Cetak Ulang'
-    TabOrder = 12
+    TabOrder = 11
     OnClick = ReprintClick
   end
   object Cari: TEdit
@@ -645,23 +637,13 @@ object SPJFormBus: TSPJFormBus
       OnClick = CariOrderClick
     end
   end
-  object BusBoyDisp: TEdit
-    Left = 518
-    Top = 396
-    Width = 179
-    Height = 21
-    TabStop = False
-    ReadOnly = True
-    TabOrder = 6
-    Visible = False
-  end
   object GroupService: TGroupBox
     Left = 560
     Top = 0
     Width = 321
     Height = 193
     Caption = 'Biaya/Layanan Tambahan'
-    TabOrder = 14
+    TabOrder = 13
     TabStop = True
     object GridService: TZColorStringGrid
       Left = 8
@@ -696,7 +678,7 @@ object SPJFormBus: TSPJFormBus
     Width = 73
     Height = 25
     BevelOuter = bvNone
-    TabOrder = 15
+    TabOrder = 14
     object Status: TCheckBox
       Left = 0
       Top = 0
@@ -713,7 +695,7 @@ object SPJFormBus: TSPJFormBus
     Height = 25
     BevelOuter = bvNone
     Enabled = False
-    TabOrder = 16
+    TabOrder = 15
     object Package: TCheckBox
       Left = 0
       Top = 0
@@ -730,7 +712,7 @@ object SPJFormBus: TSPJFormBus
     Height = 21
     Style = csDropDownList
     ItemHeight = 13
-    TabOrder = 17
+    TabOrder = 16
     Visible = False
     OnKeyPress = DriverKeyPress
   end
@@ -741,7 +723,7 @@ object SPJFormBus: TSPJFormBus
     Height = 30
     BevelOuter = bvNone
     Enabled = False
-    TabOrder = 8
+    TabOrder = 7
     Visible = False
   end
   object GroupPengemudi: TPanel
@@ -751,7 +733,7 @@ object SPJFormBus: TSPJFormBus
     Height = 25
     BevelOuter = bvNone
     Enabled = False
-    TabOrder = 19
+    TabOrder = 18
     object DriverExternal: TEdit
       Left = 1
       Top = 1
@@ -1380,7 +1362,7 @@ object SPJFormBus: TSPJFormBus
     Height = 25
     BevelOuter = bvNone
     Enabled = False
-    TabOrder = 20
+    TabOrder = 19
     object OutService: TCheckBox
       Left = 0
       Top = 0
@@ -1391,23 +1373,24 @@ object SPJFormBus: TSPJFormBus
     end
   end
   object Kenek: TComboBox
-    Left = 423
-    Top = 396
+    Left = 705
+    Top = 492
     Width = 93
     Height = 21
     Style = csDropDownList
     ItemHeight = 13
     TabOrder = 5
+    Visible = False
     OnChange = KenekChange
     OnKeyPress = DriverKeyPress
   end
   object KirimWA: TBitBtn
     Left = 823
-    Top = 457
+    Top = 471
     Width = 75
     Height = 25
     Caption = 'Kirim WA'
-    TabOrder = 21
+    TabOrder = 20
     OnClick = BitBtn1Click
     Glyph.Data = {
       36040000424D3604000000000000360000002800000010000000100000000100
@@ -1453,7 +1436,7 @@ object SPJFormBus: TSPJFormBus
     Height = 21
     BevelOuter = bvNone
     Enabled = False
-    TabOrder = 22
+    TabOrder = 21
     object StatusWA: TCheckBox
       Left = 5
       Top = 6
@@ -1464,53 +1447,53 @@ object SPJFormBus: TSPJFormBus
     end
   end
   object NoPolisi: TEdit
-    Left = 512
-    Top = 368
+    Left = 485
+    Top = 441
     Width = 100
     Height = 21
     TabStop = False
     ReadOnly = True
-    TabOrder = 23
+    TabOrder = 22
   end
   object SeatDisp: TEdit
-    Left = 623
-    Top = 368
+    Left = 596
+    Top = 441
     Width = 41
     Height = 21
     ReadOnly = True
-    TabOrder = 24
+    TabOrder = 23
   end
   object NoBody: TComboBox
     Left = 697
-    Top = 432
+    Top = 512
     Width = 97
     Height = 21
     Style = csDropDownList
     ItemHeight = 13
-    TabOrder = 25
+    TabOrder = 24
     Visible = False
     OnChange = NoBodyChange
     OnKeyDown = NoBodyKeyDown
     OnKeyPress = NoBodyKeyPress
   end
   object DisplayNoBody: TEdit
-    Left = 424
-    Top = 368
+    Left = 397
+    Top = 441
     Width = 81
     Height = 21
     TabStop = False
     ReadOnly = True
-    TabOrder = 26
+    TabOrder = 25
   end
   object grp1: TGroupBox
     Left = 13
     Top = 362
-    Width = 306
-    Height = 69
+    Width = 316
+    Height = 95
     Caption = 'Pengemudi 1'
-    TabOrder = 27
+    TabOrder = 26
     object lbl2: TLabel
-      Left = 13
+      Left = 6
       Top = 20
       Width = 28
       Height = 13
@@ -1518,24 +1501,32 @@ object SPJFormBus: TSPJFormBus
       Caption = 'Nama'
     end
     object lbl3: TLabel
-      Left = 14
+      Left = 7
       Top = 46
       Width = 58
       Height = 13
       Alignment = taRightJustify
       Caption = 'No Telp/HP'
     end
+    object Label3: TLabel
+      Left = 6
+      Top = 68
+      Width = 87
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'Status Penugasan'
+    end
     object DriverDisp: TEdit
-      Left = 83
+      Left = 96
       Top = 17
-      Width = 217
+      Width = 174
       Height = 21
       TabStop = False
       ReadOnly = True
       TabOrder = 0
     end
     object TelpHP: TEdit
-      Left = 83
+      Left = 96
       Top = 41
       Width = 150
       Height = 21
@@ -1545,7 +1536,7 @@ object SPJFormBus: TSPJFormBus
       OnKeyPress = TelpHPKeyPress
     end
     object CariPengemudi1: TButton
-      Left = 307
+      Left = 351
       Top = 13
       Width = 43
       Height = 25
@@ -1553,14 +1544,33 @@ object SPJFormBus: TSPJFormBus
       TabOrder = 2
       OnClick = CariPengemudi1Click
     end
+    object BtnDriver: TButton
+      Left = 274
+      Top = 13
+      Width = 35
+      Height = 25
+      Caption = '...'
+      TabOrder = 3
+      OnClick = BtnDriverClick
+    end
+    object StatusPenugasanDriver: TEdit
+      Left = 96
+      Top = 64
+      Width = 150
+      Height = 21
+      MaxLength = 30
+      ReadOnly = True
+      TabOrder = 4
+      OnKeyPress = TelpHPKeyPress
+    end
   end
   object grp2: TGroupBox
     Left = 13
-    Top = 436
-    Width = 306
-    Height = 78
+    Top = 458
+    Width = 316
+    Height = 95
     Caption = 'Pengemudi 2'
-    TabOrder = 28
+    TabOrder = 27
     object lbl4: TLabel
       Left = 13
       Top = 20
@@ -1577,17 +1587,25 @@ object SPJFormBus: TSPJFormBus
       Alignment = taRightJustify
       Caption = 'No Telp/HP'
     end
+    object Label15: TLabel
+      Left = 4
+      Top = 69
+      Width = 87
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'Status Penugasan'
+    end
     object DriverDisp2: TEdit
-      Left = 84
+      Left = 95
       Top = 16
-      Width = 217
+      Width = 174
       Height = 21
       TabStop = False
       ReadOnly = True
       TabOrder = 0
     end
     object TelpHP2: TEdit
-      Left = 83
+      Left = 94
       Top = 41
       Width = 150
       Height = 21
@@ -1597,12 +1615,40 @@ object SPJFormBus: TSPJFormBus
       OnKeyPress = TelpHPKeyPress
     end
     object CariPengemudi2: TButton
-      Left = 307
+      Left = 349
       Top = 13
       Width = 43
       Height = 25
       Caption = '...'
       TabOrder = 2
+    end
+    object StatusPenugasanDriver2: TEdit
+      Left = 94
+      Top = 66
+      Width = 150
+      Height = 21
+      MaxLength = 30
+      ReadOnly = True
+      TabOrder = 3
+      OnKeyPress = TelpHPKeyPress
+    end
+    object ClearDriver2: TButton
+      Left = 247
+      Top = 61
+      Width = 59
+      Height = 25
+      Caption = 'Bersihkan'
+      TabOrder = 4
+      OnClick = ClearDriver2Click
+    end
+    object BtnDriver2: TButton
+      Left = 274
+      Top = 12
+      Width = 35
+      Height = 25
+      Caption = '...'
+      TabOrder = 5
+      OnClick = BtnDriver2Click
     end
   end
   object pnl2: TPanel
@@ -1611,7 +1657,7 @@ object SPJFormBus: TSPJFormBus
     Width = 185
     Height = 33
     BevelOuter = bvNone
-    TabOrder = 29
+    TabOrder = 28
     object Connecting: TCheckBox
       Left = 5
       Top = 8
@@ -1622,14 +1668,96 @@ object SPJFormBus: TSPJFormBus
     end
   end
   object BtnKendaraan: TButton
-    Left = 704
-    Top = 365
+    Left = 677
+    Top = 438
     Width = 41
     Height = 25
     Caption = '...'
-    TabOrder = 30
+    TabOrder = 29
     Visible = False
     OnClick = BtnKendaraanClick
+  end
+  object GroupBox2: TGroupBox
+    Left = 343
+    Top = 365
+    Width = 305
+    Height = 69
+    Caption = 'Kenek'
+    TabOrder = 30
+    object Label21: TLabel
+      Left = 5
+      Top = 21
+      Width = 28
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'Nama'
+    end
+    object Label30: TLabel
+      Left = 3
+      Top = 44
+      Width = 87
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'Status Penugasan'
+    end
+    object BusBoyDisp: TEdit
+      Left = 93
+      Top = 16
+      Width = 164
+      Height = 21
+      TabStop = False
+      ReadOnly = True
+      TabOrder = 0
+    end
+    object ComboBox1: TComboBox
+      Left = 133
+      Top = 69
+      Width = 170
+      Height = 21
+      Style = csDropDownList
+      ItemHeight = 13
+      TabOrder = 1
+      Visible = False
+      OnChange = KenekChange
+      OnKeyPress = DriverKeyPress
+    end
+    object StatusPenugasanHelper: TEdit
+      Left = 93
+      Top = 40
+      Width = 124
+      Height = 21
+      MaxLength = 30
+      ReadOnly = True
+      TabOrder = 2
+      OnKeyPress = TelpHPKeyPress
+    end
+    object BtnKenek: TButton
+      Left = 262
+      Top = 13
+      Width = 35
+      Height = 25
+      Caption = '...'
+      TabOrder = 3
+      OnClick = BtnKenekClick
+    end
+    object ClearKenek: TButton
+      Left = 240
+      Top = 40
+      Width = 57
+      Height = 25
+      Caption = 'Bersihkan'
+      TabOrder = 4
+      OnClick = ClearKenekClick
+    end
+  end
+  object Penjadwalan: TButton
+    Left = 822
+    Top = 407
+    Width = 75
+    Height = 25
+    Caption = 'Penjadwalan'
+    TabOrder = 31
+    OnClick = PenjadwalanClick
   end
   object WebService: THTTPRIO
     HTTPWebNode.Agent = 'Borland SOAP 1.2'
@@ -1650,7 +1778,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 144780
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 121
     Template.FileName = 'D:\WH App\Order.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
@@ -2782,7 +2910,7 @@ object SPJFormBus: TSPJFormBus
   object ppReport: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Custom'
+    PrinterSetup.PaperName = 'Surat Jalan'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 0
     PrinterSetup.mmMarginLeft = 6350
@@ -2790,7 +2918,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152400
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 135
     Template.FileName = 'D:\WH App\Order.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
@@ -3361,7 +3489,7 @@ object SPJFormBus: TSPJFormBus
   object ppReport3: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Custom'
+    PrinterSetup.PaperName = 'Surat Jalan'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 0
     PrinterSetup.mmMarginLeft = 6350
@@ -3369,7 +3497,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152400
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 135
     Template.FileName = 'D:\NANANG\WHAPS UPDATE PROD\surat jalan baru.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
@@ -3864,7 +3992,7 @@ object SPJFormBus: TSPJFormBus
   object ppReport4: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Custom'
+    PrinterSetup.PaperName = 'Surat Jalan'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 0
     PrinterSetup.mmMarginLeft = 6350
@@ -3872,7 +4000,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152400
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 135
     Template.FileName = 'D:\WH App\Order.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'

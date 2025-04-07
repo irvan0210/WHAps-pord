@@ -42,7 +42,6 @@ type
     Remark: TMemo;
     Label11: TLabel;
     Label17: TLabel;
-    Label5: TLabel;
     Kenek: TComboBox;
     GroupDisabled: TPanel;
     QRBand2: TQRBand;
@@ -71,7 +70,6 @@ type
     CariOrder: TSpeedButton;
     CetakUlang: TButton;
     ReservedOrderDetaiId: TEdit;
-    BusBoyDisp: TEdit;
     GroupService: TGroupBox;
     GridService: TZColorStringGrid;
     GroupBatal: TPanel;
@@ -287,6 +285,22 @@ type
     ppParameterList4: TppParameterList;
     ppdriver23: TppLabel;
     ppHpDriver23: TppLabel;
+    BtnDriver: TButton;
+    StatusPenugasanDriver: TEdit;
+    Label3: TLabel;
+    Label15: TLabel;
+    StatusPenugasanDriver2: TEdit;
+    ClearDriver2: TButton;
+    BtnDriver2: TButton;
+    GroupBox2: TGroupBox;
+    Label21: TLabel;
+    Label30: TLabel;
+    BusBoyDisp: TEdit;
+    ComboBox1: TComboBox;
+    StatusPenugasanHelper: TEdit;
+    BtnKenek: TButton;
+    ClearKenek: TButton;
+    Penjadwalan: TButton;
     procedure KeluarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure GridMitraSelectCell(Sender: TObject; ACol, ARow: Integer;
@@ -317,12 +331,18 @@ type
     procedure KmestimasiEnter(Sender: TObject);
     procedure CariPengemudi1Click(Sender: TObject);
     procedure BtnKendaraanClick(Sender: TObject);
+    procedure BtnDriverClick(Sender: TObject);
+    procedure BtnKenekClick(Sender: TObject);
+    procedure BtnDriver2Click(Sender: TObject);
+    procedure PenjadwalanClick(Sender: TObject);
+    procedure ClearDriver2Click(Sender: TObject);
+    procedure ClearKenekClick(Sender: TObject);
   private
     { Private declarations }
     EmplArr,HelperArr,SchArr,SPJArr:Array of TArrString16;
     VhcArr:Array of TArrString17;
     DestinationArr:Array of TArrString4;
-    IsInput,IsVehicleOnly,FullPayment,AllVehicle,isSent_WA,isChooseWANumber,isMultiple_WA_Number:Boolean;
+    IsInput,IsVehicleOnly,FullPayment,AllVehicle,isSent_WA,isChooseWANumber,isMultiple_WA_Number,IsAuthRevCrew:Boolean;
     IntRow,MinRowService,SJRange,SPJ_Form:Integer;
     IsDataFound:Boolean;
     KMOdo,SJId,FormRequest,URL_Webwhatsapp:String;
@@ -338,7 +358,7 @@ type
     procedure RefreshVehicle;
     procedure DisableInput;
     procedure EnableInput;
-    procedure LoadData;
+    procedure LoadData1;
     procedure PreparePrint;
     procedure send_WA();
   public
@@ -353,7 +373,10 @@ type
 
 var
   SPJFormBus: TSPJFormBus;
-  StrDriver,StrDriver2,StrVehicleID,StrGroup,StrIsOnline,StrHelperPhone: String;
+  StrDriver,StrDriverOld,StrDriver2,StrDriver2Old,StrVehicleID,StrGroup,StrIsOnline,StrHelperPhone,StrBusboyID,StrBusboyIDOld,StrDriverStatus,StrHelperStatus,
+  KtpDriver1,KtpDriver2,KtpHelper,NoRekDriver1,NoRekDriver2,
+  NoRekHelper,SIMDriver,SIMDriver2,TglExpSIMDriver1,TglExpSIMDriver2,ReservedOrderId: String;
+  IntWajibHelper: Integer;
 
 implementation
 
@@ -362,7 +385,7 @@ implementation
 Uses MainU, MaskUtils, DateUtils, StrUtils, RePrintFormU,
   AuthorizedFormU, BookingListU, SPJBusListU
   , IntersysAPI_New
-  , SJPenjadwalanList, EmployeeRDListU, VehicleRDListU;
+  , SJPenjadwalanList, EmployeeRDListU, VehicleRDListU, BookingFormU;
   
 
 constructor TSPJFormBus.Create(AOwner:TComponent;SJ_Id:String='';Is_Input:Boolean=True;Form_Request:String='';IsVehicle_Only:Boolean=False);
@@ -427,7 +450,17 @@ begin
   FullPayment:=False;
   AllVehicle:=False;
   Connecting.Checked:=False;
-  SPJ_Form:=1;
+//  SPJ_Form:=1;
+  StatusPenugasanDriver.Text:='';
+  StatusPenugasanDriver2.Text:='';
+  StatusPenugasanHelper.Text:='';
+  BtnDriver.Visible:=False;
+  BtnKenek.Visible:=False;
+  ClearKenek.Visible:=False;
+  BtnDriver2.Visible:=False;
+  ClearDriver2.Visible:=False;
+  IsAuthRevCrew:=False;
+//  end;
 end;
 
 procedure TSPJFormBus.InitGrid;
@@ -468,7 +501,7 @@ begin
       GridService.Cells[IntCount2,IntCount]:='';
 end;
 
-procedure TSPJFormBus.LoadData;
+procedure TSPJFormBus.LoadData1;
 var Qry:TADOQuery;
     StrQry:String;
     IntCount:Integer;
@@ -482,7 +515,7 @@ begin
   Main.M_Busy;
   if Main.OpenDb then begin
     StrQry:='SELECT * FROM wh_user_auth_form WHERE user_id='+QuotedStr(User)+
-            ' AND form_id=''130502'';';
+            ' AND form_id=''130502'' and active=1;';
     Qry.SQL.Clear;
     Qry.SQL.Add(StrQry);
     Qry.Open;
@@ -493,12 +526,32 @@ begin
     end;
 
     Qry.Close;
+
+    StrQry:='SELECT * FROM wh_user_auth_form WHERE user_id='+QuotedStr(User)+
+            ' AND form_id=''1305021'' AND active=1;';
+    Qry.SQL.Clear;
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    if Qry.RecordCount>0 then begin
+      IsAuthRevCrew:=True;
+    end else begin
+      IsAuthRevCrew:=False;
+    end;
+
+    Qry.Close;
+
     StrQry:='EXEC GetSJDetail '+QuotedStr(SJId)+';';
     Qry.SQL.Clear;
     Main.WriteLog('SQL :'+StrQry,2);
     Qry.SQL.Add(StrQry);
     Qry.Open;
     IntCount:=0;
+    KtpHelper:='';
+    KtpDriver1:='';
+    KtpDriver2:='';
+    NoRekDriver1:='';
+    NoRekDriver2:='';
+    NoRekHelper:='';
     if Qry.RecordCount>0 then while not(Qry.Eof) do begin
       if IsAuth=True then begin
         if (Qry.FieldValues['isTransfer'] = 1) OR (Qry.FieldValues['status_sj'] = 'COMPLETED') then BtnKendaraan.Visible:=False else BtnKendaraan.Visible:=True;
@@ -518,9 +571,15 @@ begin
       StandbyTime.Text:=Qry.FieldValues['standby_time'];
       DriverDisp.Text:=Qry.FieldValues['driver_name'];
       StrDriver:= Qry.FieldValues['employee_id'];
+      StrDriverOld:= Qry.FieldValues['employee_id'];
+      if Qry.FieldValues['no_ktp_driver']<>NULL then
+      KtpDriver1:= Qry.FieldValues['no_ktp_driver'];
+      if Qry.FieldValues['norek_driver']<>NULL then
+      NoRekDriver1:= Qry.FieldValues['norek_driver'];
       StrVehicleID:= Qry.FieldValues['vehicle_id'];
       DisplayNoBody.Text:=Qry.FieldValues['body_id'];
       SeatDisp.Text:= Qry.FieldValues['seat'];
+      ReservedOrderId:= Qry.FieldValues['reserved_order_id'];
       if Qry.FieldValues['license_plate']<>NULL then
       begin
          if IsCharAlpha(PChar(Copy(Qry.FieldValues['license_plate'],2,1))^)=False then
@@ -534,14 +593,20 @@ begin
       TelpHP.Text:= Qry.FieldValues['cellular_no_driver']
       else
       TelpHP.Text:='';
-
+      StatusPenugasanDriver.Text:='CONFIRM';
       if(Qry.FieldValues['driver_name2']<>NULL) then begin
         StrDriver2:= Qry.FieldValues['employee_id2'];
+        StrDriver2Old:= Qry.FieldValues['employee_id2'];
         DriverDisp2.Text:=Qry.FieldValues['driver_name2'];
-        if Qry.FieldValues['cellular_no_driver2']<> null then
+        if Qry.FieldValues['cellular_no_driver2']<> NULL then
         TelpHP2.Text:= Qry.FieldValues['cellular_no_driver2']
         else
         TelpHP2.Text:='';
+        StatusPenugasanDriver2.Text:='CONFIRM';
+        if Qry.FieldValues['no_ktp_driver2']<>NULL then
+        KtpDriver2:= Qry.FieldValues['no_ktp_driver2'];
+        if Qry.FieldValues['norek_driver2']<>NULL then
+        NoRekDriver2:= Qry.FieldValues['norek_driver2'];
       end else
       begin
         DriverDisp2.Text:='';
@@ -568,6 +633,10 @@ begin
         if (Qry.FieldValues['contact_hp']<>NULL) AND (Trim(VarToStr(Qry.FieldValues['contact_hp']))<>'') then CellularWA.text:=Qry.FieldValues['contact_hp']
         else CellularWA.text:='';
       end;
+
+
+
+
             
       if Qry.FieldValues['full_day']=2 then begin
         SetLength(VhcArr,Length(VhcArr)+1);
@@ -583,10 +652,26 @@ begin
         EmplArr[Length(EmplArr)-1][3]:=Qry.FieldValues['phone_no'];
         Driver.Items.Add(Qry.FieldValues['employee_id']);
       end;
-      NoBody.ItemIndex:=NoBody.Items.IndexOf(Qry.FieldValues['body_id']);
-      Driver.ItemIndex:=Driver.Items.IndexOf(Qry.FieldValues['employee_id']);
-      Kenek.ItemIndex:=kenek.Items.IndexOf(VarToStr(Qry.FieldValues['busboyname_name']));
-
+//      NoBody.ItemIndex:=NoBody.Items.IndexOf(Qry.FieldValues['body_id']);
+//      Driver.ItemIndex:=Driver.Items.IndexOf(Qry.FieldValues['employee_id']);
+//      if CompanyId='2' then begin
+        if (Qry.FieldValues['busboyname_name']<>NULL) AND (Qry.FieldValues['busboyname_name']<>'') then
+        begin
+          BusBoyDisp.Text:=Qry.FieldValues['busboyname_name'];
+          StrBusboyID:=Qry.FieldValues['employee_id3'];
+          StrBusboyIDOld:=Qry.FieldValues['employee_id3'];
+          StatusPenugasanHelper.Text:='CONFIRM';
+          if Qry.FieldValues['no_ktp_helper']<> null then
+          KtpHelper:= Qry.FieldValues['no_ktp_helper'];
+          if Qry.FieldValues['norek_helper'] <> null then
+          NoRekHelper:= Qry.FieldValues['norek_helper'];
+        end else begin
+          BusBoyDisp.Text:='';
+          StrBusboyID:='';
+        end;
+//      end else begin
+//        Kenek.ItemIndex:=kenek.Items.IndexOf(VarToStr(Qry.FieldValues['busboyname_name']));
+//      end;
       //HelperArr[Kenek.ItemIndex][0]
 
       Route.Text:=Qry.FieldValues['route'];
@@ -600,6 +685,18 @@ begin
       
       if Qry.FieldValues['km_estimasi']<>NULL then
       Kmestimasi.Text:=IToCurr(StrToInt(Trim(Qry.FieldValues['km_estimasi'])));
+
+      if IsAuthRevCrew=True then begin
+        if (Qry.FieldValues['out_ordo_km_vhc_trans']<> NULL) and (CompanyId='2') and (Qry.FieldValues['status_sj']<>'COMPLETED') then
+        begin
+          BtnKenek.Visible:=True;
+          BtnDriver.Visible:=True;
+          BtnDriver2.Visible:=True;
+          ClearDriver2.Visible:=True;
+          ClearKenek.Visible:=True;
+        end;
+      end;
+
       Qry.Next;
       Inc(IntCount)
 
@@ -632,8 +729,6 @@ begin
   FreeAndNil(Qry);
   Main.CloseDb;
   Main.M_Normal;
-//  SetDriverCar;
-  SetHelper;
 end;
 
 procedure TSPJFormBus.RefreshGrid;
@@ -761,26 +856,27 @@ begin
     Qry.Close;    }
 
     //==
-    StrQry:='EXEC GetHelperList '+LocationId+','+CompanyId+';';
-    Qry.SQL.Clear;
-    Main.WriteLog('SQL :'+StrQry,2);
-    Qry.SQL.Add(StrQry);
-    Qry.Open;
-    SetLength(HelperArr,Qry.RecordCount+1);
-
-    Count:=1;
-    if (Qry.RecordCount>0) then while not(Qry.Eof) do begin
-      HelperArr[Count][0]:=Qry.FieldValues['employee_id'];
-      HelperArr[Count][1]:=Qry.FieldValues['name'];
-      HelperArr[Count][2]:=Qry.FieldValues['cellular_no'];
-//      HelperArr[Count][3]:=Qry.FieldValues['cellular_no'];
-//      if Qry.FieldValues['last_phone_no']<>NULL then HelperArr[Count][4]:=Qry.FieldValues['last_phone_no'];
-//      if Qry.FieldValues['form_id']<>NULL then HelperArr[Count][5]:=Qry.FieldValues['form_id'];
-//      if Qry.FieldValues['reason']<>NULL then HelperArr[Count][6]:=Qry.FieldValues['reason'];
-      Inc(Count);
-      Qry.Next;
-    end;
-    Qry.Close;
+//    if CompanyId<>'2' then begin
+//      StrQry:='EXEC GetHelperList '+LocationId+','+CompanyId+';';
+//      Qry.SQL.Clear;
+//      Main.WriteLog('SQL :'+StrQry,2);
+//      Qry.SQL.Add(StrQry);
+//      Qry.Open;
+//      SetLength(HelperArr,Qry.RecordCount+1);
+//
+//      Count:=1;
+//      if (Qry.RecordCount>0) then while not(Qry.Eof) do begin
+//        HelperArr[Count][0]:=Qry.FieldValues['employee_id'];
+//        HelperArr[Count][1]:=Qry.FieldValues['name'];
+//        HelperArr[Count][2]:=Qry.FieldValues['cellular_no'];
+//        Inc(Count);
+//        Qry.Next;
+//      end;
+//      Qry.Close;
+//
+//      for Count:=0 to Length(HelperArr)-1 do
+//      Kenek.Items.Add(HelperArr[Count][1]);
+//    end;
 
     {StrQry:='SELECT a.*,b.body_id FROM wh_working_schedule AS a '+
           'LEFT JOIN wh_vehicle AS b ON b.vehicle_id=a.vehicle_id '+
@@ -859,8 +955,7 @@ begin
 //  for Count:=0 to Length(EmplArr)-1 do
 //    Driver.Items.Add(EmplArr[Count][0]);
 
-  for Count:=0 to Length(HelperArr)-1 do
-    Kenek.Items.Add(HelperArr[Count][1]);
+
 
 //  RefreshVehicle;
   Main.M_Normal;
@@ -1261,16 +1356,19 @@ begin
 end;
 
 procedure TSPJFormBus.SimpanClick(Sender: TObject);
-var Qry,Qry2,Qry3,Qry4,Qry5,Qry6,QryWehaOnline:TADOQuery;
+var Qry,Qry2,Qry3,Qry4,Qry5,Qry6,Qry7,QryWehaOnline:TADOQuery;
     StrQry,StrQry2,StrQryWehaOnlineCek,StrQryWehaOnline : WideString;
-    StrVhcId,StrTransId,StrEmployeeId,StrMsg,StrEMessage,StrHelperId,StrUrutID,StrWehaUserID:String;
+    StrVhcId,StrTransId,StrEmployeeId,StrMsg,StrEMessage,StrHelperId,StrUrutID,StrWehaUserID,StrDriverQry,StrDriver2Qry,StrBusboyQry:String;
     StrFromDates,StrToDates,StrPickupPoint,StrRoute,StrRemark,StrRemark2,StrFromTimes,StrStandbyTimes,StrStatus,StrGroup,StrOutType,StrEMsg:String;
     StrReservedOrderDetailId,StrCustomerId,StrFieldContact,StrFieldPhoneNo,StrPhoneNo,StrBusBoy,StrCancel,StrDestination,StrConnecting:String;
     DayNight,IntCount,Val,IntKmestimasi,isMandatoryDriver2:Integer;
     IsAuth,IsOk:Boolean;
     NewSPJArr:Array of String;
 
-    StrUrl,NameSpace,ParamIn, Pesan_WA, StrDeskripsiHist: String;
+    StrUrl,NameSpace,ParamIn, Pesan_WA, StrDeskripsiHist,StrDriverBackupID,StrDriverBackupName,
+    StrDriverBackupPhone,StrDriverBackupCustomerNo,
+    StrWehaHelperID,StrWehaHelperName,
+    StrWehaHelperPhone,StrWehaHelperCustomerNo: String;
     API: JadeServiceSoap;
     RequestAPI:VehicleInfoModel;
     ResponAPI: ServiceResponse;
@@ -1278,6 +1376,113 @@ var Qry,Qry2,Qry3,Qry4,Qry5,Qry6,QryWehaOnline:TADOQuery;
     StandByTime_Api: TDateTime;
     D: TXSDateTime;
 begin
+  Qry7:=TADOQuery.Create(Self);
+  Qry7.Connection:=Main.MyConnection;
+  Qry7.ParamCheck:=False;
+
+  if Main.OpenDb and Status.Checked<>True then begin
+    if StrIsOnline='1' then
+    begin
+      StrQry:='SELECT * from wh_employee where employee_id='+QuotedStr(StrDriver)+' and active=1';
+      Qry7.Close;
+      Qry7.SQL.Clear;
+      Qry7.SQL.Add(StrQry);
+      Qry7.Open;
+
+      if (Qry7.RecordCount=0) then begin
+        MessageBox(0,PChar('SJ Tidak Dapat Disimpan' +Chr(13)+Chr(13)+'Pengemudi 1 Sudah Tidak Aktif'+Chr(13)+StrEMessage),'SJ Bus',MB_OK or MB_ICONWARNING);
+        Exit;
+      end;
+
+      if (DriverDisp2.Text<>'') then
+      begin
+        StrQry:='SELECT * from wh_employee where employee_id='+QuotedStr(StrDriver2)+' and active=1';
+        Qry7.Close;
+        Qry7.SQL.Clear;
+        Qry7.SQL.Add(StrQry);
+        Qry7.Open;
+
+        if (Qry7.RecordCount=0) then begin
+          MessageBox(0,PChar('SJ Tidak Dapat Disimpan' +Chr(13)+Chr(13)+'Pengemudi 2 Sudah Tidak Aktif'+Chr(13)+StrEMessage),'SJ Bus',MB_OK or MB_ICONWARNING);
+          Exit;
+        end;
+      end;
+
+      if (StrBusboyID<>'') then
+      begin
+        StrQry:='SELECT * from wh_employee where employee_id='+QuotedStr(StrBusboyID)+' and active=1';
+        Qry7.Close;
+        Qry7.SQL.Clear;
+        Qry7.SQL.Add(StrQry);
+        Qry7.Open;
+
+        if (Qry7.RecordCount=0) then begin
+          MessageBox(0,PChar('SJ Tidak Dapat Disimpan' +Chr(13)+Chr(13)+'Helper Sudah Tidak Aktif'+Chr(13)+StrEMessage),'SJ Bus',MB_OK or MB_ICONWARNING);
+          Exit;
+        end;
+      end;
+
+      if (IntWajibHelper=1) and (BusBoyDisp.Text='')  then
+      begin
+         MessageBox(0,PChar('SJ Tidak Dapat Disimpan' +Chr(13)+Chr(13)+'Armada ini haru ada Helper'+Chr(13)+StrEMessage),'SJ Bus',MB_OK or MB_ICONWARNING);
+         Exit;
+      end;
+
+      StrQry:='SELECT * FROM wh_validasi where validasi=''PENUGASAN'' AND company_id='+CompanyId+' and active=1';
+      Qry7.Close;
+      Qry7.SQL.Clear;
+      Qry7.SQL.Add(StrQry);
+      Qry7.Open;
+
+
+
+      if (Qry7.RecordCount>0) and (IsAuthRevCrew=False) then begin
+        if (DriverDisp.Text<>'') and (StatusPenugasanDriver.Text<>'CONFIRM') AND (Status.Checked=False) then
+        begin
+           MessageBox(0,PChar('SJ Tidak Dapat Disimpan' +Chr(13)+Chr(13)+'Pengemudi 1 Belum Konfirmasi Penugasan'+Chr(13)+StrEMessage),'SJ Bus',MB_OK or MB_ICONWARNING);
+           Exit;
+        end else if (BusBoyDisp.Text<>'') and (StatusPenugasanHelper.Text<>'CONFIRM') AND (Status.Checked=False) then
+        begin
+           MessageBox(0,PChar('SJ Tidak Dapat Disimpan' +Chr(13)+Chr(13)+'Kenek/Helper Belum Konfirmasi Penugasan'+Chr(13)+StrEMessage),'SJ Bus',MB_OK or MB_ICONWARNING);
+           Exit;
+        end else if (DriverDisp2.Text<>'') and (StatusPenugasanDriver2.Text<>'CONFIRM') AND (Status.Checked=False) then
+        begin
+           MessageBox(0,PChar('SJ Tidak Dapat Disimpan' +Chr(13)+Chr(13)+'Pengemudi 2 Belum Konfirmasi Penugasan'+Chr(13)+StrEMessage),'SJ Bus',MB_OK or MB_ICONWARNING);
+           Exit;
+        end
+      end;
+      Qry7.Close;
+    end;
+
+    StrQry:='SELECT * FROM wh_validasi where validasi=''KELENGKAPAN DATA KARYAWAN'' AND company_id='+CompanyId+' and active=1';
+    Qry7.Close;
+    Qry7.SQL.Clear;
+    Qry7.SQL.Add(StrQry);
+    Qry7.Open;
+
+    if (Qry7.RecordCount>0) then begin
+      if (KtpDriver1='') then begin
+        MessageBox(0,PChar('SJ Tidak Dapat Disimpan' +Chr(13)+Chr(13)+'Pengemudi 1 Tidak ada No KTP, Minta Team HRD untuk lengkapi data'+Chr(13)+StrEMessage),'SJ Bus',MB_OK or MB_ICONWARNING);
+        Exit;
+      end else if (DriverDisp2.Text<>'') AND (KtpDriver2='') then begin
+        MessageBox(0,PChar('SJ Tidak Dapat Disimpan' +Chr(13)+Chr(13)+'Pengemudi 2 Tidak ada No KTP, Minta Team HRD untuk lengkapi data'+Chr(13)+StrEMessage),'SJ Bus',MB_OK or MB_ICONWARNING);
+        Exit;
+      end else if (StrBusboyID<>'') AND (KtpHelper='') then begin
+        MessageBox(0,PChar('SJ Tidak Dapat Disimpan' +Chr(13)+Chr(13)+'Helper Tidak ada No KTP, Minta Team HRD untuk lengkapi data'+Chr(13)+StrEMessage),'SJ Bus',MB_OK or MB_ICONWARNING);
+        Exit;
+      end else if (NoRekDriver1='') then begin
+        MessageBox(0,PChar('SJ Tidak Dapat Disimpan' +Chr(13)+Chr(13)+'Pengemudi 1 Tidak ada No Rekening, Minta Team HRD untuk lengkapi data'+Chr(13)+StrEMessage),'SJ Bus',MB_OK or MB_ICONWARNING);
+        Exit;
+      end else if (DriverDisp2.Text<>'') AND (NoRekDriver2='') then begin
+        MessageBox(0,PChar('SJ Tidak Dapat Disimpan' +Chr(13)+Chr(13)+'Pengemudi 1 Tidak ada No Rekening, Minta Team HRD untuk lengkapi data'+Chr(13)+StrEMessage),'SJ Bus',MB_OK or MB_ICONWARNING);
+        Exit;
+      end else if  (StrBusboyID<>'') AND (NoRekHelper='') then begin
+        MessageBox(0,PChar('SJ Tidak Dapat Disimpan' +Chr(13)+Chr(13)+'Helper Tidak ada No Rekening, Minta Team HRD untuk lengkapi data'+Chr(13)+StrEMessage),'SJ Bus',MB_OK or MB_ICONWARNING);
+        Exit;
+      end;
+    end;
+  end;
+
   if (DisplayNoBody.Text<>'') AND (DriverDisp.Text<>'') AND (OrderId.Text<>'') {AND (Destination.Text<>'')}   then begin
     IsAuth:=True;
     IsOk:=True;
@@ -1338,13 +1543,18 @@ begin
 //          if NoBody.Text=VhcArr[IntCount][1] then StrVhcId:=QuotedStr(VhcArr[IntCount][0]);
         StrReservedOrderDetailId:=QuotedStr(ReservedOrderDetaiId.Text);
         StrEmployeeId:=QuotedStr(Driver.Text);
-        Try
-          StrHelperId:=QuotedStr(HelperArr[Kenek.ItemIndex][0]);
-          StrHelperPhone:=HelperArr[Kenek.ItemIndex][2];
-        Except
-          on Exception Do
-            StrHelperId:=QuotedStr('');
-        End;
+//        if CompanyId='2' then begin
+          StrHelperId:=QuotedStr(StrBusboyID);
+//        end else begin
+//          Try
+//            StrHelperId:=QuotedStr(HelperArr[Kenek.ItemIndex][0]);
+//            StrHelperPhone:=HelperArr[Kenek.ItemIndex][2];
+//          Except
+//            on Exception Do
+//              StrHelperId:=QuotedStr('');
+//          End;
+//        end;
+
 
         StrCustomerId:=QuotedStr(CustomerId.Text);
         StrFromDates:=QuotedStr(FormatDateTime('yyyy-mm-dd',StrToDate(FromDate.Text)));
@@ -1424,7 +1634,7 @@ begin
         if (Qry4.RecordCount>0) and (Status.Checked=False) and (NoSPJ.Text='') then begin
           IsOk:=False;
 
-          MessageBox(0,PChar('SJ Tidak Dapat Disimpan' +Chr(13)+Chr(13)+'Driver ada ijin'+Chr(13)+StrEMessage),'SJ Bus',MB_OK or MB_ICONWARNING);
+          MessageBox(0,PChar('SJ Tidak Dapat Disimpan' +Chr(13)+Chr(13)+'Driver '+QuotedStr(DriverDisp.Text)+' ada ijin'+Chr(13)+StrEMessage),'SJ Bus',MB_OK or MB_ICONWARNING);
           Main.M_Normal;
           Qry4.Close;
           EnableInput;
@@ -1465,8 +1675,6 @@ begin
         else
         begin
           if SJId<>'' then begin
-
-
             if StrStatus='1' then
             begin
               StrCancel:='NULL';
@@ -1482,6 +1690,9 @@ begin
                     ' WHERE vhc_trans_id='+QuotedStr(StrTransId)+';';
             if StrStatus='1' then begin
               StrQry:=StrQry+' UPDATE wh_vhc_trans_detail_detail SET status=0 WHERE (vhc_trans_id='+QuotedStr(StrTransId)+') AND (status=1);';
+              if (StrDriver<>StrDriverOld) or (StrDriver2<>StrDriver2Old) or (StrBusboyID<>StrBusboyIDOld)
+              then StrQry:=StrQry+' UPDATE wh_reserved_order_detail SET employee_id='+QuotedStr(StrDriver)+',employee_id2='+QuotedStr(StrDriver2)+','+
+                      'employee_id3='+StrHelperId+' WHERE reserved_order_detail_id='+StrReservedOrderDetailId+' ';
             end else begin
 //              if Package.Checked = False then begin
                 StrQry:=StrQry+' UPDATE wh_reserved_order_detail SET vhc_trans_id=NULL, update_user='+QuotedStr(User)+',update_time=GETDATE() WHERE (reserved_order_detail_id='+StrReservedOrderDetailId+') AND (status=1);';
@@ -1501,6 +1712,346 @@ begin
                 IsOk:=False;
               end;
             end;
+
+            if (StrIsOnline='1') AND ((StrDriverOld<>StrDriver) OR (StrDriver2Old<>StrDriver2)
+            OR (StrBusboyIDOld<>StrBusboyID) ) then begin
+              if Main.OpenDb then begin
+
+                StrDriverQry:='';
+                StrDriver2Qry:='';
+                StrBusboyQry:='';
+
+                StrQry:='SELECT * FROM OrderDetailVehicleInfos WHERE WehaReservedCode='+StrReservedOrderDetailId;
+                QryWehaOnline.SQL.Clear;
+                Main.WriteLog('SQL :'+StrQry,2);
+                QryWehaOnline.SQL.Add(StrQry);
+                QryWehaOnline.Open;
+
+                if QryWehaOnline.RecordCount>0 then begin
+                  if Status.Checked=False then
+                  begin
+                    if StrDriverOld<>StrDriver then
+//                    if Kenek.Text<>'' then
+                    begin
+
+                      StrQryWehaOnlineCek:='SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
+                                             'left join Users b ON a.ContactID=b.ContactID WHERE '+
+                                             'b.CustomerNo='+QuotedStr(StrDriver)+' AND b.IsActive=1';
+                      QryWehaOnline.Close;
+                      QryWehaOnline.SQL.Clear;
+                      QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
+                      QryWehaOnline.Open;
+
+                      if QryWehaOnline.RecordCount=0 then begin
+                        StrQryWehaOnline:= 'INSERT INTO Contacts '+
+                                      '(FullName,Gender,'+
+                                      'HP,ViewHisOwnData,IsMain,CreatedBy,CreatedDate,'+
+                                      'ModifiedBy,ModifiedDate,ViewGroupOnly) VALUES '+
+                                      '('+QuotedStr(DriverDisp.Text)+',''M'' '+
+                                      ','+QuotedStr(TelpHP.Text)+',0,0,0 '+
+                                      ',GETDATE(),0,GETDATE(),0); ';
+
+                        QryWehaOnline.SQL.Clear;
+                        QryWehaOnline.SQL.Add(StrQryWehaOnline);
+                        try
+                          QryWehaOnline.ExecSQL;
+                        except
+                          on E:Exception do begin
+                            Main.TransRollback;
+                            IsOk:=False;
+                            EnableInput;
+                            StrEMsg:=StrEMsg+E.Message;
+                            MessageBox(Handle,PChar('Surat Jalan tidak bisa diinput '+Chr(13)+Chr(13)+StrEMsg),'Surat jalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+                            Exit;
+                          end;
+                        end;
+
+
+                        StrQryWehaOnlineCek:='SELECT TOP 1 ContactID FROM Contacts '+
+                                             'WHERE CreatedBy=0 Order By ContactID DESC';
+                        QryWehaOnline.Close;
+                        QryWehaOnline.SQL.Clear;
+                        QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
+                        QryWehaOnline.Open;
+
+                        StrWehaUserID:=StringReplace(QuotedStr(DriverDisp.Text),' ','.',[rfReplaceAll]);
+
+                        StrQryWehaOnline:= 'INSERT INTO Users '+
+                                      '(ContactID,CustomerNo,'+
+                                      'Email,Password,Role,LoginType,WehaUserID,'+
+                                      'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,) VALUES '+
+                                      '('+QuotedStr(QryWehaOnline.FieldValues['ContactID'])+' '+
+                                      ','+QuotedStr(StrDriver)+','+StrWehaUserID+' '+
+                                      ',NULL,''DRIVER'',''EMAIL'' '+
+                                      ','+StrWehaUserID+' '+
+                                      ',1,0,GETDATE(),0,GETDATE()); ';
+
+                        QryWehaOnline.SQL.Clear;
+                        QryWehaOnline.SQL.Add(StrQryWehaOnline);
+                        try
+                          QryWehaOnline.ExecSQL;
+                        except
+                          on E:Exception do begin
+                            Main.TransRollback;
+                            IsOk:=False;
+                            EnableInput;
+                            StrEMsg:=StrEMsg+E.Message;
+                            MessageBox(Handle,PChar('Driver tidak bisa diinput '+Chr(13)+Chr(13)+StrEMsg),'Surat Jalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+                            Exit;
+                          end;
+                        end;
+
+                        StrQryWehaOnlineCek:='SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
+                                           'left join Users b ON a.ContactID=b.ContactID WHERE '+
+                                           'b.CustomerNo='+QuotedStr(StrDriver)+' AND b.IsActive=1';
+                        QryWehaOnline.Close;
+                        QryWehaOnline.SQL.Clear;
+                        QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
+                        QryWehaOnline.Open;
+
+                      end;
+
+                      StrDriverQry:=' DriverID='+QuotedStr(QryWehaOnline.FieldValues['UserID'])+','+
+                                    'DriverName='+QuotedStr(QryWehaOnline.FieldValues['FullName'])+','+
+                                    'DriverPhone='+QuotedStr(QryWehaOnline.FieldValues['HP'])+','+
+                                    'WEHACustomerNo='+QuotedStr(StrDriver);
+
+                    end else if StrDriver2Old<>StrDriver2 then
+                    begin
+                      if StrDriver2<>'' then begin
+                        StrQryWehaOnlineCek:='SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
+                                               'left join Users b ON a.ContactID=b.ContactID WHERE '+
+                                               'b.CustomerNo='+QuotedStr(StrDriver2)+' AND b.IsActive=1';
+                        QryWehaOnline.Close;
+                        QryWehaOnline.SQL.Clear;
+                        QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
+                        QryWehaOnline.Open;
+
+                        if QryWehaOnline.RecordCount=0 then begin
+                          StrQryWehaOnline:= 'INSERT INTO Contacts '+
+                                        '(FullName,Gender,'+
+                                        'HP,ViewHisOwnData,IsMain,CreatedBy,CreatedDate,'+
+                                        'ModifiedBy,ModifiedDate,ViewGroupOnly) VALUES '+
+                                        '('+QuotedStr(DriverDisp2.Text)+',''M'' '+
+                                        ','+QuotedStr(TelpHP2.Text)+',0,0,0 '+
+                                        ',GETDATE(),0,GETDATE(),0); ';
+
+                          QryWehaOnline.SQL.Clear;
+                          QryWehaOnline.SQL.Add(StrQryWehaOnline);
+                          try
+                            QryWehaOnline.ExecSQL;
+                          except
+                            on E:Exception do begin
+                              Main.TransRollback;
+                              IsOk:=False;
+                              EnableInput;
+                              StrEMsg:=StrEMsg+E.Message;
+                              MessageBox(Handle,PChar('Surat Jalan tidak bisa diinput '+Chr(13)+Chr(13)+StrEMsg),'Surat jalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+                              Exit;
+                            end;
+                          end;
+
+
+                          StrQryWehaOnlineCek:='SELECT TOP 1 ContactID FROM Contacts '+
+                                               'WHERE CreatedBy=0 Order By ContactID DESC';
+                          QryWehaOnline.Close;
+                          QryWehaOnline.SQL.Clear;
+                          QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
+                          QryWehaOnline.Open;
+
+                          StrWehaUserID:=StringReplace(QuotedStr(DriverDisp2.Text),' ','.',[rfReplaceAll]);
+
+                          StrQryWehaOnline:= 'INSERT INTO Users '+
+                                        '(ContactID,CustomerNo,'+
+                                        'Email,Password,Role,LoginType,WehaUserID,'+
+                                        'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,) VALUES '+
+                                        '('+QuotedStr(QryWehaOnline.FieldValues['ContactID'])+' '+
+                                        ','+QuotedStr(StrDriver2)+','+StrWehaUserID+' '+
+                                        ',NULL,''DRIVER'',''EMAIL'' '+
+                                        ','+StrWehaUserID+' '+
+                                        ',1,0,GETDATE(),0,GETDATE()); ';
+
+                          QryWehaOnline.SQL.Clear;
+                          QryWehaOnline.SQL.Add(StrQryWehaOnline);
+                          try
+                            QryWehaOnline.ExecSQL;
+                          except
+                            on E:Exception do begin
+                              Main.TransRollback;
+                              IsOk:=False;
+                              EnableInput;
+                              StrEMsg:=StrEMsg+E.Message;
+                              MessageBox(Handle,PChar('Driver tidak bisa diinput '+Chr(13)+Chr(13)+StrEMsg),'Surat Jalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+                              Exit;
+                            end;
+                          end;
+
+                          StrQryWehaOnlineCek:='SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
+                                             'left join Users b ON a.ContactID=b.ContactID WHERE '+
+                                             'b.CustomerNo='+QuotedStr(StrDriver2)+' AND b.IsActive=1';
+                          QryWehaOnline.Close;
+                          QryWehaOnline.SQL.Clear;
+                          QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
+                          QryWehaOnline.Open;
+
+                        end;
+                      end;
+                      if StrDriver2='' then
+                      begin
+                        StrDriverBackupID:='NULL';
+                        StrDriverBackupName:='NULL';
+                        StrDriverBackupPhone:='NULL';
+                        StrDriverBackupCustomerNo:='NULL';
+                      end else begin
+                        StrDriverBackupID:=QuotedStr(QryWehaOnline.FieldValues['UserID']);
+                        StrDriverBackupName:=QuotedStr(QryWehaOnline.FieldValues['FullName']);
+                        StrDriverBackupPhone:=QuotedStr(QryWehaOnline.FieldValues['HP']);
+                        StrDriverBackupCustomerNo:=QuotedStr(StrDriver2);
+                      end;
+
+                      if (StrDriverQry='') then
+                      StrDriver2Qry:='DriverBackupID='+StrDriverBackupID+','+
+                                    'DriverBackupName='+StrDriverBackupName+','+
+                                    'DriverBackupPhone='+StrDriverBackupPhone+','+
+                                    'DriverBackupCustomerNo='+StrDriverBackupCustomerNo
+                      else  StrDriver2Qry:=',DriverBackupID='+StrDriverBackupID+','+
+                                    'DriverBackupName='+StrDriverBackupName+','+
+                                    'DriverBackupPhone='+StrDriverBackupPhone+','+
+                                    'DriverBackupCustomerNo='+StrDriverBackupCustomerNo;
+                    end else if StrBusboyIDOld<>StrBusboyID then
+//                    if Kenek.Text<>'' then
+                    begin
+
+                      StrQryWehaOnlineCek:='SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
+                                             'left join Users b ON a.ContactID=b.ContactID WHERE '+
+                                             'b.CustomerNo='+StrHelperId+' AND b.IsActive=1';
+                      QryWehaOnline.Close;
+                      QryWehaOnline.SQL.Clear;
+                      QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
+                      QryWehaOnline.Open;
+
+
+                      if QryWehaOnline.RecordCount=0 then begin
+                        StrQryWehaOnline:= 'INSERT INTO Contacts '+
+                                      '(FullName,Gender,'+
+                                      'HP,ViewHisOwnData,IsMain,CreatedBy,CreatedDate,'+
+                                      'ModifiedBy,ModifiedDate,ViewGroupOnly) VALUES '+
+                                      '('+QuotedStr(Kenek.Text)+',''M'' '+
+                                      ','+QuotedStr(StrHelperPhone)+',0,0,0 '+
+                                      ',GETDATE(),0,GETDATE(),0); ';
+
+                        QryWehaOnline.SQL.Clear;
+                        QryWehaOnline.SQL.Add(StrQryWehaOnline);
+                        try
+                          QryWehaOnline.ExecSQL;
+                        except
+                          on E:Exception do begin
+                            Main.TransRollback;
+                            IsOk:=False;
+                            EnableInput;
+                            StrEMsg:=StrEMsg+E.Message;
+                            MessageBox(Handle,PChar('Surat Jalan tidak bisa diinput '+Chr(13)+Chr(13)+StrEMsg),'Surat jalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+                            Exit;
+                          end;
+                        end;
+
+
+                        StrQryWehaOnlineCek:='SELECT TOP 1 ContactID FROM Contacts '+
+                                             'WHERE CreatedBy=0 Order By ContactID DESC';
+                        QryWehaOnline.Close;
+                        QryWehaOnline.SQL.Clear;
+                        QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
+                        QryWehaOnline.Open;
+
+                        StrWehaUserID:=StringReplace(QuotedStr(Kenek.Text),' ','.',[rfReplaceAll]);
+
+                        StrQryWehaOnline:= 'INSERT INTO Users '+
+                                      '(ContactID,CustomerNo,'+
+                                      'Email,Password,Role,LoginType,WehaUserID,'+
+                                      'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,IsHelper) VALUES '+
+                                      '('+QuotedStr(QryWehaOnline.FieldValues['ContactID'])+' '+
+                                      ','+StrHelperId+','+StrWehaUserID+' '+
+                                      ',NULL,''DRIVER'',''EMAIL'' '+
+                                      ','+StrWehaUserID+' '+
+                                      ',1,0,GETDATE(),0,GETDATE(),1); ';
+
+                        QryWehaOnline.SQL.Clear;
+                        QryWehaOnline.SQL.Add(StrQryWehaOnline);
+                        try
+                          QryWehaOnline.ExecSQL;
+                        except
+                          on E:Exception do begin
+                            Main.TransRollback;
+                            IsOk:=False;
+                            EnableInput;
+                            StrEMsg:=StrEMsg+E.Message;
+                            MessageBox(Handle,PChar('Driver tidak bisa diinput '+Chr(13)+Chr(13)+StrEMsg),'Surat Jalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+                            Exit;
+                          end;
+                        end;
+
+                        StrQryWehaOnlineCek:='SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
+                                           'left join Users b ON a.ContactID=b.ContactID WHERE '+
+                                           'b.CustomerNo='+StrHelperId+' AND b.IsActive=1';
+                        QryWehaOnline.Close;
+                        QryWehaOnline.SQL.Clear;
+                        QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
+                        QryWehaOnline.Open;
+
+                      end;
+
+                      if StrHelperId='' then
+                      begin
+                        StrWehaHelperID:='NULL';
+                        StrWehaHelperName:='NULL';
+                        StrWehaHelperPhone:='NULL';
+                        StrWehaHelperCustomerNo:='NULL';
+                      end else begin
+                        StrWehaHelperID:=QuotedStr(QryWehaOnline.FieldValues['UserID']);
+                        StrWehaHelperName:=QuotedStr(QryWehaOnline.FieldValues['FullName']);
+                        StrWehaHelperPhone:=QuotedStr(QryWehaOnline.FieldValues['HP']);
+                        StrWehaHelperCustomerNo:=StrHelperId;
+                      end;
+
+                      if (StrDriverQry='') AND (StrDriver2Qry='') then
+                        StrBusboyQry:='HelperID='+StrWehaHelperID+','+
+                                    'HelperName='+StrWehaHelperName+','+
+                                    'HelperPhone='+StrWehaHelperPhone+','+
+                                    'WEHAHelperCustomerNo='+StrHelperId
+                       else StrBusboyQry :=',HelperID='+StrWehaHelperID+','+
+                                    'HelperName='+StrWehaHelperName+','+
+                                    'HelperPhone='+StrWehaHelperPhone+','+
+                                    'WEHAHelperCustomerNo='+StrHelperId;
+
+                    end;
+
+                    StrQry:=' UPDATE OrderDetailVehicleInfos SET '+StrDriverQry+StrDriver2Qry+StrBusboyQry+
+                            ' WHERE WehaReservedCode='+StrReservedOrderDetailId;
+                  end;
+                  Main.WriteLog('SQL :'+StrQry,2);
+                  QryWehaOnline.SQL.Clear;
+                  QryWehaOnline.SQL.Add(StrQry);
+                  try
+                    QryWehaOnline.ExecSQL;
+                    isOk := true ;
+                  except
+                    on E:Exception do begin
+                      StrMsg:='Tidak Dapat Menyimpan Detail SJ';
+                      StrEMessage:=E.Message;
+                      IsOk:=False;
+                    end;
+                  end;
+                end else begin
+                  isOk := False;
+                  EnableInput;
+                  ShowMessage('Error '+StrReservedOrderDetailId);
+                end;
+
+  //              Main.CloseDb;
+              end;
+            end;
+
+
           end
           else
           begin
@@ -1535,7 +2086,7 @@ begin
               StrUrutID:='001';
               StrUrutId:=StrUrutId;
 
-            StrDeskripsiHist:='Buat surat jalan';
+              StrDeskripsiHist:='Buat surat jalan';
 
 //            if Package.Checked = False then begin
               StrTransId:='SJB'+LocationCode+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
@@ -1668,6 +2219,8 @@ begin
               end;
             end;
           end;
+
+          //Kirim Data ke Weha Online
           if IsOk=True then begin
             Qry.Close;
             StrQry:='SELECT * FROM wh_setting WHERE (setting_name='+QuotedStr('PostingData_WehaOnline')+') AND (active=1);';
@@ -1680,9 +2233,14 @@ begin
               if Qry.FieldValues['value_string']=0 then CallApi:=False;
             end;
             Qry.Close;
+
             if StrIsOnline='0' Then CallApi:=False;
             if StrIsOnline='1' then begin
               if Main.OpenDb then begin
+
+                StrDriverQry:='';
+                StrDriver2Qry:='';
+                StrBusboyQry:='';
 
                 StrQry:='SELECT * FROM OrderDetailVehicleInfos WHERE WehaReservedCode='+StrReservedOrderDetailId;
                 QryWehaOnline.SQL.Clear;
@@ -1693,101 +2251,11 @@ begin
                 if QryWehaOnline.RecordCount>0 then begin
                   if Status.Checked=True then
                   begin
-                    StrQry:=' UPDATE OrderDetailVehicleInfos SET WorkOrderNo = NULL,'+
-                            'HelperID = NULL ,HelperName = NULL,HelperPhone=NULL,WEHAHelperCustomerNo= NULL   '+
+                    StrQry:=' UPDATE OrderDetailVehicleInfos SET WorkOrderNo = NULL'+
                             ' WHERE WehaReservedCode='+StrReservedOrderDetailId;
                   end else begin
-                    if Kenek.Text<>'' then
-                    begin
-
-                      StrQryWehaOnlineCek:='SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
-                                             'left join Users b ON a.ContactID=b.ContactID WHERE '+
-                                             'b.CustomerNo='+StrHelperId+' AND b.IsActive=1';
-                      QryWehaOnline.Close;
-                      QryWehaOnline.SQL.Clear;
-                      QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
-                      QryWehaOnline.Open;
-
-
-                      if QryWehaOnline.RecordCount=0 then begin
-                        StrQryWehaOnline:= 'INSERT INTO Contacts '+
-                                      '(FullName,Gender,'+
-                                      'HP,ViewHisOwnData,IsMain,CreatedBy,CreatedDate,'+
-                                      'ModifiedBy,ModifiedDate,ViewGroupOnly) VALUES '+
-                                      '('+QuotedStr(Kenek.Text)+',''M'' '+
-                                      ','+QuotedStr(StrHelperPhone)+',0,0,0 '+
-                                      ',GETDATE(),0,GETDATE(),0); ';
-
-                        QryWehaOnline.SQL.Clear;
-                        QryWehaOnline.SQL.Add(StrQryWehaOnline);
-                        try
-                          QryWehaOnline.ExecSQL;
-                        except
-                          on E:Exception do begin
-                            Main.TransRollback;
-                            IsOk:=False;
-                            EnableInput;
-                            StrEMsg:=StrEMsg+E.Message;
-                            MessageBox(Handle,PChar('Surat Jalan tidak bisa diinput '+Chr(13)+Chr(13)+StrEMsg),'Surat jalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
-                            Exit;
-                          end;
-                        end;
-
-
-                        StrQryWehaOnlineCek:='SELECT TOP 1 ContactID FROM Contacts '+
-                                             'WHERE CreatedBy=0 Order By ContactID DESC';
-                        QryWehaOnline.Close;
-                        QryWehaOnline.SQL.Clear;
-                        QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
-                        QryWehaOnline.Open;
-
-                        StrWehaUserID:=StringReplace(QuotedStr(Kenek.Text),' ','.',[rfReplaceAll]);
-
-                        StrQryWehaOnline:= 'INSERT INTO Users '+
-                                      '(ContactID,CustomerNo,'+
-                                      'Email,Password,Role,LoginType,WehaUserID,'+
-                                      'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,IsHelper) VALUES '+
-                                      '('+QuotedStr(QryWehaOnline.FieldValues['ContactID'])+' '+
-                                      ','+StrHelperId+','+StrWehaUserID+' '+
-                                      ',NULL,''DRIVER'',''EMAIL'' '+
-                                      ','+StrWehaUserID+' '+
-                                      ',1,0,GETDATE(),0,GETDATE(),1); ';
-
-                        QryWehaOnline.SQL.Clear;
-                        QryWehaOnline.SQL.Add(StrQryWehaOnline);
-                        try
-                          QryWehaOnline.ExecSQL;
-                        except
-                          on E:Exception do begin
-                            Main.TransRollback;
-                            IsOk:=False;
-                            EnableInput;
-                            StrEMsg:=StrEMsg+E.Message;
-                            MessageBox(Handle,PChar('Driver tidak bisa diinput '+Chr(13)+Chr(13)+StrEMsg),'Surat Jalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
-                            Exit;
-                          end;
-                        end;
-
-                        StrQryWehaOnlineCek:='SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
-                                           'left join Users b ON a.ContactID=b.ContactID WHERE '+
-                                           'b.CustomerNo='+StrHelperId+' AND b.IsActive=1';
-                        QryWehaOnline.Close;
-                        QryWehaOnline.SQL.Clear;
-                        QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
-                        QryWehaOnline.Open;
-
-                      end;
-
-                      StrQry:=' UPDATE OrderDetailVehicleInfos SET WorkOrderNo='+QuotedStr(StrTransId)+
-                            ' ,HelperName='+QuotedStr(QryWehaOnline.FieldValues['FullName'])+',HelperPhone='+QuotedStr(QryWehaOnline.FieldValues['HP'])+
-                            ' ,WEHAHelperCustomerNo='+StrHelperId+',HelperID='+QuotedStr(QryWehaOnline.FieldValues['UserID'])+
+                    StrQry:=' UPDATE OrderDetailVehicleInfos SET WorkOrderNo='+QuotedStr(StrTransId)+
                             ' WHERE WehaReservedCode='+StrReservedOrderDetailId;
-                    end else
-                    begin
-                        StrQry:=' UPDATE OrderDetailVehicleInfos SET WorkOrderNo='+QuotedStr(StrTransId)+
-                                ' WHERE WehaReservedCode='+StrReservedOrderDetailId;
-
-                    end;
                   end;
                   Main.WriteLog('SQL :'+StrQry,2);
                   QryWehaOnline.SQL.Clear;
@@ -1915,48 +2383,49 @@ begin
               DisableInput;
               NoSPJ.Text:=StrTransId;
               Qry.Close;
-              if StrStatus='1' then begin
-                if isSent_WA then send_WA;
-                case MessageDlg('Apakah anda melakukan pengiriman WA?', mtConfirmation, [mbYes, mbNo], 0) of
-                  mrYes:
-                    begin
-                    // Write code here for pressing button OK
-                      StrQry:='Update wh_vhc_trans SET status_wa=1 where vhc_trans_id='+QuotedStr(StrTransId);
-                      Qry.SQL.Clear;
-                      Main.WriteLog('SQL :'+StrQry,4);
-                      Qry.SQL.Add(StrQry);
-                      try
-                        Qry.ExecSQL;
-                        StatusWA.Checked:=True;
-                      except
-                        on E:Exception do begin
-                          IsOk:=False;
-                          StrMsg:='Gagal Menyimpan Daftar Cekal';
-                          StrEMessage:=E.Message;
-                          StatusWA.Checked:=False;
+              if FormRequest<>'KetidakSesuaianCrew' then
+              begin
+                if StrStatus='1' then begin
+                  if isSent_WA then send_WA;
+                  case MessageDlg('Apakah anda melakukan pengiriman WA?', mtConfirmation, [mbYes, mbNo], 0) of
+                    mrYes:
+                      begin
+                      // Write code here for pressing button OK
+                        StrQry:='Update wh_vhc_trans SET status_wa=1 where vhc_trans_id='+QuotedStr(StrTransId);
+                        Qry.SQL.Clear;
+                        Main.WriteLog('SQL :'+StrQry,4);
+                        Qry.SQL.Add(StrQry);
+                        try
+                          Qry.ExecSQL;
+                          StatusWA.Checked:=True;
+                        except
+                          on E:Exception do begin
+                            IsOk:=False;
+                            StrMsg:='Gagal Menyimpan Daftar Cekal';
+                            StrEMessage:=E.Message;
+                            StatusWA.Checked:=False;
+                          end;
                         end;
                       end;
-                    end;
-                  mrNo:
-                    begin
-                      StrQry:='Update wh_vhc_trans SET status_wa=0 where vhc_trans_id='+QuotedStr(StrTransId);
-                      Qry.SQL.Clear;
-                      Main.WriteLog('SQL :'+StrQry,4);
-                      Qry.SQL.Add(StrQry);
-                      try
-                        Qry.ExecSQL;
-                      except
-                        on E:Exception do begin
-                          IsOk:=False;
-                          StrMsg:='Gagal Menyimpan Daftar Cekal';
-                          StrEMessage:=E.Message;
+                    mrNo:
+                      begin
+                        StrQry:='Update wh_vhc_trans SET status_wa=0 where vhc_trans_id='+QuotedStr(StrTransId);
+                        Qry.SQL.Clear;
+                        Main.WriteLog('SQL :'+StrQry,4);
+                        Qry.SQL.Add(StrQry);
+                        try
+                          Qry.ExecSQL;
+                        except
+                          on E:Exception do begin
+                            IsOk:=False;
+                            StrMsg:='Gagal Menyimpan Daftar Cekal';
+                            StrEMessage:=E.Message;
+                          end;
                         end;
                       end;
-                    end;
+                  end;
                 end;
               end;
-
-
 
               if StrStatus='1' then begin
                 if MessageBox(0,'SJ Berhasil Disimpan' +Chr(13)+Chr(13)+'   Mau Dicetak ?','SJ Bus',MB_OKCANCEL or MB_ICONQUESTION)=1 then begin
@@ -1986,7 +2455,6 @@ begin
             MessageBox(0,PChar('SJ Tidak Dapat Disimpan' +Chr(13)+Chr(13)+'Kesalahan:'+Chr(13)+StrEMessage),'SJ Bus',MB_OK or MB_ICONERROR)
           end;
         end;
-
         FreeAndNil(Qry);
         FreeAndNil(Qry2);
         FreeAndNil(Qry3);
@@ -2001,7 +2469,6 @@ begin
     MessageBox(0,'Silahkan lengkapi kolom','SJ Bus',MB_OK or MB_ICONWARNING);
     EnableInput;
   end;
-
 end;
 
 procedure TSPJFormBus.send_WA();
@@ -2143,6 +2610,7 @@ procedure TSPJFormBus.RePrint(No_SPJ:String);
 var StrNoBody:String;
     Qry,Qry2:TADOQuery;
     StrQry,StrWEHAmart,StrLokasiStandBy:String;
+    Height2: Real;
 begin
   if No_SPJ<>'' then begin
     PreparePrint;
@@ -2164,6 +2632,9 @@ begin
       ppCatatan.Lines.Clear;
       ppAlamat2.Lines.Clear;
       ppAcara2.Lines.Clear;
+      ppAlamat3.Lines.Clear;
+      ppAcara3.Lines.Clear;
+      ppCatatan3.Lines.Clear;
       if Main.OpenDb then begin
         StrQry:='EXEC GetSJDetail '+QuotedStr(No_SPJ)+';';
         Qry.SQL.Clear;
@@ -2275,6 +2746,7 @@ begin
               ppTanggal.Top:=ppTanggal.Top+ StrToFloat(SetTambahanTopSJ);
               ppTandaPetugas.Top:=ppTandaPetugas.Top+ StrToFloat(SetTambahanTopSJ);
             end;
+
             ppReport.Print;
 //            ppReport3.Print;
           end;
@@ -2374,30 +2846,33 @@ begin
               ppCatatan3.Lines.Add(UpperCase(Qry.FieldValues['description'])+sLineBreak+StrLokasiStandBy);
             end;
 
-            ppNoSPJ3.Top:=ppNoSPJ3.Top+ StrToFloat(SetTambahanTopSJ);
-            ppcustomer3.Top:=ppcustomer3.Top+ StrToFloat(SetTambahanTopSJ);
-            ppGroupName3.Top:=ppGroupName3.Top+ StrToFloat(SetTambahanTopSJ);
-            ppTanggalReservasi3.Top:=ppTanggalReservasi3.Top+ StrToFloat(SetTambahanTopSJ);
-            ppAlamat3.Top:=ppAlamat3.Top+ StrToFloat(SetTambahanTopSJ);
+            ppNoSPJ3.Top:=0.5417+ StrToFloat(SetTambahanTopSJ);
+            ppcustomer3.Top:=1.0625+ StrToFloat(SetTambahanTopSJ);
+            ppGroupName3.Top:=1.2396+ StrToFloat(SetTambahanTopSJ);
+            ppTanggalReservasi3.Top:=1.4063+ StrToFloat(SetTambahanTopSJ);
+            ppAlamat3.Top:=1.5833+ StrToFloat(SetTambahanTopSJ);
 
-            ppNoOrder3.Top:=ppNoOrder3.Top+ StrToFloat(SetTambahanTopSJ);
-            ppSeat3.Top:=ppSeat3.Top+ StrToFloat(SetTambahanTopSJ);
-            ppGuide3.Top:=ppGuide3.Top+ StrToFloat(SetTambahanTopSJ);
-            ppGuidePhone3.Top:=ppGuidePhone3.Top+ StrToFloat(SetTambahanTopSJ);
-            ppJamReservasi3.Top:=ppJamReservasi3.Top+ StrToFloat(SetTambahanTopSJ);
-            ppAcara3.Top:=ppAcara3.Top+ StrToFloat(SetTambahanTopSJ);
-            ppNama3.Top:=ppNama3.Top+ StrToFloat(SetTambahanTopSJ);
-            ppTelpHP3.Top:=ppTelpHP3.Top+ StrToFloat(SetTambahanTopSJ);
-            ppdriver23.Top:=ppdriver23.Top+ StrToFloat(SetTambahanTopSJ);
-            ppHpDriver23.Top:=ppHpDriver23.Top+ StrToFloat(SetTambahanTopSJ);
-            ppKernet3.Top:=ppKernet3.Top+ StrToFloat(SetTambahanTopSJ);
-            ppKernetHP3.Top:=ppKernetHP3.Top+ StrToFloat(SetTambahanTopSJ);
-            ppNoPolisi3.Top:=ppNoPolisi3.Top+ StrToFloat(SetTambahanTopSJ);
-            ppNoBody3.Top:=ppNoBody3.Top+ StrToFloat(SetTambahanTopSJ);
-            ppCatatan3.Top:=ppCatatan3.Top+ StrToFloat(SetTambahanTopSJ);
-            ppTanggal3.Top:=ppTanggal3.Top+ StrToFloat(SetTambahanTopSJ);
-            ppTandaPetugas3.Top:=ppTandaPetugas3.Top+ StrToFloat(SetTambahanTopSJ);
-//            if SetPrinterSJ='EPSON LX-310' then
+            ppNoOrder3.Top:=1.0521+ StrToFloat(SetTambahanTopSJ);
+            ppSeat3.Top:=1.2187+ StrToFloat(SetTambahanTopSJ);
+            ppGuide3.Top:=1.3854+ StrToFloat(SetTambahanTopSJ);
+            ppGuidePhone3.Top:=1.5625+ StrToFloat(SetTambahanTopSJ);
+            ppJamReservasi3.Top:=1.1771+ StrToFloat(SetTambahanTopSJ);
+            ppAcara3.Top:=2.2604+ StrToFloat(SetTambahanTopSJ);
+            ppNama3.Top:=3.7292+ StrToFloat(SetTambahanTopSJ);
+            ppTelpHP3.Top:=3.8958+ StrToFloat(SetTambahanTopSJ);
+            ppdriver23.Top:=3.7292+ StrToFloat(SetTambahanTopSJ);
+            ppHpDriver23.Top:=3.8958+ StrToFloat(SetTambahanTopSJ);
+            ppKernet3.Top:=3.7396+ StrToFloat(SetTambahanTopSJ);
+            ppKernetHP3.Top:=3.8958+ StrToFloat(SetTambahanTopSJ);
+            ppNoPolisi3.Top:=3.7292+ StrToFloat(SetTambahanTopSJ);
+            ppNoBody3.Top:=3.8958+ StrToFloat(SetTambahanTopSJ);
+            ppCatatan3.Top:=4.0833+ StrToFloat(SetTambahanTopSJ);
+            ppTanggal3.Top:=4.7604+ StrToFloat(SetTambahanTopSJ);
+            ppTandaPetugas3.Top:=5.2396+ StrToFloat(SetTambahanTopSJ);
+//            Height2:=ppNoSPJ.Top;
+
+
+            //            if SetPrinterSJ='EPSON LX-310' then
 //            begin
 //              ppcustomer3.Top:= ppcustomer3.Top+0.08;
 //              ppGroupName3.Top:= ppGroupName3.Top+0.08;
@@ -2481,7 +2956,7 @@ begin
   RefreshHeader;
   if SJId<>'' then begin
     PanelCariOrder.Enabled:=False;
-    LoadData;
+    LoadData1;
 //    RefreshGrid;
     if not(IsInput) then DisableInput;
     if IsVehicleOnly then begin
@@ -2621,6 +3096,47 @@ procedure TSPJFormBus.BtnKendaraanClick(Sender: TObject);
 begin
   if (Main.IsFormOpen('VehicleList')=False) and (NoSPJ.Text<>'') then
     VehicleRDList:=TVehicleRDList.Create(Self,'Bus','','','SJ-Change',FormatDateTime('yyyy/mm/dd',StrToDate(FromDate.Text)),FormatDateTime('yyyy/mm/dd',StrToDate(ToDate.Text)),'00:00' );
+end;
+
+procedure TSPJFormBus.BtnDriverClick(Sender: TObject);
+begin
+  if (Main.IsFormOpen('EmployeeRDList')=False) and (NoSPJ.Text<>'') then
+  EmployeeRDList:=TEmployeeRDList.Create(Self,'Bus',1,0,'SJ-Update-Driver1',FormatDateTime('yyyy/mm/dd',StrToDate(FromDate.Text)),FormatDateTime('yyyy/mm/dd',StrToDate(ToDate.Text)));
+end;
+
+procedure TSPJFormBus.BtnKenekClick(Sender: TObject);
+begin
+  if (Main.IsFormOpen('EmployeeRDList')=False) and (OrderId.Text<>'') then
+  EmployeeRDList:=TEmployeeRDList.Create(Self,'BUS2',1,0,'SJ-Update-Helper',FormatDateTime('yyyy/mm/dd',StrToDate(FromDate.Text)),FormatDateTime('yyyy/mm/dd',StrToDate(ToDate.Text)));
+end;
+
+procedure TSPJFormBus.BtnDriver2Click(Sender: TObject);
+begin
+if (Main.IsFormOpen('EmployeeRDList')=False) and (NoSPJ.Text<>'') then
+  EmployeeRDList:=TEmployeeRDList.Create(Self,'Bus',1,0,'SJ-Update-Driver2',FormatDateTime('yyyy/mm/dd',StrToDate(FromDate.Text)),FormatDateTime('yyyy/mm/dd',StrToDate(ToDate.Text)));
+end;
+
+procedure TSPJFormBus.PenjadwalanClick(Sender: TObject);
+begin
+  if (Main.IsFormOpen('BookingForm')=False) and (OrderId.Text<>'') then begin
+    BookingForm:=TBookingForm.Create(nil,Trim(ReservedOrderId),True,'MAIN-CHANGE');
+    Close;
+  end;
+end;
+
+procedure TSPJFormBus.ClearDriver2Click(Sender: TObject);
+begin
+  StrDriver2:='';
+  DriverDisp2.Text:='';
+  TelpHP2.Text:='';
+  StatusPenugasanDriver2.Text:='';
+end;
+
+procedure TSPJFormBus.ClearKenekClick(Sender: TObject);
+begin
+  StrBusboyID:='';
+  BusBoyDisp.Text:='';
+  StatusPenugasanHelper.Text:='';
 end;
 
 end.

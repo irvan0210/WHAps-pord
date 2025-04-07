@@ -1,11 +1,11 @@
 object FSJPenjadwalanList: TFSJPenjadwalanList
-  Left = 292
-  Top = 202
+  Left = 372
+  Top = 461
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Penjadwalan'
   ClientHeight = 514
-  ClientWidth = 995
+  ClientWidth = 1230
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,7 +21,7 @@ object FSJPenjadwalanList: TFSJPenjadwalanList
   PixelsPerInch = 96
   TextHeight = 13
   object lbl3: TLabel
-    Left = 732
+    Left = 971
     Top = 11
     Width = 19
     Height = 13
@@ -37,14 +37,14 @@ object FSJPenjadwalanList: TFSJPenjadwalanList
     Caption = 'Tanggal'
   end
   object lbl5: TLabel
-    Left = 896
+    Left = 1116
     Top = 481
     Width = 24
     Height = 13
     Caption = 'Total'
   end
   object btnCariOffering: TSpeedButton
-    Left = 945
+    Left = 1184
     Top = 5
     Width = 23
     Height = 23
@@ -118,7 +118,7 @@ object FSJPenjadwalanList: TFSJPenjadwalanList
     end
   end
   object Cari: TEdit
-    Left = 759
+    Left = 998
     Top = 7
     Width = 177
     Height = 21
@@ -129,7 +129,7 @@ object FSJPenjadwalanList: TFSJPenjadwalanList
   object StrGrid: TZColorStringGrid
     Left = 3
     Top = 39
-    Width = 982
+    Width = 1222
     Height = 431
     DefaultRowHeight = 20
     DefaultDrawing = False
@@ -183,7 +183,7 @@ object FSJPenjadwalanList: TFSJPenjadwalanList
     Visible = False
   end
   object Total: TMemo
-    Left = 938
+    Left = 1158
     Top = 477
     Width = 49
     Height = 23

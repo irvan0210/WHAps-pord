@@ -42,7 +42,7 @@ type
     { Private declarations }
     CompId:Integer;
     FormRequest,CustId:String;
-    ResvArr,CompanyArr:Array of TArrString18;
+    ResvArr,CompanyArr:Array of TArrString25;
     IntRow,IntCol,IsAll,MinRowGrid,Range:Integer;
     OrderBy:String;
     Initiation:Boolean;
@@ -110,17 +110,23 @@ var IntCount:Integer;
 begin
   MinRowGrid:=1;
   StrGrid.RowCount:=3;
-  StrGrid.ColCount:=14;
+  StrGrid.ColCount:=19;
   StrGrid.ColWidths[0]:=0;
   StrGrid.ColWidths[1]:=0;
-  StrGrid.ColWidths[2]:=110;
+  StrGrid.ColWidths[2]:=100;
   StrGrid.ColWidths[3]:=90;
   StrGrid.ColWidths[4]:=50;
-  StrGrid.ColWidths[5]:=150;
-  StrGrid.ColWidths[6]:=100;
-  StrGrid.ColWidths[7]:=65;
-  StrGrid.ColWidths[8]:=200;
-  StrGrid.ColWidths[9]:=180;
+  StrGrid.ColWidths[5]:=100;
+  StrGrid.ColWidths[6]:=60;
+  StrGrid.ColWidths[7]:=100;
+  StrGrid.ColWidths[8]:=60;
+  StrGrid.ColWidths[9]:=100;
+  StrGrid.ColWidths[10]:=60;
+
+  StrGrid.ColWidths[11]:=70;
+  StrGrid.ColWidths[12]:=65;
+  StrGrid.ColWidths[13]:=200;
+  StrGrid.ColWidths[14]:=180;
   //col 10=vhc_trans_id
   //col 11=status
   //col 12=package
@@ -129,32 +135,50 @@ begin
   StrGrid.MergeCells.AddRectXY(2,0,2,1);
   StrGrid.MergeCells.AddRectXY(3,0,3,1);
   StrGrid.MergeCells.AddRectXY(4,0,4,1);
-  StrGrid.MergeCells.AddRectXY(5,0,5,1);
-  StrGrid.MergeCells.AddRectXY(6,0,7,0);
-  StrGrid.MergeCells.AddRectXY(8,0,8,1);
-  StrGrid.MergeCells.AddRectXY(9,0,9,1);
+  StrGrid.MergeCells.AddRectXY(5,0,6,0);
+  StrGrid.MergeCells.AddRectXY(7,0,8,0);
+  StrGrid.MergeCells.AddRectXY(9,0,10,0);
+
+  StrGrid.MergeCells.AddRectXY(11,0,12,0);
+  StrGrid.MergeCells.AddRectXY(13,0,13,1);
+  StrGrid.MergeCells.AddRectXY(14,0,14,1);
   StrGrid.Cells[2,0]:='No Pesanan';
   StrGrid.Cells[3,0]:='Armada';
   StrGrid.Cells[4,0]:='No Bodi';
   StrGrid.Cells[5,0]:='Driver';
-  StrGrid.Cells[6,0]:='Penggunaan';
-  StrGrid.Cells[8,0]:='Rute';
-  StrGrid.Cells[9,0]:='Pelanggan';
-  StrGrid.Cells[6,1]:='Tgl';
-  StrGrid.Cells[7,1]:='Jam';
+  StrGrid.Cells[7,0]:='Driver 2';
+  StrGrid.Cells[9,0]:='Helper';
+
+  StrGrid.Cells[11,0]:='Penggunaan';
+  StrGrid.Cells[13,0]:='Rute';
+  StrGrid.Cells[14,0]:='Pelanggan';
+  StrGrid.Cells[6,1]:='Status';
+  StrGrid.Cells[8,1]:='Status';
+  StrGrid.Cells[10,1]:='Status';
+  StrGrid.Cells[11,1]:='Tgl';
+  StrGrid.Cells[12,1]:='Jam';
   StrGrid.CellStyle[2,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[3,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[4,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[5,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[6,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[7,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[8,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[9,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[11,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[12,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[13,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[14,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[6,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[8,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[10,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[11,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[12,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[14,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[6,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[7,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[10,1].HorizontalAlignment:=taCenter;
   for IntCount:=0 to StrGrid.ColCount-1 do
     StrGrid.Cells[IntCount,2]:='';
-  for IntCount:=10 to StrGrid.ColCount-1 do StrGrid.ColWidths[IntCount]:=0;
+  for IntCount:=15 to StrGrid.ColCount-1 do StrGrid.ColWidths[IntCount]:=0;
 end;
 
 procedure TFSJPenjadwalanList.RefreshCombo;
@@ -255,6 +279,26 @@ begin
       ResvArr[IntCount][16]:=vartoStr(Qry.FieldValues['isFix']);
       ResvArr[IntCount][17]:=vartoStr(Qry.FieldValues['isAuth']);
       ResvArr[IntCount][18]:=vartoStr(Qry.FieldValues['isOnline']);
+
+      if Qry.FieldValues['driver2']<>NULL then
+      begin
+        ResvArr[IntCount][19]:=Qry.FieldValues['driver2'];
+        if (Qry.FieldValues['driver2_status']<>NULL) AND (Qry.FieldValues['driver2_status']<>'')
+          then ResvArr[IntCount][22]:=Qry.FieldValues['driver2_status']
+        else ResvArr[IntCount][22]:='WAITING';
+      end;
+      if Qry.FieldValues['busboy']<>NULL then
+      begin
+        ResvArr[IntCount][20]:=Qry.FieldValues['busboy'];
+        if (Qry.FieldValues['helper_status']<>NULL) AND (Qry.FieldValues['helper_status']<>'')
+          then ResvArr[IntCount][23]:=Qry.FieldValues['helper_status']
+        else ResvArr[IntCount][23]:='WAITING';
+      end;
+
+      if (Qry.FieldValues['driver_status']<>NULL) AND (Qry.FieldValues['driver_status']<>'')
+        then ResvArr[IntCount][21]:=Qry.FieldValues['driver_status']
+      else ResvArr[IntCount][21]:='WAITING';
+
       Qry.Next;
       Inc(IntCount)
     end;
@@ -285,14 +329,23 @@ begin
     StrGrid.Cells[3,IntCount+2]:=ResvArr[IntCount][3];
     StrGrid.Cells[4,IntCount+2]:=ResvArr[IntCount][4];
     StrGrid.Cells[5,IntCount+2]:=ResvArr[IntCount][5];
-    StrGrid.Cells[6,IntCount+2]:=ResvArr[IntCount][6];
-    StrGrid.Cells[7,IntCount+2]:=ResvArr[IntCount][7];
-    StrGrid.Cells[8,IntCount+2]:=ResvArr[IntCount][8];
-    StrGrid.Cells[9,IntCount+2]:=ResvArr[IntCount][9];
-    StrGrid.Cells[10,IntCount+2]:=ResvArr[IntCount][10];
-    StrGrid.Cells[11,IntCount+2]:=ResvArr[IntCount][11];
-    StrGrid.Cells[12,IntCount+2]:=ResvArr[IntCount][12];
-    StrGrid.Cells[13,IntCount+2]:=ResvArr[IntCount][18];
+
+    StrGrid.Cells[7,IntCount+2]:=ResvArr[IntCount][19];
+    StrGrid.Cells[9,IntCount+2]:=ResvArr[IntCount][20];
+
+    StrGrid.Cells[11,IntCount+2]:=ResvArr[IntCount][6];
+    StrGrid.Cells[12,IntCount+2]:=ResvArr[IntCount][7];
+    StrGrid.Cells[13,IntCount+2]:=ResvArr[IntCount][8];
+    StrGrid.Cells[14,IntCount+2]:=ResvArr[IntCount][9];
+    StrGrid.Cells[15,IntCount+2]:=ResvArr[IntCount][10];
+    StrGrid.Cells[16,IntCount+2]:=ResvArr[IntCount][11];
+    StrGrid.Cells[17,IntCount+2]:=ResvArr[IntCount][12];
+    StrGrid.Cells[18,IntCount+2]:=ResvArr[IntCount][18];
+
+    StrGrid.Cells[6,IntCount+2]:=ResvArr[IntCount][21];
+    StrGrid.Cells[8,IntCount+2]:=ResvArr[IntCount][22];
+    StrGrid.Cells[10,IntCount+2]:=ResvArr[IntCount][23];
+
     for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount+2].Font.Color:=clWindowText;
 
     if ResvArr[IntCount][16]='1' then
@@ -320,7 +373,7 @@ begin
 end;
 
 procedure TFSJPenjadwalanList.Search;
-var Count,Count2,Count3,Count4,IntCount5:Integer;
+var Count,Count2,Count3,Count4,IntCount5,IntCount2:Integer;
     IsTrue:Boolean;
 begin
   if Trim(Cari.Text)<>'' then begin
@@ -333,28 +386,79 @@ begin
       if (StrPos(PChar(UpperCase(ResvArr[Count][Count3])),PChar(UpperCase(Cari.Text)))<>nil) then IsTrue:=True;
       if IsTrue then begin
           StrGrid.RowCount:=Count2+1;
-          for Count4:=0 to 12 do
-          StrGrid.Cells[Count4,Count2]:=ResvArr[Count][Count4];
-          for IntCount5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount5,Count2].Font.Color:=clWindowText;
-          for IntCount5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount5,Count2].BGColor:=clWhite;
-          if ResvArr[Count][16]='1' then
-            for IntCount5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount5,Count2].BGColor:=clSilver;
-          if ResvArr[Count][15]<>'' then
-            for IntCount5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount5,Count2].Font.Color:=$00004080;
-          if ResvArr[Count][10]<>'' then
-            for IntCount5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount5,Count2].Font.Color:=clBlue;
+//          for Count4:=0 to 12 do
+//          StrGrid.Cells[Count4,Count2]:=ResvArr[Count][Count4];
 
-          if ResvArr[Count][17]='1' then
-            for IntCount5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount5,Count2].BGColor:=$0040FF00;
+//          for Count4:=0 to Length(ResvArr)-1 do begin
 
-          if ResvArr[Count][14]<>'' then
-            if StrToInt(ResvArr[Count][14])>=StrToInt(ResvArr[Count][13]) then
-              if ResvArr[Count][10]<>'' then
-                for IntCount5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount5,Count2].Font.Color:=clPurple
-              else
-                for IntCount5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount5,Count2].Font.Color:=clGreen;
-          if ResvArr[Count][11]='0' then
-            for IntCount5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount5,Count2].Font.Color:=clRed;
+            StrGrid.Cells[0,Count2]:=ResvArr[Count][0];
+            StrGrid.Cells[1,Count2]:=ResvArr[Count][1];
+            StrGrid.Cells[2,Count2]:=ResvArr[Count][2];
+            StrGrid.Cells[3,Count2]:=ResvArr[Count][3];
+            StrGrid.Cells[4,Count2]:=ResvArr[Count][4];
+            StrGrid.Cells[5,Count2]:=ResvArr[Count][5];
+
+            StrGrid.Cells[7,Count2]:=ResvArr[Count][19];
+            StrGrid.Cells[9,Count2]:=ResvArr[Count][20];
+
+            StrGrid.Cells[11,Count2]:=ResvArr[Count][6];
+            StrGrid.Cells[12,Count2]:=ResvArr[Count][7];
+            StrGrid.Cells[13,Count2]:=ResvArr[Count][8];
+            StrGrid.Cells[14,Count2]:=ResvArr[Count][9];
+            StrGrid.Cells[15,Count2]:=ResvArr[Count][10];
+            StrGrid.Cells[16,Count2]:=ResvArr[Count][11];
+            StrGrid.Cells[17,Count2]:=ResvArr[Count][12];
+            StrGrid.Cells[18,Count2]:=ResvArr[Count][18];
+
+            StrGrid.Cells[6,Count2]:=ResvArr[Count][21];
+            StrGrid.Cells[8,Count2]:=ResvArr[Count][22];
+            StrGrid.Cells[10,Count2]:=ResvArr[Count][23];
+
+            for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,Count2].Font.Color:=clWindowText;
+
+            if ResvArr[Count][16]='1' then
+              for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,Count2].BGColor:=clSilver;
+
+            if ResvArr[Count][17]='1' then
+              for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,Count2].BGColor:=$0040FF00;
+
+            if ResvArr[Count][15]<>'' then
+              for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,Count2].Font.Color:=$00004080;
+            if ResvArr[Count][10]<>'' then
+              for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,Count2].Font.Color:=clBlue;
+            if ResvArr[Count][14]<>'' then
+              if StrToInt(ResvArr[Count][14])>=StrToInt(ResvArr[Count][13]) then
+                if ResvArr[Count][10]<>'' then
+                  for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,Count2].Font.Color:=clPurple
+                else
+                  for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,Count2].Font.Color:=clGreen;
+            if ResvArr[Count][11]='0' then
+              for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,Count2].Font.Color:=clRed;
+
+//          end;
+
+
+
+//          for IntCount5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount5,Count2].Font.Color:=clWindowText;
+//          for IntCount5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount5,Count2].BGColor:=clWhite;
+//          if ResvArr[Count][16]='1' then
+//            for IntCount5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount5,Count2].BGColor:=clSilver;
+//          if ResvArr[Count][15]<>'' then
+//            for IntCount5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount5,Count2].Font.Color:=$00004080;
+//          if ResvArr[Count][10]<>'' then
+//            for IntCount5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount5,Count2].Font.Color:=clBlue;
+//
+//          if ResvArr[Count][17]='1' then
+//            for IntCount5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount5,Count2].BGColor:=$0040FF00;
+//
+//          if ResvArr[Count][14]<>'' then
+//            if StrToInt(ResvArr[Count][14])>=StrToInt(ResvArr[Count][13]) then
+//              if ResvArr[Count][10]<>'' then
+//                for IntCount5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount5,Count2].Font.Color:=clPurple
+//              else
+//                for IntCount5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount5,Count2].Font.Color:=clGreen;
+//          if ResvArr[Count][11]='0' then
+//            for IntCount5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount5,Count2].Font.Color:=clRed;
           Inc(Count2);
       end;
     end;
@@ -477,7 +581,76 @@ begin
           FromTime.Text:=Qry.FieldValues['from_time'];
           StandbyTime.Text:=Qry.FieldValues['standby_time'];
           DriverDisp.Text:=Qry.FieldValues['driver_name'];
+          ReservedOrderId:= Qry.FieldValues['reserved_order_id'];
+
+          if Qry.FieldValues['helper']=1 then IntWajibHelper:=1 else IntWajibHelper:=0;
+
+          if Qry.FieldValues['ktp_driver1']<> NULL then
+          KtpDriver1:=Qry.FieldValues['ktp_driver1'];
+          if Qry.FieldValues['ktp_driver2']<> NULL then
+          KtpDriver2:=Qry.FieldValues['ktp_driver2'];
+          if Qry.FieldValues['ktp_busboy']<> NULL then
+          KtpHelper:=Qry.FieldValues['ktp_busboy'];
+          if Qry.FieldValues['norek_driver1']<> NULL then
+          NoRekDriver1:=Qry.FieldValues['norek_driver1'];
+          if Qry.FieldValues['norek_driver2']<> NULL then
+          NoRekDriver2:=Qry.FieldValues['norek_driver2'];
+          if Qry.FieldValues['norek_busboy']<> NULL then
+          NoRekHelper:=Qry.FieldValues['norek_busboy'];
+
+          if Qry.FieldValues['sim_driver1']<> NULL then
+          SIMDriver:=Qry.FieldValues['sim_driver1'];
+          if Qry.FieldValues['sim_driver2']<> NULL then
+          SIMDriver2:=Qry.FieldValues['sim_driver2'];
+          if Qry.FieldValues['expired_sim_driver1']<> NULL then
+          TglExpSIMDriver1:=Qry.FieldValues['expired_sim_driver1'];
+          if Qry.FieldValues['expired_sim_driver2']<> NULL then
+          TglExpSIMDriver2:=Qry.FieldValues['expired_sim_driver2'];
+
+          if  (Qry.FieldValues['driver_status']<> NULL) and (Qry.FieldValues['driver_status']<>'') then
+          begin
+            StrDriverStatus:= Qry.FieldValues['driver_status'];
+            StatusPenugasanDriver.Text:= Qry.FieldValues['driver_status'];
+          end else
+          begin
+            StrDriverStatus:='';
+            StatusPenugasanDriver.Text:='WAITING';
+          end;
+
+          if (Qry.FieldValues['employee_id2']<>NULL) AND (Qry.FieldValues['employee_id2']<>'') then
+          begin
+            if  (Qry.FieldValues['driver2_status']<> NULL) AND (Qry.FieldValues['driver2_status']<>'') then
+            begin
+              StatusPenugasanDriver2.Text:= Qry.FieldValues['driver2_status'];
+            end else
+            begin
+              StatusPenugasanDriver2.Text:='WAITING';
+            end;
+          end;
+
+          if (Qry.FieldValues['employee_id3']<>NULL) AND (Qry.FieldValues['employee_id3']<>'') then
+          begin
+            if  (Qry.FieldValues['helper_status']<> NULL) AND (Qry.FieldValues['helper_status']<>'') then
+            begin
+              StatusPenugasanHelper.Text:= Qry.FieldValues['helper_status'];
+            end else
+            begin
+              StatusPenugasanHelper.Text:='WAITING';
+            end;
+          end;
+          StrDriver2:='';
+
           StrVehicleID:=Qry.FieldValues['vehicle_id'];
+          if Qry.FieldValues['busboy_name_res']<> NULL then
+          begin
+            BusBoyDisp.Text:=Qry.FieldValues['busboy_name_res'];
+            StrBusboyID:= Qry.FieldValues['employee_id3'];
+            if  Qry.FieldValues['helper_status']<> NULL then
+            StrHelperStatus:= Qry.FieldValues['helper_status'] else  StrHelperStatus:='';
+          end else begin
+            BusBoyDisp.Text:='';
+            StrBusboyID:='';
+          end;
           if Qry.FieldValues['driver_name2']<>NULL then
           begin
             StrDriver2:=Qry.FieldValues['employee_id2'];
@@ -488,6 +661,7 @@ begin
             TelpHP2.Text:='';
           end else
           begin
+            StrDriver2:='';
             DriverDisp2.Text:='';
             TelpHP2.Text:=''
           end;
@@ -538,8 +712,8 @@ begin
             Catatan.Text:=Qry.FieldValues['remark'];
           end;
           if Qry.FieldValues['service_resume']<>NULL then begin
-            Remark.Text:=Remark.Text+sLineBreak+Qry.FieldValues['service_resume'];
-            Catatan.Text:=Catatan.Text+sLineBreak+Qry.FieldValues['service_resume'];
+            Remark.Text:=Remark.Text+Qry.FieldValues['service_resume'];
+            Catatan.Text:=Catatan.Text+Qry.FieldValues['service_resume'];
           end;
           if Qry.FieldValues['daily_package']<>NULL then Package.Checked:=True;
           if Qry.FieldValues['short_name']='SV' then OutService.Checked:=True;
