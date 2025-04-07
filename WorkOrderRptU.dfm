@@ -1,11 +1,11 @@
 object WorkOrderRpt: TWorkOrderRpt
-  Left = 210
-  Top = 186
+  Left = 223
+  Top = 183
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan PKB'
   ClientHeight = 466
-  ClientWidth = 1017
+  ClientWidth = 1016
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,7 +21,7 @@ object WorkOrderRpt: TWorkOrderRpt
   PixelsPerInch = 96
   TextHeight = 13
   object Label3: TLabel
-    Left = 845
+    Left = 725
     Top = 11
     Width = 18
     Height = 13
@@ -104,7 +104,6 @@ object WorkOrderRpt: TWorkOrderRpt
       F8F5F5F5F7F7F8F7F6F6F7F7F7F7F7F80000F5F7F6F6F6F6F6F4F5F9FAFAF9F9
       F9EADFE0D9BFBFD6B8B8E1CBCDF0E9EAF8F9F9F6F7F8F6F6F5F6F7F8F7F7F7F7
       F7F7F7F8F8F7F7F70000}
-    Visible = False
     OnClick = TombolCariClick
   end
   object Label2: TLabel
@@ -122,7 +121,7 @@ object WorkOrderRpt: TWorkOrderRpt
     Caption = 'Status'
   end
   object lbl1: TLabel
-    Left = 729
+    Left = 1041
     Top = 11
     Width = 41
     Height = 13
@@ -136,6 +135,19 @@ object WorkOrderRpt: TWorkOrderRpt
     Caption = '>SUDAH TUTUP PKB<'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clGreen
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label6: TLabel
+    Left = 226
+    Top = 437
+    Width = 120
+    Height = 13
+    Caption = '>SUDAH DIKERJAKAN<'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlue
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
     Font.Style = []
@@ -160,16 +172,16 @@ object WorkOrderRpt: TWorkOrderRpt
     OnClick = LihatClick
   end
   object Cari: TEdit
-    Left = 868
+    Left = 760
     Top = 8
-    Width = 113
+    Width = 222
     Height = 21
     TabOrder = 3
     OnChange = CariChange
     OnKeyPress = CariKeyPress
   end
   object StrGrid: TZColorStringGrid
-    Left = 8
+    Left = 16
     Top = 42
     Width = 1001
     Height = 383
@@ -261,12 +273,13 @@ object WorkOrderRpt: TWorkOrderRpt
     OnChange = TanggalSampaiChange
   end
   object edtnopol: TEdit
-    Left = 775
+    Left = 1087
     Top = 8
     Width = 62
     Height = 21
     TabOrder = 2
-    OnChange = CariChange
+    Visible = False
+    OnChange = edtnopolChange
     OnKeyPress = CariKeyPress
   end
 end
