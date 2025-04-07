@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Grids, StdCtrls, ADODB, WHUnit, ZColorStringGrid, Buttons;
+  Dialogs, Grids, StdCtrls, ADODB, WHUnit, ZColorStringGrid, Buttons,
+  ComCtrls;
 
 type
   TSPJBusList = class(TForm)
@@ -20,6 +21,11 @@ type
     GroupCompany: TGroupBox;
     Label1: TLabel;
     SBU: TComboBox;
+    Label3: TLabel;
+    Tanggal: TDateTimePicker;
+    TglSampai: TDateTimePicker;
+    Label4: TLabel;
+    Button1: TButton;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure GridSPJSelectCell(Sender: TObject; ACol, ARow: Integer;
@@ -32,6 +38,9 @@ type
     procedure AllClick(Sender: TObject);
     procedure FowardClick(Sender: TObject);
     procedure BackwardClick(Sender: TObject);
+    procedure TanggalChange(Sender: TObject);
+    procedure TglSampaiChange(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
     CompanyArr:Array of TArrString5;
@@ -158,7 +167,7 @@ begin
 end;
 
 procedure TSPJBusList.RefreshData;
-var StrQry,StrAllFoward,StrLocation,StrCompany,StrInOut:String;
+var StrQry,StrAllFoward,StrLocation,StrCompany,StrInOut,StrDate:String;
     Qry:TADOQuery;
     IntCount:Integer;
 begin
@@ -176,7 +185,10 @@ begin
     if InOut=0 then StrInOut:='' else StrInOut:=',@InOut='+IntToStr(InOut);
     StrLocation:=CompanyArr[SBU.ItemIndex][2];
     StrCompany:=CompanyArr[SBU.ItemIndex][1];
-    StrQry:='EXEC GetVhcOutList2 '+StrLocation+',1,'+StrCompany+StrAllFoward+StrInOut+';';
+    StrDate:=',@OutDate='+QuotedStr(FormatDateTime('yyyy-mm-dd',Tanggal.Date))+', '+
+    '@OutDate2='+QuotedStr(FormatDateTime('yyyy-mm-dd',TglSampai.Date))+' ';
+    //StrQry:='EXEC GetVhcOutList2 '+StrLocation+',1,'+StrCompany+StrAllFoward+StrInOut+';';
+    StrQry:='EXEC GetVhcOutList2 '+StrLocation+',1,'+StrCompany+StrDate+StrInOut+';';
     Qry.SQL.Clear;
     Main.WriteLog('SQL :'+StrQry,2);
     Qry.SQL.Add(StrQry);
@@ -316,6 +328,8 @@ end;
 
 procedure TSPJBusList.FormShow(Sender: TObject);
 begin
+  Tanggal.Date:=Now();
+  TglSampai.Date:=Now();
   InitGrid;
   if IsFoward then Foward.Checked:=True else Backward.Checked:=True;
   RefreshCombo;
@@ -387,6 +401,24 @@ begin
     RefreshData;
     RefreshGrid;
   end;
+end;
+
+procedure TSPJBusList.TanggalChange(Sender: TObject);
+begin
+  if Tanggal.Date>TglSampai.Date then
+  TglSampai.Date:=Tanggal.Date;
+end;
+
+procedure TSPJBusList.TglSampaiChange(Sender: TObject);
+begin
+  if TglSampai.Date<Tanggal.Date then
+  Tanggal.Date:=TglSampai.Date;
+end;
+
+procedure TSPJBusList.Button1Click(Sender: TObject);
+begin
+  RefreshData;
+  RefreshGrid;
 end;
 
 end.

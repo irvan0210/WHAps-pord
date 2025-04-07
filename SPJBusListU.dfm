@@ -1,11 +1,11 @@
 object SPJBusList: TSPJBusList
-  Left = 202
-  Top = 242
+  Left = 307
+  Top = 438
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Daftar Surat Jalan'
   ClientHeight = 429
-  ClientWidth = 874
+  ClientWidth = 962
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,8 +21,8 @@ object SPJBusList: TSPJBusList
   PixelsPerInch = 96
   TextHeight = 13
   object Label2: TLabel
-    Left = 512
-    Top = 8
+    Left = 769
+    Top = 12
     Width = 18
     Height = 13
     Alignment = taRightJustify
@@ -63,6 +63,20 @@ object SPJBusList: TSPJBusList
     Layout = blGlyphRight
     OnClick = ToXCelClick
   end
+  object Label3: TLabel
+    Left = 256
+    Top = 12
+    Width = 39
+    Height = 13
+    Caption = 'Tanggal'
+  end
+  object Label4: TLabel
+    Left = 409
+    Top = 12
+    Width = 16
+    Height = 13
+    Caption = 's/d'
+  end
   object Selesai: TButton
     Left = 400
     Top = 400
@@ -75,7 +89,7 @@ object SPJBusList: TSPJBusList
   object GridSPJ: TZColorStringGrid
     Left = 9
     Top = 40
-    Width = 857
+    Width = 944
     Height = 353
     ColCount = 10
     DefaultRowHeight = 20
@@ -100,28 +114,30 @@ object SPJBusList: TSPJBusList
     LineDesign.LineUpColor = clWhite
   end
   object Cari: TEdit
-    Left = 543
+    Left = 791
     Top = 8
-    Width = 201
+    Width = 154
     Height = 21
     TabOrder = 2
     OnChange = CariChange
   end
   object All: TCheckBox
-    Left = 280
-    Top = 9
+    Left = 971
+    Top = 31
     Width = 57
     Height = 17
     Caption = 'Semua'
     TabOrder = 4
+    Visible = False
     OnClick = AllClick
   end
   object GroupBox1: TGroupBox
-    Left = 336
-    Top = 0
+    Left = 1027
+    Top = 22
     Width = 137
     Height = 33
     TabOrder = 3
+    Visible = False
     object Foward: TRadioButton
       Left = 8
       Top = 11
@@ -146,7 +162,7 @@ object SPJBusList: TSPJBusList
   object GroupCompany: TGroupBox
     Left = 8
     Top = 0
-    Width = 257
+    Width = 241
     Height = 33
     TabOrder = 5
     object Label1: TLabel
@@ -166,5 +182,34 @@ object SPJBusList: TSPJBusList
       ItemHeight = 13
       TabOrder = 0
     end
+  end
+  object Tanggal: TDateTimePicker
+    Left = 300
+    Top = 8
+    Width = 104
+    Height = 21
+    Date = 41208.000000000000000000
+    Time = 41208.000000000000000000
+    TabOrder = 6
+    OnChange = TanggalChange
+  end
+  object TglSampai: TDateTimePicker
+    Left = 433
+    Top = 8
+    Width = 89
+    Height = 21
+    Date = 41964.570029108800000000
+    Time = 41964.570029108800000000
+    TabOrder = 7
+    OnChange = TglSampaiChange
+  end
+  object Button1: TButton
+    Left = 528
+    Top = 6
+    Width = 75
+    Height = 25
+    Caption = 'Lihat Data'
+    TabOrder = 8
+    OnClick = Button1Click
   end
 end

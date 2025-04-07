@@ -262,6 +262,7 @@ begin
       ResvArr[IntCount][3]:=Qry.FieldValues['vehicle_name']+' '+IntToStr(Qry.FieldValues['seat'])+' Seat';
       if Qry.FieldValues['body_id']<>NULL then
         ResvArr[IntCount][4]:=LeftStr(Qry.FieldValues['body_id'],Length(Qry.FieldValues['body_id'])-1);
+      if Qry.FieldValues['drivers_name']<>null then
       ResvArr[IntCount][5]:=LeftStr(Qry.FieldValues['drivers_name'],Length(Qry.FieldValues['drivers_name'])-1);
       ResvArr[IntCount][6]:=Qry.FieldValues['from_to_dates'];
       ResvArr[IntCount][7]:=Qry.FieldValues['from_to_times'];

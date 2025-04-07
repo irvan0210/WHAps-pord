@@ -303,7 +303,7 @@ begin
   StrGrid.CellStyle[29,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[28,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[29,1].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[30,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[30,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[31,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[32,0].HorizontalAlignment:=taCenter;
 
@@ -576,11 +576,11 @@ begin
             end;
 
             OrderArr[IntCount][32]:=IToCurr(QryOrder.FieldValues['PpnAddition']);
-            if QryOrder.FieldValues['PpnAddition']=0 then
-            begin
+//            if QryOrder.FieldValues['PpnAddition']=0 then
+//            begin
               if QryOrder.FieldValues['npwp']<>NULL then OrderArr[IntCount][33]:=QryOrder.FieldValues['npwp'];
               if QryOrder.FieldValues['nik_number']<>NULL then OrderArr[IntCount][34]:=QryOrder.FieldValues['nik_number'];
-            end;
+//            end;
 //            OrderArr[IntCount][33]:=IToCurr(QryOrder.FieldValues['total_order']+QryOrder.FieldValues['PpnAddition']);
 
 

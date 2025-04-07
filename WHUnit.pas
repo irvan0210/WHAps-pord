@@ -16,6 +16,7 @@ type
   TArrString97 = Array [0..97] of String;
   TArrString80 = Array [0..80] of String;
   TArrString75 = Array [0..75] of String;
+  TArrString77 = Array [0..77] of String;
   TArrString55 = Array [0..55] of String;
   TArrString56 = Array [0..56] of String;
   TArrString58 = Array [0..58] of String;

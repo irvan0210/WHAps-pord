@@ -1,9 +1,9 @@
 object BudgetListRpt: TBudgetListRpt
-  Left = 174
-  Top = 126
+  Left = 238
+  Top = 178
   BorderIcons = []
   BorderStyle = bsSingle
-  Caption = 'Daftar Perkiraan Budget'
+  Caption = 'Laporan Estimasi Budget Armada'
   ClientHeight = 508
   ClientWidth = 1052
   Color = clBtnFace
@@ -180,6 +180,7 @@ object BudgetListRpt: TBudgetListRpt
     DefaultFixedCellStyle.Font.Style = []
     DefaultFixedCellStyle.BGColor = clBtnFace
     LineDesign.LineUpColor = clWhite
+    WordWrap = True
   end
   object Selesai: TButton
     Left = 459
@@ -270,23 +271,13 @@ object BudgetListRpt: TBudgetListRpt
       Visible = False
     end
   end
-  object Tanggal: TDateTimePicker
-    Left = 424
-    Top = 8
-    Width = 89
-    Height = 21
-    Date = 41780.000000000000000000
-    Time = 41780.000000000000000000
-    TabOrder = 5
-    OnChange = TanggalChange
-  end
   object All: TCheckBox
     Left = 512
     Top = 4
     Width = 65
     Height = 17
     Caption = 'Semua'
-    TabOrder = 6
+    TabOrder = 5
     Visible = False
     OnClick = AllClick
   end
@@ -296,7 +287,7 @@ object BudgetListRpt: TBudgetListRpt
     Width = 193
     Height = 17
     Caption = 'Termasuk Blm Lunas && sudah ada SJ'
-    TabOrder = 7
+    TabOrder = 6
     Visible = False
     OnClick = AllDataClick
   end
@@ -305,6 +296,16 @@ object BudgetListRpt: TBudgetListRpt
     Top = 481
     Width = 49
     Height = 23
+    TabOrder = 7
+  end
+  object Tanggal: TDateTimePicker
+    Left = 422
+    Top = 5
+    Width = 86
+    Height = 21
+    Date = 41208.000000000000000000
+    Time = 41208.000000000000000000
     TabOrder = 8
+    OnChange = TanggalChange
   end
 end

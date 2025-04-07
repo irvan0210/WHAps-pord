@@ -238,7 +238,9 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   EmployeeHistoryTrainingFormU, EmployeeHistoryTrainingListU,
   EmployeeHistoryTrainingRptU, MaintenanceGroupJobListU, 
   RekapHistoryArmadaPergantianPartU, RekapPergantianPartperArmadaU,
-  TechnicalRecommendationU, TechnicalRecommendationListU;
+  TechnicalRecommendationU, TechnicalRecommendationListU, 
+  ListKetidakSesuaianCrewU, MasterBatanganFormU, MasterBatanganListU,
+  LaporanWehaMartU;
 
 
 constructor TClockThread.Create;
@@ -824,6 +826,19 @@ begin
               end;
            end;
         end;
+        {130313..130316 Master Batangan}
+        130313..130316 :begin
+        case CaseStr(RightStr(IntToStr(Tag),2),['13','14','15','16'])of
+          1:begin
+             if IsFormOpen('MasterBatanganForm')=False then MasterBatanganForm:=TMasterBatanganForm.Create(Self,'Bus');
+          end;
+
+          3:begin
+             if IsFormOpen('MasterBatanganList')=False then MasterBatanganList:=TMasterBatanganList.Create(Self,'' );
+          end;
+        end;
+       end;
+
         {130507..130511 Surat Jalan Service Bus}
         130507..130511:begin
            Case CaseStr(RightStr(IntToStr(Tag),2),['07','08','10']) of
@@ -1786,8 +1801,8 @@ begin
            end;
         end;
         {190501 Laporan Operasional Bus}
-        190501..190517:begin
-           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17']) of
+        190501..190518:begin
+           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18']) of
              0:if IsFormOpen('VhcOutBusRpt')=False then VhcOutBusRpt:=TVhcOutBusRpt.Create(Self);
              1:if IsFormOpen('BusRunningDaysRpt')=False then BusRunningDaysRpt:=TBusRunningDaysRpt.Create(Self);
              2:if IsFormOpen('DailyVehicleRDRpt')=False then DailyVehicleRDRpt:=TDailyVehicleRDRpt.Create(Self,'Bus','','',6);
@@ -1805,13 +1820,13 @@ begin
              14:if IsFormOpen('AuthReservedOrderRpt')=False then AuthReservedOrderRpt:=TAuthReservedOrderRpt.Create(Self,'Bus');
              15:if IsFormOpen('EmployeeHistoryLakaRpt')=False then EmployeeHistoryLakaRpt:=TEmployeeHistoryLakaRpt.Create(Self);
              16:if IsFormOpen('EmplHistoryTrainingRpt')=False then EmplHistoryTrainingRpt:=TEmplHistoryTrainingRpt.Create(Self,'TRAINING-LAPORAN','','','');
-
+             17:if IsFormOpen('ListKetidakSesuaianCrew')=False then ListKetidakSesuaianCrew:=TListKetidakSesuaianCrew.Create(Self,'');
            end;
         end;
 
         {190601 Laporan Sales Bus}
-        190601..190612:begin
-           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04','05','06','07','08','09','10','11','12']) of
+        190601..190613:begin
+           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04','05','06','07','08','09','10','11','12','13']) of
              0:if IsFormOpen('DailySalesRpt')=False then DailySalesRpt:=TDailySalesRpt.Create(Self,'Bus','','',24);
              1:if IsFormOpen('DailyOfferingRpt')=False then DailyOfferingRpt:=TDailyOfferingRpt.Create(Self,'Bus','','',6); //Tidak
              2:if IsFormOpen('DailySalesRDRpt')=False then DailySalesRDRpt:=TDailySalesRDRpt.Create(Self,'Bus','','',24);
@@ -1824,6 +1839,7 @@ begin
              9:if IsFormOpen('MonthlySalesRDRpt')=False then MonthlySalesRDRpt:=TMonthlySalesRDRpt.Create(Self,'Bus','','',12,0,0,1);
             10:if IsFormOpen('MonthlySalesRDRpt')=False then MonthlySalesRDRpt:=TMonthlySalesRDRpt.Create(Self,'Bus','','',12,0,0,2);
             11:if IsFormOpen('RevenueVhcMonthyRpt')=False then RevenueVhcMonthlyRpt:=TRevenueVhcMonthlyRpt.Create(Self,'Main',False,'Sales');
+            12:if IsFormOpen('LaporanWehaMart')=False then LaporanWehaMart:=TLaporanWehaMart.Create(Self);
            end;
         end;
 

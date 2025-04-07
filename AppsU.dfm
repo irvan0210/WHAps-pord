@@ -113,7 +113,7 @@ object Apps: TApps
   end
   object Perubahan: TMemo
     Left = 192
-    Top = 6
+    Top = 8
     Width = 489
     Height = 465
     BevelInner = bvNone
@@ -126,6 +126,42 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '07/04/2025 (6.1.9.1)'
+      
+        '-Perbaikan Nilai Invoice yang tidak sesuai di Laporan Pengeluara' +
+        'n Armada '
+      ''
+      '17/03/2025 (6.1.9.0)'
+      '-Penambahan menu Estimasi Budget Armada'
+      ''
+      '06/03/2025 (6.1.8.0)'
+      
+        '-Penambahan inputan Helper di Penjadwalan, dan menghilangkan inp' +
+        'utan Helper'
+      'disurat jalan'
+      
+        '-Memberikan validasi disurat jalan, semua crew wajib Confirmasi ' +
+        'untuk bisa'
+      'cetak surat jalan'
+      
+        '-Memberikan validasi wajib melengkapi data ktp,sim,no rekening d' +
+        'an no hp'
+      'di penjadwalan dan surat jalan'
+      ''
+      '06/03/2025 (6.1.7.0)'
+      
+        '-Penambahan inputan Helper di Penjadwalan, dan menghilangkan inp' +
+        'utan Helper'
+      'disurat jalan'
+      
+        '-Memberikan validasi disurat jalan, semua crew wajib Confirmasi ' +
+        'untuk bisa'
+      'cetak surat jalan'
+      
+        '-Memberikan validasi wajib melengkapi data ktp,sim,no rekening d' +
+        'an no hp'
+      'di penjadwalan dan surat jalan'
+      ''
       '14/02/2025 (6.1.6.3)'
       
         '-Penambahan Filter Sudah isi BBM SPBU dan Belum Isi BBM SPBU di ' +

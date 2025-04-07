@@ -241,8 +241,8 @@ begin
 
   StrGrid.Cells[22,0]:='Lain2';//No E-Toll   Asal 22
   StrGrid.Cells[23,0]:='Overtime';//No E-Toll   Asal 22
-  StrGrid.Cells[24,0]:='Total          (Inc Tol&Lain2)';//'Lain2';
-  StrGrid.Cells[25,0]:='Total          (Exc Tol&Lain2)';
+  StrGrid.Cells[24,0]:='Total';//'Lain2';
+  StrGrid.Cells[25,0]:='Total          (Exc BBM SPBU)';
   StrGrid.Cells[26,0]:='Status SJ';//'No E-Toll';
   StrGrid.Cells[27,0]:='Jenis Service';
 
@@ -544,7 +544,7 @@ begin
 
 
       StrGrid.Cells[24,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+Qry.FieldValues['lain_lain']+Qry.FieldValues['tol']+Qry.FieldValues['overtime']);
-      StrGrid.Cells[25,Count]:=IToCurr(IntBiaya+IntBiayaReimburse);
+      StrGrid.Cells[25,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+Qry.FieldValues['lain_lain']+Qry.FieldValues['tol']+Qry.FieldValues['overtime']-BBMRp_SPBU);
 //      if Qry.FieldValues['etoll_number']<>NULL then StrGrid.Cells[25,Count]:=eToll(Qry.FieldValues['etoll_number']);
 
       StrGrid.Cells[26,Count]:=VarToStr(Qry.FieldValues['status_sj']);
@@ -600,7 +600,8 @@ begin
   StrGrid.Cells[22,StrGrid.RowCount-1]:=IToCurr(TotalLain);
   StrGrid.Cells[23,StrGrid.RowCount-1]:=IToCurr(TotalOvertime);
   StrGrid.Cells[24,StrGrid.RowCount-1]:=IToCurr(TotalBiaya+TotalOvertime);
-  StrGrid.Cells[25,StrGrid.RowCount-1]:=IToCurr(TotalBiayaExc+TotalOvertime);
+  StrGrid.Cells[25,StrGrid.RowCount-1]:=IToCurr(TotalBiaya+TotalOvertime-TotalBBMRp_SPBU);
+//  StrGrid.Cells[25,StrGrid.RowCount-1]:=IToCurr(TotalBiayaExc+TotalOvertime);
 
   StrGrid.CellStyle[9,StrGrid.RowCount-1].BGColor:=clSilver;
   StrGrid.CellStyle[10,StrGrid.RowCount-1].BGColor:=clSilver;

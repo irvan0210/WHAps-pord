@@ -1699,7 +1699,7 @@ object EmployeeForm: TEmployeeForm
         Width = 503
         Height = 62
         Align = alTop
-        Caption = ' Rekening '
+        Caption = ' Rekening   '
         Font.Charset = DEFAULT_CHARSET
         Font.Color = 14710601
         Font.Height = -11
@@ -1745,6 +1745,19 @@ object EmployeeForm: TEmployeeForm
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label72: TLabel
+          Left = 70
+          Top = -1
+          Width = 6
+          Height = 20
+          Caption = '*'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clRed
+          Font.Height = -16
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           ParentFont = False
@@ -2610,7 +2623,7 @@ object EmployeeForm: TEmployeeForm
     Align = alBottom
     TabOrder = 6
     object Selesai: TButton
-      Left = 272
+      Left = 288
       Top = 10
       Width = 83
       Height = 25
@@ -2619,7 +2632,7 @@ object EmployeeForm: TEmployeeForm
       OnClick = SelesaiClick
     end
     object Simpan: TButton
-      Left = 185
+      Left = 177
       Top = 11
       Width = 84
       Height = 25

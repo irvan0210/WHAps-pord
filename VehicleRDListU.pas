@@ -97,7 +97,7 @@ begin
     2:Caption:='Data Armada Bus';
   end;
   if FormRequest='SJ-Change' then Panel1.Visible:=False else  Panel1.Visible:=True;
-  MaxCol:=15;
+  MaxCol:=18;
   StrGrid.ColCount:=MaxCol;
   SelectedRow:=0;
   StrGrid.RowCount:=3;
@@ -107,16 +107,18 @@ begin
   StrGrid.ColWidths[2]:=50;
   StrGrid.ColWidths[3]:=65;
   StrGrid.ColWidths[4]:=150;
-  StrGrid.ColWidths[5]:=170;
-  StrGrid.ColWidths[6]:=40;
-  StrGrid.ColWidths[7]:=60;
-  StrGrid.ColWidths[8]:=0;
+  StrGrid.ColWidths[5]:=150;
+  StrGrid.ColWidths[6]:=170;
+  StrGrid.ColWidths[7]:=40;
+  StrGrid.ColWidths[8]:=60;
   StrGrid.ColWidths[9]:=0;
   StrGrid.ColWidths[10]:=0;
   StrGrid.ColWidths[11]:=0;
   StrGrid.ColWidths[12]:=0;
   StrGrid.ColWidths[13]:=0;
   StrGrid.ColWidths[14]:=0;
+  StrGrid.ColWidths[15]:=0;
+  StrGrid.ColWidths[16]:=0;
 
 
   StrGrid.Cells[0,0]:='Id';
@@ -124,9 +126,11 @@ begin
   StrGrid.Cells[2,0]:='No Bodi';
   StrGrid.Cells[3,0]:='No Polisi';
   StrGrid.Cells[4,0]:='Pengemudi';
-  StrGrid.Cells[5,0]:='Jenis Kendaraan';
-  StrGrid.Cells[6,0]:='Seat';
-  StrGrid.Cells[7,0]:='Tahun';
+  StrGrid.Cells[5,0]:='Kenek';
+
+  StrGrid.Cells[6,0]:='Jenis Kendaraan';
+  StrGrid.Cells[7,0]:='Seat';
+  StrGrid.Cells[8,0]:='Tahun';
 
 //  StrGrid.Cells[7,0]:='Penggunaan';
 //  StrGrid.Cells[7,1]:='1';
@@ -148,6 +152,7 @@ begin
   StrGrid.CellStyle[5,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[6,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[7,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[8,0].HorizontalAlignment:=taCenter;
 //  StrGrid.CellStyle[7,0].HorizontalAlignment:=taCenter;
 //  StrGrid.CellStyle[7,1].HorizontalAlignment:=taCenter;
 //  StrGrid.CellStyle[9,1].HorizontalAlignment:=taCenter;
@@ -267,15 +272,16 @@ begin
            VehicleArr[IntCount][3]:=Copy(Qry.FieldValues['license_plate'],1,2)+' '+Copy(Qry.FieldValues['license_plate'],3,4)+
                             ' '+Copy(Qry.FieldValues['license_plate'],7,Length(Qry.FieldValues['license_plate'])+1);
         if Qry.FieldValues['driver_name']<>NULL then VehicleArr[IntCount][4]:=Qry.FieldValues['driver_name'];
-        VehicleArr[IntCount][5]:=Qry.FieldValues['batch_name']+' '+IntToStr(Qry.FieldValues['seat'])+' Seat';
+        if Qry.FieldValues['busboy_name']<>NULL then VehicleArr[IntCount][5]:=Qry.FieldValues['busboy_name'];
+        VehicleArr[IntCount][6]:=Qry.FieldValues['batch_name']+' '+IntToStr(Qry.FieldValues['seat'])+' Seat';
         if Qry.FieldValues['year']<>NULL then
-          VehicleArr[IntCount][6]:=Qry.FieldValues['seat'];
-          VehicleArr[IntCount][7]:=Qry.FieldValues['year'];
-          VehicleArr[IntCount][8]:='';
+          VehicleArr[IntCount][7]:=Qry.FieldValues['seat'];
+          VehicleArr[IntCount][8]:=Qry.FieldValues['year'];
           VehicleArr[IntCount][9]:='';
           VehicleArr[IntCount][10]:='';
           VehicleArr[IntCount][11]:='';
           VehicleArr[IntCount][12]:='';
+          VehicleArr[IntCount][13]:='';
        { StrList:=SplitStrings(Qry.FieldValues['use_time_resume'],'##');
         if StrList.Strings[0]<>'' then begin
           StrList2:=SplitStrings(StrList.Strings[0],'/');
@@ -308,7 +314,7 @@ begin
   else StrGrid.RowCount:=2;
 
   For IntCount:=0 to Length(VehicleArr)-1 do begin
-    for IntCount2:=0 to 15 do
+    for IntCount2:=0 to 16 do
     StrGrid.Cells[IntCount2,IntCount+2]:=VehicleArr[IntCount][IntCount2];
   end;
   Total.Text:=IntToStr(Length(VehicleArr));
@@ -335,11 +341,11 @@ begin
     Count2:=2;
     for Count:=0 to Length(VehicleArr)-1 do begin
       IsTrue:=False;
-      for Count3:=0 to MaxCol do
+      for Count3:=0 to 4 do
       if (StrPos(PChar(UpperCase(VehicleArr[Count][Count3])),PChar(UpperCase(Cari.Text)))<>nil) then IsTrue:=True;
       if IsTrue then begin
           StrGrid.RowCount:=Count2+1;
-          for Count4:=0 to MaxCol do
+          for Count4:=0 to 16 do
           StrGrid.Cells[Count4,Count2]:=VehicleArr[Count][Count4];
           Inc(Count2);
       end;
@@ -366,36 +372,36 @@ begin
                if IsAuth then begin
                  StrRemark:=InputBox('Perubahan Jenis Kendaraan','Sebab perubahan ?','');
                  if StrRemark<>'' then
-                   BookingForm.SetVehicleId(StrGrid.Cells[0,IntRow], StrRemark, IsMoveUnit, VhcBatchId_Old, StrGrid.Cells[13,IntRow]+'-'+StrGrid.Cells[14,IntRow]);
+                   BookingForm.SetVehicleId(StrGrid.Cells[0,IntRow], StrRemark, IsMoveUnit, VhcBatchId_Old, StrGrid.Cells[15,IntRow]+'-'+StrGrid.Cells[16,IntRow]);
                end else begin
-                 BookingForm.SetVehicleId(StrGrid.Cells[0,IntRow], '', IsMoveUnit, VhcBatchId_Old, StrGrid.Cells[13,IntRow]+'-'+StrGrid.Cells[14,IntRow]);
+                 BookingForm.SetVehicleId(StrGrid.Cells[0,IntRow], '', IsMoveUnit, VhcBatchId_Old, StrGrid.Cells[15,IntRow]+'-'+StrGrid.Cells[16,IntRow]);
                end;
                Close;
              end;
-        7..8:if (StrGrid.Cells[7,IntRow]<>'') and (StrGrid.Cells[8,IntRow]<>'') then begin
-               if Main.IsFormOpen('OrderForm')=False then OrderForm:=TOrderForm.Create(nil,StrGrid.Cells[8,IntRow],False);
+        7..8:if (StrGrid.Cells[8,IntRow]<>'') and (StrGrid.Cells[10,IntRow]<>'') then begin
+               if Main.IsFormOpen('OrderForm')=False then OrderForm:=TOrderForm.Create(nil,StrGrid.Cells[10,IntRow],False);
              end;
-        9..10:if (StrGrid.Cells[9,IntRow]<>'') and (StrGrid.Cells[10,IntRow]<>'') then begin
-                 if Main.IsFormOpen('OrderForm')=False then OrderForm:=TOrderForm.Create(nil,StrGrid.Cells[10,IntRow],False);
+        9..10:if (StrGrid.Cells[10,IntRow]<>'') and (StrGrid.Cells[12,IntRow]<>'') then begin
+                 if Main.IsFormOpen('OrderForm')=False then OrderForm:=TOrderForm.Create(nil,StrGrid.Cells[12,IntRow],False);
               end;
-        11..12:if (StrGrid.Cells[11,IntRow]<>'') and (StrGrid.Cells[12,IntRow]<>'') then begin
-                 if Main.IsFormOpen('OrderForm')=False then OrderForm:=TOrderForm.Create(nil,StrGrid.Cells[11,IntRow],False);
+        11..12:if (StrGrid.Cells[12,IntRow]<>'') and (StrGrid.Cells[14,IntRow]<>'') then begin
+                 if Main.IsFormOpen('OrderForm')=False then OrderForm:=TOrderForm.Create(nil,StrGrid.Cells[13,IntRow],False);
               end;
       end;
     end;
     if UpperCase(FormRequest)='WAITINGLIST-ALLOCATE' then  begin
       Case IntCol of
-        0..6:begin
+        0..7:begin
                  BookingForm.SetVehicleId(StrGrid.Cells[0,IntRow]);
              end;
-        7..8:if (StrGrid.Cells[7,IntRow]<>'') and (StrGrid.Cells[8,IntRow]<>'') then begin
-               if Main.IsFormOpen('OrderForm')=False then OrderForm:=TOrderForm.Create(nil,StrGrid.Cells[8,IntRow],False);
+        8..9:if (StrGrid.Cells[9,IntRow]<>'') and (StrGrid.Cells[10,IntRow]<>'') then begin
+               if Main.IsFormOpen('OrderForm')=False then OrderForm:=TOrderForm.Create(nil,StrGrid.Cells[10,IntRow],False);
              end;
-        9..10:if (StrGrid.Cells[9,IntRow]<>'') and (StrGrid.Cells[10,IntRow]<>'') then begin
-                 if Main.IsFormOpen('OrderForm')=False then OrderForm:=TOrderForm.Create(nil,StrGrid.Cells[10,IntRow],False);
+        10..11:if (StrGrid.Cells[11,IntRow]<>'') and (StrGrid.Cells[12,IntRow]<>'') then begin
+                 if Main.IsFormOpen('OrderForm')=False then OrderForm:=TOrderForm.Create(nil,StrGrid.Cells[12,IntRow],False);
               end;
-        11..12:if (StrGrid.Cells[11,IntRow]<>'') and (StrGrid.Cells[12,IntRow]<>'') then begin
-                 if Main.IsFormOpen('OrderForm')=False then OrderForm:=TOrderForm.Create(nil,StrGrid.Cells[11,IntRow],False);
+        12..13:if (StrGrid.Cells[13,IntRow]<>'') and (StrGrid.Cells[14,IntRow]<>'') then begin
+                 if Main.IsFormOpen('OrderForm')=False then OrderForm:=TOrderForm.Create(nil,StrGrid.Cells[13,IntRow],False);
               end;
       end;
       Close;
@@ -404,7 +410,7 @@ begin
        StrVehicleID:= StrGrid.Cells[0,IntRow];
        SPJFormBus.DisplayNoBody.Text:=StrGrid.Cells[2,IntRow];
        SPJFormBus.NoPolisi.Text:=StrGrid.Cells[3,IntRow];
-       SPJFormBus.SeatDisp.Text:=StrGrid.Cells[6,IntRow];
+       SPJFormBus.SeatDisp.Text:=StrGrid.Cells[8,IntRow];
        Close;
     end;
   end;

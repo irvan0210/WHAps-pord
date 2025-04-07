@@ -543,7 +543,6 @@ begin
     StrGrid.Cells[25,IntCount+3]:=OrderArr[IntCount][26];
     StrGrid.Cells[26,IntCount+3]:=OrderArr[IntCount][24];
 
-
     StrGrid.CellStyle[3,IntCount+3].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[5,IntCount+3].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[6,IntCount+3].HorizontalAlignment:=taCenter;
@@ -668,15 +667,15 @@ end;
 
 procedure TDailyCheckRpt.CekTglSampaiClick(Sender: TObject);
 begin
-    if CekTglSampai.Checked=True then TglSampai.Enabled:=True
-    else TglSampai.Enabled:=False;
+  if CekTglSampai.Checked=True then TglSampai.Enabled:=True
+  else TglSampai.Enabled:=False;
 end;
 
 procedure TDailyCheckRpt.StrGridKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-    if ((Key = 67) or (Key = 99)) and (Shift=[ssCtrl]) then
-      Copy1Click(Nil);
+  if ((Key = 67) or (Key = 99)) and (Shift=[ssCtrl]) then
+    Copy1Click(Nil);
 end;
 
 procedure TDailyCheckRpt.Copy1Click(Sender: TObject);

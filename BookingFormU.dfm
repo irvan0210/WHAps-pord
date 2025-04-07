@@ -1,11 +1,11 @@
 object BookingForm: TBookingForm
-  Left = 546
-  Top = 522
+  Left = 96
+  Top = 27
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Penjadwalan'
   ClientHeight = 575
-  ClientWidth = 1123
+  ClientWidth = 1169
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -555,7 +555,7 @@ object BookingForm: TBookingForm
   object GroupOrder: TGroupBox
     Left = 8
     Top = 264
-    Width = 1105
+    Width = 1145
     Height = 247
     Caption = 'Data Pesanan'
     TabOrder = 14
@@ -576,7 +576,7 @@ object BookingForm: TBookingForm
     object StrGrid: TZColorStringGrid
       Left = 8
       Top = 16
-      Width = 1089
+      Width = 1129
       Height = 224
       TabStop = False
       ColCount = 10
@@ -4103,12 +4103,20 @@ object BookingForm: TBookingForm
       OnClick = GeserUnit1Click
     end
     object GeserDriver1: TMenuItem
-      Caption = 'Geser Driver'
+      Caption = 'Geser Driver 1'
       OnClick = GeserDriver1Click
+    end
+    object GeserHelper: TMenuItem
+      Caption = 'Geser Helper'
+      OnClick = GeserHelperClick
+    end
+    object GeserDriver2: TMenuItem
+      Caption = 'Geser Driver 2'
+      OnClick = GeserDriver2Click
     end
   end
   object PopupMenu2: TPopupMenu
-    OnPopup = PopupMenu2Popup
+    OnPopup = PopupMenu1Popup
     Left = 528
     Top = 400
     object MenuItem2: TMenuItem

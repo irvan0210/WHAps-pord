@@ -282,17 +282,32 @@ var IntCount,IntCount2,IntStartRow,IntTotal,IntStartRow2:Integer;
     StrOrderId,StrCustOrderDetailId:String;
     IsDrawRect,IsDrawRect2:Boolean;
 begin
-  if Length(OrderArr)>0 then
-  begin
-    StrGrid.RowCount:=Length(OrderArr)+1;
-  end
+  for IntCount:=0 to StrGrid.ColCount-1 do
+    for IntCount2:=2 to StrGrid.RowCount-1 do begin
+      IntTotal:=StrGrid.MergeCells.InMergeRange(IntCount,IntCount2);
+      if IntTotal>=0 then StrGrid.MergeCells.DeleteItem(IntTotal);
+    end;
+    for IntCount:=0 to StrGrid.ColCount-1 do
+    for IntCount2:=1 to StrGrid.RowCount-1 do begin
+      StrGrid.Cells[IntCount,IntCount2]:='';
+      StrGrid.CellStyle[IntCount,IntCount2].Font.Color:=clWindowText;
+    end;
+    if Length(OrderArr)>0 then StrGrid.RowCount:=Length(OrderArr)+1
   else begin
     StrGrid.RowCount:=2;
-    for IntCount:=0 to StrGrid.ColCount-1 do begin
-      StrGrid.Cells[IntCount,1]:='';
-      StrGrid.CellStyle[IntCount,1].Font.Color:=clWindowText;
-    end;
   end;
+
+//  if Length(OrderArr)>0 then
+//  begin
+//    StrGrid.RowCount:=Length(OrderArr)+1;
+//  end
+//  else begin
+//    StrGrid.RowCount:=2;
+//    for IntCount:=0 to StrGrid.ColCount-1 do begin
+//      StrGrid.Cells[IntCount,1]:='';
+//      StrGrid.CellStyle[IntCount,1].Font.Color:=clWindowText;
+//    end;
+//  end;
 
   IntStartRow:=0;
   StrOrderId:='';
@@ -328,6 +343,13 @@ begin
     StrGrid.Cells[5,IntCount+1]:=OrderArr[IntCount][5];
 
     StrGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[1,IntCount+1].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[2,IntCount+1].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[3,IntCount+1].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[4,IntCount+1].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[5,IntCount+1].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[6,IntCount+1].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[7,IntCount+1].HorizontalAlignment:=taLeftJustify;
 
   end;
 end;
@@ -474,62 +496,122 @@ begin
 end;
 
 procedure TFDriverComplainList.CariChange(Sender: TObject);
-  var Count,Count2,Count3,Count4,IntStartRow,IntStartRow2:Integer;
+  var IntCount,Count2,Count3,IntCount2,IntStartRow,IntStartRow2,IntTotal,I:Integer;
       IsTrue,IsDrawRect,IsDrawRect2:Boolean;
-//      StrOrderId: string;
+      StrOrderId: string;
 begin
-{  if Trim(Cari.Text)<>'' then begin
+  if Trim(Cari.Text)<>'' then begin
+    for IntCount:=0 to StrGrid.ColCount-1 do
+    for IntCount2:=1 to StrGrid.RowCount-1 do begin
+      IntTotal:=StrGrid.MergeCells.InMergeRange(IntCount,IntCount2);
+      if IntTotal>=0 then StrGrid.MergeCells.DeleteItem(IntTotal);
+    end;
+    for IntCount:=0 to StrGrid.ColCount-1 do
+    for IntCount2:=1 to StrGrid.RowCount-1 do begin
+      StrGrid.Cells[IntCount,IntCount2]:='';
+      StrGrid.CellStyle[IntCount,IntCount2].Font.Color:=clWindowText;
+    end;
+
+    IntStartRow:=0;
+    StrOrderId:='';
+    IntTotal:=0;
 
     Count2:=2;
-    for Count:=0 to Length(OrderArr)-1 do begin
+
+//    StrGrid.MergeCells.Clear;
+
+    for IntCount:=0 to Length(OrderArr)-1 do begin
       IsTrue:=False;
-      for Count3:=2 to 2 do
-        if (StrPos(PChar(UpperCase(OrderArr[Count][Count2])),PChar(UpperCase(Cari.Text)))<>nil) then IsTrue:=True;
+      for Count3:=0 to 3 do
+        if (StrPos(PChar(UpperCase(OrderArr[IntCount][Count3])),PChar(UpperCase(Cari.Text)))<>nil) then IsTrue:=True;
+
         if IsTrue then begin
 
-              StrGrid.RowCount:=Count2+1;
+          StrGrid.RowCount:=Count2;
 
-              if (StrOrderId<>OrderArr[Count][1])  then begin
-                StrOrderId:=OrderArr[Count][1];
-                IntStartRow:=Count;
-                IntStartRow2:=Count;
+          if (StrOrderId<>OrderArr[IntCount][1])  then begin
+            StrOrderId:=OrderArr[IntCount][1];
+            IntStartRow:=IntCount;
+            IntStartRow2:=IntCount;
+            StrGrid.Cells[0,Count2-1]:=OrderArr[IntCount][0];
+            StrGrid.Cells[1,Count2-1]:=OrderArr[IntCount][1];
+            StrGrid.Cells[2,Count2-1]:=OrderArr[IntCount][2];
+            StrGrid.Cells[3,Count2-1]:=OrderArr[IntCount][3];
+            StrGrid.Cells[4,Count2-1]:=OrderArr[IntCount][4];
+            StrGrid.Cells[6,Count2-1]:=OrderArr[IntCount][8];
+            StrGrid.Cells[7,Count2-1]:=OrderArr[IntCount][9];
+            //StrGrid.Cells[9,IntCount+1]:=OrderArr[IntCount][9];
+            IsDrawRect:=False;
+          end else if (IntCount<Length(OrderArr)-1) then begin
+            if (StrOrderId<>OrderArr[IntCount+1][1]) then IsDrawRect:=True;
+          end else IsDrawRect:=True;
 
-                StrGrid.Cells[0,Count2-1]:=OrderArr[Count][0];
-                StrGrid.Cells[1,Count2-1]:=OrderArr[Count][1];
-                StrGrid.Cells[2,Count2-1]:=OrderArr[Count][2];
-                StrGrid.Cells[3,Count2-1]:=OrderArr[Count][3];
-                StrGrid.Cells[4,Count2-1]:=OrderArr[Count][4];
-                IsDrawRect:=False;
-                IsDrawRect2:=False;
-                StrGrid.CellStyle[0,Count2-1].HorizontalAlignment:=taCenter;
-                StrGrid.CellStyle[1,Count2-1].HorizontalAlignment:=taCenter;
-                StrGrid.CellStyle[2,Count2-1].HorizontalAlignment:=taLeftJustify;
-                StrGrid.CellStyle[3,Count2-1].HorizontalAlignment:=taLeftJustify;
-                StrGrid.CellStyle[4,Count2-1].HorizontalAlignment:=taCenter;
-              end else if (Count<Length(OrderArr)-1) then begin
-                if (StrOrderId<>OrderArr[Count2-1][1]) then IsDrawRect:=True;
-              end else IsDrawRect:=True;
-              if IsDrawRect=True then begin
-                StrGrid.MergeCells.AddRectXY(0,IntStartRow+1,0,Count2-1);
-                StrGrid.MergeCells.AddRectXY(1,IntStartRow+1,1,Count2-1);
-                StrGrid.MergeCells.AddRectXY(2,IntStartRow+1,2,Count2-1);
-                StrGrid.MergeCells.AddRectXY(3,IntStartRow+1,3,Count2-1);
-                StrGrid.MergeCells.AddRectXY(4,IntStartRow+1,4,Count2-1);
-              end;
-              StrGrid.Cells[5,Count2-1]:=OrderArr[Count][5];
-              StrGrid.Cells[6,Count2-1]:=OrderArr[Count][6];
-              StrGrid.Cells[7,Count2-1]:=OrderArr[Count][7];
+          if IsDrawRect=True then begin
+            StrGrid.MergeCells.AddRectXY(0,IntStartRow+1,0,Count2+1);
+            StrGrid.MergeCells.AddRectXY(1,IntStartRow+1,1,Count2-1);
+            StrGrid.MergeCells.AddRectXY(2,IntStartRow+1,2,Count2-1);
+            StrGrid.MergeCells.AddRectXY(3,IntStartRow+1,3,Count2-1);
+            StrGrid.MergeCells.AddRectXY(4,IntStartRow+1,4,Count2-1);
+            StrGrid.MergeCells.AddRectXY(6,IntStartRow+1,6,Count2-1);
+            StrGrid.MergeCells.AddRectXY(7,IntStartRow+1,7,Count2-1);
+          end;
+          StrGrid.Cells[5,Count2-1]:=OrderArr[IntCount][5];
 
-              StrGrid.CellStyle[5,Count2-1].HorizontalAlignment:=taLeftJustify;
-              StrGrid.CellStyle[6,Count2-1].HorizontalAlignment:=taLeftJustify;
-              StrGrid.CellStyle[7,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[0,Count2-1].HorizontalAlignment:=taCenter;
+
+//              if (StrOrderId<>OrderArr[Count][1])  then begin
+//                StrOrderId:=OrderArr[Count][1];
+//                IntStartRow:=Count;
+//                IntStartRow2:=Count;
+//
+//                StrGrid.Cells[0,Count2-1]:=OrderArr[Count][0];
+//                StrGrid.Cells[1,Count2-1]:=OrderArr[Count][1];
+//                StrGrid.Cells[2,Count2-1]:=OrderArr[Count][2];
+//                StrGrid.Cells[3,Count2-1]:=OrderArr[Count][3];
+//                StrGrid.Cells[4,Count2-1]:=OrderArr[Count][4];
+//                IsDrawRect:=False;
+//                IsDrawRect2:=False;
+//                StrGrid.CellStyle[0,Count2-1].HorizontalAlignment:=taCenter;
+//                StrGrid.CellStyle[1,Count2-1].HorizontalAlignment:=taCenter;
+//                StrGrid.CellStyle[2,Count2-1].HorizontalAlignment:=taLeftJustify;
+//                StrGrid.CellStyle[3,Count2-1].HorizontalAlignment:=taLeftJustify;
+//                StrGrid.CellStyle[4,Count2-1].HorizontalAlignment:=taCenter;
+//              end else if (Count<Length(OrderArr)-1) then begin
+//                if (StrOrderId<>OrderArr[Count2-1][1]) then IsDrawRect:=True;
+//              end else IsDrawRect:=True;
+//              if IsDrawRect=True then begin
+//                StrGrid.MergeCells.AddRectXY(0,IntStartRow+1,0,Count2-1);
+//                StrGrid.MergeCells.AddRectXY(1,IntStartRow+1,1,Count2-1);
+//                StrGrid.MergeCells.AddRectXY(2,IntStartRow+1,2,Count2-1);
+//                StrGrid.MergeCells.AddRectXY(3,IntStartRow+1,3,Count2-1);
+//                StrGrid.MergeCells.AddRectXY(4,IntStartRow+1,4,Count2-1);
+//              end;
+//              StrGrid.Cells[5,Count2-1]:=OrderArr[Count][5];
+//              StrGrid.Cells[6,Count2-1]:=OrderArr[Count][6];
+//              StrGrid.Cells[7,Count2-1]:=OrderArr[Count][7];
+//
+//              StrGrid.CellStyle[5,Count2-1].HorizontalAlignment:=taLeftJustify;
+//              StrGrid.CellStyle[6,Count2-1].HorizontalAlignment:=taLeftJustify;
+//              StrGrid.CellStyle[7,Count2-1].HorizontalAlignment:=taLeftJustify;
 
 
 //            end;
-            Inc(Count2);
+          StrGrid.CellStyle[0,Count2-1].HorizontalAlignment:=taCenter;
+          StrGrid.CellStyle[1,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[2,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[3,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[4,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[5,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[6,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[7,Count2-1].HorizontalAlignment:=taLeftJustify;
+          Inc(Count2);
         end;
     end;
-  end;   }
+  end else
+  begin
+    RefreshData;
+    RefreshGrid;
+  end;
 end;
 
 procedure TFDriverComplainList.CariKeyPress(Sender: TObject;

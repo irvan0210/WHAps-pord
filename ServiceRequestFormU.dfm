@@ -1,6 +1,6 @@
 object ServiceRequestForm: TServiceRequestForm
-  Left = 237
-  Top = 378
+  Left = 173
+  Top = 155
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Service Request'
@@ -786,9 +786,9 @@ object ServiceRequestForm: TServiceRequestForm
   end
   object Approve: TButton
     Left = 750
-    Top = 335
+    Top = 336
     Width = 63
-    Height = 21
+    Height = 20
     Caption = 'Setujui'
     TabOrder = 15
     OnClick = ApproveClick
@@ -3046,7 +3046,7 @@ object ServiceRequestForm: TServiceRequestForm
     PrinterSetup.mmMarginTop = 6350
     PrinterSetup.mmPaperHeight = 150000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 121
     Template.FileName = 'D:\WH App\PBJRpt.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'

@@ -213,6 +213,7 @@ type
     Label69: TLabel;
     Label70: TLabel;
     Label71: TLabel;
+    Label72: TLabel;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SimpanClick(Sender: TObject);
@@ -985,8 +986,9 @@ begin
       IsNoRecord:=True;
       StrException:='';
       if (((Trim(NikKaryawan.Text)<>'') AND (Trim(Nama.Text)<>'') and
-      (Trim(NoKTP.Text)<>'') AND (Trim(Agama.Text)<>'') AND
-      (Trim(Alamat.Text)<>'') AND (Trim(AlamatSekarang.Text)<>'') AND(StatusKaryawan.ItemIndex<>-1)
+      (Trim(NoKTP.Text)<>'') AND (Trim(Agama.Text)<>'') AND (AccountName.Text <>'')
+      AND (AccountNo.Text <>'') AND (AccountName.Text <>'') AND (Bank.Text <>'')
+      AND (Trim(Alamat.Text)<>'') AND (Trim(AlamatSekarang.Text)<>'') AND(StatusKaryawan.ItemIndex<>-1)
       AND (Trim(NoHP.Text)<>'') AND (NoSIM.Text<>'') AND (EmplType in [1,2])
       AND (Departemen.ItemIndex<> -1) AND (Level.ItemIndex<>-1) AND (Posisi.Text <>'')) OR
       ((Trim(Nama.Text)<>'') AND (Trim(Alamat.Text)<>'') AND (Trim(AlamatSekarang.Text)<>'') AND (EmplType in [3,4])
@@ -1846,7 +1848,7 @@ end;
 
 procedure TEmployeeForm.SelesaiClick(Sender: TObject);
 begin
-  EmployeeForm.Close;
+  Close;
 end;
 
 procedure TEmployeeForm.FormClose(Sender: TObject;

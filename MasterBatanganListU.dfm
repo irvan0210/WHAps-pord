@@ -1,6 +1,6 @@
 object MasterBatanganList: TMasterBatanganList
-  Left = 561
-  Top = 164
+  Left = 162
+  Top = 373
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Daftar Master Batangan'

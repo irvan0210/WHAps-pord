@@ -18,7 +18,6 @@ type
     Label6: TLabel;
     Panel1: TPanel;
     NoPolisi: TEdit;
-    DriverDisp: TEdit;
     GroupBox2: TGroupBox;
     Label4: TLabel;
     Label5: TLabel;
@@ -249,6 +248,14 @@ type
     TotalSPBU: TMemo;
     Label31: TLabel;
     ListKunciCepat: TMemo;
+    DriverFee2: TMemo;
+    DriverFeeAdd2: TMemo;
+    DriverFeeReimburse2: TMemo;
+    DriverFeeTotal2: TMemo;
+    Label29: TLabel;
+    DriverDisp: TEdit;
+    Kenek: TEdit;
+    Label30: TLabel;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -324,6 +331,12 @@ type
     procedure BBMSpbuKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure DriverFeeAdd2KeyPress(Sender: TObject; var Key: Char);
+    procedure DriverFee2Exit(Sender: TObject);
+    procedure DriverFeeAdd2Enter(Sender: TObject);
+    procedure DriverFeeAdd2Exit(Sender: TObject);
+    procedure DriverFeeReimburse2Enter(Sender: TObject);
+    procedure DriverFeeReimburse2Exit(Sender: TObject);
   private
     { Private declarations }
     SJArr,BiayaArr:Array of TArrString30;
@@ -384,6 +397,7 @@ begin
   NoSJ.Text:='';
   Driver.Text:='';
   DriverDisp.Text:='';
+  Kenek.Text:='';
   Tanggal.Text:='';
   FromDate.Text:='';
   ToDate.Text:='';
@@ -416,6 +430,7 @@ begin
   BBMReimburseAddLiter.Text :='0';
 
   DriverFee.Text :='0';
+  DriverFee2.Text :='0';
   BusboyFee.Text :='0';
   Toll.Text :='0';
   TollParking.Text :='0';
@@ -425,6 +440,7 @@ begin
   TotalAdd.Text := '0';
   TotalBayar.Text:='0';
   DriverFeeAdd.Text:='0';
+  DriverFeeAdd2.Text:='0';
   BusBoyFeeAdd.Text:='0';
   TollParkingAdd.Text:='0';
   TollAdd.Text:='0';
@@ -434,6 +450,7 @@ begin
   OvertimeAdd.Text:='0';
 
   DriverFeeReimburse.Text:='0';
+  DriverFeeReimburse2.Text:='0';
   BusBoyFeeReimburse.Text:='0';
   TollParkingReimburse.Text:='0';
   TollReimburse.Text:='0';
@@ -441,8 +458,11 @@ begin
   TotalReimburse.Text:='0';
   TotalSPBU.Text:='0';
 
+  XOvertimeReimburse.Text:='0';
+
   Seat.Text:='';
   DriverFeeTotal.Text:='0';
+  DriverFeeTotal2.Text:='0';
   BusboyFeeTotal.Text:='0';
   TollParkingTotal.Text:='0';
   StayNightTotal.Text:='0';
@@ -585,7 +605,30 @@ begin
           NoPolisi.Text:=Copy(Qry.FieldValues['license_plate'],1,2)+' '+Copy(Qry.FieldValues['license_plate'],3,4)+
                            ' '+Copy(Qry.FieldValues['license_plate'],7,Length(Qry.FieldValues['license_plate'])+1);
         Driver.Text:=Qry.FieldValues['employee_id'];
-        DriverDisp.Text:=Qry.FieldValues['name'];
+
+        if Qry.FieldValues['driver2']<>NULL then
+        begin
+          DriverFeeAdd2.ReadOnly:=False;
+          DriverFeeReimburse2.ReadOnly:=False;
+          DriverDisp.Text:=Qry.FieldValues['name']+' & '+ Qry.FieldValues['driver2'];
+        end else begin
+          DriverFeeAdd2.ReadOnly:=True;
+          DriverFeeReimburse2.ReadOnly:=True;
+          DriverDisp.Text:=Qry.FieldValues['name'];
+        end;
+
+        if Qry.FieldValues['busboy']<>NULL then
+        begin
+          Kenek.Text:=Qry.FieldValues['busboy'];
+          BusBoyFeeAdd.ReadOnly:=False;
+          BusBoyFeeReimburse.ReadOnly:=False;
+        end else
+        begin
+          Kenek.Text:='';
+          BusBoyFeeAdd.ReadOnly:=True;
+          BusBoyFeeReimburse.ReadOnly:=True;
+        end;
+
         NoReservasi.Text:=Qry.FieldValues['customer_order_id'];
         Customer.Text:=Qry.FieldValues['customer_name'];
         Hari.Text:=Qry.FieldValues['day'];
@@ -623,13 +666,21 @@ begin
           BBMLiter.Text:='0';
         end;
         *)
-        if Qry.FieldValues['fee_supir']<>NULL then begin
-          DriverFeeTotal.Text:=IToCurr(Qry.FieldValues['fee_supir']);
-          DriverFee.Text:=IToCurr(Qry.FieldValues['fee_supir']);
+        if Qry.FieldValues['fee_supir1']<>NULL then begin
+          DriverFeeTotal.Text:=IToCurr(Qry.FieldValues['fee_supir1']);
+          DriverFee.Text:=IToCurr(Qry.FieldValues['fee_supir1']);
         end else begin
           DriverFeeTotal.Text:='0';
           DriverFee.Text:='0';
         end;
+        if Qry.FieldValues['fee_supir2']<>NULL then begin
+          DriverFeeTotal2.Text:=IToCurr(Qry.FieldValues['fee_supir2']);
+          DriverFee2.Text:=IToCurr(Qry.FieldValues['fee_supir2']);
+        end else begin
+          DriverFeeTotal2.Text:='0';
+          DriverFee2.Text:='0';
+        end;
+
         if Qry.FieldValues['fee_kenek']<>NULL then begin
           BusBoyFeeTotal.Text:=IToCurr(Qry.FieldValues['fee_kenek']);
           BusBoyFee.Text:=IToCurr(Qry.FieldValues['fee_kenek'])
@@ -660,21 +711,23 @@ begin
           StayNight.Text:='0';
         end;
 
-        if Qry.FieldValues['overtime']<>NULL then begin
-          OvertimeTotal.Text:=IToCurr(Qry.FieldValues['overtime']);
-          Overtime.Text:=IToCurr(Qry.FieldValues['overtime'])
-        end else begin
-          OvertimeTotal.Text:='0';
-          Overtime.Text:='0';
-        end;
+
 
         {Reimburse}
         if Qry.FieldValues['fee_supir_reimburse']<>NULL then begin
-          DriverFeeTotal.Text:=IToCurr(Qry.FieldValues['fee_supir']+Qry.FieldValues['fee_supir_reimburse']);
-          DriverFeeReimburse.Text:=IToCurr(Qry.FieldValues['fee_supir_reimburse']);
+          DriverFeeTotal.Text:=IToCurr(Qry.FieldValues['fee_supir1']+Qry.FieldValues['fee_supir1_reimburse']);
+          DriverFeeReimburse.Text:=IToCurr(Qry.FieldValues['fee_supir1_reimburse']);
         end else begin
           DriverFeeTotal.Text:='0';
           DriverFeeReimburse.Text:='0';
+        end;
+
+        if Qry.FieldValues['fee_supir2_reimburse']<>NULL then begin
+          DriverFeeTotal2.Text:=IToCurr(Qry.FieldValues['fee_supir2']+Qry.FieldValues['fee_supir2_reimburse']);
+          DriverFeeReimburse.Text:=IToCurr(Qry.FieldValues['fee_supir2_reimburse']);
+        end else begin
+          DriverFeeTotal.Text:='0';
+          DriverFeeReimburse2.Text:='0';
         end;
         if Qry.FieldValues['fee_kenek_reimburse']<>NULL then begin
           BusBoyFeeTotal.Text:=IToCurr(Qry.FieldValues['fee_kenek']+Qry.FieldValues['fee_kenek_reimburse']);
@@ -689,6 +742,14 @@ begin
         end else begin
           TollParkingTotal.Text:='0';
           TollParkingReimburse.Text:='0';
+        end;
+
+         if Qry.FieldValues['overtime']<>NULL then begin
+          OvertimeTotal.Text:=IToCurr(Qry.FieldValues['overtime']);
+          XOvertimeReimburse.Text:=IToCurr(Qry.FieldValues['overtime'])
+        end else begin
+          OvertimeTotal.Text:='0';
+          XOvertimeReimburse.Text:='0';
         end;
         
         if Qry.FieldValues['tol_reimburse']<>NULL then begin
@@ -951,7 +1012,7 @@ begin
 end;
 
 procedure TOrderFeeAdd.Calculate;
-var TotalBBM,TotalDriverFee,TotalBusBoyFee,TotalTollParking,TotalToll,
+var TotalBBM,TotalDriverFee,TotalDriverFee2,TotalBusBoyFee,TotalTollParking,TotalToll,
     TotalStayNight,TotalBiaya,IntCount,TotalOvertime:Integer;
 begin
   TotalBiaya:=0;
@@ -967,6 +1028,13 @@ begin
     end;
     if ToString(DriverFeeReimburse.Text )<>'' then begin
       TotalDriverFee:=SToInt(DriverFee.Text)+SToInt(DriverFeeAdd.Text)+SToInt(DriverFeeReimburse.Text);
+    end;
+
+    if ToString(DriverFeeAdd2.Text )<>'' then begin
+      TotalDriverFee2:=SToInt(DriverFee2.Text)+SToInt(DriverFeeAdd2.Text);
+    end;
+    if ToString(DriverFeeReimburse2.Text )<>'' then begin
+      TotalDriverFee2:=SToInt(DriverFee2.Text)+SToInt(DriverFeeAdd2.Text)+SToInt(DriverFeeReimburse2.Text);
     end;
 
     if ToString(BusBoyFeeAdd.Text )<>'' then begin
@@ -993,12 +1061,13 @@ begin
     if ToString(StayNightAdd.Text )<>'' then begin
       TotalStayNight:=SToInt(StayNight.Text)+SToInt(StayNightAdd.Text);
     end;
-    if ToString(OvertimeAdd.Text )<>'' then begin
-      TotalOvertime:=SToInt(Overtime.Text)+SToInt(OvertimeAdd.Text);
+    if ToString(XOvertimeReimburse.Text )<>'' then begin
+      TotalOvertime:=SToInt(XOvertimeReimburse.Text);
     end;
 
   end;
   DriverFeeTotal.Text:=IToCurr(TotalDriverFee);
+  DriverFeeTotal2.Text:=IToCurr(TotalDriverFee2);
   BusBoyFeeTotal.Text:=IToCurr(TotalBusBoyFee);
   TollParkingTotal.Text:=IToCurr(TotalTollParking);
   TollTotal.Text:=IToCurr(TotalToll);
@@ -1006,15 +1075,15 @@ begin
 
   OvertimeTotal.Text:=IToCurr(TotalOvertime);
 
-  TotalBiaya:=TotalDriverFee+TotalBusBoyFee+TotalTollParking+TotalToll+TotalStayNight+TotalOvertime;
+  TotalBiaya:=TotalDriverFee+TotalDriverFee2+TotalBusBoyFee+TotalTollParking+TotalToll+TotalStayNight+TotalOvertime;
   TotalBayar.Text:=IToCurr(SToInt(BBMTotalRupiah.Text)+TotalBiaya);
   TotalAdd.Text:=IToCurr(
                   SToInt(BBMAddRupiah.Text)+
-                  SToInt(DriverFeeAdd.Text)+SToInt(BusBoyFeeAdd.Text)+
+                  SToInt(DriverFeeAdd.Text)+SToInt(DriverFeeAdd2.Text)+SToInt(BusBoyFeeAdd.Text)+
                   SToInt(TollParkingAdd.Text)+SToInt(TollAdd.Text)+SToInt(StayNightAdd.Text)+SToInt(OvertimeAdd.Text));
 
-  TotalReimburse.Text:=IToCurr(SToInt(DriverFeeReimburse.Text)+SToInt(BusBoyFeeReimburse.Text)+
-                       SToInt(TollParkingReimburse.Text)+SToInt(TollReimburse.Text)+SToInt(BBMReimburse.Text));//+SToInt(OvertimeReimburse.Text)
+  TotalReimburse.Text:=IToCurr(SToInt(DriverFeeReimburse.Text)+SToInt(DriverFeeReimburse2.Text)+SToInt(BusBoyFeeReimburse.Text)+
+                       SToInt(TollParkingReimburse.Text)+SToInt(TollReimburse.Text)+SToInt(BBMReimburse.Text)+SToInt(XOvertimeReimburse.Text));//+SToInt(OvertimeReimburse.Text)
 
   TotalSPBU.Text:=IToCurr(SToInt(BBMSPBU.Text));
 
@@ -1119,6 +1188,29 @@ begin
             end;
           end;
         end;
+
+        StrQry:='';
+        if (DriverFeeAdd2.Text<>'0') then begin
+          TransType:=QuotedStr('140114');
+          Amount:=ToString(DriverFeeAdd2.Text);
+          StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,update_time,update_user)'+
+                  ' VALUES ('+QuotedStr(TransId)+','+TransType+','+Amount+','+Amount+',GETDATE(),'+QuotedStr(User)+');';
+        end;
+        if Trim(StrQry)<>'' then begin
+          Qry.SQL.Clear;
+          Main.WriteLog('SQL :'+StrQry,4);
+          Qry.SQL.Add(StrQry);
+          try
+            Qry.ExecSQL;
+          except
+            on E:Exception do begin
+              StrMsg:='Tidak Dapat Menyimpan Tambahan Order Fee (1)';
+              StrEMessage:=E.Message;
+              IsOk:=False;
+            end;
+          end;
+        end;
+
         StrQry:='';
         if (BusBoyFeeAdd.Text<>'0') then begin
           TransType:=QuotedStr('140102');
@@ -1245,7 +1337,7 @@ begin
         StrQry:=''; {BBM Reimburse}
         StrQry:=' UPDATE wh_vhc_trans_detail SET Status=0 WHERE Status=1 AND vhc_trans_id='+QuotedStr(TransId)+' AND '+
                 //' transaction_type_id in (140107,140108,140109,140111,140112,140113) ;';  // Cek 140113
-                ' transaction_type_id in (140107,140108,140109,140111,140112) ;';  // Cek 140113
+                ' transaction_type_id in (140107,140108,140109,140111,140112,140113,140115) ;';  // Cek 140113
         if BBMReimburse.Text<>'0' then begin
           TransType:=QuotedStr('140107');
           Amount:=ToString(BBMReimburse.Text);
@@ -1273,6 +1365,28 @@ begin
         if DriverFeeReimburse.Text<>'0' then begin
           TransType:=QuotedStr('140108');
           Amount:=ToString(DriverFeeReimburse.Text);
+          StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,update_time,update_user)'+
+                  ' VALUES ('+QuotedStr(TransId)+','+TransType+','+Amount+','+Amount+',GETDATE(),'+QuotedStr(User)+');';
+        end;
+        if Trim(StrQry)<>'' then begin
+          Qry.SQL.Clear;
+          Main.WriteLog('SQL :'+StrQry,4);
+          Qry.SQL.Add(StrQry);
+          try
+            Qry.ExecSQL;
+          except
+            on E:Exception do begin
+              StrMsg:='Tidak Dapat Menyimpan Tambahan Order Fee (R1)';
+              StrEMessage:=E.Message;
+              IsOk:=False;
+            end;
+          end;
+        end;
+
+        StrQry:='';
+        if DriverFeeReimburse2.Text<>'0' then begin
+          TransType:=QuotedStr('140115');
+          Amount:=ToString(DriverFeeReimburse2.Text);
           StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,update_time,update_user)'+
                   ' VALUES ('+QuotedStr(TransId)+','+TransType+','+Amount+','+Amount+',GETDATE(),'+QuotedStr(User)+');';
         end;
@@ -1358,11 +1472,11 @@ begin
         end;
 
         StrQry:='';
-        if OvertimeAdd.Text<>'0' then begin
+        if XOvertimeReimburse.Text<>'0' then begin
           TransType:=QuotedStr('140113');
-          Amount:=ToString(OvertimeAdd.Text);
-          StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,remark_arrive,update_time,update_user)'+
-                  ' VALUES ('+QuotedStr(TransId)+','+TransType+','+Amount+','+Amount+','+QuotedStr(StrRemark_arrive)+',GETDATE(),'+QuotedStr(User)+');';
+          Amount:=ToString(XOvertimeReimburse.Text);
+          StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,update_time,update_user)'+
+                  ' VALUES ('+QuotedStr(TransId)+','+TransType+','+Amount+','+Amount+',GETDATE(),'+QuotedStr(User)+');';
         end;
         if Trim(StrQry)<>'' then begin
           Qry.SQL.Clear;
@@ -1372,12 +1486,34 @@ begin
             Qry.ExecSQL;
           except
             on E:Exception do begin
-              StrMsg:='Tidak Dapat Menyimpan Tambahan Order Fee (R5)';
+              StrMsg:='Tidak Dapat Menyimpan Tambahan Order Fee (R4)';
               StrEMessage:=E.Message;
               IsOk:=False;
             end;
           end;
         end;
+
+        StrQry:='';
+//        if OvertimeAdd.Text<>'0' then begin
+//          TransType:=QuotedStr('140113');
+//          Amount:=ToString(OvertimeAdd.Text);
+//          StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,remark_arrive,update_time,update_user)'+
+//                  ' VALUES ('+QuotedStr(TransId)+','+TransType+','+Amount+','+Amount+','+QuotedStr(StrRemark_arrive)+',GETDATE(),'+QuotedStr(User)+');';
+//        end;
+//        if Trim(StrQry)<>'' then begin
+//          Qry.SQL.Clear;
+//          Main.WriteLog('SQL :'+StrQry,4);
+//          Qry.SQL.Add(StrQry);
+//          try
+//            Qry.ExecSQL;
+//          except
+//            on E:Exception do begin
+//              StrMsg:='Tidak Dapat Menyimpan Tambahan Order Fee (R5)';
+//              StrEMessage:=E.Message;
+//              IsOk:=False;
+//            end;
+//          end;
+//        end;
 
       end;
       if IsOk then begin
@@ -1833,7 +1969,7 @@ begin
       StrNoPolisi:=NoPolisi.Text;
 
       StrBBMAmount:=BBMAddRupiah.Text;
-      StrDriverFee:=IntToStr( StrToInt((ToString(DriverFeeAdd.Text))) + strtoint(ToString(DriverFeeReimburse.Text)));
+      StrDriverFee:=IntToStr( StrToInt((ToString(DriverFeeAdd.Text))) + strtoint(ToString(DriverFeeReimburse.Text))+strtoint(ToString(DriverFeeAdd2.Text))+strtoint(ToString(DriverFeeReimburse2.Text)));
       StrBusBoyFee:=IntToStr( StrToInt((ToString(BusBoyFeeAdd.Text))) + strtoint(ToString(BusBoyFeeReimburse.Text)));//BusBoyFeeAdd.Text;
       StrTolParkir:=IntToStr( StrToInt((ToString(TollParkingAdd.Text))) + strtoint(ToString(TollParkingReimburse.Text)));//TollParkingAdd.Text;
       StrStayNight:=StayNightAdd.Text;
@@ -1921,7 +2057,7 @@ end;
 
 procedure TOrderFeeAdd.DriverFeeEnter(Sender: TObject);
 begin
-  DriverFee.Text:=ToString(DriverFee.Text);
+  DriverFee2.Text:=ToString(DriverFee2.Text);
 end;
 
 procedure TOrderFeeAdd.BusBoyFeeEnter(Sender: TObject);
@@ -2330,6 +2466,7 @@ procedure TOrderFeeAdd.XOvertimeReimburseExit(Sender: TObject);
 begin
   if Trim(XOvertimeReimburse.Text)<>'' then XOvertimeReimburse.Text:=SToCurr(XOvertimeReimburse.Text);
   if Trim(XOvertimeReimburse.Text)=''  then XOvertimeReimburse.Text:='0';
+
   Calculate;
 end;
 
@@ -2468,6 +2605,44 @@ begin
       end;
 
     end;
+end;
+
+procedure TOrderFeeAdd.DriverFeeAdd2KeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Not(Key In ['0'..'9',#8,#13,#45]) then Key:=#0;
+  if Key=#13 then BusBoyFeeAdd.SetFocus;
+end;
+
+procedure TOrderFeeAdd.DriverFee2Exit(Sender: TObject);
+begin
+  if ToString(DriverFee2.Text)='' then DriverFee2.Text:='0';
+  DriverFee2.Text:=SToCurr(DriverFee2.Text);
+  Calculate;
+end;
+
+procedure TOrderFeeAdd.DriverFeeAdd2Enter(Sender: TObject);
+begin
+  DriverFeeAdd2.Text:=ToString(DriverFeeAdd2.Text);
+end;
+
+procedure TOrderFeeAdd.DriverFeeAdd2Exit(Sender: TObject);
+begin
+  if Trim(DriverFeeAdd2.Text)<>'' then DriverFeeAdd2.Text:=SToCurr(DriverFeeAdd2.Text);
+  if Trim(DriverFeeAdd2.Text)='' then DriverFeeAdd2.Text:='0';
+  Calculate;
+end;
+
+procedure TOrderFeeAdd.DriverFeeReimburse2Enter(Sender: TObject);
+begin
+  DriverFeeReimburse2.Text:=ToString(DriverFeeReimburse2.Text);
+end;
+
+procedure TOrderFeeAdd.DriverFeeReimburse2Exit(Sender: TObject);
+begin
+  if Trim(DriverFeeReimburse2.Text)<>'' then DriverFeeReimburse2.Text:=SToCurr(DriverFeeReimburse2.Text);
+  if Trim(DriverFeeReimburse2.Text)='' then DriverFeeReimburse2.Text:='0';
+  Calculate;
 end;
 
 end.

@@ -93,10 +93,9 @@ type
     GroupBox2: TGroupBox;
     cbCancel: TCheckBox;
     CekTglMasuk: TCheckBox;
+    CekBBM: TCheckBox;
     CekTglInput: TCheckBox;
     lbl2: TLabel;
-    ComboBBMSPBU: TComboBox;
-    Label9: TLabel;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure RefreshClick(Sender: TObject);
@@ -119,7 +118,7 @@ type
     { Private declarations }
     LokasiArr,GroupArr:Array of TArrString2;
     CompanyArr:Array of TArrString5;
-    OrderFeeArr:Array of TArrString58;
+    OrderFeeArr:Array of TArrString77;
     MaxCol:Integer;
     IntRow,IntCol:Integer;
     Initiation:Boolean;
@@ -157,7 +156,7 @@ var Count,Count2:Integer;
     StrQry:String;
     IntCount:Integer;
 begin
-  MaxCol:=61;
+  MaxCol:=82;
   cbCancel.Checked:=False;
   SBU.Items.Clear;
   SBU.Text:='';
@@ -167,7 +166,6 @@ begin
   Batch.Items.Clear;
   Batch.ItemIndex:=0;
   Batch.Text:='';
-  ComboBBMSPBU.ItemIndex:=0;
   CekTglSampai.Checked:=False;
   TglSampai.Enabled:=False;
   if StrToInt(CompanyId)=1 then SBU.Enabled:=True else SBU.Enabled:=False;
@@ -252,6 +250,7 @@ begin
   StrGrid.ColWidths[42]:=120;
   StrGrid.ColWidths[43]:=110;
 
+
   StrGrid.MergeCells.AddRectXY(0,0,0,1);
   StrGrid.MergeCells.AddRectXY(1,0,1,1);
   StrGrid.MergeCells.AddRectXY(2,0,2,1);
@@ -276,6 +275,15 @@ begin
   StrGrid.MergeCells.AddRectXY(26,0,26,1);
   StrGrid.MergeCells.AddRectXY(27,0,27,1);
   StrGrid.MergeCells.AddRectXY(28,0,28,1);
+
+  StrGrid.MergeCells.AddRectXY(62,0,70,0);
+  StrGrid.MergeCells.AddRectXY(71,0,73,0);
+  StrGrid.MergeCells.AddRectXY(74,0,76,0);
+
+  StrGrid.MergeCells.AddRectXY(77,0,77,1);
+  StrGrid.MergeCells.AddRectXY(78,0,78,1);
+
+  StrGrid.MergeCells.AddRectXY(79,0,82,0);
 
   //StrGrid.MergeCells.AddRectXY(11,0,11,1);
   IntGeserKolom:=6;
@@ -367,8 +375,8 @@ begin
 
   StrGrid.Cells[26,0]:='Lain2';//No E-Toll   Asal 22
   StrGrid.Cells[27,0]:='Overtime';//No E-Toll
-  StrGrid.Cells[28,0]:='Total          (Inc Tol&Lain2)';//Asal 27
-  StrGrid.Cells[29,0]:='Total          (Total Inc - BBM SPBU)';
+  StrGrid.Cells[28,0]:='Total';//Asal 27
+  StrGrid.Cells[29,0]:='Total          (Exc BBM SPBU)';
   StrGrid.Cells[30,0]:='Tgl Klr';
   StrGrid.Cells[31,0]:='Jam Klr';
   StrGrid.Cells[32,0]:='Tgl Msk';
@@ -405,6 +413,31 @@ begin
   StrGrid.Cells[60,0]:='Tanggal Transfer';
   StrGrid.Cells[61,0]:='Trans ID';
 
+  StrGrid.Cells[62,0]:='Driver 1';
+  StrGrid.Cells[62,1]:='No Rekening';
+  StrGrid.Cells[63,1]:='Nama';
+  StrGrid.Cells[64,1]:='Budget BBM';
+  StrGrid.Cells[65,1]:='Fee Order';
+  StrGrid.Cells[66,1]:='Parkir';
+  StrGrid.Cells[67,1]:='Toll';
+  StrGrid.Cells[68,1]:='Lain-lain';
+  StrGrid.Cells[69,1]:='Overtime';
+  StrGrid.Cells[70,1]:='Total Driver 1';
+  StrGrid.Cells[71,0]:='Driver 2';
+  StrGrid.Cells[71,1]:='No Rekening';
+  StrGrid.Cells[72,1]:='Nama';
+  StrGrid.Cells[73,1]:='Fee Order';
+  StrGrid.Cells[74,0]:='Helper';
+  StrGrid.Cells[74,1]:='No Rekening';
+  StrGrid.Cells[75,1]:='Nama';
+  StrGrid.Cells[76,1]:='Fee Order';
+  StrGrid.Cells[77,0]:='Total';
+  StrGrid.Cells[78,0]:='Selisih';
+  StrGrid.Cells[79,0]:='Check Crew';
+  StrGrid.Cells[79,1]:='Driver 1';
+  StrGrid.Cells[80,1]:='Driver 2';
+  StrGrid.Cells[81,1]:='Helper';
+  StrGrid.Cells[82,1]:='Catatan';
 
 
   StrGrid.ColWidths[44]:=120;
@@ -423,6 +456,29 @@ begin
   StrGrid.ColWidths[59]:=300;
   StrGrid.ColWidths[60]:=82;
   StrGrid.ColWidths[61]:=90;
+
+  StrGrid.ColWidths[62]:=100;
+  StrGrid.ColWidths[63]:=130;
+  StrGrid.ColWidths[64]:=60;
+  StrGrid.ColWidths[65]:=60;
+  StrGrid.ColWidths[66]:=60;
+  StrGrid.ColWidths[67]:=60;
+  StrGrid.ColWidths[68]:=60;
+  StrGrid.ColWidths[69]:=60;
+  StrGrid.ColWidths[70]:=100;
+  StrGrid.ColWidths[71]:=100;
+  StrGrid.ColWidths[72]:=130;
+  StrGrid.ColWidths[73]:=60;
+  StrGrid.ColWidths[74]:=100;
+  StrGrid.ColWidths[75]:=130;
+  StrGrid.ColWidths[76]:=60;
+  StrGrid.ColWidths[77]:=100;
+  StrGrid.ColWidths[78]:=100;
+  StrGrid.ColWidths[79]:=50;
+  StrGrid.ColWidths[80]:=50;
+  StrGrid.ColWidths[81]:=50;
+  StrGrid.ColWidths[82]:=400;
+
 
 
   for IntCount:=0 to MaxCol do begin
@@ -503,8 +559,10 @@ var
     BBMLiterSingle_Budget,BBMLiterSingle_SPBU,BBMLiterSingle_Reimburse:Single;
 
     TotalBBMRp,TotalBBMRp_Budget,TotalBBMRp_SPBU,TotalBBMRp_Reimburse,TotalBBMRp_All,TotalFeeDriver,TotalFeeBusBoy,TotalTolParkir,TotalTol,
-    TotalLain,TotalOvertime,TotalBiaya,TotalBiayaExc,IntBiaya, TotalTopupBudget, TotalETollBudget, TotalSelisih:Int64;
-    TotalFeeDriverReimburse,TotalFeeBusBoyReimburse,TotalTolParkirReimburse,TotalTolReimburse,IntBiayaReimburse :Int64;
+    TotalLain,TotalOvertime,TotalBiaya,TotalBiayaExc,IntBiaya, TotalTopupBudget, TotalETollBudget, TotalSelisih,
+    TotalBBMBudget,TotalFeeDriver1,TotalFeeDriver2,TotalBusboy,TotalParkir,TotalTol2,TotalLain2,
+    TotalTotalDriver1,TotalTotalDriver1_Driver2_Helper,TotalSelisih2:Int64;
+    TotalFeeDriverReimburse,TotalFeeBusBoyReimburse,TotalTolParkirReimburse,TotalTolReimburse,IntBiayaReimburse,TotalDriver1,TotalDriver1_Driver2_Helper,Selisih :Int64;
     TotalBBMLiter, TotalBBMLiter_Budget,TotalBBMLiter_SPBU,TotalBBMLiter_Reimburse,TotalBBMLiter_All:Double;
 
 begin
@@ -515,6 +573,17 @@ begin
       StrGrid.CellStyle[Count,Count2].BGColor:=clWindow;
     end;
   end;
+
+  TotalBBMBudget :=0;
+  TotalFeeDriver1 :=0;
+  TotalFeeDriver2 :=0;
+  TotalBusboy :=0;
+  TotalParkir :=0;
+  TotalTol2 :=0;
+  TotalLain2 :=0;
+  TotalTotalDriver1 :=0;
+  TotalTotalDriver1_Driver2_Helper :=0;
+  TotalSelisih2 :=0;
 
   
   if Length(OrderFeeArr)>0 then StrGrid.RowCount:=Length(OrderFeeArr)+1
@@ -534,6 +603,7 @@ begin
     IntDiscount:=0;
     IntBiaya:=0;
     IntBiayaReimburse:=0;
+
     StrGrid.Cells[0,Count]:=IntToStr(Count-1);
     StrGrid.Cells[1,Count]:=OrderFeeArr[IntCount][0];
     StrGrid.Cells[2,Count]:=OrderFeeArr[IntCount][1];
@@ -629,52 +699,89 @@ begin
       TotalETollBudget := TotalETollBudget+StoInt(OrderFeeArr[IntCount][51]);
       TotalSelisih := TotalSelisih+(StoInt(OrderFeeArr[IntCount][51])-StoInt(OrderFeeArr[IntCount][50]));
 
-      StrGrid.CellStyle[9,Count].HorizontalAlignment:=taCenter;
-      StrGrid.CellStyle[10,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[11,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[12,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[13,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[14,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[15,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[9,Count].HorizontalAlignment:=taCenter;
+//      StrGrid.CellStyle[10,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[11,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[12,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[13,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[14,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[15,Count].HorizontalAlignment:=taRightJustify;
       {geser 4 kolom}
-      StrGrid.CellStyle[16,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[17,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[18,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[19,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[20,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[21,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[22,Count].WordWrap:=True;
-      StrGrid.CellStyle[22,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[16,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[17,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[18,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[19,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[20,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[21,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[22,Count].WordWrap:=True;
+//      StrGrid.CellStyle[22,Count].HorizontalAlignment:=taRightJustify;
+//
+//      StrGrid.CellStyle[23,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[24,Count].WordWrap:=True;
+//      StrGrid.CellStyle[24,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[25,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[26,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[27,Count].HorizontalAlignment:=taRightJustify;
+//
+//      StrGrid.CellStyle[28,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[29,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[30,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[31,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[32,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[33,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[34,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[41,Count].HorizontalAlignment:=taCenter;
+//
+//      StrGrid.CellStyle[47,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[48,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[49,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[50,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[51,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[52,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[53,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[54,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[57,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[58,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[60,Count].HorizontalAlignment:=taLeftJustify;
+//      StrGrid.CellStyle[61,Count].HorizontalAlignment:=taLeftJustify;
 
-      StrGrid.CellStyle[23,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[24,Count].WordWrap:=True;
-      StrGrid.CellStyle[24,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[25,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[26,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[27,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[10,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[11,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[12,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[13,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[14,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[15,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[16,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[17,Count].HorizontalAlignment:=taRightJustify;
+      {Geser 6 kolom}
+//      StrGrid.CellStyle[18,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[19,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[20,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[21,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[22,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[23,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[24,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[25,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[26,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[27,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[28,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[29,Count].HorizontalAlignment:=taRightJustify;
+//
+//      StrGrid.CellStyle[39,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[57,Count].HorizontalAlignment:=taRightJustify;
 
-      StrGrid.CellStyle[28,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[29,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[30,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[31,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[32,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[33,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[34,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[41,Count].HorizontalAlignment:=taCenter;
 
-      StrGrid.CellStyle[47,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[48,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[49,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[50,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[51,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[52,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[53,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[54,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[57,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[58,Count].HorizontalAlignment:=taRightJustify;
-      StrGrid.CellStyle[60,Count].HorizontalAlignment:=taLeftJustify;
-      StrGrid.CellStyle[61,Count].HorizontalAlignment:=taLeftJustify;
-
+//      StrGrid.CellStyle[64,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[65,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[66,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[67,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[68,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[69,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[70,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[73,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[76,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[77,Count].HorizontalAlignment:=taRightJustify;
+//      StrGrid.CellStyle[78,Count].HorizontalAlignment:=taRightJustify;
 
 
       if (BBMLiterSingle_Budget=0) then StrGrid.Cells[10,Count]:= '0'
@@ -722,6 +829,50 @@ begin
       StrGrid.Cells[60,Count]:=OrderFeeArr[IntCount][57];
       StrGrid.Cells[61,Count]:=OrderFeeArr[IntCount][58];
 
+      StrGrid.Cells[62,Count]:=OrderFeeArr[IntCount][68];
+      StrGrid.Cells[63,Count]:=OrderFeeArr[IntCount][65];
+      TotalBBMBudget:=TotalBBMBudget+BBMRp_Budget+BBMRp_Reimburse ;
+      StrGrid.Cells[64,Count]:=IToCurr(BBMRp_Budget+BBMRp_Reimburse);
+      TotalFeeDriver1:=TotalFeeDriver1+((StoInt(OrderFeeArr[IntCount][59])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][75]));
+      StrGrid.Cells[65,Count]:=IToCurr((StoInt(OrderFeeArr[IntCount][59])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][75]));
+      TotalParkir:= TotalParkir+(StoInt(OrderFeeArr[IntCount][18])+StoInt(OrderFeeArr[IntCount][22]));
+      StrGrid.Cells[66,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][18])+StoInt(OrderFeeArr[IntCount][22]));
+      TotalTol2:= TotalTol2+(StoInt(OrderFeeArr[IntCount][19])+StoInt(OrderFeeArr[IntCount][23]));
+      StrGrid.Cells[67,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][19])+StoInt(OrderFeeArr[IntCount][23]));
+      TotalLain2:= TotalLain2+(StoInt(OrderFeeArr[IntCount][24]));
+      StrGrid.Cells[68,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][24]));
+      TotalOvertime:=TotalOvertime+(StoInt(OrderFeeArr[IntCount][25]));
+      StrGrid.Cells[69,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][25]));
+
+      TotalDriver1:=BBMRp_Budget+BBMRp_Reimburse+((StoInt(OrderFeeArr[IntCount][59])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][75]))
+                                  + (StoInt(OrderFeeArr[IntCount][18])+StoInt(OrderFeeArr[IntCount][22]))
+                                  + (StoInt(OrderFeeArr[IntCount][19])+StoInt(OrderFeeArr[IntCount][23]))
+                                  +  (StoInt(OrderFeeArr[IntCount][24])) + (StoInt(OrderFeeArr[IntCount][25]));
+      TotalTotalDriver1:=TotalTotalDriver1+ TotalDriver1;
+      StrGrid.Cells[70,Count]:=IToCurr(TotalDriver1);
+
+      StrGrid.Cells[71,Count]:=OrderFeeArr[IntCount][69];
+      StrGrid.Cells[72,Count]:=OrderFeeArr[IntCount][66];
+      TotalFeeDriver2:=TotalFeeDriver2+((StoInt(OrderFeeArr[IntCount][60])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][76]));
+      StrGrid.Cells[73,Count]:=IToCurr((StoInt(OrderFeeArr[IntCount][60])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][76]));
+
+
+      StrGrid.Cells[74,Count]:=OrderFeeArr[IntCount][70];
+      StrGrid.Cells[75,Count]:=OrderFeeArr[IntCount][67];
+      TotalBusboy:=TotalBusboy+((StoInt(OrderFeeArr[IntCount][61])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][21]));
+      StrGrid.Cells[76,Count]:=IToCurr((StoInt(OrderFeeArr[IntCount][61])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][21]));
+
+      TotalDriver1_Driver2_Helper:= (((StoInt(OrderFeeArr[IntCount][61])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][21]))+((StoInt(OrderFeeArr[IntCount][60])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][76]))
+                                    +TotalDriver1);
+      TotalTotalDriver1_Driver2_Helper:=TotalTotalDriver1_Driver2_Helper+TotalDriver1_Driver2_Helper;
+      StrGrid.Cells[77,Count]:= IToCurr(TotalDriver1_Driver2_Helper);
+      TotalSelisih2:=TotalSelisih2+((IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19])-BBMRp_SPBU+StoInt(OrderFeeArr[IntCount][25]))-(TotalDriver1_Driver2_Helper));
+      StrGrid.Cells[78,Count]:= IToCurr((IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19])-BBMRp_SPBU+StoInt(OrderFeeArr[IntCount][25]))-(TotalDriver1_Driver2_Helper));
+
+      StrGrid.Cells[79,Count]:= OrderFeeArr[IntCount][71];
+      StrGrid.Cells[80,Count]:= OrderFeeArr[IntCount][72];
+      StrGrid.Cells[81,Count]:= OrderFeeArr[IntCount][73];
+      StrGrid.Cells[82,Count]:= OrderFeeArr[IntCount][74];
 
 //      if (OrderFeeArr[IntCount][57]<>'') AND (OrderFeeArr[IntCount][57]<>NULL) then begin
 //        StrGrid.CellStyle[2,Count].Font.Color:=clGreen;
@@ -810,6 +961,12 @@ begin
         end;
       end;
 
+
+
+
+//
+
+
     end;
     Inc(Count);
 
@@ -817,60 +974,78 @@ begin
 
 
   StrGrid.RowCount:=StrGrid.RowCount+2;
-  for Count:=0 to 39 do begin
-    StrGrid.Cells[Count,StrGrid.RowCount]:='';
-    StrGrid.Cells[Count,StrGrid.RowCount-1]:='';
-    //StrGrid.Cells[Count,StrGrid.RowCount-2]:='';
-
-    StrGrid.CellStyle[0,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[1,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[2,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[3,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[4,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[5,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[6,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[7,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[8,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[9,StrGrid.RowCount-2].HorizontalAlignment:=taCenter;
-
-    StrGrid.CellStyle[10,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[11,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[12,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[13,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[14,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[15,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[16,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[17,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    {Geser 6 kolom}
-    StrGrid.CellStyle[18,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[19,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[20,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[21,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[22,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[23,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[24,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[25,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[26,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[27,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[28,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[29,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[30,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[31,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[32,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[33,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[34,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[35,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[36,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-
-    StrGrid.CellStyle[37,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[38,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[39,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[40,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[41,StrGrid.RowCount-2].HorizontalAlignment:=taCenter;
-    StrGrid.CellStyle[42,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[43,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[59,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[60,StrGrid.RowCount-2].HorizontalAlignment:=taCenter;
+//  for Count:=0 to 39 do begin
+//    StrGrid.Cells[Count,StrGrid.RowCount]:='';
+//    StrGrid.Cells[Count,StrGrid.RowCount-1]:='';
+//    //StrGrid.Cells[Count,StrGrid.RowCount-2]:='';
+//
+//    StrGrid.CellStyle[0,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[1,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[2,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[3,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[4,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[5,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[6,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[7,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[8,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[9,StrGrid.RowCount-2].HorizontalAlignment:=taCenter;
+//
+//    StrGrid.CellStyle[10,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[11,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[12,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[13,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[14,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[15,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[16,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[17,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    {Geser 6 kolom}
+//    StrGrid.CellStyle[18,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[19,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[20,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[21,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[22,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[23,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[24,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[25,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[26,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[27,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[28,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[29,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[30,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[31,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[32,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[33,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[34,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[35,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[36,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//
+//    StrGrid.CellStyle[37,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[38,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[39,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[40,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[41,StrGrid.RowCount-2].HorizontalAlignment:=taCenter;
+//    StrGrid.CellStyle[42,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[43,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[59,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[60,StrGrid.RowCount-2].HorizontalAlignment:=taCenter;
+//
+//    StrGrid.CellStyle[62,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[63,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[64,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[65,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[66,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[67,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[68,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[69,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[70,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[71,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[72,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[73,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[74,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[75,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[76,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[77,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[78,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
 
 
     //StrGrid.CellStyle[39,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
@@ -884,7 +1059,7 @@ begin
     StrGrid.CellStyle[32,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
     StrGrid.CellStyle[33,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
     *)
-  end;
+//  end;
   for Count2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[Count2, StrGrid.RowCount-1].Font.Color:=clWindowText;
 
   TotalUnitOperasi.Text:=IntToStr(TotalOperasi);
@@ -917,6 +1092,18 @@ begin
   StrGrid.Cells[52,StrGrid.RowCount-1]:=IToCurr(TotalETollBudget);
   StrGrid.Cells[53,StrGrid.RowCount-1]:=IToCurr(TotalSelisih);
 
+  StrGrid.Cells[64,StrGrid.RowCount-1]:=IToCurr(TotalBBMBudget);
+  StrGrid.Cells[65,StrGrid.RowCount-1]:=IToCurr(TotalFeeDriver1);
+  StrGrid.Cells[66,StrGrid.RowCount-1]:=IToCurr(TotalParkir);
+  StrGrid.Cells[67,StrGrid.RowCount-1]:=IToCurr(TotalTol2);
+  StrGrid.Cells[68,StrGrid.RowCount-1]:=IToCurr(TotalLain2);
+  StrGrid.Cells[69,StrGrid.RowCount-1]:=IToCurr(TotalOvertime);
+  StrGrid.Cells[70,StrGrid.RowCount-1]:=IToCurr(TotalTotalDriver1);
+  StrGrid.Cells[73,StrGrid.RowCount-1]:=IToCurr(TotalFeeDriver2);
+  StrGrid.Cells[76,StrGrid.RowCount-1]:=IToCurr(TotalFeeBusBoy);
+  StrGrid.Cells[77,StrGrid.RowCount-1]:=IToCurr(TotalTotalDriver1_Driver2_Helper);
+  StrGrid.Cells[78,StrGrid.RowCount-1]:=IToCurr(TotalSelisih2);
+
   StrGrid.CellStyle[9,StrGrid.RowCount-1].BGColor:=clSilver;
   StrGrid.CellStyle[10,StrGrid.RowCount-1].BGColor:=clSilver;
   StrGrid.CellStyle[11,StrGrid.RowCount-1].BGColor:=clSilver;
@@ -944,39 +1131,159 @@ begin
   StrGrid.CellStyle[52,StrGrid.RowCount-1].BGColor:=clSilver;
   StrGrid.CellStyle[53,StrGrid.RowCount-1].BGColor:=clSilver;
 
+  StrGrid.CellStyle[64,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[65,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[66,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[67,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[68,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[69,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[70,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[73,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[76,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[77,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[78,StrGrid.RowCount-1].BGColor:=clSilver;
 
-  //StrGrid.CellStyle[10,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[10,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[11,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[12,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[13,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[14,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[15,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[16,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[17,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  {Geser 6 kolom}
-  StrGrid.CellStyle[18,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[19,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[20,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[21,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[22,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[23,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[24,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[25,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[26,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[27,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[28,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[29,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
 
-  StrGrid.CellStyle[39,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[57,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+  for Count2:=2 to StrGrid.RowCount do
+  begin
+    StrGrid.CellStyle[0,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[1,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[2,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[3,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[4,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[5,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[6,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[7,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[8,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[9,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[10,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[11,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[12,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[13,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[14,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[15,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[16,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[17,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[18,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[19,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[20,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[21,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[22,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[23,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[24,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[25,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[26,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[27,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[28,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[29,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[30,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[31,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[32,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[33,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[34,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[35,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[36,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[37,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[38,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[39,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[40,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[41,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[42,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[43,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[44,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[45,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[46,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[47,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[48,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[49,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[50,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[51,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[52,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[53,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[54,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[55,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[56,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[57,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[58,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[59,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[60,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[61,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[62,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[63,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[64,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[65,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[66,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[67,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[68,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[69,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[70,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[71,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[72,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[73,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[74,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[75,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[76,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[77,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[78,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[79,Count2].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[80,Count2].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[81,Count2].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[82,Count2].HorizontalAlignment:=taLeftJustify;
+  end;
+
+
+//  StrGrid.CellStyle[10,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[11,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[12,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[13,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[14,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[15,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[16,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[17,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  {Geser 6 kolom}
+//  StrGrid.CellStyle[18,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[19,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[20,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[21,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[22,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[23,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[24,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[25,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[26,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[27,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[28,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[29,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//
+//  StrGrid.CellStyle[39,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[57,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//
+//
+//  StrGrid.CellStyle[64,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[65,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[66,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[67,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[68,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[69,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[70,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[73,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[76,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[77,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[78,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
 
   Count3:= Length(OrderFeeArr);
   for Count:=2 to Count3+1 do begin
     if (StrGrid.Cells[60,Count]<>'') then begin
        StrGrid.CellStyle[2,Count].Font.Color:=clGreen;
     end;
+
+    StrGrid.CellStyle[79,Count].Font.Color:=clWindowText;
+    StrGrid.CellStyle[80,Count].Font.Color:=clWindowText;
+    StrGrid.CellStyle[81,Count].Font.Color:=clWindowText;
+    StrGrid.CellStyle[82,Count].Font.Color:=clWindowText;
   end;
+
+
+
 end;
 
 procedure TDailyOrderFeeRpt.RefreshData;
@@ -1055,15 +1362,8 @@ begin
 
   if CekTglMasuk.Checked=True then StrInDate:=',@IsInDates=1';
   if CekTglInput.Checked=True then StrInputDate:=',@IsInputDates=1';
-//  if CekBBM.Checked=True then StrIsFilledFuel:=',@IsFilledFuel=1';
+  if CekBBM.Checked=True then StrIsFilledFuel:=',@IsFilledFuel=1';
 
-  if ComboBBMSPBU.ItemIndex=1 then begin
-     StrIsFilledFuel:=',@IsFilledFuel=2';
-  end else if ComboBBMSPBU.ItemIndex=2 then begin
-     StrIsFilledFuel:=',@IsFilledFuel=1';
-  end else begin
-     StrIsFilledFuel:='';
-  end;
 
   QStr:='EXEC GetRevenueVhcDayRpt2 '+StrLocationId+','+
         QuotedStr(FormatDateTime('dd-mm-yyyy',Tanggal.Date))+','+
@@ -1259,6 +1559,56 @@ begin
       OrderFeeArr[IntCount][57]:=VartoStr(Qry.FieldValues['isTransfer_update_time']);
       OrderFeeArr[IntCount][58]:=VartoStr(Qry.FieldValues['urut_id']);
 
+      OrderFeeArr[IntCount][59]:=VartoStr(Qry.FieldValues['fee_driver1']);
+      OrderFeeArr[IntCount][60]:=VartoStr(Qry.FieldValues['fee_driver2']);
+      OrderFeeArr[IntCount][61]:=VartoStr(Qry.FieldValues['fee_busboy']);
+      OrderFeeArr[IntCount][62]:=VartoStr(Qry.FieldValues['fee_driver1_reimburse']);
+      OrderFeeArr[IntCount][63]:=VartoStr(Qry.FieldValues['fee_driver2_reimburse']);
+      OrderFeeArr[IntCount][64]:=VartoStr(Qry.FieldValues['fee_busboy_reimburse']);
+      OrderFeeArr[IntCount][65]:=VartoStr(Qry.FieldValues['driver1_name']);
+      OrderFeeArr[IntCount][66]:=VartoStr(Qry.FieldValues['driver2_name']);
+      OrderFeeArr[IntCount][67]:=VartoStr(Qry.FieldValues['busboy_name']);
+      OrderFeeArr[IntCount][68]:=VartoStr(Qry.FieldValues['no_rek_driver1']);
+      OrderFeeArr[IntCount][69]:=VartoStr(Qry.FieldValues['no_rek_driver2']);
+      OrderFeeArr[IntCount][70]:=VartoStr(Qry.FieldValues['no_rek_busboy']);
+      if Qry.FieldValues['is_employee_id_matched']=True then
+      begin
+        OrderFeeArr[IntCount][71]:='V';
+      end else if Qry.FieldValues['is_employee_id_matched']=False then
+      begin
+        OrderFeeArr[IntCount][71]:='X';
+      end else begin
+        OrderFeeArr[IntCount][71]:='';
+      end;
+
+      if Qry.FieldValues['is_employee_id2_matched']=1 then
+      begin
+        OrderFeeArr[IntCount][72]:='V';
+      end else if Qry.FieldValues['is_employee_id2_matched']=0 then
+      begin
+        OrderFeeArr[IntCount][72]:='X';
+      end else begin
+        OrderFeeArr[IntCount][72]:='';
+      end;
+
+      if Qry.FieldValues['is_employee_id3_matched']=1 then
+      begin
+        OrderFeeArr[IntCount][73]:='V';
+      end else if Qry.FieldValues['is_employee_id3_matched']=0 then
+      begin
+        OrderFeeArr[IntCount][73]:='X';
+      end else begin
+        OrderFeeArr[IntCount][73]:='';
+      end;
+
+      if Qry.FieldValues['checked_note']<>NULL then
+      OrderFeeArr[IntCount][74]:=VartoStr(Qry.FieldValues['checked_note']);
+
+      if Qry.FieldValues['fee_driver1_reimburse']<>NULL then
+      OrderFeeArr[IntCount][75]:=VartoStr(Qry.FieldValues['fee_driver1_reimburse']);
+      if Qry.FieldValues['fee_driver2_reimburse']<>NULL then
+      OrderFeeArr[IntCount][76]:=VartoStr(Qry.FieldValues['fee_driver2_reimburse']);
+
       StrGrid.Cells[38,Count]:=Qry.FieldValues['UpdateUser'];
       if Qry.FieldValues['description']<>NULL then StrGrid.Cells[39,Count]:=Qry.FieldValues['description'] else StrGrid.Cells[38,Count]:='';
       if Qry.FieldValues['etoll_number']<>NULL then StrGrid.Cells[40,Count]:=eToll(Qry.FieldValues['etoll_number']);
@@ -1285,53 +1635,53 @@ begin
     //StrGrid.Cells[Count,StrGrid.RowCount-2]:='';
 
 
-    StrGrid.CellStyle[0,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[1,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[2,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[3,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[4,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[5,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[6,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[7,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[8,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[9,StrGrid.RowCount-2].HorizontalAlignment:=taCenter;
-
-    StrGrid.CellStyle[10,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[11,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[12,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[13,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[14,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[15,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[16,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[17,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    {Geser 6 kolom}
-    StrGrid.CellStyle[18,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[19,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[20,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[21,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[22,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[23,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[24,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[25,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[26,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[27,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[28,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[29,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[30,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[31,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[32,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[33,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[34,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[35,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[36,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-
-    StrGrid.CellStyle[37,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[38,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[39,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[40,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[41,StrGrid.RowCount-2].HorizontalAlignment:=taCenter;
-    StrGrid.CellStyle[42,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[43,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[0,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[1,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[2,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[3,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[4,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[5,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[6,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[7,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[8,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[9,StrGrid.RowCount-2].HorizontalAlignment:=taCenter;
+//
+//    StrGrid.CellStyle[10,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[11,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[12,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[13,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[14,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[15,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[16,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[17,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    {Geser 6 kolom}
+//    StrGrid.CellStyle[18,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[19,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[20,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[21,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[22,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[23,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[24,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[25,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[26,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[27,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[28,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[29,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[30,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[31,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[32,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[33,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[34,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[35,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//    StrGrid.CellStyle[36,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
+//
+//    StrGrid.CellStyle[37,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[38,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[39,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[40,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[41,StrGrid.RowCount-2].HorizontalAlignment:=taCenter;
+//    StrGrid.CellStyle[42,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
+//    StrGrid.CellStyle[43,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
 
     //StrGrid.CellStyle[39,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
 
@@ -1345,79 +1695,79 @@ begin
     StrGrid.CellStyle[33,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
     *)
   end;
-  TotalUnitOperasi.Text:=IntToStr(TotalOperasi);
-  StrGrid.Cells[9,StrGrid.RowCount-1]:='Total';
-  StrGrid.Cells[10,StrGrid.RowCount-1]:=IToCurr(TotalBBMLiter_Budget);
-  StrGrid.Cells[11,StrGrid.RowCount-1]:=IToCurr(TotalBBMRp_Budget);
-  StrGrid.Cells[12,StrGrid.RowCount-1]:=IToCurr(TotalBBMLiter_SPBU);
-  StrGrid.Cells[13,StrGrid.RowCount-1]:=IToCurr(TotalBBMRp_SPBU);
-  StrGrid.Cells[14,StrGrid.RowCount-1]:=IToCurr(TotalBBMLiter_Reimburse);
-  StrGrid.Cells[15,StrGrid.RowCount-1]:=IToCurr(TotalBBMRp_Reimburse);
-  StrGrid.Cells[16,StrGrid.RowCount-1]:=IToCurr(TotalBBMLiter_All);
-  StrGrid.Cells[17,StrGrid.RowCount-1]:=IToCurr(TotalBBMRp_All);
+//  TotalUnitOperasi.Text:=IntToStr(TotalOperasi);
+//  StrGrid.Cells[9,StrGrid.RowCount-1]:='Total';
+//  StrGrid.Cells[10,StrGrid.RowCount-1]:=IToCurr(TotalBBMLiter_Budget);
+//  StrGrid.Cells[11,StrGrid.RowCount-1]:=IToCurr(TotalBBMRp_Budget);
+//  StrGrid.Cells[12,StrGrid.RowCount-1]:=IToCurr(TotalBBMLiter_SPBU);
+//  StrGrid.Cells[13,StrGrid.RowCount-1]:=IToCurr(TotalBBMRp_SPBU);
+//  StrGrid.Cells[14,StrGrid.RowCount-1]:=IToCurr(TotalBBMLiter_Reimburse);
+//  StrGrid.Cells[15,StrGrid.RowCount-1]:=IToCurr(TotalBBMRp_Reimburse);
+//  StrGrid.Cells[16,StrGrid.RowCount-1]:=IToCurr(TotalBBMLiter_All);
+//  StrGrid.Cells[17,StrGrid.RowCount-1]:=IToCurr(TotalBBMRp_All);
 
   {Geser 4 kolom}
-  StrGrid.Cells[18,StrGrid.RowCount-1]:=IToCurr(TotalFeeDriver);
-  StrGrid.Cells[19,StrGrid.RowCount-1]:=IToCurr(TotalFeeDriverReimburse);
-  StrGrid.Cells[20,StrGrid.RowCount-1]:=IToCurr(TotalFeeBusBoy);
-  StrGrid.Cells[21,StrGrid.RowCount-1]:=IToCurr(TotalFeeBusBoyReimburse);
-  StrGrid.Cells[22,StrGrid.RowCount-1]:=IToCurr(TotalTolParkir);
-  StrGrid.Cells[23,StrGrid.RowCount-1]:=IToCurr(TotalTolParkirReimburse);
-  StrGrid.Cells[24,StrGrid.RowCount-1]:=IToCurr(TotalTol);
-  StrGrid.Cells[25,StrGrid.RowCount-1]:=IToCurr(TotalTolReimburse);
-
-  StrGrid.Cells[26,StrGrid.RowCount-1]:=IToCurr(TotalLain);
-  StrGrid.Cells[27,StrGrid.RowCount-1]:=IToCurr(TotalOvertime);
-
-  StrGrid.Cells[28,StrGrid.RowCount-1]:=IToCurr(TotalBiaya);
-  StrGrid.Cells[29,StrGrid.RowCount-1]:=IToCurr(TotalBiayaExc);
-  StrGrid.CellStyle[9,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[10,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[11,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[12,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[13,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[14,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[15,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[16,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[17,StrGrid.RowCount-1].BGColor:=clSilver;
-  {Geser 4 kolom}
-  StrGrid.CellStyle[18,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[19,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[20,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[21,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[22,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[23,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[24,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[25,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[26,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[27,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[28,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[29,StrGrid.RowCount-1].BGColor:=clSilver;
+//  StrGrid.Cells[18,StrGrid.RowCount-1]:=IToCurr(TotalFeeDriver);
+//  StrGrid.Cells[19,StrGrid.RowCount-1]:=IToCurr(TotalFeeDriverReimburse);
+//  StrGrid.Cells[20,StrGrid.RowCount-1]:=IToCurr(TotalFeeBusBoy);
+//  StrGrid.Cells[21,StrGrid.RowCount-1]:=IToCurr(TotalFeeBusBoyReimburse);
+//  StrGrid.Cells[22,StrGrid.RowCount-1]:=IToCurr(TotalTolParkir);
+//  StrGrid.Cells[23,StrGrid.RowCount-1]:=IToCurr(TotalTolParkirReimburse);
+//  StrGrid.Cells[24,StrGrid.RowCount-1]:=IToCurr(TotalTol);
+//  StrGrid.Cells[25,StrGrid.RowCount-1]:=IToCurr(TotalTolReimburse);
+//
+//  StrGrid.Cells[26,StrGrid.RowCount-1]:=IToCurr(TotalLain);
+//  StrGrid.Cells[27,StrGrid.RowCount-1]:=IToCurr(TotalOvertime);
+//
+//  StrGrid.Cells[28,StrGrid.RowCount-1]:=IToCurr(TotalBiaya);
+//  StrGrid.Cells[29,StrGrid.RowCount-1]:=IToCurr(TotalBiayaExc);
+//  StrGrid.CellStyle[9,StrGrid.RowCount-1].BGColor:=clSilver;
+//  StrGrid.CellStyle[10,StrGrid.RowCount-1].BGColor:=clSilver;
+//  StrGrid.CellStyle[11,StrGrid.RowCount-1].BGColor:=clSilver;
+//  StrGrid.CellStyle[12,StrGrid.RowCount-1].BGColor:=clSilver;
+//  StrGrid.CellStyle[13,StrGrid.RowCount-1].BGColor:=clSilver;
+//  StrGrid.CellStyle[14,StrGrid.RowCount-1].BGColor:=clSilver;
+//  StrGrid.CellStyle[15,StrGrid.RowCount-1].BGColor:=clSilver;
+//  StrGrid.CellStyle[16,StrGrid.RowCount-1].BGColor:=clSilver;
+//  StrGrid.CellStyle[17,StrGrid.RowCount-1].BGColor:=clSilver;
+//  {Geser 4 kolom}
+//  StrGrid.CellStyle[18,StrGrid.RowCount-1].BGColor:=clSilver;
+//  StrGrid.CellStyle[19,StrGrid.RowCount-1].BGColor:=clSilver;
+//  StrGrid.CellStyle[20,StrGrid.RowCount-1].BGColor:=clSilver;
+//  StrGrid.CellStyle[21,StrGrid.RowCount-1].BGColor:=clSilver;
+//  StrGrid.CellStyle[22,StrGrid.RowCount-1].BGColor:=clSilver;
+//  StrGrid.CellStyle[23,StrGrid.RowCount-1].BGColor:=clSilver;
+//  StrGrid.CellStyle[24,StrGrid.RowCount-1].BGColor:=clSilver;
+//  StrGrid.CellStyle[25,StrGrid.RowCount-1].BGColor:=clSilver;
+//  StrGrid.CellStyle[26,StrGrid.RowCount-1].BGColor:=clSilver;
+//  StrGrid.CellStyle[27,StrGrid.RowCount-1].BGColor:=clSilver;
+//  StrGrid.CellStyle[28,StrGrid.RowCount-1].BGColor:=clSilver;
+//  StrGrid.CellStyle[29,StrGrid.RowCount-1].BGColor:=clSilver;
 
   //StrGrid.CellStyle[10,StrGrid.RowCount-2].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[10,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[11,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[12,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[13,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[14,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[15,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[16,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[17,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[10,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[11,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[12,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[13,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[14,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[15,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[16,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[17,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
   {Geser 6 kolom}
-  StrGrid.CellStyle[18,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[19,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[20,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[21,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[22,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[23,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[24,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[25,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[26,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[27,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[28,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[29,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[18,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[19,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[20,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[21,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[22,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[23,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[24,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[25,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[26,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[27,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[28,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[29,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
 
-  StrGrid.CellStyle[39,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+//  StrGrid.CellStyle[39,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
   Main.M_Normal;
 end;
 
@@ -1617,7 +1967,9 @@ var Count,Count2,Count3,Count4,Count5,Urut:Integer;
     TotalBBMRp,TotalBBMRp_Budget,TotalBBMRp_SPBU,TotalBBMRp_Reimburse,TotalBBMRp_All,TotalFeeDriver,TotalFeeBusBoy,TotalTolParkir,TotalTol,
     TotalLain,TotalOvertime,TotalBiaya,TotalBiayaExc,IntBiaya:Int64;
     TotalFeeDriverReimburse,TotalFeeBusBoyReimburse,TotalTolParkirReimburse,TotalTolReimburse,IntBiayaReimburse,
-    TotalTopupBudget, TotalETollBudget, TotalSelisih :Int64;
+    TotalTopupBudget, TotalETollBudget, TotalSelisih, TotalBBMBudget, TotalFeeDriver1,
+    TotalParkir, TotalTol2, TotalLain2, TotalTotalDriver1, TotalFeeDriver2 , TotalBusboy,
+    TotalDriver1_Driver2_Helper, TotalSelisih2, TotalDriver1, TotalTotalDriver1_Driver2_Helper  :Int64;
     TotalBBMLiter, TotalBBMLiter_Budget,TotalBBMLiter_SPBU,TotalBBMLiter_Reimburse,TotalBBMLiter_All:Double;
 begin
   if Trim(edtCari.Text)<>'' then begin
@@ -1737,6 +2089,15 @@ begin
           TotalETollBudget := TotalETollBudget+StoInt(OrderFeeArr[Count][51]);
           TotalSelisih := TotalSelisih+(StoInt(OrderFeeArr[Count][51])-StoInt(OrderFeeArr[Count][50]));
 
+          StrGrid.CellStyle[0,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[1,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[2,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[3,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[4,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[5,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[6,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[7,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[8,Count2-1].HorizontalAlignment:=taLeftJustify;
           StrGrid.CellStyle[9,Count2-1].HorizontalAlignment:=taCenter;
           StrGrid.CellStyle[10,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[11,Count2-1].HorizontalAlignment:=taRightJustify;
@@ -1753,14 +2114,12 @@ begin
           StrGrid.CellStyle[21,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[22,Count2-1].WordWrap:=True;
           StrGrid.CellStyle[22,Count2-1].HorizontalAlignment:=taRightJustify;
-
           StrGrid.CellStyle[23,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[24,Count2-1].WordWrap:=True;
           StrGrid.CellStyle[24,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[25,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[26,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[27,Count2-1].HorizontalAlignment:=taRightJustify;
-
           StrGrid.CellStyle[28,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[29,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[30,Count2-1].HorizontalAlignment:=taRightJustify;
@@ -1768,8 +2127,18 @@ begin
           StrGrid.CellStyle[32,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[33,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[34,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[35,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[36,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[37,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[38,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[39,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[40,Count2-1].HorizontalAlignment:=taLeftJustify;
           StrGrid.CellStyle[41,Count2-1].HorizontalAlignment:=taCenter;
-
+          StrGrid.CellStyle[42,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[43,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[44,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[45,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[46,Count2-1].HorizontalAlignment:=taLeftJustify;
           StrGrid.CellStyle[47,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[48,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[49,Count2-1].HorizontalAlignment:=taRightJustify;
@@ -1778,12 +2147,34 @@ begin
           StrGrid.CellStyle[52,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[53,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[54,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[55,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[56,Count2-1].HorizontalAlignment:=taLeftJustify;
           StrGrid.CellStyle[57,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[58,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[59,Count2-1].HorizontalAlignment:=taLeftJustify;
           StrGrid.CellStyle[60,Count2-1].HorizontalAlignment:=taLeftJustify;
           StrGrid.CellStyle[61,Count2-1].HorizontalAlignment:=taLeftJustify;
-
-
+          StrGrid.CellStyle[62,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[63,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[64,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[65,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[66,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[67,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[68,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[69,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[70,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[71,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[72,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[73,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[74,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[75,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[76,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[77,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[78,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[79,Count2-1].HorizontalAlignment:=taCenter;
+          StrGrid.CellStyle[80,Count2-1].HorizontalAlignment:=taCenter;
+          StrGrid.CellStyle[81,Count2-1].HorizontalAlignment:=taCenter;
+          StrGrid.CellStyle[82,Count2-1].HorizontalAlignment:=taLeftJustify;
 
           if (BBMLiterSingle_Budget=0) then StrGrid.Cells[10,Count2-1]:= '0'
           else StrGrid.Cells[10,Count2-1]:=SToCurr(FloatToStr(BBMLiterSingle_Budget),2);
@@ -1814,7 +2205,6 @@ begin
 
           StrGrid.Cells[26,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][24]));
           StrGrid.Cells[27,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][25]));
-
           StrGrid.Cells[28,Count2-1]:=IToCurr(IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][19])+StoInt(OrderFeeArr[Count][25]));
           StrGrid.Cells[29,Count2-1]:=IToCurr(IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][19])-BBMRp_SPBU+StoInt(OrderFeeArr[Count][25]));
           StrGrid.Cells[30,Count2-1]:=OrderFeeArr[Count][26];
@@ -1828,6 +2218,50 @@ begin
           StrGrid.Cells[59,Count2-1]:=OrderFeeArr[Count][56];
           StrGrid.Cells[60,Count2-1]:=OrderFeeArr[Count][57];
           StrGrid.Cells[61,Count2-1]:=OrderFeeArr[Count][58];
+
+          StrGrid.Cells[62,Count2-1]:=OrderFeeArr[Count][68];
+          StrGrid.Cells[63,Count2-1]:=OrderFeeArr[Count][65];
+          TotalBBMBudget:=TotalBBMBudget+BBMRp_Budget ;
+          StrGrid.Cells[64,Count2-1]:=IToCurr(BBMRp_Budget);
+          TotalFeeDriver1:=TotalFeeDriver1+(StoInt(OrderFeeArr[Count][59])*StoInt(OrderFeeArr[Count][15]));
+          StrGrid.Cells[65,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][59])*StoInt(OrderFeeArr[Count][15]));
+          TotalParkir:= TotalParkir+(StoInt(OrderFeeArr[Count][18])+StoInt(OrderFeeArr[Count][22]));
+          StrGrid.Cells[66,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][18])+StoInt(OrderFeeArr[Count][22]));
+          TotalTol2:= TotalTol2+(StoInt(OrderFeeArr[Count][19])+StoInt(OrderFeeArr[Count][23]));
+          StrGrid.Cells[67,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][19])+StoInt(OrderFeeArr[Count][23]));
+          TotalLain2:= TotalLain2+(StoInt(OrderFeeArr[Count][24]));
+          StrGrid.Cells[68,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][24]));
+          TotalOvertime:=TotalOvertime+(StoInt(OrderFeeArr[Count][25]));
+          StrGrid.Cells[69,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][25]));
+
+          TotalDriver1:=BBMRp_Budget+(StoInt(OrderFeeArr[Count][59])*StoInt(OrderFeeArr[Count][15]))
+                                      + (StoInt(OrderFeeArr[Count][18])+StoInt(OrderFeeArr[Count][22]))
+                                      + (StoInt(OrderFeeArr[Count][19])+StoInt(OrderFeeArr[Count][23]))
+                                      +  (StoInt(OrderFeeArr[Count][24])) + (StoInt(OrderFeeArr[Count][25]));
+          TotalTotalDriver1:=TotalTotalDriver1+ TotalDriver1;
+          StrGrid.Cells[70,Count2-1]:=IToCurr(TotalDriver1);
+
+          StrGrid.Cells[71,Count2-1]:=OrderFeeArr[Count][69];
+          StrGrid.Cells[72,Count2-1]:=OrderFeeArr[Count][66];
+          TotalFeeDriver2:=TotalFeeDriver2+(StoInt(OrderFeeArr[Count][60])*StoInt(OrderFeeArr[Count][15]));
+          StrGrid.Cells[73,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][60])*StoInt(OrderFeeArr[Count][15]));
+
+          StrGrid.Cells[74,Count2-1]:=OrderFeeArr[Count][70];
+          StrGrid.Cells[75,Count2-1]:=OrderFeeArr[Count][67];
+          TotalBusboy:=TotalBusboy+(StoInt(OrderFeeArr[Count][61])*StoInt(OrderFeeArr[Count][15]));
+          StrGrid.Cells[76,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][61])*StoInt(OrderFeeArr[Count][15]));
+
+          TotalDriver1_Driver2_Helper:= ((StoInt(OrderFeeArr[Count][61])*StoInt(OrderFeeArr[Count][15]))+(StoInt(OrderFeeArr[Count][60])*StoInt(OrderFeeArr[Count][15]))
+                                        +TotalDriver1);
+          TotalTotalDriver1_Driver2_Helper:=TotalTotalDriver1_Driver2_Helper+TotalDriver1_Driver2_Helper;
+          StrGrid.Cells[77,Count2-1]:= IToCurr(TotalDriver1_Driver2_Helper);
+          TotalSelisih2:=TotalSelisih2+((IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][19])-BBMRp_SPBU+StoInt(OrderFeeArr[Count][25]))-(TotalDriver1_Driver2_Helper));
+          StrGrid.Cells[78,Count2-1]:= IToCurr((IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][19])-BBMRp_SPBU+StoInt(OrderFeeArr[Count][25]))-(TotalDriver1_Driver2_Helper));
+
+          StrGrid.Cells[79,Count2-1]:= OrderFeeArr[Count][71];
+          StrGrid.Cells[80,Count2-1]:= OrderFeeArr[Count][72];
+          StrGrid.Cells[81,Count2-1]:= OrderFeeArr[Count][73];
+          StrGrid.Cells[82,Count2-1]:= OrderFeeArr[Count][74];
 
           if OrderFeeArr[Count][27]<>'' then begin
             StrGrid.CellStyle[30,Count2-1].Font.Color:=clBlue;
@@ -1907,6 +2341,11 @@ begin
           if (OrderFeeArr[Count][57]<>'') then begin
              StrGrid.CellStyle[2,Count2-1].Font.Color:=clGreen;
           end;
+
+          StrGrid.CellStyle[79,Count2-1].Font.Color:=clWindowText;
+          StrGrid.CellStyle[80,Count2-1].Font.Color:=clWindowText;
+          StrGrid.CellStyle[81,Count2-1].Font.Color:=clWindowText;
+          StrGrid.CellStyle[82,Count2-1].Font.Color:=clWindowText;
 
 //          StrGrid.CellStyle[Count4,Count2-1].Font.Color:=clWindowText;
         end;

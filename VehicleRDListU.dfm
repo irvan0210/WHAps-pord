@@ -79,7 +79,7 @@ object VehicleRDList: TVehicleRDList
     Top = 65
     Width = 633
     Height = 305
-    ColCount = 13
+    ColCount = 16
     DefaultDrawing = False
     FixedColor = clBtnFace
     FixedCols = 0
@@ -103,6 +103,9 @@ object VehicleRDList: TVehicleRDList
     DefaultFixedCellStyle.BGColor = clBtnFace
     LineDesign.LineUpColor = clWhite
     ColWidths = (
+      64
+      64
+      64
       64
       64
       64

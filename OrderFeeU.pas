@@ -418,6 +418,8 @@ type
     Label30: TLabel;
     DailyPackage: TCheckBox;
     CopyBiaya: TCheckBox;
+    KenekDisp: TEdit;
+    Label32: TLabel;
     procedure BBMLiterKeyPress(Sender: TObject; var Key: Char);
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -900,7 +902,11 @@ begin
         BBMBBGTotal.Text:=IToCurr(StrToInt(Qry.FieldValues['fuel_price']));
         BBMLiter.Text:=IToCurr(StrToInt(Qry.FieldValues['fuel_litre']));
         DriverFee.Text:=IToCurr(StrToInt(Qry.FieldValues['driver']));
-        BusBoyFee.Text:=IToCurr(StrToInt(Qry.FieldValues['helper']));//*
+            if TotDriver=2 then DriverFee2.Text:=IToCurr(StrToInt(Qry.FieldValues['driver']));
+//        if KenekDisp.Text<>'' then
+        if SJArr[ArrayIndexOf(SJArr,NoSJ.Text,0)][45]<>'' then
+        BusBoyFee.Text:=IToCurr(StrToInt(Qry.FieldValues['helper'])) else  BusBoyFee.Text:='0';
+
         Toll.Text:=IToCurr(StrToInt(Qry.FieldValues['toll']));
         TollParking.Text:=IToCurr(StrToInt(Qry.FieldValues['parkir']));
         if IntBermalam > 0 then begin
@@ -1035,6 +1041,10 @@ begin
       else SJArr[IntCount][43] :='';
 
       SJArr[IntCount][44] := Qry.FieldValues['product_price_id'];
+      if Qry.FieldValues['busboy']<>null then
+        SJArr[IntCount][45] := Qry.FieldValues['busboy']
+      else SJArr[IntCount][45] :='';
+
       Inc(IntCount);
       Qry.Next;
     end;
@@ -1154,8 +1164,8 @@ begin
         DriverDisp.Text:=Qry.FieldValues['name']+' & '+Qry.FieldValues['driver2'];
         Driver.Text:=Qry.FieldValues['employee_id'];
         Driver2.Text:=Qry.FieldValues['employee_id2'];
-//        DriverFee2.ReadOnly:=False;
-        DriverFee2.ReadOnly:=True;
+        DriverFee2.ReadOnly:=False;
+//        DriverFee2.ReadOnly:=True;
       end else
       begin
         TotDriver:=1;
@@ -1165,6 +1175,8 @@ begin
         DriverFee2.Text:='0';
         DriverFeeTotal2.Text:='0';
       end;
+      if Qry.FieldValues['busboy']<>NULL then KenekDisp.Text:=Qry.FieldValues['busboy']
+      else KenekDisp.Text:='';
 
 
 
@@ -1213,9 +1225,14 @@ begin
 
 //        end else
 //        begin
-          DriverFeeTotal.Text:=IToCurr(Qry.FieldValues['fee_supir']*Qry.FieldValues['day']);
-          DriverFee.Text:=IToCurr(Qry.FieldValues['fee_supir']);
-//        end;
+          DriverFeeTotal.Text:=IToCurr(Qry.FieldValues['fee_supir1']*Qry.FieldValues['day']);
+          DriverFee.Text:=IToCurr(Qry.FieldValues['fee_supir1']);
+
+          if Qry.FieldValues['fee_supir2']<>NULL then
+          begin
+            DriverFeeTotal2.Text:=IToCurr(Qry.FieldValues['fee_supir2']*Qry.FieldValues['day']);
+            DriverFee2.Text:=IToCurr(Qry.FieldValues['fee_supir2']);
+          end;
 
       end else begin
         DriverFeeTotal.Text:='0';
@@ -1246,15 +1263,15 @@ begin
         Toll.Text:='0';
       end;
 
-      if (Qry.FieldValues['overtime']<>NULL) then
-      begin
-        Overtime.Text:=IToCurr(Qry.FieldValues['overtime']);
-        OvertimeTotal.Text:=IToCurr(Qry.FieldValues['overtime']);
-      end else
-      begin
+//      if (Qry.FieldValues['overtime']<>NULL) then
+//      begin
+//        Overtime.Text:=IToCurr(Qry.FieldValues['overtime']);
+//        OvertimeTotal.Text:=IToCurr(Qry.FieldValues['overtime']);
+//      end else
+//      begin
         Overtime.Text:='0';
         OvertimeTotal.Text:='0';
-      end;
+//      end;
 
       if Qry.FieldValues['overnight']<>NULL then begin
         StayNightTotal.Text:=IToCurr(Qry.FieldValues['overnight']);
@@ -1345,6 +1362,16 @@ begin
         Driver.Text:=SJArr[ArrayIndexOf(SJArr,NoSJ.Text,0)][3];
         DriverDisp.Text:=SJArr[ArrayIndexOf(SJArr,NoSJ.Text,0)][4];
         DriverFee2.ReadOnly:=True;
+      end;
+
+
+      if SJArr[ArrayIndexOf(SJArr,NoSJ.Text,0)][45]<>'' then
+      begin
+        KenekDisp.Text:= SJArr[ArrayIndexOf(SJArr,NoSJ.Text,0)][45];
+        BusBoyFee.ReadOnly:=True;
+      end else begin
+        KenekDisp.Text:='';
+        BusBoyFee.ReadOnly:=False;
       end;
 
 
@@ -1678,7 +1705,7 @@ begin
         if SJId<>'' then begin
           TransId:=SJId;
         end;
-          StrQry:='UPDATE wh_vhc_trans_detail SET status=0 WHERE (vhc_trans_id='+QuotedStr(TransId)+') AND (transaction_type_id in (140101, 140102, 140103, 140106, 140104, 140113) ) AND (status=1); ';
+          StrQry:='UPDATE wh_vhc_trans_detail SET status=0 WHERE (vhc_trans_id='+QuotedStr(TransId)+') AND (transaction_type_id in (140101, 140102, 140103, 140106, 140104, 140113, 140114) ) AND (status=1); ';
           Qry.SQL.Clear;
           Main.WriteLog('SQL :'+StrQry,4);
           Qry.SQL.Add(StrQry);
@@ -1757,13 +1784,13 @@ begin
             if TotDriver=2 then
             begin
                Amount2:=ToString(DriverFee2.Text);
-               StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,update_time,update_user,remark,employee_id)'+
-                    ' VALUES ('+QuotedStr(TransId)+','+TransType+','+ToString(Amount)+','+IntToStr(SToInt(Amount)*SToInt(Hari.Text))+',GETDATE(),'+QuotedStr(User)+','+QuotedStr(StrRemarkChange)+','+QuotedStr(Driver.Text)+'),'+
-                    '('+QuotedStr(TransId)+','+TransType+','+ToString(Amount2)+','+IntToStr(SToInt(Amount2)*SToInt(Hari.Text))+',GETDATE(),'+QuotedStr(User)+','+QuotedStr(StrRemarkChange)+','+QuotedStr(Driver2.Text)+');';
+               StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,update_time,update_user,remark)'+
+                    ' VALUES ('+QuotedStr(TransId)+','+TransType+','+ToString(Amount)+','+IntToStr(SToInt(Amount)*SToInt(Hari.Text))+',GETDATE(),'+QuotedStr(User)+','+QuotedStr(StrRemarkChange)+'),'+
+                    '('+QuotedStr(TransId)+',140114,'+ToString(Amount2)+','+IntToStr(SToInt(Amount2)*SToInt(Hari.Text))+',GETDATE(),'+QuotedStr(User)+','+QuotedStr(StrRemarkChange)+');';
             end else
             begin
-              StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,update_time,update_user,remark,employee_id)'+
-                    ' VALUES ('+QuotedStr(TransId)+','+TransType+','+ToString(Amount)+','+IntToStr(SToInt(Amount)*SToInt(Hari.Text))+',GETDATE(),'+QuotedStr(User)+','+QuotedStr(StrRemarkChange)+','+QuotedStr(Driver.Text)+');';
+              StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,update_time,update_user,remark)'+
+                    ' VALUES ('+QuotedStr(TransId)+','+TransType+','+ToString(Amount)+','+IntToStr(SToInt(Amount)*SToInt(Hari.Text))+',GETDATE(),'+QuotedStr(User)+','+QuotedStr(StrRemarkChange)+');';
             end;
             if Trim (StrQry)<>'' then begin
 
@@ -1788,8 +1815,7 @@ begin
               for Count:=0 to Length(NoSJArr) do
                 StrQry:=StrQry+' UPDATE wh_vhc_trans_detail SET amount='+Amount+',total_amount='+IntToStr(SToInt(Amount)*SToInt(Hari.Text))+
                         ',remark='+QuotedStr(StrRemarkChange)+
-                        ',update_time=GETDATE(),update_user='+QuotedStr(User)+' WHERE (vhc_trans_id='+QuotedStr(NoSJArr[Count])+') AND (transaction_type_id='+TransType+') '+
-                        'AND employee_id='+QuotedStr(Driver.Text)+';';
+                        ',update_time=GETDATE(),update_user='+QuotedStr(User)+' WHERE (vhc_trans_id='+QuotedStr(NoSJArr[Count])+') AND (transaction_type_id='+TransType+');';
               Qry.SQL.Clear;
               Main.WriteLog('SQL :'+StrQry,4);
               Qry.SQL.Add(StrQry);
@@ -1806,8 +1832,8 @@ begin
               for Count:=0 to Length(NoSJArr) do
                 StrQry:=StrQry+' UPDATE wh_vhc_trans_detail SET amount='+Amount2+',total_amount='+IntToStr(SToInt(Amount2)*SToInt(Hari.Text))+
                         ',remark='+QuotedStr(StrRemarkChange)+
-                        ',update_time=GETDATE(),update_user='+QuotedStr(User)+' WHERE (vhc_trans_id='+QuotedStr(NoSJArr[Count])+') AND (transaction_type_id='+TransType+') '+
-                        'AND employee_id='+QuotedStr(Driver2.Text)+';';
+                        ',update_time=GETDATE(),update_user='+QuotedStr(User)+' '+
+                        'WHERE (vhc_trans_id='+QuotedStr(NoSJArr[Count])+') AND (transaction_type_id=140114) ;';
               Qry.SQL.Clear;
               Main.WriteLog('SQL :'+StrQry,4);
               Qry.SQL.Add(StrQry);
@@ -1956,32 +1982,32 @@ begin
         end;
         {Overtime}
         StrQry:='';
-        if (Overtime.Text<>'0') or (SJId<>'')  then begin
-          TransType:=QuotedStr('140113 ');
-          Amount:=ToString(Overtime.Text);
-          if AllDailyPackage.Checked=False then begin
-            StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,update_time,update_user)'+
-                    ' VALUES ('+QuotedStr(TransId)+','+TransType+','+ToString(Amount)+','+IntToStr(SToInt(Amount))+',GETDATE(),'+QuotedStr(User)+');';
-          end else begin
-            for Count:=0 to Length(NoSJArr) do
-              StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,update_time,update_user)'+
-                      ' VALUES ('+QuotedStr(NoSJArr[Count])+','+TransType+','+ToString(Amount)+','+ToString(Amount)+',GETDATE(),'+QuotedStr(User)+');';
-          end;
-        end;
-        if Trim(StrQry)<>'' then begin
-          Qry.SQL.Clear;
-          Main.WriteLog('SQL :'+StrQry,4);
-          Qry.SQL.Add(StrQry);
-          try
-            Qry.ExecSQL;
-          except
-            on E:Exception do begin
-              StrMsg:='Tidak Dapat Menyimpan Order Fee detail (5)';
-              StrEMessage:=E.Message;
-              IsOk:=False;
-            end;
-          end;
-        end;
+//        if (Overtime.Text<>'0') or (SJId<>'')  then begin
+//          TransType:=QuotedStr('140113 ');
+//          Amount:=ToString(Overtime.Text);
+//          if AllDailyPackage.Checked=False then begin
+//            StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,update_time,update_user)'+
+//                    ' VALUES ('+QuotedStr(TransId)+','+TransType+','+ToString(Amount)+','+IntToStr(SToInt(Amount))+',GETDATE(),'+QuotedStr(User)+');';
+//          end else begin
+//            for Count:=0 to Length(NoSJArr) do
+//              StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,update_time,update_user)'+
+//                      ' VALUES ('+QuotedStr(NoSJArr[Count])+','+TransType+','+ToString(Amount)+','+ToString(Amount)+',GETDATE(),'+QuotedStr(User)+');';
+//          end;
+//        end;
+//        if Trim(StrQry)<>'' then begin
+//          Qry.SQL.Clear;
+//          Main.WriteLog('SQL :'+StrQry,4);
+//          Qry.SQL.Add(StrQry);
+//          try
+//            Qry.ExecSQL;
+//          except
+//            on E:Exception do begin
+//              StrMsg:='Tidak Dapat Menyimpan Order Fee detail (5)';
+//              StrEMessage:=E.Message;
+//              IsOk:=False;
+//            end;
+//          end;
+//        end;
 
         if IsOk then begin
           Main.TransCommit;
@@ -2294,9 +2320,9 @@ procedure TOrderFee.RePrint(Trans_Id:String);
 var Qry:TADOQuery;
     StrQry,StrTransId:String;
     StrTanggal,StrNoReservasi,StrNoSJ,StrDriverName,StrNoPolisi,StrCustomer,StrBBMAmount,StrBBMFeeTotal,StrNoBody:String;
-    StrDriverFee,StrDriverFeeTotal,StrBusBoyFee,StrBusBoyFeeTotal,StrTolParkir,StrTolParkirTotal,
+    StrDriverFee,StrDriver2Fee,StrDriverFeeTotal,StrDriver2FeeTotal,StrBusBoyFee,StrBusBoyFeeTotal,StrTolParkir,StrTolParkirTotal,
     StrTol,StrTolTotal,StrOther,StrOtherTotal,StrTotal,StrCopy,StrHari,StrRoute,StrOvertime,StrOvertimeTotal:String;
-    Total,TotalHari,Amount,TotalAmount,FormNumber:Integer;
+    Total,TotalHari,Amount,TotalAmount,DriverFeeTotal,Driver2FeeTotal,TotalParkir,TotalTol,FormNumber:Integer;
 begin
   RePrintForm.ReportName:='Order Fee';
   RePrintForm.ReportId:=Trans_Id;
@@ -2353,6 +2379,8 @@ begin
         Qry.Next;
       end;
       Qry.Close;
+
+
       StrTransId:=QuotedStr('140101');
       Amount:=0;
       TotalAmount:=0;
@@ -2369,7 +2397,31 @@ begin
       end;
       StrDriverFee:=IToCurr(Amount);
       StrDriverFeeTotal:=IToCurr(TotalAmount);
+      DriverFeeTotal:=TotalAmount;
       Total:=Total+TotalAmount;
+
+
+      StrTransId:=QuotedStr('140114');
+      Amount:=0;
+      TotalAmount:=0;
+      StrQry:='SELECT SUM(a.amount) AS amount,SUM(a.total_amount) AS total_amount FROM wh_vhc_trans_detail a '+
+              'INNER JOIN wh_transaction_type b ON b.transaction_type_id=a.transaction_type_id '+
+              'WHERE vhc_trans_id='+QuotedStr(Trans_Id)+' AND (a.transaction_type_id='+StrTransId+') AND (status=1);';
+      Qry.SQL.Clear;
+      Main.WriteLog('SQL :'+StrQry,2);
+      Qry.SQL.Add(StrQry);
+      Qry.Open;
+      if (Qry.RecordCount>0) then begin
+        if (Qry.FieldValues['amount']<>NULL) then Amount:=Qry.FieldValues['amount'];
+        if (Qry.FieldValues['total_amount']<>NULL) then TotalAmount:=Qry.FieldValues['total_amount'];
+      end;
+      StrDriver2Fee:=IToCurr(Amount);
+      StrDriver2FeeTotal:=IToCurr(TotalAmount);
+      Driver2FeeTotal:=TotalAmount;
+      Total:=Total+TotalAmount;
+
+
+
       Qry.Close;
       StrTransId:=QuotedStr('140102');
       Amount:=0;
@@ -2405,8 +2457,10 @@ begin
       end;
       StrTolParkir:=IToCurr(Amount);
       StrTolParkirTotal:=IToCurr(TotalAmount);
+      TotalParkir:= TotalAmount;
       Total:=Total+TotalAmount;
       Qry.Close;
+
       StrTransId:=QuotedStr('140104');
       Amount:=0;
       TotalAmount:=0;
@@ -2443,6 +2497,7 @@ begin
       end;
       StrTol:=IToCurr(Amount);
       StrTolTotal:=IToCurr(TotalAmount);
+      TotalTol:=TotalAmount;
       {Tol dijumlahkan atau tidak}
       if eToll_Calculation=1 then
         Total:=Total+TotalAmount;
@@ -2463,9 +2518,9 @@ begin
         if (Qry.FieldValues['amount']<>NULL) then Amount:=Qry.FieldValues['amount'];
         if (Qry.FieldValues['total_amount']<>NULL) then TotalAmount:=Qry.FieldValues['total_amount'];
       end;
-      StrOvertime:=IToCurr(Amount);
-      StrOvertimeTotal:=IToCurr(TotalAmount);
-      Total:=Total+TotalAmount;
+//      StrOvertime:=IToCurr(Amount);
+//      StrOvertimeTotal:=IToCurr(TotalAmount);
+//      Total:=Total+TotalAmount;
       Qry.Close;
 
       StrTotal:=IToCurr(Total);
@@ -2483,15 +2538,20 @@ begin
         QLBBM.Caption:=StrBBMAmount+' Ltr';
         QLTotalBBM.Caption:=StrBBMFeeTotal;
         QLRoute.Caption:=StrRoute;
-        QLFeeSupir.Caption:=IntToStr(TotalHari)+' Hr x Rp. '+StrDriverFee;
-        QLTotalFeeSupir.Caption:=StrDriverFeeTotal;
+        if DriverFee2.Text<>'0' then begin
+          QLFeeSupir.Caption:='Driver 1 = '+IntToStr(TotalHari)+' Hr x Rp. '+StrDriverFee +' '+
+                              'Driver 2 = '+IntToStr(TotalHari)+' Hr x Rp. '+StrDriver2Fee ;
+        end else begin
+          QLFeeSupir.Caption:=IntToStr(TotalHari)+' Hr x Rp. '+StrDriverFee;
+        end;
+        QLTotalFeeSupir.Caption:= IToCurr(DriverFeeTotal+Driver2FeeTotal);
         QLFeeKenek.Caption:=IntToStr(TotalHari)+' Hr x Rp. '+StrBusBoyFee;
         QLTotalFeeKenek.Caption:=StrBusBoyFeeTotal;
         if Show_eToll=1 then QLTolParkir.Caption:='Parkir: '+StrTolParkir+' ; Tol:'+StrTol
         else QLTolParkir.Caption:='Parkir: '+StrTolParkir;
         {Tol tidak dijumlahkan}
         //QLTolParkir.Caption:='Parkir: '+StrTolParkir;
-        QLTotalTolParkir.Caption:=IToCurr(SToInt(StrTolParkirTotal));
+        QLTotalTolParkir.Caption:=IToCurr(TotalTol+TotalParkir);
 
         QLLain.Caption:=StrOther;
         QLTotalLain.Caption:=StrOtherTotal;
@@ -2961,7 +3021,12 @@ end;
 procedure TOrderFee.DriverFeeExit(Sender: TObject);
 begin
   if ToString(DriverFee.Text)='' then DriverFee.Text:='0';
+  if TotDriver=2 then begin
+    DriverFee2.Text:= DriverFee.Text;
+    DriverFee2.Text:=SToCurr(DriverFee2.Text);
+  end;
   DriverFee.Text:=SToCurr(DriverFee.Text);
+
 
   Calculate;
 end;
@@ -3017,7 +3082,7 @@ end;
 procedure TOrderFee.StayNightKeyPress(Sender: TObject; var Key: Char);
 begin
   if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
-  if Key=#13 then Overtime.SetFocus;
+  if Key=#13 then Simpan.SetFocus;
 end;
 
 procedure TOrderFee.AllDailyPackageClick(Sender: TObject);
@@ -3273,7 +3338,7 @@ end;
 
 procedure TOrderFee.DriverFee2Enter(Sender: TObject);
 begin
-DriverFee2.Text:=ToString(DriverFee2.Text);
+  DriverFee2.Text:=ToString(DriverFee2.Text);
 end;
 
 procedure TOrderFee.DriverFee2Exit(Sender: TObject);
@@ -3288,7 +3353,7 @@ procedure TOrderFee.DriverFee2KeyDown(Sender: TObject; var Key: Word;
   var IsAuth:Boolean;
     StrRemark:String;
 begin
-if LockBudget then begin
+  if LockBudget then begin
     if Key=VK_F5 then begin
       IsAuth :=True;
       AuthorizedForm.FormId:='131201';
@@ -3329,6 +3394,15 @@ end;
 procedure TOrderFee.TripTypeChange(Sender: TObject);
 begin
   CekFeeOrder;
+  if ToString(DriverFee.Text)='' then DriverFee.Text:='0';
+  if TotDriver=2 then begin
+    DriverFee2.Text:= DriverFee.Text;
+//    DriverFee2.Text:=SToCurr(DriverFee2.Text);
+  end;
+//  DriverFee.Text:=SToCurr(DriverFee.Text);
+
+
+  Calculate;
 end;
 
 procedure TOrderFee.BBMRupiahChange(Sender: TObject);

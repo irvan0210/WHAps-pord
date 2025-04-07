@@ -331,7 +331,12 @@ uses
   RekapHistoryArmadaPergantianPartU in 'RekapHistoryArmadaPergantianPartU.pas' {RekapHistoryArmadaPergantianPart},
   RekapPergantianPartperArmadaU in 'RekapPergantianPartperArmadaU.pas' {RekapPergantianPartperArmada},
   TechnicalRecommendationListU in 'TechnicalRecommendationListU.pas' {TechnicalRecommendationList},
-  TechnicalRecommendationU in 'TechnicalRecommendationU.pas' {TechnicalRecommendation};
+  TechnicalRecommendationU in 'TechnicalRecommendationU.pas' {TechnicalRecommendation},
+  ListKetidakSesuaianCrewU in 'ListKetidakSesuaianCrewU.pas' {ListKetidakSesuaianCrew},
+  MasterBatanganFormU in 'MasterBatanganFormU.pas' {MasterBatanganForm},
+  MasterBatanganListU in 'MasterBatanganListU.pas' {MasterBatanganList},
+  DetailOrderEstimasiBudgetFormU in 'DetailOrderEstimasiBudgetFormU.pas' {DetailOrderEstimasiBudgetForm},
+  LaporanWehaMartU in 'LaporanWehaMartU.pas' {LaporanWehaMart};
 
 {$R *.res}
 

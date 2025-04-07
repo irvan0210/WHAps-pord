@@ -348,7 +348,7 @@ var StrQry,StrBatch,StrLocationId,StrCompanyId,StrToDates,StrisAll:String;
     Qry:TADOQuery;
     Qry2:TADOQuery;
     Count,Count2,Total1,Total2,Total3,Total4,Total5,Total6,Total7,
-    TotalOperasi,IntDiscount,IntFeeDriver,IntFeeBusBoy,IntBiaya,IntBiayaReimburse,BiayaTambahan:Integer;
+    TotalOperasi,IntDiscount,IntFeeDriver,IntFeeBusBoy,IntBiaya,IntBiayaReimburse,BiayaTambahan,BiayaTambahanAll:Integer;
     //IntFeeDriver,IntFeeBusBoy,IntTol
     //BBMLiter,GasLiter,BBMRp,GasRp:Integer;
     //TotalBBMRp,TotalBBMLiter,
@@ -463,8 +463,10 @@ begin
 
 //Penambahan
     if Qry.FieldValues['biaya_tambahan']=NULL then begin
+      BiayaTambahanAll:=0;
       BiayaTambahan:=0 ;
     end else begin
+      BiayaTambahanAll:=Qry.FieldValues['biaya_tambahan'];
       BiayaTambahan := Qry.FieldValues['biaya_tambahan']/Qry.FieldValues['total_units'];
     end;
       //Budget
@@ -516,7 +518,7 @@ begin
             else
             begin
               if Qry.FieldValues['discount_amount']>0 then
-              IntDiscount:= IntDiscount+((Qry.FieldValues['discount_amount']/(Qry.FieldValues['total_order']-BiayaTambahan))* (Qry.FieldValues['total']/Qry.FieldValues['units']))
+              IntDiscount:= IntDiscount+((Qry.FieldValues['discount_amount']/(Qry.FieldValues['total_order']-BiayaTambahanAll))* (Qry.FieldValues['total']/Qry.FieldValues['units']))
               else
               IntDiscount:=IntDiscount+(Qry.FieldValues['total']*(Qry.FieldValues['discount_percent']/100));
 //              IntDiscount:=IntDiscount+(( (Qry.FieldValues['total']/(Qry.FieldValues['total_order']-BiayaTambahan)) *Qry.FieldValues['discount_percent'])/100);
@@ -529,7 +531,7 @@ begin
 //            IntDiscount:= (Qry.FieldValues['discount_price']/Qry.FieldValues['units']);
 //          end else
 //          begin
-            IntDiscount:= IntDiscount+((Qry.FieldValues['discount_price']/(Qry.FieldValues['total_order']-BiayaTambahan))* (Qry.FieldValues['total']/Qry.FieldValues['units']));
+            IntDiscount:= IntDiscount+((Qry.FieldValues['discount_price']/(Qry.FieldValues['total_order']-BiayaTambahanAll))* (Qry.FieldValues['total']/Qry.FieldValues['units']));
 //            IntDiscount:= IntDiscount+((Qry.FieldValues['discount_price']/Qry.FieldValues['total_order'])* (Qry.FieldValues['total']/Qry.FieldValues['units']));
 //          end;
         end;

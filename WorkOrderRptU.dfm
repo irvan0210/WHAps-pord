@@ -1,11 +1,11 @@
 object WorkOrderRpt: TWorkOrderRpt
-  Left = 268
-  Top = 184
+  Left = 210
+  Top = 186
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan PKB'
   ClientHeight = 466
-  ClientWidth = 1016
+  ClientWidth = 1017
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,7 +21,7 @@ object WorkOrderRpt: TWorkOrderRpt
   PixelsPerInch = 96
   TextHeight = 13
   object Label3: TLabel
-    Left = 725
+    Left = 845
     Top = 11
     Width = 18
     Height = 13
@@ -69,7 +69,6 @@ object WorkOrderRpt: TWorkOrderRpt
     Top = 6
     Width = 23
     Height = 23
-    Enabled = False
     Glyph.Data = {
       26040000424D2604000000000000360000002800000012000000120000000100
       180000000000F003000000000000000000000000000000000000F8F8F8F8F8F8
@@ -105,6 +104,7 @@ object WorkOrderRpt: TWorkOrderRpt
       F8F5F5F5F7F7F8F7F6F6F7F7F7F7F7F80000F5F7F6F6F6F6F6F4F5F9FAFAF9F9
       F9EADFE0D9BFBFD6B8B8E1CBCDF0E9EAF8F9F9F6F7F8F6F6F5F6F7F8F7F7F7F7
       F7F7F7F8F8F7F7F70000}
+    Visible = False
     OnClick = TombolCariClick
   end
   object Label2: TLabel
@@ -122,7 +122,7 @@ object WorkOrderRpt: TWorkOrderRpt
     Caption = 'Status'
   end
   object lbl1: TLabel
-    Left = 1041
+    Left = 729
     Top = 11
     Width = 41
     Height = 13
@@ -136,19 +136,6 @@ object WorkOrderRpt: TWorkOrderRpt
     Caption = '>SUDAH TUTUP PKB<'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clGreen
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
-  end
-  object Label6: TLabel
-    Left = 226
-    Top = 437
-    Width = 120
-    Height = 13
-    Caption = '>SUDAH DIKERJAKAN<'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clBlue
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
     Font.Style = []
@@ -173,16 +160,16 @@ object WorkOrderRpt: TWorkOrderRpt
     OnClick = LihatClick
   end
   object Cari: TEdit
-    Left = 760
+    Left = 868
     Top = 8
-    Width = 222
+    Width = 113
     Height = 21
     TabOrder = 3
     OnChange = CariChange
     OnKeyPress = CariKeyPress
   end
   object StrGrid: TZColorStringGrid
-    Left = 16
+    Left = 8
     Top = 42
     Width = 1001
     Height = 383
@@ -274,13 +261,12 @@ object WorkOrderRpt: TWorkOrderRpt
     OnChange = TanggalSampaiChange
   end
   object edtnopol: TEdit
-    Left = 1087
+    Left = 775
     Top = 8
     Width = 62
     Height = 21
     TabOrder = 2
-    Visible = False
-    OnChange = edtnopolChange
+    OnChange = CariChange
     OnKeyPress = CariKeyPress
   end
 end

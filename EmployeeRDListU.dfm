@@ -1,11 +1,11 @@
 object EmployeeRDList: TEmployeeRDList
-  Left = 360
-  Top = 283
+  Left = 370
+  Top = 191
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Karyawan'
   ClientHeight = 510
-  ClientWidth = 602
+  ClientWidth = 1011
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,15 +21,31 @@ object EmployeeRDList: TEmployeeRDList
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 409
-    Top = 8
+    Left = 820
+    Top = 10
     Width = 18
     Height = 13
     Caption = 'Cari'
   end
+  object Label3: TLabel
+    Left = 664
+    Top = 488
+    Width = 338
+    Height = 13
+    Caption = 
+      'Catatan: No KTP, SIM, No Rekening Harus ada dan SIM masih berlak' +
+      'u'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    Visible = False
+  end
   object Selesai: TButton
-    Left = 518
-    Top = 481
+    Left = 486
+    Top = 483
     Width = 75
     Height = 25
     Caption = 'Selesai'
@@ -37,7 +53,7 @@ object EmployeeRDList: TEmployeeRDList
     OnClick = SelesaiClick
   end
   object KolomCari: TEdit
-    Left = 433
+    Left = 844
     Top = 8
     Width = 161
     Height = 21
@@ -47,7 +63,7 @@ object EmployeeRDList: TEmployeeRDList
   object StrGrid: TZColorStringGrid
     Left = 0
     Top = 40
-    Width = 601
+    Width = 1009
     Height = 441
     ColCount = 19
     DefaultRowHeight = 20

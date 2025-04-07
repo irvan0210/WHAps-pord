@@ -1,6 +1,6 @@
 object EmplHistoryTrainingRpt: TEmplHistoryTrainingRpt
-  Left = 187
-  Top = 421
+  Left = 113
+  Top = 132
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan History Training'

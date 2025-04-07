@@ -1,11 +1,11 @@
 object DailyOrderFeeRpt: TDailyOrderFeeRpt
-  Left = 250
-  Top = 133
-  BorderIcons = []
+  Left = 194
+  Top = 139
+  BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
   Caption = 'Laporan Uang Order Harian'
   ClientHeight = 499
-  ClientWidth = 1090
+  ClientWidth = 1037
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,19 +19,19 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
   OnClose = FormClose
   OnShow = FormShow
   DesignSize = (
-    1090
+    1037
     499)
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 443
+    Left = 401
     Top = 16
     Width = 39
     Height = 13
     Caption = 'Tanggal'
   end
   object ToXCel: TSpeedButton
-    Left = 1060
+    Left = 775
     Top = 464
     Width = 25
     Height = 22
@@ -69,14 +69,14 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     OnClick = ToXCelClick
   end
   object Label3: TLabel
-    Left = 242
+    Left = 200
     Top = 16
     Width = 29
     Height = 13
     Caption = 'Group'
   end
   object Label6: TLabel
-    Left = 467
+    Left = 425
     Top = 39
     Width = 16
     Height = 13
@@ -96,17 +96,17 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     ParentFont = False
   end
   object lbl1: TLabel
-    Left = 775
+    Left = 733
     Top = 22
     Width = 18
     Height = 13
     Caption = 'Cari'
   end
   object btnTombolCari: TSpeedButton
-    Left = 920
-    Top = 17
+    Left = 878
+    Top = 21
     Width = 26
-    Height = 24
+    Height = 17
     Glyph.Data = {
       26040000424D2604000000000000360000002800000012000000120000000100
       180000000000F003000000000000000000000000000000000000F8F8F8F8F8F8
@@ -193,7 +193,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     end
   end
   object Tanggal: TDateTimePicker
-    Left = 491
+    Left = 449
     Top = 13
     Width = 104
     Height = 21
@@ -211,7 +211,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     OnClick = SelesaiClick
   end
   object Batch: TComboBox
-    Left = 277
+    Left = 235
     Top = 14
     Width = 41
     Height = 21
@@ -220,9 +220,9 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     OnChange = BatchChange
   end
   object Refresh: TButton
-    Left = 1012
+    Left = 918
     Top = 18
-    Width = 75
+    Width = 74
     Height = 21
     Anchors = [akTop, akRight]
     Caption = 'Lihat Data'
@@ -232,7 +232,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
   object StrGrid: TZColorStringGrid
     Left = 1
     Top = 87
-    Width = 1089
+    Width = 1036
     Height = 364
     Anchors = [akLeft, akTop, akRight]
     ColCount = 45
@@ -263,7 +263,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     WordWrap = True
   end
   object Panel1: TPanel
-    Left = 320
+    Left = 278
     Top = 13
     Width = 119
     Height = 24
@@ -281,7 +281,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
   object GroupCompany: TGroupBox
     Left = 8
     Top = 6
-    Width = 227
+    Width = 193
     Height = 33
     TabOrder = 7
     object Label5: TLabel
@@ -295,7 +295,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     object SBU: TComboBox
       Left = 38
       Top = 8
-      Width = 185
+      Width = 147
       Height = 21
       Style = csDropDownList
       ItemHeight = 13
@@ -303,7 +303,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     end
   end
   object CekTglSampai: TCheckBox
-    Left = 491
+    Left = 449
     Top = 39
     Width = 17
     Height = 17
@@ -311,7 +311,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     OnClick = CekTglSampaiClick
   end
   object TglSampai: TDateTimePicker
-    Left = 507
+    Left = 465
     Top = 37
     Width = 89
     Height = 21
@@ -320,7 +320,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     TabOrder = 9
   end
   object GroupBox1: TGroupBox
-    Left = 601
+    Left = 566
     Top = 10
     Width = 151
     Height = 33
@@ -348,7 +348,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     end
   end
   object edtCari: TEdit
-    Left = 799
+    Left = 757
     Top = 19
     Width = 121
     Height = 21
@@ -357,19 +357,12 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     OnKeyPress = edtCariKeyPress
   end
   object GroupBox2: TGroupBox
-    Left = 601
+    Left = 566
     Top = 42
-    Width = 488
+    Width = 473
     Height = 40
     Caption = ' Filter '
     TabOrder = 12
-    object Label9: TLabel
-      Left = 267
-      Top = 17
-      Width = 55
-      Height = 13
-      Caption = 'BBM SPBU'
-    end
     object cbCancel: TCheckBox
       Left = 7
       Top = 14
@@ -387,28 +380,23 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
       TabOrder = 1
       OnClick = CekTglMasukClick
     end
+    object CekBBM: TCheckBox
+      Left = 283
+      Top = 14
+      Width = 115
+      Height = 17
+      Caption = 'Blm Isi BBM SPBU'
+      TabOrder = 2
+      OnClick = CekTglSampaiClick
+    end
     object CekTglInput: TCheckBox
-      Left = 169
+      Left = 179
       Top = 14
       Width = 70
       Height = 17
       Caption = 'Tgl Input'
-      TabOrder = 2
-      OnClick = CekTglInputClick
-    end
-    object ComboBBMSPBU: TComboBox
-      Left = 328
-      Top = 13
-      Width = 137
-      Height = 21
-      ItemHeight = 13
-      ItemIndex = 0
       TabOrder = 3
-      Text = 'Semua'
-      Items.Strings = (
-        'Semua'
-        'Sudah Isi BBM SPBU'
-        'Belum Isi BBM SPBU')
+      OnClick = CekTglInputClick
     end
   end
   object ppReportReimburse: TppReport
