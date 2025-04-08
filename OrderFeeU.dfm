@@ -1,6 +1,6 @@
 object OrderFee: TOrderFee
-  Left = 269
-  Top = 95
+  Left = 259
+  Top = 54
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Uang Order'
@@ -3853,7 +3853,7 @@ object OrderFee: TOrderFee
   object ppReportUangOrder: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Custom'
+    PrinterSetup.PaperName = 'A4 Fanfold 210 mm x 11 2/3 in'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 5080
     PrinterSetup.mmMarginLeft = 6350
@@ -4229,7 +4229,7 @@ object OrderFee: TOrderFee
   object ppReportUangOrder2: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Custom'
+    PrinterSetup.PaperName = 'A4 Fanfold 210 mm x 11 2/3 in'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 5080
     PrinterSetup.mmMarginLeft = 6350
@@ -5090,7 +5090,7 @@ object OrderFee: TOrderFee
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 140000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 134
+    PrinterSetup.PaperSize = 127
     Template.FileName = 'D:\WH App\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'
@@ -6594,7 +6594,7 @@ object OrderFee: TOrderFee
   object ppReportUangOrder3: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Custom'
+    PrinterSetup.PaperName = 'A4 Fanfold 210 mm x 11 2/3 in'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 5080
     PrinterSetup.mmMarginLeft = 6350

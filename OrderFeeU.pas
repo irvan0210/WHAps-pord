@@ -2730,7 +2730,7 @@ begin
         ppNoOrder3.Caption:=StrNoReservasi;
         ppNoPolisi3.Caption:=StrNoPolisi+' / '+StrNoBody;
         ppBBMFee3.Caption:=StrBBMFeeTotal;
-        ppDriverFee3.Caption:=StrDriverFeeTotal;
+        ppDriverFee3.Caption:= IToCurr(DriverFeeTotal+Driver2FeeTotal);
         ppOvertime3.Caption:=StrOvertimeTotal;
         ppBusboyFee3.Caption:=StrBusBoyFeeTotal;
 //        ppTolParking3.Caption:=StrTolParkir;
