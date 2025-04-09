@@ -278,9 +278,14 @@ begin
          WorkOrderArr[IntCount][12]:='';
          StrTimeOut :='';
       end;
-      
-      WorkOrderArr[IntCount][13] := Qry.FieldValues['description_id'];
-      StrDecId := Qry.FieldValues['description_id'];
+      if Qry.FieldValues['description_id']<>NULL then  begin
+        WorkOrderArr[IntCount][13] := Qry.FieldValues['description_id'];
+        StrDecId := Qry.FieldValues['description_id'];
+       end;
+      if Qry.FieldValues['isdone']<>NULL then  begin
+        WorkOrderArr[IntCount][14] := Qry.FieldValues['isdone'];
+      end;
+
       Inc(IntCount);
       Qry.Next;
 
@@ -416,13 +421,15 @@ begin
      StrGrid.CellStyle[IntCount2,IntCount+2].Font.Color:=clGreen;
     end;
 
-    if WorkOrderArr[IntCount][13]= '1' then
+    //if (WorkOrderArr[IntCount][13]= '1') and (WorkOrderArr[IntCount][14]= '1') then
     //If StrDecId = '1' then
-    begin
-      for IntCount2:=0 to StrGrid.ColCount-1 do
-        StrGrid.CellStyle[9,IntCount+2].font.Color := clBlue;
-    end;
-
+   // begin
+      for IntCount2:=0 to StrGrid.ColCount-1 do  begin
+        if (WorkOrderArr[IntCount][13]= '1') and (WorkOrderArr[IntCount][14]= '1') then
+          StrGrid.CellStyle[9,IntCount+2].font.Color := clBlue
+        else StrGrid.CellStyle[9,IntCount+2].font.Color := clWindowText;
+      end;
+      
   end;
   // StrGrid.RowCount:=StrGrid.RowCount+1;
 end;
@@ -510,23 +517,26 @@ procedure TWorkOrderRpt.StrGridDblClick(Sender: TObject);
 begin
   if IntRow>0 then begin
     Case IntCol of
-      0,1:if Main.IsFormOpen('OrderForm')=False then OrderForm:=TOrderForm.Create(Self,StrGrid.Cells[1,IntRow],False);
-      2:begin
+      //0,1:if Main.IsFormOpen('OrderForm')=False then OrderForm:=TOrderForm.Create(Self,StrGrid.Cells[1,IntRow],False);
+      1:begin
+         // MessageBox(0,PChar(StrGrid.Cells[1,IntRow]),'Tutup PKB',MB_OK or MB_ICONERROR);
           if StrGrid.Cells[1,IntRow]<>'' then begin
             if FormRequest='' then begin
               if StrGrid.Cells[6,IntRow]<>'' then begin
-                if Main.IsFormOpen('WorkOrderFormIn')=False then WorkOrderFormIn:=TWorkOrderFormIn.Create(nil,StrGrid.Cells[2,IntRow],True);
+                if Main.IsFormOpen('WorkOrderFormIn')=False then WorkOrderFormIn:=TWorkOrderFormIn.Create(nil,StrGrid.Cells[1,IntRow],True);
               end else begin
-                if Main.IsFormOpen('WorkOrderForm')=False then WorkOrderForm:=TWorkOrderForm.Create(nil,StrGrid.Cells[2,IntRow],True);
+                if Main.IsFormOpen('WorkOrderForm')=False then WorkOrderForm:=TWorkOrderForm.Create(nil,StrGrid.Cells[1,IntRow],True);
               end;
             end
           end;
         end;
-      3:if StrGrid.Cells[3,IntRow]<>'' then begin
-          if Main.IsFormOpen('ServiceRequestForm')=False then ServiceRequestForm:=TServiceRequestForm.Create(Self, StrGrid.Cells[3,IntRow],'',False);
+
+      2:if StrGrid.Cells[2,IntRow]<>'' then begin
+          if Main.IsFormOpen('ServiceRequestForm')=False then ServiceRequestForm:=TServiceRequestForm.Create(Self, StrGrid.Cells[2,IntRow],'',False);
         end;
-      4:if StrGrid.Cells[4,IntRow]<>'' then begin
-          if Main.IsFormOpen('MaintenanceServiceForm')=False then MaintenanceServiceForm:=TMaintenanceServiceForm.Create(Self,StrGrid.Cells[4,IntRow],'',False);
+      3:if StrGrid.Cells[3,IntRow]<>'' then begin
+          MessageBox(0,PChar(StrGrid.Cells[3,IntRow]),'Service Berkala',MB_OK or MB_ICONERROR);
+          if Main.IsFormOpen('MaintenanceServiceForm')=False then MaintenanceServiceForm:=TMaintenanceServiceForm.Create(Self,StrGrid.Cells[3,IntRow],'',False);
         end;
     end;
   end;
