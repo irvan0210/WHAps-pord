@@ -1271,8 +1271,9 @@ begin
 
       if Qry.FieldValues['item_request_id']<>null then begin
         StrItemReqID:= Qry.FieldValues['item_request_id'];
-        StrQry:='select * from wh_service_request_part where '+
-        'service_request_id= '+QuotedStr(ServiceRequestId)+' and status=1 ;';
+        StrQry:='SELECT * FROM wh_service_request_part WHERE '+
+        'part_name <> '''' AND qty > 0 AND service_request_id= '+QuotedStr(ServiceRequestId)+
+        ' AND status=1 ;';
         Qry2.SQL.Clear;
         Qry2.SQL.Add(StrQry);
         Qry2.Open;

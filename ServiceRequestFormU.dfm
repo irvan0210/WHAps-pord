@@ -1,6 +1,6 @@
 object ServiceRequestForm: TServiceRequestForm
-  Left = 173
-  Top = 155
+  Left = 351
+  Top = 100
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Service Request'
@@ -3038,7 +3038,7 @@ object ServiceRequestForm: TServiceRequestForm
   object ppReport2: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Custom'
+    PrinterSetup.PaperName = 'A4 Fanfold 210 mm x 11 2/3 in'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 6350
     PrinterSetup.mmMarginLeft = 6350

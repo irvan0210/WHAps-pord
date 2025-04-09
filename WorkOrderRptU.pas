@@ -424,11 +424,20 @@ begin
     //if (WorkOrderArr[IntCount][13]= '1') and (WorkOrderArr[IntCount][14]= '1') then
     //If StrDecId = '1' then
    // begin
-      for IntCount2:=0 to StrGrid.ColCount-1 do  begin
+   {   for IntCount2:=0 to StrGrid.ColCount-1 do  begin
         if (WorkOrderArr[IntCount][13]= '1') and (WorkOrderArr[IntCount][14]= '1') then
           StrGrid.CellStyle[9,IntCount+2].font.Color := clBlue
         else StrGrid.CellStyle[9,IntCount+2].font.Color := clWindowText;
       end;
+            }
+     if (WorkOrderArr[IntCount][13]= '1') and (WorkOrderArr[IntCount][14]= '1') then begin
+        for IntCount2:=0 to StrGrid.ColCount-1 do
+        StrGrid.CellStyle[9,IntCount+2].font.Color := clBlue
+     end else begin
+        for IntCount2:=0 to StrGrid.ColCount-1 do
+        StrGrid.CellStyle[9,IntCount+2].font.Color := clWindowText
+     end;
+
       
   end;
   // StrGrid.RowCount:=StrGrid.RowCount+1;
@@ -535,7 +544,7 @@ begin
           if Main.IsFormOpen('ServiceRequestForm')=False then ServiceRequestForm:=TServiceRequestForm.Create(Self, StrGrid.Cells[2,IntRow],'',False);
         end;
       3:if StrGrid.Cells[3,IntRow]<>'' then begin
-          MessageBox(0,PChar(StrGrid.Cells[3,IntRow]),'Service Berkala',MB_OK or MB_ICONERROR);
+         // MessageBox(0,PChar(StrGrid.Cells[3,IntRow]),'Service Berkala',MB_OK or MB_ICONERROR);
           if Main.IsFormOpen('MaintenanceServiceForm')=False then MaintenanceServiceForm:=TMaintenanceServiceForm.Create(Self,StrGrid.Cells[3,IntRow],'',False);
         end;
     end;
