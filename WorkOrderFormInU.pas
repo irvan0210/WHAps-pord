@@ -486,7 +486,10 @@ begin
 //    KeluhanGrid.Cell[0,0].Width:='45';
     if Qry.RecordCount>0 then while not(Qry.Eof) do begin
       KeluhanGrid.RowCount:=Qry.RecordCount+1;
-      if Qry.FieldValues['isdone']=1 then  KeluhanGrid.Cells[0,IntCount+1]:='v' else KeluhanGrid.Cells[0,IntCount+1]:='';
+      if Qry.FieldValues['isdone']=1 then  begin
+        KeluhanGrid.Cells[0,IntCount+1]:='v' ;
+        KeluhanGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
+      end else KeluhanGrid.Cells[0,IntCount+1]:='';
       KeluhanGrid.Cells[1,IntCount+1]:=Qry.FieldValues['description'];
       Qry.Next;
       Inc(IntCount);
