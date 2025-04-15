@@ -1,6 +1,6 @@
 object WorkOrderFormIn: TWorkOrderFormIn
-  Left = 226
-  Top = 121
+  Left = 147
+  Top = 142
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Tutup Perintah Kerja Bengkel'
@@ -156,7 +156,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
       Top = 96
       Width = 369
       Height = 145
-      ColCount = 2
+      ColCount = 3
       DefaultRowHeight = 20
       DefaultDrawing = False
       FixedColor = clBtnFace
@@ -178,12 +178,13 @@ object WorkOrderFormIn: TWorkOrderFormIn
       LineDesign.LineUpColor = clWhite
     end
     object chkkeluhan: TCheckBox
-      Left = 95
+      Left = 87
       Top = 122
       Width = 14
       Height = 15
       TabOrder = 2
       Visible = False
+      OnExit = chkkeluhanExit
     end
   end
   object Simpan: TButton

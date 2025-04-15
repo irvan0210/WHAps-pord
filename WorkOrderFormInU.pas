@@ -179,9 +179,11 @@ type
       ARow: Integer; var CanSelect: Boolean);
     procedure StatusMekanikExit(Sender: TObject);
     procedure chkCloseClick(Sender: TObject);
+    procedure chkkeluhanExit(Sender: TObject);
   private
     { Private declarations }
     WOArr:Array of TArrString8;
+    KeluhanArr:Array of TArrString4;
     WorkOrderId,FormRequest:String;
     IsReadOnly,Initiation:Boolean;
     IntArow,IntPCol,IntPRow,IntRow,IntCol,IntRow2,IntCol2:Integer;
@@ -367,14 +369,16 @@ begin
   KeluhanGrid.RowCount:=2;
   KeluhanGrid.ColWidths[0]:=45;
   KeluhanGrid.ColWidths[1]:=318;
+  KeluhanGrid.ColWidths[2]:= 0;
 
   KeluhanGrid.Cells[0,0]:='Check';
   KeluhanGrid.Cells[1,0]:='Deskripsi';
+  KeluhanGrid.Cells[2,0]:='ID';
 
   KeluhanGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   KeluhanGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
 
-  for IntCount:=0 to 1 do begin
+  for IntCount:=0 to 2 do begin
     KeluhanGrid.Cells[IntCount,1]:='';
     KeluhanGrid.CellStyle[IntCount,1].BGColor:=clWindow;
   end;
@@ -477,7 +481,7 @@ begin
       end;
     end;
     Qry.Close;
-    StrQry:='select description,isdone from wh_work_order_detail where work_order_id='+QuotedStr(WorkOrderId)+' AND '+
+    StrQry:='select work_order_detail_id,description,isdone from wh_work_order_detail where work_order_id='+QuotedStr(WorkOrderId)+' AND '+
     'description_id=1 and status=1';
     Qry.SQL.Clear;
     Qry.SQL.Add(StrQry);
@@ -491,6 +495,7 @@ begin
         KeluhanGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
       end else KeluhanGrid.Cells[0,IntCount+1]:='';
       KeluhanGrid.Cells[1,IntCount+1]:=Qry.FieldValues['description'];
+      KeluhanGrid.Cells[2,IntCount+1]:=Qry.FieldValues['work_order_detail_id'];
       Qry.Next;
       Inc(IntCount);
     end;
@@ -942,18 +947,34 @@ begin
     Qry2:=TADOQuery.Create(Self);
     Qry2.Connection:=Main.MyConnection;
     if Main.OpenDb then begin
-      StrQry:='select description,isdone from wh_work_order_detail where work_order_id='+QuotedStr(WorkOrderId)+' AND '+
+      StrQry:='select work_order_detail_id,description,isdone from wh_work_order_detail where work_order_id='+QuotedStr(WorkOrderId)+' AND '+
       'description_id=1 and status=1 ';
       Qry.SQL.Add(StrQry);
       Qry.Open;
+      SetLength(KeluhanArr,Qry.RecordCount);
       IntCount:=0;
       if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+        { SetLength(KeluhanArr,IntCount+1);
+          if (Qry.FieldValues['isdone']<>NULL) then
+            KeluhanArr[IntCount][0]:=Qry.FieldValues['isdone'];
+
+          KeluhanArr[IntCount][1]:=Qry.FieldValues['description'];
+          KeluhanArr[IntCount][2]:=Qry.FieldValues['work_order_detail_id'];
+
+          if (KeluhanArr[IntCount][0]='1') then
+            KeluhanGrid.Cells[0,IntCount+1]:='v'
+          else
+            KeluhanGrid.Cells[0,IntCount+1]:='';
+          KeluhanGrid.Cells[1,IntCount+1]:=KeluhanArr[IntCount][1];
+          KeluhanGrid.Cells[2,IntCount+1]:=KeluhanArr[IntCount][2];}
+
           KeluhanGrid.RowCount:=Qry.RecordCount+1;
           if (Qry.FieldValues['isdone']=1) then
             KeluhanGrid.Cells[0,IntCount+1]:='v'
           else
             KeluhanGrid.Cells[0,IntCount+1]:='';
           KeluhanGrid.Cells[1,IntCount+1]:=Qry.FieldValues['description'];
+          KeluhanGrid.Cells[2,IntCount+1]:=Qry.FieldValues['work_order_detail_id'];
           KeluhanGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
           Qry.Next;
           Inc(IntCount);
@@ -1282,254 +1303,286 @@ procedure TWorkOrderFormIn.SimpanClick(Sender: TObject);
 var Qry,Qry2,Qry3:TADOQuery;
     StrQry,StrStatus,StrMsg,StrEMsg,StrTransId,StrVhcId,StrKeluhan,StrAnalisa,StrDone,StrIsUsed,StrMekanik,StrStatusMekanik,StrPart,StrQty,StrKodePart,StrTanggalSelesai,StrJamSelesai:String;
     IntCount,IntStatus:Integer;
-    IsOk:Boolean;
+    IsOk, IsOK2:Boolean;
 begin
   if (NoPKB.Text<>'') AND (Trim(PekerjaanGrid.Cells[0,0])<>'') then begin
     StrTransId:=NoPKB.Text;
     StrVhcId:=WOArr[ArrayIndexOf(WOArr,NoPKB.Text,0)][7];
     IsOk:=True;
+    IsOK2 := False;
     if chkClose.Checked = True then
     begin
       StrStatus:=',status=2';
       StrTanggalSelesai:='='+QuotedStr(FormatDateTime('yyyy-mm-dd',TanggalSelesai.Date));
       StrJamSelesai:='='+QuotedStr(JamSelesai.Text+':00');
+
     end else
     begin
       StrStatus:='';
       StrTanggalSelesai:=' = NULL';
       StrJamSelesai:=' = NULL';
     end;
+
+
+    for IntCount :=1 to KeluhanGrid.RowCount-1 do begin
+     // MessageBox(0,PChar(KeluhanGrid.Cells[0,IntCount-1]) ,'Keluhan',MB_OK or MB_ICONWARNING);
+       if KeluhanGrid.Cells[0,IntCount] = 'v' then begin
+        IsOK2 := True;
+       end else IsOK2 := FALSE;
+    end;
+
     Qry:=TADOQuery.Create(Self);
     Qry.Connection:=Main.MyConnection;
     Qry2:=TADOQuery.Create(Self);
     Qry2.Connection:=Main.MyConnection;
     Qry3:=TADOQuery.Create(Self);
     Qry3.Connection:=Main.MyConnection;
-    if Main.OpenDb then begin
-      StrMsg:='';
-      StrEMsg:='';
-      StrQry:='';
+   // if IsOK2 = False then begin
+    //  if MessageBox(0,PChar('Keluhan Belum ada yang diceklist,'+#13#10+'Yakin mau melanjutkan..?') ,'Keluhan',MB_OKCANCEL or MB_ICONWARNING)=1 then begin
+        if Main.OpenDb then begin
+          StrMsg:='';
+          StrEMsg:='';
+          StrQry:='';
+          Main.TransStart;
+          if chkClose.Checked = True then
+          begin
+            if IsOK2 = False then begin
+              if MessageBox(0,PChar('Keluhan Belum ada yang diceklist,'+#13#10+'Yakin mau melanjutkan..?') ,'Keluhan',MB_OKCANCEL or MB_ICONWARNING)=1 then begin
+                if CompareDate(StrToDate(Tanggal.Text),TanggalSelesai.Date)=1 then begin
+                  IsOk:=False;
+                  StrEMsg:='Tanggal selesai lebih kecil dari tanggal masuk'
+                end;
+                StrQry:='UPDATE wh_work_order SET date_out'+StrTanggalSelesai+
+                      ',time_out'+StrJamSelesai+StrStatus+', user_close='+QuotedStr(User)+' WHERE work_order_id='+Chr(39)+StrTransId+Chr(39)+';';
+              end
+               else begin
+                IsOk:=False;
+                IsOK2 := False;
+                StrEMsg:='Silahkan Ceklis Keluhan';
+              end;
+            end else begin
+              if CompareDate(StrToDate(Tanggal.Text),TanggalSelesai.Date)=1 then begin
+                  IsOk:=False;
+                  StrEMsg:='Tanggal selesai lebih kecil dari tanggal masuk' ;
+              end;
+                StrQry:='UPDATE wh_work_order SET date_out'+StrTanggalSelesai+
+                      ',time_out'+StrJamSelesai+StrStatus+', user_close='+QuotedStr(User)+' WHERE work_order_id='+Chr(39)+StrTransId+Chr(39)+';';
+            end;
 
-      Main.TransStart;
-      if chkClose.Checked = True then
-      begin
-        if CompareDate(StrToDate(Tanggal.Text),TanggalSelesai.Date)=1 then begin
-          IsOk:=False;
-          StrEMsg:='Tanggal selesai lebih kecil dari tanggal masuk'
+          end else begin
+            StrQry:='UPDATE wh_work_order SET update_user='+QuotedStr(User)+
+                    ' WHERE work_order_id='+Chr(39)+StrTransId+Chr(39)+';';
+          end;
+          Qry.SQL.Add(StrQry);
+          try
+            Qry.ExecSQL;
+          except
+            on E:Exception do begin
+              IsOk:=False;
+              StrMsg:='Gagal Menyimpan Pekerjaan';
+              StrEMsg:=E.Message;
+            end;
+          end;
+
+          StrQry:='';
+          StrQry:='UPDATE wh_work_order_detail SET status=0 WHERE work_order_id='+QuotedStr(StrTransId)+' and description_id=2;';
+          Qry.SQL.Clear;
+          Qry.SQL.Add(StrQry);
+          try
+            Qry.ExecSQL;
+          except
+            on E:Exception do begin
+              IsOk:=False;
+              StrMsg:='Gagal Menyimpan Keluhan';
+              StrEMsg:=E.Message;
+            end;
+          end;
+
+          for IntCount:=1 to PekerjaanGrid.RowCount-1 do begin
+            if Trim(PekerjaanGrid.Cells[0,IntCount])<>'' then
+            StrQry:=StrQry+' INSERT INTO wh_work_order_detail (work_order_id,description_id'+
+                    ',description,technician,update_user)'+
+                    ' VALUES ('+Chr(39)+StrTransId+Chr(39)+',2'+
+                    ','+Chr(39)+PekerjaanGrid.Cells[0,IntCount]+Chr(39)+
+                    ','+Chr(39)+PekerjaanGrid.Cells[1,IntCount]+Chr(39)+
+                    ','+Chr(39)+User+Chr(39)+'); ';
+          end;
+          Qry.SQL.Clear;
+          Qry.SQL.Add(StrQry);
+          try
+            Qry.ExecSQL;
+          except
+            on E:Exception do begin
+              IsOk:=False;
+              StrMsg:='Gagal Menyimpan Detail Pekerjaan';
+              StrEMsg:=E.Message;
+            end;
+          end;
+          //KELUHAN
+          StrQry:='';
+          StrQry:='UPDATE wh_work_order_detail SET status=0 WHERE work_order_id='+QuotedStr(StrTransId)+' and description_id=1;';
+          Qry2.SQL.Add(StrQry);
+          try
+            Qry2.ExecSQL;
+          except
+            on E:Exception do begin
+              IsOk:=False;
+              StrMsg:='Gagal Menyimpan Keluhan';
+              StrEMsg:=E.Message;
+            end;
+          end;
+
+          //Mekanik
+          StrQry:='';
+          StrMekanik:='';
+          StrStatusMekanik:='';
+
+          if (StrTransId<>'') then
+          StrQry:='UPDATE wh_work_order_mekanik SET status=0 '+
+                  ' WHERE work_order_id='+QuotedStr(StrTransId)+';';
+          for IntCount:=1 to StrGridMekanik.RowCount-1 do begin
+            StrStatusMekanik := StrGridMekanik.Cells[1,IntCount];
+            StrMekanik:= StrGridMekanik.Cells[2,IntCount];
+            if Trim(StrGridMekanik.Cells[2,IntCount])<>'' then
+              StrQry:= StrQry+' INSERT INTO wh_work_order_mekanik (work_order_id,name,status_mekanik,status)'+
+                      ' VALUES ('+QuotedStr(StrTransId)+','+QuotedStr(StrMekanik)+','+QuotedStr(StrStatusMekanik)+
+                      ',1); ';
+          end;
+          Qry.SQL.Clear;
+          Main.WriteLog('SQL :'+StrQry,4);
+          Qry.SQL.Add(StrQry);
+          try
+            Qry.ExecSQL;
+          except
+            on E:Exception do begin
+              IsOk:=False;
+              StrMsg:=E.Message;
+            end;
+          end;
+
+
+          StrQry:='';
+          for IntCount:=1 to KeluhanGrid.RowCount-1 do begin
+              StrKeluhan:=QuotedStr(KeluhanGrid.Cells[1,IntCount]);
+    //          StrDone:=QuotedStr(KeluhanGrid.Cells[0,IntCount]);
+              if (KeluhanGrid.Cells[0,IntCount])='v' then
+              StrDone:='1' else StrDone:='0';
+              if Trim(KeluhanGrid.Cells[1,IntCount])<>'' then
+                StrQry:= StrQry+' INSERT INTO wh_work_order_detail (work_order_id,description_id'+
+                        ',description,update_user,isdone)'+
+                        ' VALUES ('+QuotedStr(StrTransId)+',1'+
+                        ','+StrKeluhan+
+                        ','+QuotedStr(User)+', '+
+                        ''+QuotedStr(StrDone)+'); ';
+          end;
+          Qry2.SQL.Clear;
+          Main.WriteLog('SQL :'+StrQry,4);
+          Qry2.SQL.Add(StrQry);
+          try
+            Qry2.ExecSQL;
+          except
+            on E:Exception do begin
+              IsOk:=False;
+              StrMsg:='Gagal Menyimpan Keluhan';
+              StrEMsg:=E.Message;
+            end;
+          end;
+
+          //PARTS
+          StrQry:='';
+          StrQry:='UPDATE wh_work_order_part SET status=0 WHERE work_order_id='+Chr(39)+StrTransId+Chr(39)+';';
+          Qry3.SQL.Add(StrQry);
+          try
+            Qry3.ExecSQL;
+          except
+            on E:Exception do begin
+              IsOk:=False;
+              StrMsg:='Gagal Menyimpan Keluhan';
+              StrEMsg:=E.Message;
+            end;
+          end;
+
+          StrQry:='';
+          for IntCount:=1 to PartsGrid.RowCount-1 do begin
+            StrPart:=QuotedStr(PartsGrid.Cells[2,IntCount]);
+            StrQty:=QuotedStr(PartsGrid.Cells[3,IntCount]);
+            StrKodePart:=QuotedStr(PartsGrid.Cells[4,IntCount]);
+            if (PartsGrid.Cells[1,IntCount])='v' then
+              StrIsUsed:='1' else StrIsUsed:='0';
+            if PartsGrid.Cells[2,1]<>'' then
+              StrQry:=StrQry+' INSERT INTO wh_work_order_part (work_order_id,part_name'+
+                      ',qty,status,IsUsed,kode_part_gp)'+
+                      ' VALUES ('+QuotedStr(StrTransId)+
+                      ','+StrPart+
+                      ','+StrQty+',1,'+QuotedStr(StrIsUsed)+','+StrKodePart+'); ';
+          end;
+          Qry3.SQL.Clear;
+          Main.WriteLog('SQL :'+StrQry,4);
+          Qry3.SQL.Add(StrQry);
+          try
+            Qry3.ExecSQL;
+          except
+            on E:Exception do begin
+              IsOk:=False;
+              StrMsg:='Gagal Menyimpan Parts';
+              StrEMsg:=E.Message;
+            end;
+          end;
+
+          //Analisa
+          StrQry:='Update wh_work_order_detail set status=0 where work_order_id='+QuotedStr(StrTransId)+
+                  ' and description_id=3';
+          StrAnalisa:='';
+          for IntCount:=1 to StrGrid3.RowCount-1 do begin
+            StrAnalisa:= StrGrid3.Cells[1,IntCount];
+            if Trim(StrGrid3.Cells[1,IntCount])<>'' then
+              StrQry:=StrQry+' INSERT INTO wh_work_order_detail (work_order_id,description_id,description,status,update_user)'+
+                      ' VALUES ('+QuotedStr(StrTransId)+',3,'+QuotedStr(StrAnalisa)+
+                      ',1,'+QuotedStr(User)+'); ';
+          end;
+          Qry.SQL.Clear;
+          Main.WriteLog('SQL :'+StrQry,4);
+          Qry.SQL.Add(StrQry);
+          try
+            Qry.ExecSQL;
+          except
+            on E:Exception do begin
+              IsOk:=False;
+              StrMsg:=E.Message;
+            end;
+          end;
+
+          StrQry:='DELETE wh_vhc_hold WHERE vehicle_id='+Chr(39)+StrVhcId+Chr(39)+';';
+          Qry.SQL.Clear;
+          Qry.SQL.Add(StrQry);
+          try
+            Qry.ExecSQL;
+          except
+            on E:Exception do begin
+              IsOk:=False;
+              StrMsg:='Gagal Menyimpan Pekerjaan';
+              StrEMsg:=E.Message;
+            end;
+          end;
+
+          if IsOk then begin
+            Main.TransCommit;
+            DisableInput;
+            if chkClose.Checked= True then
+             MessageBox(0,'PKB berhasil ditutup','Tutup PKB',MB_OK or MB_ICONINFORMATION)
+            else MessageBox(0,'PKB berhasil diSimpan','Tutup PKB',MB_OK or MB_ICONINFORMATION)
+          end else begin
+            Main.TransRollback;
+            if StrMsg<>'' then StrMsg:=StrMsg+Chr(13)+Chr(13);
+            if IsOK2 = False then begin
+              MessageBox(0,PChar(StrEMsg),'Tutup PKB',MB_OK or MB_ICONINFORMATION);
+            end else
+            MessageBox(0,PChar(StrMsg+'Kesalahan'+Chr(13)+StrEMsg),'Tutup PKB',MB_OK or MB_ICONERROR);
+          end;
+          Main.CloseDb;
         end;
-        StrQry:='UPDATE wh_work_order SET date_out'+StrTanggalSelesai+
-              ',time_out'+StrJamSelesai+StrStatus+', user_close='+QuotedStr(User)+' WHERE work_order_id='+Chr(39)+StrTransId+Chr(39)+';';
-      end else begin
-        StrQry:='UPDATE wh_work_order SET update_user='+QuotedStr(User)+
-                ' WHERE work_order_id='+Chr(39)+StrTransId+Chr(39)+';';
-      end;
-
-      Qry.SQL.Add(StrQry);
-      try
-        Qry.ExecSQL;
-      except
-        on E:Exception do begin
-          IsOk:=False;
-          StrMsg:='Gagal Menyimpan Pekerjaan';
-          StrEMsg:=E.Message;
-        end;
-      end;
-
-      StrQry:='';
-      StrQry:='UPDATE wh_work_order_detail SET status=0 WHERE work_order_id='+QuotedStr(StrTransId)+' and description_id=2;';
-      Qry.SQL.Clear;
-      Qry.SQL.Add(StrQry);
-      try
-        Qry.ExecSQL;
-      except
-        on E:Exception do begin
-          IsOk:=False;
-          StrMsg:='Gagal Menyimpan Keluhan';
-          StrEMsg:=E.Message;
-        end;
-      end;
-
-
-
-      for IntCount:=1 to PekerjaanGrid.RowCount-1 do begin
-        if Trim(PekerjaanGrid.Cells[0,IntCount])<>'' then
-        StrQry:=StrQry+' INSERT INTO wh_work_order_detail (work_order_id,description_id'+
-                ',description,technician,update_user)'+
-                ' VALUES ('+Chr(39)+StrTransId+Chr(39)+',2'+
-                ','+Chr(39)+PekerjaanGrid.Cells[0,IntCount]+Chr(39)+
-                ','+Chr(39)+PekerjaanGrid.Cells[1,IntCount]+Chr(39)+
-                ','+Chr(39)+User+Chr(39)+'); ';
-      end;
-      Qry.SQL.Clear;
-      Qry.SQL.Add(StrQry);
-      try
-        Qry.ExecSQL;
-      except
-        on E:Exception do begin
-          IsOk:=False;
-          StrMsg:='Gagal Menyimpan Detail Pekerjaan';
-          StrEMsg:=E.Message;
-        end;
-      end;
-      //KELUHAN
-      StrQry:='';
-      StrQry:='UPDATE wh_work_order_detail SET status=0 WHERE work_order_id='+QuotedStr(StrTransId)+' and description_id=1;';
-      Qry2.SQL.Add(StrQry);
-      try
-        Qry2.ExecSQL;
-      except
-        on E:Exception do begin
-          IsOk:=False;
-          StrMsg:='Gagal Menyimpan Keluhan';
-          StrEMsg:=E.Message;
-        end;
-      end;
-
-      //Mekanik
-      StrQry:='';
-      StrMekanik:='';
-      StrStatusMekanik:='';
-
-      if (StrTransId<>'') then
-      StrQry:='UPDATE wh_work_order_mekanik SET status=0 '+
-              ' WHERE work_order_id='+QuotedStr(StrTransId)+';';
-      for IntCount:=1 to StrGridMekanik.RowCount-1 do begin
-        StrStatusMekanik := StrGridMekanik.Cells[1,IntCount];
-        StrMekanik:= StrGridMekanik.Cells[2,IntCount];
-        if Trim(StrGridMekanik.Cells[2,IntCount])<>'' then
-          StrQry:=StrQry+' INSERT INTO wh_work_order_mekanik (work_order_id,name,status_mekanik,status)'+
-                  ' VALUES ('+QuotedStr(StrTransId)+','+QuotedStr(StrMekanik)+','+QuotedStr(StrStatusMekanik)+
-                  ',1); ';
-      end;
-      Qry.SQL.Clear;
-      Main.WriteLog('SQL :'+StrQry,4);
-      Qry.SQL.Add(StrQry);
-      try
-        Qry.ExecSQL;
-      except
-        on E:Exception do begin
-          IsOk:=False;
-          StrMsg:=E.Message;
-        end;
-      end;
-
-
-      StrQry:='';
-      for IntCount:=1 to KeluhanGrid.RowCount-1 do begin
-          StrKeluhan:=QuotedStr(KeluhanGrid.Cells[1,IntCount]);
-//          StrDone:=QuotedStr(KeluhanGrid.Cells[0,IntCount]);
-          if (KeluhanGrid.Cells[0,IntCount])='v' then
-          StrDone:='1' else StrDone:='0';
-          if Trim(KeluhanGrid.Cells[1,IntCount])<>'' then
-            StrQry:=' INSERT INTO wh_work_order_detail (work_order_id,description_id'+
-                    ',description,update_user,isdone)'+
-                    ' VALUES ('+QuotedStr(StrTransId)+',1'+
-                    ','+StrKeluhan+
-                    ','+QuotedStr(User)+', '+
-                    ''+QuotedStr(StrDone)+'); ';
-      end;
-      Qry2.SQL.Clear;
-      Main.WriteLog('SQL :'+StrQry,4);
-      Qry2.SQL.Add(StrQry);
-      try
-        Qry2.ExecSQL;
-      except
-        on E:Exception do begin
-          IsOk:=False;
-          StrMsg:='Gagal Menyimpan Keluhan';
-          StrEMsg:=E.Message;
-        end;
-      end;
-
-      //PARTS
-      StrQry:='';
-      StrQry:='UPDATE wh_work_order_part SET status=0 WHERE work_order_id='+Chr(39)+StrTransId+Chr(39)+';';
-      Qry3.SQL.Add(StrQry);
-      try
-        Qry3.ExecSQL;
-      except
-        on E:Exception do begin
-          IsOk:=False;
-          StrMsg:='Gagal Menyimpan Keluhan';
-          StrEMsg:=E.Message;
-        end;
-      end;
-
-      StrQry:='';
-      for IntCount:=1 to PartsGrid.RowCount-1 do begin
-        StrPart:=QuotedStr(PartsGrid.Cells[2,IntCount]);
-        StrQty:=QuotedStr(PartsGrid.Cells[3,IntCount]);
-        StrKodePart:=QuotedStr(PartsGrid.Cells[4,IntCount]);
-        if (PartsGrid.Cells[1,IntCount])='v' then
-          StrIsUsed:='1' else StrIsUsed:='0';
-        if PartsGrid.Cells[2,1]<>'' then
-          StrQry:=StrQry+' INSERT INTO wh_work_order_part (work_order_id,part_name'+
-                  ',qty,status,IsUsed,kode_part_gp)'+
-                  ' VALUES ('+QuotedStr(StrTransId)+
-                  ','+StrPart+
-                  ','+StrQty+',1,'+QuotedStr(StrIsUsed)+','+StrKodePart+'); ';
-      end;
-      Qry3.SQL.Clear;
-      Main.WriteLog('SQL :'+StrQry,4);
-      Qry3.SQL.Add(StrQry);
-      try
-        Qry3.ExecSQL;
-      except
-        on E:Exception do begin
-          IsOk:=False;
-          StrMsg:='Gagal Menyimpan Parts';
-          StrEMsg:=E.Message;
-        end;
-      end;
-
-      //Analisa
-      StrQry:='Update wh_work_order_detail set status=0 where work_order_id='+QuotedStr(StrTransId)+
-              ' and description_id=3';
-      StrAnalisa:='';
-      for IntCount:=1 to StrGrid3.RowCount-1 do begin
-        StrAnalisa:= StrGrid3.Cells[1,IntCount];
-        if Trim(StrGrid3.Cells[1,IntCount])<>'' then
-          StrQry:=StrQry+' INSERT INTO wh_work_order_detail (work_order_id,description_id,description,status,update_user)'+
-                  ' VALUES ('+QuotedStr(StrTransId)+',3,'+QuotedStr(StrAnalisa)+
-                  ',1,'+QuotedStr(User)+'); ';
-      end;
-      Qry.SQL.Clear;
-      Main.WriteLog('SQL :'+StrQry,4);
-      Qry.SQL.Add(StrQry);
-      try
-        Qry.ExecSQL;
-      except
-        on E:Exception do begin
-          IsOk:=False;
-          StrMsg:=E.Message;
-        end;
-      end;
-
-      StrQry:='DELETE wh_vhc_hold WHERE vehicle_id='+Chr(39)+StrVhcId+Chr(39)+';';
-      Qry.SQL.Clear;
-      Qry.SQL.Add(StrQry);
-      try
-        Qry.ExecSQL;
-      except
-        on E:Exception do begin
-          IsOk:=False;
-          StrMsg:='Gagal Menyimpan Pekerjaan';
-          StrEMsg:=E.Message;
-        end;
-      end;
-      if IsOk then begin
-        Main.TransCommit;
-        DisableInput;
-        if chkClose.Checked= True then
-         MessageBox(0,'PKB berhasil ditutup','Tutup PKB',MB_OK or MB_ICONINFORMATION)
-        else MessageBox(0,'PKB berhasil diSimpan','Tutup PKB',MB_OK or MB_ICONINFORMATION)
-      end else begin
-        Main.TransRollback;
-        if StrMsg<>'' then StrMsg:=StrMsg+Chr(13)+Chr(13);
-        MessageBox(0,PChar(StrMsg+'Kesalahan'+Chr(13)+StrEMsg),'Tutup PKB',MB_OK or MB_ICONERROR);
-      end;
-      Main.CloseDb;
-    end;
+     // end;
+    //end;
   end else
     MessageBox(0,'Silahkan isi kolom data yg kosong','Tutup PKB',MB_OK or MB_ICONERROR);
 end;
@@ -1736,8 +1789,28 @@ begin
   IntRow2:=ARow;
   IntCol2:=ACol;
   MinRowGrid:=0;
+      R := KeluhanGrid.CellRect(ACol, ARow);
+      R.Left := R.Left + KeluhanGrid.Left;
+      R.Right := R.Right + KeluhanGrid.Left;
+      R.Top := R.Top + KeluhanGrid.Top;
+      R.Bottom := R.Bottom + KeluhanGrid.Top;
+      case ACol of
+        0 :with chkkeluhan do begin
+            Left:=R.Left + 9;
+            Top := R.Top + 1;
+            Width :=17;
+            Height :=17;
+            if KeluhanGrid.Cells[ACol,ARow]='v' then Checked:=True else Checked:=False;
+            Visible:= True;
+            BringToFront;
+            SetFocus;
+          end;
+
+      end;
+
+
 //  if (IsInput) then begin
-    if (KeluhanGrid.Cells[4,ARow]='')  then begin
+ {   if (KeluhanGrid.Cells[4,ARow]='')  then begin
       R := KeluhanGrid.CellRect(ACol, ARow);
       R.Left := R.Left + KeluhanGrid.Left;
       R.Right := R.Right + KeluhanGrid.Left;
@@ -1755,7 +1828,7 @@ begin
             SetFocus;
           end;
       end;
-    end;
+    end;}
 end;
 
 procedure TWorkOrderFormIn.StrGridMekanikSelectCell(Sender: TObject; ACol,
@@ -1827,6 +1900,54 @@ begin
     Label9.Visible:=False;
     JamSelesai.Visible:=False;
   end;
+end;
+
+procedure TWorkOrderFormIn.chkkeluhanExit(Sender: TObject);
+var
+  IntCount : Integer;
+begin
+  if chkkeluhan.Checked=True then begin
+    KeluhanGrid.Cells[IntCol2,IntRow2]:='v';
+    //MessageBox(0,PChar(KeluhanArr[IntCount][0]),'Service Request',MB_OK or MB_ICONERROR);
+
+    //KeluhanGrid.Cells[2,IntCount+1]
+
+  end else begin
+    KeluhanGrid.Cells[IntCol2,IntRow2]:='';
+  end;
+  chkkeluhan.Checked:=False;
+  chkkeluhan.Visible:=False;
+  KeluhanGrid.SetFocus;
+
+
+  { for IntCount:=1 to KeluhanGrid.RowCount-1 do begin
+          StrKeluhan:=QuotedStr(KeluhanGrid.Cells[1,IntCount]);
+//          StrDone:=QuotedStr(KeluhanGrid.Cells[0,IntCount]);
+          if (KeluhanGrid.Cells[0,IntCount])='v' then
+          StrDone:='1' else StrDone:='0';
+          if Trim(KeluhanGrid.Cells[1,IntCount])<>'' then
+            StrQry:= StrQry+' INSERT INTO wh_work_order_detail (work_order_id,description_id'+
+                    ',description,update_user,isdone)'+
+                    ' VALUES ('+QuotedStr(StrTransId)+',1'+
+                    ','+StrKeluhan+
+                    ','+QuotedStr(User)+', '+
+                    ''+QuotedStr(StrDone)+'); ';
+      end;
+      Qry2.SQL.Clear;
+      Main.WriteLog('SQL :'+StrQry,4);
+      Qry2.SQL.Add(StrQry);
+      try
+        Qry2.ExecSQL;
+      except
+        on E:Exception do begin
+          IsOk:=False;
+          StrMsg:='Gagal Menyimpan Keluhan';
+          StrEMsg:=E.Message;
+        end;
+      end; }
+
+
+
 end;
 
 end.
