@@ -118,7 +118,7 @@ type
     { Private declarations }
     LokasiArr,GroupArr:Array of TArrString2;
     CompanyArr:Array of TArrString5;
-    OrderFeeArr:Array of TArrString77;
+    OrderFeeArr:Array of TArrString78;
     MaxCol:Integer;
     IntRow,IntCol:Integer;
     Initiation:Boolean;
@@ -156,7 +156,7 @@ var Count,Count2:Integer;
     StrQry:String;
     IntCount:Integer;
 begin
-  MaxCol:=82;
+  MaxCol:=83;
   cbCancel.Checked:=False;
   SBU.Items.Clear;
   SBU.Text:='';
@@ -284,6 +284,7 @@ begin
   StrGrid.MergeCells.AddRectXY(78,0,78,1);
 
   StrGrid.MergeCells.AddRectXY(79,0,82,0);
+  StrGrid.MergeCells.AddRectXY(83,0,83,1);
 
   //StrGrid.MergeCells.AddRectXY(11,0,11,1);
   IntGeserKolom:=6;
@@ -438,6 +439,7 @@ begin
   StrGrid.Cells[80,1]:='Driver 2';
   StrGrid.Cells[81,1]:='Helper';
   StrGrid.Cells[82,1]:='Catatan';
+  StrGrid.Cells[83,0]:='Reprint Terakhir';
 
 
   StrGrid.ColWidths[44]:=120;
@@ -478,7 +480,7 @@ begin
   StrGrid.ColWidths[80]:=50;
   StrGrid.ColWidths[81]:=50;
   StrGrid.ColWidths[82]:=400;
-
+  StrGrid.ColWidths[83]:=500;
 
 
   for IntCount:=0 to MaxCol do begin
@@ -873,6 +875,7 @@ begin
       StrGrid.Cells[80,Count]:= OrderFeeArr[IntCount][72];
       StrGrid.Cells[81,Count]:= OrderFeeArr[IntCount][73];
       StrGrid.Cells[82,Count]:= OrderFeeArr[IntCount][74];
+      StrGrid.Cells[83,Count]:= OrderFeeArr[IntCount][77];
 
 //      if (OrderFeeArr[IntCount][57]<>'') AND (OrderFeeArr[IntCount][57]<>NULL) then begin
 //        StrGrid.CellStyle[2,Count].Font.Color:=clGreen;
@@ -1608,6 +1611,8 @@ begin
       OrderFeeArr[IntCount][75]:=VartoStr(Qry.FieldValues['fee_driver1_reimburse']);
       if Qry.FieldValues['fee_driver2_reimburse']<>NULL then
       OrderFeeArr[IntCount][76]:=VartoStr(Qry.FieldValues['fee_driver2_reimburse']);
+      if Qry.FieldValues['alasan_cetak_ulang']<>NULL then
+      OrderFeeArr[IntCount][77]:=VartoStr(Qry.FieldValues['alasan_cetak_ulang']);
 
       StrGrid.Cells[38,Count]:=Qry.FieldValues['UpdateUser'];
       if Qry.FieldValues['description']<>NULL then StrGrid.Cells[39,Count]:=Qry.FieldValues['description'] else StrGrid.Cells[38,Count]:='';

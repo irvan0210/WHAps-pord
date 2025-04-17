@@ -1609,7 +1609,10 @@ begin
 //        if (GroupId ='26') or (GroupId ='53') then
         if SetPrinterINV ='EPSON LX-310' then
         begin
-          ppHeaderBand1.Height:= ppHeaderBand1.Height+0.10+StrToFloat(SetTambahanTopSJ);
+          if IntRowCount=3 then begin
+            ppDetailBand1.Height:= ppDetailBand1.Height-0.1+StrToFloat(SetTambahanTopSJ);
+          end;
+          ppHeaderBand1.Height:= ppHeaderBand1.Height+0.24+StrToFloat(SetTambahanTopSJ);
           ppInvoiceId.Top:= ppInvoiceId.Top+0.1+StrToFloat(SetTambahanTopSJ);
           ppOrderId.Top:= ppOrderId.Top+0.1+StrToFloat(SetTambahanTopSJ);
           ppSales.Top:= ppSales.Top+0.1+StrToFloat(SetTambahanTopSJ);

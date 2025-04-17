@@ -420,6 +420,9 @@ type
     CopyBiaya: TCheckBox;
     KenekDisp: TEdit;
     Label32: TLabel;
+    QRLabel3: TQRLabel;
+    QLAlasan: TQRMemo;
+    RiwayatCetak: TButton;
     procedure BBMLiterKeyPress(Sender: TObject; var Key: Char);
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -482,6 +485,7 @@ type
     procedure StayNightChange(Sender: TObject);
     procedure OvertimeChange(Sender: TObject);
     procedure CopyBiayaClick(Sender: TObject);
+    procedure RiwayatCetakClick(Sender: TObject);
   private
     { Private declarations }
     SJArr,BiayaArr:Array of TArrString45;
@@ -529,7 +533,8 @@ var
 
 implementation
 
-uses MainU, Math, RePrintFormU, DB, OrderFeeListU, AuthorizedFormU;
+uses MainU, Math, RePrintFormU, DB, OrderFeeListU, AuthorizedFormU, 
+  HistoryPrintOrderFeeU;
 
 {$R *.dfm}
 
@@ -2527,6 +2532,23 @@ begin
 
       Main.M_Normal;
       if FormNumber=1 then begin {form Luar Kota}
+        StrQry:='SELECT TOP 2  CAST(zz.urut AS VARCHAR) no ,zz.notes FROM (SELECT ROW_NUMBER() over (partition BY a.report_id order by report_reprint_id asc) urut , '+
+                'case when a.print_status_id=7 then ''Perubahan Data ''+ a.note else b.status end notes FROM wh_report_print a '+
+                'LEFT JOIN wh_print_status b on a.print_status_id=b.report_status_id '+
+                'where report_id='+QuotedStr(NoSJ.Text)+' AND '+
+                'report_name=''Order Fee'' AND a.print_status_id<>0)zz '+
+                'ORDER BY zz.urut DESC;';
+        Qry.SQL.Clear;
+        Qry.SQL.Add(StrQry);
+        Qry.Open;
+        QLAlasan.Lines.Clear;
+        if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+          if Qry.FieldValues['notes']<>NULL then
+          QLAlasan.Lines.Add('Copy '+Qry.FieldValues['no']+' '+Qry.FieldValues['notes']);
+//          QLAlasan.Lines.Add(FloatToStr(Qry.FieldValues['no']))
+          Qry.Next;
+        end;
+        Qry.Close;
         QLCopy.Caption:=StrCopy;
         QLTanggal.Caption:=StrTanggal;
         QLNoSJ.Caption:=StrNoSJ;
@@ -3581,6 +3603,11 @@ begin
   FreeAndNil(Qry);
   Main.CloseDb;
 //  Main.M_Normal;
+end;
+
+procedure TOrderFee.RiwayatCetakClick(Sender: TObject);
+begin
+  if Main.IsFormOpen('HistoryPrintOrderFee')=False then HistoryPrintOrderFee:=THistoryPrintOrderFee.Create(Self,NoSJ.Text);
 end;
 
 end.

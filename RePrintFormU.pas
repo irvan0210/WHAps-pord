@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ADODB, ExtCtrls;
+  Dialogs, StdCtrls, ADODB, ExtCtrls, WHUnit;
 
 type
   TRePrintForm = class(TForm)
@@ -15,11 +15,14 @@ type
     Label1: TLabel;
     NamaLaporan: TEdit;
     Label2: TLabel;
-    Cetak: TButton;
-    Batal: TButton;
     TimerCheck: TTimer;
     LabelNumerator: TLabel;
     NomorNumerator: TEdit;
+    Panel1: TPanel;
+    Cetak: TButton;
+    Batal: TButton;
+    Catatan: TMemo;
+    Label4: TLabel;
     procedure BatalClick(Sender: TObject);
     procedure CetakClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -27,6 +30,7 @@ type
     procedure AlasanChange(Sender: TObject);
   private
     { Private declarations }
+    AlasanArr:Array of TArrString5;
     procedure Init;
     procedure PrepareData;
     procedure AddData;
@@ -61,11 +65,15 @@ begin
   Reprint:=True;
   ReprintStatus:=99;
   Cancel:=False;
+  Height:=200;
+  Label4.Visible:=False;
+  Catatan.Visible:=False;
 end;
 
 procedure TRePrintForm.PrepareData;
 var QStr:String;
     Qry:TADOQuery;
+    IntCount:Integer;
 begin
   NamaLaporan.Text:=ReportName;
   NomorLaporan.Text:=ReportId;
@@ -83,10 +91,17 @@ begin
   QStr:='SELECT * FROM wh_print_status WHERE active=1;';
   Qry.SQL.Add(QStr);
   Qry.Open;
-  if Qry.RecordCount>0 then while not(Qry.Eof) do begin
-    Alasan.Items.Add(Qry.FieldValues['status']);
+  SetLength(AlasanArr,Qry.RecordCount);
+  IntCount:=0;
+  if Qry.RecordCount>0 then while Not(Qry.Eof) do begin
+//    Alasan.Items.Add(Qry.FieldValues['status']);
+    AlasanArr[IntCount][0]:=Qry.FieldValues['report_status_id'];
+    AlasanArr[IntCount][1]:=Qry.FieldValues['status'];
     Qry.Next;
+    Inc(IntCount);
   end;
+  for IntCount:=0 to Length(AlasanArr)-1 do
+    Alasan.Items.Add(AlasanArr[IntCount][1]);
   QStr:='SELECT * FROM wh_report_print WHERE report_name='+Chr(39)+ReportName+Chr(39)+' AND report_id='+Chr(39)+ReportId+Chr(39)+' ;';
   Qry.SQL.Clear;
   Qry.SQL.Add(QStr);
@@ -105,7 +120,7 @@ begin
     AddData;
     TimerCheck.Enabled:=True;
   end else begin
-    AddData;
+//    AddData;
   end;
 end;
 
@@ -117,9 +132,9 @@ begin
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
   if StrNumerator<>'' then StrNum:=QuotedStr(StrNumerator) else StrNum:='NULL';
-  QStr:='INSERT INTO wh_report_print (report_name,report_id,print_status_id,numerator,update_time,update_user)'+
+  QStr:='INSERT INTO wh_report_print (report_name,report_id,print_status_id,numerator,update_time,update_user,note)'+
         ' VALUES ('+Chr(39)+ReportName+Chr(39)+','+Chr(39)+ReportId+Chr(39)+
-        ','+IntToStr(RePrintStatus)+','+StrNum+',GETDATE(),'+Chr(39)+User+Chr(39)+');';
+        ','+IntToStr(RePrintStatus)+','+StrNum+',GETDATE(),'+Chr(39)+User+Chr(39)+','+QuotedStr(Catatan.Text)+');';
   Qry.SQL.Clear;
   Qry.SQL.Add(QStr);
   try
@@ -141,9 +156,15 @@ end;
 procedure TRePrintForm.CetakClick(Sender: TObject);
 begin
   if (ReprintStatus>0) and (ReprintStatus<>99) then begin
-//    AddData;
-    StrNumerator:='';
-    CloseForm;
+    if ((Alasan.Text='Perubahan Data') OR (Alasan.Text='Cetak Ulang')) AND (Catatan.Text='') then
+    begin
+      MessageBox(0,PChar('Catatan wajib diis !!'),'Cetak Ulang',MB_OK or MB_ICONWARNING);
+      Exit;
+    end else begin
+      AddData;
+      StrNumerator:='';
+      CloseForm;
+    end;
   end;
 end;
 
@@ -163,7 +184,20 @@ end;
 
 procedure TRePrintForm.AlasanChange(Sender: TObject);
 begin
-  RePrintStatus:=Alasan.ItemIndex+1;
+//  RePrintStatus:=Alasan.ItemIndex+1;
+  ReprintStatus:=StrToInt(AlasanArr[Alasan.ItemIndex][0]);
+  if (Alasan.Text='Perubahan Data') OR (Alasan.Text='Cetak Ulang')  then
+  begin
+    Height:=313;
+    Label4.Visible:=True;
+    Catatan.Visible:=True;
+    Catatan.Text:='';
+  end else begin
+    Height:=200;
+    Label4.Visible:=False;
+    Catatan.Visible:=False;
+    Catatan.Text:='';
+  end;
 end;
 
 procedure TRePrintForm.CloseForm;

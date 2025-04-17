@@ -1021,7 +1021,7 @@ object BusInvoice: TBusInvoice
     end
     object ppDetailBand1: TppDetailBand
       mmBottomOffset = 0
-      mmHeight = 14288
+      mmHeight = 13758
       mmPrintPosition = 0
       object ppDateUse: TppDBText
         UserName = 'DateUse'

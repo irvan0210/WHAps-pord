@@ -1,6 +1,6 @@
 object Apps: TApps
-  Left = 527
-  Top = 120
+  Left = 612
+  Top = 36
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Aplikasi'
@@ -126,6 +126,21 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '16/04/2025 (6.1.10.0)'
+      
+        '-Penambahan Form Histori Cetak Ulang Uang Order di Form Uang Ord' +
+        'er'
+      
+        '-Penambahan 1 kolom Reprint Terakhi  di Laporan Uang Order Haria' +
+        'n'
+      
+        '-Penambahan input text di form Reprint jika alasan Perubahan Dat' +
+        'a'
+      
+        '-Penambahan kolom Keluhan dilaporan PKB dan memberikan warna bir' +
+        'u'
+      'jika keluhan diceklis saat tutup pkb'
+      ''
       '07/04/2025 (6.1.9.1)'
       
         '-Perbaikan Nilai Invoice yang tidak sesuai di Laporan Pengeluara' +

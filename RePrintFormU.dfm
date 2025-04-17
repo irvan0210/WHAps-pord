@@ -5,7 +5,7 @@ object RePrintForm: TRePrintForm
   BorderStyle = bsSingle
   Caption = 'Cetak Ulang'
   ClientHeight = 161
-  ClientWidth = 321
+  ClientWidth = 316
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,7 +13,7 @@ object RePrintForm: TRePrintForm
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  Position = poScreenCenter
+  Position = poDesktopCenter
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -24,6 +24,13 @@ object RePrintForm: TRePrintForm
     Height = 13
     Alignment = taRightJustify
     Caption = 'Alasan Cetak Ulang'
+  end
+  object Label4: TLabel
+    Left = 67
+    Top = 127
+    Width = 37
+    Height = 13
+    Caption = 'Catatan'
   end
   object Alasan: TComboBox
     Left = 112
@@ -88,23 +95,38 @@ object RePrintForm: TRePrintForm
       TabOrder = 2
     end
   end
-  object Cetak: TButton
-    Left = 40
-    Top = 128
-    Width = 75
-    Height = 25
-    Caption = 'Cetak'
+  object Panel1: TPanel
+    Left = 0
+    Top = 120
+    Width = 316
+    Height = 41
+    Align = alBottom
     TabOrder = 2
-    OnClick = CetakClick
+    object Cetak: TButton
+      Left = 40
+      Top = 8
+      Width = 75
+      Height = 25
+      Caption = 'Cetak'
+      TabOrder = 0
+      OnClick = CetakClick
+    end
+    object Batal: TButton
+      Left = 208
+      Top = 8
+      Width = 75
+      Height = 25
+      Caption = 'Batal'
+      TabOrder = 1
+      OnClick = BatalClick
+    end
   end
-  object Batal: TButton
-    Left = 208
-    Top = 128
-    Width = 75
-    Height = 25
-    Caption = 'Batal'
+  object Catatan: TMemo
+    Left = 112
+    Top = 122
+    Width = 201
+    Height = 105
     TabOrder = 3
-    OnClick = BatalClick
   end
   object TimerCheck: TTimer
     Enabled = False

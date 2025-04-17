@@ -336,7 +336,8 @@ uses
   MasterBatanganFormU in 'MasterBatanganFormU.pas' {MasterBatanganForm},
   MasterBatanganListU in 'MasterBatanganListU.pas' {MasterBatanganList},
   DetailOrderEstimasiBudgetFormU in 'DetailOrderEstimasiBudgetFormU.pas' {DetailOrderEstimasiBudgetForm},
-  LaporanWehaMartU in 'LaporanWehaMartU.pas' {LaporanWehaMart};
+  LaporanWehaMartU in 'LaporanWehaMartU.pas' {LaporanWehaMart},
+  HistoryPrintOrderFeeU in 'HistoryPrintOrderFeeU.pas' {HistoryPrintOrderFee};
 
 {$R *.res}
 

@@ -1,11 +1,11 @@
 object OrderFee: TOrderFee
-  Left = 259
-  Top = 54
+  Left = 176
+  Top = 53
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Uang Order'
   ClientHeight = 668
-  ClientWidth = 961
+  ClientWidth = 983
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -150,7 +150,7 @@ object OrderFee: TOrderFee
   end
   object Selesai: TButton
     Left = 743
-    Top = 570
+    Top = 602
     Width = 89
     Height = 25
     Caption = 'Selesai'
@@ -3037,8 +3037,8 @@ object OrderFee: TOrderFee
     end
   end
   object QRLuarKota: TQuickRep
-    Left = 1152
-    Top = 120
+    Left = 1080
+    Top = -288
     Width = 805
     Height = 1289
     Frame.Color = clBlack
@@ -3084,7 +3084,7 @@ object OrderFee: TOrderFee
       Left = 19
       Top = 49
       Width = 767
-      Height = 464
+      Height = 1220
       Frame.Color = clBlack
       Frame.DrawTop = False
       Frame.DrawBottom = False
@@ -3095,7 +3095,7 @@ object OrderFee: TOrderFee
       ForceNewColumn = False
       ForceNewPage = False
       Size.Values = (
-        1227.666666666667000000
+        3227.916666666667000000
         2029.354166666667000000)
       BandType = rbTitle
       object QLTanggal: TQRLabel
@@ -3744,6 +3744,61 @@ object OrderFee: TOrderFee
         WordWrap = True
         FontSize = 11
       end
+      object QRLabel3: TQRLabel
+        Left = 221
+        Top = 777
+        Width = 137
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          584.729166666666700000
+          2055.812500000000000000
+          362.479166666666700000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = False
+        AutoStretch = False
+        Caption = 'Alasan Cetak Ulang :'
+        Color = clWhite
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = [fsBold]
+        ParentFont = False
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+      object QLAlasan: TQRMemo
+        Left = 365
+        Top = 777
+        Width = 513
+        Height = 64
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          169.333333333333300000
+          965.729166666666700000
+          2055.812500000000000000
+          1357.312500000000000000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = False
+        AutoStretch = False
+        Color = clWhite
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
     end
     object QRBand5: TQRBand
       Left = 19
@@ -3850,10 +3905,19 @@ object OrderFee: TOrderFee
     TabOrder = 24
     OnClick = CopyBiayaClick
   end
+  object RiwayatCetak: TButton
+    Left = 743
+    Top = 570
+    Width = 89
+    Height = 25
+    Caption = 'Riwayat Cetak'
+    TabOrder = 25
+    OnClick = RiwayatCetakClick
+  end
   object ppReportUangOrder: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'A4 Fanfold 210 mm x 11 2/3 in'
+    PrinterSetup.PaperName = 'Custom'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 5080
     PrinterSetup.mmMarginLeft = 6350
@@ -4229,7 +4293,7 @@ object OrderFee: TOrderFee
   object ppReportUangOrder2: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'A4 Fanfold 210 mm x 11 2/3 in'
+    PrinterSetup.PaperName = 'Custom'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 5080
     PrinterSetup.mmMarginLeft = 6350
@@ -5082,7 +5146,7 @@ object OrderFee: TOrderFee
   object ppReportSPPB: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = '1/2 A4'
+    PrinterSetup.PaperName = 'Envelope DL 220 x 110 mm'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 5080
     PrinterSetup.mmMarginLeft = 6350
@@ -6594,7 +6658,7 @@ object OrderFee: TOrderFee
   object ppReportUangOrder3: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'A4 Fanfold 210 mm x 11 2/3 in'
+    PrinterSetup.PaperName = 'Custom'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 5080
     PrinterSetup.mmMarginLeft = 6350
@@ -6614,8 +6678,8 @@ object OrderFee: TOrderFee
     PreviewFormSettings.WindowState = wsMaximized
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
-    Left = 896
-    Top = 412
+    Left = 888
+    Top = 420
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand3: TppHeaderBand

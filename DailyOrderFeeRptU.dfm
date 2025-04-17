@@ -103,10 +103,10 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     Caption = 'Cari'
   end
   object btnTombolCari: TSpeedButton
-    Left = 878
-    Top = 21
+    Left = 880
+    Top = 18
     Width = 26
-    Height = 17
+    Height = 22
     Glyph.Data = {
       26040000424D2604000000000000360000002800000012000000120000000100
       180000000000F003000000000000000000000000000000000000F8F8F8F8F8F8
