@@ -36,6 +36,8 @@ type
     Paid: TComboBox;
     chkStandby: TCheckBox;
     chkLuarkota: TCheckBox;
+    Customer: TEdit;
+    Label8: TLabel;
     procedure Tan(Sender: TObject);
     procedure StrGridSelectCell(Sender: TObject; ACol, ARow: Integer;
       var CanSelect: Boolean);
@@ -49,10 +51,12 @@ type
       Shift: TShiftState);
     procedure Copy1Click(Sender: TObject);
     procedure BatchChange(Sender: TObject);
+    procedure ShowPelangganClick(Sender: TObject);
+    procedure CustomerKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     CompId:Integer;
-    FormRequest,CustId:String;
+    FormRequest:String;
     OrderArr,CompanyArr:Array of TArrString30;
     BatchArr,SeatArr:Array of TArrString2;
     IntRow,IntCol,IsAll,MinRowGrid:Integer;
@@ -67,14 +71,17 @@ type
 //    constructor Create(AOwner:TComponent);Overload;
     constructor Create(AOwner:TComponent;Company_Id:String='BUS';Form_Request:String='';Customer_Id:String='';Is_All:Integer=6);Overload;
     procedure RefreshDisplay;
+
   end;
 
 var
   DailyCheckRpt: TDailyCheckRpt;
+  CustId: String;
 
 implementation
 
-uses MainU, ADODB, OrderFormU, BusInvoiceU, BookingFormU, SPJFormBusU;
+uses MainU, ADODB, OrderFormU, BusInvoiceU, BookingFormU, SPJFormBusU, 
+  CustomerListU;
 
 {$R *.dfm}
 {
@@ -103,7 +110,8 @@ begin
 end;
 
 procedure TDailyCheckRpt.Init;
-begin                     
+begin
+  Customer.Text:='';
   SBU.Text:='';
   SBU.Items.Clear;
   SBU.ItemIndex:=-1;
@@ -119,7 +127,7 @@ var IntCount:Integer;
 begin
   MinRowGrid:=2;
   StrGrid.RowCount:=4;
-  StrGrid.ColCount:=27;
+  StrGrid.ColCount:=28;
   StrGrid.ColWidths[0]:=95;
   StrGrid.ColWidths[1]:=160;
   StrGrid.ColWidths[2]:=100;
@@ -147,12 +155,13 @@ begin
   StrGrid.ColWidths[23]:=0;
   StrGrid.ColWidths[25]:=340;
   StrGrid.ColWidths[26]:=100;
+  StrGrid.ColWidths[27]:=70;
 
   //col 18=customer_order_detail_id
   //col 19=reserved_order_id
   StrGrid.MergeCells.AddRectXY(0,0,8,0);
   StrGrid.MergeCells.AddRectXY(9,0,14,0);
-  StrGrid.MergeCells.AddRectXY(15,0,26,0);
+  StrGrid.MergeCells.AddRectXY(15,0,27,0);
   StrGrid.MergeCells.AddRectXY(6,1,7,1);
   StrGrid.MergeCells.AddRectXY(13,1,14,1);
   StrGrid.MergeCells.AddRectXY(0,1,0,2);
@@ -163,6 +172,7 @@ begin
   StrGrid.MergeCells.AddRectXY(5,1,5,2);
   StrGrid.MergeCells.AddRectXY(8,1,8,2);
   StrGrid.MergeCells.AddRectXY(9,1,9,2);
+
   StrGrid.MergeCells.AddRectXY(10,1,10,2);
   StrGrid.MergeCells.AddRectXY(11,1,11,2);
   StrGrid.MergeCells.AddRectXY(12,1,12,2);
@@ -176,6 +186,8 @@ begin
   StrGrid.MergeCells.AddRectXY(24,1,24,2);
   StrGrid.MergeCells.AddRectXY(25,1,25,2);
   StrGrid.MergeCells.AddRectXY(26,1,26,2);
+  StrGrid.MergeCells.AddRectXY(27,1,27,2);
+
   StrGrid.Cells[0,0]:='Pesanan';
   StrGrid.Cells[9,0]:='Penjadwalan';
   StrGrid.Cells[15,0]:='Surat Jalan';
@@ -202,6 +214,7 @@ begin
   StrGrid.Cells[24,1]:='Keterangan';
   StrGrid.Cells[25,1]:='Lokasi Standby';
   StrGrid.Cells[26,1]:='Status Kirim WA';
+  StrGrid.Cells[27,1]:='Customer ID';
 
   StrGrid.Cells[6,2]:='Seat';
   StrGrid.Cells[7,2]:='Jenis';
@@ -240,6 +253,7 @@ begin
   StrGrid.CellStyle[24,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[25,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[26,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[27,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[6,2].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[7,2].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[13,2].HorizontalAlignment:=taCenter;
@@ -311,7 +325,7 @@ end;
 procedure TDailyCheckRpt.RefreshData;
 var Qry,Qry2,Qry3:TADOQuery;
     StrQry,StrTanggal,StrDepositDate1,StrDepositDate2,
-    StrBatch,StrSeat,StrCompanyId,StrLocationId,StrToDates,StrChkSewaLuar,StrPaid,StrStandBy,StrLuarKota:String;
+    StrBatch,StrSeat,StrCompanyId,StrLocationId,StrToDates,StrChkSewaLuar,StrPaid,StrStandBy,StrLuarKota,StrCustomerName:String;
     IntCount,IntCount2,IntCount3,IntRows,StartRow,IntTotal,IntTolParkir,IntBiayaLain, IntTotalUnit:Integer;
     IntPayment:Array [0..2] of Integer;
     StrPayment:Array [0..2] of String;
@@ -371,7 +385,14 @@ begin
       StrLuarKota:='';
     end;
 
-    StrQry:='EXEC GetCustomerOrderList '+StrCompanyId+StrTanggal+StrLocationId+',@Finish='+IntToStr(IsAll)+',@ListType=1'+StrToDates+',@isQuick=1'+StrBatch+StrChkSewaLuar+StrPaid+StrStandBy+StrLuarKota+';';
+    if Customer.Text<>'' then
+    begin
+      StrCustomerName:=',@CustomerName='+QuotedStr(Customer.Text);
+    end else begin
+      StrCustomerName:='';
+    end;
+
+    StrQry:='EXEC GetCustomerOrderList '+StrCompanyId+StrTanggal+StrLocationId+',@Finish='+IntToStr(IsAll)+',@ListType=1'+StrToDates+',@isQuick=1'+StrBatch+StrChkSewaLuar+StrPaid+StrStandBy+StrLuarKota+StrCustomerName+';';
     Main.WriteLog('SQL :'+StrQry,2);
     Qry.SQL.Add(StrQry);
     Qry.Open;
@@ -442,7 +463,7 @@ begin
         if Qry2.FieldValues['reserved_order_id']<>NULL then OrderArr[IntCount][23]:=Qry2.FieldValues['reserved_order_id'];
         if Qry2.FieldValues['no_driver']<>NULL then OrderArr[IntCount][25]:=Qry2.FieldValues['no_driver'];
         if Qry2.FieldValues['pickup_point']<>NULL then OrderArr[IntCount][26]:=Qry2.FieldValues['pickup_point'];
-
+        if Qry2.FieldValues['customer_id']<>NULL then OrderArr[IntCount][27]:=Qry2.FieldValues['customer_id'];
         Inc(IntCount2);
         Application.ProcessMessages;
         Qry2.Next;
@@ -491,6 +512,7 @@ begin
       StrGrid.Cells[1,IntCount+3]:=OrderArr[IntCount][1];
       StrGrid.Cells[2,IntCount+3]:=OrderArr[IntCount][2];
       StrGrid.Cells[3,IntCount+3]:=OrderArr[IntCount][3];
+      StrGrid.Cells[27,IntCount+3]:=OrderArr[IntCount][27];
       IsDrawRect:=False;
       IsDrawRect2:=False;
     end else if (IntCount<Length(OrderArr)-1) then begin
@@ -513,6 +535,7 @@ begin
       StrGrid.MergeCells.AddRectXY(2,IntStartRow+3,2,IntCount+3);
       StrGrid.MergeCells.AddRectXY(3,IntStartRow+3,3,IntCount+3);
       StrGrid.MergeCells.AddRectXY(4,IntStartRow+3,4,IntCount+3);
+      StrGrid.MergeCells.AddRectXY(27,IntStartRow+3,27,IntCount+3);
     end;
     if IsDrawRect2=True then begin
       StrGrid.MergeCells.AddRectXY(5,IntStartRow2+3,5,IntCount+3);
@@ -542,6 +565,7 @@ begin
     StrGrid.Cells[23,IntCount+3]:=OrderArr[IntCount][23];
     StrGrid.Cells[25,IntCount+3]:=OrderArr[IntCount][26];
     StrGrid.Cells[26,IntCount+3]:=OrderArr[IntCount][24];
+
 
     StrGrid.CellStyle[3,IntCount+3].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[5,IntCount+3].HorizontalAlignment:=taCenter;
@@ -702,6 +726,16 @@ end;
 procedure TDailyCheckRpt.BatchChange(Sender: TObject);
 begin
   RefreshSeat;
+end;
+
+procedure TDailyCheckRpt.ShowPelangganClick(Sender: TObject);
+begin
+  if Main.IsFormOpen('CustomerList')=False then CustomerList:=TCustomerList.Create(Self,'BUS','KONTINUITAS');
+end;
+
+procedure TDailyCheckRpt.CustomerKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then Button1Click(sender);
 end;
 
 end.

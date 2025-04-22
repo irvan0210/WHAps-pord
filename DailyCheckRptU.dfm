@@ -1,11 +1,11 @@
 object DailyCheckRpt: TDailyCheckRpt
-  Left = 83
-  Top = 237
+  Left = 327
+  Top = 151
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Laporan Kontinuitas perArmada Jalan'
   ClientHeight = 533
-  ClientWidth = 1232
+  ClientWidth = 1246
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -99,11 +99,18 @@ object DailyCheckRpt: TDailyCheckRpt
     Visible = False
   end
   object Label7: TLabel
-    Left = 814
+    Left = 816
     Top = 12
     Width = 60
     Height = 13
     Caption = 'Status Bayar'
+  end
+  object Label8: TLabel
+    Left = 250
+    Top = 37
+    Width = 51
+    Height = 13
+    Caption = 'Pelanggan'
   end
   object GroupCompany: TGroupBox
     Left = 8
@@ -131,9 +138,9 @@ object DailyCheckRpt: TDailyCheckRpt
   end
   object StrGrid: TZColorStringGrid
     Left = 8
-    Top = 40
-    Width = 1217
-    Height = 449
+    Top = 64
+    Width = 1225
+    Height = 425
     DefaultRowHeight = 20
     DefaultDrawing = False
     FixedColor = clSkyBlue
@@ -177,7 +184,7 @@ object DailyCheckRpt: TDailyCheckRpt
     TabOrder = 3
   end
   object Button1: TButton
-    Left = 1151
+    Left = 1167
     Top = 8
     Width = 75
     Height = 25
@@ -245,7 +252,7 @@ object DailyCheckRpt: TDailyCheckRpt
     Visible = False
   end
   object ChkSewaLuar: TCheckBox
-    Left = 1000
+    Left = 1016
     Top = 10
     Width = 81
     Height = 17
@@ -253,7 +260,7 @@ object DailyCheckRpt: TDailyCheckRpt
     TabOrder = 10
   end
   object Paid: TComboBox
-    Left = 876
+    Left = 883
     Top = 9
     Width = 121
     Height = 21
@@ -276,12 +283,20 @@ object DailyCheckRpt: TDailyCheckRpt
     Visible = False
   end
   object chkLuarkota: TCheckBox
-    Left = 1073
+    Left = 1089
     Top = 10
     Width = 72
     Height = 17
     Caption = 'Luar Kota'
     TabOrder = 13
+  end
+  object Customer: TEdit
+    Left = 307
+    Top = 34
+    Width = 209
+    Height = 21
+    TabOrder = 14
+    OnKeyPress = CustomerKeyPress
   end
   object PopupMenu1: TPopupMenu
     Left = 352

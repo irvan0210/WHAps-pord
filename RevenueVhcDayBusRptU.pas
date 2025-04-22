@@ -34,6 +34,8 @@ type
     TglSampai: TDateTimePicker;
     PopupMenu1: TPopupMenu;
     Copy1: TMenuItem;
+    Customer: TEdit;
+    Label5: TLabel;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure RefreshClick(Sender: TObject);
@@ -48,6 +50,7 @@ type
     procedure Copy1Click(Sender: TObject);
     procedure StrGridKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure CustomerKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     GroupArr:Array of TArrString2;
@@ -78,7 +81,8 @@ var Count,Count2:Integer;
     StrQry:String;
     IntCount:Integer;
 begin
-  MaxCol:=44;
+  MaxCol:=45;
+  Customer.Text:='';
   Tanggal.Date:=Now();
   TglSampai.Date:=Now();
   Batch.Items.Clear;
@@ -151,7 +155,6 @@ begin
   StrGrid.MergeCells.AddRectXY(40,0,40,1);
   StrGrid.MergeCells.AddRectXY(41,0,41,1);
   StrGrid.MergeCells.AddRectXY(42,0,42,1);
-  StrGrid.MergeCells.AddRectXY(43,0,43,1);
 
   StrGrid.ColCount:=MaxCol+1;
   StrGrid.RowCount:=3;
@@ -216,8 +219,10 @@ begin
   StrGrid.Cells[42,0]:='Keberangkatan';
   StrGrid.Cells[43,0]:='Jenis Service';
   StrGrid.Cells[44,0]:='Keterangan SJ';
+  StrGrid.Cells[45,0]:='Customer ID';
   StrGrid.MergeCells.AddRectXY(43,0,43,1);
   StrGrid.MergeCells.AddRectXY(44,0,44,1);
+  StrGrid.MergeCells.AddRectXY(45,0,45,1);
 
 
   StrGrid.ColWidths[0]:=25;
@@ -270,6 +275,7 @@ begin
   StrGrid.ColWidths[42]:=100;
   StrGrid.ColWidths[43]:=120;
   StrGrid.ColWidths[44]:=100;
+  StrGrid.ColWidths[45]:=70;
 
   for Count:=0 to MaxCol do begin
     StrGrid.CellStyle[Count,0].Font.Style:=[fsBold];
@@ -344,7 +350,7 @@ begin
 end;
 
 procedure TRevenueVhcDayBusRpt.RefreshData;
-var StrQry,StrBatch,StrLocationId,StrCompanyId,StrToDates,StrisAll:String;
+var StrQry,StrBatch,StrLocationId,StrCompanyId,StrToDates,StrisAll,StrCustomer,StrCustomerName:String;
     Qry:TADOQuery;
     Qry2:TADOQuery;
     Count,Count2,Total1,Total2,Total3,Total4,Total5,Total6,Total7,
@@ -420,10 +426,17 @@ begin
     StrisAll:=IntToStr(isAll.ItemIndex);
   end;
 
+  if Customer.Text<>'' then
+  begin
+    StrCustomerName:=',@CustomerName='+QuotedStr(Customer.Text);
+  end else begin
+    StrCustomerName:='';
+  end;
+
   Main.M_Busy;
   StrQry:='EXEC GetRevenueVhcDayRpt2 '+StrLocationId+','+
         QuotedStr(FormatDateTime('dd-mm-yyyy',Tanggal.Date))+','+
-        QuotedStr(StrBatch)+',@CompanyId='+StrCompanyId+StrToDates+',@Ordered='+'''from_dates,vhc_trans_id;'', @isAll='+StrisAll+';';
+        QuotedStr(StrBatch)+',@CompanyId='+StrCompanyId+StrToDates+',@Ordered='+'''from_dates,vhc_trans_id;'', @isAll='+StrisAll+StrCustomerName+';';
   Qry.SQL.Clear;
   Main.WriteLog('SQL :'+StrQry,2);
   Qry.SQL.Add(StrQry);
@@ -669,6 +682,7 @@ begin
       if Qry.FieldValues['from_to_dates2']<>NULL then StrGrid.Cells[42,Count]:=Qry.FieldValues['from_to_dates2'];
       if Qry.FieldValues['JenisService']<>NULL then StrGrid.Cells[43,Count]:=Qry.FieldValues['JenisService'];
       if Qry.FieldValues['remarkSJ']<>NULL then StrGrid.Cells[44,Count]:=Qry.FieldValues['remarkSJ'];
+      if Qry.FieldValues['customer_id']<>NULL then StrGrid.Cells[45,Count]:=Qry.FieldValues['customer_id'];
     end;
     Application.ProcessMessages;
     Inc(Count);
@@ -887,6 +901,12 @@ procedure TRevenueVhcDayBusRpt.StrGridKeyDown(Sender: TObject;
 begin
     if ((Key = 67) or (Key = 99)) and (Shift=[ssCtrl]) then
       Copy1Click(Nil);
+end;
+
+procedure TRevenueVhcDayBusRpt.CustomerKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key=#13 then RefreshClick(sender);
 end;
 
 end.

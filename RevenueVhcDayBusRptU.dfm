@@ -1,6 +1,6 @@
 object RevenueVhcDayBusRpt: TRevenueVhcDayBusRpt
-  Left = 19
-  Top = 230
+  Left = 151
+  Top = 360
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
   Caption = 'Laporan Pengeluaran perArmada'
@@ -69,6 +69,13 @@ object RevenueVhcDayBusRpt: TRevenueVhcDayBusRpt
     Height = 13
     Caption = 'Group'
   end
+  object Label5: TLabel
+    Left = 231
+    Top = 53
+    Width = 51
+    Height = 13
+    Caption = 'Pelanggan'
+  end
   object Panel1: TPanel
     Left = 287
     Top = 8
@@ -117,8 +124,8 @@ object RevenueVhcDayBusRpt: TRevenueVhcDayBusRpt
     OnClick = SelesaiClick
   end
   object Refresh: TButton
-    Left = 997
-    Top = 13
+    Left = 789
+    Top = 29
     Width = 75
     Height = 25
     Caption = 'Lihat Data'
@@ -127,9 +134,9 @@ object RevenueVhcDayBusRpt: TRevenueVhcDayBusRpt
   end
   object StrGrid: TZColorStringGrid
     Left = 8
-    Top = 48
+    Top = 84
     Width = 1112
-    Height = 409
+    Height = 369
     Anchors = [akLeft, akTop, akRight]
     ColCount = 43
     DefaultRowHeight = 20
@@ -193,13 +200,13 @@ object RevenueVhcDayBusRpt: TRevenueVhcDayBusRpt
     OnChange = BatchChange
   end
   object GroupBox1: TGroupBox
-    Left = 782
-    Top = 8
-    Width = 211
+    Left = 534
+    Top = 40
+    Width = 243
     Height = 33
     TabOrder = 6
     DesignSize = (
-      211
+      243
       33)
     object Label2: TLabel
       Left = 4
@@ -212,7 +219,7 @@ object RevenueVhcDayBusRpt: TRevenueVhcDayBusRpt
     object isAll: TComboBox
       Left = 38
       Top = 8
-      Width = 169
+      Width = 201
       Height = 21
       Style = csDropDownList
       Anchors = [akLeft, akTop, akRight]
@@ -273,6 +280,14 @@ object RevenueVhcDayBusRpt: TRevenueVhcDayBusRpt
       Time = 41964.570029108800000000
       TabOrder = 2
     end
+  end
+  object Customer: TEdit
+    Left = 286
+    Top = 50
+    Width = 219
+    Height = 21
+    TabOrder = 9
+    OnKeyPress = CustomerKeyPress
   end
   object PopupMenu1: TPopupMenu
     Left = 352
