@@ -1,6 +1,6 @@
 object BusInvoiceList: TBusInvoiceList
-  Left = 234
-  Top = 381
+  Left = 161
+  Top = 182
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Data Invoice'
@@ -21,8 +21,8 @@ object BusInvoiceList: TBusInvoiceList
   PixelsPerInch = 96
   TextHeight = 13
   object Label2: TLabel
-    Left = 696
-    Top = 8
+    Left = 712
+    Top = 45
     Width = 18
     Height = 13
     Alignment = taRightJustify
@@ -63,17 +63,9 @@ object BusInvoiceList: TBusInvoiceList
     Layout = blGlyphRight
     OnClick = ToXCelClick
   end
-  object Label5: TLabel
-    Left = 355
-    Top = 8
-    Width = 39
-    Height = 13
-    Alignment = taRightJustify
-    Caption = 'Tanggal'
-  end
   object CariOffering: TSpeedButton
-    Left = 922
-    Top = 8
+    Left = 938
+    Top = 40
     Width = 23
     Height = 23
     Glyph.Data = {
@@ -113,6 +105,21 @@ object BusInvoiceList: TBusInvoiceList
       F7F7F7F8F8F7F7F70000}
     OnClick = CariOfferingClick
   end
+  object Label5: TLabel
+    Left = 294
+    Top = 10
+    Width = 77
+    Height = 13
+    Alignment = taRightJustify
+    Caption = 'Tanggal Invoice'
+  end
+  object Label6: TLabel
+    Left = 472
+    Top = 12
+    Width = 16
+    Height = 13
+    Caption = 's/d'
+  end
   object GroupCompany: TGroupBox
     Left = 8
     Top = 0
@@ -138,8 +145,8 @@ object BusInvoiceList: TBusInvoiceList
     end
   end
   object Cari: TEdit
-    Left = 720
-    Top = 8
+    Left = 736
+    Top = 40
     Width = 201
     Height = 21
     TabOrder = 1
@@ -216,40 +223,30 @@ object BusInvoiceList: TBusInvoiceList
       ParentFont = False
     end
   end
-  object Tanggal: TDateTimePicker
-    Left = 400
-    Top = 8
-    Width = 89
-    Height = 21
-    Date = 41780.000000000000000000
-    Time = 41780.000000000000000000
-    TabOrder = 5
-    OnChange = TanggalChange
-  end
   object Semua: TCheckBox
-    Left = 496
-    Top = 10
+    Left = 1006
+    Top = 42
     Width = 65
     Height = 17
     Caption = 'Semua'
-    TabOrder = 6
+    TabOrder = 5
     OnClick = SemuaClick
   end
   object Last3Months: TCheckBox
-    Left = 560
-    Top = 10
+    Left = 1070
+    Top = 42
     Width = 97
     Height = 17
     Caption = '2 Bulan Terakhir'
-    TabOrder = 7
+    TabOrder = 6
     OnClick = Last3MonthsClick
   end
   object GroupBox1: TGroupBox
-    Left = 356
+    Left = 964
     Top = 30
     Width = 341
     Height = 33
-    TabOrder = 8
+    TabOrder = 7
     object Tunai: TRadioButton
       Left = 10
       Top = 9
@@ -297,5 +294,51 @@ object BusInvoiceList: TBusInvoiceList
       TabOrder = 4
       OnClick = TunaiClick
     end
+  end
+  object Tanggal: TDateTimePicker
+    Left = 377
+    Top = 8
+    Width = 89
+    Height = 21
+    Date = 41780.000000000000000000
+    Time = 41780.000000000000000000
+    TabOrder = 8
+    OnChange = TanggalChange
+  end
+  object TanggalSampai: TDateTimePicker
+    Left = 495
+    Top = 8
+    Width = 89
+    Height = 21
+    Date = 41780.000000000000000000
+    Time = 41780.000000000000000000
+    TabOrder = 9
+    OnChange = TanggalSampaiChange
+  end
+  object Button1: TButton
+    Left = 837
+    Top = 6
+    Width = 75
+    Height = 25
+    Caption = 'Lihat'
+    TabOrder = 10
+    OnClick = Button1Click
+  end
+  object NoOrder: TEdit
+    Left = 685
+    Top = 8
+    Width = 145
+    Height = 21
+    TabOrder = 11
+    OnKeyPress = NoOrderKeyPress
+  end
+  object ChkNoOrder: TCheckBox
+    Left = 616
+    Top = 10
+    Width = 65
+    Height = 17
+    Caption = 'No Order'
+    TabOrder = 12
+    OnClick = ChkNoOrderClick
   end
 end

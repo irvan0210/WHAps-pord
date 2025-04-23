@@ -20,8 +20,6 @@ type
     PanelLegend: TPanel;
     Label3: TLabel;
     Label4: TLabel;
-    Label5: TLabel;
-    Tanggal: TDateTimePicker;
     Semua: TCheckBox;
     Last3Months: TCheckBox;
     CariOffering: TSpeedButton;
@@ -31,6 +29,13 @@ type
     All: TRadioButton;
     va: TRadioButton;
     CreditLimit: TRadioButton;
+    Label5: TLabel;
+    Tanggal: TDateTimePicker;
+    TanggalSampai: TDateTimePicker;
+    Label6: TLabel;
+    Button1: TButton;
+    NoOrder: TEdit;
+    ChkNoOrder: TCheckBox;
     procedure ToXCelClick(Sender: TObject);
     procedure SelesaiClick(Sender: TObject);
     procedure CariChange(Sender: TObject);
@@ -45,6 +50,10 @@ type
     procedure CariOfferingClick(Sender: TObject);
     procedure CariKeyPress(Sender: TObject; var Key: Char);
     procedure TunaiClick(Sender: TObject);
+    procedure TanggalSampaiChange(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure ChkNoOrderClick(Sender: TObject);
+    procedure NoOrderKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     CompId:Integer;
@@ -104,11 +113,15 @@ end;
 procedure TBusInvoiceList.Init;
 begin
   Cari.Text:='';
+  ChkNoOrder.Checked:=False;
+  NoOrder.Text:='';
+  NoOrder.Enabled:=False;
   SBU.Text:='';
   SBU.Items.Clear;
   SBU.ItemIndex:=-1;
   Tanggal.Date:=Now();
-  Tanggal.Enabled:=False;
+  TanggalSampai.Date:=Now();
+//  Tanggal.Enabled:=False;
   Last3Months.Checked:=True;
   if StrToInt(CompanyId)=1 then SBU.Enabled:=True else SBU.Enabled:=False;
   Semua.Checked:=False;
@@ -239,7 +252,9 @@ begin
     SetLength(TransArr,0);
     Qry.CommandTimeout:=3600;
     StrCompanyId:=CompanyArr[SBU.ItemIndex][1];
-    if Semua.Checked=False then StrTanggal:=',@Dates='+QuotedStr(FormatDateTime('yyyy/mm/dd',Tanggal.Date)) else StrTanggal:='';
+//    if Semua.Checked=False then StrTanggal:=',@Dates='+QuotedStr(FormatDateTime('yyyy/mm/dd',Tanggal.Date)) else StrTanggal:='';
+    StrTanggal:=',@FromDate='+QuotedStr(FormatDateTime('yyyy/mm/dd',Tanggal.Date))+',@ToDate='+QuotedStr(FormatDateTime('yyyy/mm/dd',TanggalSampai.Date));
+
     if Last3Months.Checked=False then StrLastPeriode:=',@AllInvoice=1' else StrLastPeriode:='';
 
     if Tunai.Checked then StrPaymentId:=',@TransactionId='+QuotedStr('10002')
@@ -247,7 +262,9 @@ begin
     else if VA.Checked then StrPaymentId:=',@TransactionId='+QuotedStr('10007')
     else if CreditLimit.Checked then StrPaymentId:=',@TransactionId='+QuotedStr('10009')
     else StrPaymentId:='';
-
+    if ChkNoOrder.Checked=True then
+    StrQry:= 'EXEC GetTransactionList '+StrCompanyId+',@NoOrder='+QuotedStr(Trim(NoOrder.Text))+';'
+    else
     StrQry:='EXEC GetTransactionList '+StrCompanyId+StrTanggal+',@Finish='+IntToStr(IsAll)+',@TransType='+IntToStr(TransType)+StrLastPeriode+StrPaymentId+';';
     Main.WriteLog('SQL :'+StrQry,2);
     Qry.SQL.Add(StrQry);
@@ -329,7 +346,7 @@ begin
 //    StrGrid.CellStyle[6,IntCount+1].HorizontalAlignment:=taRightJustify;
 //    StrGrid.CellStyle[7,IntCount+1].HorizontalAlignment:=taRightJustify;
     for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount+1].Font.Color:=clWindowText;
-    if TransArr[IntCount][12]='0' then for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount+1].Font.Color:=clRed;
+    if TransArr[IntCount][10]='0' then for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount+1].Font.Color:=clRed;
     if TransType=1 then begin
       if TransArr[IntCount][7]='0' then for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount+1].Font.Color:=clGreen;
     end;
@@ -381,7 +398,7 @@ begin
             StrGrid.Cells[Count4,Count2-1]:=TransArr[Count][Count4];
             StrGrid.CellStyle[Count4,Count2-1].Font.Color:=clWindowText;
           end;
-          if TransArr[Count][9]='0' then for Count5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[Count5,Count2-1].Font.Color:=clRed;
+          if TransArr[Count][10]='0' then for Count5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[Count5,Count2-1].Font.Color:=clRed;
           if TransType=1 then begin
             if TransArr[Count][7]='0' then for Count5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[Count5,Count2-1].Font.Color:=clGreen;
           end;
@@ -469,8 +486,7 @@ end;
 
 procedure TBusInvoiceList.TanggalChange(Sender: TObject);
 begin
-  RefreshData;
-  RefreshGrid;
+  if Tanggal.Date>TanggalSampai.Date then TanggalSampai.Date:=Tanggal.Date;
 end;
 
 procedure TBusInvoiceList.Last3MonthsClick(Sender: TObject);
@@ -497,6 +513,42 @@ begin
     RefreshData;
     RefreshGrid;
   end;
+end;
+
+procedure TBusInvoiceList.TanggalSampaiChange(Sender: TObject);
+begin
+  if TanggalSampai.Date<Tanggal.Date then Tanggal.Date:=TanggalSampai.Date;
+end;
+
+procedure TBusInvoiceList.Button1Click(Sender: TObject);
+begin
+  RefreshData;
+  RefreshGrid;
+end;
+
+procedure TBusInvoiceList.ChkNoOrderClick(Sender: TObject);
+begin
+  if ChkNoOrder.Checked=True then
+  begin
+    Tanggal.Enabled:=False;
+    TanggalSampai.Enabled:=False;
+    NoOrder.Enabled:=True;
+    NoOrder.Text:='';
+    Tanggal.Date:=Now();
+    TanggalSampai.Date:=Now();
+  end else begin
+    Tanggal.Enabled:=True;
+    TanggalSampai.Enabled:=True;
+    Tanggal.Date:=Now();
+    TanggalSampai.Date:=Now();
+    NoOrder.Text:='';
+    NoOrder.Enabled:=False  ;
+  end;
+end;
+
+procedure TBusInvoiceList.NoOrderKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then Button1Click(sender);
 end;
 
 end.
