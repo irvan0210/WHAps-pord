@@ -525,7 +525,7 @@ begin
   IsOk:=True;
   Main.M_Busy;
   if Main.OpenDb then begin
-    if StrGrid.Cells[13,IntRow]='1' then
+    if StrGrid.Cells[18,IntRow]='1' then
     begin
       StrQry:='SELECT Status FROM Orders WHERE OrderNo='+QuotedStr(StrGrid.Cells[2,IntRow])+';';
       QryWehaOnline.SQL.Clear;
