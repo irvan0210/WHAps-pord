@@ -1,6 +1,6 @@
 object SPJFormBus: TSPJFormBus
-  Left = 179
-  Top = 44
+  Left = 282
+  Top = 301
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Surat Jalan'
@@ -2918,7 +2918,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152400
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 135
+    PrinterSetup.PaperSize = 134
     Template.FileName = 'D:\WH App\Order.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
@@ -3497,7 +3497,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152400
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 135
+    PrinterSetup.PaperSize = 134
     Template.FileName = 'D:\NANANG\WHAPS UPDATE PROD\surat jalan baru.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
@@ -3609,10 +3609,10 @@ object SPJFormBus: TSPJFormBus
         Font.Size = 10
         Font.Style = []
         Transparent = True
-        mmHeight = 37042
+        mmHeight = 28046
         mmLeft = 41275
         mmTop = 57415
-        mmWidth = 119327
+        mmWidth = 135732
         BandType = 0
         mmBottomOffset = 0
         mmOverFlowOffset = 0
@@ -3970,6 +3970,25 @@ object SPJFormBus: TSPJFormBus
         mmWidth = 23283
         BandType = 0
       end
+      object ppLabel50: TppLabel
+        UserName = 'Label50'
+        Border.BorderPositions = []
+        Border.Color = clBlack
+        Border.Style = psSolid
+        Border.Visible = False
+        Caption = 'Pastikan Surat Jalan di Tanda Tangani Customer'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Arial'
+        Font.Size = 14
+        Font.Style = [fsBold]
+        Transparent = True
+        mmHeight = 7408
+        mmLeft = 74348
+        mmTop = 87048
+        mmWidth = 121444
+        BandType = 0
+      end
     end
     object ppDetailBand3: TppDetailBand
       mmBottomOffset = 0
@@ -4000,7 +4019,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152400
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 135
+    PrinterSetup.PaperSize = 134
     Template.FileName = 'D:\WH App\Order.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
