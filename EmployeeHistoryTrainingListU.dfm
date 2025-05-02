@@ -1,6 +1,6 @@
 object EmployeeHistoryTrainingList: TEmployeeHistoryTrainingList
-  Left = 332
-  Top = 537
+  Left = 269
+  Top = 373
   BorderIcons = [biMaximize]
   BorderStyle = bsNone
   Caption = 'Driver Training List'

@@ -248,12 +248,14 @@ begin
   if Main.OpenDb then begin
     SetLength(TrainingArr,0);
 
-    StrQry:='SELECT *,Concat(DATEDIFF(HOUR,time,finish_time) % 24 '+
-            ','' Jam '', DATEDIFF(Minute,time,finish_time) % 60 , '' Menit'') duration '+
-            'FROM wh_empl_history_training WHERE '+
-            'date between '+QuotedStr(FormatDateTime('yyyy-mm-dd',Tanggal.Date))+' AND '+
+    StrQry:='SELECT b.materi,a.*,Concat(DATEDIFF(HOUR,a.time,a.finish_time) % 24 '+
+            ','' Jam '', DATEDIFF(Minute,a.time,a.finish_time) % 60 , '' Menit'') duration '+
+            'FROM wh_empl_history_training a '+
+            'LEFT JOIN wh_materi_training b on a.materi_training_id=b.materi_training_id '+
+            'WHERE '+
+            'a.date between '+QuotedStr(FormatDateTime('yyyy-mm-dd',Tanggal.Date))+' AND '+
             ''+QuotedStr(FormatDateTime('yyyy-mm-dd',TglSampai.Date))+' '+
-            'AND Role='+QuotedStr(Role)+' ORDER BY empl_history_training_id DESC;';
+            'AND a.Role='+QuotedStr(Role)+' ORDER BY a.empl_history_training_id DESC;';
     Main.WriteLog('SQL :'+StrQry,2);
     Qry.SQL.Add(StrQry);
     Qry.Open;

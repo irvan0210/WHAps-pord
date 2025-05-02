@@ -1,10 +1,10 @@
 object EmployeeList: TEmployeeList
-  Left = 768
-  Top = 361
+  Left = 275
+  Top = 233
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Karyawan'
-  ClientHeight = 404
+  ClientHeight = 402
   ClientWidth = 848
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET

@@ -1,11 +1,11 @@
 object EmplHistoryTrainingRpt: TEmplHistoryTrainingRpt
-  Left = 113
-  Top = 132
+  Left = 202
+  Top = 36
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan History Training'
-  ClientHeight = 539
-  ClientWidth = 1188
+  ClientHeight = 576
+  ClientWidth = 1136
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,7 +22,7 @@ object EmplHistoryTrainingRpt: TEmplHistoryTrainingRpt
   TextHeight = 13
   object ToXCel: TSpeedButton
     Left = 798
-    Top = 505
+    Top = 543
     Width = 23
     Height = 22
     BiDiMode = bdLeftToRight
@@ -59,14 +59,14 @@ object EmplHistoryTrainingRpt: TEmplHistoryTrainingRpt
   end
   object Label2: TLabel
     Left = 429
-    Top = -10
+    Top = -19
     Width = 15
     Height = 13
     Caption = 's/d'
   end
   object LihatData: TButton
-    Left = 1020
-    Top = 19
+    Left = 828
+    Top = 16
     Width = 86
     Height = 26
     Caption = 'Lihat'
@@ -75,13 +75,13 @@ object EmplHistoryTrainingRpt: TEmplHistoryTrainingRpt
   end
   object GridHistTraining: TZColorStringGrid
     Left = 0
-    Top = 63
-    Width = 1185
+    Top = 93
+    Width = 1129
     Height = 441
     ColCount = 9
     DefaultRowHeight = 22
     DefaultDrawing = False
-    FixedColor = clBtnFace
+    FixedColor = clSkyBlue
     FixedCols = 0
     RowCount = 2
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine]
@@ -97,12 +97,12 @@ object EmplHistoryTrainingRpt: TEmplHistoryTrainingRpt
     DefaultFixedCellStyle.Font.Height = -11
     DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
     DefaultFixedCellStyle.Font.Style = []
-    DefaultFixedCellStyle.BGColor = clBtnFace
+    DefaultFixedCellStyle.BGColor = clSkyBlue
     LineDesign.LineUpColor = clWhite
   end
   object Selesai: TButton
-    Left = 590
-    Top = 506
+    Left = 574
+    Top = 540
     Width = 75
     Height = 25
     Caption = 'Selesai'
@@ -112,7 +112,7 @@ object EmplHistoryTrainingRpt: TEmplHistoryTrainingRpt
   object GroupCompany: TGroupBox
     Left = 1
     Top = 0
-    Width = 241
+    Width = 208
     Height = 33
     TabOrder = 3
     object Label4: TLabel
@@ -126,7 +126,7 @@ object EmplHistoryTrainingRpt: TEmplHistoryTrainingRpt
     object SBU: TComboBox
       Left = 48
       Top = 8
-      Width = 185
+      Width = 153
       Height = 21
       Style = csDropDownList
       ItemHeight = 13
@@ -134,81 +134,61 @@ object EmplHistoryTrainingRpt: TEmplHistoryTrainingRpt
     end
   end
   object Periode: TRadioGroup
-    Left = 246
-    Top = 0
-    Width = 305
-    Height = 57
+    Left = 214
+    Top = 3
+    Width = 283
+    Height = 38
     ItemIndex = 0
     Items.Strings = (
-      'Tanggal                                    s/d'
-      'Bulan')
+      'Tanggal                                    s/d')
     TabOrder = 4
     OnClick = PeriodeClick
   end
-  object Bulan: TDateTimePicker
-    Left = 322
-    Top = 31
+  object TglSampai: TDateTimePicker
+    Left = 405
+    Top = 17
     Width = 89
-    Height = 20
+    Height = 22
     Date = 41964.570029108800000000
-    Format = 'MMM yyyy'
     Time = 41964.570029108800000000
     TabOrder = 5
+    OnChange = TglSampaiChange
   end
-  object TglSampai: TDateTimePicker
-    Left = 456
-    Top = 11
+  object Tanggal: TDateTimePicker
+    Left = 291
+    Top = 18
     Width = 89
     Height = 20
     Date = 41964.570029108800000000
     Time = 41964.570029108800000000
     TabOrder = 6
-    OnChange = TglSampaiChange
-  end
-  object CekTglSampai: TCheckBox
-    Left = 440
-    Top = 13
-    Width = 15
-    Height = 17
-    Caption = 'CekTglSampai'
-    TabOrder = 7
-    OnClick = CekTglSampaiClick
-  end
-  object Tanggal: TDateTimePicker
-    Left = 322
-    Top = 11
-    Width = 89
-    Height = 20
-    Date = 41964.570029108800000000
-    Time = 41964.570029108800000000
-    TabOrder = 8
     OnChange = TanggalChange
   end
   object Panel1: TPanel
-    Left = 754
-    Top = 3
-    Width = 263
-    Height = 54
-    TabOrder = 9
+    Left = 507
+    Top = 2
+    Width = 310
+    Height = 35
+    TabOrder = 7
     object Label3: TLabel
       Left = 8
-      Top = 22
+      Top = 10
       Width = 67
       Height = 13
       Caption = 'Nama Peserta'
     end
     object Driver: TEdit
       Left = 80
-      Top = 18
-      Width = 144
+      Top = 6
+      Width = 193
       Height = 21
       Enabled = False
       ReadOnly = True
       TabOrder = 0
     end
     object CariDriver: TButton
-      Left = 229
-      Top = 16
+      Left = 277
+      Top = 6
       Width = 26
       Height = 23
       Caption = '..'
@@ -218,11 +198,11 @@ object EmplHistoryTrainingRpt: TEmplHistoryTrainingRpt
   end
   object GroupTotal: TGroupBox
     Left = 3
-    Top = 504
+    Top = 534
     Width = 161
     Height = 33
     Enabled = False
-    TabOrder = 10
+    TabOrder = 8
     object Label1: TLabel
       Left = 2
       Top = 11
@@ -240,17 +220,53 @@ object EmplHistoryTrainingRpt: TEmplHistoryTrainingRpt
       TabOrder = 0
     end
   end
-  object RadRole: TRadioGroup
-    Left = 560
-    Top = 5
-    Width = 185
-    Height = 49
-    Caption = 'Role'
+  object RadTypeEmpl: TRadioGroup
+    Left = 572
+    Top = 46
+    Width = 245
+    Height = 40
+    Caption = 'Tipe Karyawan'
+    Columns = 3
     ItemIndex = 0
     Items.Strings = (
+      'SEMUA'
       'DRIVER'
       'CO-DRIVER')
+    TabOrder = 9
+    OnClick = RadTypeEmplClick
+  end
+  object GroupBox1: TGroupBox
+    Left = 213
+    Top = 46
+    Width = 356
+    Height = 41
+    Caption = 'Materi'
+    TabOrder = 10
+    object Materi: TEdit
+      Left = 5
+      Top = 14
+      Width = 316
+      Height = 21
+      Enabled = False
+      TabOrder = 0
+    end
+    object Button1: TButton
+      Left = 324
+      Top = 12
+      Width = 26
+      Height = 23
+      Caption = '..'
+      TabOrder = 1
+      OnClick = Button1Click
+    end
+  end
+  object Button2: TButton
+    Left = 828
+    Top = 48
+    Width = 86
+    Height = 26
+    Caption = 'Bersihkan'
     TabOrder = 11
-    OnClick = RadRoleClick
+    OnClick = Button2Click
   end
 end

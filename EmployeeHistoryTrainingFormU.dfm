@@ -1,11 +1,11 @@
 object EmployeeHistoryTrainingForm: TEmployeeHistoryTrainingForm
-  Left = 460
-  Top = 87
+  Left = 426
+  Top = 71
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Driver Training Form'
   ClientHeight = 580
-  ClientWidth = 490
+  ClientWidth = 560
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,7 +23,7 @@ object EmployeeHistoryTrainingForm: TEmployeeHistoryTrainingForm
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 490
+    Width = 560
     Height = 548
     Align = alClient
     TabOrder = 0
@@ -156,15 +156,16 @@ object EmployeeHistoryTrainingForm: TEmployeeHistoryTrainingForm
     object Materi: TEdit
       Left = 50
       Top = 58
-      Width = 433
+      Width = 471
       Height = 21
+      Enabled = False
       TabOrder = 0
       OnKeyPress = MateriKeyPress
     end
     object Lokasi: TEdit
       Left = 49
       Top = 33
-      Width = 304
+      Width = 256
       Height = 21
       TabOrder = 1
       OnKeyPress = LokasiKeyPress
@@ -172,7 +173,7 @@ object EmployeeHistoryTrainingForm: TEmployeeHistoryTrainingForm
     object Trainer: TEdit
       Left = 50
       Top = 83
-      Width = 175
+      Width = 247
       Height = 21
       TabOrder = 2
     end
@@ -200,12 +201,12 @@ object EmployeeHistoryTrainingForm: TEmployeeHistoryTrainingForm
     object GroupOrder: TGroupBox
       Left = 9
       Top = 253
-      Width = 474
+      Width = 544
       Height = 293
       Caption = 'Data Peserta'
       TabOrder = 5
       DesignSize = (
-        474
+        544
         293)
       object Label6: TLabel
         Left = 77
@@ -248,7 +249,7 @@ object EmployeeHistoryTrainingForm: TEmployeeHistoryTrainingForm
       object StrGridPeserta: TZColorStringGrid
         Left = 2
         Top = 20
-        Width = 455
+        Width = 525
         Height = 237
         Anchors = [akLeft, akTop, akRight]
         ColCount = 20
@@ -256,7 +257,6 @@ object EmployeeHistoryTrainingForm: TEmployeeHistoryTrainingForm
         DefaultDrawing = False
         FixedColor = clSkyBlue
         FixedCols = 0
-        FixedRows = 2
         Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goColMoving]
         TabOrder = 1
         OnKeyDown = StrGridPesertaKeyDown
@@ -299,7 +299,7 @@ object EmployeeHistoryTrainingForm: TEmployeeHistoryTrainingForm
       end
     end
     object TambahPeserta: TButton
-      Left = 184
+      Left = 232
       Top = 229
       Width = 97
       Height = 25
@@ -308,7 +308,7 @@ object EmployeeHistoryTrainingForm: TEmployeeHistoryTrainingForm
       OnClick = TambahPesertaClick
     end
     object RadType: TRadioGroup
-      Left = 232
+      Left = 304
       Top = 75
       Width = 249
       Height = 30
@@ -337,7 +337,7 @@ object EmployeeHistoryTrainingForm: TEmployeeHistoryTrainingForm
     object Note: TMemo
       Left = 50
       Top = 105
-      Width = 431
+      Width = 503
       Height = 120
       TabOrder = 9
     end
@@ -349,16 +349,25 @@ object EmployeeHistoryTrainingForm: TEmployeeHistoryTrainingForm
       Enabled = False
       TabOrder = 10
     end
+    object Button1: TButton
+      Left = 528
+      Top = 56
+      Width = 25
+      Height = 25
+      Caption = '...'
+      TabOrder = 11
+      OnClick = Button1Click
+    end
   end
   object Panel2: TPanel
     Left = 0
     Top = 548
-    Width = 490
+    Width = 560
     Height = 32
     Align = alBottom
     TabOrder = 1
     object Simpan: TButton
-      Left = 248
+      Left = 318
       Top = 3
       Width = 73
       Height = 25
@@ -367,7 +376,7 @@ object EmployeeHistoryTrainingForm: TEmployeeHistoryTrainingForm
       OnClick = SimpanClick
     end
     object Bersihkan: TButton
-      Left = 328
+      Left = 398
       Top = 3
       Width = 73
       Height = 25
@@ -376,7 +385,7 @@ object EmployeeHistoryTrainingForm: TEmployeeHistoryTrainingForm
       OnClick = BersihkanClick
     end
     object Selesai: TButton
-      Left = 408
+      Left = 478
       Top = 3
       Width = 73
       Height = 25

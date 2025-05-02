@@ -42,6 +42,7 @@ type
     Label14: TLabel;
     Label15: TLabel;
     Duration: TEdit;
+    Button1: TButton;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure TambahPesertaClick(Sender: TObject);
@@ -58,6 +59,7 @@ type
     procedure JamSelesaiKeyPress(Sender: TObject; var Key: Char);
     procedure JamExit(Sender: TObject);
     procedure JamSelesaiExit(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
     IntRow,MinRowGrid,IntRowCount: Integer;
@@ -72,13 +74,13 @@ type
 
 var
   EmployeeHistoryTrainingForm: TEmployeeHistoryTrainingForm;
-  EmplId,EmplHistoryID,EmplHistoryTrainingID,FormReq,Role:string;
+  EmplId,EmplHistoryID,EmplHistoryTrainingID,FormReq,Role,MateriTrainingID:string;
 
 implementation
 
 uses
   MainU, EmployeeListU, BrowseEmployeeU, EmployeeHistoryLakaRptU, 
-  EmployeeHistoryTrainingListU;
+  EmployeeHistoryTrainingListU, MateriTrainingListU;
 
 {$R *.dfm}
 constructor TEmployeeHistoryTrainingForm.Create(AOwner:TComponent;Empl_HistoryTrainingID,Form_Req:String;EmplType:String);
@@ -265,9 +267,9 @@ begin
       begin
 
         StrQry2:= 'INSERT INTO wh_empl_history_training (date,location,time'+
-                  ',materi,trainer,type,create_date, create_user,update_user,status,role,finish_time,note) VALUES ('+QuotedStr(FormatDateTime('yyyy/mm/dd',Tgl.Date))+','+
+                  ',materi_training_id,trainer,type,create_date, create_user,update_user,status,role,finish_time,note) VALUES ('+QuotedStr(FormatDateTime('yyyy/mm/dd',Tgl.Date))+','+
                    QuotedStr(Lokasi.Text)+','+QuotedStr(Jam.Text)+
-                   ','+QuotedStr(Materi.Text)+
+                   ','+(MateriTrainingID)+
                   ','+QuotedStr(Trainer.Text)+','+QuotedStr(StrType)+
                   ','+QuotedStr(FormatDateTime('yyyy/mm/dd',Tgl.Date))+
                   ','+QuotedStr(User)+','+QuotedStr(User)+',1,'+QuotedStr(Role)+','+QuotedStr(JamSelesai.Text)+','+QuotedStr(Note.Text)+');';
@@ -499,6 +501,11 @@ begin
   if Copy(Durasi,4,1)='0' then Menit:=Copy(Durasi,5,1) else Menit:=Copy(Durasi,4,2);
 
   Duration.Text:= Hours+' Jam '+ Menit+' Menit';
+end;
+
+procedure TEmployeeHistoryTrainingForm.Button1Click(Sender: TObject);
+begin
+  if Main.IsFormOpen('MateriTrainingList')=False then MateriTrainingList:=TMateriTrainingList.Create(Self,'EMPLOYETRAINING');
 end;
 
 end.

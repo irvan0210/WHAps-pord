@@ -18,9 +18,7 @@ type
     Label4: TLabel;
     SBU: TComboBox;
     Periode: TRadioGroup;
-    Bulan: TDateTimePicker;
     TglSampai: TDateTimePicker;
-    CekTglSampai: TCheckBox;
     Tanggal: TDateTimePicker;
     Panel1: TPanel;
     Driver: TEdit;
@@ -29,7 +27,11 @@ type
     Label1: TLabel;
     Total: TMemo;
     Label3: TLabel;
-    RadRole: TRadioGroup;
+    RadTypeEmpl: TRadioGroup;
+    GroupBox1: TGroupBox;
+    Materi: TEdit;
+    Button1: TButton;
+    Button2: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SelesaiClick(Sender: TObject);
     procedure ToXCelClick(Sender: TObject);
@@ -40,7 +42,9 @@ type
     procedure TanggalChange(Sender: TObject);
     procedure TglSampaiChange(Sender: TObject);
     procedure PeriodeClick(Sender: TObject);
-    procedure RadRoleClick(Sender: TObject);
+    procedure RadTypeEmplClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
   private
     { Private declarations }
 
@@ -63,7 +67,7 @@ var
   DriverIDHistTrainingRpt,FormRequest,Employee_Name,Role:String;
 implementation
 
-uses MainU, EmployeeListU;
+uses MainU, EmployeeListU, MateriTrainingListU;
 
 {$R *.dfm}
 
@@ -140,33 +144,42 @@ begin
   IntColumnWidth:=95;
 //  Tanggal.Date:=Now();
   TglSampai.Date:=Now();
-  Bulan.Date:=Now();
+  Materi.Text:='';
 
   if FormRequest='DRIVERFORM' then
   begin
     Driver.Text:=Employee_Name;
     DecodeDate(TglSampai.Date,myYear,myMonth,myDay);
     Tanggal.Date:=EncodeDate(myYear, 1, 1);
-    CekTglSampai.Checked:=True;
+//    CekTglSampai.Checked:=True;
     TglSampai.Enabled:=True;
-    Bulan.Enabled:=False;
+//    Bulan.Enabled:=False;
     Driver.Visible:=True;
     CariDriver.Visible:=False;
-    RadRole.Enabled:=False;
+    RadTypeEmpl.Enabled:=False;
 
-    if Role='DRIVER' then RadRole.ItemIndex:=0 else RadRole.ItemIndex:=1;
+    if Role='DRIVER' then
+    begin
+      RadTypeEmpl.ItemIndex:=1;
+    end else if Role='HELPER' then
+    begin
+      RadTypeEmpl.ItemIndex:=2;
+    end else
+    begin
+      RadTypeEmpl.ItemIndex:=0;
+    end;
   end
   else
   begin
     Driver.Text:='';
     Tanggal.Date:=Now();
-    CekTglSampai.Checked:=False;
-    TglSampai.Enabled:=False;
-    Bulan.Enabled:=False;
+//    CekTglSampai.Checked:=False;
+    TglSampai.Enabled:=True;
+//    Bulan.Enabled:=False;
     CariDriver.Visible:=True;
-    RadRole.ItemIndex:=0;
-    Role:='DRIVER';
-    RadRole.Enabled:=True;
+    RadTypeEmpl.ItemIndex:=0;
+    Role:='SEMUA';
+    RadTypeEmpl.Enabled:=True;
   end;
 
   SBU.Items.Clear;
@@ -212,7 +225,7 @@ end;
 
 procedure TEmplHistoryTrainingRpt.RefreshData;
 var Qry:TADOQuery;
-    StrQry,StrCompanyId,StrLocationId,StrDriverID,StrDate,StrDatesTo:String;
+    StrQry,StrCompanyId,StrLocationId,StrDriverID,StrDate,StrDatesTo,StrMateri,StrTypeEmpl:String;
     IntCount,No:Integer;
     Count,Count2:Integer;
     myYear, myMonth, myDay : Word;
@@ -224,6 +237,17 @@ begin
 
   StrLocationId:=CompanyArr[SBU.ItemIndex][2];
 
+  if RadTypeEmpl.ItemIndex=0 then
+  begin
+    StrTypeEmpl:='';
+  end else if RadTypeEmpl.ItemIndex=1 then
+  begin
+    StrTypeEmpl:=',@EmploymentTypeId=2 ';
+  end else if RadTypeEmpl.ItemIndex=2 then
+  begin
+    StrTypeEmpl:=',@EmploymentTypeId=4 ';
+  end;
+
   if DriverIDHistTrainingRpt<>'' then
   begin
     StrDriverID:=',@DriverID='+QuotedStr(DriverIDHistTrainingRpt);
@@ -233,25 +257,33 @@ begin
     StrDriverID:='';
   end;
 
-  If Periode.ItemIndex=0 Then Begin
-    if CekTglSampai.Checked then begin
+//  if Periode.ItemIndex=0 then Begin
+//    if CekTglSampai.Checked then begin
+//      StrDate:=' @Dates='+QuotedStr(FormatDateTime('yyyy-mm-dd',Tanggal.Date));
+//      StrDatesTo:=',@DatesTo='+QuotedStr(FormatDateTime('yyyy-mm-dd',TglSampai.Date));
+//    end else begin
       StrDate:=' @Dates='+QuotedStr(FormatDateTime('yyyy-mm-dd',Tanggal.Date));
       StrDatesTo:=',@DatesTo='+QuotedStr(FormatDateTime('yyyy-mm-dd',TglSampai.Date));
-    end else begin
-      StrDate:=' @Dates='+QuotedStr(FormatDateTime('yyyy-mm-dd',Tanggal.Date));
-      StrDatesTo:=',@DatesTo='+QuotedStr(FormatDateTime('yyyy-mm-dd',Tanggal.Date));
-    end;
-  End
-  Else Begin
-      DecodeDate(Bulan.Date, myYear, myMonth, myDay);
-      StrDate:=' @Dates='+QuotedStr(FormatDateTime('yyyy-mm-dd', EncodeDate(myYear, myMonth, 1)));
-      StrDatesTo:=',@DatesTo='+QuotedStr(FormatDateTime('yyyy-mm-dd', EncodeDate(myYear, myMonth, DaysInAMonth(myYear, myMonth))));
-  End;
+//    end;
+//  end
+//  else begin
+//      DecodeDate(Bulan.Date, myYear, myMonth, myDay);
+//      StrDate:=' @Dates='+QuotedStr(FormatDateTime('yyyy-mm-dd', EncodeDate(myYear, myMonth, 1)));
+//      StrDatesTo:=',@DatesTo='+QuotedStr(FormatDateTime('yyyy-mm-dd', EncodeDate(myYear, myMonth, DaysInAMonth(myYear, myMonth))));
+//  end;
+
+  if TRIM(Materi.Text)<>'' then
+  begin
+    StrMateri:=',@Materi='+QuotedStr(Materi.Text)+' ';
+  end else
+  begin
+    StrMateri:='';
+  end;
 
   if Main.OpenDb then begin
     SetLength(TrainingArr,0);
 
-    StrQry:='EXEC GetEmployeeHistoryTrainingDetail '+StrDate+StrDatesTo+StrDriverID;
+    StrQry:='EXEC GetEmployeeHistoryTrainingDetail '+StrDate+StrDatesTo+StrDriverID+StrMateri+StrTypeEmpl;
     Main.WriteLog('SQL :'+StrQry,2);
     Qry.SQL.Add(StrQry);
     Qry.Open;
@@ -348,21 +380,28 @@ end;
 
 procedure TEmplHistoryTrainingRpt.CariDriverClick(Sender: TObject);
 begin
-  if Role='DRIVER' then
+  if RadTypeEmpl.ItemIndex<>0 then
   begin
-    if Main.IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'Bus',1,0,'LAPORANHISTORYTRAINING');
-  end else
-  begin
-    if Main.IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'Bus2',1,0,'LAPORANHISTORYTRAINING');
+    if Role='DRIVER' then
+    begin
+      if Main.IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'Bus',1,0,'LAPORANHISTORYTRAINING');
+    end else if Role='HELPER' then
+    begin
+      if Main.IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'Bus2',1,0,'LAPORANHISTORYTRAINING');
+    end else begin
+      if Main.IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'',1,0,'LAPORANHISTORYTRAINING');
+    end;
+  end else begin
+    MessageBox(0,PChar('Pilih dahulu tipe karyawan'),'Laporan History Training',MB_OK or MB_ICONWARNING);
   end;
 end;
 
 procedure TEmplHistoryTrainingRpt.CekTglSampaiClick(Sender: TObject);
 begin
-  if not(Initiation) then begin
-    if CekTglSampai.Checked=True then TglSampai.Enabled:=True
-    else TglSampai.Enabled:=False;
-  end;
+//  if not(Initiation) then begin
+//    if CekTglSampai.Checked=True then TglSampai.Enabled:=True
+//    else TglSampai.Enabled:=False;
+//  end;
 end;
 
 procedure TEmplHistoryTrainingRpt.TanggalChange(Sender: TObject);
@@ -386,28 +425,45 @@ begin
     Case Periode.ItemIndex Of
     0 : Begin
           Tanggal.Enabled:=True;
-          CekTglSampai.Enabled:=True;
+//          CekTglSampai.Enabled:=True;
           CekTglSampaiClick(Nil);
-          Bulan.Enabled:=False;
+//          Bulan.Enabled:=False;
         End;
     1 : Begin
           Tanggal.Enabled:=False;
           TglSampai.Enabled:=False;
-          CekTglSampai.Enabled:=False;
-          Bulan.Enabled:=True;
+//          CekTglSampai.Enabled:=False;
+//          Bulan.Enabled:=True;
         End;
     End;
 end;
 
-procedure TEmplHistoryTrainingRpt.RadRoleClick(Sender: TObject);
+procedure TEmplHistoryTrainingRpt.RadTypeEmplClick(Sender: TObject);
 begin
   if FormRequest<>'DRIVERFORM' then begin
-    if RadRole.ItemIndex=0 then Role:='DRIVER'
-    else Role:='HELPER';
+    if RadTypeEmpl.ItemIndex=1 then
+    begin
+      Role:='DRIVER'
+    end
+    else if RadTypeEmpl.ItemIndex=2 then Role:='HELPER'
+    else begin
+       Role:='SEMUA'
+    end;
     DriverIDHistTrainingRpt:='';
     Employee_Name:='';
     Driver.Text:='';
   end;
+end;
+
+procedure TEmplHistoryTrainingRpt.Button1Click(Sender: TObject);
+begin
+  if Main.IsFormOpen('MateriTrainingList')=False then MateriTrainingList:=TMateriTrainingList.Create(Self,'EMPLOYETRAININGRPT');
+end;
+
+procedure TEmplHistoryTrainingRpt.Button2Click(Sender: TObject);
+begin
+  Init;
+  RefreshCombo;
 end;
 
 end.
