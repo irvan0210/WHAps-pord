@@ -15,6 +15,7 @@ type
     Cari: TEdit;
     Label1: TLabel;
     Label2: TLabel;
+    Tambah: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SelesaiClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -22,18 +23,20 @@ type
     procedure StrGridDblClick(Sender: TObject);
     procedure StrGridSelectCell(Sender: TObject; ACol, ARow: Integer;
       var CanSelect: Boolean);
+    procedure TambahClick(Sender: TObject);
   private
     { Private declarations }
     MateriArr:Array of TArrString2;
     FormRequest:String;
     IntCol,IntRow:Integer;
-    procedure RefreshData;
-    procedure RefreshGrid;
+
     procedure InitGrid;
     procedure Search;
   public
     { Public declarations }
     constructor Create(AOwner:TComponent;Form_Request:String='');Overload;
+    procedure RefreshData;
+    procedure RefreshGrid;
   end;
 
 var
@@ -41,7 +44,8 @@ var
 
 implementation
 
-uses MainU, EmployeeHistoryTrainingFormU, EmployeeHistoryTrainingRptU;
+uses MainU, EmployeeHistoryTrainingFormU, EmployeeHistoryTrainingRptU, 
+  MateriTrainingFormU;
 
 {$R *.dfm}
 
@@ -190,10 +194,16 @@ begin
     if FormRequest='EMPLOYETRAINING' then begin
       EmployeeHistoryTrainingForm.Materi.Text:=StrGrid.Cells[0,IntRow];
       MateriTrainingID:=StrGrid.Cells[1,IntRow];
+      Close;
     end else if FormRequest='EMPLOYETRAININGRPT' then begin
       EmplHistoryTrainingRpt.Materi.Text:=StrGrid.Cells[0,IntRow];
+      Close;
+    end else if FormRequest='LIST-MATERITRAINING' then begin
+      if Main.IsFormOpen('MateriTrainingForm')=False then MateriTrainingForm:=TMateriTrainingForm.Create(Self,'UPDATE-MATERITRAINING');
+      MateriTrainingForm.Materi.Text:=StrGrid.Cells[0,IntRow];
+      MateriTrainingIDFORM:=StrGrid.Cells[1,IntRow];
     end;
-    Close;
+
   end;
 end;
 
@@ -202,6 +212,11 @@ procedure TMateriTrainingList.StrGridSelectCell(Sender: TObject; ACol,
 begin
   IntCol:=ACol;
   IntRow:=ARow;
+end;
+
+procedure TMateriTrainingList.TambahClick(Sender: TObject);
+begin
+  if Main.IsFormOpen('MateriTrainingForm')=False then MateriTrainingForm:=TMateriTrainingForm.Create(Self,'ADD-MATERITRAINING');
 end;
 
 end.

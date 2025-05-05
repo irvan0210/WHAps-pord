@@ -1,6 +1,6 @@
 object MateriTrainingList: TMateriTrainingList
-  Left = 364
-  Top = 209
+  Left = 419
+  Top = 420
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Materi Training List'
@@ -95,5 +95,14 @@ object MateriTrainingList: TMateriTrainingList
     Height = 21
     TabOrder = 3
     OnChange = CariChange
+  end
+  object Tambah: TButton
+    Left = 8
+    Top = 8
+    Width = 75
+    Height = 25
+    Caption = 'Tambah'
+    TabOrder = 4
+    OnClick = TambahClick
   end
 end

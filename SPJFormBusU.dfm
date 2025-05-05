@@ -1,6 +1,6 @@
 object SPJFormBus: TSPJFormBus
-  Left = 282
-  Top = 301
+  Left = 233
+  Top = 195
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Surat Jalan'
@@ -3984,9 +3984,9 @@ object SPJFormBus: TSPJFormBus
         Font.Style = [fsBold]
         Transparent = True
         mmHeight = 7408
-        mmLeft = 74348
+        mmLeft = 72496
         mmTop = 87048
-        mmWidth = 121444
+        mmWidth = 125148
         BandType = 0
       end
     end

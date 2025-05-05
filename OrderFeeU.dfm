@@ -1,6 +1,6 @@
 object OrderFee: TOrderFee
-  Left = 176
-  Top = 53
+  Left = 211
+  Top = 127
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Uang Order'
@@ -5146,15 +5146,15 @@ object OrderFee: TOrderFee
   object ppReportSPPB: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Envelope DL 220 x 110 mm'
+    PrinterSetup.PaperName = 'BBM'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 5080
     PrinterSetup.mmMarginLeft = 6350
     PrinterSetup.mmMarginRight = 6350
     PrinterSetup.mmMarginTop = 2540
-    PrinterSetup.mmPaperHeight = 140000
-    PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 127
+    PrinterSetup.mmPaperHeight = 152000
+    PrinterSetup.mmPaperWidth = 216000
+    PrinterSetup.PaperSize = 146
     Template.FileName = 'D:\WH App\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'

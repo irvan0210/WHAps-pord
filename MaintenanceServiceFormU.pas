@@ -862,8 +862,10 @@ begin
   end;
   DisableInput;
   Init;
+  InitGrid;
   CheckGrid;
   RefreshCombo;
+  RefreshMaintenanceJob;
 end;
 
 procedure TMaintenanceServiceForm.PreparePrint;
@@ -1064,6 +1066,7 @@ var Qry:TADOQuery;
     IntCount,IntLastRow:Integer;
     IsLastRow:Boolean;
 begin
+  InitGrid;
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
   for IntCount:=0 to Length(MaintenanceGroupArr)-1 do

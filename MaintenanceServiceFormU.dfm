@@ -1,6 +1,6 @@
 object MaintenanceServiceForm: TMaintenanceServiceForm
-  Left = 331
-  Top = 105
+  Left = 464
+  Top = 561
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Servis Berkala'

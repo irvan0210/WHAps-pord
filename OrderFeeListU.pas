@@ -246,7 +246,6 @@ procedure TOrderFeeList.Button1Click(Sender: TObject);
 begin
   LoadData;
   RefreshGrid;
-
 end;
 
 end.

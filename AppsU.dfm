@@ -1,6 +1,6 @@
 object Apps: TApps
-  Left = 612
-  Top = 36
+  Left = 482
+  Top = 101
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Aplikasi'
@@ -126,6 +126,36 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '02/05/2025 (6.1.10.4)'
+      '-Penambahan Master Materi Training'
+      '-Penambhan Filter Materi Training di Laporan Training'
+      ''
+      '25/04/2025 (6.1.10.3)'
+      
+        '-Penambahan catatan "Pastikan Surat Jalan di Tanda Tangani Custo' +
+        'mer"'
+      ' pada Surat Jalan'
+      ''
+      '23/04/2025 (6.1.10.2)'
+      '-Penambahan Filter No Order di List Invoice'
+      '-Penambahan Filter perCustomer di'
+      'Laporan Kontinuitas dan Laporan Pengeluaran perArmada Jalan'
+      ''
+      '22/04/2025 (6.1.10.1)'
+      
+        '-Penambahan Form Histori Cetak Ulang Uang Order di Form Uang Ord' +
+        'er'
+      
+        '-Penambahan 1 kolom Reprint Terakhi  di Laporan Uang Order Haria' +
+        'n'
+      
+        '-Penambahan input text di form Reprint jika alasan Perubahan Dat' +
+        'a'
+      
+        '-Penambahan kolom Keluhan dilaporan PKB dan memberikan warna bir' +
+        'u'
+      'jika keluhan diceklis saat tutup pkb'
+      ''
       '16/04/2025 (6.1.10.0)'
       
         '-Penambahan Form Histori Cetak Ulang Uang Order di Form Uang Ord' +
@@ -141,10 +171,13 @@ object Apps: TApps
         'u'
       'jika keluhan diceklis saat tutup pkb'
       ''
-      '07/04/2025 (6.1.9.1)'
+      '07/04/2025 (6.1.9.2)'
       
         '-Perbaikan Nilai Invoice yang tidak sesuai di Laporan Pengeluara' +
         'n Armada '
+      ''
+      '25/03/2025 (6.1.9.1)'
+      '-Penambahan Laporan Pesanan Wehamart '
       ''
       '17/03/2025 (6.1.9.0)'
       '-Penambahan menu Estimasi Budget Armada'
