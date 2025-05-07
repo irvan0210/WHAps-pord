@@ -278,6 +278,9 @@ type
     BtnTbhBarang: TButton;
     Label15: TLabel;
     ListKunciCepat: TMemo;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -522,7 +525,7 @@ begin
         Request.Text:=Qry.FieldValues['request'];
       end;
       Qry.Close;
-      StrQry:='SELECT description FROM wh_driver_complain_detail where driver_complain_id='+QuotedStr(DriverComplainId)+'and status=1;';
+      StrQry:='SELECT driver_complain_detail_id,description FROM wh_driver_complain_detail where driver_complain_id='+QuotedStr(DriverComplainId)+'and status=1;';
       Qry.SQL.Clear;
       Main.WriteLog('SQL :'+StrQry,2);
       Qry.SQL.Add(StrQry);
@@ -531,6 +534,7 @@ begin
       if (Qry.RecordCount>0) then while not(Qry.Eof) do begin
         if IntCount>StrGrid.RowCount-1 then StrGrid.RowCount:=StrGrid.RowCount+1;
         StrGrid.Cells[0,IntCount]:=Qry.FieldValues['description'];
+        StrGrid.Cells[2,IntCount]:=Qry.FieldValues['driver_complain_detail_id'];
         Inc(IntCount);
         Qry.Next;
       end;
@@ -595,6 +599,7 @@ begin
   StrGrid.RowCount:=1;
   KeluhanGridSebelum.RowCount:=1;
   StrGrid.ColWidths[1]:=0;
+  //StrGrid.ColWidths[2]:=0;
 end;
 
 procedure TServiceRequestForm.RefreshMekanik;
@@ -1594,13 +1599,13 @@ end;
 procedure TServiceRequestForm.SimpanClick(Sender: TObject);
 var Qry,Qry2:TADOQuery;
     StrQry,StrQryDet,StrMaxId,StrKMOdo,StrMsg,StrTransId,StrVhcId,StrStartDate,StrFinishDate,StrRequest,StrTglDibutuhkanBarang,StrItem,StrQty,StrKodePartGP:String;
-    StrMaintenanceService,StrWorkOrder,StrKeluhan,StrAnalisa,StrMekanik,StrStatusMekanik,StrItemRequestID:String;
+    StrMaintenanceService,StrWorkOrder,StrKeluhan,StrIdDetailKeluhan,StrAnalisa,StrMekanik,StrStatusMekanik,StrItemRequestID:String;
     IntCount,IntJobInEx,IntMemoKhusus:Integer;
     IsOk,IsCetak:Boolean;
 begin
   IsCetak:=False;
   Main.M_Busy;
-  if (NoPolisi.Text<>'') AND
+  if (NoPolisi.Text<>'') and (Request.Text <> '') AND (KMOdo.Text <> '') AND
       (Trim(StrGrid.Cells[0,0])<>'') then begin
       IsOk:=True;
       Qry:=TADOQuery.Create(Self);
@@ -1620,6 +1625,7 @@ begin
           StrMaxId:=Format('%.*d',[4,StrToInt(StrMaxId)+1]);
         end else
           StrMaxId:='0001';
+       // MessageBox(0,PChar(VehicleId),'Service Request',MB_OK or MB_ICONERROR);
         StrVhcId:=QuotedStr(VehicleId);
         StrKMOdo:=ToString(KMOdo.Text);
         if Trim(NoSB.Text)<>'' then StrMaintenanceService:=QuotedStr(Trim(NoSB.Text)) else StrMaintenanceService:='NULL';
@@ -1642,6 +1648,8 @@ begin
         end;
 
         if MemoKhusus.Checked=True then IntMemoKhusus:=1 else IntMemoKhusus:=0;
+
+
 
         Main.TransStart;
         if NoSR.Text<>'' then begin
@@ -1674,12 +1682,14 @@ begin
         end;
         StrQry:='';
 
-
         for IntCount:=0 to StrGrid.RowCount-1 do begin
           StrKeluhan:= StrGrid.Cells[0,IntCount];
+          StrIdDetailKeluhan:= StrGrid.Cells[2,IntCount];
+         // MessageBox(0,PChar(StrGrid.Cells[2,IntCount]),'Keluhan Driver',MB_OK or MB_ICONINFORMATION);
+
           if Trim(StrGrid.Cells[0,IntCount])<>'' then
-            StrQryDet:=StrQryDet+' INSERT INTO wh_service_request_detail (service_request_id,service_description_id,description,update_user)'+
-                    ' VALUES ('+QuotedStr(StrTransId)+',1,'+QuotedStr(StrKeluhan)+
+            StrQryDet:=StrQryDet+' INSERT INTO wh_service_request_detail (service_request_id,service_description_id,description,driver_complain_detail_id,update_user)'+
+                    ' VALUES ('+QuotedStr(StrTransId)+',1,'+QuotedStr(StrKeluhan)+', '+QuotedStr(StrIdDetailKeluhan)+
                     ','+QuotedStr(User)+'); ';
         end;
         Qry.SQL.Clear;

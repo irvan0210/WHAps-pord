@@ -1,11 +1,11 @@
 object FDriverComplainList: TFDriverComplainList
-  Left = 227
-  Top = 344
+  Left = 247
+  Top = 107
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Keluhan Driver'
-  ClientHeight = 502
-  ClientWidth = 958
+  ClientHeight = 518
+  ClientWidth = 1038
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,8 +19,8 @@ object FDriverComplainList: TFDriverComplainList
   OnClose = FormClose
   OnShow = FormShow
   DesignSize = (
-    958
-    502)
+    1038
+    518)
   PixelsPerInch = 96
   TextHeight = 13
   object lbl2: TLabel
@@ -45,8 +45,8 @@ object FDriverComplainList: TFDriverComplainList
     Caption = 's/d'
   end
   object ToXCel: TSpeedButton
-    Left = 667
-    Top = 468
+    Left = 827
+    Top = 460
     Width = 23
     Height = 22
     Glyph.Data = {
@@ -86,6 +86,47 @@ object FDriverComplainList: TFDriverComplainList
     Height = 13
     Caption = 'Cari'
   end
+  object Label10: TLabel
+    Left = 192
+    Top = 459
+    Width = 142
+    Height = 16
+    Caption = 'Merah = Keluhan ditolak'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 192
+    Top = 475
+    Width = 200
+    Height = 16
+    Caption = 'Hijau = Keluhan diproses bengkel'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clGreen
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label3: TLabel
+    Left = 190
+    Top = 493
+    Width = 409
+    Height = 16
+    Caption = 
+      'Biru = Keluhan ( Keluhan sudah dikerjakan), PKB ( PKB sudah ditu' +
+      'tup )'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlue
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
   object GroupTotal: TGroupBox
     Left = 8
     Top = 456
@@ -120,7 +161,7 @@ object FDriverComplainList: TFDriverComplainList
     OnChange = TanggalChange
   end
   object Refresh: TButton
-    Left = 745
+    Left = 825
     Top = 12
     Width = 75
     Height = 25
@@ -132,16 +173,16 @@ object FDriverComplainList: TFDriverComplainList
   object StrGrid: TZColorStringGrid
     Left = 3
     Top = 56
-    Width = 952
-    Height = 409
-    Anchors = [akLeft, akTop, akRight]
-    ColCount = 20
+    Width = 1022
+    Height = 398
+    ColCount = 6
+    DefaultColWidth = 50
     DefaultRowHeight = 20
     DefaultDrawing = False
     FixedColor = clSkyBlue
     FixedCols = 0
     FixedRows = 2
-    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goColMoving]
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColMoving]
     TabOrder = 3
     OnDblClick = StrGridDblClick
     OnSelectCell = StrGridSelectCell
@@ -158,7 +199,6 @@ object FDriverComplainList: TFDriverComplainList
     DefaultFixedCellStyle.Font.Style = []
     DefaultFixedCellStyle.BGColor = clSkyBlue
     LineDesign.LineUpColor = clWhite
-    WordWrap = True
   end
   object GroupCompany: TGroupBox
     Left = 8
@@ -203,8 +243,8 @@ object FDriverComplainList: TFDriverComplainList
     Visible = False
   end
   object Button1: TButton
-    Left = 447
-    Top = 465
+    Left = 615
+    Top = 460
     Width = 75
     Height = 25
     Anchors = [akTop, akRight]

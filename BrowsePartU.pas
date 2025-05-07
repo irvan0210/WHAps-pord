@@ -231,9 +231,19 @@ begin
   kode_part_gp:= BrowsePart.StrGrid.Cells[1,IntRow];
   if FormRequest='SERVICEREQUESTFORM' then
   begin
+    if Trim(part)<>'' then
+      begin
+        for IntCount:=2 to ServiceRequestForm.StrGrid2.RowCount do begin
+          if Trim(part)=ServiceRequestForm.StrGrid2.Cells[1,IntCount-1] then
+          begin
+            MessageBox(0,PChar('Part sudah dipilih'),'List Part',MB_OK or MB_ICONWARNING);
+            Exit;
+          end;
+        end;
+      end;
+
     IntRowCount:=ServiceRequestForm.StrGrid2.RowCount+1;
     ServiceRequestForm.StrGrid2.RowCount:=IntRowCount;
-
     with ServiceRequestForm do begin
       rowcount2:=StrGrid2.RowCount;
       StrGrid2.Cells[0,StrGrid2.RowCount-1]:=IntToStr(StrGrid2.RowCount-1);

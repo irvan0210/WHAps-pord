@@ -495,7 +495,7 @@ begin
         KeluhanGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
       end else KeluhanGrid.Cells[0,IntCount+1]:='';
       KeluhanGrid.Cells[1,IntCount+1]:=Qry.FieldValues['description'];
-      KeluhanGrid.Cells[2,IntCount+1]:=Qry.FieldValues['work_order_detail_id'];
+      KeluhanGrid.Cells[2,IntCount+1]:=Qry.FieldValues['driver_complain_detail_id'];
       Qry.Next;
       Inc(IntCount);
     end;
@@ -947,7 +947,7 @@ begin
     Qry2:=TADOQuery.Create(Self);
     Qry2.Connection:=Main.MyConnection;
     if Main.OpenDb then begin
-      StrQry:='select work_order_detail_id,description,isdone from wh_work_order_detail where work_order_id='+QuotedStr(WorkOrderId)+' AND '+
+      StrQry:='select work_order_detail_id,description,isdone,driver_complain_detail_id from wh_work_order_detail where work_order_id='+QuotedStr(WorkOrderId)+' AND '+
       'description_id=1 and status=1 ';
       Qry.SQL.Add(StrQry);
       Qry.Open;
@@ -974,7 +974,7 @@ begin
           else
             KeluhanGrid.Cells[0,IntCount+1]:='';
           KeluhanGrid.Cells[1,IntCount+1]:=Qry.FieldValues['description'];
-          KeluhanGrid.Cells[2,IntCount+1]:=Qry.FieldValues['work_order_detail_id'];
+          KeluhanGrid.Cells[2,IntCount+1]:=Qry.FieldValues['driver_complain_detail_id'];
           KeluhanGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
           Qry.Next;
           Inc(IntCount);
@@ -1301,7 +1301,10 @@ end;
 
 procedure TWorkOrderFormIn.SimpanClick(Sender: TObject);
 var Qry,Qry2,Qry3:TADOQuery;
-    StrQry,StrStatus,StrMsg,StrEMsg,StrTransId,StrVhcId,StrKeluhan,StrAnalisa,StrDone,StrIsUsed,StrMekanik,StrStatusMekanik,StrPart,StrQty,StrKodePart,StrTanggalSelesai,StrJamSelesai:String;
+    StrQry,StrStatus,StrMsg,StrEMsg,StrTransId,
+    StrVhcId,StrKeluhan,StrAnalisa,StrDone,StrIsUsed,
+    StrMekanik,StrStatusMekanik,StrPart,StrQty,StrKodePart,
+    StrTanggalSelesai,StrJamSelesai, StrSRDetailID:String;
     IntCount,IntStatus:Integer;
     IsOk, IsOK2:Boolean;
 begin
@@ -1309,7 +1312,7 @@ begin
     StrTransId:=NoPKB.Text;
     StrVhcId:=WOArr[ArrayIndexOf(WOArr,NoPKB.Text,0)][7];
     IsOk:=True;
-    IsOK2 := False;
+
     if chkClose.Checked = True then
     begin
       StrStatus:=',status=2';
@@ -1323,11 +1326,12 @@ begin
       StrJamSelesai:=' = NULL';
     end;
 
-
+    IsOK2 := False;
     for IntCount :=1 to KeluhanGrid.RowCount-1 do begin
-     // MessageBox(0,PChar(KeluhanGrid.Cells[0,IntCount-1]) ,'Keluhan',MB_OK or MB_ICONWARNING);
+     // MessageBox(0,PChar(KeluhanGrid.Cells[0,IntCount]) ,'Keluhan',MB_OK or MB_ICONWARNING);
        if KeluhanGrid.Cells[0,IntCount] = 'v' then begin
         IsOK2 := True;
+        Break;
        end else IsOK2 := FALSE;
     end;
 
@@ -1346,6 +1350,8 @@ begin
           Main.TransStart;
           if chkClose.Checked = True then
           begin
+
+
             if IsOK2 = False then begin
               if MessageBox(0,PChar('Keluhan Belum ada yang diceklist,'+#13#10+'Yakin mau melanjutkan..?') ,'Keluhan',MB_OKCANCEL or MB_ICONWARNING)=1 then begin
                 if CompareDate(StrToDate(Tanggal.Text),TanggalSelesai.Date)=1 then begin
@@ -1405,7 +1411,9 @@ begin
                     ' VALUES ('+Chr(39)+StrTransId+Chr(39)+',2'+
                     ','+Chr(39)+PekerjaanGrid.Cells[0,IntCount]+Chr(39)+
                     ','+Chr(39)+PekerjaanGrid.Cells[1,IntCount]+Chr(39)+
-                    ','+Chr(39)+User+Chr(39)+'); ';
+                    ','+Chr(39)+User+Chr(39)+
+                    ','+Chr(39)+PekerjaanGrid.Cells[1,IntCount]+Chr(39)+
+                    '); ';
           end;
           Qry.SQL.Clear;
           Qry.SQL.Add(StrQry);
@@ -1464,16 +1472,17 @@ begin
           StrQry:='';
           for IntCount:=1 to KeluhanGrid.RowCount-1 do begin
               StrKeluhan:=QuotedStr(KeluhanGrid.Cells[1,IntCount]);
+              StrSRDetailID := QuotedStr(KeluhanGrid.Cells[2,IntCount]);
     //          StrDone:=QuotedStr(KeluhanGrid.Cells[0,IntCount]);
               if (KeluhanGrid.Cells[0,IntCount])='v' then
               StrDone:='1' else StrDone:='0';
               if Trim(KeluhanGrid.Cells[1,IntCount])<>'' then
                 StrQry:= StrQry+' INSERT INTO wh_work_order_detail (work_order_id,description_id'+
-                        ',description,update_user,isdone)'+
+                        ',description,update_user,isdone,driver_complain_detail_id)'+
                         ' VALUES ('+QuotedStr(StrTransId)+',1'+
                         ','+StrKeluhan+
                         ','+QuotedStr(User)+', '+
-                        ''+QuotedStr(StrDone)+'); ';
+                        ''+QuotedStr(StrDone)+', '+StrSRDetailID+'); ';
           end;
           Qry2.SQL.Clear;
           Main.WriteLog('SQL :'+StrQry,4);

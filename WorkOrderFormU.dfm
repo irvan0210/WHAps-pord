@@ -1,6 +1,6 @@
 object WorkOrderForm: TWorkOrderForm
-  Left = 297
-  Top = 98
+  Left = 581
+  Top = 153
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Buka Perintah Kerja Bengkel'
@@ -3502,7 +3502,8 @@ object WorkOrderForm: TWorkOrderForm
       Top = 16
       Width = 273
       Height = 169
-      ColCount = 1
+      ColCount = 2
+      DefaultColWidth = 275
       DefaultRowHeight = 18
       FixedCols = 0
       RowCount = 1
@@ -3510,8 +3511,6 @@ object WorkOrderForm: TWorkOrderForm
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect]
       TabOrder = 1
       OnSelectCell = KeluhanGridSelectCell
-      ColWidths = (
-        249)
     end
   end
   object grp2: TGroupBox

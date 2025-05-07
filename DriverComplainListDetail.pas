@@ -56,7 +56,7 @@ end;
 procedure TFDriverComplainListDetail.Init;
 var Count,Count2:Integer;
 begin
-  MaxCol:=3;
+  MaxCol:=4;
 end;
 
 procedure TFDriverComplainListDetail.InitGrid;
@@ -69,17 +69,20 @@ begin
   StrGrid.ColWidths[1]:=35;
   StrGrid.ColWidths[2]:=100;
   StrGrid.ColWidths[3]:=440;
+  StrGrid.ColWidths[4]:=100;
 
   StrGrid.Cells[0,0]:='No';
   StrGrid.Cells[1,0]:='Cek';
   StrGrid.Cells[2,0]:='No Driver Complain';
   StrGrid.Cells[3,0]:='Keluhan';
+  StrGrid.Cells[4,0]:='ID Keluhan Detail';
 
 
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[2,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[3,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[4,0].HorizontalAlignment:=taCenter;
 
 end;
 
@@ -122,11 +125,13 @@ begin
     StrGrid.Cells[0,Count]:=IntToStr(Count);
     StrGrid.Cells[2,Count]:=Qry.FieldValues['driver_complain_id'];
     StrGrid.Cells[3,Count]:=Qry.FieldValues['description'];
+    StrGrid.Cells[4,Count]:=Qry.FieldValues['driver_complain_detail_id'];
 
     StrGrid.CellStyle[0,Count].HorizontalAlignment:=taLeftJustify;
     StrGrid.CellStyle[1,Count].HorizontalAlignment:=taLeftJustify;
     StrGrid.CellStyle[2,Count].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[3,Count].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[4,Count].HorizontalAlignment:=taRightJustify;
 
     Inc(Count);
     Qry.Next;
@@ -169,7 +174,7 @@ begin
   IntCol:=ACol;
   MinRowGrid:=0;
 //  if (IsInput) then begin
-    if (StrGrid.Cells[4,ARow]='')  then begin
+    if (StrGrid.Cells[5,ARow]='')  then begin
       R := StrGrid.CellRect(ACol, ARow);
       R.Left := R.Left + StrGrid.Left;
       R.Right := R.Right + StrGrid.Left;
@@ -195,18 +200,20 @@ end;
 procedure TFDriverComplainListDetail.SimpanClick(Sender: TObject);
 var
 IntCount,IntCount2:Integer;
-description: string;
+description,IdKeluhanDetail: string;
 begin
   IntCount2:=0;
 //  ServiceRequestForm.IntCount:=ServiceRequestForm.IntLastRow;
   for IntCount:=1 to StrGrid.RowCount do begin
     description:=StrGrid.Cells[3,IntCount];
+    IdKeluhanDetail := StrGrid.Cells[4,IntCount];
     if StrGrid.Cells[1,IntCount]='v' then begin
       IntCount2:= IntCount2+1;
       with  ServiceRequestForm do
       begin
         if (IntCount2-1)>StrGrid.RowCount-1 then StrGrid.RowCount:=StrGrid.RowCount+1;
         StrGrid.Cells[0,IntCount2-1]:=description;
+        StrGrid.Cells[2,IntCount2-1]:=IdKeluhanDetail;
 //        Inc(IntCount);
       end;
       with  ServiceRequestForm do
