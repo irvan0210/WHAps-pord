@@ -534,7 +534,7 @@ begin
         ResponsDriverComplaint.tgl_request.Text := StrGrid.Cells[4,IntRow];
         //MessageBox(0,PChar(StrDriveComplainID),'User Group Tree Menu',MB_OK or MB_ICONERROR);
         ResponsDriverComplaint.SetDriverComplainId(StrDriveComplainID);
-        ResponsDriverComplaint.CheckReject.Enabled := False;
+//        ResponsDriverComplaint.CheckReject.Enabled := False;
       end;
     end
     else if (Statuskeluhan = 'Tidak diproses') then
