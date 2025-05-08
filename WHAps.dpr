@@ -337,7 +337,9 @@ uses
   MasterBatanganListU in 'MasterBatanganListU.pas' {MasterBatanganList},
   DetailOrderEstimasiBudgetFormU in 'DetailOrderEstimasiBudgetFormU.pas' {DetailOrderEstimasiBudgetForm},
   LaporanWehaMartU in 'LaporanWehaMartU.pas' {LaporanWehaMart},
-  HistoryPrintOrderFeeU in 'HistoryPrintOrderFeeU.pas' {HistoryPrintOrderFee};
+  HistoryPrintOrderFeeU in 'HistoryPrintOrderFeeU.pas' {HistoryPrintOrderFee},
+  MateriTrainingFormU in 'MateriTrainingFormU.pas' {MateriTrainingForm},
+  MateriTrainingListU in 'MateriTrainingListU.pas' {MateriTrainingList};
 
 {$R *.res}
 

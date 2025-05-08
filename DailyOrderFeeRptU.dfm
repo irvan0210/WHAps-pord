@@ -1,6 +1,6 @@
 object DailyOrderFeeRpt: TDailyOrderFeeRpt
-  Left = 194
-  Top = 139
+  Left = 425
+  Top = 380
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
   Caption = 'Laporan Uang Order Harian'
@@ -402,7 +402,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
   object ppReportReimburse: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = '1/2 A4'
+    PrinterSetup.PaperName = 'Surat Jalan'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 5080
     PrinterSetup.mmMarginLeft = 6350
