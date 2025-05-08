@@ -465,6 +465,7 @@ begin
       StrGrid.Cells[IntCount2,IntCount]:='';
   for IntCount:=0 to KeluhanGrid.RowCount-1 do
     KeluhanGrid.Cells[0,IntCount]:='';
+    KeluhanGrid.Cells[1,IntCount]:='';
   KeluhanGrid.RowCount:=MinRow+1;
 //  KeluhanGridSebelum.RowCount:=1;
 //  KeluhanGridSebelum.Cells[0,0]:='';
@@ -705,6 +706,7 @@ begin
       if Qry.RecordCount>0 then while not(Qry.Eof) do begin
         if KeluhanGrid.RowCount<IntCount+2 then KeluhanGrid.RowCount:=KeluhanGrid.RowCount+1;
         KeluhanGrid.Cells[0,IntCount]:=Qry.FieldValues['description'];
+        KeluhanGrid.Cells[1,IntCount]:=Qry.FieldValues['driver_complain_detail_id'];
         Qry.Next;
         Inc(IntCount);
       end;
@@ -832,7 +834,7 @@ begin
 //    KeluhanGrid.Top:=KeluhanGridSebelum.Top+KeluhanGridSebelum.Height;
 //    KeluhanGridSebelum.RowCount:=1;
     IntAddRow:=0;
-    StrQry:='select description from wh_work_order_detail where work_order_id='+QuotedStr(WorkOrderId)+' AND '+
+    StrQry:='select description, driver_complain_detail_id from wh_work_order_detail where work_order_id='+QuotedStr(WorkOrderId)+' AND '+
     'description_id=1 and status=1 ';
     Qry.SQL.Clear;
     Qry.SQL.Add(StrQry);
@@ -841,6 +843,9 @@ begin
     if Qry.RecordCount>0 then while not(Qry.Eof) do begin
       if KeluhanGrid.RowCount<IntCount+1 then KeluhanGrid.RowCount:=KeluhanGrid.RowCount+1;
       KeluhanGrid.Cells[0,IntCount]:=Qry.FieldValues['description'];
+      if Qry.FieldValues['driver_complain_detail_id']<> null then
+        KeluhanGrid.Cells[1,IntCount]:=Qry.FieldValues['driver_complain_detail_id']
+      else  KeluhanGrid.Cells[1,IntCount]:='';
       Qry.Next;
       Inc(IntCount);
     end;
@@ -1087,7 +1092,8 @@ end;
 
 procedure TWorkOrderForm.SimpanClick(Sender: TObject);
 var Qry:TADOQuery;
-    StrQry,StrMaxId,StrKMOdo,StrGenRep,StrBodRep,StrAnalisa,StrAnsur,StrMsg,StrEMsg,StrTransId,StrVhcId,StrStartDate,StrFinishDate,StrFinishDates,StrDescription,StrServiceRequestId,StrPart,StrQty,StrKodePart,StrMekanik,StrStatusMekanik:String;
+    StrQry,StrMaxId,StrKMOdo,StrGenRep,StrBodRep,StrAnalisa,StrAnsur,StrMsg,StrEMsg,StrTransId,StrVhcId,StrStartDate,StrFinishDate,StrFinishDates,
+    StrDescription,StrServiceRequestDetailId,StrServiceRequestId,StrPart,StrQty,StrKodePart,StrMekanik,StrStatusMekanik:String;
     IntCount,IntJobInEx:Integer;
     IsOk,IsCetak:Boolean;
     ADate,AMonth,AYear:Word;
@@ -1192,12 +1198,13 @@ begin
         StrQry:='';
         for IntCount:=MinRow to KeluhanGrid.RowCount-1 do begin
           StrDescription:=QuotedStr(KeluhanGrid.Cells[0,IntCount]);
+          StrServiceRequestDetailId := QuotedStr(KeluhanGrid.Cells[1,IntCount]);
           if Trim(KeluhanGrid.Cells[0,IntCount])<>'' then
             StrQry:=StrQry+' INSERT INTO wh_work_order_detail (work_order_id,description_id'+
-                    ',description,update_user,isdone)'+
+                    ',description,update_user,isdone,driver_complain_detail_id)'+
                     ' VALUES ('+QuotedStr(StrTransId)+',1'+
                     ','+StrDescription+
-                    ','+QuotedStr(User)+',0); ';
+                    ','+QuotedStr(User)+',0,'+StrServiceRequestDetailId+'); ';
         end;
         Qry.SQL.Clear;
         Main.WriteLog('SQL :'+StrQry,4);

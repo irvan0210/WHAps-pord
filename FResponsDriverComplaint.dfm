@@ -1,11 +1,11 @@
 object ResponsDriverComplaint: TResponsDriverComplaint
-  Left = 503
-  Top = 110
+  Left = 584
+  Top = 248
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Respons Driver Complaint'
   ClientHeight = 412
-  ClientWidth = 513
+  ClientWidth = 494
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,7 +23,7 @@ object ResponsDriverComplaint: TResponsDriverComplaint
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 513
+    Width = 494
     Height = 265
     Align = alTop
     Caption = 'Data Keluhan Driver'
@@ -114,28 +114,36 @@ object ResponsDriverComplaint: TResponsDriverComplaint
   object GroupBox2: TGroupBox
     Left = 0
     Top = 265
-    Width = 513
+    Width = 494
     Height = 147
     Align = alClient
     TabOrder = 1
     object Label6: TLabel
       Left = 66
-      Top = 19
+      Top = 31
       Width = 39
       Height = 13
       Alignment = taRightJustify
       Caption = 'Respon '
     end
+    object Label7: TLabel
+      Left = 77
+      Top = 11
+      Width = 28
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'Tolak '
+    end
     object memoRespon: TMemo
       Left = 112
-      Top = 14
+      Top = 30
       Width = 366
-      Height = 89
+      Height = 75
       HideSelection = False
       TabOrder = 0
     end
     object keluar: TButton
-      Left = 296
+      Left = 257
       Top = 109
       Width = 75
       Height = 25
@@ -144,13 +152,21 @@ object ResponsDriverComplaint: TResponsDriverComplaint
       OnClick = keluarClick
     end
     object save: TButton
-      Left = 214
+      Left = 175
       Top = 110
       Width = 75
       Height = 25
       Caption = 'Simpan'
       TabOrder = 2
       OnClick = saveClick
+    end
+    object CheckReject: TCheckBox
+      Left = 112
+      Top = 11
+      Width = 14
+      Height = 17
+      Alignment = taLeftJustify
+      TabOrder = 3
     end
   end
 end

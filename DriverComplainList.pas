@@ -26,6 +26,9 @@ type
     Button1: TButton;
     Cari: TEdit;
     Label1: TLabel;
+    Label10: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
     procedure Button1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -60,6 +63,7 @@ type
 
 var
   FDriverComplainList: TFDriverComplainList;
+  IntCount : Integer;
 
 implementation
 
@@ -78,7 +82,7 @@ end;
 procedure TFDriverComplainList.Init;
 var Count,Count2:Integer;
 begin
-  MaxCol:=6;
+  MaxCol:=10;
   SBU.Items.Clear;
   SBU.Text:='';
   SBU.ItemIndex:=0;
@@ -96,7 +100,7 @@ var IntCount,IntGeserKolom:Integer;
 begin
   MinRowGrid:=2;
   StrGrid.RowCount:=2;
-  StrGrid.ColCount:=8;
+  StrGrid.ColCount:=12;
   StrGrid.ColWidths[0]:=28;
   StrGrid.ColWidths[1]:=100;
   StrGrid.ColWidths[2]:=160;
@@ -105,8 +109,12 @@ begin
   StrGrid.ColWidths[5]:=440;
   StrGrid.ColWidths[6]:=150;
   StrGrid.ColWidths[7]:=100;
-  //StrGrid.ColWidths[8]:=160;
- // StrGrid.ColWidths[9]:=100;
+  StrGrid.ColWidths[8]:=100;
+  StrGrid.ColWidths[9]:=150;
+  StrGrid.ColWidths[10]:=100;
+  StrGrid.ColWidths[11]:=50;
+  //StrGrid.ColWidths[12]:=100;
+  //StrGrid.ColWidths[13]:=150;
 
   StrGrid.Cells[0,0]:='No';
   StrGrid.Cells[1,0]:='No Keluhan Driver';
@@ -116,8 +124,12 @@ begin
   StrGrid.Cells[5,0]:='Keluhan';
   StrGrid.Cells[6,0]:='Respon';
   StrGrid.Cells[7,0]:='No SR';
-  //StrGrid.Cells[8,0]:='Respon';
-  //StrGrid.Cells[9,0]:='No SR';
+  StrGrid.Cells[8,0]:='No PKB';
+  StrGrid.Cells[9,0]:='Status';
+  StrGrid.Cells[10,0]:='Vehicel ID';
+  StrGrid.Cells[11,0]:='KM';
+  //StrGrid.Cells[12,0]:='Id Detail Keluhan';
+  //StrGrid.Cells[13,0]:='Keterangan Ditolak';
 
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
@@ -127,6 +139,12 @@ begin
   StrGrid.CellStyle[5,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[6,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[7,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[8,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[9,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[10,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[11,0].HorizontalAlignment:=taCenter;
+  //StrGrid.CellStyle[12,0].HorizontalAlignment:=taCenter;
+  //StrGrid.CellStyle[13,0].HorizontalAlignment:=taCenter;
   for IntCount:=0 to StrGrid.ColCount-1 do
     StrGrid.Cells[IntCount,1]:='';
 end;
@@ -134,9 +152,9 @@ end;
 
 procedure TFDriverComplainList.RefreshData;
 var Qry,Qry2,Qry3:TADOQuery;
-    StrQry,StrTanggal,StrDepositDate1,StrDepositDate2,
+    StrQry,StrTanggal,StrDepositDate1,StrDepositDate2,  StrDate, StrToDate,
     StrBatch,StrSeat,StrCompanyId,StrLocationId,StrToDates,StrChkSewaLuar,StrPaid,StrRequest:String;
-    IntCount,IntCount2,IntCount3,IntRows,StartRow,IntTotal,IntTolParkir,IntBiayaLain, IntTotalUnit,No:Integer;
+    IntCount2,IntCount3,IntRows,StartRow,IntTotal,IntTolParkir,IntBiayaLain, IntTotalUnit,No:Integer;
     IntPayment:Array [0..2] of Integer;
     StrPayment:Array [0..2] of String;
     StrList,StrList2:TStringList;
@@ -154,7 +172,7 @@ begin
 
   if Cari.Text<>'' then
   begin
-    StrRequest:=' AND ((request LIKE ''%'+Cari.Text+'%'') OR (license_plate LIKE ''%'+Cari.Text+'%'') ) ';
+    StrRequest:= ','+QuotedStr(Cari.Text); //' AND ((a.request LIKE ''%'+Cari.Text+'%'') OR (license_plate LIKE ''%'+Cari.Text+'%'') ) ';
   end else
   begin
     StrRequest:='';
@@ -165,14 +183,19 @@ begin
   if Main.OpenDb then begin
     SetLength(OrderArr,0);
 
-    StrQry:='select a.*,b.license_plate, '+
+   { StrQry:='select a.*,b.license_plate, '+
             ' IIF(a.response IS NULL,'''', a.response) AS respons,'+
             ' IIF(c.service_request_id IS NULL,'''', c.service_request_id) AS service_request_id from wh_driver_complain a '+
             ' left join wh_vehicle b on a.vehicle_id=b.vehicle_id ' +
             ' LEFT JOIN wh_service_request c ON a.driver_complain_id=c.driver_complain_id and c.approve<>2 '+
             'where '+
             '(a.submit_date between '+QuotedStr(FormatDateTime('yyyy-mm-dd',Tanggal.Date))+' and '+QuotedStr(FormatDateTime('yyyy-mm-dd',TglSampai.Date+1))+' ) '+
-            'and a.company_id='+StrCompanyId+' and a.status=1 '+StrRequest+';';
+            'and a.company_id='+StrCompanyId+' and a.status=1 '+StrRequest+';';}
+
+    StrDate := QuotedStr(FormatDateTime('yyyy-mm-dd',Tanggal.Date));
+    StrToDate := QuotedStr(FormatDateTime('yyyy-mm-dd',TglSampai.Date));
+    StrQry := 'EXEC GetDriverComplaintList '+CompanyId+','+StrDate+','+StrToDate+StrRequest+';';
+
     Main.WriteLog('SQL :'+StrQry,2);
     Qry.SQL.Add(StrQry);
     Qry.Open;
@@ -194,10 +217,23 @@ begin
       OrderArr[IntCount][4]:= FormatDateTime('dd/MM/YYYY', Qry.FieldValues['submit_date']) ;
       OrderArr[IntCount][6]:=Qry.FieldValues['vehicle_id'];
       if Qry.FieldValues['odo_in']<>NULL then OrderArr[IntCount][7]:= Qry.FieldValues['odo_in'] else OrderArr[IntCount][7]:='0';
-      StrQry:='select description from wh_driver_complain_detail where '+
-              'driver_complain_id='+QuotedStr(Qry.FieldValues['driver_complain_id'])+' and status=1 and (description IS NOT NULL AND description<>'''');';
+      StrQry:='SELECT a.*, b.isdone from wh_driver_complain_detail a '+
+              ' LEFT JOIN wh_work_order_detail b ON a.driver_complain_detail_id =b.driver_complain_detail_id AND b.status <> 0  '+
+              //' LEFT JOIN wh_work_order_detail c ON b.service_request_detail_id=c.service_request_detail_id AND c.status <> 0 '+
+              ' WHERE driver_complain_id='+QuotedStr(Qry.FieldValues['driver_complain_id'])+' AND a.status <> 0 '+
+              ' AND (a.description IS NOT NULL AND a.description<>'''');';
       OrderArr[IntCount][8]:=Qry.FieldValues['respons'];
       OrderArr[IntCount][9]:=Qry.FieldValues['service_request_id'];
+
+      if Qry.FieldValues['work_order_id'] <> null then
+        OrderArr[IntCount][11]:=Qry.FieldValues['work_order_id']
+      else  OrderArr[IntCount][11]:= '';
+
+     // ( Qry.FieldValues['service_request_id']<> NULL )
+     if Qry.FieldValues['status_pkb'] <> null then
+        OrderArr[IntCount][12]:= Qry.FieldValues['status_pkb']
+        else OrderArr[IntCount][12]:= '';
+
       Qry2.SQL.Clear;
       Main.WriteLog('SQL :'+StrQry,2);
       Qry2.SQL.Add(StrQry);
@@ -214,6 +250,28 @@ begin
           OrderArr[IntCount][4]:=FormatDateTime('dd/MM/YYYY', Qry.FieldValues['submit_date']);
         end;
         OrderArr[IntCount][5]:=Qry2.FieldValues['description'];
+        if Qry2.FieldValues['isdone']<> Null then
+          OrderArr[IntCount][13]:=Qry2.FieldValues['isdone']
+        else OrderArr[IntCount][13]:= '';
+
+        if (Qry.FieldValues['is_reject'] = 1) and (Qry.FieldValues['service_request_id']='') then
+        OrderArr[IntCount][10] := 'Tidak diproses'
+       else if (Qry.FieldValues['is_reject'] = null) and (Qry.FieldValues['service_request_id']<>'') then
+         begin
+          // if (Qry.FieldValues['status_pkb'] = 2) then
+           // OrderArr[IntCount][10] := 'Sudah Tutup PKB'
+          // else
+            OrderArr[IntCount][10] := 'Diproses bengkel';
+         end
+
+       else OrderArr[IntCount][10] := 'Diajukan ke bengkel';
+
+      { if Qry.FieldValues['status_pkb'] <> null then
+        OrderArr[IntCount][12]:= Qry.FieldValues['status_pkb']
+        else OrderArr[IntCount][12]:= '';
+       { if Qry2.FieldValues['note_rejected'] <> null then
+            OrderArr[IntCount][13]:=Qry2.FieldValues['note_rejected']
+        else OrderArr[IntCount][13]:= ''; }
 
         Inc(IntCount2);
         Application.ProcessMessages;
@@ -325,7 +383,11 @@ begin
       StrGrid.Cells[4,IntCount+1]:=OrderArr[IntCount][4];
       StrGrid.Cells[6,IntCount+1]:=OrderArr[IntCount][8];
       StrGrid.Cells[7,IntCount+1]:=OrderArr[IntCount][9];
-      //StrGrid.Cells[9,IntCount+1]:=OrderArr[IntCount][9];
+      StrGrid.Cells[8,IntCount+1]:=OrderArr[IntCount][11];
+      //StrGrid.Cells[9,IntCount+1]:=OrderArr[IntCount][10];
+      StrGrid.Cells[10,IntCount+1]:=OrderArr[IntCount][6];
+      StrGrid.Cells[11,IntCount+1]:=OrderArr[IntCount][7];
+
       IsDrawRect:=False;
     end else if (IntCount<Length(OrderArr)-1) then begin
       if (StrOrderId<>OrderArr[IntCount+1][1]) then IsDrawRect:=True;
@@ -339,17 +401,69 @@ begin
       StrGrid.MergeCells.AddRectXY(4,IntStartRow+1,4,IntCount+1);
       StrGrid.MergeCells.AddRectXY(6,IntStartRow+1,6,IntCount+1);
       StrGrid.MergeCells.AddRectXY(7,IntStartRow+1,7,IntCount+1);
+      StrGrid.MergeCells.AddRectXY(8,IntStartRow+1,8,IntCount+1);
+      //StrGrid.MergeCells.AddRectXY(9,IntStartRow+1,9,IntCount+1);
+      StrGrid.MergeCells.AddRectXY(10,IntStartRow+1,10,IntCount+1);
+      StrGrid.MergeCells.AddRectXY(11,IntStartRow+1,11,IntCount+1);
     end;
     StrGrid.Cells[5,IntCount+1]:=OrderArr[IntCount][5];
+    StrGrid.Cells[9,IntCount+1]:=OrderArr[IntCount][10];
+    //StrGrid.Cells[12,IntCount+1]:=OrderArr[IntCount][12];
+    //StrGrid.Cells[13,IntCount+1]:=OrderArr[IntCount][13];
 
     StrGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[1,IntCount+1].HorizontalAlignment:=taLeftJustify;
     StrGrid.CellStyle[2,IntCount+1].HorizontalAlignment:=taLeftJustify;
     StrGrid.CellStyle[3,IntCount+1].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[4,IntCount+1].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[4,IntCount+1].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[5,IntCount+1].HorizontalAlignment:=taLeftJustify;
     StrGrid.CellStyle[6,IntCount+1].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[7,IntCount+1].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[7,IntCount+1].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[8,IntCount+1].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[9,IntCount+1].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[10,IntCount+1].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[11,IntCount+1].HorizontalAlignment:=taLeftJustify;
+    //StrGrid.CellStyle[12,IntCount+1].HorizontalAlignment:=taLeftJustify;
+    //StrGrid.CellStyle[13,IntCount+1].HorizontalAlignment:=taLeftJustify;
+
+
+    if (OrderArr[IntCount][13]<> '') then begin
+      for IntCount2:=0 to StrGrid.ColCount-1 do begin
+        StrGrid.CellStyle[5,IntCount+1].font.Color := clRed;
+        StrGrid.CellStyle[9,IntCount+1].font.Color := clRed;
+        //StrGrid.CellStyle[13,IntCount+1].font.Color := clRed;
+      end
+     end else begin
+      for IntCount2:=0 to StrGrid.ColCount-1 do begin
+        StrGrid.CellStyle[5,IntCount+1].font.Color := clWindowText;
+        StrGrid.CellStyle[9,IntCount+1].font.Color := clWindowText;
+        //StrGrid.CellStyle[13,IntCount+1].font.Color := clWindowText;
+      end;
+     end;
+
+     if (OrderArr[IntCount][10] = 'Tidak diproses') then begin
+      for IntCount2:=0 to StrGrid.ColCount-1 do begin
+        StrGrid.CellStyle[IntCount2,IntCount+1].font.Color := clRed;
+        //StrGrid.CellStyle[9,IntCount+1].font.Color := clRed;
+        //StrGrid.CellStyle[13,IntCount+1].font.Color := clRed;
+      end
+     end else if (OrderArr[IntCount][10] ='Diproses bengkel') then  begin
+      for IntCount2:=0 to StrGrid.ColCount-1 do begin
+        StrGrid.CellStyle[IntCount2,IntCount+1].font.Color := clGreen;
+        if (OrderArr[IntCount][13]= '1') then
+        StrGrid.CellStyle[5,IntCount+1].font.Color := clBlue;
+
+        if (OrderArr[IntCount][12]= '2') then
+        StrGrid.CellStyle[8,IntCount+1].font.Color := clBlue;
+      end
+     end
+     else begin
+      for IntCount2:=0 to StrGrid.ColCount-1 do begin
+        StrGrid.CellStyle[IntCount2,IntCount+1].font.Color := clWindowText;
+       //StrGrid.CellStyle[9,IntCount+1].font.Color := clWindowText;
+       // StrGrid.CellStyle[13,IntCount+1].font.Color := clWindowText;
+      end;
+     end;
 
   end;
 end;
@@ -367,6 +481,7 @@ begin
   end else if FormRequest='Service Request' then
   begin
     Caption:='Data Keluhan Driver' ;
+
   end;
 
   Init;
@@ -391,16 +506,18 @@ end;
 
 procedure TFDriverComplainList.StrGridDblClick(Sender: TObject);
 var Qry:TADOQuery;
-    StrQry,StrDriveComplainID,StrRequest,StrVehicle_ID,StrLicensePlate,StrKmOdo,StrResponse,StrNoSR :String;
+    StrQry,StrDriveComplainID,StrRequest,StrVehicle_ID,StrLicensePlate,
+    StrKmOdo,StrResponse,StrNoSR, Statuskeluhan :String;
 begin
   //Service Request
   StrResponse:= StrGrid.Cells[6,IntRow];
   StrNoSR := StrGrid.Cells[7,IntRow];
   StrDriveComplainID:=StrGrid.Cells[1,IntRow];
   StrRequest:=StrGrid.Cells[2,IntRow];
-  StrVehicle_ID:=StrGrid.Cells[6,IntRow];
+  StrVehicle_ID:=StrGrid.Cells[10,IntRow];
   StrLicensePlate:=StrGrid.Cells[3,IntRow];
-  StrKmOdo:=StrGrid.Cells[7,IntRow];
+  StrKmOdo:=StrGrid.Cells[11,IntRow];
+  Statuskeluhan := StrGrid.Cells[9,IntRow];
   if (Main.IsFormOpen('ServiceRequestForm')=True) AND (FormRequest='Service Request') then
   begin
   //  MessageBox(0,PChar(StrResponse),'Respon 1',MB_OK or MB_ICONERROR);
@@ -409,7 +526,7 @@ begin
     begin
       MessageBox(0,PChar('Keluhan Belum Direspon..!'),'Keluhan Driver',MB_OK or MB_ICONERROR);
       if Main.IsFormOpen('ResponsDriverComplaint')=False then begin
-        ResponsDriverComplaint :=TResponsDriverComplaint.Create(Self,StrGrid.Cells[1,IntRow]);
+        ResponsDriverComplaint :=TResponsDriverComplaint.Create(Self,StrGrid.Cells[1,IntRow],Statuskeluhan);
         StrDriveComplainID:=StrGrid.Cells[1,IntRow];
         ResponsDriverComplaint.NoKeluhan.Text :=StrGrid.Cells[1,IntRow];
         ResponsDriverComplaint.Driver.Text := StrGrid.Cells[2,IntRow];
@@ -417,64 +534,77 @@ begin
         ResponsDriverComplaint.tgl_request.Text := StrGrid.Cells[4,IntRow];
         //MessageBox(0,PChar(StrDriveComplainID),'User Group Tree Menu',MB_OK or MB_ICONERROR);
         ResponsDriverComplaint.SetDriverComplainId(StrDriveComplainID);
+        ResponsDriverComplaint.CheckReject.Enabled := False;
       end;
     end
+    else if (Statuskeluhan = 'Tidak diproses') then
+      begin
+        MessageBox(0,PChar('Keluhan Sudah Ditolak!'),'Keluhan Driver',MB_OK or MB_ICONERROR);
+      end
     else if (StrNoSR <> '') then
       begin
-        MessageBox(0,PChar('Keluhan Sudah Direquest!'),'Keluhan Driver',MB_OK or MB_ICONERROR);
+        MessageBox(0,PChar('Keluhan Sudah Direquest!'),'Keluhan Driver',MB_OK or MB_ICONINFORMATION);
       end
-    else if (StrNoSR = '') and (StrResponse<>'') then
+    else if (StrNoSR = '') and (StrResponse<>'')then
     begin
-      Qry:=TADOQuery.Create(Self);
-      Qry.Connection:=Main.MyConnection;
-      Qry.CommandTimeout := 3600;
-      Main.M_Busy;
-      if Main.OpenDb then begin
-        SetLength(CompanyArr,0);
-        StrQry:='SELECT * FROM wh_driver_complain_detail where driver_complain_id='+QuotedStr(StrGrid.Cells[1,IntRow])+'and status=1 and (description IS NOT NULL AND description<>'''');';
-        Main.WriteLog('SQL :'+StrQry,2);
-        Qry.SQL.Add(StrQry);
-        Qry.Open;
+        Qry:=TADOQuery.Create(Self);
+        Qry.Connection:=Main.MyConnection;
+        Qry.CommandTimeout := 3600;
+        Main.M_Busy;
+        if Main.OpenDb then begin
+          SetLength(CompanyArr,0);
+          StrQry:='SELECT * FROM wh_driver_complain_detail where driver_complain_id='+QuotedStr(StrGrid.Cells[1,IntRow])+'and status=1 and (description IS NOT NULL AND description<>'''');';
+          Main.WriteLog('SQL :'+StrQry,2);
+          Qry.SQL.Add(StrQry);
+          Qry.Open;
 
-        if Qry.RecordCount=1 then begin
-           ServiceRequestForm.SetDriverComplainId(StrDriveComplainID);
-           Close;
-        end else if Qry.RecordCount>1 then begin
-          with FDriverComplainListDetail do
-          begin
-            DriverComplainID:=StrDriveComplainID;
-            RequestName:=StrRequest;
-            LicensePlate:=StrLicensePlate;
-            StrOdoIn:=StrKmOdo;
-            StrVehicleID2 :=StrVehicle_ID;
+          if Qry.RecordCount=1 then begin
+             ServiceRequestForm.SetDriverComplainId(StrDriveComplainID);
+             Close;
+          end else if Qry.RecordCount>1 then begin
+            with FDriverComplainListDetail do
+            begin
+              DriverComplainID:=StrDriveComplainID;
+              RequestName:=StrRequest;
+              LicensePlate:=StrLicensePlate;
+              StrOdoIn:=StrKmOdo;
+              StrVehicleID2 :=StrVehicle_ID;
+            end;
+            if Main.IsFormOpen('FDriverComplainListDetail')=False then FDriverComplainListDetail:=TFDriverComplainListDetail.Create(Self);
           end;
-          if Main.IsFormOpen('FDriverComplainListDetail')=False then FDriverComplainListDetail:=TFDriverComplainListDetail.Create(Self);
         end;
-      end;
+      //end;
       Qry.Destroy;
       Main.CloseDb;
       Main.M_Normal;
     end;
-  end else if (FormRequest='Laporan Keluhan Driver') and (StrResponse='') and (StrNoSR='') then
+  end else if (FormRequest='Laporan Keluhan Driver')  and (StrNoSR='') then
   begin
-    if Main.IsFormOpen('ResponsDriverComplaint')=False then
-    begin
-      ResponsDriverComplaint :=TResponsDriverComplaint.Create(Self,StrGrid.Cells[1,IntRow]);
-      StrDriveComplainID:=StrGrid.Cells[1,IntRow];
-      ResponsDriverComplaint.NoKeluhan.Text :=StrGrid.Cells[1,IntRow];
-      ResponsDriverComplaint.Driver.Text := StrGrid.Cells[2,IntRow];
-      ResponsDriverComplaint.NoPolisi.Text :=StrGrid.Cells[3,IntRow];
-      ResponsDriverComplaint.tgl_request.Text := StrGrid.Cells[4,IntRow];
-      //MessageBox(0,PChar(StrDriveComplainID),'User Group Tree Menu',MB_OK or MB_ICONERROR);
-      ResponsDriverComplaint.SetDriverComplainId(StrDriveComplainID);
+
+    if (StrResponse <> '') and (Statuskeluhan = 'Tidak diproses') then begin
+        MessageBox(0,PChar('Keluhan tidak diproses bengkel'),'Keluhan driver',MB_OK or MB_ICONWARNING);
+    end else  begin
+        if Main.IsFormOpen('ResponsDriverComplaint')=False then begin
+            ResponsDriverComplaint :=TResponsDriverComplaint.Create(Self,StrGrid.Cells[1,IntRow],Statuskeluhan);
+            StrDriveComplainID:=StrGrid.Cells[1,IntRow];
+            ResponsDriverComplaint.NoKeluhan.Text :=StrGrid.Cells[1,IntRow];
+            ResponsDriverComplaint.Driver.Text := StrGrid.Cells[2,IntRow];
+            ResponsDriverComplaint.NoPolisi.Text :=StrGrid.Cells[3,IntRow];
+            ResponsDriverComplaint.tgl_request.Text := StrGrid.Cells[4,IntRow];
+            //MessageBox(0,PChar(StrDriveComplainID),'User Group Tree Menu',MB_OK or MB_ICONERROR);
+            ResponsDriverComplaint.SetDriverComplainId(StrDriveComplainID);
+        end;
     end;
-  end;
+  end
+  else if (FormRequest='Laporan Keluhan Driver')and (StrNoSR<>'') then
+    MessageBox(0,PChar('Keluhan Sudah jadi Servis Request'),'Keluhan driver',MB_OK or MB_ICONWARNING);
 end;
 
 procedure TFDriverComplainList.StrGridSelectCell(Sender: TObject; ACol,
   ARow: Integer; var CanSelect: Boolean);
 begin
-  IntRow:=ARow;
+  IntRow :=ARow;
+  IntCol := ACol;
 end;
 
 procedure TFDriverComplainList.TanggalChange(Sender: TObject);
@@ -540,6 +670,9 @@ begin
             StrGrid.Cells[4,Count2-1]:=OrderArr[IntCount][4];
             StrGrid.Cells[6,Count2-1]:=OrderArr[IntCount][8];
             StrGrid.Cells[7,Count2-1]:=OrderArr[IntCount][9];
+            StrGrid.Cells[8,Count2+1]:=OrderArr[IntCount][11];
+            StrGrid.Cells[9,Count2+1]:=OrderArr[IntCount][10];
+            StrGrid.Cells[10,Count2+1]:=OrderArr[IntCount][6];
             //StrGrid.Cells[9,IntCount+1]:=OrderArr[IntCount][9];
             IsDrawRect:=False;
           end else if (IntCount<Length(OrderArr)-1) then begin
@@ -554,6 +687,9 @@ begin
             StrGrid.MergeCells.AddRectXY(4,IntStartRow+1,4,Count2-1);
             StrGrid.MergeCells.AddRectXY(6,IntStartRow+1,6,Count2-1);
             StrGrid.MergeCells.AddRectXY(7,IntStartRow+1,7,Count2-1);
+            StrGrid.MergeCells.AddRectXY(8,IntStartRow+1,8,Count2-1);
+            StrGrid.MergeCells.AddRectXY(9,IntStartRow+1,9,Count2-1);
+            StrGrid.MergeCells.AddRectXY(10,IntStartRow+1,10,Count2-1);
           end;
           StrGrid.Cells[5,Count2-1]:=OrderArr[IntCount][5];
 
@@ -596,14 +732,17 @@ begin
 
 
 //            end;
-          StrGrid.CellStyle[0,Count2-1].HorizontalAlignment:=taCenter;
-          StrGrid.CellStyle[1,Count2-1].HorizontalAlignment:=taLeftJustify;
-          StrGrid.CellStyle[2,Count2-1].HorizontalAlignment:=taLeftJustify;
-          StrGrid.CellStyle[3,Count2-1].HorizontalAlignment:=taLeftJustify;
-          StrGrid.CellStyle[4,Count2-1].HorizontalAlignment:=taLeftJustify;
-          StrGrid.CellStyle[5,Count2-1].HorizontalAlignment:=taLeftJustify;
-          StrGrid.CellStyle[6,Count2-1].HorizontalAlignment:=taLeftJustify;
-          StrGrid.CellStyle[7,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
+          StrGrid.CellStyle[1,IntCount+1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[2,IntCount+1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[3,IntCount+1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[4,IntCount+1].HorizontalAlignment:=taCenter;
+          StrGrid.CellStyle[5,IntCount+1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[6,IntCount+1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[7,IntCount+1].HorizontalAlignment:=taCenter;
+          StrGrid.CellStyle[8,IntCount+1].HorizontalAlignment:=taCenter;
+          StrGrid.CellStyle[9,IntCount+1].HorizontalAlignment:=taCenter;
+          StrGrid.CellStyle[10,IntCount+1].HorizontalAlignment:=taLeftJustify;
           Inc(Count2);
         end;
     end;

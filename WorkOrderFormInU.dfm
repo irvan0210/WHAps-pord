@@ -1,5 +1,5 @@
 object WorkOrderFormIn: TWorkOrderFormIn
-  Left = 147
+  Left = 164
   Top = 142
   BorderIcons = []
   BorderStyle = bsNone

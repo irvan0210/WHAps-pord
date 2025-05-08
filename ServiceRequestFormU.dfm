@@ -1,11 +1,11 @@
 object ServiceRequestForm: TServiceRequestForm
-  Left = 351
+  Left = 272
   Top = 100
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Service Request'
   ClientHeight = 539
-  ClientWidth = 944
+  ClientWidth = 949
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -272,6 +272,34 @@ object ServiceRequestForm: TServiceRequestForm
         Height = 13
         Alignment = taRightJustify
         Caption = 'No Body'
+      end
+      object Label17: TLabel
+        Left = 99
+        Top = 43
+        Width = 5
+        Height = 16
+        Alignment = taRightJustify
+        Caption = '*'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clRed
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label18: TLabel
+        Left = 340
+        Top = 45
+        Width = 5
+        Height = 16
+        Alignment = taRightJustify
+        Caption = '*'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clRed
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
       end
       object NoPolisi: TEdit
         Left = 3
@@ -543,7 +571,7 @@ object ServiceRequestForm: TServiceRequestForm
   object GroupNo: TGroupBox
     Left = 0
     Top = 0
-    Width = 944
+    Width = 949
     Height = 33
     Align = alTop
     Enabled = False
@@ -714,12 +742,26 @@ object ServiceRequestForm: TServiceRequestForm
       Alignment = taRightJustify
       Caption = 'Permintaan'
     end
+    object Label16: TLabel
+      Left = 116
+      Top = 0
+      Width = 5
+      Height = 16
+      Alignment = taRightJustify
+      Caption = '*'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+    end
     object StrGrid: TStringGrid
       Left = 10
       Top = 39
-      Width = 293
+      Width = 287
       Height = 168
-      ColCount = 2
+      ColCount = 3
       DefaultColWidth = 280
       DefaultRowHeight = 18
       FixedCols = 0
@@ -730,12 +772,12 @@ object ServiceRequestForm: TServiceRequestForm
       OnSelectCell = KeluhanGridSelectCell
     end
     object KeluhanGridSebelum: TStringGrid
-      Left = 10
-      Top = 58
-      Width = 293
+      Left = 12
+      Top = 60
+      Width = 285
       Height = 89
       ColCount = 2
-      DefaultColWidth = 280
+      DefaultColWidth = 288
       DefaultRowHeight = 18
       Enabled = False
       FixedCols = 0
@@ -749,7 +791,7 @@ object ServiceRequestForm: TServiceRequestForm
     object KeluhanDetail: TEdit
       Left = 10
       Top = 39
-      Width = 293
+      Width = 287
       Height = 21
       TabOrder = 0
       OnExit = KeluhanDetailExit
