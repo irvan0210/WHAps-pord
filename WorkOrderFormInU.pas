@@ -974,7 +974,9 @@ begin
           else
             KeluhanGrid.Cells[0,IntCount+1]:='';
           KeluhanGrid.Cells[1,IntCount+1]:=Qry.FieldValues['description'];
-          KeluhanGrid.Cells[2,IntCount+1]:=Qry.FieldValues['driver_complain_detail_id'];
+          if Qry.FieldValues['driver_complain_detail_id']<> Null then
+             KeluhanGrid.Cells[2,IntCount+1]:=Qry.FieldValues['driver_complain_detail_id']
+          else KeluhanGrid.Cells[2,IntCount+1]:='';
           KeluhanGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
           Qry.Next;
           Inc(IntCount);

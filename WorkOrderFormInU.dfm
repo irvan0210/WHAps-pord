@@ -1,6 +1,6 @@
 object WorkOrderFormIn: TWorkOrderFormIn
-  Left = 164
-  Top = 142
+  Left = 265
+  Top = 193
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Tutup Perintah Kerja Bengkel'
