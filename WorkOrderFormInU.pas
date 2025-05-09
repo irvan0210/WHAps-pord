@@ -481,7 +481,7 @@ begin
       end;
     end;
     Qry.Close;
-    StrQry:='select work_order_detail_id,description,isdone from wh_work_order_detail where work_order_id='+QuotedStr(WorkOrderId)+' AND '+
+    StrQry:='select work_order_detail_id,description,isdone,driver_complain_detail_id from wh_work_order_detail where work_order_id='+QuotedStr(WorkOrderId)+' AND '+
     'description_id=1 and status=1';
     Qry.SQL.Clear;
     Qry.SQL.Add(StrQry);
@@ -495,7 +495,9 @@ begin
         KeluhanGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
       end else KeluhanGrid.Cells[0,IntCount+1]:='';
       KeluhanGrid.Cells[1,IntCount+1]:=Qry.FieldValues['description'];
-      KeluhanGrid.Cells[2,IntCount+1]:=Qry.FieldValues['driver_complain_detail_id'];
+      if Qry.FieldValues['driver_complain_detail_id'] then
+        KeluhanGrid.Cells[2,IntCount+1]:=Qry.FieldValues['driver_complain_detail_id']
+      else KeluhanGrid.Cells[2,IntCount+1]:='';
       Qry.Next;
       Inc(IntCount);
     end;
@@ -1407,6 +1409,7 @@ begin
           end;
 
           for IntCount:=1 to PekerjaanGrid.RowCount-1 do begin
+            //StrSRDetailID := QuotedStr(KeluhanGrid.Cells[2,IntCount]);
             if Trim(PekerjaanGrid.Cells[0,IntCount])<>'' then
             StrQry:=StrQry+' INSERT INTO wh_work_order_detail (work_order_id,description_id'+
                     ',description,technician,update_user)'+
@@ -1414,7 +1417,6 @@ begin
                     ','+Chr(39)+PekerjaanGrid.Cells[0,IntCount]+Chr(39)+
                     ','+Chr(39)+PekerjaanGrid.Cells[1,IntCount]+Chr(39)+
                     ','+Chr(39)+User+Chr(39)+
-                    ','+Chr(39)+PekerjaanGrid.Cells[1,IntCount]+Chr(39)+
                     '); ';
           end;
           Qry.SQL.Clear;

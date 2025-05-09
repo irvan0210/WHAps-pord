@@ -1,5 +1,5 @@
 object MaintenanceTrackingBody: TMaintenanceTrackingBody
-  Left = 120
+  Left = 288
   Top = 120
   BorderIcons = []
   BorderStyle = bsNone

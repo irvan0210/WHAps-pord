@@ -115,11 +115,7 @@ AutoIncBuild=0
 MajorVer=6
 MinorVer=1
 Release=10
-<<<<<<< HEAD
-Build=4
-=======
-Build=3
->>>>>>> c7bfe6adcbcb2d7ab7c1d0e9772bb00d5b47329c
+Build=5
 Debug=0
 PreRelease=0
 Special=0
@@ -130,11 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=PT Panorama Transportasi Tbk
 FileDescription=White Horse Application
-<<<<<<< HEAD
-FileVersion=6.1.10.4
-=======
-FileVersion=6.1.10.3
->>>>>>> c7bfe6adcbcb2d7ab7c1d0e9772bb00d5b47329c
+FileVersion=6.1.10.5
 InternalName=WHAps
 LegalCopyright=Korynsan
 LegalTrademarks=Korynsan

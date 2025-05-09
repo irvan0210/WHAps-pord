@@ -1,6 +1,6 @@
 object MaintenanceTrackingLastUpdate: TMaintenanceTrackingLastUpdate
-  Left = 414
-  Top = 194
+  Left = 424
+  Top = 209
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Maintenance Tracking by Body'
