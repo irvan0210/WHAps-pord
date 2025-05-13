@@ -302,6 +302,7 @@ type
     ClearKenek: TButton;
     Penjadwalan: TButton;
     ppLabel50: TppLabel;
+    ppLabel51: TppLabel;
     procedure KeluarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure GridMitraSelectCell(Sender: TObject; ACol, ARow: Integer;

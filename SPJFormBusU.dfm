@@ -1,6 +1,6 @@
 object SPJFormBus: TSPJFormBus
   Left = 233
-  Top = 195
+  Top = 137
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Surat Jalan'
@@ -1770,7 +1770,7 @@ object SPJFormBus: TSPJFormBus
   object ppReport2: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Custom'
+    PrinterSetup.PaperName = 'A4 Fanfold 210 mm x 11 2/3 in'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 3810
     PrinterSetup.mmMarginLeft = 6350
@@ -2918,7 +2918,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152400
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 134
+    PrinterSetup.PaperSize = 119
     Template.FileName = 'D:\WH App\Order.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
@@ -3497,7 +3497,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152400
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 134
+    PrinterSetup.PaperSize = 119
     Template.FileName = 'D:\NANANG\WHAPS UPDATE PROD\surat jalan baru.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
@@ -3609,7 +3609,7 @@ object SPJFormBus: TSPJFormBus
         Font.Size = 10
         Font.Style = []
         Transparent = True
-        mmHeight = 28046
+        mmHeight = 26194
         mmLeft = 41275
         mmTop = 57415
         mmWidth = 135732
@@ -3980,13 +3980,32 @@ object SPJFormBus: TSPJFormBus
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Name = 'Arial'
-        Font.Size = 14
+        Font.Size = 12
         Font.Style = [fsBold]
         Transparent = True
-        mmHeight = 7408
-        mmLeft = 72496
-        mmTop = 87048
-        mmWidth = 125148
+        mmHeight = 5292
+        mmLeft = 78317
+        mmTop = 83873
+        mmWidth = 109538
+        BandType = 0
+      end
+      object ppLabel51: TppLabel
+        UserName = 'Label501'
+        Border.BorderPositions = []
+        Border.Color = clBlack
+        Border.Style = psSolid
+        Border.Visible = False
+        Caption = 'Dan Surat Jalan Warna Putih Harus Dikembalikan'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Arial'
+        Font.Size = 12
+        Font.Style = [fsBold]
+        Transparent = True
+        mmHeight = 5292
+        mmLeft = 78581
+        mmTop = 88900
+        mmWidth = 110067
         BandType = 0
       end
     end
@@ -4019,7 +4038,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152400
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 134
+    PrinterSetup.PaperSize = 119
     Template.FileName = 'D:\WH App\Order.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
