@@ -191,6 +191,7 @@ type
     procedure MaintenanceTypeChange(Sender: TObject);
     procedure PredictOdoKeyPress(Sender: TObject; var Key: Char);
     procedure HoursKeyPress(Sender: TObject; var Key: Char);
+    procedure FinishDateChange(Sender: TObject);
   private
     { Private declarations }
     MaintenanceGroupArr,MaintenanceJobArr:Array of TArrString7;
@@ -221,7 +222,7 @@ var
 implementation
 
 uses MainU, RePrintFormU, WorkOrderReprintU, AuthorizedFormU, DateUtils,
-  VehicleListU, DB, ServiceRequestListU;
+  VehicleListU, DB, ServiceRequestListU, MaintenanceServiceListU;
 
 {$R *.dfm}
 
@@ -260,6 +261,8 @@ begin
   SetLength(GridFArr,0);
   SetLength(GridBArr,0);
   ImageRight.Picture.Assign(nil);
+//  MaintenanceJobGrid.ColWidths[0]:=100;
+  MaintenanceJobGrid.ColWidths[1]:=0;
 end;
 
 procedure TMaintenanceServiceForm.InitGrid;
@@ -630,6 +633,7 @@ begin
     Qry.SQL.Add(StrQry);
     Qry.Open;
     if (Qry.RecordCount>0) then begin
+      VehicleId:=Qry.FieldValues['vehicle_id'];
       Tanggal.Text:=Qry.FieldValues['submit_date'];
       NoSB.Text:=Qry.FieldValues['maintenance_service_id'];
       NoBody.Text:=Qry.FieldValues['body_id'];
@@ -713,6 +717,8 @@ begin
   if IsInput then begin
     PanelArmada.Enabled:=True;
   end;
+
+  if FormRequest='UPDATE-MAINTENACESERVICE' then EnableInput ;
   Initiation:=False;
 end;
 
@@ -756,6 +762,9 @@ begin
       Qry.Connection:=Main.MyConnection;
       Main.WriteLog('Form Save:MaintenanceService',1);
       if Main.OpenDb then begin
+
+
+
         StrVhcId:=QuotedStr(VehicleId);
         StrKMOdo:=ToString(KMOdo.Text);
         StrStartDate:=QuotedStr(FormatDateTime('yyyy/mm/dd',StartDate.Date));
@@ -766,22 +775,72 @@ begin
         if Trim(MaintenanceType.Text)<>'' then StrMaintenanceType:=QuotedStr(MaintenanceGroupArr[MaintenanceType.ItemIndex][0]) else StrMaintenanceType:='NULL';
         Main.TransStart;
         StrMsg:='';
-        StrQry:='SELECT RIGHT(MAX(maintenance_service_id),4) AS max_id FROM wh_maintenance_service WHERE maintenance_service_id '+
-                'LIKE '+QuotedStr('MSR'+LocationCode+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
-                FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+'____')+';';
-        Qry.SQL.Add(StrQry);
-        Qry.Open;
-        if Qry.FieldValues['max_id']<>NULL then begin
-          StrTransId:=Qry.FieldValues['max_id'];
-          StrTransId:=Format('%.*d',[4,StrToInt(StrTransId)+1]);
-        end else
-          StrTransId:='0001';
-        StrTransId:='MSR'+LocationCode+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
-                FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+StrTransId;
-        StrQry:='INSERT INTO wh_maintenance_service (maintenance_service_id,company_id,location_id,vehicle_id'+
-                ',odo_in,odo_predict,hour,from_date,to_date,maintenance_group_id,update_user)'+
-                ' VALUES ('+QuotedStr(StrTransId)+','+CompanyId+','+LocationId+','+StrVhcId+','+StrKMOdo+','+StrPredictOdo+
-                ','+StrHour+','+StrStartDate+','+StrFinishDate+','+StrMaintenanceType+','+QuotedStr(User)+');';
+        if ServiceRequestId='' then
+        begin
+
+          StrQry:='SELECT RIGHT(MAX(maintenance_service_id),4) AS max_id FROM wh_maintenance_service WHERE maintenance_service_id '+
+                  'LIKE '+QuotedStr('MSR'+LocationCode+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
+                  FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+'____')+';';
+          Qry.SQL.Add(StrQry);
+          Qry.Open;
+          if Qry.FieldValues['max_id']<>NULL then begin
+            StrTransId:=Qry.FieldValues['max_id'];
+            StrTransId:=Format('%.*d',[4,StrToInt(StrTransId)+1]);
+          end else
+            StrTransId:='0001';
+          StrTransId:='MSR'+LocationCode+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
+                  FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+StrTransId;
+          StrQry:='INSERT INTO wh_maintenance_service (maintenance_service_id,company_id,location_id,vehicle_id'+
+                  ',odo_in,odo_predict,hour,from_date,to_date,maintenance_group_id,update_user)'+
+                  ' VALUES ('+QuotedStr(StrTransId)+','+CompanyId+','+LocationId+','+StrVhcId+','+StrKMOdo+','+StrPredictOdo+
+                  ','+StrHour+','+StrStartDate+','+StrFinishDate+','+StrMaintenanceType+','+QuotedStr(User)+');';
+          Qry.SQL.Clear;
+          Main.WriteLog('SQL :'+StrQry,4);
+          Qry.SQL.Add(StrQry);
+          try
+            Qry.ExecSQL;
+          except
+            on E:Exception do begin
+              IsOk:=False;
+              StrMsg:=E.Message;
+            end;
+          end;
+        end else begin
+          StrTransId:=ServiceRequestId;
+          StrQry:='SELECT * FROM wh_service_request WHERE maintenance_service_id= '+
+                  ''+QuotedStr(StrTransId)+' AND status=1 AND approve=1;';
+          Qry.SQL.Add(StrQry);
+          Qry.Open;
+
+          if Qry.RecordCount>0 then begin
+            MessageBox(0,PChar('Service berkala gagal disimpan !!' +Chr(13)+Chr(13)+'Sudah dibuat Service Request'+Chr(13)),'Service Berkala',MB_OK or MB_ICONWARNING);
+            Main.CloseDb;
+            Main.M_Normal;
+            Exit;
+          end;
+
+          StrQry:='UPDATE wh_maintenance_service SET vehicle_id='+StrVhcId+','+
+                  'odo_in='+StrKMOdo+',odo_predict='+StrPredictOdo+',hour='+StrHour+','+
+                  'from_date='+StrStartDate+',to_date='+StrFinishDate+','+
+                  'maintenance_group_id='+StrMaintenanceType+','+
+                  'update_user='+QuotedStr(User)+',update_time=GETDATE() '+
+                  'WHERE maintenance_service_id='+QuotedStr(StrTransId)+';';
+          Qry.SQL.Clear;
+          Main.WriteLog('SQL :'+StrQry,4);
+          Qry.SQL.Add(StrQry);
+          try
+            Qry.ExecSQL;
+          except
+            on E:Exception do begin
+              IsOk:=False;
+              StrMsg:=E.Message;
+            end;
+          end;
+        end;
+        StrQry:='';
+
+        StrQry:='UPDATE wh_maintenance_service_detail SET status=0 '+
+                'WHERE maintenance_service_id='+QuotedStr(StrTransId)+';';
         Qry.SQL.Clear;
         Main.WriteLog('SQL :'+StrQry,4);
         Qry.SQL.Add(StrQry);
@@ -793,7 +852,8 @@ begin
             StrMsg:=E.Message;
           end;
         end;
-        StrQry:='';
+
+
         for IntCount:=0 to MaintenanceJobGrid.RowCount-1 do begin
           if Trim(MaintenanceJobGrid.Cells[0,IntCount])<>'' then
             StrQry:=StrQry+' INSERT INTO wh_maintenance_service_detail (maintenance_service_id,maintenance_job_id,update_user)'+
@@ -814,8 +874,12 @@ begin
           Main.TransCommit;
           DisableInput;
           NoSB.Text:=StrTransId;
+          if Main.IsFormOpen('MaintenanceServiceList')=True then MaintenanceServiceList.LihatClick(sender);
           //if
-          MessageBox(0,'Berhasil menyimpan Servis Berkala, Mau Dicetak ?','Servis Berkala',MB_OK or MB_ICONINFORMATION)
+//          MessageBox(0,'Berhasil menyimpan Servis Berkala, Mau Dicetak ?','Servis Berkala',MB_OK or MB_ICONINFORMATION)
+          if MessageBox(0,'Service Berkala berhasil disimpan' +Chr(13)+Chr(13)+'   Mau Dicetak ?','ervis Berkala',MB_OKCANCEL or MB_ICONQUESTION)=1 then begin
+            RePrint(Trim(NoSB.Text));
+          end;
           { = 1 then begin
             IsCetak:=True;
           end;}
@@ -1063,7 +1127,7 @@ end;
 procedure TMaintenanceServiceForm.TambahClick(Sender: TObject);
 var Qry:TADOQuery;
     StrQry,StrMaintenanceGroupId:String;
-    IntCount,IntLastRow:Integer;
+    IntCount,IntCount2,IntLastRow:Integer;
     IsLastRow:Boolean;
 begin
   InitGrid;
@@ -1145,6 +1209,8 @@ end;
 procedure TMaintenanceServiceForm.StartDateChange(Sender: TObject);
 var IntCount:Integer;
 begin
+  if StartDate.Date>FinishDate.Date then FinishDate.Date:=StartDate.Date;
+
   if MaintenanceType.Text='' then begin
     FinishDate.Date:=StartDate.Date;
   end else begin
@@ -1178,6 +1244,11 @@ procedure TMaintenanceServiceForm.HoursKeyPress(Sender: TObject;
   var Key: Char);
 begin
   if Key=#13 then PredictOdo.SetFocus;
+end;
+
+procedure TMaintenanceServiceForm.FinishDateChange(Sender: TObject);
+begin
+if FinishDate.Date<StartDate.Date then StartDate.Date:=FinishDate.Date;
 end;
 
 end.

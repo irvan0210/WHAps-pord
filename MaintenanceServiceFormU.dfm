@@ -1,6 +1,6 @@
 object MaintenanceServiceForm: TMaintenanceServiceForm
-  Left = 464
-  Top = 561
+  Left = 282
+  Top = 91
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Servis Berkala'
@@ -270,6 +270,7 @@ object MaintenanceServiceForm: TMaintenanceServiceForm
         Date = 41927.000000000000000000
         Time = 41927.000000000000000000
         TabOrder = 2
+        OnChange = FinishDateChange
         OnKeyPress = FinishDateKeyPress
       end
       object PredictOdo: TEdit
