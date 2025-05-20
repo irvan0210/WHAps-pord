@@ -161,7 +161,7 @@ begin
     StrGrid.Cells[IntCount,IntCount2]:='';
     StrGrid.CellStyle[IntCount,IntCount2].Font.Color:=clWindowText;
   end;
-  if Length(WorkOrderArr)>0 then StrGrid.RowCount:=Length(WorkOrderArr)+1
+  if Length(WorkOrderArr)>0 then StrGrid.RowCount:=Length(WorkOrderArr)+2
   else begin
     StrGrid.RowCount:=2;
   end;
