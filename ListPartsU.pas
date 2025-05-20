@@ -84,6 +84,7 @@ begin
   StrGrid.MergeCells.AddRectXY(1,0,1,1);
   StrGrid.MergeCells.AddRectXY(2,0,2,1);
   StrGrid.MergeCells.AddRectXY(3,0,3,1);
+  StrGrid.MergeCells.AddRectXY(4,0,4,1);
 
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
@@ -96,7 +97,7 @@ end;
 procedure TListParts.RefreshData;
 var Qry:TADOQuery;
     StrQry,StrReq:String;
-    IntCount:Integer;
+    IntCount,No:Integer;
 begin
 
   Qry:=TADOQuery.Create(Self);
@@ -119,9 +120,11 @@ begin
     Qry.SQL.Add(StrQry);
     Qry.Open;
     IntCount:=0;
+    No:=0;
     if Qry.RecordCount>0 then while not(Qry.Eof) do begin
       SetLength(WorkOrderArr,IntCount+1);
-      WorkOrderArr[IntCount][0]:=IntToStr(IntCount+1);
+      No:=No+1;
+      WorkOrderArr[IntCount][0]:=IntToStr(No);
       WorkOrderArr[IntCount][1]:= Qry.FieldValues['kode_part_gp'] ;
       WorkOrderArr[IntCount][2]:=Qry.FieldValues['name'];
       if Qry.FieldValues['standard_km_replacement']<> NULL then
@@ -146,15 +149,26 @@ var IntCount,IntCount2,IntStartRow,IntTotal,IntStartRow2,lengt:Integer;
 begin
   if Length(WorkOrderArr)>0 then StrGrid.RowCount:=Length(WorkOrderArr)+1
   else begin
-    StrGrid.RowCount:=1;
+    StrGrid.RowCount:=2;
+  end;
+  for IntCount:=0 to StrGrid.ColCount-1 do
+  for IntCount2:=2 to StrGrid.RowCount-1 do begin
+    IntTotal:=StrGrid.MergeCells.InMergeRange(IntCount,IntCount2);
+    if IntTotal>=0 then StrGrid.MergeCells.DeleteItem(IntTotal);
+  end;
+  for IntCount:=0 to StrGrid.ColCount-1 do
+  for IntCount2:=1 to StrGrid.RowCount-1 do begin
+    StrGrid.Cells[IntCount,IntCount2]:='';
+    StrGrid.CellStyle[IntCount,IntCount2].Font.Color:=clWindowText;
+  end;
+  if Length(WorkOrderArr)>0 then StrGrid.RowCount:=Length(WorkOrderArr)+1
+  else begin
+    StrGrid.RowCount:=2;
   end;
 
-  IntStartRow:=0;
-  StrOrderId:='';
   IntTotal:=0;
   lengt:= Length(WorkOrderArr)-1;
   for IntCount:=0 to Length(WorkOrderArr)-1 do begin
-    Application.ProcessMessages;
 
     StrGrid.Cells[0,IntCount+2]:=WorkOrderArr[IntCount][0];
     StrGrid.Cells[1,IntCount+2]:=WorkOrderArr[IntCount][1];
@@ -166,6 +180,7 @@ begin
     StrGrid.CellStyle[1,IntCount+2].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[2,IntCount+2].HorizontalAlignment:=taLeftJustify;
     StrGrid.CellStyle[3,IntCount+2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[4,IntCount+2].HorizontalAlignment:=taLeftJustify;
   end;
 end;
 
@@ -222,8 +237,8 @@ begin
 //  end else begin
 //    Init;
 //    InitGrid;
-    RefreshData;
-    RefreshGrid;
+  RefreshData;
+  RefreshGrid;
 //  end;
 end;
 
@@ -243,22 +258,24 @@ end;
 
 procedure TListParts.StrGridDblClick(Sender: TObject);
 begin
-  if FormRequest='REKAPHISTORYARMADAPERGANTIANPART' then
-  begin
-    with RekapHistoryArmadaPergantianPart do begin
-      kode_part_rekap_armada_id:=ListParts.StrGrid.Cells[1,IntRow];
-      Part.Text:=ListParts.StrGrid.Cells[2,IntRow];
-    end;
-    Close;
-  end else begin
-    if Main.IsFormOpen('Part')=False then
+  if IntRow>1 then begin
+    if FormRequest='REKAPHISTORYARMADAPERGANTIANPART' then
     begin
-      Part:=TPart.Create(Self);
-      Part.KodePart.Text:=StrGrid.Cells[1,IntRow];
-      Part.PartName.Text:=StrGrid.Cells[2,IntRow];
-      Part.KmStandardPergantian.Text:=StrGrid.Cells[3,IntRow];
-      IDPart :=StrGrid.Cells[4,IntRow];
-      StatusPart:='UPDATE';
+      with RekapHistoryArmadaPergantianPart do begin
+        kode_part_rekap_armada_id:=ListParts.StrGrid.Cells[1,IntRow];
+        Part.Text:=ListParts.StrGrid.Cells[2,IntRow];
+      end;
+      Close;
+    end else begin
+      if Main.IsFormOpen('Part')=False then
+      begin
+        Part:=TPart.Create(Self);
+        Part.KodePart.Text:=StrGrid.Cells[1,IntRow];
+        Part.PartName.Text:=StrGrid.Cells[2,IntRow];
+        Part.KmStandardPergantian.Text:=StrGrid.Cells[3,IntRow];
+        IDPart :=StrGrid.Cells[4,IntRow];
+        StatusPart:='UPDATE';
+      end;
     end;
   end;
 end;

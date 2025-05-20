@@ -1,10 +1,10 @@
 object ListParts: TListParts
-  Left = 461
-  Top = 193
+  Left = 410
+  Top = 84
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'List Parts'
-  ClientHeight = 477
+  ClientHeight = 488
   ClientWidth = 777
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -20,7 +20,7 @@ object ListParts: TListParts
   OnShow = FormShow
   DesignSize = (
     777
-    477)
+    488)
   PixelsPerInch = 96
   TextHeight = 13
   object btnTombolCari: TSpeedButton
