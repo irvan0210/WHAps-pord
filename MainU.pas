@@ -240,7 +240,7 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   RekapHistoryArmadaPergantianPartU, RekapPergantianPartperArmadaU,
   TechnicalRecommendationU, TechnicalRecommendationListU, 
   ListKetidakSesuaianCrewU, MasterBatanganFormU, MasterBatanganListU,
-  LaporanWehaMartU, MateriTrainingFormU, MateriTrainingListU;
+  LaporanWehaMartU, RekapPergantianPartperArmadaV2U;
 
 
 constructor TClockThread.Create;
@@ -1333,7 +1333,7 @@ begin
                 if IsFormOpen('MaintenanceServiceForm')=False then MaintenanceServiceForm:=TMaintenanceServiceForm.Create(Self);
               end;
             1:begin
-//                if IsFormOpen('WorkOrderFormIn')=False then WorkOrderFormIn:=TWorkOrderFormIn.Create(Self);
+                if IsFormOpen('MaintenanceServiceList')=False then MaintenanceServiceList:=TMaintenanceServiceList.Create(Self,'UPDATE');
               end;
             else begin
                 if IsFormOpen('MaintenanceServiceList')=False then MaintenanceServiceList:=TMaintenanceServiceList.Create(Self);
@@ -1853,8 +1853,8 @@ begin
            end;
         end;
         {Laporan Bengkel}
-        190801..190807:begin
-           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04','05','06','07']) of
+        190801..190808:begin
+           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04','05','06','07','08']) of
               0:if IsFormOpen('MaintenanceServiceRpt')=False then MaintenanceServiceRpt:=TMaintenanceServiceRpt.Create(Self,);
               1:if IsFormOpen('ServiceRequestRpt')=False then ServiceRequestRpt:=TServiceRequestRpt.Create(Self);
               2:if IsFormOpen('WorkOrderRpt')=False then WorkOrderRpt:=TWorkOrderRpt.Create(Self);
@@ -1862,6 +1862,7 @@ begin
               4:if IsFormOpen('FDriverComplainList')=False then FDriverComplainList:=TFDriverComplainList.Create(Self,'Laporan Keluhan Driver');
               5:if IsFormOpen('RekapHistoryArmadaPergantianPart')=False then RekapHistoryArmadaPergantianPart:=TRekapHistoryArmadaPergantianPart.Create(Self);
               6:if IsFormOpen('RekapPergantianPartperArmada')=False then RekapPergantianPartperArmada:=TRekapPergantianPartperArmada.Create(Self);
+              7:if IsFormOpen('RekapPergantianPartperArmadaV2')=False then RekapPergantianPartperArmadaV2:=TRekapPergantianPartperArmadaV2.Create(Self);
            end;
         end;
         {Integrate GP}
@@ -1975,18 +1976,6 @@ begin
             end;
 
           end;
-        end;
-
-        132301..132302:begin
-           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02']) of
-              0:begin
-                  if IsFormOpen('MateriTrainingForm')=False then MateriTrainingForm:=TMateriTrainingForm.Create(Self,'ADD-MATERITRAINING');
-              end;
-              1:begin
-                  if IsFormOpen('MateriTrainingList')=False then MateriTrainingList:=TMateriTrainingList.Create(Self,'LIST-MATERITRAINING');
-              end;
-
-           end;
         end;
 
 
@@ -2408,7 +2397,7 @@ begin
   begin
     if (DbHost<>'103.96.147.245') AND (DbHost<>'10.10.27.221') AND (DbHost<>'whapsdb.whitehorse.co.id') then
     begin
-      DbHost:='10.10.27.221';
+      DbHost:='whapsdb.whitehorse.co.id';
     end;
     {$Define WH_PROD}
   end
