@@ -1,11 +1,11 @@
 object RekapPergantianPartperArmadaV2: TRekapPergantianPartperArmadaV2
-  Left = 63
-  Top = 74
+  Left = 173
+  Top = 38
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'RekapPergantianPartperArmadaV2'
-  ClientHeight = 596
-  ClientWidth = 1222
+  ClientHeight = 601
+  ClientWidth = 1262
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,6 +16,7 @@ object RekapPergantianPartperArmadaV2: TRekapPergantianPartperArmadaV2
   OldCreateOrder = False
   Position = poDesktopCenter
   Visible = True
+  OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -115,10 +116,10 @@ object RekapPergantianPartperArmadaV2: TRekapPergantianPartperArmadaV2
     Caption = 'Seat'
   end
   object StrGrid: TZColorStringGrid
-    Left = 0
-    Top = 48
-    Width = 1217
-    Height = 513
+    Left = 4
+    Top = 52
+    Width = 1041
+    Height = 509
     ColCount = 12
     DefaultRowHeight = 20
     DefaultDrawing = False
@@ -142,31 +143,23 @@ object RekapPergantianPartperArmadaV2: TRekapPergantianPartperArmadaV2
     LineDesign.LineUpColor = clWhite
     WordWrap = True
   end
-  object Selesai: TButton
-    Left = 618
-    Top = 568
-    Width = 75
-    Height = 25
-    Caption = 'Selesai'
-    TabOrder = 1
-    OnClick = SelesaiClick
-  end
-  object Button1: TButton
+  object Lihat: TButton
     Left = 747
     Top = 9
     Width = 75
     Height = 25
     Caption = 'Lihat'
-    TabOrder = 2
-    OnClick = Button1Click
+    TabOrder = 1
+    OnClick = LihatClick
   end
-  object Button3: TButton
+  object PilihPart: TButton
     Left = 627
     Top = 9
     Width = 109
     Height = 25
     Caption = 'Pilih Part'
-    TabOrder = 3
+    TabOrder = 2
+    OnClick = PilihPartClick
   end
   object Bersihkan: TButton
     Left = 835
@@ -174,7 +167,7 @@ object RekapPergantianPartperArmadaV2: TRekapPergantianPartperArmadaV2
     Width = 75
     Height = 25
     Caption = 'Bersihkan'
-    TabOrder = 4
+    TabOrder = 3
     OnClick = BersihkanClick
   end
   object Batch: TComboBox
@@ -184,7 +177,7 @@ object RekapPergantianPartperArmadaV2: TRekapPergantianPartperArmadaV2
     Height = 21
     Style = csDropDownList
     ItemHeight = 13
-    TabOrder = 5
+    TabOrder = 4
     OnChange = BatchChange
   end
   object Seat: TComboBox
@@ -194,14 +187,14 @@ object RekapPergantianPartperArmadaV2: TRekapPergantianPartperArmadaV2
     Height = 21
     Style = csDropDownList
     ItemHeight = 13
-    TabOrder = 6
+    TabOrder = 5
   end
   object GroupCompany: TGroupBox
     Left = 8
     Top = 0
     Width = 225
     Height = 33
-    TabOrder = 7
+    TabOrder = 6
     object Label4: TLabel
       Left = 10
       Top = 8
@@ -219,5 +212,84 @@ object RekapPergantianPartperArmadaV2: TRekapPergantianPartperArmadaV2
       ItemHeight = 13
       TabOrder = 0
     end
+  end
+  object GroupBox1: TGroupBox
+    Left = 1048
+    Top = 48
+    Width = 209
+    Height = 513
+    Caption = 'Part Dipilih'
+    TabOrder = 7
+    object StrGridTemp: TZColorStringGrid
+      Left = 3
+      Top = 24
+      Width = 202
+      Height = 451
+      ColCount = 1
+      DefaultRowHeight = 20
+      DefaultDrawing = False
+      FixedColor = clSkyBlue
+      FixedCols = 0
+      RowCount = 2
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing]
+      TabOrder = 0
+      OnKeyDown = StrGridTempKeyDown
+      OnSelectCell = StrGridTempSelectCell
+      DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
+      DefaultCellStyle.Font.Color = clWindowText
+      DefaultCellStyle.Font.Height = -11
+      DefaultCellStyle.Font.Name = 'MS Sans Serif'
+      DefaultCellStyle.Font.Style = []
+      DefaultCellStyle.BGColor = clWindow
+      DefaultFixedCellStyle.Font.Charset = DEFAULT_CHARSET
+      DefaultFixedCellStyle.Font.Color = clWindowText
+      DefaultFixedCellStyle.Font.Height = -11
+      DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
+      DefaultFixedCellStyle.Font.Style = []
+      DefaultFixedCellStyle.BGColor = clSkyBlue
+      LineDesign.LineUpColor = clWhite
+      WordWrap = True
+    end
+    object BersihkanPart: TButton
+      Left = 118
+      Top = 481
+      Width = 73
+      Height = 25
+      Caption = 'Bersihkan'
+      TabOrder = 1
+      OnClick = BersihkanClick
+    end
+    object GroupBox3: TGroupBox
+      Left = 6
+      Top = 475
+      Width = 89
+      Height = 33
+      TabOrder = 2
+      object Label6: TLabel
+        Left = 5
+        Top = 11
+        Width = 24
+        Height = 13
+        Alignment = taRightJustify
+        Caption = 'Total'
+      end
+      object TotalTemp: TEdit
+        Left = 36
+        Top = 8
+        Width = 41
+        Height = 21
+        Enabled = False
+        TabOrder = 0
+      end
+    end
+  end
+  object Selesai: TButton
+    Left = 600
+    Top = 568
+    Width = 75
+    Height = 25
+    Caption = 'Selesai'
+    TabOrder = 8
+    OnClick = SelesaiClick
   end
 end

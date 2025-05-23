@@ -30,7 +30,7 @@ type
     CompanyArr:Array of TArrString7;
     WorkOrderArr:Array of TArrString10;
     IntRow,IsAll,IsBlok,MinRowGrid:Integer;
-    Initiation:Boolean;
+    Initiation:Boolean; 
   public
     { Public declarations }
     procedure Init;
@@ -47,7 +47,8 @@ var
 implementation
 
 uses
-  MainU, PartU, RekapHistoryArmadaPergantianPartU;
+  MainU, PartU, RekapHistoryArmadaPergantianPartU, 
+  RekapPergantianPartperArmadaV2U;
 
 {$R *.dfm}
 
@@ -257,6 +258,9 @@ begin
 end;
 
 procedure TListParts.StrGridDblClick(Sender: TObject);
+var
+StrPartName : string;
+IntCount,IntRowCount,rowcount2:Integer;
 begin
   if IntRow>1 then begin
     if FormRequest='REKAPHISTORYARMADAPERGANTIANPART' then
@@ -266,6 +270,20 @@ begin
         Part.Text:=ListParts.StrGrid.Cells[2,IntRow];
       end;
       Close;
+    end else if FormRequest='REKAPPERGANTIANPARTPERARMADA-V2' then begin
+      StrPartName := ListParts.StrGrid.Cells[2,IntRow];
+       for IntCount:=2 to RekapPergantianPartperArmadaV2.StrGridTemp.RowCount do begin
+      // MessageBox(0,PChar(EmployeeHistoryTrainingForm.StrGridPeserta.Cells[1,IntCount-1]),'Daftar Peserta',MB_OK or MB_ICONWARNING);
+        if StrPartName=RekapPergantianPartperArmadaV2.StrGridTemp.Cells[0,IntCount-1] then begin
+          MessageBox(0,PChar('Part Sudah Dipilih..!'),'Daftar Part',MB_OK or MB_ICONWARNING);
+          Exit;
+        end ;
+      end;
+
+      RekapPergantianPartperArmadaV2.StrGridTemp.RowCount := RekapPergantianPartperArmadaV2.StrGridTemp.RowCount+1;
+      RekapPergantianPartperArmadaV2.StrGridTemp.Cells[0,RekapPergantianPartperArmadaV2.StrGridTemp.RowCount-1]:=ListParts.StrGrid.Cells[2,IntRow];
+
+      RekapPergantianPartperArmadaV2.TotalTemp.Text:= IntToStr(RekapPergantianPartperArmadaV2.StrGridTemp.RowCount-1);
     end else begin
       if Main.IsFormOpen('Part')=False then
       begin

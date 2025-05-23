@@ -82,7 +82,7 @@ object MasterBatanganForm: TMasterBatanganForm
       Top = 16
       Width = 260
       Height = 154
-      Date = 41191.683750879630000000
+      Date = 41191.565994305560000000
       TabOrder = 0
     end
   end
