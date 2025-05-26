@@ -134,8 +134,8 @@ begin
 end;
 
 procedure TAddUser.AddClick(Sender: TObject);
-var QUser:TADOQuery;
-    QStr:String;
+var QUser, QUserApp:TADOQuery;
+    QStr, StrPasswordApp, StrContactId:String;
     Activ:Integer;
 begin
   if ( (Trim(Username.Text)<>'') AND (Trim(Password.Text)<>'') AND
@@ -144,12 +144,17 @@ begin
       Main.M_Busy;
       QUser:=TADOQuery.Create(Self);
       QUser.Connection:=Main.MyConnection;
+
+      QUserApp:= TADOQuery.Create(Self);
+      QUserApp.Connection:=Main.MyConnectionWehaOnline;
+
       if Main.OpenDb then begin
         QStr:='SELECT * FROM wh_user '+
               'WHERE UPPER(username)='+Chr(39)+UpperCase(Username.Text)+Chr(39)+';';
         QUser.SQL.Add(QStr);
         QUser.Open;
         if (QUser.RecordCount<1) then begin
+          //User Whaps
           if Active.Checked then Activ:=1 else Activ:=0;
           QStr:='EXEC AddUser '+Chr(39)+Name.Text+Chr(39)+
                 ','+QuotedStr(Username.Text)+
@@ -160,6 +165,32 @@ begin
           QUser.ExecSQL;
           if QUser.RowsAffected<0 then
             MessageBox(0,'Add User Fail'+Chr(13)+'Please Contact Support','Add User',MB_OK or MB_ICONERROR);
+
+          //User APP
+          if (UserGroup.Text = '23') or (UserGroup.Text = '45') then begin
+            QStr := 'INSERT INTO Contacts (FUllName,Gender,HP,ViewHisOwnData,Ismain, CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,ViewGroupOnly)'+
+                 ' VALUES('+Chr(39)+Name.Text+Chr(39)+',''M'',''08787'',0,0,1,GETDATE(),1,GETDATE(),0);';
+             QUserApp.SQL.Clear;
+             QUserApp.SQL.Add(QStr);
+             QUserApp.ExecSQL;
+
+             QStr := 'SELECT MAX(contactid) AS ContactId FROM Contacts;';
+             QUserApp.SQL.Clear;
+             QUserApp.SQL.Add(QStr);
+             QUserApp.Open;
+             StrContactId := QuotedStr(QUserApp.FieldValues['ContactId']);
+             StrPasswordApp :=QuotedStr('$2a$10$ng4Qjleghly61YVwe5bMdud1WgJSiTPD5Z/1F7oUdH4wO8xUKGFV/y'); //Pass = 1234
+
+             QStr := 'INSERT INTO Users (ContactID, Email, Password,Role,LoginType,Title, '+
+                     ' WehaUserID, ReferencedBy,ReferrerCode,IsActive,FcmToken, '+
+                     ' IsHelper,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate)'+
+                     ' VALUES('+StrContactId+','+QuotedStr(Email.Text)+','+StrPasswordApp +
+                     ',''ADMIN'',''EMAIL'',''Mr.'','+QuotedStr(Username.Text)+','+QuotedStr('NewspaperMagazine')+
+                     ','+QuotedStr('RVI3M7')+','+IntToStr(Activ)+','+QuotedStr('7586e21a-deaf-4b7a-8bc0-2be857fc6747')+',0,1,GETDATE(),1,GETDATE());';
+             QUserApp.SQL.Clear;
+             QUserApp.SQL.Add(QStr);
+             QUserApp.ExecSQL;
+          end;
         end else begin
           MessageBox(0,'Username already in use'+Chr(13)+'Please try another','Add User',MB_OK or MB_ICONERROR);
         end;
