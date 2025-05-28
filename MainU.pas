@@ -240,7 +240,8 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   RekapHistoryArmadaPergantianPartU, RekapPergantianPartperArmadaU,
   TechnicalRecommendationU, TechnicalRecommendationListU, 
   ListKetidakSesuaianCrewU, MasterBatanganFormU, MasterBatanganListU,
-  LaporanWehaMartU, RekapPergantianPartperArmadaV2U;
+  LaporanWehaMartU, MateriTrainingFormU, MateriTrainingListU,
+  RekapPergantianPartperArmadaV2U;
 
 
 constructor TClockThread.Create;
@@ -1978,6 +1979,18 @@ begin
           end;
         end;
 
+        132301..132302:begin
+           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02']) of
+              0:begin
+                  if IsFormOpen('MateriTrainingForm')=False then MateriTrainingForm:=TMateriTrainingForm.Create(Self,'ADD-MATERITRAINING');
+              end;
+              1:begin
+                  if IsFormOpen('MateriTrainingList')=False then MateriTrainingList:=TMateriTrainingList.Create(Self,'LIST-MATERITRAINING');
+              end;
+
+           end;
+        end;
+
 
 //        132201..132202:begin
 //           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02']) of
@@ -2397,7 +2410,7 @@ begin
   begin
     if (DbHost<>'103.96.147.245') AND (DbHost<>'10.10.27.221') AND (DbHost<>'whapsdb.whitehorse.co.id') then
     begin
-      DbHost:='whapsdb.whitehorse.co.id';
+      DbHost:='10.10.27.221';
     end;
     {$Define WH_PROD}
   end

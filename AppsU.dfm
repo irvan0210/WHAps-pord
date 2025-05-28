@@ -126,6 +126,22 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '28/05/2025 6.1.10.7)'
+      '-Menambahkan Rekap Pergantian Part perArmada'
+      
+        '-Menambahkan Pembuatan User Operasional Apps saat pembuatan user' +
+        ' WHAps'
+      ''
+      '19/05/2025 (6.1.10.6)'
+      '-Menambahkan Catatan pada surat jalan '
+      'Dan Surat Jalan Warna Putih Harus Dikembalikan'
+      '-Membuat Form Update pada Service Berkala'
+      ''
+      '09/05/2025 (6.1.10.5)'
+      '-Driver Komplain List dapat menolak keluhan Driver'
+      '-Memberikan Warna pada Driver Komplain List'
+      'untuk mengetahui status Driver Komplain'
+      ''
       '02/05/2025 (6.1.10.4)'
       '-Penambahan Master Materi Training'
       '-Penambhan Filter Materi Training di Laporan Training'

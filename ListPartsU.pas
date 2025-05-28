@@ -282,6 +282,7 @@ begin
 
       RekapPergantianPartperArmadaV2.StrGridTemp.RowCount := RekapPergantianPartperArmadaV2.StrGridTemp.RowCount+1;
       RekapPergantianPartperArmadaV2.StrGridTemp.Cells[0,RekapPergantianPartperArmadaV2.StrGridTemp.RowCount-1]:=ListParts.StrGrid.Cells[2,IntRow];
+      RekapPergantianPartperArmadaV2.StrGridTemp.Cells[1,RekapPergantianPartperArmadaV2.StrGridTemp.RowCount-1]:=ListParts.StrGrid.Cells[1,IntRow];
 
       RekapPergantianPartperArmadaV2.TotalTemp.Text:= IntToStr(RekapPergantianPartperArmadaV2.StrGridTemp.RowCount-1);
     end else begin
