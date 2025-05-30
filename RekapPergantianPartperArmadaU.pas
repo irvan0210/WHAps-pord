@@ -19,6 +19,7 @@ type
     PlateNo: TEdit;
     Button3: TButton;
     Bersihkan: TButton;
+    SpeedButton1: TSpeedButton;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure Button2Click(Sender: TObject);
@@ -27,6 +28,7 @@ type
     procedure Button3Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure BersihkanClick(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
   private
     { Private declarations }
     FormRequest:String;
@@ -38,6 +40,7 @@ type
 //    procedure RefreshCombo;
 //    procedure RefreshSeat;
     procedure RefreshData;
+    procedure RefreshCekPart;
 //    procedure RefreshGrid;
   public
     { Public declarations }
@@ -60,6 +63,52 @@ begin
   FormRequest:=Form_Request;
   Main.WriteLog('Form Open: ListParts='+Form_Request);
   Inherited Create(AOwner);
+end;
+
+procedure TRekapPergantianPartperArmada.RefreshCekPart;
+var
+  Qry:TADOQuery;
+  StrQry:String;
+  IntCount,IntCount2:Integer;
+  IsOk:Boolean;
+begin
+  if (StrVehicleIDRekapPergantianPart<>'') then begin
+    for IntCount:=3 to StrGrid.RowCount-1 do
+      for IntCount2:=0 to StrGrid.ColCount do begin
+        StrGrid.Cells[IntCount2,IntCount]:='';
+        StrGrid.CellStyle[IntCount2,IntCount].Font.Color:=clWindowText;
+      end;
+    StrGrid.RowCount:=4;
+    Qry:=TADOQuery.Create(Self);
+    Qry.Connection:=Main.MyConnection;
+    if Main.OpenDb then begin
+      StrQry:='SELECT DISTINCT a.part_type_id,a.kode_part_gp,c.name FROM wh_part_type_vehicle a '+
+              'LEFT JOIN wh_vehicle b ON a.vhc_type_detail_id=b.vhc_type_detail_id '+
+              'LEFT JOIN wh_part c ON a.kode_part_gp=c.kode_part_gp '+
+              'WHERE b.vehicle_id='+QuotedStr(StrVehicleIDRekapPergantianPart)+' ORDER BY a.part_type_id ASC';
+
+      Qry.SQL.Clear;
+      Qry.SQL.Add(StrQry);
+      Qry.Open;
+      IntCount:=1;
+
+      if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+
+        StrGrid.Cells[0,StrGrid.RowCount-1]:=IntToStr(IntCount);
+        StrGrid.Cells[1,StrGrid.RowCount-1]:=Qry.FieldValues['name'];
+        StrGrid.Cells[10,StrGrid.RowCount-1]:=Qry.FieldValues['kode_part_gp'];
+        StrGrid.CellStyle[0,StrGrid.RowCount-1].HorizontalAlignment:=taCenter;
+        StrGrid.RowCount:=StrGrid.RowCount+1;
+
+        Inc(IntCount);
+        Qry.Next;
+      end;
+      Qry.Close;
+    end;
+    FreeAndNil(Qry);
+    Main.CloseDb;
+  end;
+
 end;
 
 procedure TRekapPergantianPartperArmada.InitGrid;
@@ -246,6 +295,7 @@ end;
 procedure TRekapPergantianPartperArmada.PlateNoChange(Sender: TObject);
 begin
   StrGrid.Cells[2,0]:=PlateNo.Text;
+  RefreshCekPart;
 end;
 
 procedure TRekapPergantianPartperArmada.Button3Click(Sender: TObject);
@@ -280,6 +330,14 @@ begin
       StrGrid.CellStyle[IntCount2,IntCount].Font.Color:=clWindowText;
     end;
   StrGrid.RowCount:=4;
+  PlateNo.Text:='';
+  StrVehicleIDRekapPergantianPart:='';
+end;
+
+procedure TRekapPergantianPartperArmada.SpeedButton1Click(Sender: TObject);
+begin
+  if ToExcel4(StrGrid) then ShowMessage('Export ke Excel Berhasil')
+  else ShowMessage('Export ke Excel Gagal');
 end;
 
 end.
