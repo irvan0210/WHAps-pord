@@ -481,7 +481,7 @@ begin
       end;
     end;
     Qry.Close;
-    StrQry:='select work_order_detail_id,description,isdone, driver_complain_detail_id from wh_work_order_detail where work_order_id='+QuotedStr(WorkOrderId)+' AND '+
+    StrQry:='select work_order_detail_id,description,isdone,driver_complain_detail_id from wh_work_order_detail where work_order_id='+QuotedStr(WorkOrderId)+' AND '+
     'description_id=1 and status=1';
     Qry.SQL.Clear;
     Qry.SQL.Add(StrQry);
@@ -495,7 +495,7 @@ begin
         KeluhanGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
       end else KeluhanGrid.Cells[0,IntCount+1]:='';
       KeluhanGrid.Cells[1,IntCount+1]:=Qry.FieldValues['description'];
-      if Qry.FieldValues['driver_complain_detail_id'] <> null then
+      if Qry.FieldValues['driver_complain_detail_id'] then
         KeluhanGrid.Cells[2,IntCount+1]:=Qry.FieldValues['driver_complain_detail_id']
       else KeluhanGrid.Cells[2,IntCount+1]:='';
       Qry.Next;
@@ -532,12 +532,9 @@ begin
     end;
 
     StrQry:='';
-//      StrQry:='select * from wh_work_order_part where work_order_id= '+QuotedStr(WorkOrderId)+' and status=1;';
-    StrQry:='SELECT a.*,d.IsUsed FROM wh_tanda_terima_detail a '+
-          'LEFT JOIN wh_tanda_terima b ON a.tanda_terima_id=b.tanda_terima_id '+
-          'LEFT JOIN wh_item_request c ON b.item_request_id=c.item_request_id '+
-          'LEFT JOIN wh_work_order_part d on a.kode_part_gp=d.kode_part_gp  and d.status=1  '+
-          'WHERE c.no_request='+QuotedStr(ServiceRequestId)+' AND a.status=1;';
+    StrQry:='EXEC GetWorkOrderPart @ServiceRequest ='+QuotedStr(ServiceRequestId)+';';
+
+
     IntCount:=0;
     Qry2.SQL.Clear;
     Qry2.Close;
@@ -976,9 +973,9 @@ begin
           else
             KeluhanGrid.Cells[0,IntCount+1]:='';
           KeluhanGrid.Cells[1,IntCount+1]:=Qry.FieldValues['description'];
-          if Qry.FieldValues['driver_complain_detail_id'] <> null then
-            KeluhanGrid.Cells[2,IntCount+1]:=Qry.FieldValues['driver_complain_detail_id']
-           else KeluhanGrid.Cells[2,IntCount+1]:='';
+          if Qry.FieldValues['driver_complain_detail_id']<> Null then
+             KeluhanGrid.Cells[2,IntCount+1]:=Qry.FieldValues['driver_complain_detail_id']
+          else KeluhanGrid.Cells[2,IntCount+1]:='';
           KeluhanGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
           Qry.Next;
           Inc(IntCount);
@@ -1409,6 +1406,7 @@ begin
           end;
 
           for IntCount:=1 to PekerjaanGrid.RowCount-1 do begin
+            //StrSRDetailID := QuotedStr(KeluhanGrid.Cells[2,IntCount]);
             if Trim(PekerjaanGrid.Cells[0,IntCount])<>'' then
             StrQry:=StrQry+' INSERT INTO wh_work_order_detail (work_order_id,description_id'+
                     ',description,technician,update_user)'+
@@ -1416,7 +1414,6 @@ begin
                     ','+Chr(39)+PekerjaanGrid.Cells[0,IntCount]+Chr(39)+
                     ','+Chr(39)+PekerjaanGrid.Cells[1,IntCount]+Chr(39)+
                     ','+Chr(39)+User+Chr(39)+
-                    //','+Chr(39)+PekerjaanGrid.Cells[1,IntCount]+Chr(39)+
                     '); ';
           end;
           Qry.SQL.Clear;
