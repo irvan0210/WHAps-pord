@@ -96,6 +96,10 @@ type
     CekBBM: TCheckBox;
     CekTglInput: TCheckBox;
     lbl2: TLabel;
+    CustomerName: TEdit;
+    Label9: TLabel;
+    Button1: TButton;
+    BitBtn1: TBitBtn;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure RefreshClick(Sender: TObject);
@@ -114,6 +118,8 @@ type
       Shift: TShiftState);
     procedure CekTglInputClick(Sender: TObject);
     procedure CekTglMasukClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
   private
     { Private declarations }
     LokasiArr,GroupArr:Array of TArrString2;
@@ -140,7 +146,7 @@ var
 implementation
 
 uses MainU, OrderFormU, VehicleFormU, OrderFeeU, AuthorizedFormU,
-  SPJFormBusU, Math;
+  SPJFormBusU, Math, BrowseCustomerU;
 
 {$R *.dfm}
 
@@ -1290,7 +1296,7 @@ begin
 end;
 
 procedure TDailyOrderFeeRpt.RefreshData;
-var QStr,StrBatch,StrLocationId,StrCompanyId,StrToDates,StrisAll,StrCancel,StrInDate,StrIsFilledFuel,StrInputDate:String;
+var QStr,StrBatch,StrLocationId,StrCompanyId,StrToDates,StrisAll,StrCancel,StrInDate,StrIsFilledFuel,StrInputDate,StrCustomer:String;
     Qry, Qry2, QryCek:TADOQuery;
     Count,Count2,Total1,Total2,Total3,Total4,Total5,Total6,Total7,TotalOperasi,IntDiscount,IntCount:Integer;
     BBMLiter,GasLiter,BBMRp,GasRp:Integer;
@@ -1356,6 +1362,9 @@ begin
   end;
   if cbCancel.Checked then StrCancel:=',@IsCancel=1';
 
+  if CustomerName.Text<>'' then StrCustomer:=',@CustomerName='+QuotedStr(CustomerName.Text)
+  else StrCustomer:='';
+
   Main.M_Busy;
   SetLength(OrderFeeArr,0);
 
@@ -1370,7 +1379,7 @@ begin
 
   QStr:='EXEC GetRevenueVhcDayRpt2 '+StrLocationId+','+
         QuotedStr(FormatDateTime('dd-mm-yyyy',Tanggal.Date))+','+
-        QuotedStr(StrBatch)+','+StrCompanyId+StrToDates+',@Ordered=vhc_trans_id,@isAll='+StrisAll+StrCancel+StrInDate+StrInputDate+StrIsFilledFuel+';';
+        QuotedStr(StrBatch)+','+StrCompanyId+StrToDates+',@Ordered=vhc_trans_id,@isAll='+StrisAll+StrCancel+StrInDate+StrInputDate+StrIsFilledFuel+StrCustomer+';';
   Qry.SQL.Clear;
   Qry.SQL.Add(QStr);
   Qry.Open;
@@ -2410,6 +2419,16 @@ end;
 procedure TDailyOrderFeeRpt.CekTglMasukClick(Sender: TObject);
 begin
 //   if CekTglMasuk.Checked=True then CekTglInput.Checked:=False;
+end;
+
+procedure TDailyOrderFeeRpt.Button1Click(Sender: TObject);
+begin
+  if Main.IsFormOpen('BrowseCustomer')=False then BrowseCustomer:=TBrowseCustomer.Create(Self,'LaporanUangOrderHarian');
+end;
+
+procedure TDailyOrderFeeRpt.BitBtn1Click(Sender: TObject);
+begin
+  CustomerName.Text:='';
 end;
 
 end.

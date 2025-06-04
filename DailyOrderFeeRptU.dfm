@@ -1,10 +1,10 @@
 object DailyOrderFeeRpt: TDailyOrderFeeRpt
-  Left = 425
-  Top = 380
+  Left = 158
+  Top = 121
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
   Caption = 'Laporan Uang Order Harian'
-  ClientHeight = 499
+  ClientHeight = 498
   ClientWidth = 1037
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -20,12 +20,12 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
   OnShow = FormShow
   DesignSize = (
     1037
-    499)
+    498)
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 401
-    Top = 16
+    Left = 210
+    Top = 65
     Width = 39
     Height = 13
     Caption = 'Tanggal'
@@ -69,15 +69,15 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     OnClick = ToXCelClick
   end
   object Label3: TLabel
-    Left = 200
+    Left = 221
     Top = 16
     Width = 29
     Height = 13
     Caption = 'Group'
   end
   object Label6: TLabel
-    Left = 425
-    Top = 39
+    Left = 361
+    Top = 64
     Width = 16
     Height = 13
     Caption = 's/d'
@@ -96,14 +96,14 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     ParentFont = False
   end
   object lbl1: TLabel
-    Left = 733
+    Left = 715
     Top = 22
     Width = 18
     Height = 13
     Caption = 'Cari'
   end
   object btnTombolCari: TSpeedButton
-    Left = 880
+    Left = 862
     Top = 18
     Width = 26
     Height = 22
@@ -170,6 +170,13 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     Font.Style = []
     ParentFont = False
   end
+  object Label9: TLabel
+    Left = 207
+    Top = 41
+    Width = 44
+    Height = 13
+    Caption = 'Customer'
+  end
   object GroupTotal: TGroupBox
     Left = 8
     Top = 456
@@ -193,8 +200,8 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     end
   end
   object Tanggal: TDateTimePicker
-    Left = 449
-    Top = 13
+    Left = 257
+    Top = 62
     Width = 104
     Height = 21
     Date = 41208.000000000000000000
@@ -211,7 +218,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     OnClick = SelesaiClick
   end
   object Batch: TComboBox
-    Left = 235
+    Left = 258
     Top = 14
     Width = 41
     Height = 21
@@ -220,7 +227,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     OnChange = BatchChange
   end
   object Refresh: TButton
-    Left = 918
+    Left = 900
     Top = 18
     Width = 74
     Height = 21
@@ -263,17 +270,17 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     WordWrap = True
   end
   object Panel1: TPanel
-    Left = 278
+    Left = 301
     Top = 13
-    Width = 119
+    Width = 220
     Height = 24
     BevelOuter = bvNone
     Enabled = False
     TabOrder = 6
     object GroupDisp: TEdit
-      Left = 0
+      Left = 3
       Top = 1
-      Width = 113
+      Width = 214
       Height = 21
       TabOrder = 0
     end
@@ -303,16 +310,16 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     end
   end
   object CekTglSampai: TCheckBox
-    Left = 449
-    Top = 39
+    Left = 385
+    Top = 64
     Width = 17
     Height = 17
     TabOrder = 8
     OnClick = CekTglSampaiClick
   end
   object TglSampai: TDateTimePicker
-    Left = 465
-    Top = 37
+    Left = 401
+    Top = 62
     Width = 89
     Height = 21
     Date = 41964.570029108800000000
@@ -320,7 +327,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     TabOrder = 9
   end
   object GroupBox1: TGroupBox
-    Left = 566
+    Left = 548
     Top = 10
     Width = 151
     Height = 33
@@ -348,7 +355,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     end
   end
   object edtCari: TEdit
-    Left = 757
+    Left = 739
     Top = 19
     Width = 121
     Height = 21
@@ -357,7 +364,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     OnKeyPress = edtCariKeyPress
   end
   object GroupBox2: TGroupBox
-    Left = 566
+    Left = 548
     Top = 42
     Width = 473
     Height = 40
@@ -398,6 +405,36 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
       TabOrder = 3
       OnClick = CekTglInputClick
     end
+  end
+  object CustomerName: TEdit
+    Left = 258
+    Top = 38
+    Width = 199
+    Height = 21
+    Enabled = False
+    TabOrder = 13
+  end
+  object Button1: TButton
+    Left = 458
+    Top = 35
+    Width = 30
+    Height = 25
+    Caption = '...'
+    TabOrder = 14
+    OnClick = Button1Click
+  end
+  object BitBtn1: TBitBtn
+    Left = 490
+    Top = 35
+    Width = 31
+    Height = 25
+    Hint = 'Hapus Customer'
+    Caption = ' '
+    DragKind = dkDock
+    TabOrder = 15
+    OnClick = BitBtn1Click
+    Kind = bkAbort
+    Style = bsNew
   end
   object ppReportReimburse: TppReport
     PrinterSetup.BinName = 'Default'
