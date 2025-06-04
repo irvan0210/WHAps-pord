@@ -126,7 +126,9 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
-      '28/05/2025 6.1.10.7)'
+      '04/06/2025 (6.1.10.8)'
+      ''
+      '28/05/2025 (6.1.10.7)'
       '-Menambahkan Rekap Pergantian Part perArmada'
       
         '-Menambahkan Pembuatan User Operasional Apps saat pembuatan user' +
