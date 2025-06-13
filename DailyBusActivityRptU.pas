@@ -22,9 +22,6 @@ type
     GroupCompany: TGroupBox;
     Label4: TLabel;
     SBU: TComboBox;
-    Label2: TLabel;
-    TglSampai: TDateTimePicker;
-    CekTglSampai: TCheckBox;
     PopupMenu1: TPopupMenu;
     Copy1: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -83,10 +80,6 @@ begin
   IntCol:=0;
   IntColumnWidth:=95;
   Tanggal.Date:=Now();
-  TglSampai.Enabled:=True;
-  TglSampai.Date:=Now();
-  TglSampai.Enabled:=False;
-  CekTglSampai.Checked:=False;
   SBU.Items.Clear;
   SBU.Text:='';
   SBU.ItemIndex:=0;
@@ -100,101 +93,138 @@ end;
 procedure TDailyBusActivityRpt.InitGrid;
 var IntCount:Integer;
 begin
-  StrGrid.RowCount:=3;
-  StrGrid.ColCount:=19;
+  StrGrid.RowCount:=4;
+  StrGrid.ColCount:=23;
 
   StrGrid.ColWidths[0]:=30;
-  StrGrid.ColWidths[1]:=45;
-  StrGrid.ColWidths[2]:=60;
-  StrGrid.ColWidths[3]:=30;
+  StrGrid.ColWidths[1]:=60;
+  StrGrid.ColWidths[2]:=80;
+  StrGrid.ColWidths[3]:=40;
   StrGrid.ColWidths[4]:=150;
-  StrGrid.ColWidths[5]:=120; //nambah
+  StrGrid.ColWidths[5]:=100;
 
-  StrGrid.ColWidths[6]:=80;
-  StrGrid.ColWidths[7]:=110;
+  StrGrid.ColWidths[6]:=150;
+  StrGrid.ColWidths[7]:=100;
 
   StrGrid.ColWidths[8]:=110;
-  StrGrid.ColWidths[9]:=80;
+  StrGrid.ColWidths[9]:=100;
 
-  StrGrid.ColWidths[10]:=80;
-  StrGrid.ColWidths[11]:=80;
-  StrGrid.ColWidths[12]:=70;
-  StrGrid.ColWidths[13]:=40;
-  StrGrid.ColWidths[14]:=200;
-  StrGrid.ColWidths[15]:=300;
-  StrGrid.ColWidths[16]:=300;
-  StrGrid.ColWidths[17]:=200;
-  StrGrid.ColWidths[18]:=0;
+  StrGrid.ColWidths[10]:=60;
+  StrGrid.ColWidths[11]:=30;
+  StrGrid.ColWidths[12]:=150;
+  StrGrid.ColWidths[13]:=120;
+  StrGrid.ColWidths[14]:=150;
+  StrGrid.ColWidths[15]:=120;
+  StrGrid.ColWidths[16]:=150;
+  StrGrid.ColWidths[17]:=120;
+  StrGrid.ColWidths[18]:=120;
+  StrGrid.ColWidths[19]:=150;
+  StrGrid.ColWidths[20]:=220;
+  StrGrid.ColWidths[21]:=220;
+  StrGrid.ColWidths[22]:=150;
   //col 14 = customer_order_id
   StrGrid.RowHeights[0]:=20;
   StrGrid.RowHeights[1]:=20;
-  StrGrid.MergeCells.AddRectXY(0,0,0,1);
-  StrGrid.MergeCells.AddRectXY(1,0,1,1);
-  StrGrid.MergeCells.AddRectXY(2,0,2,1);
-  StrGrid.MergeCells.AddRectXY(3,0,3,1);
-  StrGrid.MergeCells.AddRectXY(4,0,4,1);
-  StrGrid.MergeCells.AddRectXY(5,0,5,1);
-  StrGrid.MergeCells.AddRectXY(6,0,6,1);
-  StrGrid.MergeCells.AddRectXY(7,0,7,1);
 
-  StrGrid.MergeCells.AddRectXY(8,0,9,0);
-  StrGrid.MergeCells.AddRectXY(10,0,11,0);
-  StrGrid.MergeCells.AddRectXY(12,0,12,1);
-  StrGrid.MergeCells.AddRectXY(13,0,13,1);
-  StrGrid.MergeCells.AddRectXY(14,0,14,1);
-  StrGrid.MergeCells.AddRectXY(15,0,15,1);
-  StrGrid.MergeCells.AddRectXY(16,0,16,1);
-  StrGrid.MergeCells.AddRectXY(17,0,17,1);
+
+  StrGrid.MergeCells.AddRectXY(0,0,0,2);
+  StrGrid.MergeCells.AddRectXY(1,0,7,0);
+  StrGrid.MergeCells.AddRectXY(1,1,1,2);
+  StrGrid.MergeCells.AddRectXY(2,1,2,2);
+  StrGrid.MergeCells.AddRectXY(3,1,3,2);
+  StrGrid.MergeCells.AddRectXY(4,1,5,1);
+  StrGrid.MergeCells.AddRectXY(6,1,7,1);
+
+  StrGrid.MergeCells.AddRectXY(8,0,8,2);
+  StrGrid.MergeCells.AddRectXY(9,0,9,2);
+
+  StrGrid.MergeCells.AddRectXY(10,0,17,0);
+  StrGrid.MergeCells.AddRectXY(10,1,10,2);
+  StrGrid.MergeCells.AddRectXY(11,1,11,2);
+  StrGrid.MergeCells.AddRectXY(12,1,13,1);
+  StrGrid.MergeCells.AddRectXY(14,1,15,1);
+  StrGrid.MergeCells.AddRectXY(16,1,17,1);
+
+  StrGrid.MergeCells.AddRectXY(18,0,22,0);
+  StrGrid.MergeCells.AddRectXY(18,1,18,2);
+  StrGrid.MergeCells.AddRectXY(19,1,19,2);
+  StrGrid.MergeCells.AddRectXY(20,1,20,2);
+  StrGrid.MergeCells.AddRectXY(21,1,21,2);
+  StrGrid.MergeCells.AddRectXY(22,1,22,2);
 
   StrGrid.WordWrap:=True;
-  
+
   StrGrid.Cells[0,0]:='No';
-  StrGrid.Cells[1,0]:='No Body';
-  StrGrid.Cells[2,0]:='No Polisi';
-  StrGrid.Cells[3,0]:='Seat';
-  StrGrid.Cells[4,0]:='Pengemudi';
-  StrGrid.Cells[5,0]:='No Handphone';
+  StrGrid.Cells[1,0]:='BATANGAN';
+  StrGrid.Cells[1,1]:='No Body';
+  StrGrid.Cells[2,1]:='No Polisi';
+  StrGrid.Cells[3,1]:='Seat';
+  StrGrid.Cells[4,1]:='Pengemudi';
+  StrGrid.Cells[4,2]:='Nama';
+  StrGrid.Cells[5,2]:='No Handphone';
+  StrGrid.Cells[6,1]:='Kenek';
+  StrGrid.Cells[6,2]:='Nama';
+  StrGrid.Cells[7,2]:='No Handphone';
 
-  StrGrid.Cells[6,0]:='Kenek';
-  StrGrid.Cells[7,0]:='No Etoll Batangan';
-  StrGrid.Cells[8,0]:='Etoll Transaksi';
-  StrGrid.Cells[8,1]:='No Etoll';
-  StrGrid.Cells[9,1]:='Pemilik';
+  StrGrid.Cells[8,0]:='Jenis Aktifitas';
+  StrGrid.Cells[9,0]:='No Aktifitas';
+  StrGrid.Cells[10,0]:='PENJADWALAN';
+  StrGrid.Cells[10,1]:='Berangkat';
+  StrGrid.Cells[11,1]:='Jam';
+  StrGrid.Cells[12,1]:='Pengemudi';
+  StrGrid.Cells[12,2]:='Nama';
+  StrGrid.Cells[13,2]:='No Handphone';
+  StrGrid.Cells[14,1]:='Kenek';
+  StrGrid.Cells[14,2]:='Nama';
+  StrGrid.Cells[15,2]:='No Handphone';
+  StrGrid.Cells[16,1]:='Pengemudi 2';
+  StrGrid.Cells[16,2]:='Nama';
+  StrGrid.Cells[17,2]:='No Handphone';
 
-  StrGrid.Cells[10,0]:='Cadangan';
-  StrGrid.Cells[10,1]:='Pengemudi';
-  StrGrid.Cells[11,1]:='Kenek';
-  StrGrid.Cells[12,0]:='Tgl';
-  StrGrid.Cells[13,0]:='Jam';
-  StrGrid.Cells[14,0]:='Pemakai/Group';
-  StrGrid.Cells[15,0]:='Lokasi Standby';
-  StrGrid.Cells[16,0]:='Rute';
-  StrGrid.Cells[17,0]:='Keterangan';
+  StrGrid.Cells[18,0]:='PEMESANAN';
+  StrGrid.Cells[18,1]:='Tanggal';
+  StrGrid.Cells[19,1]:='Pemakai/Group';
+  StrGrid.Cells[20,1]:='Lokasi Standby';
+  StrGrid.Cells[21,1]:='Rute';
+  StrGrid.Cells[22,1]:='Keterangan';
+
+ // StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[2,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[3,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[4,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[5,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[6,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[7,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[1,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[2,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[3,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[4,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[4,2].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[5,2].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[6,1].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[7,1].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[8,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[8,1].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[9,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[6,2].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[7,2].HorizontalAlignment:=taCenter;
 
+  StrGrid.CellStyle[8,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[9,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[10,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[11,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[12,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[13,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[14,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[15,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[16,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[17,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[10,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[11,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[12,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[12,2].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[13,2].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[14,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[14,2].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[15,2].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[16,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[16,2].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[17,2].HorizontalAlignment:=taCenter;
+
+  StrGrid.CellStyle[18,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[18,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[19,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[20,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[21,1].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[22,1].HorizontalAlignment:=taCenter;
 
   for IntCount:=0 to StrGrid.ColCount-1 do
-    StrGrid.Cells[IntCount,2]:='';
+    StrGrid.Cells[IntCount,3]:='';
 end;
 
 procedure TDailyBusActivityRpt.RefreshCombo;
@@ -288,7 +318,7 @@ begin
   SeatArr[0][0]:='All';
   StrCompanyId:=CompanyArr[SBU.ItemIndex][1];
   if (Main.OpenDb) and (Batch.Text<>'All') then begin
-    StrQry:='EXEC GetVehicleTypeDetail '+StrCompanyId+','+BatchArr[Batch.ItemIndex][0]+',1;';
+    StrQry:='EXEC GetVehicleTypeDetail '+StrCompanyId+','+BatchArr[Batch.ItemIndex][0]+',@FieldSelect='+QuotedStr('seat')+';';
     Qry.SQL.Clear;
     Main.WriteLog('SQL :'+StrQry,2);
     Qry.SQL.Add(StrQry);
@@ -310,9 +340,10 @@ begin
 end;
 
 procedure TDailyBusActivityRpt.RefreshData;
-var StrQry,StrBodyId,StrLicensePlate,StrCompanyId,StrLocationId,StrToDates,StrOrder,StrBatch:String;
+var StrQry,StrBodyId,StrLicensePlate,StrCompanyId,StrSeat,StrCategorized,StrTanggal,
+    StrLocationId,StrToDates,StrOrder,StrBatch, StrBatchId:String;
     Qry,Qry2:TADOQuery;
-    IntCount,IntCount2,IntCount3:Integer;
+    IntCount,IntCount2,IntCount3, IntCountVhc:Integer;
     IntUsage:Array[1..31] of Integer;
 begin
   Main.M_Busy;
@@ -323,14 +354,14 @@ begin
   Qry2.Connection:=Main.MyConnection;
   Qry2.CommandTimeout := 3600;
   if Main.OpenDb then begin
-    SetLength(DataArr,0);
-    if CekTglSampai.Checked then begin
-      StrToDates:=',@ToDates='+QuotedStr(FormatDateTime('dd-mm-yyyy',TglSampai.Date));
-      StrOrder:=',@Ordered='+QuotedStr('c.out_date,a.body_id')
-    end else begin
+   { SetLength(DataArr,0);
+    //if CekTglSampai.Checked then begin
+    //  StrToDates:=',@ToDates='+QuotedStr(FormatDateTime('dd-mm-yyyy',TglSampai.Date));
+    //  StrOrder:=',@Ordered='+QuotedStr('c.out_date,a.body_id')
+    //end else begin
       StrToDates:='';
       StrOrder:=',@Ordered='+QuotedStr('a.body_id');
-    end;
+   // end;
 
     if Batch.Text='All' then begin
       StrBatch:='0';
@@ -347,7 +378,7 @@ begin
     Qry.Open;
     IntCount:=0;
     SetLength(DataArr,Qry.RecordCount);
-    if Qry.RecordCount>0 then while Not(Qry.Eof) do begin
+        if Qry.RecordCount>0 then while Not(Qry.Eof) do begin
       StrBodyId:=Qry.FieldValues['body_id'];
       if Length(StrBodyId)<5 then StrBodyId:=StrBodyId;
       StrLicensePlate:=Qry.FieldValues['license_plate'];
@@ -372,8 +403,77 @@ begin
 
       if Qry.FieldValues['etoll_trx_number']<>NULL then DataArr[IntCount,16]:=Qry.FieldValues['etoll_trx_number'];
       if Qry.FieldValues['etoll_trx_owner']<>NULL then DataArr[IntCount,17]:=Qry.FieldValues['etoll_trx_owner'];
+    }
 
-      Inc(IntCount);
+    StrCompanyId:=',@CompanyId='+CompanyArr[SBU.ItemIndex][1];
+    StrLocationId:=CompanyArr[SBU.ItemIndex][2];
+    if Batch.Text<>'All' then begin
+      StrBatchId:=',@BatchId='+BatchArr[Batch.ItemIndex][0];
+    end else StrBatchId:='';
+
+    if Seat.Text<>'All' then begin
+      StrSeat:=',@Seat='+Seat.Text;
+    end else StrSeat:='';
+
+    StrCategorized:=',@OrderBy='+QuotedStr('category, category_sequence_number,h.vhc_batch_id,seat,license_plate');
+
+    StrTanggal:=',@Dates='+QuotedStr(FormatDateTime('yyyy/mm/dd',VarToDateTime(Tanggal.Date)));
+    StrQry:='EXEC GetVhcList '+StrLocationId+StrCompanyId+StrBatchId+StrSeat+StrCategorized+StrTanggal+';';
+    Qry.SQL.Clear;
+    Main.WriteLog('SQL :'+StrQry,2);
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    IntCountVhc:=0;
+    SetLength(DataArr,Qry.RecordCount);
+    if Qry.RecordCount>0 then while Not(Qry.Eof) do begin
+      StrBodyId:=Qry.FieldValues['body_id'];
+      if Length(StrBodyId)<5 then StrBodyId:=StrBodyId;
+      if Qry.FieldValues['license_plate']<>NULL then if IsCharAlpha(PChar(Copy(Qry.FieldValues['license_plate'],2,1))^)=False then
+        DataArr[IntCountVhc][1]:=Copy(Qry.FieldValues['license_plate'],1,1)+' '+Copy(Qry.FieldValues['license_plate'],2,4)+
+                              ' '+Copy(Qry.FieldValues['license_plate'],6,Length(Qry.FieldValues['license_plate'])+1)
+        else
+          DataArr[IntCountVhc][1]:=Copy(Qry.FieldValues['license_plate'],1,2)+' '+Copy(Qry.FieldValues['license_plate'],3,4)+
+                              ' '+Copy(Qry.FieldValues['license_plate'],7,Length(Qry.FieldValues['license_plate'])+1);
+
+      DataArr[IntCountVhc,0]:=StrBodyId;
+     // DataArr[IntCountVhc,1]:=StrLicensePlate;
+      DataArr[IntCountVhc,2]:=Qry.FieldValues['seat'];
+      if Qry.FieldValues['name']<>NULL then DataArr[IntCountVhc,3]:=Qry.FieldValues['name'];
+      if Qry.FieldValues['cellular_no']<>NULL then  DataArr[IntCountVhc,4]:=Qry.FieldValues['cellular_no'];
+      if Qry.FieldValues['busboy_name']<>NULL then  DataArr[IntCountVhc,5]:=Qry.FieldValues['busboy_name'];
+      if Qry.FieldValues['cellular_no']<>NULL then  DataArr[IntCountVhc,6]:=Qry.FieldValues['cellular_no'];
+
+      StrQry:='EXEC GetRunningDaysDetail '+QuotedStr(Qry.FieldValues['vehicle_id'])+',@FromDate='+
+            QuotedStr(FormatDateTime('yyyy-mm-dd',VarToDateTime(tanggal.Date)))+',@ToDate='+
+            QuotedStr(FormatDateTime('yyyy-mm-dd',IncDay(IncMonth(VarToDateTime(tanggal.Date)),-1)))+';';
+      Qry2.SQL.Clear;
+      Main.WriteLog('SQL :'+StrQry,2);
+      Qry2.SQL.Add(StrQry);
+      Qry2.Open;
+      IntCount:=0;
+      if Qry2.RecordCount>0 then while Not(Qry2.Eof) do begin
+         //SetLength(OrderArr,IntCount+1);
+         if Qry2.FieldValues['customer_order_id']<>NULL then  DataArr[IntCountVhc,7]:=Qry2.FieldValues['customer_order_id']
+          else  DataArr[IntCountVhc,7]:='';
+         //Qry2.FieldValues['customer_order_id']<>NULL
+        Qry2.Next;
+      end;
+
+
+
+     // if Qry.FieldValues['out_date']<>NULL then DataArr[IntCount,8]:=Qry.FieldValues['out_date'];
+    //  if Qry.FieldValues['standby_time']<>NULL then DataArr[IntCount,9]:=Qry.FieldValues['standby_time'];
+    //  if Qry.FieldValues['customer_name']<>NULL then DataArr[IntCount,10]:=Qry.FieldValues['customer_name'];
+     // if Qry.FieldValues['pickup_point']<>NULL then DataArr[IntCount,11]:=Qry.FieldValues['pickup_point'];
+     // if Qry.FieldValues['route']<>NULL then DataArr[IntCount,12]:=Qry.FieldValues['route'];
+     // if Qry.FieldValues['remark']<>NULL then DataArr[IntCount,13]:=Qry.FieldValues['remark'];
+     // if Qry.FieldValues['customer_order_id']<>NULL then DataArr[IntCount,14]:=Qry.FieldValues['customer_order_id'];
+      //if Qry.FieldValues['no_etoll']<>NULL then DataArr[IntCount,15]:=Qry.FieldValues['no_etoll'];
+
+      //if Qry.FieldValues['etoll_trx_number']<>NULL then DataArr[IntCount,16]:=Qry.FieldValues['etoll_trx_number'];
+      //if Qry.FieldValues['etoll_trx_owner']<>NULL then DataArr[IntCount,17]:=Qry.FieldValues['etoll_trx_owner'];
+
+      Inc(IntCountVhc);
       Qry.Next;
     end;
     Qry.Close;
@@ -389,61 +489,72 @@ var IntCount,IntCount2,IntStartRow,IntTotal:Integer;
     IsDrawRect:Boolean;
 begin
   for IntCount:=0 to StrGrid.ColCount-1 do begin
-    for IntCount2:=2 to StrGrid.RowCount-1 do begin
+    for IntCount2:=3 to StrGrid.RowCount-1 do begin
       StrGrid.Cells[IntCount,IntCount2]:='';
       StrGrid.CellStyle[IntCount,IntCount2].BGColor:=clWindow;
     end;
   end;
   for IntCount:=0 to StrGrid.ColCount-1 do begin
-    for IntCount2:=2 to StrGrid.RowCount-1 do begin
+    for IntCount2:=3 to StrGrid.RowCount-1 do begin
       IntTotal:=StrGrid.MergeCells.InMergeRange(IntCount,IntCount2);
       if IntTotal>=0 then StrGrid.MergeCells.DeleteItem(IntTotal);
     end;
   end;
-  if Length(DataArr)>0 then StrGrid.RowCount:=Length(DataArr)+2 else StrGrid.RowCount:=3;
+  if Length(DataArr)>0 then StrGrid.RowCount:=Length(DataArr)+3 else StrGrid.RowCount:=4;
   if Length(DataArr)>0 then begin
     IntCount2:=1;
     for IntCount:=0 to Length(DataArr)-1 do begin
-      if StrBodyId<>DataArr[IntCount][0] then begin
+     { if StrBodyId<>DataArr[IntCount][0] then begin
         StrBodyId:=DataArr[IntCount][0];
         IntStartRow:=IntCount;
         IsDrawRect:=False;
-        StrGrid.Cells[0,IntCount+2]:=IntToStr(IntCount2);
-        StrGrid.Cells[1,IntCount+2]:=DataArr[IntCount][0];
-        StrGrid.Cells[2,IntCount+2]:=DataArr[IntCount][1];
-        StrGrid.Cells[3,IntCount+2]:=DataArr[IntCount][2];
-        StrGrid.Cells[4,IntCount+2]:=DataArr[IntCount][3];
+        StrGrid.Cells[0,IntCount+3]:=IntToStr(IntCount2);
+        StrGrid.Cells[1,IntCount+3]:=DataArr[IntCount][0];
+        StrGrid.Cells[2,IntCount+3]:=DataArr[IntCount][1];
+        StrGrid.Cells[3,IntCount+3]:=DataArr[IntCount][2];
+        StrGrid.Cells[4,IntCount+3]:=DataArr[IntCount][3];
         Inc(IntCount2);
       end else if IntCount<Length(DataArr)-1 then begin
         if StrBodyId<>DataArr[IntCount+1][0] then IsDrawRect:=True;
       end else IsDrawRect:=True;
       if IsDrawRect=True then begin
-        StrGrid.MergeCells.AddRectXY(0,IntStartRow+2,0,IntCount+2);
-        StrGrid.MergeCells.AddRectXY(1,IntStartRow+2,1,IntCount+2);
-        StrGrid.MergeCells.AddRectXY(2,IntStartRow+2,2,IntCount+2);
-        StrGrid.MergeCells.AddRectXY(3,IntStartRow+2,3,IntCount+2);
-        StrGrid.MergeCells.AddRectXY(4,IntStartRow+2,4,IntCount+2);
-        StrGrid.MergeCells.AddRectXY(5,IntStartRow+2,5,IntCount+2);
-        StrGrid.MergeCells.AddRectXY(6,IntStartRow+2,6,IntCount+2);
+        StrGrid.MergeCells.AddRectXY(0,IntStartRow+3,0,IntCount+3);
+        StrGrid.MergeCells.AddRectXY(1,IntStartRow+3,1,IntCount+3);
+        StrGrid.MergeCells.AddRectXY(2,IntStartRow+3,2,IntCount+3);
+        StrGrid.MergeCells.AddRectXY(3,IntStartRow+3,3,IntCount+3);
+        StrGrid.MergeCells.AddRectXY(4,IntStartRow+3,4,IntCount+3);
+        StrGrid.MergeCells.AddRectXY(5,IntStartRow+3,5,IntCount+3);
+        StrGrid.MergeCells.AddRectXY(6,IntStartRow+3,6,IntCount+3);
 
         //StrGrid.MergeCells.AddRectXY(7,IntStartRow+2,7,IntCount+2);
       end;
-      StrGrid.Cells[5,IntCount+2]:=DataArr[IntCount][5];
+      StrGrid.Cells[5,IntCount+3]:=DataArr[IntCount][5];
 
-      StrGrid.Cells[6,IntCount+2]:=DataArr[IntCount][6];
-      StrGrid.Cells[7,IntCount+2]:=DataArr[IntCount][15];
-      StrGrid.Cells[8,IntCount+2]:=DataArr[IntCount][16];
-      StrGrid.Cells[9,IntCount+2]:=DataArr[IntCount][17];
+      StrGrid.Cells[6,IntCount+3]:=DataArr[IntCount][6];
+      StrGrid.Cells[7,IntCount+3]:=DataArr[IntCount][15];
+      StrGrid.Cells[8,IntCount+3]:=DataArr[IntCount][16];
+      StrGrid.Cells[9,IntCount+3]:=DataArr[IntCount][17];
 
       StrGrid.CellStyle[5,IntCount+2].WordWrap:=True;
 
-      StrGrid.Cells[12,IntCount+2]:=DataArr[IntCount][8];
+      StrGrid.Cells[12,IntCount+3]:=DataArr[IntCount][8];
       StrGrid.Cells[13,IntCount+2]:=DataArr[IntCount][9];
       StrGrid.Cells[14,IntCount+2]:=DataArr[IntCount][10];
       StrGrid.Cells[15,IntCount+2]:=DataArr[IntCount][11];
       StrGrid.Cells[16,IntCount+2]:=DataArr[IntCount][12];
       StrGrid.Cells[17,IntCount+2]:=DataArr[IntCount][13];
-      StrGrid.Cells[18,IntCount+2]:=DataArr[IntCount][14];
+      StrGrid.Cells[18,IntCount+2]:=DataArr[IntCount][14]; }
+
+      StrGrid.Cells[0,IntCount+3]:=IntToStr(IntCount2);
+      StrGrid.Cells[1,IntCount+3]:=DataArr[IntCount][0];
+      StrGrid.Cells[2,IntCount+3]:=DataArr[IntCount][1];
+      StrGrid.Cells[3,IntCount+3]:=DataArr[IntCount][2];
+      StrGrid.Cells[4,IntCount+3]:=DataArr[IntCount][3];
+      StrGrid.Cells[5,IntCount+3]:=DataArr[IntCount][4];
+      StrGrid.Cells[6,IntCount+3]:=DataArr[IntCount][5];
+      StrGrid.Cells[7,IntCount+3]:=DataArr[IntCount][6];
+      StrGrid.Cells[8,IntCount+3]:=DataArr[IntCount][7];
+      Inc(IntCount2);
     end;
   end;
 end;
@@ -509,10 +620,10 @@ end;
 
 procedure TDailyBusActivityRpt.CekTglSampaiClick(Sender: TObject);
 begin
-  if not(Initiation) then begin
-    if CekTglSampai.Checked=True then TglSampai.Enabled:=True
-    else TglSampai.Enabled:=False;
-  end;
+ // if not(Initiation) then begin
+  //  if CekTglSampai.Checked=True then TglSampai.Enabled:=True
+  //  else TglSampai.Enabled:=False;
+ // end;
 end;
 
 procedure TDailyBusActivityRpt.StrGridKeyDown(Sender: TObject;

@@ -1,6 +1,6 @@
 object DailyBusActivityRpt: TDailyBusActivityRpt
-  Left = 218
-  Top = 97
+  Left = 263
+  Top = 124
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Laporan Aktifitas Harian'
@@ -68,28 +68,21 @@ object DailyBusActivityRpt: TDailyBusActivityRpt
     OnClick = ToXCelClick
   end
   object Label3: TLabel
-    Left = 534
+    Left = 398
     Top = 10
     Width = 63
     Height = 13
     Caption = 'Jenis Armada'
   end
   object Label5: TLabel
-    Left = 846
+    Left = 711
     Top = 10
     Width = 22
     Height = 13
     Caption = 'Seat'
   end
-  object Label2: TLabel
-    Left = 396
-    Top = 10
-    Width = 16
-    Height = 13
-    Caption = 's/d'
-  end
   object Batch: TComboBox
-    Left = 603
+    Left = 467
     Top = 8
     Width = 238
     Height = 21
@@ -118,7 +111,7 @@ object DailyBusActivityRpt: TDailyBusActivityRpt
     DefaultDrawing = False
     FixedColor = clBtnFace
     FixedCols = 0
-    FixedRows = 2
+    FixedRows = 3
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine]
     TabOrder = 3
     OnDblClick = StrGridDblClick
@@ -139,7 +132,7 @@ object DailyBusActivityRpt: TDailyBusActivityRpt
     LineDesign.LineUpColor = clWhite
   end
   object Seat: TComboBox
-    Left = 872
+    Left = 737
     Top = 8
     Width = 49
     Height = 21
@@ -188,24 +181,6 @@ object DailyBusActivityRpt: TDailyBusActivityRpt
       ItemHeight = 13
       TabOrder = 0
     end
-  end
-  object CekTglSampai: TCheckBox
-    Left = 416
-    Top = 8
-    Width = 17
-    Height = 17
-    Caption = 'CekTglSampai'
-    TabOrder = 8
-    OnClick = CekTglSampaiClick
-  end
-  object TglSampai: TDateTimePicker
-    Left = 432
-    Top = 8
-    Width = 89
-    Height = 21
-    Date = 41964.570029108800000000
-    Time = 41964.570029108800000000
-    TabOrder = 7
   end
   object PopupMenu1: TPopupMenu
     Left = 352
