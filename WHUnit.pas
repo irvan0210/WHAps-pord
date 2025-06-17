@@ -32,6 +32,7 @@ type
   TArrString20 = Array [0..20] of String;
   TArrString21 = Array [0..21] of String;
   TArrString22 = Array [0..22] of String;
+  TArrString24 = Array [0..24] of String;
   TArrString25 = Array [0..25] of String;
   TArrString27 = Array [0..27] of String;
   TArrString18 = Array [0..18] of String;
@@ -1393,7 +1394,6 @@ begin
     Result    := True;
   end;
 end;
-
 
 // 30 Juni 2015
 function FileTimeToDateTime(FileTime:TFileTime):TDateTime;

@@ -1,6 +1,6 @@
 object Apps: TApps
-  Left = 482
-  Top = 101
+  Left = 714
+  Top = 40
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Aplikasi'
@@ -126,10 +126,14 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '17/06/2025 (6.1.10.9)'
+      '-Perbaikan Laporan Aktifas Harian Armada'
+      ''
       '04/06/2025 (6.1.10.8)'
+      '-Menambahkan Filter Customer di Laporan Uang Order Harian'
       ''
       '28/05/2025 (6.1.10.7)'
-      '-Menambahkan Rekap Pergantian Part perArmada'
+      '-Menambahkan Rekap Pergantian Part perArmada (V2)'
       
         '-Menambahkan Pembuatan User Operasional Apps saat pembuatan user' +
         ' WHAps'
@@ -146,7 +150,7 @@ object Apps: TApps
       ''
       '02/05/2025 (6.1.10.4)'
       '-Penambahan Master Materi Training'
-      '-Penambhan Filter Materi Training di Laporan Training'
+      '-Penambahan Filter Materi Training di Laporan Training'
       ''
       '25/04/2025 (6.1.10.3)'
       

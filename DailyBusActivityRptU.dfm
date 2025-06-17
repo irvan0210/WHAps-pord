@@ -1,11 +1,11 @@
 object DailyBusActivityRpt: TDailyBusActivityRpt
-  Left = 263
-  Top = 124
+  Left = 305
+  Top = 47
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Laporan Aktifitas Harian'
   ClientHeight = 592
-  ClientWidth = 1059
+  ClientWidth = 1167
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,7 +19,7 @@ object DailyBusActivityRpt: TDailyBusActivityRpt
   OnClose = FormClose
   OnShow = FormShow
   DesignSize = (
-    1059
+    1167
     592)
   PixelsPerInch = 96
   TextHeight = 13
@@ -81,6 +81,19 @@ object DailyBusActivityRpt: TDailyBusActivityRpt
     Height = 13
     Caption = 'Seat'
   end
+  object Label2: TLabel
+    Left = 200
+    Top = 564
+    Width = 118
+    Height = 13
+    Caption = '>Aktifitas COMPLETED<'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clGreen
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
   object Batch: TComboBox
     Left = 467
     Top = 8
@@ -103,7 +116,7 @@ object DailyBusActivityRpt: TDailyBusActivityRpt
   object StrGrid: TZColorStringGrid
     Left = 8
     Top = 48
-    Width = 1039
+    Width = 1147
     Height = 505
     Anchors = [akLeft, akTop, akRight]
     ColCount = 12
@@ -141,7 +154,7 @@ object DailyBusActivityRpt: TDailyBusActivityRpt
     TabOrder = 4
   end
   object Selesai: TButton
-    Left = 440
+    Left = 575
     Top = 560
     Width = 75
     Height = 25
@@ -179,6 +192,28 @@ object DailyBusActivityRpt: TDailyBusActivityRpt
       Height = 21
       Style = csDropDownList
       ItemHeight = 13
+      TabOrder = 0
+    end
+  end
+  object GroupTotal: TGroupBox
+    Left = 8
+    Top = 554
+    Width = 177
+    Height = 33
+    TabOrder = 7
+    object lbl5: TLabel
+      Left = 5
+      Top = 11
+      Width = 79
+      Height = 13
+      Caption = 'Total Kendaraan'
+    end
+    object Total: TEdit
+      Left = 99
+      Top = 8
+      Width = 73
+      Height = 21
+      Enabled = False
       TabOrder = 0
     end
   end
