@@ -279,7 +279,7 @@ begin
       if (CompanyId=CompanyArr[IntCount][1]) and  (LocationId=CompanyArr[IntCount][2]) then SBU.ItemIndex:=IntCount;
     end;
     StrCompanyId:=CompanyArr[SBU.ItemIndex][1];
-    StrQry:='SELECT * FROM wh_vhc_batch WHERE (active=1) AND company_id='+StrCompanyId+';';
+    StrQry:='EXEC GetGroup '+CompanyArr[SBU.ItemIndex][1]+';';
     Qry.SQL.Clear;
     Main.WriteLog('SQL :'+StrQry,2);
     Qry.SQL.Add(StrQry);
