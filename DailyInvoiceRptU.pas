@@ -347,7 +347,7 @@ begin
             StrGrid.Cells[Count4,Count2-1]:=TransArr[Count][Count4];
             StrGrid.CellStyle[Count4,Count2-1].Font.Color:=clWindowText;
           end;
-          if TransArr[Count][9]='0' then for Count5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[Count5,Count2-1].Font.Color:=clRed;
+          if TransArr[Count][10]='0' then for Count5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[Count5,Count2-1].Font.Color:=clRed;
           if TransType=1 then begin
             if TransArr[Count][7]='0' then for Count5:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[Count5,Count2-1].Font.Color:=clGreen;
           end;
