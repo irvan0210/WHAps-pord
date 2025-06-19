@@ -1103,7 +1103,7 @@ end;
 
 procedure TMaintenanceServiceForm.CariArmadaClick(Sender: TObject);
 begin
-  VehicleList:=TVehicleList.Create(nil,'','MaintenanceService-Create')
+  VehicleList:=TVehicleList.Create(nil,'BUS','MaintenanceService-Create')
 end;
 
 procedure TMaintenanceServiceForm.RequestKeyPress(Sender: TObject;
