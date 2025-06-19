@@ -459,7 +459,6 @@ begin
   StrGrid.ColWidths[7]:=80;
   StrGrid.ColWidths[8]:=90;
 
-
   StrGrid.Cells[0,0]:='Nama Part';
   StrGrid.Cells[1,0]:=Batch.Text+' '+Seat.Text;
   StrGrid.Cells[1,1]:='Pergantian Terakhir';
@@ -675,9 +674,9 @@ begin
     Qry:=TADOQuery.Create(Self);
     Qry.Connection:=Main.MyConnection;
     if Main.OpenDb then begin
-      StrQry:='SELECT a.kode_part_gp,b.name FROM wh_part_type_vehicle a '+
+      StrQry:='SELECT a.part_type_id,a.kode_part_gp,b.name FROM wh_part_type_vehicle a '+
               'LEFT JOIN wh_part b ON a.kode_part_gp=b.kode_part_gp '+
-              'WHERE vhc_type_detail_id='+QuotedStr(TypeKendaraanArr[TypeKendaraan.ItemIndex][0])+';';
+              'WHERE vhc_type_detail_id='+QuotedStr(TypeKendaraanArr[TypeKendaraan.ItemIndex][0])+' ORDER BY a.part_type_id ASC;';
 
       Qry.SQL.Clear;
       Qry.SQL.Add(StrQry);
