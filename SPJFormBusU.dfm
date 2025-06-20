@@ -1,6 +1,6 @@
 object SPJFormBus: TSPJFormBus
-  Left = 233
-  Top = 137
+  Left = 290
+  Top = 154
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Surat Jalan'
@@ -506,7 +506,7 @@ object SPJFormBus: TSPJFormBus
         EditMask = '!90:00;1;_'
         MaxLength = 5
         TabOrder = 0
-        Text = '  :  '
+        Text = '  .  '
       end
       object StandbyTime: TMaskEdit
         Left = 128
@@ -516,7 +516,7 @@ object SPJFormBus: TSPJFormBus
         EditMask = '!90:00;1;_'
         MaxLength = 5
         TabOrder = 1
-        Text = '  :  '
+        Text = '  .  '
       end
     end
     object FromDateApi: TEdit
@@ -1738,6 +1738,7 @@ object SPJFormBus: TSPJFormBus
       Height = 25
       Caption = '...'
       TabOrder = 3
+      Visible = False
       OnClick = BtnKenekClick
     end
     object ClearKenek: TButton
@@ -1747,6 +1748,7 @@ object SPJFormBus: TSPJFormBus
       Height = 25
       Caption = 'Bersihkan'
       TabOrder = 4
+      Visible = False
       OnClick = ClearKenekClick
     end
   end
@@ -1770,7 +1772,7 @@ object SPJFormBus: TSPJFormBus
   object ppReport2: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'A4 Fanfold 210 mm x 11 2/3 in'
+    PrinterSetup.PaperName = 'Custom'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 3810
     PrinterSetup.mmMarginLeft = 6350
@@ -1778,7 +1780,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 144780
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 121
+    PrinterSetup.PaperSize = 256
     Template.FileName = 'D:\WH App\Order.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
@@ -2910,7 +2912,7 @@ object SPJFormBus: TSPJFormBus
   object ppReport: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Surat Jalan'
+    PrinterSetup.PaperName = 'Custom'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 0
     PrinterSetup.mmMarginLeft = 6350
@@ -2918,7 +2920,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152400
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 119
+    PrinterSetup.PaperSize = 256
     Template.FileName = 'D:\WH App\Order.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
@@ -3489,7 +3491,7 @@ object SPJFormBus: TSPJFormBus
   object ppReport3: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Surat Jalan'
+    PrinterSetup.PaperName = 'Custom'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 0
     PrinterSetup.mmMarginLeft = 6350
@@ -3497,7 +3499,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152400
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 119
+    PrinterSetup.PaperSize = 256
     Template.FileName = 'D:\NANANG\WHAPS UPDATE PROD\surat jalan baru.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
@@ -4030,7 +4032,7 @@ object SPJFormBus: TSPJFormBus
   object ppReport4: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Surat Jalan'
+    PrinterSetup.PaperName = 'Custom'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 0
     PrinterSetup.mmMarginLeft = 6350
@@ -4038,7 +4040,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152400
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 119
+    PrinterSetup.PaperSize = 256
     Template.FileName = 'D:\WH App\Order.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'

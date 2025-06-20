@@ -457,8 +457,8 @@ begin
   StatusPenugasanDriver2.Text:='';
   StatusPenugasanHelper.Text:='';
   BtnDriver.Visible:=False;
-  BtnKenek.Visible:=False;
-  ClearKenek.Visible:=False;
+  //BtnKenek.Visible:=False;
+  //ClearKenek.Visible:=False;
   BtnDriver2.Visible:=False;
   ClearDriver2.Visible:=False;
   IsAuthRevCrew:=False;
@@ -556,8 +556,21 @@ begin
     NoRekHelper:='';
     if Qry.RecordCount>0 then while not(Qry.Eof) do begin
       if IsAuth=True then begin
-        if (Qry.FieldValues['isTransfer'] = 1) OR (Qry.FieldValues['status_sj'] = 'COMPLETED') then BtnKendaraan.Visible:=False else BtnKendaraan.Visible:=True;
+        if (Qry.FieldValues['isTransfer'] = 1) OR (Qry.FieldValues['status_sj'] = 'COMPLETED') then
+          BtnKendaraan.Visible:=False
+        else
+          BtnKendaraan.Visible:=True;
       end;
+
+      if (Qry.FieldValues['isTransfer'] = 1) and (Qry.FieldValues['isTransfer_update_time'] <> null )then
+      begin
+        BtnKenek.Visible:=False;
+        ClearKenek.Visible := False;
+      end else begin
+        BtnKenek.Visible:=True;
+        ClearKenek.Visible := True;
+      end;
+
       StrIsOnline:=VarToStr(Qry.FieldValues['isOnline']);
       NoSPJ.Text:=Qry.FieldValues['vhc_trans_id'];
       SJDate.Text:=Qry.FieldValues['out_dates'];
@@ -670,6 +683,7 @@ begin
         end else begin
           BusBoyDisp.Text:='';
           StrBusboyID:='';
+          StatusPenugasanHelper.Text:='';
         end;
 //      end else begin
 //        Kenek.ItemIndex:=kenek.Items.IndexOf(VarToStr(Qry.FieldValues['busboyname_name']));
@@ -2102,8 +2116,17 @@ begin
                     ','+StrRemark+
                     ','+StrRemark2+
                     ','+QuotedStr(User)+','+IntToStr(IntKmestimasi)+','+QuotedStr(StrConnecting)+','+QuotedStr(StrUrutID)+');';
-              StrQry:=StrQry+' UPDATE wh_reserved_order_detail SET vhc_trans_id='+QuotedStr(StrTransId)+
-                      ' WHERE reserved_order_detail_id='+StrReservedOrderDetailId+';';
+
+              if (StrHelperId <> '') then begin
+                  StrQry:=StrQry+' UPDATE wh_reserved_order_detail SET vhc_trans_id='+QuotedStr(StrTransId)+
+                          ',employee_id3 ='+StrHelperId+',helper_status='+QuotedStr(StatusPenugasanHelper.Text)+
+                          ' WHERE reserved_order_detail_id='+StrReservedOrderDetailId+';';
+              end else begin
+                  StrQry:=StrQry+' UPDATE wh_reserved_order_detail SET vhc_trans_id='+QuotedStr(StrTransId)+
+                     //   ' employee_id3 ='+StrHelperId+',helper_status='+QuotedStr(StatusPenugasanHelper.Text)+
+                        ' WHERE reserved_order_detail_id='+StrReservedOrderDetailId+';';
+              end;
+
               Qry.SQL.Clear;
               Main.WriteLog('SQL :'+StrQry,4);
               Qry.SQL.Add(StrQry);
@@ -3108,8 +3131,8 @@ end;
 
 procedure TSPJFormBus.BtnKenekClick(Sender: TObject);
 begin
-  if (Main.IsFormOpen('EmployeeRDList')=False) and (OrderId.Text<>'') then
-  EmployeeRDList:=TEmployeeRDList.Create(Self,'BUS2',1,0,'SJ-Update-Helper',FormatDateTime('yyyy/mm/dd',StrToDate(FromDate.Text)),FormatDateTime('yyyy/mm/dd',StrToDate(ToDate.Text)));
+    if (Main.IsFormOpen('EmployeeRDList')=False) and (OrderId.Text<>'') then
+    EmployeeRDList:=TEmployeeRDList.Create(Self,'BUS2',1,0,'SJ-Update-Helper',FormatDateTime('yyyy/mm/dd',StrToDate(FromDate.Text)),FormatDateTime('yyyy/mm/dd',StrToDate(ToDate.Text)));
 end;
 
 procedure TSPJFormBus.BtnDriver2Click(Sender: TObject);

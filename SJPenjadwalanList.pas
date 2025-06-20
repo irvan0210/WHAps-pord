@@ -570,6 +570,8 @@ begin
           CariPengemudi1.Enabled:=True;
           CariPengemudi2.Enabled:=True;
           Kenek.Enabled:=True ;
+          BtnKenek.Visible := True;
+          ClearKenek.Visible := True;
           StrIsOnline :=VarToStr(Qry.FieldValues['isOnline']);
           ReservedOrderDetaiId.Text:=Qry.FieldValues['reserved_order_detail_id'];
           OrderId.Text:=Qry.FieldValues['customer_order_id'];
