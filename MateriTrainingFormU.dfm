@@ -1,6 +1,6 @@
 object MateriTrainingForm: TMateriTrainingForm
-  Left = 467
-  Top = 332
+  Left = 466
+  Top = 333
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Materi Training Form'

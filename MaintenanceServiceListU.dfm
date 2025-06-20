@@ -1,11 +1,11 @@
 object MaintenanceServiceList: TMaintenanceServiceList
-  Left = 374
-  Top = 200
+  Left = 233
+  Top = 348
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Service Berkala'
   ClientHeight = 466
-  ClientWidth = 807
+  ClientWidth = 850
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,7 +21,7 @@ object MaintenanceServiceList: TMaintenanceServiceList
   PixelsPerInch = 96
   TextHeight = 13
   object Label3: TLabel
-    Left = 564
+    Left = 688
     Top = 11
     Width = 18
     Height = 13
@@ -64,6 +64,20 @@ object MaintenanceServiceList: TMaintenanceServiceList
     ParentBiDiMode = False
     OnClick = ToXCelClick
   end
+  object Label2: TLabel
+    Left = 298
+    Top = 11
+    Width = 39
+    Height = 13
+    Caption = 'Tanggal'
+  end
+  object Label4: TLabel
+    Left = 433
+    Top = 12
+    Width = 16
+    Height = 13
+    Caption = 's/d'
+  end
   object Selesai: TButton
     Left = 366
     Top = 432
@@ -74,7 +88,7 @@ object MaintenanceServiceList: TMaintenanceServiceList
     OnClick = SelesaiClick
   end
   object Lihat: TButton
-    Left = 315
+    Left = 587
     Top = 6
     Width = 75
     Height = 25
@@ -83,7 +97,7 @@ object MaintenanceServiceList: TMaintenanceServiceList
     OnClick = LihatClick
   end
   object Cari: TEdit
-    Left = 592
+    Left = 716
     Top = 8
     Width = 121
     Height = 21
@@ -93,7 +107,7 @@ object MaintenanceServiceList: TMaintenanceServiceList
   object StrGrid: TZColorStringGrid
     Left = 8
     Top = 42
-    Width = 793
+    Width = 833
     Height = 383
     ColCount = 8
     DefaultRowHeight = 20
@@ -143,5 +157,25 @@ object MaintenanceServiceList: TMaintenanceServiceList
       ItemHeight = 13
       TabOrder = 0
     end
+  end
+  object TglSampai: TDateTimePicker
+    Left = 455
+    Top = 9
+    Width = 89
+    Height = 21
+    Date = 41964.570029108800000000
+    Time = 41964.570029108800000000
+    TabOrder = 5
+    OnChange = TglSampaiChange
+  end
+  object Tanggal: TDateTimePicker
+    Left = 341
+    Top = 9
+    Width = 89
+    Height = 21
+    Date = 41208.000000000000000000
+    Time = 41208.000000000000000000
+    TabOrder = 6
+    OnChange = TanggalChange
   end
 end

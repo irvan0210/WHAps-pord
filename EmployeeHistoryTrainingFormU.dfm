@@ -1,6 +1,6 @@
 object EmployeeHistoryTrainingForm: TEmployeeHistoryTrainingForm
-  Left = 426
-  Top = 71
+  Left = 333
+  Top = 192
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Driver Training Form'
@@ -160,7 +160,6 @@ object EmployeeHistoryTrainingForm: TEmployeeHistoryTrainingForm
       Height = 21
       Enabled = False
       TabOrder = 0
-      OnKeyPress = MateriKeyPress
     end
     object Lokasi: TEdit
       Left = 49
@@ -175,7 +174,9 @@ object EmployeeHistoryTrainingForm: TEmployeeHistoryTrainingForm
       Top = 83
       Width = 247
       Height = 21
+      CharCase = ecUpperCase
       TabOrder = 2
+      OnKeyPress = TrainerKeyPress
     end
     object Jam: TMaskEdit
       Left = 204
@@ -296,6 +297,16 @@ object EmployeeHistoryTrainingForm: TEmployeeHistoryTrainingForm
           64
           64
           64)
+      end
+      object Score: TEdit
+        Left = 244
+        Top = 39
+        Width = 42
+        Height = 21
+        TabOrder = 2
+        Visible = False
+        OnExit = ScoreExit
+        OnKeyPress = ScoreKeyPress
       end
     end
     object TambahPeserta: TButton

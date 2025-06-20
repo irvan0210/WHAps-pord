@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Grids, ZColorStringGrid, ADODB, WHUnit, Buttons;
+  Dialogs, StdCtrls, Grids, ZColorStringGrid, ADODB, WHUnit, Buttons,
+  ComCtrls;
 
 type
   TMaintenanceServiceList = class(TForm)
@@ -17,6 +18,10 @@ type
     Label1: TLabel;
     SBU: TComboBox;
     ToXCel: TSpeedButton;
+    TglSampai: TDateTimePicker;
+    Tanggal: TDateTimePicker;
+    Label2: TLabel;
+    Label4: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SelesaiClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -27,6 +32,8 @@ type
     procedure LihatClick(Sender: TObject);
     procedure ToXCelClick(Sender: TObject);
     procedure CariKeyPress(Sender: TObject; var Key: Char);
+    procedure TanggalChange(Sender: TObject);
+    procedure TglSampaiChange(Sender: TObject);
   private
     FormRequest,FormFunction:String;
     DepartmentArr,LocationArr:Array of TArrString4;
@@ -65,6 +72,8 @@ end;
 
 procedure TMaintenanceServiceList.Init;
 begin
+  Tanggal.DateTime:=Now();
+  TglSampai.DateTime:=Now();
   SBU.Items.Clear;
   SBU.ItemIndex:=-1;
   SBU.Text:='';
@@ -146,7 +155,7 @@ end;
 
 procedure TMaintenanceServiceList.RefreshData;
 var Qry:TADOQuery;
-    StrQry,AwalBulan,StrCompanyId,StrLocationId:String;
+    StrQry,AwalBulan,StrCompanyId,StrLocationId,StrDate:String;
     IntCount:Integer;
 begin
   Qry:=TADOQuery.Create(Self);
@@ -155,7 +164,9 @@ begin
   if Main.OpenDb then begin
     StrCompanyId:=CompanyArr[SBU.ItemIndex][1];
     StrLocationId:=CompanyArr[SBU.ItemIndex][2];
-    StrQry:='EXEC GetMaintenanceServiceList '+StrCompanyId+','+StrLocationId+';';
+    StrDate:='@FromDates='+QuotedStr(FormatDateTime('yyyy-mm-dd',Tanggal.Date))+' ,@ToDates'+
+              '='+QuotedStr(FormatDateTime('yyyy-mm-dd',TglSampai.Date))+' ';
+    StrQry:='EXEC GetMaintenanceServiceList '+StrCompanyId+','+StrLocationId+','+StrDate+';';
     Qry.SQL.Add(StrQry);
     Qry.Open;
     SetLength(WorkOrderArr,Qry.RecordCount);
@@ -241,6 +252,8 @@ begin
   if StrGrid.Cells[1,IntRow]<>'' then begin
     if FormRequest='' then begin
       if Main.IsFormOpen('MaintenanceServiceForm')=False then MaintenanceServiceForm:=TMaintenanceServiceForm.Create(Self,StrGrid.Cells[2,IntRow],'',False);
+    end else if UpperCase(FormRequest)='UPDATE' then begin
+      if Main.IsFormOpen('MaintenanceServiceForm')=False then MaintenanceServiceForm:=TMaintenanceServiceForm.Create(Self,StrGrid.Cells[2,IntRow],'UPDATE-MAINTENACESERVICE',True);
     end else if UpperCase(FormRequest)='MAINTENANCESERVICE' then begin
       if UpperCase(FormFunction)='REPRINT' then begin
         MaintenanceServiceForm.Reprint(StrGrid.Cells[2,IntRow]);
@@ -332,6 +345,16 @@ begin
   end else begin
     LihatClick(Nil);
   end;
+end;
+
+procedure TMaintenanceServiceList.TanggalChange(Sender: TObject);
+begin
+  if Tanggal.Date>TglSampai.Date then TglSampai.Date:=Tanggal.Date;
+end;
+
+procedure TMaintenanceServiceList.TglSampaiChange(Sender: TObject);
+begin
+  if TglSampai.Date<Tanggal.Date then Tanggal.Date:=TglSampai.Date;
 end;
 
 end.

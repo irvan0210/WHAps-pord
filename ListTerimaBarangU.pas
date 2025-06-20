@@ -178,16 +178,6 @@ begin
   if Main.OpenDb then begin
     SetLength(WorkOrderArr,0);
 
-//    StrQry:='SELECT a.item_request_id,CONVERT(VARCHAR(10),a.request_date,103) request_date,'+
-//            'CONVERT(VARCHAR(10),a.requested_date,103) requested_date,b.name,a.no_request,d.license_plate,e.name tipe_kendaraan '+
-//            'FROM wh_item_request a '+
-//            'LEFT JOIN wh_user b ON a.requester_id=b.username '+
-//            'LEFT JOIN wh_service_request c on a.no_request=c.service_request_id '+
-//            'LEFT JOIN wh_vehicle d on c.vehicle_id=d.vehicle_id '+
-//            'LEFT JOIN wh_vhc_batch e on d.vhc_batch_id=e.vhc_batch_id '+
-//            'WHERE (a.requested_date BETWEEN '+QuotedStr(FormatDateTime('yyyy-mm-dd',Tanggal.Date))+' AND '+
-//            ''+QuotedStr(FormatDateTime('yyyy-mm-dd',TglSampai.Date+1))+') AND a.company_id='+StrCompanyId+' AND a.location_id='+StrLocationId+' '+
-//            ''+StrToDepartment+' AND (a.cancel<>1 or a.cancel IS NULL) and a.posting=1 order by a.request_date ASC' ;
     StrQry:='EXEC GetItemRequest @CompanyID='+StrCompanyId+',@LocationID='+StrLocationId+','+
     '@Dates='+QuotedStr(FormatDateTime('yyyy-mm-dd',Tanggal.Date))+',@DatesTo='+QuotedStr(FormatDateTime('yyyy-mm-dd',TglSampai.Date))+' ;';
     Main.WriteLog('SQL :'+StrQry,2);
@@ -257,11 +247,27 @@ var IntCount,IntCount2,IntStartRow,IntTotal,IntStartRow2,lengt:Integer;
     IsDrawRect,IsDrawRect2:Boolean;
 begin
   for IntCount:=0 to StrGrid.ColCount-1 do
-    StrGrid.Cells[IntCount,2]:='';
+    for IntCount2:=2 to StrGrid.RowCount-1 do begin
+      IntTotal:=StrGrid.MergeCells.InMergeRange(IntCount,IntCount2);
+      if IntTotal>=0 then StrGrid.MergeCells.DeleteItem(IntTotal);
+    end;
+
   if Length(WorkOrderArr)>0 then StrGrid.RowCount:=Length(WorkOrderArr)+2
   else begin
     StrGrid.RowCount:=2;
   end;
+
+  for IntCount:=0 to StrGrid.ColCount-1 do begin
+    StrGrid.Cells[IntCount,2]:='';
+    StrGrid.CellStyle[IntCount,2].Font.Color:=clWindowText;
+  end;
+
+//  for IntCount:=0 to StrGrid.ColCount-1 do
+//    StrGrid.Cells[IntCount,2]:='';
+//  if Length(WorkOrderArr)>0 then StrGrid.RowCount:=Length(WorkOrderArr)+2
+//  else begin
+//    StrGrid.RowCount:=2;
+//  end;
 
   IntStartRow:=0;
   StrOrderId:='';
@@ -395,7 +401,7 @@ begin
   SerahTerimaBarang.NoItemRequest.Text:=StrGrid.Cells[2,IntRow];
   SerahTerimaBarang.TipeKendaraan.Text:=StrGrid.Cells[10,IntRow];
   if IsCharAlpha(PChar(Copy(StrGrid.Cells[9,IntRow],2,1))^)=False then
-    SerahTerimaBarang.NoPol.Text:=Copy(StrGrid.Cells[8,IntRow],1,1)+' '+Copy(StrGrid.Cells[9,IntRow],2,4)+
+    SerahTerimaBarang.NoPol.Text:=Copy(StrGrid.Cells[9,IntRow],1,1)+' '+Copy(StrGrid.Cells[9,IntRow],2,4)+
     ' '+Copy(StrGrid.Cells[9,IntRow],6,Length(StrGrid.Cells[9,IntRow])+1)
   else
     SerahTerimaBarang.NoPol.Text:=Copy(StrGrid.Cells[9,IntRow],1,2)+' '+Copy(StrGrid.Cells[9,IntRow],3,4)+

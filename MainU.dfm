@@ -1,10 +1,10 @@
 object Main: TMain
-  Left = 147
-  Top = 318
+  Left = 234
+  Top = 43
   BorderStyle = bsSingle
   Caption = 'WHAps ( White Horse Application )'
   ClientHeight = 540
-  ClientWidth = 1174
+  ClientWidth = 1019
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23077,7 +23077,7 @@ object Main: TMain
   object Status: TStatusBar
     Left = 0
     Top = 521
-    Width = 1174
+    Width = 1019
     Height = 19
     Panels = <
       item

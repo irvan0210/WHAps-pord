@@ -339,7 +339,9 @@ uses
   LaporanWehaMartU in 'LaporanWehaMartU.pas' {LaporanWehaMart},
   HistoryPrintOrderFeeU in 'HistoryPrintOrderFeeU.pas' {HistoryPrintOrderFee},
   MateriTrainingFormU in 'MateriTrainingFormU.pas' {MateriTrainingForm},
-  MateriTrainingListU in 'MateriTrainingListU.pas' {MateriTrainingList};
+  MateriTrainingListU in 'MateriTrainingListU.pas' {MateriTrainingList},
+  RekapPergantianPartperArmadaV2U in 'RekapPergantianPartperArmadaV2U.pas' {RekapPergantianPartperArmadaV2},
+  BrowseCustomerU in 'BrowseCustomerU.pas' {BrowseCustomer};
 
 {$R *.res}
 

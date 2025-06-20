@@ -1,6 +1,6 @@
 object RevenueVhcDayBusRpt: TRevenueVhcDayBusRpt
-  Left = 151
-  Top = 360
+  Left = 154
+  Top = 352
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
   Caption = 'Laporan Pengeluaran perArmada'
@@ -124,7 +124,7 @@ object RevenueVhcDayBusRpt: TRevenueVhcDayBusRpt
     OnClick = SelesaiClick
   end
   object Refresh: TButton
-    Left = 789
+    Left = 807
     Top = 29
     Width = 75
     Height = 25
@@ -202,11 +202,11 @@ object RevenueVhcDayBusRpt: TRevenueVhcDayBusRpt
   object GroupBox1: TGroupBox
     Left = 534
     Top = 40
-    Width = 243
+    Width = 267
     Height = 33
     TabOrder = 6
     DesignSize = (
-      243
+      267
       33)
     object Label2: TLabel
       Left = 4
@@ -219,7 +219,7 @@ object RevenueVhcDayBusRpt: TRevenueVhcDayBusRpt
     object isAll: TComboBox
       Left = 38
       Top = 8
-      Width = 201
+      Width = 225
       Height = 21
       Style = csDropDownList
       Anchors = [akLeft, akTop, akRight]
@@ -236,7 +236,7 @@ object RevenueVhcDayBusRpt: TRevenueVhcDayBusRpt
   object Panel2: TPanel
     Left = 532
     Top = 14
-    Width = 249
+    Width = 269
     Height = 27
     BevelOuter = bvNone
     TabOrder = 8
@@ -248,7 +248,7 @@ object RevenueVhcDayBusRpt: TRevenueVhcDayBusRpt
       Caption = 'Tanggal'
     end
     object Label6: TLabel
-      Left = 130
+      Left = 143
       Top = 5
       Width = 16
       Height = 13
@@ -257,14 +257,14 @@ object RevenueVhcDayBusRpt: TRevenueVhcDayBusRpt
     object Tanggal: TDateTimePicker
       Left = 45
       Top = 2
-      Width = 84
+      Width = 92
       Height = 21
       Date = 41208.000000000000000000
       Time = 41208.000000000000000000
       TabOrder = 0
     end
     object CekTglSampai: TCheckBox
-      Left = 149
+      Left = 162
       Top = 4
       Width = 17
       Height = 17
@@ -272,9 +272,9 @@ object RevenueVhcDayBusRpt: TRevenueVhcDayBusRpt
       OnClick = CekTglSampaiClick
     end
     object TglSampai: TDateTimePicker
-      Left = 163
+      Left = 176
       Top = 2
-      Width = 84
+      Width = 94
       Height = 21
       Date = 41964.570029108800000000
       Time = 41964.570029108800000000

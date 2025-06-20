@@ -1,6 +1,6 @@
 object Apps: TApps
-  Left = 714
-  Top = 40
+  Left = 297
+  Top = 144
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Aplikasi'
@@ -126,6 +126,9 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '17/06/2025 (6.1.11.0)'
+      '-Prubahan Helper di Surat Jalan'
+      ''
       '17/06/2025 (6.1.10.9)'
       '-Perbaikan Laporan Aktifas Harian Armada'
       ''

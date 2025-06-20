@@ -1,6 +1,6 @@
 object SerahTerimaBarang: TSerahTerimaBarang
-  Left = 298
-  Top = 142
+  Left = 287
+  Top = 362
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Tanda Terima'
@@ -331,7 +331,7 @@ object SerahTerimaBarang: TSerahTerimaBarang
     PrinterSetup.mmMarginTop = 6350
     PrinterSetup.mmPaperHeight = 150000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 121
     Template.FileName = 'D:\WH App\PBJRpt.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'

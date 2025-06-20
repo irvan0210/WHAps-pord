@@ -81,7 +81,6 @@ var Qry:TADOQuery;
     StrQry,StrReq:String;
     IntCount:Integer;
 begin
-
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
   Qry.CommandTimeout := 3600;
@@ -89,7 +88,6 @@ begin
 
   if Main.OpenDb then begin
     SetLength(MateriArr,0);
-
     StrQry:='SELECT * from wh_materi_training where status=1 order by materi ASC;';
     Main.WriteLog('SQL :'+StrQry,2);
     Qry.SQL.Clear;
@@ -203,7 +201,6 @@ begin
       MateriTrainingForm.Materi.Text:=StrGrid.Cells[0,IntRow];
       MateriTrainingIDFORM:=StrGrid.Cells[1,IntRow];
     end;
-
   end;
 end;
 

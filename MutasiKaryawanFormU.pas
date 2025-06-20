@@ -403,8 +403,6 @@ begin
   end;
 end;
 
-
-
 procedure TEmployeeMutationForm.CekStatus;
 begin
   if StatusMutasi.Checked then begin

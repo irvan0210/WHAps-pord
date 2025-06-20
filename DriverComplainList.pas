@@ -111,8 +111,8 @@ begin
   StrGrid.ColWidths[7]:=100;
   StrGrid.ColWidths[8]:=100;
   StrGrid.ColWidths[9]:=150;
-  StrGrid.ColWidths[10]:=100;
-  StrGrid.ColWidths[11]:=50;
+  StrGrid.ColWidths[10]:=0;
+  StrGrid.ColWidths[11]:=0;
   //StrGrid.ColWidths[12]:=100;
   //StrGrid.ColWidths[13]:=150;
 
@@ -126,8 +126,8 @@ begin
   StrGrid.Cells[7,0]:='No SR';
   StrGrid.Cells[8,0]:='No PKB';
   StrGrid.Cells[9,0]:='Status';
-  StrGrid.Cells[10,0]:='Vehicel ID';
-  StrGrid.Cells[11,0]:='KM';
+  StrGrid.Cells[10,0]:='';
+  StrGrid.Cells[11,0]:='';
   //StrGrid.Cells[12,0]:='Id Detail Keluhan';
   //StrGrid.Cells[13,0]:='Keterangan Ditolak';
 

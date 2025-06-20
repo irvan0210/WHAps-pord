@@ -43,6 +43,7 @@ type
     Label15: TLabel;
     Duration: TEdit;
     Button1: TButton;
+    Score: TEdit;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure TambahPesertaClick(Sender: TObject);
@@ -54,15 +55,17 @@ type
     procedure BersihkanClick(Sender: TObject);
     procedure SimpanClick(Sender: TObject);
     procedure LokasiKeyPress(Sender: TObject; var Key: Char);
-    procedure MateriKeyPress(Sender: TObject; var Key: Char);
     procedure JamKeyPress(Sender: TObject; var Key: Char);
     procedure JamSelesaiKeyPress(Sender: TObject; var Key: Char);
     procedure JamExit(Sender: TObject);
     procedure JamSelesaiExit(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure ScoreKeyPress(Sender: TObject; var Key: Char);
+    procedure ScoreExit(Sender: TObject);
+    procedure TrainerKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
-    IntRow,MinRowGrid,IntRowCount: Integer;
+    IntRow,MinRowGrid,IntRowCount, IntCol: Integer;
     procedure InitGrid;
     procedure Init;
     procedure LoadData;
@@ -102,7 +105,7 @@ begin
   Qry.CommandTimeout := 3600;
   if Main.OpenDb then begin
 
-    StrQry:='SELECT a.employee_id,b.name FROM wh_empl_history_training_detail a '+
+    StrQry:='SELECT a.employee_id,b.name,a.score FROM wh_empl_history_training_detail a '+
             'LEFT JOIN wh_employee b on a.employee_id=b.employee_id WHERE '+
             'empl_history_training_id ='+EmplHistoryTrainingID+' '+
             'ORDER BY b.name DESC;';
@@ -117,7 +120,8 @@ begin
         StrGridPeserta.RowCount:=IntRowCount;
 
         StrGridPeserta.Cells[0,StrGridPeserta.RowCount-1]:=Qry.FieldValues['employee_id'];
-        StrGridPeserta.Cells[1,StrGridPeserta.RowCount-1]:=Qry.FieldValues['name'];;
+        StrGridPeserta.Cells[1,StrGridPeserta.RowCount-1]:=Qry.FieldValues['name'];
+        StrGridPeserta.Cells[2,StrGridPeserta.RowCount-1]:=Qry.FieldValues['score'];
         Qry.Next;
     end;
     Total.Text:=IntToStr(No);
@@ -159,13 +163,15 @@ var IntCount:Integer;
 begin
   MinRowGrid:=0;
   StrGridPeserta.RowCount:=1;
-  StrGridPeserta.ColCount:=2;
+  StrGridPeserta.ColCount:=3;
   StrGridPeserta.WordWrap:=False;
   StrGridPeserta.ColWidths[0]:=0;
   StrGridPeserta.ColWidths[1]:=450;
+  StrGridPeserta.ColWidths[2]:=50;
 
   StrGridPeserta.Cells[0,0]:='';
   StrGridPeserta.Cells[1,0]:='Nama Peserta';
+  StrGridPeserta.Cells[2,0]:='Score';
 
   for IntCount:=0 to StrGridPeserta.ColCount-1 do
     StrGridPeserta.CellStyle[IntCount,0].HorizontalAlignment:=taCenter;
@@ -207,8 +213,29 @@ end;
 
 procedure TEmployeeHistoryTrainingForm.StrGridPesertaSelectCell(Sender: TObject;
   ACol, ARow: Integer; var CanSelect: Boolean);
+var
+  R: TRect;
 begin
   IntRow:=ARow;
+  IntCol:=ACol;
+//  if IsInputGrid then begin
+  if (ACol = 2) and (ARow > MinRowGrid) then begin
+    R := StrGridPeserta.CellRect(ACol, ARow);
+    R.Left := R.Left + StrGridPeserta.Left;
+    R.Right := R.Right + StrGridPeserta.Left;
+    R.Top := R.Top + StrGridPeserta.Top;
+    R.Bottom := R.Bottom + StrGridPeserta.Top;
+    with Score do begin
+      Left:=R.Left + 1;
+      Top := R.Top + 1;
+      Width := (R.Right + 1) - R.Left;
+      Height := (R.Bottom + 1) - R.Top;
+      if Trim(StrGridPeserta.Cells[ACol,ARow])<>'' then Text:=StrGridPeserta.Cells[ACol,ARow];
+      Visible:= True;
+      BringToFront;
+      SetFocus;
+    end;
+  end;
 end;
 
 procedure TEmployeeHistoryTrainingForm.FormShow(Sender: TObject);
@@ -323,8 +350,8 @@ begin
             end;
 
             StrQry2:='INSERT INTO wh_empl_history_training_detail (empl_history_training_id,employee_id,'+
-            'empl_history_id,update_user) VALUES ('+QuotedStr(EmplHistoryTrainingID)+','+
-             QuotedStr(EmplId)+' ,'+QuotedStr(EmplHistoryID)+','+QuotedStr(User)+');';
+            'empl_history_id,update_user,score) VALUES ('+QuotedStr(EmplHistoryTrainingID)+','+
+             QuotedStr(EmplId)+' ,'+QuotedStr(EmplHistoryID)+','+QuotedStr(User)+','+StrGridPeserta.Cells[2,IntCount]+');';
 
             Qry.SQL.Clear;
             Qry.SQL.Add(StrQry2);
@@ -444,15 +471,7 @@ procedure TEmployeeHistoryTrainingForm.LokasiKeyPress(Sender: TObject;
   var Key: Char);
 begin
   if Key=#13 then begin
-    Materi.SetFocus;
-  end;
-end;
-
-procedure TEmployeeHistoryTrainingForm.MateriKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-  if Key=#13 then begin
-    Trainer.SetFocus;
+    Button1Click(sender);
   end;
 end;
 
@@ -506,6 +525,35 @@ end;
 procedure TEmployeeHistoryTrainingForm.Button1Click(Sender: TObject);
 begin
   if Main.IsFormOpen('MateriTrainingList')=False then MateriTrainingList:=TMateriTrainingList.Create(Self,'EMPLOYETRAINING');
+end;
+
+procedure TEmployeeHistoryTrainingForm.ScoreKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
+  if (Key=#13) then begin
+    StrGridPeserta.SetFocus;
+  end;
+end;
+
+procedure TEmployeeHistoryTrainingForm.ScoreExit(Sender: TObject);
+begin
+  if Score.Text <>'' then
+  begin
+    StrGridPeserta.Cells[2,IntRow]:=Score.Text;
+    StrGridPeserta.CellStyle[2,IntRow].HorizontalAlignment:=taRightJustify;
+  end;
+  Score.Text:='';
+  Score.Visible := False;
+  StrGridPeserta.SetFocus;
+end;
+
+procedure TEmployeeHistoryTrainingForm.TrainerKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key=#13 then begin
+    Note.SetFocus;
+  end;
 end;
 
 end.

@@ -1,6 +1,6 @@
 object VehicleForm: TVehicleForm
-  Left = 520
-  Top = 142
+  Left = 307
+  Top = 116
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Armada'
@@ -25,7 +25,7 @@ object VehicleForm: TVehicleForm
     Top = 0
     Width = 531
     Height = 467
-    ActivePage = TabLampiran
+    ActivePage = TabDataArmada
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText

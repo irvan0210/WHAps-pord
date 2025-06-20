@@ -418,10 +418,15 @@ begin
     if Trim(Qty.Text)<>'' then begin
 //      if (PartArr[ItemDetail.ItemIndex][2])
 //      StrGrid.Cells[2,IntRow]:=PartArr[ItemDetail.ItemIndex][2];
+      if StrToInt(Qty.Text)> StrToInt(PartArr[ItemDetail.ItemIndex][2]) then
+      begin
+        MessageBox(0,PChar('Qty lebih besar dari yang diminta!!'+Chr(13)+Chr(13)),'Serah Terima Barang',MB_OK or MB_ICONERROR);
+      end else
+      begin
 
-
-      StrGrid.Cells[2,IntRow]:=Qty.Text;
-      Calculate;
+        StrGrid.Cells[2,IntRow]:=Qty.Text;
+        Calculate;
+      end;
     end;
     Qty.Text:='';
     Qty.Visible := False;
@@ -438,7 +443,16 @@ begin
 end;
 
 procedure TSerahTerimaBarang.ItemDetailExit(Sender: TObject);
+var IntCount: Integer;
 begin
+  for IntCount:=1 to StrGrid.RowCount-1 do begin
+    if ItemDetail.Text = StrGrid.Cells[1,IntCount] then
+    begin
+      MessageBox(0,PChar('Part sudah dipilih' ),'Tanda Terima',MB_OK or MB_ICONWARNING);
+      Exit;
+    end;
+  end;
+
   if Trim(ItemDetail.Text)<>'' then begin
     StrGrid.Cells[IntCol,IntRow]:=ItemDetail.Text;
     Calculate;

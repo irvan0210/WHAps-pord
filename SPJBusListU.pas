@@ -328,7 +328,7 @@ end;
 
 procedure TSPJBusList.FormShow(Sender: TObject);
 begin
-  Tanggal.Date:=Now();
+  Tanggal.Date:=Now()-7;
   TglSampai.Date:=Now();
   InitGrid;
   if IsFoward then Foward.Checked:=True else Backward.Checked:=True;

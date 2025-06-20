@@ -1,6 +1,6 @@
 object ServiceRequestList: TServiceRequestList
-  Left = 262
-  Top = 332
+  Left = 140
+  Top = 83
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Service Request'

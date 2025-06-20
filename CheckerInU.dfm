@@ -1,6 +1,6 @@
 object CheckerIn: TCheckerIn
-  Left = 353
-  Top = 208
+  Left = 272
+  Top = 79
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Armada Kembali'
@@ -824,7 +824,7 @@ object CheckerIn: TCheckerIn
   object ppReportReimburse: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Custom'
+    PrinterSetup.PaperName = '1/2 A4'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 5080
     PrinterSetup.mmMarginLeft = 6350
@@ -832,7 +832,7 @@ object CheckerIn: TCheckerIn
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 140000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 133
     Template.FileName = 'D:\Source\SC Delphi\06 Jan 2020\formReimburse.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'

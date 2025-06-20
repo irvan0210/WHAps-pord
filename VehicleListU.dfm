@@ -1,6 +1,6 @@
 object VehicleList: TVehicleList
-  Left = 271
-  Top = 255
+  Left = 250
+  Top = 426
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Armada'

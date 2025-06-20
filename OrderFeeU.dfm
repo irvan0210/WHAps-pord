@@ -1,11 +1,11 @@
 object OrderFee: TOrderFee
-  Left = 211
-  Top = 127
+  Left = 210
+  Top = 130
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Uang Order'
-  ClientHeight = 668
-  ClientWidth = 983
+  ClientHeight = 667
+  ClientWidth = 968
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -946,8 +946,8 @@ object OrderFee: TOrderFee
     end
   end
   object GroupBBM: TPanel
-    Left = 872
-    Top = 64
+    Left = 776
+    Top = 48
     Width = 113
     Height = 17
     BevelOuter = bvNone

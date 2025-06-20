@@ -193,17 +193,18 @@ procedure TEmplHistoryTrainingRpt.InitGrid;
 var IntCount:Integer;
 begin
   MinRowGrid:=0;
-  GridHistTraining.ColCount:=8;
+  GridHistTraining.ColCount:=9;
   GridHistTraining.RowCount:=1;
   GridHistTraining.WordWrap:=True;
   GridHistTraining.ColWidths[0]:=30;
   GridHistTraining.ColWidths[1]:=70;
   GridHistTraining.ColWidths[2]:=50;
-  GridHistTraining.ColWidths[3]:=200;
+  GridHistTraining.ColWidths[3]:=150;
   GridHistTraining.ColWidths[4]:=400;
-  GridHistTraining.ColWidths[5]:=250;
+  GridHistTraining.ColWidths[5]:=200;
   GridHistTraining.ColWidths[6]:=80;
-  GridHistTraining.ColWidths[7]:=80;
+  GridHistTraining.ColWidths[7]:=60;
+  GridHistTraining.ColWidths[8]:=40;
 
   GridHistTraining.Cells[0,0]:='No.';
   GridHistTraining.Cells[1,0]:='Tanggal';
@@ -213,6 +214,7 @@ begin
   GridHistTraining.Cells[5,0]:='Lokasi';
   GridHistTraining.Cells[6,0]:='Trainer';
   GridHistTraining.Cells[7,0]:='Type';
+  GridHistTraining.Cells[8,0]:='Score';
 
   for IntCount:=0 to GridHistTraining.ColCount-1 do
   begin
@@ -315,7 +317,8 @@ begin
 
       if Qry.FieldValues['type']<>NULL then
       TrainingArr[IntCount][7]:=Qry.FieldValues['type'] else TrainingArr[IntCount][7]:='';
-      TrainingArr[IntCount][8]:=Qry.FieldValues['empl_history_training_id'];
+      TrainingArr[IntCount][8]:=Qry.FieldValues['score'];
+      TrainingArr[IntCount][9]:=Qry.FieldValues['empl_history_training_id'];
 
       Inc(IntCount);
       Qry.Next;
@@ -330,15 +333,16 @@ begin
 
   if Length(TrainingArr)>0 then GridHistTraining.RowCount:=Length(TrainingArr)+1
   else GridHistTraining.RowCount:=2;
-  for Count:=0 to 7 do begin
+  for Count:=0 to 8 do begin
     for Count2:=1 to GridHistTraining.RowCount do begin    // reset baris ke 3
       GridHistTraining.Cells[Count,Count2]:='';
     end;
   end;
   For Count:=0 to Length(TrainingArr)-1 do begin
-    for Count2:=0 to 7 do
+    for Count2:=0 to 8 do
     GridHistTraining.Cells[Count2,Count+1]:=TrainingArr[Count][Count2];
     GridHistTraining.CellStyle[0,Count+1].HorizontalAlignment:=taRightJustify;
+    GridHistTraining.CellStyle[8,Count+1].HorizontalAlignment:=taRightJustify;
     GridHistTraining.CellStyle[1,Count+1].HorizontalAlignment:=taCenter;
     GridHistTraining.CellStyle[2,Count+1].HorizontalAlignment:=taCenter;
   end;
