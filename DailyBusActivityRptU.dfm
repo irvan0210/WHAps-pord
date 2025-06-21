@@ -1,6 +1,6 @@
 object DailyBusActivityRpt: TDailyBusActivityRpt
-  Left = 192
-  Top = 24
+  Left = 161
+  Top = 149
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Laporan Aktifitas Harian'
@@ -94,6 +94,13 @@ object DailyBusActivityRpt: TDailyBusActivityRpt
     Font.Style = []
     ParentFont = False
   end
+  object Label6: TLabel
+    Left = 806
+    Top = 10
+    Width = 64
+    Height = 13
+    Caption = 'Jenis Aktifitas'
+  end
   object Batch: TComboBox
     Left = 467
     Top = 8
@@ -105,9 +112,9 @@ object DailyBusActivityRpt: TDailyBusActivityRpt
     OnChange = BatchChange
   end
   object LihatData: TButton
-    Left = 968
+    Left = 1040
     Top = 8
-    Width = 75
+    Width = 99
     Height = 25
     Caption = 'Lihat Data'
     TabOrder = 2
@@ -216,6 +223,21 @@ object DailyBusActivityRpt: TDailyBusActivityRpt
       Enabled = False
       TabOrder = 0
     end
+  end
+  object JenisAktifitas: TComboBox
+    Left = 875
+    Top = 8
+    Width = 94
+    Height = 21
+    Style = csDropDownList
+    ItemHeight = 13
+    ItemIndex = 0
+    TabOrder = 8
+    Text = 'All'
+    Items.Strings = (
+      'All'
+      'Order'
+      'PKB')
   end
   object PopupMenu1: TPopupMenu
     Left = 352

@@ -28,6 +28,8 @@ type
     lbl5: TLabel;
     Total: TEdit;
     Label2: TLabel;
+    JenisAktifitas: TComboBox;
+    Label6: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SelesaiClick(Sender: TObject);
     procedure TahunKeyPress(Sender: TObject; var Key: Char);
@@ -45,7 +47,7 @@ type
   private
     { Private declarations }
     LokasiArr,BatchArr,SeatArr:Array of TArrString2;
-    DataArr:Array of TArrString24;
+    DataArr:Array of TArrString25;
     CompanyArr:Array of TArrString7;
     Days,IntColumnWidth,IntRow,IntCol,MinRowGrid,MinColGrid:Integer;
     Initiation:Boolean;
@@ -277,17 +279,18 @@ begin
     for IntCount:=0 to Length(CompanyArr)-1  do begin
       SBU.Items.Add(CompanyArr[IntCount][3]+' ('+CompanyArr[IntCount][4]+')');
       if (CompanyId=CompanyArr[IntCount][1]) and  (LocationId=CompanyArr[IntCount][2]) then SBU.ItemIndex:=IntCount;
-    end;
+    end;              
     StrCompanyId:=CompanyArr[SBU.ItemIndex][1];
+
     StrQry:='EXEC GetGroup '+CompanyArr[SBU.ItemIndex][1]+';';
     Qry.SQL.Clear;
     Main.WriteLog('SQL :'+StrQry,2);
     Qry.SQL.Add(StrQry);
     Qry.Open;
     SetLength(BatchArr,Qry.RecordCount+1);
-//    BatchArr[0][0]:='';
-//    BatchArr[0][1]:='';
-    IntCount:=0;
+    BatchArr[0][0]:='All';
+    BatchArr[0][1]:='All';
+    IntCount:=1;
     if Qry.RecordCount>0 then while Not(Qry.Eof) do begin
       BatchArr[IntCount][0]:=Qry.FieldValues['vhc_batch_id'];
       BatchArr[IntCount][1]:=Qry.FieldValues['name'];
@@ -303,8 +306,8 @@ begin
   LokasiDisp.Text:=LokasiArr[Lokasi.ItemIndex][1];
 }
   for IntCount:=0 to Length(BatchArr)-1 do Batch.Items.Add(BatchArr[IntCount][1]);
-//  Batch.ItemIndex:=Batch.Items.IndexOf('All');
-  Batch.ItemIndex:=-1;
+  Batch.ItemIndex:=Batch.Items.IndexOf('All');
+ // Batch.ItemIndex:=-1;
   Main.M_Normal;
 end;
 
@@ -346,7 +349,7 @@ end;
 
 procedure TDailyBusActivityRpt.RefreshData;
 var StrQry,StrBodyId,StrLicensePlate,StrCompanyId,StrSeat,StrCategorized,StrTanggal,
-    StrLocationId,StrToDates,StrOrder,StrBatch, StrBatchId,StrVehicleID:String;
+    StrLocationId,StrToDates,StrOrder,StrBatch, StrBatchId,StrVehicleID, StrAktifitas:String;
     Qry,Qry2:TADOQuery;
     IntCount,IntCount2,IntCount3, IntCountVhc:Integer;
     IntUsage:Array[1..31] of Integer;
@@ -363,15 +366,19 @@ begin
       StrBatchId:=',@BatchId='+BatchArr[Batch.ItemIndex][0];
     end else StrBatchId:='';
 
-    if Seat.Text<>'All' then begin
-      StrSeat:=',@Seat='+Seat.Text;
-    end else StrSeat:='';
+    if (Seat.Text ='All') or (Seat.Text ='') then begin
+      StrSeat:='';
+    end else StrSeat:=',@Seat='+Seat.Text;
+
+   // if JenisAktifitas.Text<>'All' then begin
+      StrAktifitas:=',@Aktifitas='+QuotedStr(JenisAktifitas.Text);
+    //end else StrAktifitas:='';
 
     StrCategorized:=',@OrderBy='+QuotedStr('category, category_sequence_number,h.vhc_batch_id,seat,license_plate');
 
     StrTanggal:=',@Dates='+QuotedStr(FormatDateTime('yyyy/mm/dd',VarToDateTime(Tanggal.Date)));
     //StrQry:='EXEC GetVhcList '+StrLocationId+StrCompanyId+StrBatchId+StrSeat+StrCategorized+StrTanggal+';';
-    StrQry:='EXEC GetActivityList '+StrCompanyId+StrLocationId+StrTanggal+StrBatchId+StrSeat+';';
+    StrQry:='EXEC GetActivityList '+StrCompanyId+StrLocationId+StrTanggal+StrBatchId+StrSeat+StrAktifitas+';';
     Qry.SQL.Clear;
     Main.WriteLog('SQL :'+StrQry,2);
     Qry.SQL.Add(StrQry);
