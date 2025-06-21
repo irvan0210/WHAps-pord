@@ -303,6 +303,7 @@ type
     Penjadwalan: TButton;
     ppLabel50: TppLabel;
     ppLabel51: TppLabel;
+    HelperID: TEdit;
     procedure KeluarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure GridMitraSelectCell(Sender: TObject; ACol, ARow: Integer;
@@ -459,6 +460,7 @@ begin
   BtnDriver.Visible:=False;
   //BtnKenek.Visible:=False;
   //ClearKenek.Visible:=False;
+  HelperID.Text := '';
   BtnDriver2.Visible:=False;
   ClearDriver2.Visible:=False;
   IsAuthRevCrew:=False;
@@ -1934,8 +1936,10 @@ begin
                                     'DriverBackupName='+StrDriverBackupName+','+
                                     'DriverBackupPhone='+StrDriverBackupPhone+','+
                                     'DriverBackupCustomerNo='+StrDriverBackupCustomerNo;
-                    end else if StrBusboyIDOld<>StrBusboyID then
-//                    if Kenek.Text<>'' then
+
+                    end
+                    else if StrBusboyIDOld<>StrBusboyID then
+//                        if Kenek.Text<>'' then
                     begin
 
                       StrQryWehaOnlineCek:='SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
@@ -2267,6 +2271,31 @@ begin
                 StrDriver2Qry:='';
                 StrBusboyQry:='';
 
+                StrQryWehaOnlineCek:='SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
+                                         'left join Users b ON a.ContactID=b.ContactID WHERE '+
+                                         'b.CustomerNo='+ QuotedStr(HelperID.Text)+' AND b.IsActive=1';
+                QryWehaOnline.Close;
+                QryWehaOnline.SQL.Clear;
+                QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
+                QryWehaOnline.Open;
+
+                if(QryWehaOnline.RecordCount > 0) then begin
+                  StrWehaHelperID:=QuotedStr(QryWehaOnline.FieldValues['UserID']);
+                  StrWehaHelperName:=QuotedStr(QryWehaOnline.FieldValues['FullName']);
+                  StrWehaHelperPhone:=QuotedStr(QryWehaOnline.FieldValues['HP']);
+                  StrWehaHelperCustomerNo:=StrHelperId;
+                end else begin
+                  StrWehaHelperID:='NULL';
+                  StrWehaHelperName:='NULL';
+                  StrWehaHelperPhone:='NULL';
+                  StrWehaHelperCustomerNo:='NULL';
+                end;
+
+                 StrBusboyQry :=',HelperID='+StrWehaHelperID+','+
+                                'HelperName='+StrWehaHelperName+','+
+                                'HelperPhone='+StrWehaHelperPhone+','+
+                                'WEHAHelperCustomerNo='+StrHelperId;
+
                 StrQry:='SELECT * FROM OrderDetailVehicleInfos WHERE WehaReservedCode='+StrReservedOrderDetailId;
                 QryWehaOnline.SQL.Clear;
                 Main.WriteLog('SQL :'+StrQry,2);
@@ -2279,8 +2308,13 @@ begin
                     StrQry:=' UPDATE OrderDetailVehicleInfos SET WorkOrderNo = NULL'+
                             ' WHERE WehaReservedCode='+StrReservedOrderDetailId;
                   end else begin
-                    StrQry:=' UPDATE OrderDetailVehicleInfos SET WorkOrderNo='+QuotedStr(StrTransId)+
+                   // if (BusBoyDisp.Text <>'') then begin
+                      StrQry:=' UPDATE OrderDetailVehicleInfos SET WorkOrderNo='+QuotedStr(StrTransId)+StrBusboyQry+
                             ' WHERE WehaReservedCode='+StrReservedOrderDetailId;
+                   // end else begin
+                   //   StrQry:=' UPDATE OrderDetailVehicleInfos SET WorkOrderNo='+QuotedStr(StrTransId)+
+                    //        ' WHERE WehaReservedCode='+StrReservedOrderDetailId;
+                   //end;
                   end;
                   Main.WriteLog('SQL :'+StrQry,2);
                   QryWehaOnline.SQL.Clear;

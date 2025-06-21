@@ -525,6 +525,7 @@ begin
                      KtpDriver1:=StrGrid.Cells[6,IntRow];
                      NoRekDriver1:=StrGrid.Cells[7,IntRow];
                      StatusPenugasanDriver.Text:='CONFIRM';
+                     
                   end;
                   Main.M_Normal;
                   Close;
@@ -605,11 +606,13 @@ begin
                 end;
 
                 with SPJFormBus do begin
+                    HelperID.Text := '';
                    StrBusboyID:=StrGrid.Cells[0,IntRow];
                    BusBoyDisp.Text:= StrGrid.Cells[1,IntRow];
                    KtpHelper:=StrGrid.Cells[6,IntRow];
                    NoRekHelper:=StrGrid.Cells[7,IntRow];
                    StatusPenugasanHelper.Text:='CONFIRM';
+                   HelperID.Text := StrGrid.Cells[0,IntRow];
                 end;
                 Main.M_Normal;
                 Close;
