@@ -231,7 +231,9 @@ object DailyBusActivityRpt: TDailyBusActivityRpt
     Height = 21
     Style = csDropDownList
     ItemHeight = 13
+    ItemIndex = 0
     TabOrder = 8
+    Text = 'All'
     Items.Strings = (
       'All'
       'Order'

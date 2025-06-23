@@ -553,12 +553,15 @@ end;
 
 procedure TDailyBusActivityRpt.LihatDataClick(Sender: TObject);
 begin
-  if Batch.Text<>'' then
+  if (Batch.Text ='') then
   begin
+    MessageBox(Handle,PChar('Jenis Armada belum dipilih '),'Laporan Aktifitas Harian',MB_OK or MB_ICONERROR );
+  end else if (JenisAktifitas.Text ='')then
+  begin
+    MessageBox(Handle,PChar('Jenis Aktifitas belum dipilih '),'Laporan Aktifitas Harian',MB_OK or MB_ICONERROR );
+  end else begin
     RefreshData;
     RefreshGrid;
-  end else begin
-    MessageBox(Handle,PChar('Jenis Armada belum dipilih '),'Laporan Aktifitas Harian',MB_OK or MB_ICONERROR );
   end;
 end;
 
