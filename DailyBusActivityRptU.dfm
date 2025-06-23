@@ -227,17 +227,16 @@ object DailyBusActivityRpt: TDailyBusActivityRpt
   object JenisAktifitas: TComboBox
     Left = 875
     Top = 8
-    Width = 94
+    Width = 134
     Height = 21
     Style = csDropDownList
     ItemHeight = 13
-    ItemIndex = 0
     TabOrder = 8
-    Text = 'All'
     Items.Strings = (
       'All'
       'Order'
-      'PKB')
+      'PKB'
+      'Tidak ada aktifitas')
   end
   object PopupMenu1: TPopupMenu
     Left = 352

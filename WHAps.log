@@ -3253,4 +3253,83 @@
 09/05/2025 17:33:59	SQL : INSERT INTO wh_work_order_detail (work_order_id,description_id,description,update_user,isdone,driver_complain_detail_id) VALUES ('PKBRB24120062',1,'delima','irvan.ruswanto', '1', ''); 
 09/05/2025 17:33:59	SQL :
 09/05/2025 17:33:59	SQL :Update wh_work_order_detail set status=0 where work_order_id='PKBRB24120062' and description_id=3
-09/05/2025 17:34:05	Open DB Con
+09/05/2025 17:34:05	Open DB Con21/06/2025 14.34.40	Get Local Settings
+21/06/2025 14.34.40	Start Change Local Settings
+21/06/2025 14.34.40	Change short date format
+21/06/2025 14.34.40	Change Long date format
+21/06/2025 14:34:40	Finish Change Local Settings
+21/06/2025 14:34:40	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+21/06/2025 14:34:40	Registry Read/Write
+21/06/2025 14:34:40	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+21/06/2025 14.35.18	Get Local Settings
+21/06/2025 14.35.18	Start Change Local Settings
+21/06/2025 14.35.18	Change short date format
+21/06/2025 14.35.18	Change Long date format
+21/06/2025 14:35:18	Finish Change Local Settings
+21/06/2025 14:35:18	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+21/06/2025 14:35:18	Registry Read/Write
+21/06/2025 14:35:18	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+21/06/2025 14.44.21	Get Local Settings
+21/06/2025 14.44.21	Start Change Local Settings
+21/06/2025 14.44.21	Change short date format
+21/06/2025 14.44.21	Change Long date format
+21/06/2025 14:44:21	Finish Change Local Settings
+21/06/2025 14:44:21	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+21/06/2025 14:44:21	Registry Read/Write
+21/06/2025 14:44:21	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+23/06/2025 09.06.25	Get Local Settings
+23/06/2025 09.06.25	Start Change Local Settings
+23/06/2025 09.06.25	Change short date format
+23/06/2025 09.06.25	Change Long date format
+23/06/2025 09:06:25	Finish Change Local Settings
+23/06/2025 09:06:25	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+23/06/2025 09:06:25	Registry Read/Write
+23/06/2025 09:06:25	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+23/06/2025 09.16.12	Get Local Settings
+23/06/2025 09.16.12	Start Change Local Settings
+23/06/2025 09.16.12	Change short date format
+23/06/2025 09.16.12	Change Long date format
+23/06/2025 09:16:12	Finish Change Local Settings
+23/06/2025 09:16:12	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+23/06/2025 09:16:12	Registry Read/Write
+23/06/2025 09:16:12	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+23/06/2025 11.21.55	Get Local Settings
+23/06/2025 11.21.55	Start Change Local Settings
+23/06/2025 11.21.55	Change short date format
+23/06/2025 11.21.55	Change Long date format
+23/06/2025 11:21:55	Finish Change Local Settings
+23/06/2025 11:21:55	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+23/06/2025 11:21:55	Registry Read/Write
+23/06/2025 11:21:55	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+23/06/2025 11.22.51	Get Local Settings
+23/06/2025 11.22.51	Start Change Local Settings
+23/06/2025 11.22.51	Change short date format
+23/06/2025 11.22.51	Change Long date format
+23/06/2025 11:22:51	Finish Change Local Settings
+23/06/2025 11:22:51	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+23/06/2025 11:22:51	Registry Read/Write
+23/06/2025 11:22:51	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+23/06/2025 11.25.16	Get Local Settings
+23/06/2025 11.25.16	Start Change Local Settings
+23/06/2025 11.25.16	Change short date format
+23/06/2025 11.25.16	Change Long date format
+23/06/2025 11:25:16	Finish Change Local Settings
+23/06/2025 11:25:16	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+23/06/2025 11:25:16	Registry Read/Write
+23/06/2025 11:25:16	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+23/06/2025 11.29.51	Get Local Settings
+23/06/2025 11.29.51	Start Change Local Settings
+23/06/2025 11.29.51	Change short date format
+23/06/2025 11.29.51	Change Long date format
+23/06/2025 11:29:51	Finish Change Local Settings
+23/06/2025 11:29:51	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+23/06/2025 11:29:51	Registry Read/Write
+23/06/2025 11:29:51	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+23/06/2025 11.30.58	Get Local Settings
+23/06/2025 11.30.58	Start Change Local Settings
+23/06/2025 11.30.58	Change short date format
+23/06/2025 11.30.58	Change Long date format
+23/06/2025 11:30:58	Finish Change Local Settings
+23/06/2025 11:30:58	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+23/06/2025 11:30:58	Registry Read/Write
+23/06/2025 11:30:58	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3

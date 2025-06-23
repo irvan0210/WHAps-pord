@@ -126,8 +126,14 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '23/06/2025 (6.1.11.1)'
+      '-Perubahan Helper di Surat Jalan'
+      
+        '-Penambahan Filter Jenis Aktifitas dan All Armada di Laporan Akt' +
+        'ifas Harian Armada'
+      ''
       '17/06/2025 (6.1.11.0)'
-      '-Prubahan Helper di Surat Jalan'
+      '-Perubahan Helper di Surat Jalan'
       ''
       '17/06/2025 (6.1.10.9)'
       '-Perbaikan Laporan Aktifas Harian Armada'
