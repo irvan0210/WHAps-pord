@@ -2271,9 +2271,13 @@ begin
                 StrDriver2Qry:='';
                 StrBusboyQry:='';
 
+               //  MessageBox(0,PChar(QuotedStr(HelperID.Text)),'SJ Bus',MB_OK or MB_ICONINFORMATION);
+               //  MessageBox(0,PChar(StrHelperId),'SJ Bus',MB_OK or MB_ICONINFORMATION);
+
+
                 StrQryWehaOnlineCek:='SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
                                          'left join Users b ON a.ContactID=b.ContactID WHERE '+
-                                         'b.CustomerNo='+ QuotedStr(HelperID.Text)+' AND b.IsActive=1';
+                                         'b.CustomerNo='+ StrHelperId+' AND b.IsActive=1';
                 QryWehaOnline.Close;
                 QryWehaOnline.SQL.Clear;
                 QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
