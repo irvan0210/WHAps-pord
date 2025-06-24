@@ -3365,3 +3365,11 @@
 23/06/2025 15:47:38	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
 23/06/2025 15:47:38	Registry Read/Write
 23/06/2025 15:47:38	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+24/06/2025 15.06.21	Get Local Settings
+24/06/2025 15.06.21	Start Change Local Settings
+24/06/2025 15.06.21	Change short date format
+24/06/2025 15.06.21	Change Long date format
+24/06/2025 15:06:21	Finish Change Local Settings
+24/06/2025 15:06:21	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+24/06/2025 15:06:21	Registry Read/Write
+24/06/2025 15:06:22	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
