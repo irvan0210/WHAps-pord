@@ -1,6 +1,6 @@
 object SPJFormBus: TSPJFormBus
-  Left = 215
-  Top = 212
+  Left = 257
+  Top = 107
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Surat Jalan'
@@ -1762,13 +1762,14 @@ object SPJFormBus: TSPJFormBus
     OnClick = PenjadwalanClick
   end
   object HelperID: TEdit
-    Left = 661
+    Left = 1100
     Top = 400
     Width = 68
     Height = 21
     MaxLength = 30
     ReadOnly = True
     TabOrder = 32
+    Visible = False
   end
   object WebService: THTTPRIO
     HTTPWebNode.Agent = 'Borland SOAP 1.2'
