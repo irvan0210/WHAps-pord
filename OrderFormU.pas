@@ -412,6 +412,7 @@ begin
   PanelCariKontrak.Enabled:=True;
   Status.Checked:=False;
   IsService.Checked:=False;
+  IsService.Enabled := True;
   Package.Checked:=False;
 
   TimeStart.Visible:=True;
@@ -1289,6 +1290,13 @@ begin
       if Qry.FieldValues['zip']<>NULL then Address.Text:=Qry.FieldValues['address']+','+IntToStr(Qry.FieldValues['zip'])
       else if Qry.FieldValues['address']<>NULL then Address.Text:=Qry.FieldValues['address'];
       if Qry.FieldValues['remark']<>NULL then HeaderRemark.Text:=Qry.FieldValues['remark'];
+      if Qry.FieldValues['is_weha']='1' then begin
+        IsService.Checked := True ;
+        IsService.Enabled := False;
+      end else begin
+        IsService.Checked := False ;
+        IsService.Enabled := True;
+      end;
       Qry.Next;
     end;
     Qry.Close;

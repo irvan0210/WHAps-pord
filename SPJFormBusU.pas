@@ -2309,7 +2309,7 @@ begin
                 if QryWehaOnline.RecordCount>0 then begin
                   if Status.Checked=True then
                   begin
-                    StrQry:=' UPDATE OrderDetailVehicleInfos SET WorkOrderNo = NULL'+
+                    StrQry:=' UPDATE OrderDetailVehicleInfos SET WorkOrderNo = NULL'+StrBusboyQry+
                             ' WHERE WehaReservedCode='+StrReservedOrderDetailId;
                   end else begin
                    // if (BusBoyDisp.Text <>'') then begin

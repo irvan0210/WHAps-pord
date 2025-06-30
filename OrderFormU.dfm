@@ -1,6 +1,6 @@
 object OrderForm: TOrderForm
-  Left = 549
-  Top = 128
+  Left = 154
+  Top = 272
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Pesanan'
@@ -434,7 +434,7 @@ object OrderForm: TOrderForm
       MaxLength = 5
       ParentFont = False
       TabOrder = 4
-      Text = '  :  '
+      Text = '  .  '
       Visible = False
       OnExit = TimeStartExit
       OnKeyPress = TimeStartKeyPress
@@ -471,7 +471,7 @@ object OrderForm: TOrderForm
       MaxLength = 5
       ParentFont = False
       TabOrder = 6
-      Text = '  :  '
+      Text = '  .  '
       Visible = False
       OnExit = TimeStandbyExit
       OnKeyPress = TimeStandbyKeyPress
