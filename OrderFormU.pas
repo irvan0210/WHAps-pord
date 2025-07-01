@@ -801,7 +801,7 @@ begin
       StrGrid.Cells[11,IntRow]:='0';
       StrGrid.Cells[16,IntRow]:='';
     end;
-    if (ProductArr[Product.ItemIndex][13]='1') then IsService.Checked:=True else IsService.Checked:=False; 
+   // if (ProductArr[Product.ItemIndex][13]='1') then IsService.Checked:=True else IsService.Checked:=False; 
     StrGrid.Cells[13,IntRow]:=ProductArr[Product.ItemIndex][2];
     StrGrid.Cells[14,IntRow]:=ProductArr[Product.ItemIndex][3];
     StrGrid.Cells[15,IntRow]:='0';

@@ -260,7 +260,7 @@ begin
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
   if Main.OpenDb then begin
-    StrQry:='EXEC GetWorkOrderLists '+CompanyId+','+LocationId+',@flag=1,@Status=1;';
+    StrQry:='EXEC GetWorkOrderLists '+CompanyId+','+LocationId+',@flag=1,@Status=1,@FlgHapusBlok=1;';
     Qry.SQL.Add(StrQry);
     Qry.Open;
     IntCount:=0;
