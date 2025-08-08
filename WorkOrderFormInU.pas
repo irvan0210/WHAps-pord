@@ -140,6 +140,7 @@ type
     Label10: TLabel;
     Label11: TLabel;
     Label12: TLabel;
+    NoSB: TEdit;
     procedure SelesaiClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -182,7 +183,7 @@ type
     procedure chkkeluhanExit(Sender: TObject);
   private
     { Private declarations }
-    WOArr:Array of TArrString8;
+    WOArr:Array of TArrString9;
     KeluhanArr:Array of TArrString4;
     WorkOrderId,FormRequest:String;
     IsReadOnly,Initiation:Boolean;
@@ -213,6 +214,7 @@ type
 var
   WorkOrderFormIn: TWorkOrderFormIn;
   MinRowGrid, IntMaxRow: Integer;
+  
 
 implementation
 
@@ -321,12 +323,14 @@ begin
   StrGrid.Cells[3,0]:='Odo Msk';
   StrGrid.Cells[4,0]:='Tanggal Msk';
   StrGrid.Cells[5,0]:='Pekerjaan';
+  StrGrid.Cells[6,0]:='No SB';
   StrGrid.Cells[0,1]:='';
   StrGrid.Cells[1,1]:='';
   StrGrid.Cells[2,1]:='';
   StrGrid.Cells[3,1]:='';
   StrGrid.Cells[4,1]:='';
   StrGrid.Cells[5,1]:='';
+  StrGrid.Cells[6,1]:='';
 //  PekerjaanGrid.RowCount:=2;
 //  PekerjaanGrid.Cells[0,0]:='           Pekerjaan';
 //  PekerjaanGrid.Cells[1,0]:='    Teknisi';
@@ -644,6 +648,10 @@ begin
       if Qry.FieldValues['ismemo_khusus']='1' then
       WOArr[IntCount][8]:=Qry.FieldValues['ismemo_khusus']
       else WOArr[IntCount][8]:='';
+      if Qry.FieldValues['maintenance_service_id']<> null then
+        WOArr[IntCount][9]:= Qry.FieldValues['maintenance_service_id']
+      else WOArr[IntCount][9]:= '';
+
       Qry.Next;
       Inc(IntCount);
     end;
@@ -681,6 +689,7 @@ begin
     StrGrid.Cells[3,IntCount+1]:=WOArr[IntCount][3];
     StrGrid.Cells[4,IntCount+1]:=WOArr[IntCount][4];
     StrGrid.Cells[5,IntCount+1]:=WOArr[IntCount][6];
+    StrGrid.Cells[6,IntCount+1]:=WOArr[IntCount][9];
   end;
   for IntCount:=0 to Length(WOArr)-1 do NoPKB.Items.Add(WOArr[IntCount][0]);
 end;
@@ -931,6 +940,7 @@ begin
     NoPolisi.Text:=StrGrid.Cells[2,IntARow];//WOArr[NoPKB.ItemIndex][2];
     Tanggal.Text:=StrGrid.Cells[4,IntARow];//WOArr[NoPKB.ItemIndex][4];
     Jam.Text:=StrGrid.Cells[5,IntARow];//WOArr[NoPKB.ItemIndex][5];
+
     if StrGrid.Cells[6,IntARow]='1' then begin
       PanelMemoKhusus.Visible:=True;
       MemoKhusus.Visible:=True;
@@ -1104,6 +1114,7 @@ begin
         Inc(IntCount);
 
       end;
+
     end;
     FreeAndNil(Qry);
     FreeAndNil(Qry2);
@@ -1131,6 +1142,8 @@ begin
   InitGrid4;
   NoPKB.ItemIndex:=NoPKB.Items.IndexOf(StrGrid.Cells[0,IntARow]);
   SetWODetail(StrGrid.Cells[0,IntARow]);
+  NoSB.Text := StrGrid.Cells[6,IntARow];
+  
 end;
 
 procedure TWorkOrderFormIn.PekerjaanGridSelectCell(Sender: TObject; ACol,
@@ -1302,7 +1315,7 @@ end;
 
 procedure TWorkOrderFormIn.SimpanClick(Sender: TObject);
 var Qry,Qry2,Qry3:TADOQuery;
-    StrQry,StrStatus,StrMsg,StrEMsg,StrTransId,
+    StrQry,StrQry3,StrStatus,StrMsg,StrEMsg,StrTransId,
     StrVhcId,StrKeluhan,StrAnalisa,StrDone,StrIsUsed,
     StrMekanik,StrStatusMekanik,StrPart,StrQty,StrKodePart,
     StrTanggalSelesai,StrJamSelesai, StrSRDetailID:String;
@@ -1352,7 +1365,6 @@ begin
           if chkClose.Checked = True then
           begin
 
-
             if IsOK2 = False then begin
               if MessageBox(0,PChar('Keluhan Belum ada yang diceklist,'+#13#10+'Yakin mau melanjutkan..?') ,'Keluhan',MB_OKCANCEL or MB_ICONWARNING)=1 then begin
                 if CompareDate(StrToDate(Tanggal.Text),TanggalSelesai.Date)=1 then begin
@@ -1374,12 +1386,31 @@ begin
               end;
                 StrQry:='UPDATE wh_work_order SET date_out'+StrTanggalSelesai+
                       ',time_out'+StrJamSelesai+StrStatus+', user_close='+QuotedStr(User)+' WHERE work_order_id='+Chr(39)+StrTransId+Chr(39)+';';
+
+              //Penambahan KM Prediksi
+              if NoSB.Text <> '' then begin
+
+                StrQry3:='';
+                StrQry3:=' UPDATE wh_maintenance_service SET odo_predict = (odo_in + 10000) '+
+                        ' WHERE maintenance_service_id ='+QuotedStr(NoSB.Text)+';';
+                Qry3.SQL.Add(StrQry3);
+                try
+                  Qry3.ExecSQL;
+                except
+                  on E:Exception do begin
+                    IsOk:=False;
+                    StrMsg:='Gagal Menambah Odo prediksi';
+                    StrEMsg:=E.Message;
+                  end;
+                end;
+              end;
             end;
 
           end else begin
             StrQry:='UPDATE wh_work_order SET update_user='+QuotedStr(User)+
                     ' WHERE work_order_id='+Chr(39)+StrTransId+Chr(39)+';';
           end;
+
           Qry.SQL.Add(StrQry);
           try
             Qry.ExecSQL;

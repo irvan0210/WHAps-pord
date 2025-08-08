@@ -1,11 +1,11 @@
 object MaintenanceServiceRpt: TMaintenanceServiceRpt
-  Left = 229
-  Top = 326
+  Left = 154
+  Top = 122
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan Service Berkala'
   ClientHeight = 466
-  ClientWidth = 807
+  ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,7 +21,7 @@ object MaintenanceServiceRpt: TMaintenanceServiceRpt
   PixelsPerInch = 96
   TextHeight = 13
   object ToXCel: TSpeedButton
-    Left = 768
+    Left = 696
     Top = 432
     Width = 23
     Height = 22
@@ -71,9 +71,22 @@ object MaintenanceServiceRpt: TMaintenanceServiceRpt
     Height = 13
     Caption = 'Jenis Armada'
   end
+  object Label5: TLabel
+    Left = 117
+    Top = 438
+    Width = 86
+    Height = 13
+    Caption = 'Sudah Tutup PKB'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clGreen
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
   object Selesai: TButton
-    Left = 366
-    Top = 432
+    Left = 590
+    Top = 430
     Width = 75
     Height = 25
     Caption = 'Selesai'
@@ -83,7 +96,7 @@ object MaintenanceServiceRpt: TMaintenanceServiceRpt
   object Lihat: TButton
     Left = 723
     Top = 7
-    Width = 75
+    Width = 94
     Height = 25
     Caption = 'Lihat'
     TabOrder = 1
@@ -92,7 +105,7 @@ object MaintenanceServiceRpt: TMaintenanceServiceRpt
   object StrGrid: TZColorStringGrid
     Left = 8
     Top = 42
-    Width = 793
+    Width = 1166
     Height = 383
     ColCount = 8
     DefaultRowHeight = 20

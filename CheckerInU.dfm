@@ -1,6 +1,6 @@
 object CheckerIn: TCheckerIn
-  Left = 272
-  Top = 79
+  Left = 285
+  Top = 132
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Armada Kembali'
@@ -369,7 +369,7 @@ object CheckerIn: TCheckerIn
       EditMask = '99:99;1;_'
       MaxLength = 5
       TabOrder = 14
-      Text = '  :  '
+      Text = '  .  '
       OnKeyPress = InTimeKeyPress
     end
   end
@@ -570,7 +570,7 @@ object CheckerIn: TCheckerIn
       EditMask = '99:99;1;_'
       MaxLength = 5
       TabOrder = 10
-      Text = '  :  '
+      Text = '  .  '
       OnKeyPress = InTimeKeyPress
     end
     object RemarkOut: TMemo
@@ -832,7 +832,7 @@ object CheckerIn: TCheckerIn
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 140000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 133
+    PrinterSetup.PaperSize = 256
     Template.FileName = 'D:\Source\SC Delphi\06 Jan 2020\formReimburse.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'

@@ -1,6 +1,6 @@
 object VehicleList: TVehicleList
-  Left = 250
-  Top = 426
+  Left = 297
+  Top = 252
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Armada'
@@ -150,7 +150,7 @@ object VehicleList: TVehicleList
     Top = 40
     Width = 792
     Height = 305
-    ColCount = 31
+    ColCount = 32
     DefaultRowHeight = 20
     DefaultDrawing = False
     FixedColor = clSkyBlue

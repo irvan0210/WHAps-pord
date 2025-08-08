@@ -1,5 +1,5 @@
 object WorkOrderFormIn: TWorkOrderFormIn
-  Left = 164
+  Left = 76
   Top = 142
   BorderIcons = []
   BorderStyle = bsNone
@@ -185,6 +185,14 @@ object WorkOrderFormIn: TWorkOrderFormIn
       TabOrder = 2
       Visible = False
       OnExit = chkkeluhanExit
+    end
+    object NoSB: TEdit
+      Left = 227
+      Top = 22
+      Width = 150
+      Height = 21
+      TabOrder = 3
+      Visible = False
     end
   end
   object Simpan: TButton
@@ -443,7 +451,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
       MaxLength = 5
       ParentFont = False
       TabOrder = 4
-      Text = '  :  '
+      Text = '  .  '
     end
     object chkClose: TCheckBox
       Left = 294

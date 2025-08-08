@@ -1,11 +1,11 @@
 object MaintenanceServiceList: TMaintenanceServiceList
-  Left = 233
-  Top = 348
+  Left = 340
+  Top = 214
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Service Berkala'
   ClientHeight = 466
-  ClientWidth = 850
+  ClientWidth = 1184
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -28,7 +28,7 @@ object MaintenanceServiceList: TMaintenanceServiceList
     Caption = 'Cari'
   end
   object ToXCel: TSpeedButton
-    Left = 768
+    Left = 944
     Top = 432
     Width = 23
     Height = 22
@@ -78,8 +78,21 @@ object MaintenanceServiceList: TMaintenanceServiceList
     Height = 13
     Caption = 's/d'
   end
+  object Label5: TLabel
+    Left = 80
+    Top = 435
+    Width = 86
+    Height = 13
+    Caption = 'Sudah Tutup PKB'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clGreen
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
   object Selesai: TButton
-    Left = 366
+    Left = 582
     Top = 432
     Width = 75
     Height = 25
@@ -107,7 +120,7 @@ object MaintenanceServiceList: TMaintenanceServiceList
   object StrGrid: TZColorStringGrid
     Left = 8
     Top = 42
-    Width = 833
+    Width = 1166
     Height = 383
     ColCount = 8
     DefaultRowHeight = 20

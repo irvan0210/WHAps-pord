@@ -928,7 +928,7 @@ begin
       StrGrid.CellStyle[IntCount+2+IntGsrKlm,StrGrid.RowCount-1].Font.Color:=clBlack;
 
       StrTgl:= Tahun.Text+'/'+StrBulan+'/'+IntToStr(IntCount);
-      if (Seat.Text<>'All') AND (Batch.Text<>'All') AND (FullName='Nanang Andriani') then
+      if (Seat.Text<>'All') AND (Batch.Text<>'All') AND (FullName='Irvan Ruswanto') then
       begin
         Qry3:=TADOQuery.Create(Self);
         Qry3.Connection:=Main.MyConnection;
@@ -1019,7 +1019,7 @@ begin
 
       StrGrid.Cells[IntCount+2+IntGsrKlm,StrGrid.RowCount-1]:=IntToStr(IntPersenUtilisasiHari);
 
-      if (Seat.Text<>'All') AND (Batch.Text<>'All') AND (FullName='Nanang Andriani') then
+      if (Seat.Text<>'All') AND (Batch.Text<>'All') AND (FullName='Irvan Ruswanto') then
       begin
         Qry3:=TADOQuery.Create(Self);
         Qry3.Connection:=Main.MyConnection;

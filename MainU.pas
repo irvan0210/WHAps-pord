@@ -241,7 +241,7 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   TechnicalRecommendationU, TechnicalRecommendationListU, 
   ListKetidakSesuaianCrewU, MasterBatanganFormU, MasterBatanganListU,
   LaporanWehaMartU, MateriTrainingFormU, MateriTrainingListU,
-  RekapPergantianPartperArmadaV2U;
+  RekapPergantianPartperArmadaV2U, KmActualUnitRptU;
 
 
 constructor TClockThread.Create;
@@ -1885,10 +1885,13 @@ begin
               1:if IsFormOpen('FCustomerComplainRpt2')=False then FCustomerComplainRpt2:=TFCustomerComplainRpt2.Create(Self);
            end;
         end;
-        191201..191202:begin
-           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02']) of
+        //Laporan Armada
+        191201..191204:begin
+           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04']) of
               0:if IsFormOpen('VehicleListRptU')=False then  VehicleListRpt:=TVehicleListRpt.Create(Self,'');
               1:if IsFormOpen('VehicleTopupRptU')=False then VehicleTopupRpt:=TVehicleTopupRpt.Create(Self,'');
+              //2:if IsFormOpen('VehicleTopupRptU')=False then VehicleTopupRpt:=TVehicleTopupRpt.Create(Self,'');
+              3:if IsFormOpen('KmActualUnitRptU')=False then KmActualUnitRpt:=TKmActualUnitRpt.Create(Self);
            end;
         end;
         191301..191301:begin

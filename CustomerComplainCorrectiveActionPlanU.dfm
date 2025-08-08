@@ -1,6 +1,6 @@
 object CustComplainCorrectiveActionPlan: TCustComplainCorrectiveActionPlan
-  Left = 179
-  Top = 6
+  Left = 186
+  Top = 218
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
   Caption = 'CustComplainCorrectiveActionPlan'

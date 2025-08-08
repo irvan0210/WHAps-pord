@@ -341,7 +341,8 @@ uses
   MateriTrainingFormU in 'MateriTrainingFormU.pas' {MateriTrainingForm},
   MateriTrainingListU in 'MateriTrainingListU.pas' {MateriTrainingList},
   RekapPergantianPartperArmadaV2U in 'RekapPergantianPartperArmadaV2U.pas' {RekapPergantianPartperArmadaV2},
-  BrowseCustomerU in 'BrowseCustomerU.pas' {BrowseCustomer};
+  BrowseCustomerU in 'BrowseCustomerU.pas' {BrowseCustomer},
+  KmActualUnitRptU in 'KmActualUnitRptU.pas' {KmActualUnitRpt};
 
 {$R *.res}
 

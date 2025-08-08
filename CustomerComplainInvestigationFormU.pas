@@ -826,7 +826,7 @@ begin
               '(to_date BETWEEN GETDATE() AND DATEADD(dd, 1,GETDATE())))) '+
               'LEFT JOIN wh_employee j ON j.employee_id=a.reference '+
               'WHERE (d.employment_type_id=3) AND '+
-              '(d.location_id=6) AND a.name = '+QuotedStr(StrGrid3.Cells[1,IntCount])+' and a.active=1 ';
+              '(d.location_id='+LocationId+') AND a.name = '+QuotedStr(StrGrid3.Cells[1,IntCount])+' and a.active=1 ';
               Qry2.SQL.Clear;
               Qry2.SQL.Add(StrQry2);
               Qry2.Open;
@@ -864,9 +864,9 @@ begin
         FreeAndNil(Qry);
         FreeAndNil(Qry3);
         FreeAndNil(Qry2);
-        Qry3.Destroy;
-        Qry2.Destroy;
-        Qry.Destroy;
+       // Qry3.Destroy;
+       // Qry2.Destroy;
+       // Qry.Destroy;
         Main.CloseDb;
 
       end;

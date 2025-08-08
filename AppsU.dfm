@@ -1,6 +1,6 @@
 object Apps: TApps
-  Left = 297
-  Top = 144
+  Left = 320
+  Top = 214
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Aplikasi'
@@ -126,6 +126,22 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '01/08/2025 (6.1.11.5)'
+      '-Penambahan Laporan Odometer(Km) Unit Actual'
+      ''
+      '26/07/2025 (6.1.11.4)'
+      '-Penambahan Data Type Armada di list Armada'
+      
+        '-Perubahan, Inputan KM Odo Prediksi diform Sevis Berkala ditutup' +
+        '/dibuat otomtis '
+      'terisi ketika tutup PKB'
+      ''
+      '11/07/2025 (6.1.11.3)'
+      
+        '-Penambahan Data No PKB dan No Service Request di Laporan Servis' +
+        ' Berkala dan '
+      'List Servis Berkala'
+      ''
       '23/06/2025 (6.1.11.2)'
       
         '-Penambahan Validasi di Form Buat Pesananan, Jika Customernya ad' +

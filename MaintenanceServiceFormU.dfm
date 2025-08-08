@@ -1,6 +1,6 @@
 object MaintenanceServiceForm: TMaintenanceServiceForm
-  Left = 282
-  Top = 91
+  Left = 254
+  Top = 96
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Servis Berkala'
@@ -227,6 +227,7 @@ object MaintenanceServiceForm: TMaintenanceServiceForm
       Height = 13
       Alignment = taRightJustify
       Caption = 'KM Prediksi'
+      Visible = False
     end
     object GroupInput: TPanel
       Left = 88
@@ -279,6 +280,7 @@ object MaintenanceServiceForm: TMaintenanceServiceForm
         Width = 65
         Height = 21
         TabOrder = 3
+        Visible = False
         OnKeyPress = PredictOdoKeyPress
       end
     end
