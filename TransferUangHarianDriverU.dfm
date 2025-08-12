@@ -1,6 +1,6 @@
 object TransferUangHarianDriver: TTransferUangHarianDriver
-  Left = 161
-  Top = 142
+  Left = 198
+  Top = 179
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Transfer Uang Harian Driver'
@@ -170,7 +170,7 @@ object TransferUangHarianDriver: TTransferUangHarianDriver
     Width = 1067
     Height = 409
     Anchors = [akLeft, akTop, akRight]
-    ColCount = 20
+    ColCount = 21
     DefaultRowHeight = 20
     DefaultDrawing = False
     FixedColor = clSkyBlue
