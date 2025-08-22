@@ -124,7 +124,7 @@ type
     { Private declarations }
     LokasiArr,GroupArr:Array of TArrString2;
     CompanyArr:Array of TArrString5;
-    OrderFeeArr:Array of TArrString78;
+    OrderFeeArr:Array of TArrString97;
     MaxCol:Integer;
     IntRow,IntCol:Integer;
     Initiation:Boolean;
@@ -162,7 +162,7 @@ var Count,Count2:Integer;
     StrQry:String;
     IntCount:Integer;
 begin
-  MaxCol:=83;
+  MaxCol:=87;
   cbCancel.Checked:=False;
   SBU.Items.Clear;
   SBU.Text:='';
@@ -282,15 +282,15 @@ begin
   StrGrid.MergeCells.AddRectXY(27,0,27,1);
   StrGrid.MergeCells.AddRectXY(28,0,28,1);
 
-  StrGrid.MergeCells.AddRectXY(62,0,70,0);
-  StrGrid.MergeCells.AddRectXY(71,0,73,0);
-  StrGrid.MergeCells.AddRectXY(74,0,76,0);
+  StrGrid.MergeCells.AddRectXY(62,0,74,0);
+  StrGrid.MergeCells.AddRectXY(75,0,77,0);
+  StrGrid.MergeCells.AddRectXY(78,0,80,0);
 
-  StrGrid.MergeCells.AddRectXY(77,0,77,1);
-  StrGrid.MergeCells.AddRectXY(78,0,78,1);
+  StrGrid.MergeCells.AddRectXY(81,0,81,1);
+  StrGrid.MergeCells.AddRectXY(82,0,82,1);
 
-  StrGrid.MergeCells.AddRectXY(79,0,82,0);
-  StrGrid.MergeCells.AddRectXY(83,0,83,1);
+  StrGrid.MergeCells.AddRectXY(83,0,86,0);
+  StrGrid.MergeCells.AddRectXY(87,0,87,1);
 
   //StrGrid.MergeCells.AddRectXY(11,0,11,1);
   IntGeserKolom:=6;
@@ -426,26 +426,34 @@ begin
   StrGrid.Cells[64,1]:='Budget BBM';
   StrGrid.Cells[65,1]:='Fee Order';
   StrGrid.Cells[66,1]:='Parkir';
-  StrGrid.Cells[67,1]:='Toll';
-  StrGrid.Cells[68,1]:='Lain-lain';
-  StrGrid.Cells[69,1]:='Overtime';
-  StrGrid.Cells[70,1]:='Total Driver 1';
-  StrGrid.Cells[71,0]:='Driver 2';
-  StrGrid.Cells[71,1]:='No Rekening';
-  StrGrid.Cells[72,1]:='Nama';
-  StrGrid.Cells[73,1]:='Fee Order';
-  StrGrid.Cells[74,0]:='Helper';
-  StrGrid.Cells[74,1]:='No Rekening';
-  StrGrid.Cells[75,1]:='Nama';
-  StrGrid.Cells[76,1]:='Fee Order';
-  StrGrid.Cells[77,0]:='Total';
-  StrGrid.Cells[78,0]:='Selisih';
-  StrGrid.Cells[79,0]:='Check Crew';
-  StrGrid.Cells[79,1]:='Driver 1';
-  StrGrid.Cells[80,1]:='Driver 2';
-  StrGrid.Cells[81,1]:='Helper';
-  StrGrid.Cells[82,1]:='Catatan';
-  StrGrid.Cells[83,0]:='Reprint Terakhir';
+  StrGrid.Cells[67,1]:='Parkir Tamu';
+  StrGrid.Cells[68,1]:='Toll';
+  StrGrid.Cells[69,1]:='Toll Tamu';
+  StrGrid.Cells[70,1]:='Bermalam';
+  StrGrid.Cells[71,1]:='Tips';
+  StrGrid.Cells[72,1]:='Biaya Dari Tamu';
+  StrGrid.Cells[73,1]:='Overtime';
+  StrGrid.Cells[74,1]:='Total Driver 1';
+
+  StrGrid.Cells[75,0]:='Driver 2';
+  StrGrid.Cells[75,1]:='No Rekening';
+  StrGrid.Cells[76,1]:='Nama';
+  StrGrid.Cells[77,1]:='Fee Order';
+
+  StrGrid.Cells[78,0]:='Helper';
+  StrGrid.Cells[78,1]:='No Rekening';
+  StrGrid.Cells[79,1]:='Nama';
+  StrGrid.Cells[80,1]:='Fee Order';
+
+  StrGrid.Cells[81,0]:='Total';
+  StrGrid.Cells[82,0]:='Selisih';
+
+  StrGrid.Cells[83,0]:='Check Crew';
+  StrGrid.Cells[83,1]:='Driver 1';
+  StrGrid.Cells[84,1]:='Driver 2';
+  StrGrid.Cells[85,1]:='Helper';
+  StrGrid.Cells[86,1]:='Catatan';
+  StrGrid.Cells[87,0]:='Reprint Terakhir';
 
 
   StrGrid.ColWidths[44]:=120;
@@ -467,26 +475,32 @@ begin
 
   StrGrid.ColWidths[62]:=100;
   StrGrid.ColWidths[63]:=130;
-  StrGrid.ColWidths[64]:=60;
+  StrGrid.ColWidths[64]:=80;
   StrGrid.ColWidths[65]:=60;
   StrGrid.ColWidths[66]:=60;
-  StrGrid.ColWidths[67]:=60;
+
+  StrGrid.ColWidths[67]:=80;
   StrGrid.ColWidths[68]:=60;
-  StrGrid.ColWidths[69]:=60;
-  StrGrid.ColWidths[70]:=100;
-  StrGrid.ColWidths[71]:=100;
-  StrGrid.ColWidths[72]:=130;
+  StrGrid.ColWidths[69]:=80;
+  StrGrid.ColWidths[70]:=60;
+  StrGrid.ColWidths[71]:=60;
+
+  StrGrid.ColWidths[72]:=100;
   StrGrid.ColWidths[73]:=60;
   StrGrid.ColWidths[74]:=100;
-  StrGrid.ColWidths[75]:=130;
-  StrGrid.ColWidths[76]:=60;
-  StrGrid.ColWidths[77]:=100;
+  StrGrid.ColWidths[75]:=100;
+  StrGrid.ColWidths[76]:=130;
+  StrGrid.ColWidths[77]:=60;
   StrGrid.ColWidths[78]:=100;
-  StrGrid.ColWidths[79]:=50;
-  StrGrid.ColWidths[80]:=50;
-  StrGrid.ColWidths[81]:=50;
-  StrGrid.ColWidths[82]:=400;
-  StrGrid.ColWidths[83]:=500;
+  StrGrid.ColWidths[79]:=130;
+  StrGrid.ColWidths[80]:=60;
+  StrGrid.ColWidths[81]:=100;
+  StrGrid.ColWidths[82]:=100;
+  StrGrid.ColWidths[83]:=50;
+  StrGrid.ColWidths[84]:=50;
+  StrGrid.ColWidths[85]:=50;
+  StrGrid.ColWidths[86]:=400;
+  StrGrid.ColWidths[87]:=500;
 
 
   for IntCount:=0 to MaxCol do begin
@@ -568,7 +582,7 @@ var
 
     TotalBBMRp,TotalBBMRp_Budget,TotalBBMRp_SPBU,TotalBBMRp_Reimburse,TotalBBMRp_All,TotalFeeDriver,TotalFeeBusBoy,TotalTolParkir,TotalTol,
     TotalLain,TotalOvertime,TotalBiaya,TotalBiayaExc,IntBiaya, TotalTopupBudget, TotalETollBudget, TotalSelisih,
-    TotalBBMBudget,TotalFeeDriver1,TotalFeeDriver2,TotalBusboy,TotalParkir,TotalTol2,TotalLain2,
+    TotalBBMBudget,TotalFeeDriver1,TotalFeeDriver2,TotalBusboy,TotalParkir,TotalParkirTamu,TotalTol2,TotalTolTamu,TotalTips,TotalBiayaDariTamu,TotalLain2,
     TotalTotalDriver1,TotalTotalDriver1_Driver2_Helper,TotalSelisih2:Int64;
     TotalFeeDriverReimburse,TotalFeeBusBoyReimburse,TotalTolParkirReimburse,TotalTolReimburse,IntBiayaReimburse,TotalDriver1,TotalDriver1_Driver2_Helper,Selisih :Int64;
     TotalBBMLiter, TotalBBMLiter_Budget,TotalBBMLiter_SPBU,TotalBBMLiter_Reimburse,TotalBBMLiter_All:Double;
@@ -587,13 +601,16 @@ begin
   TotalFeeDriver2 :=0;
   TotalBusboy :=0;
   TotalParkir :=0;
+  TotalParkirTamu := 0;
   TotalTol2 :=0;
+  TotalTolTamu := 0;
   TotalLain2 :=0;
+  TotalTips := 0;
+  TotalBiayaDariTamu := 0;
   TotalTotalDriver1 :=0;
   TotalTotalDriver1_Driver2_Helper :=0;
   TotalSelisih2 :=0;
 
-  
   if Length(OrderFeeArr)>0 then StrGrid.RowCount:=Length(OrderFeeArr)+1
   else begin
     StrGrid.RowCount:=3;
@@ -685,23 +702,25 @@ begin
 
       TotalFeeDriver:=TotalFeeDriver+(StrToint(OrderFeeArr[IntCount][16])*StoInt(OrderFeeArr[IntCount][15]));
       TotalFeeBusBoy:=TotalFeeBusBoy+(SToInt(OrderFeeArr[IntCount][17])*StoInt(OrderFeeArr[IntCount][15]));
-      TotalTolParkir:=TotalTolParkir+StoInt(OrderFeeArr[IntCount][18]);
-      TotalTol:=TotalTol+StoInt(OrderFeeArr[IntCount][19]);
+      TotalTolParkir:=TotalTolParkir+StoInt(OrderFeeArr[IntCount][18])+ StoInt(OrderFeeArr[IntCount][78]);
+      TotalTol:=TotalTol+StoInt(OrderFeeArr[IntCount][19])+ StoInt(OrderFeeArr[IntCount][79]);
 
       TotalFeeDriverReimburse:=TotalFeeDriverReimburse+(StoInt(OrderFeeArr[IntCount][20])); //*StoInt(OrderFeeArr[IntCount][15])
       TotalFeeBusBoyReimburse:=TotalFeeBusBoyReimburse+(StoInt(OrderFeeArr[IntCount][21])); //*StoInt(OrderFeeArr[IntCount][15])
       TotalTolParkirReimburse:=TotalTolParkirReimburse+StoInt(OrderFeeArr[IntCount][22]);
       TotalTolReimburse:=TotalTolReimburse+StoInt(OrderFeeArr[IntCount][23]);
 
-      TotalLain:=TotalLain+StoInt(OrderFeeArr[IntCount][24]);
+      TotalLain:=TotalLain+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][80])+StoInt(OrderFeeArr[IntCount][81]);
       TotalOvertime:=TotalOvertime+StoInt(OrderFeeArr[IntCount][25]);
 
-      IntBiaya:=BBMRp+(StoInt(OrderFeeArr[IntCount][16])*StoInt(OrderFeeArr[IntCount][15]))+(StoInt(OrderFeeArr[IntCount][17])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][18]);
+      IntBiaya:=BBMRp+(StoInt(OrderFeeArr[IntCount][16])*StoInt(OrderFeeArr[IntCount][15]))+(StoInt(OrderFeeArr[IntCount][17])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][18])+StoInt(OrderFeeArr[IntCount][78]);
       IntBiayaReimburse:=(StoInt(OrderFeeArr[IntCount][20])) + (StoInt(OrderFeeArr[IntCount][21])) + //*StoInt(OrderFeeArr[IntCount][15])
                          StoInt(OrderFeeArr[IntCount][22]) + StoInt(OrderFeeArr[IntCount][23]);
-      TotalBiaya:=TotalBiaya+IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19])+StoInt(OrderFeeArr[IntCount][25]);
+      TotalBiaya:=TotalBiaya+IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19])+StoInt(OrderFeeArr[IntCount][25])
+                  +StoInt(OrderFeeArr[IntCount][79])+StoInt(OrderFeeArr[IntCount][80])+StoInt(OrderFeeArr[IntCount][81]);
 
-      TotalBiayaExc:=TotalBiayaExc+IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19])-BBMRp_SPBU+StoInt(OrderFeeArr[IntCount][25]);
+      TotalBiayaExc:=TotalBiayaExc+IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19])
+                      +StoInt(OrderFeeArr[IntCount][79])+StoInt(OrderFeeArr[IntCount][80])+StoInt(OrderFeeArr[IntCount][81])-BBMRp_SPBU+StoInt(OrderFeeArr[IntCount][25]);
 
       TotalTopupBudget := TotalTopupBudget+StoInt(OrderFeeArr[IntCount][50]);
       TotalETollBudget := TotalETollBudget+StoInt(OrderFeeArr[IntCount][51]);
@@ -813,17 +832,19 @@ begin
       StrGrid.Cells[20,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][17])*StoInt(OrderFeeArr[IntCount][15]));
       StrGrid.Cells[21,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][21]));//*StoInt(OrderFeeArr[IntCount][15])
 
-      StrGrid.Cells[22,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][18]));
+      StrGrid.Cells[22,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][18])+StoInt(OrderFeeArr[IntCount][78]));
       StrGrid.Cells[23,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][22]));
 
-      StrGrid.Cells[24,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][19]));
+      StrGrid.Cells[24,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][19])+StoInt(OrderFeeArr[IntCount][79]));
       StrGrid.Cells[25,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][23]));
 
       //if OrderFeeArr[IntCount][37]<>NULL then StrGrid.Cells[16,Count]:='';//eToll(OrderFeeArr[IntCount][37]);
-      StrGrid.Cells[26,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][24]));
+      StrGrid.Cells[26,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][80])+StoInt(OrderFeeArr[IntCount][81]));
       StrGrid.Cells[27,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][25]));
-      StrGrid.Cells[28,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19])+StoInt(OrderFeeArr[IntCount][25]));
-      StrGrid.Cells[29,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19])-BBMRp_SPBU+StoInt(OrderFeeArr[IntCount][25]));
+      StrGrid.Cells[28,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19])+StoInt(OrderFeeArr[IntCount][25])
+                                +StoInt(OrderFeeArr[IntCount][79])+StoInt(OrderFeeArr[IntCount][80])+StoInt(OrderFeeArr[IntCount][81]));
+      StrGrid.Cells[29,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19])
+                                +StoInt(OrderFeeArr[IntCount][79])+StoInt(OrderFeeArr[IntCount][80])+StoInt(OrderFeeArr[IntCount][81])-BBMRp_SPBU+StoInt(OrderFeeArr[IntCount][25]));
       StrGrid.Cells[30,Count]:=OrderFeeArr[IntCount][26];
 
       if (OrderFeeArr[IntCount][55]='') or (OrderFeeArr[IntCount][55]='0') then begin
@@ -846,42 +867,59 @@ begin
       TotalParkir:= TotalParkir+(StoInt(OrderFeeArr[IntCount][18])+StoInt(OrderFeeArr[IntCount][22]));
       StrGrid.Cells[66,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][18])+StoInt(OrderFeeArr[IntCount][22]));
       TotalTol2:= TotalTol2+(StoInt(OrderFeeArr[IntCount][19])+StoInt(OrderFeeArr[IntCount][23]));
-      StrGrid.Cells[67,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][19])+StoInt(OrderFeeArr[IntCount][23]));
-      TotalLain2:= TotalLain2+(StoInt(OrderFeeArr[IntCount][24]));
-      StrGrid.Cells[68,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][24]));
+      StrGrid.Cells[67,Count]:= IToCurr(StoInt(OrderFeeArr[IntCount][78]));      //Parkir Tamu
+      TotalParkirTamu := TotalParkirTamu+(StoInt(OrderFeeArr[IntCount][78]));  //Total
+      StrGrid.Cells[68,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][19])+StoInt(OrderFeeArr[IntCount][23]));
+      StrGrid.Cells[69,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][79]));      //Tol Tamu
+      TotalTolTamu := TotalTolTamu +(StoInt(OrderFeeArr[IntCount][79]));
+      //StrGrid.Cells[70,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][25]));
+      TotalLain2:= TotalLain2+(StoInt(OrderFeeArr[IntCount][24]));//+StoInt(OrderFeeArr[IntCount][80])+StoInt(OrderFeeArr[IntCount][81]));
+      StrGrid.Cells[70,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][24]));  //bermalam
+      TotalTips := TotalTips+ (StoInt(OrderFeeArr[IntCount][80]));
+      StrGrid.Cells[71,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][80])); //Tips
+      TotalBiayaDariTamu := TotalBiayaDariTamu+(StoInt(OrderFeeArr[IntCount][81]));
+      StrGrid.Cells[72,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][81])); //Biaya Dari Tamu
       TotalOvertime:=TotalOvertime+(StoInt(OrderFeeArr[IntCount][25]));
-      StrGrid.Cells[69,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][25]));
+      StrGrid.Cells[73,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][25]));
 
       TotalDriver1:=BBMRp_Budget+BBMRp_Reimburse+((StoInt(OrderFeeArr[IntCount][59])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][75]))
                                   + (StoInt(OrderFeeArr[IntCount][18])+StoInt(OrderFeeArr[IntCount][22]))
                                   + (StoInt(OrderFeeArr[IntCount][19])+StoInt(OrderFeeArr[IntCount][23]))
-                                  +  (StoInt(OrderFeeArr[IntCount][24])) + (StoInt(OrderFeeArr[IntCount][25]));
+                                  +  (StoInt(OrderFeeArr[IntCount][24])) + (StoInt(OrderFeeArr[IntCount][25]))
+                                  + (StoInt(OrderFeeArr[IntCount][78])) + (StoInt(OrderFeeArr[IntCount][79]))
+                                  + (StoInt(OrderFeeArr[IntCount][80])) + (StoInt(OrderFeeArr[IntCount][81]));
       TotalTotalDriver1:=TotalTotalDriver1+ TotalDriver1;
-      StrGrid.Cells[70,Count]:=IToCurr(TotalDriver1);
+      StrGrid.Cells[74,Count]:=IToCurr(TotalDriver1);
 
-      StrGrid.Cells[71,Count]:=OrderFeeArr[IntCount][69];
-      StrGrid.Cells[72,Count]:=OrderFeeArr[IntCount][66];
+      StrGrid.Cells[75,Count]:=OrderFeeArr[IntCount][69];
+      StrGrid.Cells[76,Count]:=OrderFeeArr[IntCount][66];
       TotalFeeDriver2:=TotalFeeDriver2+((StoInt(OrderFeeArr[IntCount][60])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][76]));
-      StrGrid.Cells[73,Count]:=IToCurr((StoInt(OrderFeeArr[IntCount][60])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][76]));
+      StrGrid.Cells[77,Count]:=IToCurr((StoInt(OrderFeeArr[IntCount][60])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][76]));
 
 
-      StrGrid.Cells[74,Count]:=OrderFeeArr[IntCount][70];
-      StrGrid.Cells[75,Count]:=OrderFeeArr[IntCount][67];
+      StrGrid.Cells[78,Count]:=OrderFeeArr[IntCount][70];
+      StrGrid.Cells[79,Count]:=OrderFeeArr[IntCount][67];
       TotalBusboy:=TotalBusboy+((StoInt(OrderFeeArr[IntCount][61])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][21]));
-      StrGrid.Cells[76,Count]:=IToCurr((StoInt(OrderFeeArr[IntCount][61])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][21]));
+      StrGrid.Cells[80,Count]:=IToCurr((StoInt(OrderFeeArr[IntCount][61])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][21]));
 
       TotalDriver1_Driver2_Helper:= (((StoInt(OrderFeeArr[IntCount][61])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][21]))+((StoInt(OrderFeeArr[IntCount][60])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][76]))
                                     +TotalDriver1);
       TotalTotalDriver1_Driver2_Helper:=TotalTotalDriver1_Driver2_Helper+TotalDriver1_Driver2_Helper;
-      StrGrid.Cells[77,Count]:= IToCurr(TotalDriver1_Driver2_Helper);
-      TotalSelisih2:=TotalSelisih2+((IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19])-BBMRp_SPBU+StoInt(OrderFeeArr[IntCount][25]))-(TotalDriver1_Driver2_Helper));
-      StrGrid.Cells[78,Count]:= IToCurr((IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19])-BBMRp_SPBU+StoInt(OrderFeeArr[IntCount][25]))-(TotalDriver1_Driver2_Helper));
+      StrGrid.Cells[81,Count]:= IToCurr(TotalDriver1_Driver2_Helper);
+      TotalSelisih2:=TotalSelisih2+((IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19])
+                    +StoInt(OrderFeeArr[IntCount][79])
+                    +StoInt(OrderFeeArr[IntCount][80])+StoInt(OrderFeeArr[IntCount][81])
+                    -BBMRp_SPBU+StoInt(OrderFeeArr[IntCount][25]))-(TotalDriver1_Driver2_Helper));
+      StrGrid.Cells[82,Count]:= IToCurr((IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][19])
+                                +StoInt(OrderFeeArr[IntCount][79])
+                                +StoInt(OrderFeeArr[IntCount][80])+StoInt(OrderFeeArr[IntCount][81])
+                                -BBMRp_SPBU+StoInt(OrderFeeArr[IntCount][25]))-(TotalDriver1_Driver2_Helper));
 
-      StrGrid.Cells[79,Count]:= OrderFeeArr[IntCount][71];
-      StrGrid.Cells[80,Count]:= OrderFeeArr[IntCount][72];
-      StrGrid.Cells[81,Count]:= OrderFeeArr[IntCount][73];
-      StrGrid.Cells[82,Count]:= OrderFeeArr[IntCount][74];
-      StrGrid.Cells[83,Count]:= OrderFeeArr[IntCount][77];
+      StrGrid.Cells[83,Count]:= OrderFeeArr[IntCount][71];
+      StrGrid.Cells[84,Count]:= OrderFeeArr[IntCount][72];
+      StrGrid.Cells[85,Count]:= OrderFeeArr[IntCount][73];
+      StrGrid.Cells[86,Count]:= OrderFeeArr[IntCount][74];
+      StrGrid.Cells[87,Count]:= OrderFeeArr[IntCount][77];
 
 //      if (OrderFeeArr[IntCount][57]<>'') AND (OrderFeeArr[IntCount][57]<>NULL) then begin
 //        StrGrid.CellStyle[2,Count].Font.Color:=clGreen;
@@ -969,13 +1007,6 @@ begin
           StrGrid.CellStyle[Count2,Count].Font.Color:=clWindowText;
         end;
       end;
-
-
-
-
-//
-
-
     end;
     Inc(Count);
 
@@ -1104,14 +1135,22 @@ begin
   StrGrid.Cells[64,StrGrid.RowCount-1]:=IToCurr(TotalBBMBudget);
   StrGrid.Cells[65,StrGrid.RowCount-1]:=IToCurr(TotalFeeDriver1);
   StrGrid.Cells[66,StrGrid.RowCount-1]:=IToCurr(TotalParkir);
-  StrGrid.Cells[67,StrGrid.RowCount-1]:=IToCurr(TotalTol2);
-  StrGrid.Cells[68,StrGrid.RowCount-1]:=IToCurr(TotalLain2);
-  StrGrid.Cells[69,StrGrid.RowCount-1]:=IToCurr(TotalOvertime);
-  StrGrid.Cells[70,StrGrid.RowCount-1]:=IToCurr(TotalTotalDriver1);
-  StrGrid.Cells[73,StrGrid.RowCount-1]:=IToCurr(TotalFeeDriver2);
-  StrGrid.Cells[76,StrGrid.RowCount-1]:=IToCurr(TotalFeeBusBoy);
-  StrGrid.Cells[77,StrGrid.RowCount-1]:=IToCurr(TotalTotalDriver1_Driver2_Helper);
-  StrGrid.Cells[78,StrGrid.RowCount-1]:=IToCurr(TotalSelisih2);
+  StrGrid.Cells[67,StrGrid.RowCount-1]:=IToCurr(TotalParkirTamu); //total parkir tamu
+  StrGrid.Cells[68,StrGrid.RowCount-1]:=IToCurr(TotalTol2);
+  StrGrid.Cells[69,StrGrid.RowCount-1]:=IToCurr(TotalTolTamu); //total tol tamu
+  StrGrid.Cells[70,StrGrid.RowCount-1]:=IToCurr(TotalLain2); //Total bermalam
+  StrGrid.Cells[71,StrGrid.RowCount-1]:=IToCurr(TotalTips); //Total tips
+  StrGrid.Cells[72,StrGrid.RowCount-1]:=IToCurr(TotalBiayaDariTamu); //Total baiaya dari tamu
+  StrGrid.Cells[73,StrGrid.RowCount-1]:=IToCurr(TotalOvertime);
+  StrGrid.Cells[74,StrGrid.RowCount-1]:=IToCurr(TotalTotalDriver1);
+
+  //StrGrid.Cells[75,StrGrid.RowCount-1]:=IToCurr(TotalTotalDriver1);
+  //StrGrid.Cells[76,StrGrid.RowCount-1]:=IToCurr(TotalFeeDriver2);
+  StrGrid.Cells[77,StrGrid.RowCount-1]:=IToCurr(TotalFeeDriver2); //IToCurr(TotalFeeBusBoy);
+  StrGrid.Cells[80,StrGrid.RowCount-1]:=IToCurr(TotalFeeBusBoy);
+  StrGrid.Cells[81,StrGrid.RowCount-1]:=IToCurr(TotalTotalDriver1_Driver2_Helper);
+
+  StrGrid.Cells[82,StrGrid.RowCount-1]:=IToCurr(TotalSelisih2);
 
   StrGrid.CellStyle[9,StrGrid.RowCount-1].BGColor:=clSilver;
   StrGrid.CellStyle[10,StrGrid.RowCount-1].BGColor:=clSilver;
@@ -1147,10 +1186,15 @@ begin
   StrGrid.CellStyle[68,StrGrid.RowCount-1].BGColor:=clSilver;
   StrGrid.CellStyle[69,StrGrid.RowCount-1].BGColor:=clSilver;
   StrGrid.CellStyle[70,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[71,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[72,StrGrid.RowCount-1].BGColor:=clSilver;
   StrGrid.CellStyle[73,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[76,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[74,StrGrid.RowCount-1].BGColor:=clSilver;
+
   StrGrid.CellStyle[77,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[78,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[80,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[81,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[82,StrGrid.RowCount-1].BGColor:=clSilver;
 
 
   for Count2:=2 to StrGrid.RowCount do
@@ -1226,18 +1270,25 @@ begin
     StrGrid.CellStyle[68,Count2].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[69,Count2].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[70,Count2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[71,Count2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[72,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[71,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[72,Count2].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[73,Count2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[74,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[74,Count2].HorizontalAlignment:=taRightJustify;
+
     StrGrid.CellStyle[75,Count2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[76,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[76,Count2].HorizontalAlignment:=taLeftJustify;
     StrGrid.CellStyle[77,Count2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[78,Count2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[79,Count2].HorizontalAlignment:=taCenter;
-    StrGrid.CellStyle[80,Count2].HorizontalAlignment:=taCenter;
-    StrGrid.CellStyle[81,Count2].HorizontalAlignment:=taCenter;
-    StrGrid.CellStyle[82,Count2].HorizontalAlignment:=taLeftJustify;
+
+    StrGrid.CellStyle[78,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[79,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[80,Count2].HorizontalAlignment:=taRightJustify;
+
+    StrGrid.CellStyle[81,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[82,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[83,Count2].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[84,Count2].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[85,Count2].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[86,Count2].HorizontalAlignment:=taLeftJustify;
   end;
 
 
@@ -1622,6 +1673,15 @@ begin
       OrderFeeArr[IntCount][76]:=VartoStr(Qry.FieldValues['fee_driver2_reimburse']);
       if Qry.FieldValues['alasan_cetak_ulang']<>NULL then
       OrderFeeArr[IntCount][77]:=VartoStr(Qry.FieldValues['alasan_cetak_ulang']);
+      if Qry.FieldValues['tol_parkir_tamu']<>NULL then
+      OrderFeeArr[IntCount][78]:=VartoStr(Qry.FieldValues['tol_parkir_tamu']);
+            if Qry.FieldValues['tol_tamu']<>NULL then
+      OrderFeeArr[IntCount][79]:=VartoStr(Qry.FieldValues['tol_tamu']);
+            if Qry.FieldValues['tips']<>NULL then
+      OrderFeeArr[IntCount][80]:=VartoStr(Qry.FieldValues['tips']);
+            if Qry.FieldValues['biaya_dari_tamu']<>NULL then
+      OrderFeeArr[IntCount][81]:=VartoStr(Qry.FieldValues['biaya_dari_tamu']);
+
 
       StrGrid.Cells[38,Count]:=Qry.FieldValues['UpdateUser'];
       if Qry.FieldValues['description']<>NULL then StrGrid.Cells[39,Count]:=Qry.FieldValues['description'] else StrGrid.Cells[38,Count]:='';
@@ -2081,23 +2141,27 @@ begin
 
           TotalFeeDriver:=TotalFeeDriver+(StrToint(OrderFeeArr[Count][16])*StoInt(OrderFeeArr[Count][15]));
           TotalFeeBusBoy:=TotalFeeBusBoy+(SToInt(OrderFeeArr[Count][17])*StoInt(OrderFeeArr[Count][15]));
-          TotalTolParkir:=TotalTolParkir+StoInt(OrderFeeArr[Count][18]);
-          TotalTol:=TotalTol+StoInt(OrderFeeArr[Count][19]);
+          TotalTolParkir:=TotalTolParkir+StoInt(OrderFeeArr[Count][18])+ StoInt(OrderFeeArr[Count][78]);
+          TotalTol:=TotalTol+StoInt(OrderFeeArr[Count][19])+ StoInt(OrderFeeArr[Count][79]);
 
           TotalFeeDriverReimburse:=TotalFeeDriverReimburse+(StoInt(OrderFeeArr[Count][20])); //*StoInt(OrderFeeArr[IntCount][15])
           TotalFeeBusBoyReimburse:=TotalFeeBusBoyReimburse+(StoInt(OrderFeeArr[Count][21])); //*StoInt(OrderFeeArr[IntCount][15])
           TotalTolParkirReimburse:=TotalTolParkirReimburse+StoInt(OrderFeeArr[Count][22]);
           TotalTolReimburse:=TotalTolReimburse+StoInt(OrderFeeArr[Count][23]);
 
-          TotalLain:=TotalLain+StoInt(OrderFeeArr[Count][24]);
+          TotalLain:=TotalLain+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][80])+StoInt(OrderFeeArr[Count][81]);
           TotalOvertime:=TotalOvertime+StoInt(OrderFeeArr[Count][25]);
 
-          IntBiaya:=BBMRp+(StoInt(OrderFeeArr[Count][16])*StoInt(OrderFeeArr[Count][15]))+(StoInt(OrderFeeArr[Count][17])*StoInt(OrderFeeArr[Count][15]))+StoInt(OrderFeeArr[Count][18]);
+          IntBiaya:=BBMRp+(StoInt(OrderFeeArr[Count][16])*StoInt(OrderFeeArr[Count][15]))+(StoInt(OrderFeeArr[Count][17])*StoInt(OrderFeeArr[Count][15]))+StoInt(OrderFeeArr[Count][18])+StoInt(OrderFeeArr[Count][78]);
           IntBiayaReimburse:=(StoInt(OrderFeeArr[Count][20])) + (StoInt(OrderFeeArr[Count][21])) + //*StoInt(OrderFeeArr[IntCount][15])
                              StoInt(OrderFeeArr[Count][22]) + StoInt(OrderFeeArr[Count][23]);
-          TotalBiaya:=TotalBiaya+IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][19]);
+          TotalBiaya:=TotalBiaya+IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][19])
+                      +StoInt(OrderFeeArr[Count][78])+StoInt(OrderFeeArr[Count][79])
+                      +StoInt(OrderFeeArr[Count][80])+StoInt(OrderFeeArr[Count][81]);
 
-          TotalBiayaExc:=TotalBiayaExc+IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][19])-BBMRp_SPBU;
+          TotalBiayaExc:=TotalBiayaExc+IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][19])
+                      +StoInt(OrderFeeArr[Count][78])+StoInt(OrderFeeArr[Count][79])
+                      +StoInt(OrderFeeArr[Count][80])+StoInt(OrderFeeArr[Count][81])-BBMRp_SPBU+StoInt(OrderFeeArr[Count][25]);
 
           TotalTopupBudget := TotalTopupBudget+StoInt(OrderFeeArr[Count][50]);
           TotalETollBudget := TotalETollBudget+StoInt(OrderFeeArr[Count][51]);
@@ -2174,21 +2238,29 @@ begin
           StrGrid.CellStyle[65,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[66,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[67,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[67,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[68,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[69,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[70,Count2-1].HorizontalAlignment:=taRightJustify;
-          StrGrid.CellStyle[71,Count2-1].HorizontalAlignment:=taLeftJustify;
-          StrGrid.CellStyle[72,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[71,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[72,Count2-1].HorizontalAlignment:=taRightJustify;
           StrGrid.CellStyle[73,Count2-1].HorizontalAlignment:=taRightJustify;
-          StrGrid.CellStyle[74,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[74,Count2-1].HorizontalAlignment:=taRightJustify;
+
           StrGrid.CellStyle[75,Count2-1].HorizontalAlignment:=taLeftJustify;
-          StrGrid.CellStyle[76,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[76,Count2-1].HorizontalAlignment:=taLeftJustify;
           StrGrid.CellStyle[77,Count2-1].HorizontalAlignment:=taRightJustify;
-          StrGrid.CellStyle[78,Count2-1].HorizontalAlignment:=taRightJustify;
-          StrGrid.CellStyle[79,Count2-1].HorizontalAlignment:=taCenter;
-          StrGrid.CellStyle[80,Count2-1].HorizontalAlignment:=taCenter;
-          StrGrid.CellStyle[81,Count2-1].HorizontalAlignment:=taCenter;
-          StrGrid.CellStyle[82,Count2-1].HorizontalAlignment:=taLeftJustify;
+
+          StrGrid.CellStyle[78,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[79,Count2-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[80,Count2-1].HorizontalAlignment:=taRightJustify;
+
+          StrGrid.CellStyle[81,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[82,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[83,Count2-1].HorizontalAlignment:=taCenter;
+          StrGrid.CellStyle[84,Count2-1].HorizontalAlignment:=taCenter;
+          StrGrid.CellStyle[85,Count2-1].HorizontalAlignment:=taCenter;
+          StrGrid.CellStyle[86,Count2-1].HorizontalAlignment:=taLeftJustify;
 
           if (BBMLiterSingle_Budget=0) then StrGrid.Cells[10,Count2-1]:= '0'
           else StrGrid.Cells[10,Count2-1]:=SToCurr(FloatToStr(BBMLiterSingle_Budget),2);
@@ -2210,17 +2282,19 @@ begin
 
           StrGrid.Cells[20,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][17])*StoInt(OrderFeeArr[Count][15]));
           StrGrid.Cells[21,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][21]));
-          StrGrid.Cells[22,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][18]));
+          StrGrid.Cells[22,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][18])+StoInt(OrderFeeArr[Count][78]));
           StrGrid.Cells[23,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][22]));
 
-          StrGrid.Cells[24,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][19]));
+          StrGrid.Cells[24,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][19])+StoInt(OrderFeeArr[Count][79]));
           StrGrid.Cells[25,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][23]));
 
 
-          StrGrid.Cells[26,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][24]));
+          StrGrid.Cells[26,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][80])+StoInt(OrderFeeArr[Count][81]));
           StrGrid.Cells[27,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][25]));
-          StrGrid.Cells[28,Count2-1]:=IToCurr(IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][19])+StoInt(OrderFeeArr[Count][25]));
-          StrGrid.Cells[29,Count2-1]:=IToCurr(IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][19])-BBMRp_SPBU+StoInt(OrderFeeArr[Count][25]));
+          StrGrid.Cells[28,Count2-1]:=IToCurr(IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][19])
+                                      +StoInt(OrderFeeArr[Count][79])+StoInt(OrderFeeArr[Count][80])+StoInt(OrderFeeArr[Count][81])+StoInt(OrderFeeArr[Count][25]));
+          StrGrid.Cells[29,Count2-1]:=IToCurr(IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][19])
+                                      +StoInt(OrderFeeArr[Count][79])+StoInt(OrderFeeArr[Count][80])+StoInt(OrderFeeArr[Count][81])-BBMRp_SPBU+StoInt(OrderFeeArr[Count][25]));
           StrGrid.Cells[30,Count2-1]:=OrderFeeArr[Count][26];
 
           if (OrderFeeArr[Count][55]='') or (OrderFeeArr[Count][55]='0') then begin
@@ -2242,40 +2316,52 @@ begin
           TotalParkir:= TotalParkir+(StoInt(OrderFeeArr[Count][18])+StoInt(OrderFeeArr[Count][22]));
           StrGrid.Cells[66,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][18])+StoInt(OrderFeeArr[Count][22]));
           TotalTol2:= TotalTol2+(StoInt(OrderFeeArr[Count][19])+StoInt(OrderFeeArr[Count][23]));
-          StrGrid.Cells[67,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][19])+StoInt(OrderFeeArr[Count][23]));
-          TotalLain2:= TotalLain2+(StoInt(OrderFeeArr[Count][24]));
-          StrGrid.Cells[68,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][24]));
+          StrGrid.Cells[67,Count2-1]:= IToCurr(StoInt(OrderFeeArr[Count][78]));      //Parkir Tamu
+          StrGrid.Cells[68,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][19])+StoInt(OrderFeeArr[Count][23]));
+          StrGrid.Cells[69,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][79]));;      //Tol Tamu
+          //StrGrid.Cells[70,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][25]));
+          TotalLain2:= TotalLain2+(StoInt(OrderFeeArr[Count][24]));//+StoInt(OrderFeeArr[Count][80])+StoInt(OrderFeeArr[Count][81]));
+          StrGrid.Cells[70,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][24]));  //bermalam
+          StrGrid.Cells[71,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][80])); //Tips
+          StrGrid.Cells[72,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][81])); //Biaya Dari Tamu
           TotalOvertime:=TotalOvertime+(StoInt(OrderFeeArr[Count][25]));
-          StrGrid.Cells[69,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][25]));
+          StrGrid.Cells[73,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][25]));
 
           TotalDriver1:=BBMRp_Budget+(StoInt(OrderFeeArr[Count][59])*StoInt(OrderFeeArr[Count][15]))
-                                      + (StoInt(OrderFeeArr[Count][18])+StoInt(OrderFeeArr[Count][22]))
-                                      + (StoInt(OrderFeeArr[Count][19])+StoInt(OrderFeeArr[Count][23]))
-                                      +  (StoInt(OrderFeeArr[Count][24])) + (StoInt(OrderFeeArr[Count][25]));
+                                      + (StoInt(OrderFeeArr[Count][18])+StoInt(OrderFeeArr[Count][22])+ StoInt(OrderFeeArr[Count][78]))
+                                      + (StoInt(OrderFeeArr[Count][19])+StoInt(OrderFeeArr[Count][23])+ StoInt(OrderFeeArr[Count][79]))
+                                      +  (StoInt(OrderFeeArr[Count][24]))+ StoInt(OrderFeeArr[Count][80])+ StoInt(OrderFeeArr[Count][81])
+                                      + (StoInt(OrderFeeArr[Count][25]));
           TotalTotalDriver1:=TotalTotalDriver1+ TotalDriver1;
-          StrGrid.Cells[70,Count2-1]:=IToCurr(TotalDriver1);
+          StrGrid.Cells[74,Count2-1]:=IToCurr(TotalDriver1);
 
-          StrGrid.Cells[71,Count2-1]:=OrderFeeArr[Count][69];
-          StrGrid.Cells[72,Count2-1]:=OrderFeeArr[Count][66];
+          StrGrid.Cells[75,Count2-1]:=OrderFeeArr[Count][69];
+          StrGrid.Cells[76,Count2-1]:=OrderFeeArr[Count][66];
           TotalFeeDriver2:=TotalFeeDriver2+(StoInt(OrderFeeArr[Count][60])*StoInt(OrderFeeArr[Count][15]));
-          StrGrid.Cells[73,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][60])*StoInt(OrderFeeArr[Count][15]));
+          StrGrid.Cells[77,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][60])*StoInt(OrderFeeArr[Count][15]));
 
-          StrGrid.Cells[74,Count2-1]:=OrderFeeArr[Count][70];
-          StrGrid.Cells[75,Count2-1]:=OrderFeeArr[Count][67];
+          StrGrid.Cells[78,Count2-1]:=OrderFeeArr[Count][70];
+          StrGrid.Cells[79,Count2-1]:=OrderFeeArr[Count][67];
           TotalBusboy:=TotalBusboy+(StoInt(OrderFeeArr[Count][61])*StoInt(OrderFeeArr[Count][15]));
-          StrGrid.Cells[76,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][61])*StoInt(OrderFeeArr[Count][15]));
+          StrGrid.Cells[80,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][61])*StoInt(OrderFeeArr[Count][15]));
 
           TotalDriver1_Driver2_Helper:= ((StoInt(OrderFeeArr[Count][61])*StoInt(OrderFeeArr[Count][15]))+(StoInt(OrderFeeArr[Count][60])*StoInt(OrderFeeArr[Count][15]))
                                         +TotalDriver1);
           TotalTotalDriver1_Driver2_Helper:=TotalTotalDriver1_Driver2_Helper+TotalDriver1_Driver2_Helper;
-          StrGrid.Cells[77,Count2-1]:= IToCurr(TotalDriver1_Driver2_Helper);
-          TotalSelisih2:=TotalSelisih2+((IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][19])-BBMRp_SPBU+StoInt(OrderFeeArr[Count][25]))-(TotalDriver1_Driver2_Helper));
-          StrGrid.Cells[78,Count2-1]:= IToCurr((IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][19])-BBMRp_SPBU+StoInt(OrderFeeArr[Count][25]))-(TotalDriver1_Driver2_Helper));
+          StrGrid.Cells[81,Count2-1]:= IToCurr(TotalDriver1_Driver2_Helper);
+          TotalSelisih2:=TotalSelisih2+((IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][19])
+                                        +StoInt(OrderFeeArr[Count][79])
+                                        +StoInt(OrderFeeArr[Count][80])+StoInt(OrderFeeArr[Count][81])
+                                        -BBMRp_SPBU+StoInt(OrderFeeArr[Count][25]))-(TotalDriver1_Driver2_Helper));
+          StrGrid.Cells[82,Count2-1]:= IToCurr((IntBiaya+IntBiayaReimburse+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][19])
+                                        +StoInt(OrderFeeArr[Count][79])
+                                        +StoInt(OrderFeeArr[Count][80])+StoInt(OrderFeeArr[Count][81])
+                                        -BBMRp_SPBU+StoInt(OrderFeeArr[Count][25]))-(TotalDriver1_Driver2_Helper));
 
-          StrGrid.Cells[79,Count2-1]:= OrderFeeArr[Count][71];
-          StrGrid.Cells[80,Count2-1]:= OrderFeeArr[Count][72];
-          StrGrid.Cells[81,Count2-1]:= OrderFeeArr[Count][73];
-          StrGrid.Cells[82,Count2-1]:= OrderFeeArr[Count][74];
+          StrGrid.Cells[83,Count2-1]:= OrderFeeArr[Count][71];
+          StrGrid.Cells[84,Count2-1]:= OrderFeeArr[Count][72];
+          StrGrid.Cells[85,Count2-1]:= OrderFeeArr[Count][73];
+          StrGrid.Cells[86,Count2-1]:= OrderFeeArr[Count][74];
 
           if OrderFeeArr[Count][27]<>'' then begin
             StrGrid.CellStyle[30,Count2-1].Font.Color:=clBlue;

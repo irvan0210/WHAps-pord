@@ -126,8 +126,16 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '22/08/2025 (6.1.11.7)'
+      
+        '-Penambahan Kolom Tol dari Tamu, Parkir dari Tamu, Tips, Mengina' +
+        'p, dan Biaya '
+      
+        'dari Tamu di Menu Tambah Uang Order dan Laporan Uang Harian Driv' +
+        'er  '
+      ''
       '12/08/2025 (6.1.11.6)'
-      '-Penambahan Colom Overtime di Menu Transfer Uang Harian Driver '
+      '-Penambahan Kolom Overtime di Menu Transfer Uang Harian Driver '
       ''
       '01/08/2025 (6.1.11.5)'
       '-Penambahan Laporan Odometer(Km) Unit Actual'
