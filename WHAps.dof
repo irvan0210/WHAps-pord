@@ -91,7 +91,7 @@ ImageBase=4194304
 ExeDescription=
 [Directories]
 OutputDir=
-UnitOutputDir=
+UnitOutputDir=D:\Data Irvan\Whaps Developer\Whaps Origin\File dcu
 PackageDLLOutputDir=
 PackageDCPOutputDir=
 SearchPath=D:\delphi\zcolorstringgrid\package\delphi7
@@ -140,3 +140,6 @@ Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlSearchPath]
 Count=1
 Item0=D:\delphi\zcolorstringgrid\package\delphi7
+[HistoryLists\hlUnitOutputDirectory]
+Count=1
+Item0=D:\Data Irvan\Whaps Developer\Whaps Origin\File dcu
