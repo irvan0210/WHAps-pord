@@ -1502,6 +1502,7 @@ begin
               end;
            end;
         end;
+
         {161601..161609 Pekerjaan}
         161601..161604:begin
            Case CaseStr(RightStr(IntToStr(Tag),2),['01','06','04']) of
