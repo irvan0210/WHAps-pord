@@ -37,22 +37,28 @@ type
     tgl_rekomendasi: TDateTimePicker;
     status: TCheckBox;
     cetak: TButton;
+    MerkdanSpesifikasi: TMemo;
+    Label12: TLabel;
+    Label23: TLabel;
+    Label13: TLabel;
+    ChkCopy: TCheckBox;
+    Cari: TButton;
     ppReportRekomendasiTknis: TppReport;
     ppHeaderBand1: TppHeaderBand;
-    ppDetailBand1: TppDetailBand;
-    ppFooterBand1: TppFooterBand;
     ppLabelJudul: TppLabel;
-    ppLabel2: TppLabel;
-    ppLabel1: TppLabel;
-    ppLabel3: TppLabel;
-    ppLabel4: TppLabel;
-    ppLabel5: TppLabel;
-    ppLabel6: TppLabel;
-    ppLabel7: TppLabel;
-    ppLabel8: TppLabel;
     ppLabelNomor: TppLabel;
     ppLabel9: TppLabel;
     ppLabelTanggalBuat: TppLabel;
+    ppLabel2: TppLabel;
+    ppImage2: TppImage;
+    ppDetailBand1: TppDetailBand;
+    ppLabel1: TppLabel;
+    ppLabel6: TppLabel;
+    ppLabel7: TppLabel;
+    ppLabel4: TppLabel;
+    ppLabel3: TppLabel;
+    ppLabel5: TppLabel;
+    ppLabel8: TppLabel;
     ppLabel10: TppLabel;
     ppLabel11: TppLabel;
     ppLabel12: TppLabel;
@@ -82,19 +88,14 @@ type
     ppLabel29: TppLabel;
     ppLabelRecomExpired: TppLabel;
     ppMemo1: TppMemo;
+    ppLabelMerkdanSpek: TppMemo;
+    ppFooterBand1: TppFooterBand;
     ppLabel30: TppLabel;
     ppLabel31: TppLabel;
     ppLabel32: TppLabel;
     ppLabel33: TppLabel;
-    MerkdanSpesifikasi: TMemo;
     ppLabelUser: TppLabel;
-    ppLabelMerkdanSpek: TppMemo;
-    ppImage2: TppImage;
-    Label12: TLabel;
-    Label23: TLabel;
-    Label13: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure SelesaiClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure SimpanClick(Sender: TObject);
     procedure NoPerangkatLamaKeyPress(Sender: TObject; var Key: Char);
@@ -112,6 +113,10 @@ type
     procedure MerkdanSpesifikasiKeyPress(Sender: TObject; var Key: Char);
     procedure JenisBarangKeyPress(Sender: TObject; var Key: Char);
     procedure cetakClick(Sender: TObject);
+    procedure ChkCopyClick(Sender: TObject);
+    procedure CariClick(Sender: TObject);
+    procedure SelesaiClick(Sender: TObject);
+
   private
     { Private declarations }
     procedure Init;
@@ -119,7 +124,9 @@ type
     procedure Input(IsEnable:Boolean);
   public
     { Public declarations }
-    constructor Create(AOwner:TComponent;RekomNO:String;IsViewOnly:Boolean=False);Overload;
+   // function IsFormOpen(const FormName : string): Boolean;
+    constructor Create(AOwner:TComponent;RekomNO:String='';IsViewOnly:Boolean=False);overload;
+    procedure CopyTechnicalRecommendation(TechnicalRecommendation_Id:String);
   end;
 
 var
@@ -134,7 +141,7 @@ uses MainU,  TechnicalRecommendationListU, SubMenuFormU;
 
 {$R *.dfm}
 
-constructor TTechnicalRecommendation.Create(AOwner:TComponent;RekomNO:String ;IsViewOnly:Boolean=False);
+constructor TTechnicalRecommendation.Create(AOwner:TComponent;RekomNO:String='';IsViewOnly:Boolean=False);
 begin
   StrRekomNO:=RekomNO;
   IsView:=IsViewOnly;
@@ -158,6 +165,7 @@ begin
   tgl_rekomendasi.Enabled := False;
   status.Checked := True;
   status.Enabled := False;
+  Cari.Enabled := False;
 end;
 
 procedure TTechnicalRecommendation.LoadData;
@@ -167,8 +175,6 @@ begin
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
   if Main.OpenDb then begin
-
-
     StrQry:= 'EXEC GetTechnicalRecommendationList '+QuotedStr(CompanyId)+','''','''',''0'','+QuotedStr(StrRekomNO)+';';
     Qry.SQL.Add(StrQry);
     Qry.Open;
@@ -190,6 +196,7 @@ begin
     Qry.Close;
     Main.CloseDb;
     Departemen.ItemIndex:= Departemen.Items.IndexOf(StrDepartement);
+    ChkCopy.Enabled := False;
   end;
 end;
 
@@ -202,11 +209,6 @@ end;
 procedure TTechnicalRecommendation.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action:=caFree;
-end;
-
-procedure TTechnicalRecommendation.SelesaiClick(Sender: TObject);
-begin
-  TechnicalRecommendation.Close;
 end;
 
 procedure TTechnicalRecommendation.FormShow(Sender: TObject);
@@ -488,6 +490,63 @@ begin
  // else begin
    //   MessageBox(0,'Tidak ada data yang dipilih..','Rekomendasi Teknis',MB_OK or MB_ICONINFORMATION);
  // end;
+end;
+
+procedure TTechnicalRecommendation.CopyTechnicalRecommendation(TechnicalRecommendation_Id:String);
+var Qry:TADOQuery;
+    StrQry, StrDepartement:String;
+begin
+  if TechnicalRecommendation_Id <>'' then begin
+    Main.M_Busy;
+    Qry:=TADOQuery.Create(Self);
+    Qry.Connection:=Main.MyConnection;
+    if Main.OpenDb then begin
+      StrQry:= 'EXEC GetTechnicalRecommendationList '+QuotedStr(CompanyId)+','''','''',''0'','+QuotedStr(TechnicalRecommendation_Id)+';';
+      Qry.SQL.Add(StrQry);
+      Qry.Open;
+      if Qry.RecordCount>0 then begin
+        //tgl_rekomendasi.Date:=StrToDateTime(Qry.FieldValues['date']);
+       // TechnicalRekomNO.Text:=Qry.FieldValues['technical_recommendation_no'];
+        JenisBarang.Text:=Qry.FieldValues['type_of_good'];
+        AlasanPengadaan.Text:=Qry.FieldValues['reason_for_procurement'];
+        NoPerangkatLama.Text:=Qry.FieldValues['old_device_no'];
+        //Departemen.ItemIndex:= Qry.FieldValues['department_id'];
+        StrDepartement:= Qry.FieldValues['departement_name'];
+        Requestor.Text:=Qry.FieldValues['user_requestor'];
+        Jumlah.Text:=SToCurr(Qry.FieldValues['qty']);
+        MerkdanSpesifikasi.Text:=Qry.FieldValues['brand_and_specification'];
+        PerkiraanHarga.Text:=SToCurr(Qry.FieldValues['price_forecasts']);
+       // RecomExpired.Date:=StrToDateTime(Qry.FieldValues['recommendation_expired']);
+        if Qry.FieldValues['status'] then status.Checked:=True else status.Checked:=False;;
+      end;
+      Qry.Close;
+      Main.CloseDb;
+      Departemen.ItemIndex:= Departemen.Items.IndexOf(StrDepartement);
+    end;
+    Main.CloseDb;
+    Main.M_Normal;
+  end;
+end;
+
+
+procedure TTechnicalRecommendation.ChkCopyClick(Sender: TObject);
+begin
+ if ChkCopy.Checked = True then
+   Cari.Enabled := True
+ else Cari.Enabled := False;
+
+end;
+
+procedure TTechnicalRecommendation.CariClick(Sender: TObject);
+begin
+  TechnicalRecommendationList:=TTechnicalRecommendationList.Create(Self,'COPY_DATA');
+ // TechnicalRecommendationList:=TServiceRequestList.Create(Self,'WorkOrder-Create','',2);
+ //if IsFormOpen('TechnicalRecommendationList')=False then TechnicalRecommendationList:=TTechnicalRecommendationList.Create(Self);
+end;
+
+procedure TTechnicalRecommendation.SelesaiClick(Sender: TObject);
+begin
+  TechnicalRecommendation.Close;
 end;
 
 end.

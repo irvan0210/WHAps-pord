@@ -1,6 +1,6 @@
 object TransferUangHarianDriver: TTransferUangHarianDriver
-  Left = 198
-  Top = 179
+  Left = 153
+  Top = 178
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Transfer Uang Harian Driver'
@@ -31,8 +31,8 @@ object TransferUangHarianDriver: TTransferUangHarianDriver
     Caption = 'Tanggal'
   end
   object ToXCel: TSpeedButton
-    Left = 998
-    Top = 464
+    Left = 926
+    Top = 465
     Width = 25
     Height = 22
     Anchors = [akTop, akRight]

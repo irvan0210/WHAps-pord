@@ -157,7 +157,7 @@ begin
   StrGrid.ColWidths[9]:=85;
   StrGrid.ColWidths[10]:=95;
   StrGrid.ColWidths[11]:=130;
-  StrGrid.ColWidths[12]:=50;
+  StrGrid.ColWidths[12]:=70;
   StrGrid.ColWidths[13]:=130;
   StrGrid.ColWidths[14]:=130;
   StrGrid.ColWidths[15]:=60;
@@ -330,7 +330,8 @@ var QStr,StrBatch,StrLocationId,StrCompanyId,StrToDates,StrisAll:String;
     BBMLiter_Budget,BBMRp_Budget,BBMLiter_SPBU,BBMRp_SPBU,BBMLiter_Reimburse,BBMRp_Reimburse:Integer;
     BBMLiterSingle_Budget,BBMLiterSingle_SPBU,BBMLiterSingle_Reimburse:Single;
 
-    TotalBBMRp,TotalBBMRp_Budget,TotalBBMRp_SPBU,TotalBBMRp_Reimburse,TotalBBMRp_All,TotalFeeDriver,TotalFeeBusBoy,TotalTolParkir,TotalTol,TotalLain,TotalBiaya,TotalBiayaExc,IntBiaya:Int64;
+    TotalBBMRp,TotalBBMRp_Budget,TotalBBMRp_SPBU,TotalBBMRp_Reimburse,TotalBBMRp_All,TotalFeeDriver,TotalFeeBusBoy,
+    TotalTolParkir,Tolparkir_All, TotalTol,Tol_All,TotalLain,LainLain_All,TotalBiaya,TotalBiayaExc,IntBiaya:Int64;
     TotalFeeDriverReimburse,TotalFeeBusBoyReimburse,TotalTolParkirReimburse,TotalTolReimburse,IntBiayaReimburse :Int64;
     TotalBBMLiter, TotalBBMLiter_Budget,TotalBBMLiter_SPBU,TotalBBMLiter_Reimburse,TotalBBMLiter_All:Double;
 begin
@@ -354,6 +355,10 @@ begin
   TotalOvertime:=0;
   TotalBiaya:=0;
   TotalBiayaExc:=0;
+
+  Tolparkir_All :=0;
+  Tol_All:=0;
+  LainLain_All:=0;
 
   TotalFeeDriverReimburse:=0;
   TotalFeeBusBoyReimburse:=0;
@@ -473,20 +478,27 @@ begin
 
       TotalFeeDriver:=TotalFeeDriver+(Qry.FieldValues['fee_driver']*Qry.FieldValues['day']);
       TotalFeeBusBoy:=TotalFeeBusBoy+(Qry.FieldValues['fee_busboy']*Qry.FieldValues['day']);
-      TotalTolParkir:=TotalTolParkir+Qry.FieldValues['tol_parkir'];
-      TotalTol:=TotalTol+Qry.FieldValues['tol'];
+
+      TolParkir_All := Qry.FieldValues['tol_parkir']+Qry.FieldValues['tol_parkir_tamu'];
+      TotalTolParkir:=TotalTolParkir+TolParkir_All;
+
+      Tol_All := Qry.FieldValues['tol']+Qry.FieldValues['tol_tamu'];
+      TotalTol:=TotalTol+Tol_All;
 
       TotalFeeDriverReimburse:=TotalFeeDriverReimburse+(Qry.FieldValues['fee_driver_reimburse']); //*Qry.FieldValues['day']
       TotalFeeBusBoyReimburse:=TotalFeeBusBoyReimburse+(Qry.FieldValues['fee_busboy_reimburse']); //*Qry.FieldValues['day']
       TotalTolParkirReimburse:=TotalTolParkirReimburse+Qry.FieldValues['parkir_reimburse'];
       TotalTolReimburse:=TotalTolReimburse+Qry.FieldValues['tol_reimburse'];
-      TotalOvertime := TotalOvertime+Qry.FieldValues['overtime']; 
-      TotalLain:=TotalLain+Qry.FieldValues['lain_lain'];
-      IntBiaya:=BBMRp+(Qry.FieldValues['fee_driver']*Qry.FieldValues['day'])+(Qry.FieldValues['fee_busboy']*Qry.FieldValues['day'])+Qry.FieldValues['tol_parkir'];
+      TotalOvertime := TotalOvertime+Qry.FieldValues['overtime'];
+
+      LainLain_All := Qry.FieldValues['lain_lain']+Qry.FieldValues['tips']+Qry.FieldValues['biaya_dari_tamu'];
+      TotalLain:=TotalLain+LainLain_All;
+
+      IntBiaya:=BBMRp+(Qry.FieldValues['fee_driver']*Qry.FieldValues['day'])+(Qry.FieldValues['fee_busboy']*Qry.FieldValues['day'])+TolParkir_All;
       IntBiayaReimburse:=(Qry.FieldValues['fee_driver_reimburse']) + (Qry.FieldValues['fee_busboy_reimburse']) + //*Qry.FieldValues['day']
                          Qry.FieldValues['parkir_reimburse'] + Qry.FieldValues['tol_reimburse'];
-      TotalBiaya:=TotalBiaya+IntBiaya+IntBiayaReimburse+TotalOvertime+Qry.FieldValues['lain_lain']+Qry.FieldValues['tol'];
-      TotalBiayaExc:=TotalBiayaExc+IntBiaya+IntBiayaReimburse+TotalOvertime+Qry.FieldValues['lain_lain']+Qry.FieldValues['tol']-BBMRp_SPBU;
+      TotalBiaya:=TotalBiaya+IntBiaya+IntBiayaReimburse+Tol_All+LainLain_All+Qry.FieldValues['overtime'];
+      TotalBiayaExc:=TotalBiayaExc+IntBiaya+IntBiayaReimburse+Tol_All+LainLain_All+Qry.FieldValues['overtime']-BBMRp_SPBU;
 
       StrGrid.CellStyle[10,Count].HorizontalAlignment:=taCenter;
       StrGrid.CellStyle[11,Count].HorizontalAlignment:=taRightJustify;
@@ -521,15 +533,21 @@ begin
       StrGrid.Cells[17,Count]:=IToCurr(Qry.FieldValues['fee_busboy']*Qry.FieldValues['day']);
       StrGrid.Cells[18,Count]:=IToCurr(Qry.FieldValues['fee_busboy_reimburse']);//*Qry.FieldValues['day']
 
-      StrGrid.Cells[19,Count]:=IToCurr(Qry.FieldValues['tol_parkir']);
+      StrGrid.Cells[19,Count]:=IToCurr(TolParkir_All);//IToCurr(Qry.FieldValues['tol_parkir']+Qry.FieldValues['tol_parkir_tamu']);
       StrGrid.Cells[20,Count]:=IToCurr(Qry.FieldValues['parkir_reimburse']);
 
-      StrGrid.Cells[21,Count]:=IToCurr(Qry.FieldValues['tol']);
+      StrGrid.Cells[21,Count]:=IToCurr(Tol_All);//IToCurr(Qry.FieldValues['tol']+Qry.FieldValues['tol_tamu']);
       StrGrid.Cells[22,Count]:=IToCurr(Qry.FieldValues['tol_reimburse']);
-      StrGrid.Cells[23,Count]:=IToCurr(Qry.FieldValues['lain_lain']);
+      StrGrid.Cells[23,Count]:=IToCurr(LainLain_All);//IToCurr(Qry.FieldValues['lain_lain']+Qry.FieldValues['tips']+Qry.FieldValues['biaya_dari_tamu']);
       StrGrid.Cells[24,Count]:=IToCurr(Qry.FieldValues['overtime']);
-      StrGrid.Cells[25,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+Qry.FieldValues['lain_lain']+Qry.FieldValues['tol']+TotalOvertime);
-      StrGrid.Cells[26,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+Qry.FieldValues['lain_lain']+Qry.FieldValues['tol']+TotalOvertime-BBMRp_SPBU);
+       //StrGrid.Cells[25,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+Qry.FieldValues['lain_lain']+Qry.FieldValues['tol']+TotalOvertime);
+      StrGrid.Cells[25,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+Tol_All+LainLain_All+Qry.FieldValues['overtime']);
+
+      //StrGrid.Cells[25,Count]:=IToCurr(TotalOvertime);
+      StrGrid.Cells[26,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+Tol_All+LainLain_All+Qry.FieldValues['overtime']-BBMRp_SPBU);
+//              Qry.FieldValues['tol']+Qry.FieldValues['tol_tamu']+
+//              Qry.FieldValues['lain_lain']+Qry.FieldValues['tips']+Qry.FieldValues['biaya_dari_tamu']
+//              Qry.FieldValues['overtime']-BBMRp_SPBU);
 //      StrGrid.Cells[25,Count]:=IToCurr(IntBiaya+IntBiayaReimburse);
 //      if Qry.FieldValues['etoll_number']<>NULL then StrGrid.Cells[25,Count]:=eToll(Qry.FieldValues['etoll_number']);
 
@@ -623,7 +641,6 @@ begin
   StrGrid.CellStyle[24,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
   StrGrid.CellStyle[25,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
   StrGrid.CellStyle[26,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-
   Main.M_Normal;
 end;
 

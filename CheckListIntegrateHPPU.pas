@@ -327,6 +327,7 @@ var QStr,StrBatch,StrLocationId,StrCompanyId,StrToDates,StrisAll:String;
     TotalBBMRp,TotalBBMRp_Budget,TotalBBMRp_SPBU,TotalBBMRp_Reimburse,TotalBBMRp_All,TotalFeeDriver,TotalFeeBusBoy,TotalTolParkir,TotalTol,TotalLain,TotalBiaya,TotalBiayaExc,IntBiaya:Int64;
     TotalFeeDriverReimburse,TotalFeeBusBoyReimburse,TotalTolParkirReimburse,TotalTolReimburse,IntBiayaReimburse,TotalOvertime :Int64;
     TotalBBMLiter, TotalBBMLiter_Budget,TotalBBMLiter_SPBU,TotalBBMLiter_Reimburse,TotalBBMLiter_All:Double;
+    Tolparkir_All,Tol_All,LainLain_All:Int64;
 begin
   TotalBBMRp:=0;
   TotalBBMLiter:=0;
@@ -340,6 +341,9 @@ begin
   TotalBBMRp_Reimburse:=0;
   TotalBBMLiter_Reimburse:=0;
 
+  Tolparkir_All :=0;
+  Tol_All:=0;
+  LainLain_All:=0;
 
   TotalFeeDriver:=0;
   TotalFeeBusBoy:=0;
@@ -485,8 +489,13 @@ begin
 
       TotalFeeDriver:=TotalFeeDriver+(Qry.FieldValues['fee_driver']*Qry.FieldValues['day']);
       TotalFeeBusBoy:=TotalFeeBusBoy+(Qry.FieldValues['fee_busboy']*Qry.FieldValues['day']);
-      TotalTolParkir:=TotalTolParkir+Qry.FieldValues['tol_parkir'];
-      TotalTol:=TotalTol+Qry.FieldValues['tol'];
+
+      Tolparkir_All := Qry.FieldValues['tol_parkir']+Qry.FieldValues['tol_parkir_tamu'];
+      TotalTolParkir:=TotalTolParkir+Tolparkir_All;
+
+      Tol_All := Qry.FieldValues['tol']+Qry.FieldValues['tol_tamu'];
+      TotalTol:=TotalTol+Tol_All;
+
       TotalOvertime:=TotalOvertime+Qry.FieldValues['overtime'];
 
       TotalFeeDriverReimburse:=TotalFeeDriverReimburse+(Qry.FieldValues['fee_driver_reimburse']); //*Qry.FieldValues['day']
@@ -494,11 +503,13 @@ begin
       TotalTolParkirReimburse:=TotalTolParkirReimburse+Qry.FieldValues['parkir_reimburse'];
       TotalTolReimburse:=TotalTolReimburse+Qry.FieldValues['tol_reimburse'];
 
-      TotalLain:=TotalLain+Qry.FieldValues['lain_lain'];
-      IntBiaya:=BBMRp+(Qry.FieldValues['fee_driver']*Qry.FieldValues['day'])+(Qry.FieldValues['fee_busboy']*Qry.FieldValues['day'])+Qry.FieldValues['tol_parkir'];
+      LainLain_All :=Qry.FieldValues['lain_lain']+Qry.FieldValues['tips']+Qry.FieldValues['biaya_dari_tamu'];
+      TotalLain:=TotalLain+LainLain_All;
+
+      IntBiaya:=BBMRp+(Qry.FieldValues['fee_driver']*Qry.FieldValues['day'])+(Qry.FieldValues['fee_busboy']*Qry.FieldValues['day'])+Tolparkir_All;
       IntBiayaReimburse:=(Qry.FieldValues['fee_driver_reimburse']) + (Qry.FieldValues['fee_busboy_reimburse']) + //*Qry.FieldValues['day']
                          Qry.FieldValues['parkir_reimburse'] + Qry.FieldValues['tol_reimburse'];
-      TotalBiaya:=TotalBiaya+IntBiaya+IntBiayaReimburse+Qry.FieldValues['lain_lain']+Qry.FieldValues['tol'];
+      TotalBiaya:=TotalBiaya+IntBiaya+IntBiayaReimburse+LainLain_All+Tol_All+Qry.FieldValues['overtime'];
       TotalBiayaExc:=TotalBiayaExc+IntBiaya+IntBiayaReimburse;
 
       StrGrid.CellStyle[9,Count].HorizontalAlignment:=taCenter;
@@ -534,17 +545,17 @@ begin
       StrGrid.Cells[16,Count]:=IToCurr(Qry.FieldValues['fee_busboy']*Qry.FieldValues['day']);
       StrGrid.Cells[17,Count]:=IToCurr(Qry.FieldValues['fee_busboy_reimburse']);//*Qry.FieldValues['day']
 
-      StrGrid.Cells[18,Count]:=IToCurr(Qry.FieldValues['tol_parkir']);
+      StrGrid.Cells[18,Count]:=IToCurr(Tolparkir_All);//IToCurr(Qry.FieldValues['tol_parkir']);
       StrGrid.Cells[19,Count]:=IToCurr(Qry.FieldValues['parkir_reimburse']);
 
-      StrGrid.Cells[20,Count]:=IToCurr(Qry.FieldValues['tol']);
+      StrGrid.Cells[20,Count]:=IToCurr(Tol_All);//IToCurr(Qry.FieldValues['tol']);
       StrGrid.Cells[21,Count]:=IToCurr(Qry.FieldValues['tol_reimburse']);
-      StrGrid.Cells[22,Count]:=IToCurr(Qry.FieldValues['lain_lain']);
+      StrGrid.Cells[22,Count]:=IToCurr(LainLain_All);//IToCurr(Qry.FieldValues['lain_lain']);
       StrGrid.Cells[23,Count]:=IToCurr(Qry.FieldValues['overtime']);
 
 
-      StrGrid.Cells[24,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+Qry.FieldValues['lain_lain']+Qry.FieldValues['tol']+Qry.FieldValues['overtime']);
-      StrGrid.Cells[25,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+Qry.FieldValues['lain_lain']+Qry.FieldValues['tol']+Qry.FieldValues['overtime']-BBMRp_SPBU);
+      StrGrid.Cells[24,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+LainLain_All+Tol_All+Qry.FieldValues['overtime']);
+      StrGrid.Cells[25,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+LainLain_All+Tol_All+Qry.FieldValues['overtime']-BBMRp_SPBU);
 //      if Qry.FieldValues['etoll_number']<>NULL then StrGrid.Cells[25,Count]:=eToll(Qry.FieldValues['etoll_number']);
 
       StrGrid.Cells[26,Count]:=VarToStr(Qry.FieldValues['status_sj']);
@@ -599,8 +610,8 @@ begin
 
   StrGrid.Cells[22,StrGrid.RowCount-1]:=IToCurr(TotalLain);
   StrGrid.Cells[23,StrGrid.RowCount-1]:=IToCurr(TotalOvertime);
-  StrGrid.Cells[24,StrGrid.RowCount-1]:=IToCurr(TotalBiaya+TotalOvertime);
-  StrGrid.Cells[25,StrGrid.RowCount-1]:=IToCurr(TotalBiaya+TotalOvertime-TotalBBMRp_SPBU);
+  StrGrid.Cells[24,StrGrid.RowCount-1]:=IToCurr(TotalBiaya);
+  StrGrid.Cells[25,StrGrid.RowCount-1]:=IToCurr(TotalBiaya-TotalBBMRp_SPBU);
 //  StrGrid.Cells[25,StrGrid.RowCount-1]:=IToCurr(TotalBiayaExc+TotalOvertime);
 
   StrGrid.CellStyle[9,StrGrid.RowCount-1].BGColor:=clSilver;

@@ -35,6 +35,7 @@ type
     procedure Tanggal2Change(Sender: TObject);
   private
     { Private declarations }
+    FormRequest:String;
 
     procedure AskDelete(UserGrpTreeMenuId:String);
   public
@@ -42,6 +43,8 @@ type
     procedure Init;
     procedure LoadData;
     procedure RefreshList;
+
+    constructor Create(AOwner:TComponent;Form_Request:String='');Overload;
   end;
 
 var
@@ -54,6 +57,12 @@ implementation
 uses MainU, ADODB, UserGroupTreeMenuU, StrUtils, TechnicalRecommendationU;
 
 {$R *.dfm}
+constructor TTechnicalRecommendationList.Create(AOwner:TComponent;Form_Request:String='');
+begin
+  FormRequest:=Form_Request;
+  Inherited Create(AOwner);
+end;
+
 
 procedure TTechnicalRecommendationList.Init;
 var IntCount:Integer;
@@ -218,7 +227,6 @@ end;
 
 procedure TTechnicalRecommendationList.SelesaiClick(Sender: TObject);
 begin
-
   TechnicalRecommendationList.Close;
 end;
 
@@ -270,9 +278,22 @@ begin
 end;
 
 procedure TTechnicalRecommendationList.StrGridDblClick(Sender: TObject);
+var
+  StrTechnicalID : string;
 begin
-   if Main.IsFormOpen('TechnicalRecommendation')=False then
-   TechnicalRecommendation:=TTechnicalRecommendation.Create(Self,StrGrid.Cells[0,IntRow]);
+  if StrGrid.Cells[0,IntRow]<>'' then
+  begin
+    StrTechnicalID := StrGrid.Cells[0,IntRow];
+   // MessageBox(0,PChar(FormRequest),'Rekomendasi Teknis',MB_OK or MB_ICONINFORMATION);
+    if FormRequest='' then begin
+       if Main.IsFormOpen('TechnicalRecommendation')=False then
+      TechnicalRecommendation:=TTechnicalRecommendation.Create(Self,StrGrid.Cells[0,IntRow]);
+    end else if FormRequest='COPY_DATA' then
+    begin
+      TechnicalRecommendation.CopyTechnicalRecommendation(StrTechnicalID);
+      Close;
+     end;
+  end;
    { if (RightStr(IntToStr(TreeTag),2)='04') then TechnicalRecommendation:=TTechnicalRecommendation.Create(Self,StrGrid.Cells[0,IntRow],True)
     else if (RightStr(IntToStr(TreeTag),2)='03') then AskDelete(StrGrid.Cells[0,IntRow])
     else TechnicalRecommendation:=TTechnicalRecommendation.Create(Self,StrGrid.Cells[0,IntRow]); }

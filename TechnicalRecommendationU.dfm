@@ -1,11 +1,11 @@
 object TechnicalRecommendation: TTechnicalRecommendation
-  Left = 477
-  Top = 183
+  Left = 388
+  Top = 164
   BorderIcons = []
-  BorderStyle = bsDialog
+  BorderStyle = bsNone
   Caption = 'Rekomendasi Teknis'
-  ClientHeight = 414
-  ClientWidth = 510
+  ClientHeight = 436
+  ClientWidth = 512
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,7 +23,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
   TextHeight = 13
   object Label2: TLabel
     Left = 94
-    Top = 53
+    Top = 81
     Width = 61
     Height = 13
     Alignment = taRightJustify
@@ -31,7 +31,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
   end
   object Label3: TLabel
     Left = 28
-    Top = 74
+    Top = 102
     Width = 127
     Height = 13
     Alignment = taRightJustify
@@ -40,15 +40,15 @@ object TechnicalRecommendation: TTechnicalRecommendation
   end
   object Label4: TLabel
     Left = 60
-    Top = 97
+    Top = 125
     Width = 95
     Height = 13
     Alignment = taRightJustify
     Caption = 'No Perangkat Lama'
   end
   object Label1: TLabel
-    Left = 73
-    Top = 30
+    Left = 77
+    Top = 28
     Width = 82
     Height = 13
     Alignment = taRightJustify
@@ -56,7 +56,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
   end
   object Label5: TLabel
     Left = 97
-    Top = 120
+    Top = 148
     Width = 58
     Height = 13
     Alignment = taRightJustify
@@ -64,7 +64,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
   end
   object Label6: TLabel
     Left = 73
-    Top = 142
+    Top = 170
     Width = 82
     Height = 13
     Alignment = taRightJustify
@@ -72,7 +72,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
   end
   object Label7: TLabel
     Left = 122
-    Top = 165
+    Top = 193
     Width = 33
     Height = 13
     Alignment = taRightJustify
@@ -80,7 +80,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
   end
   object Label8: TLabel
     Left = 20
-    Top = 351
+    Top = 374
     Width = 135
     Height = 13
     Alignment = taRightJustify
@@ -89,7 +89,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
   end
   object Label9: TLabel
     Left = 41
-    Top = 324
+    Top = 347
     Width = 114
     Height = 13
     Alignment = taRightJustify
@@ -97,7 +97,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
   end
   object Label10: TLabel
     Left = 20
-    Top = 188
+    Top = 216
     Width = 135
     Height = 13
     Alignment = taRightJustify
@@ -115,7 +115,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
   end
   object Label12: TLabel
     Left = 158
-    Top = 116
+    Top = 150
     Width = 6
     Height = 20
     Alignment = taRightJustify
@@ -129,7 +129,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
   end
   object Label23: TLabel
     Left = 158
-    Top = 51
+    Top = 79
     Width = 6
     Height = 20
     Caption = '*'
@@ -142,7 +142,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
   end
   object Label13: TLabel
     Left = 159
-    Top = 140
+    Top = 174
     Width = 6
     Height = 20
     Caption = '*'
@@ -154,32 +154,32 @@ object TechnicalRecommendation: TTechnicalRecommendation
     ParentFont = False
   end
   object GroupId: TPanel
-    Left = 168
-    Top = 23
-    Width = 237
-    Height = 29
+    Left = 171
+    Top = 25
+    Width = 204
+    Height = 24
     BevelOuter = bvNone
     Enabled = False
     TabOrder = 0
     object TechnicalRekomNO: TEdit
-      Left = 2
-      Top = 3
-      Width = 230
+      Left = 0
+      Top = 1
+      Width = 201
       Height = 21
       TabOrder = 0
     end
   end
   object JenisBarang: TEdit
     Left = 170
-    Top = 51
-    Width = 230
-    Height = 21
+    Top = 79
+    Width = 231
+    Height = 22
     TabOrder = 1
     OnKeyPress = JenisBarangKeyPress
   end
   object AlasanPengadaan: TEdit
     Left = 170
-    Top = 74
+    Top = 102
     Width = 330
     Height = 21
     TabOrder = 2
@@ -187,7 +187,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
   end
   object NoPerangkatLama: TEdit
     Left = 170
-    Top = 97
+    Top = 125
     Width = 230
     Height = 21
     TabOrder = 3
@@ -195,7 +195,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
   end
   object Requestor: TEdit
     Left = 170
-    Top = 142
+    Top = 170
     Width = 230
     Height = 21
     TabOrder = 5
@@ -203,8 +203,8 @@ object TechnicalRecommendation: TTechnicalRecommendation
   end
   object panel: TPanel
     Left = 0
-    Top = 376
-    Width = 510
+    Top = 398
+    Width = 512
     Height = 38
     Align = alBottom
     BevelOuter = bvNone
@@ -240,7 +240,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
   end
   object RecomExpired: TDateTimePicker
     Left = 170
-    Top = 348
+    Top = 371
     Width = 87
     Height = 21
     Date = 41726.000000000000000000
@@ -256,7 +256,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
   end
   object PerkiraanHarga: TMemo
     Left = 170
-    Top = 324
+    Top = 347
     Width = 87
     Height = 21
     Alignment = taRightJustify
@@ -272,7 +272,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
   end
   object Departemen: TComboBox
     Left = 170
-    Top = 120
+    Top = 148
     Width = 231
     Height = 21
     Style = csDropDownList
@@ -282,7 +282,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
   end
   object Jumlah: TMemo
     Left = 170
-    Top = 165
+    Top = 193
     Width = 42
     Height = 21
     Alignment = taRightJustify
@@ -321,11 +321,32 @@ object TechnicalRecommendation: TTechnicalRecommendation
   end
   object MerkdanSpesifikasi: TMemo
     Left = 169
-    Top = 190
+    Top = 218
     Width = 327
     Height = 123
     TabOrder = 7
     OnKeyPress = MerkdanSpesifikasiKeyPress
+  end
+  object ChkCopy: TCheckBox
+    Left = 8
+    Top = 53
+    Width = 176
+    Height = 17
+    Alignment = taLeftJustify
+    BiDiMode = bdLeftToRight
+    Caption = 'Copy Rekomendasi Sebelumnya'
+    ParentBiDiMode = False
+    TabOrder = 13
+    OnClick = ChkCopyClick
+  end
+  object Cari: TButton
+    Left = 189
+    Top = 51
+    Width = 75
+    Height = 24
+    Caption = 'Cari'
+    TabOrder = 14
+    OnClick = CariClick
   end
   object ppReportRekomendasiTknis: TppReport
     PrinterSetup.BinName = 'Default'
@@ -866,7 +887,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
           8FE06F81E3D66D757FEC18E4D52D64865B7BC96796496178C22AB233392A7114
           61B1F7C280DB85777455FB5A9FCCFEF27D9C3F95051451591A05145140051451
           400514514005145140051451400514514005145140051451401FFFD9}
-        mmHeight = 20373
+        mmHeight = 20902
         mmLeft = 11377
         mmTop = 529
         mmWidth = 180446
