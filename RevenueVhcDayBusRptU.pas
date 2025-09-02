@@ -369,7 +369,7 @@ var StrQry,StrBatch,StrLocationId,StrCompanyId,StrToDates,StrisAll,StrCustomer,S
 
     TotalBBMRp,TotalBBMRp_Budget,TotalBBMRp_SPBU,TotalBBMRp_Reimburse,TotalBBMRp_All:Int64;
     TotalBBMLiter, TotalBBMLiter_Budget,TotalBBMLiter_SPBU,TotalBBMLiter_Reimburse,TotalBBMLiter_All:Double;
-
+    Tolparkir_All,Tol_All,LainLain_All:Int64;
 begin
   TotalBBMRp:=0;
   TotalBBMLiter:=0;
@@ -387,6 +387,10 @@ begin
   TotalFeeBusBoy:=0;
   TotalTolParkir:=0;
   TotalTol:=0;
+
+  Tolparkir_All :=0;
+  Tol_All:=0;
+  LainLain_All:=0;
 
   TotalFeeDriverReimburse:=0;
   TotalFeeBusBoyReimburse:=0;
@@ -567,20 +571,22 @@ begin
 
       TotalFeeDriver:=TotalFeeDriver+(Qry.FieldValues['fee_driver']*Qry.FieldValues['day']);
       TotalFeeBusBoy:=TotalFeeBusBoy+(Qry.FieldValues['fee_busboy']*Qry.FieldValues['day']);
-      TotalTolParkir:=TotalTolParkir+Qry.FieldValues['tol_parkir'];
-      TotalTol:=TotalTol+Qry.FieldValues['tol'];
+      Tolparkir_All := Qry.FieldValues['tol_parkir']+Qry.FieldValues['tol_parkir_tamu'];
+      TotalTolParkir:=TotalTolParkir+Tolparkir_All;
+      Tol_All := Qry.FieldValues['tol']+Qry.FieldValues['tol_tamu'];
+      TotalTol:=TotalTol+Tol_All;
 
       TotalFeeDriverReimburse:=TotalFeeDriverReimburse+(Qry.FieldValues['fee_driver_reimburse']*Qry.FieldValues['day']);
       TotalFeeBusBoyReimburse:=TotalFeeBusBoyReimburse+(Qry.FieldValues['fee_busboy_reimburse']*Qry.FieldValues['day']);
       TotalTolParkirReimburse:=TotalTolParkirReimburse+Qry.FieldValues['parkir_reimburse'];
       TotalTolReimburse:=TotalTolReimburse+Qry.FieldValues['tol_reimburse'];
 
-
-      TotalLain:=TotalLain+Qry.FieldValues['lain_lain'];
+      LainLain_All := Qry.FieldValues['lain_lain']+Qry.FieldValues['tips']+Qry.FieldValues['biaya_dari_tamu'];
+      TotalLain:=TotalLain+LainLain_All;
 
       IntBiayaReimburse :=Qry.FieldValues['fee_driver_reimburse']+Qry.FieldValues['fee_busboy_reimburse']+
                           Qry.FieldValues['parkir_reimburse']+Qry.FieldValues['tol_reimburse'];
-      IntBiaya :=BBMRp+IntFeeDriver+IntFeeBusBoy+Qry.FieldValues['tol_parkir']+Qry.FieldValues['lain_lain']+Qry.FieldValues['tol']+
+      IntBiaya :=BBMRp+IntFeeDriver+IntFeeBusBoy+Tolparkir_All+LainLain_All+Tol_All+
                  IntBiayaReimburse;
 
       IntTotalBiaya:=IntTotalBiaya+IntBiaya;
@@ -654,13 +660,13 @@ begin
       StrGrid.Cells[27,Count]:=IToCurr(IntFeeBusBoy);
       StrGrid.Cells[28,Count]:=IToCurr(Qry.FieldValues['fee_busboy_reimburse']);
 
-      StrGrid.Cells[29,Count]:=IToCurr(Qry.FieldValues['tol_parkir']);
+      StrGrid.Cells[29,Count]:=IToCurr(Tolparkir_All);
       StrGrid.Cells[30,Count]:=IToCurr(Qry.FieldValues['parkir_reimburse']);
 
-      StrGrid.Cells[31,Count]:=IToCurr(Qry.FieldValues['tol']);
+      StrGrid.Cells[31,Count]:=IToCurr(Tol_All);
       StrGrid.Cells[32,Count]:=IToCurr(Qry.FieldValues['tol_reimburse']);
 
-      StrGrid.Cells[33,Count]:=IToCurr(Qry.FieldValues['lain_lain']);
+      StrGrid.Cells[33,Count]:=IToCurr(LainLain_All);
       StrGrid.Cells[34,Count]:=IToCurr(IntBiaya);
 
       if Qry.FieldValues['out_ordo_km']<>NULL then StrGrid.Cells[35,Count]:=IToCurr(Qry.FieldValues['out_ordo_km']);

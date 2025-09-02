@@ -132,7 +132,8 @@ object Apps: TApps
         'p, dan Biaya '
       
         'dari Tamu di Menu Tambah Uang Order dan Laporan Uang Harian Driv' +
-        'er  '
+        'er, Laporan '
+      'Pengeluaran Perarmada.  '
       ''
       '12/08/2025 (6.1.11.6)'
       '-Penambahan Kolom Overtime di Menu Transfer Uang Harian Driver '
