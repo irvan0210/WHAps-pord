@@ -241,7 +241,8 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   TechnicalRecommendationU, TechnicalRecommendationListU, 
   ListKetidakSesuaianCrewU, MasterBatanganFormU, MasterBatanganListU,
   LaporanWehaMartU, MateriTrainingFormU, MateriTrainingListU,
-  RekapPergantianPartperArmadaV2U, KmActualUnitRptU;
+  RekapPergantianPartperArmadaV2U, KmActualUnitRptU,
+  TroubleshootingRequestFormU, TroubleshootingRequestFormListU;
 
 
 constructor TClockThread.Create;
@@ -1978,6 +1979,19 @@ begin
             end;
             1:begin
               if IsFormOpen('TechnicalRecommendationList')=False then TechnicalRecommendationList:=TTechnicalRecommendationList.Create(Self);
+            end;
+
+          end;
+        end;
+
+        {162501..162505 Permintaan Troubleshooting}
+        162601..162602:begin
+          case CaseStr(RightStr(IntToStr(Tag),2),['01','02']) of
+            0:begin
+              if IsFormOpen('TroubleshootingRequestForm')=False then TroubleshootingRequestForm:=TTroubleshootingRequestForm.Create(Self,'',False);
+            end;
+            1:begin
+              if IsFormOpen('TroubleshootingRequestFormList')=False then TroubleshootingRequestFormList:=TTroubleshootingRequestFormList.Create(Self);
             end;
 
           end;

@@ -40,7 +40,8 @@ implementation
 
 {$R *.dfm}
 
-Uses MainU,AddUserU,UserFormU, DB, UserSignatureU;
+Uses MainU,AddUserU,UserFormU, DB, UserSignatureU,
+  TroubleshootingRequestFormU;
 
 procedure TUserList.DoAction;
 var Result:Integer;
@@ -78,6 +79,11 @@ begin
     end;
     110106:begin
         UserSignature:=TUserSignature.Create(Self,StrGrid.Cells[0,Row]);
+    end;
+    //User Toubleshooting
+    162601:begin
+      TroubleshootingRequestForm.SetUser(StrGrid.Cells[0,Row]);
+      Close;
     end;
   end;
 end;

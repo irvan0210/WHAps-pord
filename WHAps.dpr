@@ -342,7 +342,9 @@ uses
   MateriTrainingListU in 'MateriTrainingListU.pas' {MateriTrainingList},
   RekapPergantianPartperArmadaV2U in 'RekapPergantianPartperArmadaV2U.pas' {RekapPergantianPartperArmadaV2},
   BrowseCustomerU in 'BrowseCustomerU.pas' {BrowseCustomer},
-  KmActualUnitRptU in 'KmActualUnitRptU.pas' {KmActualUnitRpt};
+  KmActualUnitRptU in 'KmActualUnitRptU.pas' {KmActualUnitRpt},
+  TroubleshootingRequestFormU in 'TroubleshootingRequestFormU.pas' {TroubleshootingRequestForm},
+  TroubleshootingRequestFormListU in 'TroubleshootingRequestFormListU.pas' {TroubleshootingRequestFormList};
 
 {$R *.res}
 
