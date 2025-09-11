@@ -92,6 +92,8 @@ type
     ppLabel9: TppLabel;
     ppLabel15: TppLabel;
     ppLabelJenisPermintaan: TppLabel;
+    Bersihkan: TButton;
+    chk_sesuai_permintaan: TCheckBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure SimpanClick(Sender: TObject);
@@ -116,6 +118,9 @@ type
     procedure cb_jenis_truoubleKeyPress(Sender: TObject; var Key: Char);
     procedure tindakanKeyPress(Sender: TObject; var Key: Char);
     procedure tgl_selesaiKeyPress(Sender: TObject; var Key: Char);
+    procedure BersihkanClick(Sender: TObject);
+    procedure chk_sesuai_permintaanClick(Sender: TObject);
+    procedure BersihkanKeyPress(Sender: TObject; var Key: Char);
 
   private
     { Private declarations }
@@ -162,6 +167,11 @@ begin
   tgl_selesai.Date := Now;
   status.Checked := True;
   status.Enabled := False;
+  BussinissUnit.Clear;
+  catatan.Clear;
+  cetak.Enabled := False;
+  chk_sesuai_permintaan.Checked := False;
+  StrTRFNO := '';
 end;
 
 procedure TTroubleshootingRequestForm.LoadData;
@@ -306,9 +316,11 @@ begin
       end;  }
 
       Init;
-      close;
+     // BersihkanClick(Sender);
+      cb_jenis_truouble.SetFocus;
+      //close;
     end else begin
-      MessageBox(0,PChar(StrMsg+Chr(13)+Chr(13)+'Kesalahan:'+Chr(13)+StrException),'TRF',MB_OK or MB_ICONERROR);
+      MessageBox(0,PChar(StrMsg+Chr(13)+Chr(13)+'Kesalahan:'+Chr(13)+StrException),'Troubleshooting Request Form',MB_OK or MB_ICONERROR);
     end;
   end else begin
     StrMsg:='Inputan tanda * '+Chr(13)+'tidak boleh kosong !!';
@@ -467,7 +479,7 @@ begin
         ppReportTRF.PreviewFormSettings.WindowState:=wsMaximized;
         ppReportTRF.Print;
       end else begin
-        MessageBox(0,'Tidak ada data yang dipilih..','Rekomendasi Teknis',MB_OK or MB_ICONINFORMATION);
+        MessageBox(0,'Tidak ada data yang dipilih..','Troubleshooting Request Form',MB_OK or MB_ICONINFORMATION);
       end;
       Qry.Close;
     end;
@@ -581,6 +593,43 @@ procedure TTroubleshootingRequestForm.tgl_selesaiKeyPress(Sender: TObject;
   var Key: Char);
 begin
  if Key=#13 then catatan.SetFocus;
+end;
+
+procedure TTroubleshootingRequestForm.BersihkanClick(Sender: TObject);
+begin
+  Init;
+ { no_TRF.Clear;
+  tgl_permintaan.Date := Now;
+  nama_user.Clear;
+  jabatan_departemen.Clear;
+  Pool_lokasi.Clear;
+  BussinissUnit.Clear;
+  Detail_permintaan.Clear;
+  tindakan.Clear;
+  tgl_selesai.Date := Now;
+  catatan.Clear;
+  cetak.Enabled := False;
+  chk_sesuai_permintaan.Checked := False;
+  StrTRFNO := ''; }
+end;
+
+procedure TTroubleshootingRequestForm.chk_sesuai_permintaanClick(
+  Sender: TObject);
+begin
+  if  tindakan.Lines.Text ='' then
+  begin
+    if chk_sesuai_permintaan.Checked = True  then
+      tindakan.Lines.Text := 'Sudah dikerjakan sesuai permintaan'
+    else if chk_sesuai_permintaan.Checked = False then
+      tindakan.Clear;
+  end else
+   MessageBox(0,PChar('Tindakan Harus Kosong'),'Troubleshooting Request Form',MB_OK or MB_ICONINFORMATION);
+end;
+
+procedure TTroubleshootingRequestForm.BersihkanKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  //if Key=#13 then CariUser.SetFocus;
 end;
 
 end.

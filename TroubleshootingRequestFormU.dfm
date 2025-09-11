@@ -1,6 +1,6 @@
 object TroubleshootingRequestForm: TTroubleshootingRequestForm
-  Left = 304
-  Top = 129
+  Left = 224
+  Top = 146
   BorderIcons = []
   BorderStyle = bsNone
   BorderWidth = 1
@@ -244,7 +244,7 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
     BevelOuter = bvNone
     TabOrder = 5
     object Selesai: TButton
-      Left = 226
+      Left = 302
       Top = 7
       Width = 75
       Height = 25
@@ -262,7 +262,7 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
       OnClick = SimpanClick
     end
     object cetak: TButton
-      Left = 308
+      Left = 224
       Top = 7
       Width = 75
       Height = 25
@@ -270,6 +270,16 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
       Enabled = False
       TabOrder = 2
       OnClick = cetakClick
+    end
+    object Bersihkan: TButton
+      Left = 382
+      Top = 7
+      Width = 75
+      Height = 25
+      Caption = 'Bersihkan'
+      TabOrder = 3
+      OnClick = BersihkanClick
+      OnKeyPress = BersihkanKeyPress
     end
   end
   object catatan: TMemo
@@ -388,14 +398,15 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
     Width = 230
     Height = 21
     ItemHeight = 13
-    ItemIndex = 0
     TabOrder = 14
     Text = 'Perubahan Data'
     OnKeyPress = cb_jenis_truoubleKeyPress
     Items.Strings = (
       'Perubahan Data'
       'Bug Sistem'
-      'Infrastruktur dan jaringan')
+      'Infrastruktur dan jaringan'
+      'Hardware'
+      'Software')
   end
   object requested_user_id: TEdit
     Left = 400
@@ -407,6 +418,16 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
     TabOrder = 15
     Visible = False
     OnKeyPress = nama_userKeyPress
+  end
+  object chk_sesuai_permintaan: TCheckBox
+    Left = 480
+    Top = 411
+    Width = 110
+    Height = 17
+    Alignment = taLeftJustify
+    Caption = 'Sesuai Permintaan'
+    TabOrder = 16
+    OnClick = chk_sesuai_permintaanClick
   end
   object ppReportTRF: TppReport
     PrinterSetup.BinName = 'Default'

@@ -126,7 +126,7 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
-      '22/08/2025 (6.1.11.7) ForceUpdate 1'
+      '10/09/2025 (6.1.11.7) ForceUpdate 1'
       '-Penambahan sub menu Permintaan Troubleshooting dimenu admin.'
       ''
       '22/08/2025 (6.1.11.7)'
