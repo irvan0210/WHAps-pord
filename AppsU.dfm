@@ -126,6 +126,13 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '10/23/2025 (6.1.11.8) '
+      
+        '-Penambahan sub menu kontrak crew, daftar kontrak crew, penambah' +
+        'an data '
+      'kontrak di form karyawan.'
+      '-Penambahan dashboard data armada di laporan armada.'
+      ''
       '10/09/2025 (6.1.11.7) ForceUpdate 1'
       '-Penambahan sub menu Permintaan Troubleshooting dimenu admin.'
       ''

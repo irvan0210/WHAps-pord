@@ -1,5 +1,5 @@
 object EmployeeForm: TEmployeeForm
-  Left = 629
+  Left = 575
   Top = 38
   BorderIcons = []
   BorderStyle = bsNone
@@ -2159,6 +2159,53 @@ object EmployeeForm: TEmployeeForm
           Font.Style = []
           ParentFont = False
           TabOrder = 6
+        end
+      end
+      object GroupBox9: TGroupBox
+        Left = 0
+        Top = 192
+        Width = 503
+        Height = 225
+        Caption = 'Kontrak Kerja'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clRed
+        Font.Height = -12
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 2
+        object StrGridKontrak: TZColorStringGrid
+          Left = 8
+          Top = 20
+          Width = 488
+          Height = 197
+          ColCount = 4
+          DefaultRowHeight = 19
+          DefaultDrawing = False
+          FixedColor = clBtnFace
+          FixedCols = 0
+          RowCount = 2
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRowSelect]
+          ParentFont = False
+          TabOrder = 0
+          DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
+          DefaultCellStyle.Font.Color = clWindowText
+          DefaultCellStyle.Font.Height = -11
+          DefaultCellStyle.Font.Name = 'MS Sans Serif'
+          DefaultCellStyle.Font.Style = []
+          DefaultCellStyle.BGColor = clWindow
+          DefaultFixedCellStyle.Font.Charset = DEFAULT_CHARSET
+          DefaultFixedCellStyle.Font.Color = clWindowText
+          DefaultFixedCellStyle.Font.Height = -11
+          DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
+          DefaultFixedCellStyle.Font.Style = []
+          DefaultFixedCellStyle.BGColor = clBtnFace
+          LineDesign.LineUpColor = clWhite
         end
       end
     end

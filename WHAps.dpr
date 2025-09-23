@@ -344,7 +344,10 @@ uses
   BrowseCustomerU in 'BrowseCustomerU.pas' {BrowseCustomer},
   KmActualUnitRptU in 'KmActualUnitRptU.pas' {KmActualUnitRpt},
   TroubleshootingRequestFormU in 'TroubleshootingRequestFormU.pas' {TroubleshootingRequestForm},
-  TroubleshootingRequestFormListU in 'TroubleshootingRequestFormListU.pas' {TroubleshootingRequestFormList};
+  TroubleshootingRequestFormListU in 'TroubleshootingRequestFormListU.pas' {TroubleshootingRequestFormList},
+  KontrakKaryawanFormU in 'KontrakKaryawanFormU.pas' {EmployeeContractForm},
+  EmployeeContractListU in 'EmployeeContractListU.pas' {EmployeeContractList},
+  ChartU in 'ChartU.pas' {ChartBus};
 
 {$R *.res}
 

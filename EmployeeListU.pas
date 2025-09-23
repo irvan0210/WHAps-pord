@@ -34,6 +34,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure JenisChange(Sender: TObject);
     procedure SBUChange(Sender: TObject);
+//    procedure StrGridClick(Sender: TObject);
   private
     { Private declarations }
     FormRequest:String;
@@ -65,7 +66,8 @@ Uses MainU, StrUtils, EmployeeFormU, MutasiKaryawanFormU,
   EmployeeHistoryListU, AttandanceLeaveFormU, EmplAttedanceInfoU, 
   CustomerComplainListU, CustomerComplainRptU,
   EmployeeHistoryLakaListU, EmployeeHistoryLakaFormU, EmployeeHistoryListRptU,
-  EmployeeHistoryLakaRptU, EmployeeHistoryTrainingRptU;
+  EmployeeHistoryLakaRptU, EmployeeHistoryTrainingRptU,
+  KontrakKaryawanFormU;
 
 constructor TEmployeeList.Create(AOwner:TComponent;EmployeeType:String;Status:Integer=1;Expired:Integer=0;Form_Request:String='');
 begin
@@ -538,6 +540,8 @@ begin
             else EmployeeMutationForm:=TEmployeeMutationForm.Create(Self,StrGrid.Cells[4,IntRow],StrEmplType)
           end else if UpperCase(FormRequest)='UPDATE-HISTORY' then begin
             EmployeeHistoryForm:=TEmployeeHistoryForm.Create(Self,StrEmplType,StrGrid.Cells[4,IntRow],0);
+          end else if UpperCase(FormRequest)='UPDATE-CONTRACT' then begin
+            EmployeeContractForm:=TEmployeeContractForm.Create(Self,StrGrid.Cells[4,IntRow],StrEmplType,'','1');  //kontrak driver
           end else if UpperCase(FormRequest)='OFFICE-ATTANDANCELEAVE' then begin
             AttandanceLeaveForm.SetEmplId(StrGrid.Cells[4,IntRow]);
             Close;
@@ -559,7 +563,8 @@ begin
             Close;
           end else begin
             EmployeeForm:=TEmployeeForm.Create(nil,StrEmplType,StrGrid.Cells[4,IntRow],True,False,FormRequest);
-          end;
+          end
+
         end;
       end;
     end;
@@ -630,4 +635,8 @@ begin
   RefreshList;
 end;
 
-end.
+end.procedure TEmployeeList.StrGridClick(Sender: TObject);
+begin
+end;
+
+

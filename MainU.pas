@@ -242,7 +242,8 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   ListKetidakSesuaianCrewU, MasterBatanganFormU, MasterBatanganListU,
   LaporanWehaMartU, MateriTrainingFormU, MateriTrainingListU,
   RekapPergantianPartperArmadaV2U, KmActualUnitRptU,
-  TroubleshootingRequestFormU, TroubleshootingRequestFormListU;
+  TroubleshootingRequestFormU, TroubleshootingRequestFormListU,
+  EmployeeContractListU, ChartU;
 
 
 constructor TClockThread.Create;
@@ -460,7 +461,7 @@ begin
         end;
         {120201..120210 Mitra Taxi}
         {130201..130210 Supir Bus}
-        120201..120223,130201..130225,170201..170206:begin
+        120201..120223,130201..130230,170201..170206:begin
           if ((Tag=120201) or (Tag=130201) or (Tag=130213) or (Tag=170201) )then begin
             if Tag=120201 then begin
               if IsFormOpen('EmployeeForm')=False then EmployeeForm:=TEmployeeForm.Create(Self,'Taxi','',False,False);
@@ -543,7 +544,7 @@ begin
                     end;
                   end;
                 end else begin
-                  case CaseStr(RightStr(IntToStr(Tag),2),['14','15','16','19','20','22','23','24','25'{,'21'}]) of
+                  case CaseStr(RightStr(IntToStr(Tag),2),['14','15','16','19','20','22','23','24','25','27','28','29'{,'21'}]) of
                     0:begin
                         if IsFormOpen('EmployeeList'
                         )=False then EmployeeList:=TEmployeeList.Create(Self,'Bus2',1,0,'Update-Employee');
@@ -571,6 +572,16 @@ begin
                       end;
                     8:begin
                         if IsFormOpen('EmployeeHistoryTrainingList')=False then EmployeeHistoryTrainingList:=TEmployeeHistoryTrainingList.Create(Self,'TRAINING-LIST','','HELPER');
+                      end;
+                    //Kontrak Crew
+                    9:begin
+                       if IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'Bus',1,0,'Update-Contract');
+                      end;
+                   10:begin
+                        if IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'Bus2',1,0,'Update-Contract');
+                      end;
+                   11:begin
+                        if IsFormOpen('EmployeeContractList')=False then EmployeeContractList:=TEmployeeContractList.Create(Self);
                       end;
 {                    5:begin
                         if IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'Bus2');
@@ -1979,6 +1990,18 @@ begin
             end;
             1:begin
               if IsFormOpen('TechnicalRecommendationList')=False then TechnicalRecommendationList:=TTechnicalRecommendationList.Create(Self);
+            end;
+
+          end;
+        end;
+
+        191205..191206:begin
+          case CaseStr(RightStr(IntToStr(Tag),2),['05','06']) of
+            0:begin
+              if IsFormOpen('ChartBus')=False then ChartBus:=TChartBus.Create(Self);
+            end;
+            1:begin
+              if IsFormOpen('ChartBus')=False then ChartBus:=TChartBus.Create(Self);
             end;
 
           end;

@@ -171,7 +171,7 @@ begin
   catatan.Clear;
   cetak.Enabled := False;
   chk_sesuai_permintaan.Checked := False;
-  StrTRFNO := '';
+
 end;
 
 procedure TTroubleshootingRequestForm.LoadData;
@@ -316,6 +316,7 @@ begin
       end;  }
 
       Init;
+      StrTRFNO := '';
      // BersihkanClick(Sender);
       cb_jenis_truouble.SetFocus;
       //close;
@@ -598,6 +599,7 @@ end;
 procedure TTroubleshootingRequestForm.BersihkanClick(Sender: TObject);
 begin
   Init;
+
  { no_TRF.Clear;
   tgl_permintaan.Date := Now;
   nama_user.Clear;
