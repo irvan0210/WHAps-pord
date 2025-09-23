@@ -1,6 +1,6 @@
 object DailySalesRDRpt: TDailySalesRDRpt
-  Left = 206
-  Top = 331
+  Left = 284
+  Top = 283
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Laporan Pesanan Harian perArmada Jalan'
@@ -78,6 +78,20 @@ object DailySalesRDRpt: TDailySalesRDRpt
     Height = 13
     Alignment = taRightJustify
     Caption = 'Seat'
+  end
+  object Label3: TLabel
+    Left = 39
+    Top = 501
+    Width = 235
+    Height = 13
+    Alignment = taRightJustify
+    Caption = '> Pesanan Menggunakan Diskon Voucher FOC <'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlue
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
   end
   object GroupCompany: TGroupBox
     Left = 8

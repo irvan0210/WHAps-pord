@@ -33,6 +33,7 @@ type
     StrGridRecap: TZColorStringGrid;
     StrGridSummary: TZColorStringGrid;
     Button1: TButton;
+    Label9: TLabel;
     procedure FormShow(Sender: TObject);
     procedure StrGridSelectCell(Sender: TObject; ACol, ARow: Integer;
       var CanSelect: Boolean);
@@ -580,6 +581,7 @@ begin
 //            begin
               if QryOrder.FieldValues['npwp']<>NULL then OrderArr[IntCount][33]:=QryOrder.FieldValues['npwp'];
               if QryOrder.FieldValues['nik_number']<>NULL then OrderArr[IntCount][34]:=QryOrder.FieldValues['nik_number'];
+              if QryOrder.FieldValues['IsFoc']<>NULL then OrderArr[IntCount][35]:=QryOrder.FieldValues['IsFoc'];
 //            end;
 //            OrderArr[IntCount][33]:=IToCurr(QryOrder.FieldValues['total_order']+QryOrder.FieldValues['PpnAddition']);
 
@@ -793,6 +795,11 @@ begin
     StrGrid.Cells[13,IntCount+2]:=OrderArr[IntCount][13];
     StrGrid.Cells[14,IntCount+2]:=OrderArr[IntCount][14];
 //    StrGrid.Cells[26,IntCount+2]:=OrderArr[IntCount][26];
+
+    if OrderArr[IntCount][35]='True' then
+    for IntCount2:=0 to StrGrid.ColCount-1 do
+     StrGrid.CellStyle[IntCount2,IntCount+2].Font.Color:=clBlue;
+
     StrGrid.CellStyle[4,IntCount+2].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[7,IntCount+2].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[9,IntCount+2].HorizontalAlignment:=taCenter;

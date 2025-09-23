@@ -24,6 +24,7 @@ type
     AllSeat: TCheckBox;
     ProgressBar: TProgressBar;
     Lihat: TButton;
+    Label3: TLabel;
     procedure CariChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure StrGridSelectCell(Sender: TObject; ACol, ARow: Integer;
@@ -128,6 +129,7 @@ begin
   StrGrid.ColWidths[13]:=50;
   StrGrid.ColWidths[17]:=80;
   StrGrid.ColWidths[25]:=120;
+  StrGrid.ColWidths[26]:=120;
   StrGrid.MergeCells.AddRectXY(0,0,0,1);
   StrGrid.MergeCells.AddRectXY(1,0,1,1);
   StrGrid.MergeCells.AddRectXY(2,0,2,1);
@@ -147,6 +149,7 @@ begin
   StrGrid.MergeCells.AddRectXY(18,0,23,0);
   StrGrid.MergeCells.AddRectXY(24,0,24,1);
   StrGrid.MergeCells.AddRectXY(25,0,25,1);
+  StrGrid.MergeCells.AddRectXY(26,0,26,1);
   case IsAll of
     8:StrGrid.Cells[0,0]:='Tgl Batal';
     else StrGrid.Cells[0,0]:='Tanggal';
@@ -170,6 +173,7 @@ begin
   StrGrid.Cells[18,0]:='Pembayaran';
   StrGrid.Cells[24,0]:='Keterangan';
   StrGrid.Cells[25,0]:='No Invoice';
+  StrGrid.Cells[26,0]:='Ket FOC';
   StrGrid.Cells[8,1]:='Seat';
   StrGrid.Cells[9,1]:='Jenis';
   StrGrid.Cells[10,1]:='Brand';
@@ -207,6 +211,7 @@ begin
   StrGrid.CellStyle[22,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[23,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[25,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[26,0].HorizontalAlignment:=taCenter;
   for IntCount:=0 to StrGrid.ColCount-1 do
     StrGrid.Cells[IntCount,2]:='';
 end;
@@ -366,6 +371,9 @@ begin
           if Qry2.FieldValues['invoice_no']<>NULL then OrderArr[IntCount][25]:=Qry2.FieldValues['invoice_no'];
           if SToInt(OrderArr[IntCount][17])<=(IntPayment[0]+IntPayment[1]+IntPayment[2]) then OrderArr[IntCount][24]:='Lunas';
           OrderArr[IntCount][26]:=Qry.FieldValues['status'];
+          OrderArr[IntCount][27]:=Qry.FieldValues['IsFoc'];
+          if Qry.FieldValues['FocReason']<> Null then OrderArr[IntCount][28]:= Qry.FieldValues['FocReason']
+          else  OrderArr[IntCount][28]:= '';
           Qry2.Next;
           if not(Qry2.Eof) then Inc(IntCount);
         end;
@@ -431,6 +439,7 @@ begin
       StrGrid.Cells[23,IntCount+2]:=OrderArr[IntCount][23];
       StrGrid.Cells[24,IntCount+2]:=OrderArr[IntCount][24];
       StrGrid.Cells[25,IntCount+2]:=OrderArr[IntCount][25];
+      StrGrid.Cells[26,IntCount+2]:=OrderArr[IntCount][28];
       IsDrawRect:=False;
     end else if (IntCount<Length(OrderArr)-1) then begin
       if (StrOrderId<>OrderArr[IntCount+1][1]) then IsDrawRect:=True;
@@ -475,7 +484,10 @@ begin
     StrGrid.CellStyle[19,IntCount+2].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[21,IntCount+2].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[23,IntCount+2].HorizontalAlignment:=taRightJustify;
-    if OrderArr[IntCount][26]='0' then for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount+2].Font.Color:=clRed
+    if OrderArr[IntCount][26]='0' then for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[IntCount2,IntCount+2].Font.Color:=clRed;
+    if OrderArr[IntCount][27]='True' then
+      for IntCount2:=0 to StrGrid.ColCount-1 do
+        StrGrid.CellStyle[IntCount2,IntCount+2].Font.Color:=clBlue;
   end;
   StrGrid.RowCount:=StrGrid.RowCount+1;
   ProgressBar.Position:=100;

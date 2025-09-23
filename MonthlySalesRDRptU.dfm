@@ -1,6 +1,6 @@
 object MonthlySalesRDRpt: TMonthlySalesRDRpt
-  Left = 182
-  Top = 150
+  Left = 208
+  Top = 101
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Laporan Pesanan Bulanan perArmada Jalan'
@@ -110,6 +110,20 @@ object MonthlySalesRDRpt: TMonthlySalesRDRpt
     Height = 13
     AutoSize = False
     Visible = False
+  end
+  object Label9: TLabel
+    Left = 183
+    Top = 501
+    Width = 235
+    Height = 13
+    Alignment = taRightJustify
+    Caption = '> Pesanan Menggunakan Diskon Voucher FOC <'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlue
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
   end
   object GroupCompany: TGroupBox
     Left = 8

@@ -132,6 +132,8 @@ object Apps: TApps
         'an data '
       'kontrak di form karyawan.'
       '-Penambahan dashboard data armada di laporan armada.'
+      '-Penambahan Kolom Ket FOC dan memberi tanda pada pesanan yang '
+      'menggunakan voucher FOC di laporan pesanan harian dan bulanan.'
       ''
       '10/09/2025 (6.1.11.7) ForceUpdate 1'
       '-Penambahan sub menu Permintaan Troubleshooting dimenu admin.'
