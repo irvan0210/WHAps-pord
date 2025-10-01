@@ -1,11 +1,11 @@
 object WorkOrderForm: TWorkOrderForm
-  Left = 404
-  Top = 56
+  Left = 503
+  Top = 63
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Buka Perintah Kerja Bengkel'
   ClientHeight = 529
-  ClientWidth = 664
+  ClientWidth = 668
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -3796,8 +3796,8 @@ object WorkOrderForm: TWorkOrderForm
     PreviewFormSettings.WindowState = wsMaximized
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
-    Left = 872
-    Top = 109
+    Left = 312
+    Top = 93
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand1: TppHeaderBand
@@ -3806,9 +3806,9 @@ object WorkOrderForm: TWorkOrderForm
       mmPrintPosition = 0
       object ppShape2: TppShape
         UserName = 'Shape2'
-        mmHeight = 95515
+        mmHeight = 93663
         mmLeft = 8467
-        mmTop = 52917
+        mmTop = 54769
         mmWidth = 180182
         BandType = 0
       end
@@ -3827,8 +3827,8 @@ object WorkOrderForm: TWorkOrderForm
         Font.Style = []
         Transparent = True
         mmHeight = 3969
-        mmLeft = 8467
-        mmTop = 33867
+        mmLeft = 9260
+        mmTop = 37836
         mmWidth = 17198
         BandType = 0
       end
@@ -3845,8 +3845,8 @@ object WorkOrderForm: TWorkOrderForm
         Font.Style = []
         Transparent = True
         mmHeight = 3969
-        mmLeft = 35983
-        mmTop = 33867
+        mmLeft = 36777
+        mmTop = 37836
         mmWidth = 51065
         BandType = 0
       end
@@ -3886,8 +3886,8 @@ object WorkOrderForm: TWorkOrderForm
         Font.Style = []
         Transparent = True
         mmHeight = 3969
-        mmLeft = 8467
-        mmTop = 38100
+        mmLeft = 9260
+        mmTop = 42069
         mmWidth = 17198
         BandType = 0
       end
@@ -3906,8 +3906,8 @@ object WorkOrderForm: TWorkOrderForm
         Font.Style = []
         Transparent = True
         mmHeight = 3969
-        mmLeft = 8467
-        mmTop = 42333
+        mmLeft = 9260
+        mmTop = 46302
         mmWidth = 17198
         BandType = 0
       end
@@ -3925,8 +3925,8 @@ object WorkOrderForm: TWorkOrderForm
         Font.Style = []
         Transparent = True
         mmHeight = 3969
-        mmLeft = 33867
-        mmTop = 33867
+        mmLeft = 34660
+        mmTop = 37836
         mmWidth = 1058
         BandType = 0
       end
@@ -3944,8 +3944,8 @@ object WorkOrderForm: TWorkOrderForm
         Font.Style = []
         Transparent = True
         mmHeight = 3969
-        mmLeft = 33867
-        mmTop = 38100
+        mmLeft = 34660
+        mmTop = 42069
         mmWidth = 1058
         BandType = 0
       end
@@ -3963,8 +3963,8 @@ object WorkOrderForm: TWorkOrderForm
         Font.Style = []
         Transparent = True
         mmHeight = 3969
-        mmLeft = 33867
-        mmTop = 42333
+        mmLeft = 34660
+        mmTop = 46302
         mmWidth = 1058
         BandType = 0
       end
@@ -4098,8 +4098,8 @@ object WorkOrderForm: TWorkOrderForm
         Font.Style = []
         Transparent = True
         mmHeight = 3969
-        mmLeft = 35983
-        mmTop = 38100
+        mmLeft = 36777
+        mmTop = 42069
         mmWidth = 51065
         BandType = 0
       end
@@ -4116,8 +4116,8 @@ object WorkOrderForm: TWorkOrderForm
         Font.Style = []
         Transparent = True
         mmHeight = 3969
-        mmLeft = 35983
-        mmTop = 42333
+        mmLeft = 36777
+        mmTop = 46302
         mmWidth = 51065
         BandType = 0
       end
@@ -4191,7 +4191,7 @@ object WorkOrderForm: TWorkOrderForm
         Transparent = True
         mmHeight = 3704
         mmLeft = 120650
-        mmTop = 27517
+        mmTop = 26723
         mmWidth = 15081
         BandType = 0
       end
@@ -4211,8 +4211,8 @@ object WorkOrderForm: TWorkOrderForm
         TextAlignment = taCentered
         Transparent = True
         mmHeight = 3704
-        mmLeft = 8467
-        mmTop = 59267
+        mmLeft = 8202
+        mmTop = 59531
         mmWidth = 91281
         BandType = 0
       end
@@ -4232,9 +4232,9 @@ object WorkOrderForm: TWorkOrderForm
         TextAlignment = taCentered
         Transparent = True
         mmHeight = 3704
-        mmLeft = 99484
-        mmTop = 59267
-        mmWidth = 89165
+        mmLeft = 100013
+        mmTop = 59531
+        mmWidth = 88371
         BandType = 0
       end
       object ppLabelDestination: TppLabel
@@ -4253,9 +4253,9 @@ object WorkOrderForm: TWorkOrderForm
         TextAlignment = taCentered
         Transparent = True
         mmHeight = 3704
-        mmLeft = 16933
-        mmTop = 63500
-        mmWidth = 82815
+        mmLeft = 17727
+        mmTop = 63765
+        mmWidth = 80433
         BandType = 0
       end
       object ppLabelPrice: TppLabel
@@ -4274,9 +4274,9 @@ object WorkOrderForm: TWorkOrderForm
         TextAlignment = taCentered
         Transparent = True
         mmHeight = 3704
-        mmLeft = 160867
-        mmTop = 63500
-        mmWidth = 27781
+        mmLeft = 161396
+        mmTop = 63765
+        mmWidth = 26723
         BandType = 0
       end
       object ppLine12: TppLine
@@ -4287,9 +4287,9 @@ object WorkOrderForm: TWorkOrderForm
         Border.Visible = False
         Position = lpLeft
         Weight = 0.750000000000000000
-        mmHeight = 89959
+        mmHeight = 88900
         mmLeft = 99484
-        mmTop = 58473
+        mmTop = 59267
         mmWidth = 265
         BandType = 0
       end
@@ -4309,8 +4309,8 @@ object WorkOrderForm: TWorkOrderForm
         TextAlignment = taCentered
         Transparent = True
         mmHeight = 3704
-        mmLeft = 8467
-        mmTop = 63500
+        mmLeft = 8731
+        mmTop = 63765
         mmWidth = 8731
         BandType = 0
       end
@@ -4322,7 +4322,7 @@ object WorkOrderForm: TWorkOrderForm
         Border.Visible = False
         Position = lpLeft
         Weight = 0.750000000000000000
-        mmHeight = 84931
+        mmHeight = 84667
         mmLeft = 160867
         mmTop = 63500
         mmWidth = 265
@@ -4362,7 +4362,7 @@ object WorkOrderForm: TWorkOrderForm
         Transparent = True
         mmHeight = 3704
         mmLeft = 135467
-        mmTop = 27517
+        mmTop = 26723
         mmWidth = 51065
         BandType = 0
       end
@@ -4408,8 +4408,8 @@ object WorkOrderForm: TWorkOrderForm
         Font.Style = []
         Transparent = True
         mmHeight = 3969
-        mmLeft = 8467
-        mmTop = 46567
+        mmLeft = 9260
+        mmTop = 50536
         mmWidth = 25665
         BandType = 0
       end
@@ -4427,8 +4427,8 @@ object WorkOrderForm: TWorkOrderForm
         Font.Style = []
         Transparent = True
         mmHeight = 3969
-        mmLeft = 33867
-        mmTop = 46567
+        mmLeft = 34660
+        mmTop = 50536
         mmWidth = 1058
         BandType = 0
       end
@@ -4445,8 +4445,8 @@ object WorkOrderForm: TWorkOrderForm
         Font.Style = []
         Transparent = True
         mmHeight = 3969
-        mmLeft = 35983
-        mmTop = 46567
+        mmLeft = 36777
+        mmTop = 50536
         mmWidth = 51065
         BandType = 0
       end
@@ -4522,10 +4522,10 @@ object WorkOrderForm: TWorkOrderForm
         Font.Style = [fsBold]
         TextAlignment = taCentered
         Transparent = True
-        mmHeight = 5027
-        mmLeft = 8467
-        mmTop = 53446
-        mmWidth = 180182
+        mmHeight = 4498
+        mmLeft = 8731
+        mmTop = 54769
+        mmWidth = 179388
         BandType = 0
       end
       object ppLine14: TppLine
@@ -4537,7 +4537,7 @@ object WorkOrderForm: TWorkOrderForm
         Weight = 0.750000000000000000
         mmHeight = 265
         mmLeft = 8467
-        mmTop = 58473
+        mmTop = 59267
         mmWidth = 180182
         BandType = 0
       end
@@ -4558,7 +4558,7 @@ object WorkOrderForm: TWorkOrderForm
         Transparent = True
         mmHeight = 3704
         mmLeft = 107950
-        mmTop = 63500
+        mmTop = 63765
         mmWidth = 53181
         BandType = 0
       end
@@ -4578,7 +4578,7 @@ object WorkOrderForm: TWorkOrderForm
         TextAlignment = taCentered
         Transparent = True
         mmHeight = 3704
-        mmLeft = 99484
+        mmLeft = 99219
         mmTop = 63500
         mmWidth = 8731
         BandType = 0
@@ -4603,9 +4603,9 @@ object WorkOrderForm: TWorkOrderForm
         Border.Style = psSolid
         Border.Visible = False
         Weight = 0.750000000000000000
-        mmHeight = 265
+        mmHeight = 529
         mmLeft = 8467
-        mmTop = 67733
+        mmTop = 67469
         mmWidth = 180182
         BandType = 0
       end
@@ -4730,9 +4730,9 @@ object WorkOrderForm: TWorkOrderForm
         Border.Visible = False
         Weight = 0.750000000000000000
         mmHeight = 265
-        mmLeft = 8202
+        mmLeft = 8467
         mmTop = 154517
-        mmWidth = 180182
+        mmWidth = 179917
         BandType = 0
       end
       object ppLine3: TppLine
@@ -4743,9 +4743,9 @@ object WorkOrderForm: TWorkOrderForm
         Border.Visible = False
         Position = lpLeft
         Weight = 0.750000000000000000
-        mmHeight = 81756
+        mmHeight = 81492
         mmLeft = 91017
-        mmTop = 149225
+        mmTop = 149490
         mmWidth = 265
         BandType = 0
       end
@@ -4777,9 +4777,9 @@ object WorkOrderForm: TWorkOrderForm
         Border.Visible = False
         Position = lpLeft
         Weight = 0.750000000000000000
-        mmHeight = 81756
+        mmHeight = 81492
         mmLeft = 116417
-        mmTop = 149225
+        mmTop = 149490
         mmWidth = 265
         BandType = 0
       end
@@ -4791,9 +4791,9 @@ object WorkOrderForm: TWorkOrderForm
         Border.Visible = False
         Position = lpLeft
         Weight = 0.750000000000000000
-        mmHeight = 81756
+        mmHeight = 81227
         mmLeft = 150284
-        mmTop = 149225
+        mmTop = 149490
         mmWidth = 265
         BandType = 0
       end
@@ -4810,9 +4810,9 @@ object WorkOrderForm: TWorkOrderForm
         Font.Size = 10
         Font.Style = []
         Transparent = True
-        mmHeight = 80698
+        mmHeight = 80169
         mmLeft = 9525
-        mmTop = 67733
+        mmTop = 67469
         mmWidth = 88900
         BandType = 0
         mmBottomOffset = 0
@@ -4833,7 +4833,7 @@ object WorkOrderForm: TWorkOrderForm
         Font.Size = 10
         Font.Style = []
         Transparent = True
-        mmHeight = 80698
+        mmHeight = 79640
         mmLeft = 100542
         mmTop = 67733
         mmWidth = 59531
@@ -4903,8 +4903,8 @@ object WorkOrderForm: TWorkOrderForm
         Font.Style = []
         Transparent = True
         mmHeight = 76465
-        mmLeft = 92075
-        mmTop = 154517
+        mmLeft = 91281
+        mmTop = 153988
         mmWidth = 24606
         BandType = 0
         mmBottomOffset = 0
@@ -4966,7 +4966,7 @@ object WorkOrderForm: TWorkOrderForm
         Border.Visible = False
         Position = lpLeft
         Weight = 0.750000000000000000
-        mmHeight = 4498
+        mmHeight = 4233
         mmLeft = 16933
         mmTop = 63500
         mmWidth = 265
@@ -4980,9 +4980,9 @@ object WorkOrderForm: TWorkOrderForm
         Border.Visible = False
         Position = lpLeft
         Weight = 0.750000000000000000
-        mmHeight = 4498
+        mmHeight = 3704
         mmLeft = 107950
-        mmTop = 63500
+        mmTop = 63765
         mmWidth = 265
         BandType = 0
       end
@@ -4998,6 +4998,63 @@ object WorkOrderForm: TWorkOrderForm
         mmLeft = 16933
         mmTop = 149490
         mmWidth = 265
+        BandType = 0
+      end
+      object ppLabel34: TppLabel
+        UserName = 'LabelTo1'
+        AutoSize = False
+        Border.BorderPositions = []
+        Border.Color = clBlack
+        Border.Style = psSolid
+        Border.Visible = False
+        Caption = 'No SR'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Arial'
+        Font.Size = 10
+        Font.Style = []
+        Transparent = True
+        mmHeight = 3969
+        mmLeft = 9260
+        mmTop = 33602
+        mmWidth = 17198
+        BandType = 0
+      end
+      object ppLabel35: TppLabel
+        UserName = 'Label101'
+        Border.BorderPositions = []
+        Border.Color = clBlack
+        Border.Style = psSolid
+        Border.Visible = False
+        Caption = ':'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Arial'
+        Font.Size = 10
+        Font.Style = []
+        Transparent = True
+        mmHeight = 3969
+        mmLeft = 34660
+        mmTop = 33602
+        mmWidth = 1058
+        BandType = 0
+      end
+      object ppNoSR: TppLabel
+        UserName = 'NoSR'
+        Border.BorderPositions = []
+        Border.Color = clBlack
+        Border.Style = psSolid
+        Border.Visible = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Arial'
+        Font.Size = 10
+        Font.Style = []
+        Transparent = True
+        mmHeight = 3440
+        mmLeft = 36777
+        mmTop = 33867
+        mmWidth = 51065
         BandType = 0
       end
     end

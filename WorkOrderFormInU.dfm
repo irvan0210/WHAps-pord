@@ -1,6 +1,6 @@
 object WorkOrderFormIn: TWorkOrderFormIn
-  Left = 76
-  Top = 142
+  Left = 127
+  Top = 94
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Tutup Perintah Kerja Bengkel'
@@ -649,9 +649,9 @@ object WorkOrderFormIn: TWorkOrderFormIn
       mmPrintPosition = 0
       object ppShape2: TppShape
         UserName = 'Shape2'
-        mmHeight = 95515
+        mmHeight = 89694
         mmLeft = 8467
-        mmTop = 52917
+        mmTop = 58738
         mmWidth = 180182
         BandType = 0
       end
@@ -671,7 +671,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Transparent = True
         mmHeight = 3969
         mmLeft = 8467
-        mmTop = 33867
+        mmTop = 38894
         mmWidth = 17198
         BandType = 0
       end
@@ -689,7 +689,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Transparent = True
         mmHeight = 3969
         mmLeft = 35983
-        mmTop = 33867
+        mmTop = 38894
         mmWidth = 51065
         BandType = 0
       end
@@ -730,7 +730,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Transparent = True
         mmHeight = 3969
         mmLeft = 8467
-        mmTop = 38100
+        mmTop = 43127
         mmWidth = 17198
         BandType = 0
       end
@@ -750,7 +750,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Transparent = True
         mmHeight = 3969
         mmLeft = 8467
-        mmTop = 42333
+        mmTop = 47361
         mmWidth = 17198
         BandType = 0
       end
@@ -769,7 +769,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Transparent = True
         mmHeight = 3969
         mmLeft = 33867
-        mmTop = 33867
+        mmTop = 38894
         mmWidth = 1058
         BandType = 0
       end
@@ -788,7 +788,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Transparent = True
         mmHeight = 3969
         mmLeft = 33867
-        mmTop = 38100
+        mmTop = 43127
         mmWidth = 1058
         BandType = 0
       end
@@ -807,7 +807,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Transparent = True
         mmHeight = 3969
         mmLeft = 33867
-        mmTop = 42333
+        mmTop = 47361
         mmWidth = 1058
         BandType = 0
       end
@@ -942,7 +942,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Transparent = True
         mmHeight = 3969
         mmLeft = 35983
-        mmTop = 38100
+        mmTop = 43127
         mmWidth = 51065
         BandType = 0
       end
@@ -960,7 +960,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Transparent = True
         mmHeight = 3969
         mmLeft = 35983
-        mmTop = 42333
+        mmTop = 47361
         mmWidth = 51065
         BandType = 0
       end
@@ -1055,7 +1055,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Transparent = True
         mmHeight = 3704
         mmLeft = 8467
-        mmTop = 59267
+        mmTop = 64558
         mmWidth = 91281
         BandType = 0
       end
@@ -1076,7 +1076,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Transparent = True
         mmHeight = 3704
         mmLeft = 99484
-        mmTop = 59267
+        mmTop = 64558
         mmWidth = 89165
         BandType = 0
       end
@@ -1097,7 +1097,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Transparent = True
         mmHeight = 3704
         mmLeft = 16933
-        mmTop = 63500
+        mmTop = 68792
         mmWidth = 82815
         BandType = 0
       end
@@ -1118,7 +1118,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Transparent = True
         mmHeight = 3704
         mmLeft = 160867
-        mmTop = 63500
+        mmTop = 68792
         mmWidth = 27781
         BandType = 0
       end
@@ -1130,9 +1130,9 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Border.Visible = False
         Position = lpLeft
         Weight = 0.750000000000000000
-        mmHeight = 89959
+        mmHeight = 84138
         mmLeft = 99484
-        mmTop = 58473
+        mmTop = 64029
         mmWidth = 265
         BandType = 0
       end
@@ -1153,7 +1153,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Transparent = True
         mmHeight = 3704
         mmLeft = 8467
-        mmTop = 63500
+        mmTop = 68792
         mmWidth = 8731
         BandType = 0
       end
@@ -1165,9 +1165,9 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Border.Visible = False
         Position = lpLeft
         Weight = 0.750000000000000000
-        mmHeight = 84931
+        mmHeight = 74877
         mmLeft = 160867
-        mmTop = 63500
+        mmTop = 73290
         mmWidth = 265
         BandType = 0
       end
@@ -1252,7 +1252,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Transparent = True
         mmHeight = 3969
         mmLeft = 8467
-        mmTop = 46567
+        mmTop = 51594
         mmWidth = 25665
         BandType = 0
       end
@@ -1271,7 +1271,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Transparent = True
         mmHeight = 3969
         mmLeft = 33867
-        mmTop = 46567
+        mmTop = 51858
         mmWidth = 1058
         BandType = 0
       end
@@ -1289,7 +1289,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Transparent = True
         mmHeight = 3969
         mmLeft = 35983
-        mmTop = 46567
+        mmTop = 51594
         mmWidth = 51065
         BandType = 0
       end
@@ -1367,7 +1367,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Transparent = True
         mmHeight = 5027
         mmLeft = 8467
-        mmTop = 53446
+        mmTop = 58738
         mmWidth = 180182
         BandType = 0
       end
@@ -1380,7 +1380,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Weight = 0.750000000000000000
         mmHeight = 265
         mmLeft = 8467
-        mmTop = 58473
+        mmTop = 63765
         mmWidth = 180182
         BandType = 0
       end
@@ -1401,7 +1401,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Transparent = True
         mmHeight = 3704
         mmLeft = 107950
-        mmTop = 63500
+        mmTop = 68792
         mmWidth = 53181
         BandType = 0
       end
@@ -1422,7 +1422,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Transparent = True
         mmHeight = 3704
         mmLeft = 99484
-        mmTop = 63500
+        mmTop = 68792
         mmWidth = 8731
         BandType = 0
       end
@@ -1435,7 +1435,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Weight = 0.750000000000000000
         mmHeight = 265
         mmLeft = 8467
-        mmTop = 63500
+        mmTop = 68792
         mmWidth = 180182
         BandType = 0
       end
@@ -1448,7 +1448,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Weight = 0.750000000000000000
         mmHeight = 265
         mmLeft = 8467
-        mmTop = 67733
+        mmTop = 73025
         mmWidth = 180182
         BandType = 0
       end
@@ -1653,9 +1653,9 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Font.Size = 10
         Font.Style = []
         Transparent = True
-        mmHeight = 80698
+        mmHeight = 75406
         mmLeft = 9525
-        mmTop = 67733
+        mmTop = 73025
         mmWidth = 88900
         BandType = 0
         mmBottomOffset = 0
@@ -1676,9 +1676,9 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Font.Size = 10
         Font.Style = []
         Transparent = True
-        mmHeight = 80698
+        mmHeight = 75671
         mmLeft = 100542
-        mmTop = 67733
+        mmTop = 72761
         mmWidth = 59531
         BandType = 0
         mmBottomOffset = 0
@@ -1811,7 +1811,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Weight = 0.750000000000000000
         mmHeight = 4498
         mmLeft = 16933
-        mmTop = 63500
+        mmTop = 68792
         mmWidth = 265
         BandType = 0
       end
@@ -1825,7 +1825,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Weight = 0.750000000000000000
         mmHeight = 4498
         mmLeft = 107950
-        mmTop = 63500
+        mmTop = 68792
         mmWidth = 265
         BandType = 0
       end
@@ -1841,6 +1841,63 @@ object WorkOrderFormIn: TWorkOrderFormIn
         mmLeft = 16933
         mmTop = 149490
         mmWidth = 265
+        BandType = 0
+      end
+      object ppLabel34: TppLabel
+        UserName = 'LabelTo1'
+        AutoSize = False
+        Border.BorderPositions = []
+        Border.Color = clBlack
+        Border.Style = psSolid
+        Border.Visible = False
+        Caption = 'No SR'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Arial'
+        Font.Size = 10
+        Font.Style = []
+        Transparent = True
+        mmHeight = 3969
+        mmLeft = 8467
+        mmTop = 34660
+        mmWidth = 17198
+        BandType = 0
+      end
+      object ppLabel35: TppLabel
+        UserName = 'Label101'
+        Border.BorderPositions = []
+        Border.Color = clBlack
+        Border.Style = psSolid
+        Border.Visible = False
+        Caption = ':'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Arial'
+        Font.Size = 10
+        Font.Style = []
+        Transparent = True
+        mmHeight = 3969
+        mmLeft = 33867
+        mmTop = 34660
+        mmWidth = 1058
+        BandType = 0
+      end
+      object ppNoSR: TppLabel
+        UserName = 'NoSR'
+        Border.BorderPositions = []
+        Border.Color = clBlack
+        Border.Style = psSolid
+        Border.Visible = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Arial'
+        Font.Size = 10
+        Font.Style = []
+        Transparent = True
+        mmHeight = 3979
+        mmLeft = 35983
+        mmTop = 34396
+        mmWidth = 51054
         BandType = 0
       end
     end

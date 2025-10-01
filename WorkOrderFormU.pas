@@ -272,6 +272,9 @@ type
     PanelMemoKhusus: TPanel;
     MemoKhusus: TCheckBox;
     Memo1: TMemo;
+    ppLabel34: TppLabel;
+    ppLabel35: TppLabel;
+    ppNoSR: TppLabel;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure EksternalClick(Sender: TObject);
@@ -1532,6 +1535,8 @@ begin
         Qry.Open;
         if Qry.RecordCount>0 then begin
           ppNoPKB.Caption:=Qry.FieldValues['work_order_id'];
+          if Qry.FieldValues['service_request_id']<> null then ppNoSR.Caption:=Qry.FieldValues['service_request_id']
+          else ppNoSR.Caption:= '-';
           ppTglMasuk.Caption:=Qry.FieldValues['date_in'];
           if Qry.FieldValues['time_in']<>NULL then ppTglMasuk.Caption:=ppTglMasuk.Caption+' '+Qry.FieldValues['time_in'];
           if Qry.FieldValues['date_out']<>NULL then ppTglKeluar.Caption:=Qry.FieldValues['date_out'];
