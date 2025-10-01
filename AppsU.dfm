@@ -1,6 +1,6 @@
 object Apps: TApps
-  Left = 332
-  Top = 305
+  Left = 330
+  Top = 180
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Aplikasi'
@@ -134,6 +134,7 @@ object Apps: TApps
         '-Penambahan insentif di total lain-lain di menu integrate gp, tr' +
         'anfer uang order '
       'harian dan link integrate ke GP'
+      '-Penambahan No Servis Request di Cetakan PKB'
       '-Perbaikan Bug Sistem. '
       ''
       '10/23/2025 (6.1.11.8) '
