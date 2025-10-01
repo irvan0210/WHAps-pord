@@ -1,6 +1,6 @@
 object OrderFee: TOrderFee
-  Left = 262
-  Top = 113
+  Left = 235
+  Top = 34
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Uang Order'
@@ -457,7 +457,7 @@ object OrderFee: TOrderFee
     Left = 416
     Top = 0
     Width = 353
-    Height = 137
+    Height = 113
     Caption = 'Biaya/Layanan Tambahan'
     TabOrder = 4
     TabStop = True
@@ -465,7 +465,7 @@ object OrderFee: TOrderFee
       Left = 8
       Top = 16
       Width = 337
-      Height = 113
+      Height = 89
       ColCount = 9
       DefaultRowHeight = 21
       DefaultDrawing = False
@@ -510,9 +510,9 @@ object OrderFee: TOrderFee
   end
   object GroupBiaya: TGroupBox
     Left = 576
-    Top = 137
+    Top = 118
     Width = 332
-    Height = 288
+    Height = 309
     Caption = 'Biaya'
     TabOrder = 5
     TabStop = True
@@ -626,11 +626,19 @@ object OrderFee: TOrderFee
       Alignment = taRightJustify
       Caption = 'Biaya Dari Tamu'
     end
+    object Label36: TLabel
+      Left = 55
+      Top = 280
+      Width = 34
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'Insentif'
+    end
     object GroupRupiah: TGroupBox
       Left = 96
       Top = 8
       Width = 82
-      Height = 277
+      Height = 294
       Caption = 'Rupiah'
       TabOrder = 0
       object BusBoyFee: TMemo
@@ -802,12 +810,27 @@ object OrderFee: TOrderFee
         OnExit = BiayaTamuExit
         OnKeyPress = BiayaTamuKeyPress
       end
+      object Insentif: TMemo
+        Left = 5
+        Top = 268
+        Width = 73
+        Height = 21
+        Alignment = taRightJustify
+        MaxLength = 25
+        TabOrder = 11
+        WantReturns = False
+        WantTabs = True
+        OnChange = InsentifChange
+        OnEnter = InsentifEnter
+        OnExit = InsentifExit
+        OnKeyPress = InsentifKeyPress
+      end
     end
     object GroupLiter: TGroupBox
       Left = 179
       Top = 8
       Width = 53
-      Height = 276
+      Height = 294
       Caption = 'Liter'
       TabOrder = 1
       object BBMLiter: TEdit
@@ -825,7 +848,7 @@ object OrderFee: TOrderFee
       Left = 232
       Top = 8
       Width = 97
-      Height = 276
+      Height = 294
       Caption = 'Total'
       Enabled = False
       TabOrder = 2
@@ -950,6 +973,17 @@ object OrderFee: TOrderFee
         WantReturns = False
         WantTabs = True
       end
+      object InsentifTotal: TMemo
+        Left = 8
+        Top = 268
+        Width = 81
+        Height = 21
+        Alignment = taRightJustify
+        MaxLength = 25
+        TabOrder = 11
+        WantReturns = False
+        WantTabs = True
+      end
     end
   end
   object GroupDailyPackage: TPanel
@@ -962,7 +996,7 @@ object OrderFee: TOrderFee
     object AllDailyPackage: TCheckBox
       Left = 0
       Top = -1
-      Width = 161
+      Width = 153
       Height = 17
       Caption = 'Update Semua Surat Jalan'
       TabOrder = 0
@@ -4044,7 +4078,7 @@ object OrderFee: TOrderFee
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
     Left = 880
-    Top = 180
+    Top = 76
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand4: TppHeaderBand
@@ -4419,8 +4453,8 @@ object OrderFee: TOrderFee
     PreviewFormSettings.WindowState = wsMaximized
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
-    Left = 880
-    Top = 124
+    Left = 888
+    Top = 36
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand1: TppHeaderBand
@@ -5272,8 +5306,8 @@ object OrderFee: TOrderFee
     PreviewFormSettings.WindowState = wsMaximized
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
-    Left = 784
-    Top = 76
+    Left = 528
+    Top = 524
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand3: TppHeaderBand
@@ -6144,8 +6178,8 @@ object OrderFee: TOrderFee
     PreviewFormSettings.WindowState = wsMaximized
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
-    Left = 888
-    Top = 459
+    Left = 864
+    Top = 531
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand2: TppHeaderBand

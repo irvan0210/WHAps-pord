@@ -1449,7 +1449,7 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
         Border.Color = clBlack
         Border.Style = psSolid
         Border.Visible = False
-        Caption = 'Pembauat, User'
+        Caption = 'Pembuat, User'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Name = 'Arial'
@@ -1520,23 +1520,23 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
         mmWidth = 47117
         BandType = 8
       end
-      object ppLabel28: TppLabel
-        UserName = 'Label28'
+      object ppLabeltgl: TppLabel
+        UserName = 'Labeltgl'
         Border.BorderPositions = []
         Border.Color = clBlack
         Border.Style = psSolid
         Border.Visible = False
-        Caption = 'Tindakan yang dilakukan :'
+        Caption = 'Tangerang,  __ /___/202_'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Name = 'Arial'
         Font.Size = 12
         Font.Style = []
         Transparent = True
-        mmHeight = 4763
+        mmHeight = 4868
         mmLeft = 29369
         mmTop = 1323
-        mmWidth = 49213
+        mmWidth = 48514
         BandType = 8
       end
       object ppLabel4: TppLabel

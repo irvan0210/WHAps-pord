@@ -432,6 +432,9 @@ type
     ppSPPBMessage: TppLabel;
     ppSummaryBand2: TppSummaryBand;
     ppParameterList2: TppParameterList;
+    Label36: TLabel;
+    Insentif: TMemo;
+    InsentifTotal: TMemo;
     procedure BBMLiterKeyPress(Sender: TObject; var Key: Char);
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -507,6 +510,10 @@ type
     procedure TipsKeyPress(Sender: TObject; var Key: Char);
     procedure TollParkingTamuKeyPress(Sender: TObject; var Key: Char);
     procedure StayNightKeyPress(Sender: TObject; var Key: Char);
+    procedure InsentifChange(Sender: TObject);
+    procedure InsentifEnter(Sender: TObject);
+    procedure InsentifExit(Sender: TObject);
+    procedure InsentifKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     SJArr,BiayaArr:Array of TArrString45;
@@ -686,6 +693,8 @@ begin
   TipsTotal.Text := '0';
   BiayaTamu.Text:= '0';
   BiayaTamuTotal.Text := '0';
+  Insentif.Text:= '0';
+  InsentifTotal.Text := '0';
 
   TotalBayar.Text:='0';
   StayNight.Text:='0';
@@ -1347,6 +1356,14 @@ begin
         BiayaTamu.Text:='0';
       end;
 
+      if Qry.FieldValues['insentif']<>NULL then begin
+        InsentifTotal.Text:=IToCurr(Qry.FieldValues['insentif']);
+        Insentif.Text:=IToCurr(Qry.FieldValues['insentif'])
+      end else begin
+        InsentifTotal.Text:='0';
+        Insentif.Text:='0';
+      end;
+
       if (Qry.FieldValues['daily_package']<>NULL) AND (Qry.FieldValues['daily_package']<>'0') then begin
         AllDailyPackage.Checked:=True;
         AllDailyPackage.Enabled:=True;
@@ -1545,7 +1562,7 @@ end;
 procedure TOrderFee.Calculate;
 var TotalBBM,TotalDriverFee,TotalDriverFee2,TotalBusBoyFee,TotalTollParking,
     TotalStayNight,TotalBiaya,IntCount,TotalToll,TotalOvertime,
-    TotalTollParkingTamu,TotalTollTamu,TotalTips, TotalBiayaDariTamu:Integer;
+    TotalTollParkingTamu,TotalTollTamu,TotalTips, TotalBiayaDariTamu, TotalInsentif:Integer;
 begin
   TotalToll:=0;
   TotalBBM:=0;
@@ -1560,6 +1577,7 @@ begin
   TotalTollTamu := 0;
   TotalTips := 0;
   TotalBiayaDariTamu :=0;
+  TotalInsentif:=0;
   if IsInput then begin
     if (ToString(BBMLiter.Text)<>'') and (IsInput) then begin
       //BBMRupiah.Text:=IToCurr(SolarPerLiter*SToInt(BBMLiter.Text));
@@ -1606,7 +1624,9 @@ begin
     if ToString(BiayaTamu.Text )<>'' then begin
       TotalBiayaDariTamu:=SToInt(BiayaTamu.Text);
     end;
-
+    if ToString(Insentif.Text )<>'' then begin
+      TotalInsentif:=SToInt(Insentif.Text);
+    end;
     //if ToString(Overtime.Text )<>'' then begin
     //  TotalOvertime:=SToInt(Overtime.Text);
    // end;
@@ -1621,9 +1641,10 @@ begin
   TollTamuTotal.Text:=IToCurr(TotalTollTamu);
   TipsTotal.Text := IToCurr(TotalTips);
   BiayaTamuTotal.Text := IToCurr(TotalBiayaDariTamu);
+  InsentifTotal.Text := IToCurr(TotalInsentif);
   StayNightTotal.Text:=IToCurr(TotalStayNight);
  // OvertimeTotal.Text:=IToCurr(TotalOvertime);
-  TotalBiaya:=TotalDriverFee+TotalDriverFee2+TotalBusBoyFee+TotalTollParking+TotalToll+TotalStayNight+TotalTollParkingTamu+TotalTollTamu+TotalTips+TotalBiayaDariTamu;
+  TotalBiaya:=TotalDriverFee+TotalDriverFee2+TotalBusBoyFee+TotalTollParking+TotalToll+TotalStayNight+TotalTollParkingTamu+TotalTollTamu+TotalTips+TotalBiayaDariTamu+TotalInsentif;
   TotalBayar.Text:=IToCurr(TotalBBM+TotalBiaya);
 end;
 
@@ -1793,7 +1814,7 @@ begin
         if SJId<>'' then begin
           TransId:=SJId;
         end;
-        StrQry:='UPDATE wh_vhc_trans_detail SET status=0 WHERE (vhc_trans_id='+QuotedStr(TransId)+') AND (transaction_type_id in (140101, 140102, 140103, 140106, 140104, 140113,140114,170122,170121,170120,170119) ) AND (status=1); ';
+        StrQry:='UPDATE wh_vhc_trans_detail SET status=0 WHERE (vhc_trans_id='+QuotedStr(TransId)+') AND (transaction_type_id in (140101, 140102, 140103, 140106, 140104, 140113,140114,170122,170121,170120,170119,170123) ) AND (status=1); ';
         Qry.SQL.Clear;
         Main.WriteLog('SQL :'+StrQry,4);
         Qry.SQL.Add(StrQry);
@@ -2192,8 +2213,38 @@ begin
             end;
           end;
         end;
-        {Overtime}
+
+        //Insentif
         StrQry:='';
+        if (Insentif.Text<>'0') or (SJId<>'')  then begin
+          TransType:=QuotedStr('170123');
+          Amount:=ToString(Insentif.Text);
+          if AllDailyPackage.Checked=False then begin
+            StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,update_time,update_user)'+
+                    ' VALUES ('+QuotedStr(TransId)+','+TransType+','+ToString(Amount)+','+IntToStr(SToInt(Amount))+',GETDATE(),'+QuotedStr(User)+');';
+          end else begin
+            for Count:=0 to Length(NoSJArr) do
+              StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,update_time,update_user)'+
+                      ' VALUES ('+QuotedStr(NoSJArr[Count])+','+TransType+','+ToString(Amount)+','+ToString(Amount)+',GETDATE(),'+QuotedStr(User)+');';
+          end;
+        end;
+        if Trim(StrQry)<>'' then begin
+          Qry.SQL.Clear;
+          Main.WriteLog('SQL :'+StrQry,4);
+          Qry.SQL.Add(StrQry);
+          try
+            Qry.ExecSQL;
+          except
+            on E:Exception do begin
+              StrMsg:='Tidak Dapat Menyimpan Order Fee detail (4)';
+              StrEMessage:=E.Message;
+              IsOk:=False;
+            end;
+          end;
+        end;
+
+        {Overtime}
+//        StrQry:='';
 //        if (Overtime.Text<>'0') or (SJId<>'')  then begin
 //          TransType:=QuotedStr('140113 ');
 //          Amount:=ToString(Overtime.Text);
@@ -2534,11 +2585,13 @@ var Qry:TADOQuery;
     StrTanggal,StrNoReservasi,StrNoSJ,StrDriverName,StrNoPolisi,StrCustomer,StrBBMAmount,StrBBMFeeTotal,StrNoBody:String;
     StrDriverFee,StrDriver2Fee,StrDriverFeeTotal,StrDriver2FeeTotal,StrBusBoyFee,StrBusBoyFeeTotal,StrTolParkir,StrTolParkirTotal,
     StrTol,StrTolTotal,StrOther,StrOtherTotal,StrTotal,StrCopy,StrHari,StrRoute,StrOvertime,StrOvertimeTotal,
-    StrTolParkirDariTamu,StrTolParkirDariTamuTotal,StrTolDariTamu,StrTolDariTamuTotal,
-    StrTips, StrTipsTotal,StrBiayaDariTamu,StrBiayaDariTamuTotal, StrTotalToll, StrTotalTollParkir, StrTotalOther:String;
-    Total,TotalHari,Amount,TotalAmount,DriverFeeTotal,Driver2FeeTotal,TotalParkir,TotalParkirDariTamu,
-    TotalTol, TotalTolDariTamu,FormNumber, IntTolParkir, IntTolParkirDariTamu,IntTol,IntTolDariTamu,
-    IntTips,IntBermalam,IntBiayaDariTamu:Integer;
+    StrTolParkirDariTamu,StrTolParkirDariTamuTotal,StrTolDariTamu,StrTolDariTamuTotal,StrTolReimburseTotal,StrTolReimburse,
+    StrTolParkirReimburse, StrTolParkirReimburseTotal,
+    StrTips, StrTipsTotal,StrBiayaDariTamu,StrBiayaDariTamuTotal, StrTotalToll, StrTotalTollParkir,
+    StrTotalOther, StrInsentif, StrInsentifTotal:String;
+    Total,TotalHari,Amount,TotalAmount,DriverFeeTotal,Driver2FeeTotal,TotalParkir,TotalParkirDariTamu,TotalTolReimburse,TotalTolParkirReimburse,
+    TotalTol, TotalTolDariTamu,FormNumber, IntTolParkir, IntTolParkirDariTamu,IntTol,IntTolDariTamu,IntTolReimburse, IntTolParkirReimburse,
+    IntTips,IntBermalam,IntBiayaDariTamu, IntInsentif:Integer;
 begin
   RePrintForm.ReportName:='Order Fee';
   RePrintForm.ReportId:=Trans_Id;
@@ -2698,10 +2751,32 @@ begin
       Total:=Total+TotalAmount;
       Qry.Close;
 
+      // Toll Parkir Reimburse
+      StrTransId:=QuotedStr('140112');
+      Amount:=0;
+      TotalAmount:=0;
+      StrQry:='SELECT SUM(a.amount) as amount,SUM(a.total_amount) AS total_amount FROM wh_vhc_trans_detail a '+
+              'INNER JOIN wh_transaction_type b ON b.transaction_type_id=a.transaction_type_id '+
+              'WHERE vhc_trans_id='+QuotedStr(Trans_Id)+' AND (a.transaction_type_id='+StrTransId+') AND (status=1);';
+      Qry.SQL.Clear;
+      Main.WriteLog('SQL :'+StrQry,2);
+      Qry.SQL.Add(StrQry);
+      Qry.Open;
+      if (Qry.RecordCount>0) then begin
+        if (Qry.FieldValues['amount']<>NULL) then Amount:=Qry.FieldValues['amount'] else Amount:=0;
+        if (Qry.FieldValues['total_amount']<>NULL) then TotalAmount:=Qry.FieldValues['total_amount'] else TotalAmount:=0;
+      end;
+      StrTolParkirReimburse:=IToCurr(Amount);
+      StrTolParkirReimburseTotal:=IToCurr(TotalAmount);
+      TotalTolParkirReimburse:= TotalAmount;
+      Total:=Total+TotalAmount;
+      Qry.Close;
+
       //Total Toll Parkir
       IntTolParkir := StrToInt(StringReplace(StrTolParkir, '.', '', [rfReplaceAll]));
       IntTolParkirDariTamu := StrToInt(StringReplace(StrTolParkirDariTamu, '.', '', [rfReplaceAll]));
-      StrTotalTollParkir := IToCurr(IntTolParkir+IntTolParkirDariTamu);
+      IntTolParkirReimburse := StrToInt(StringReplace(StrTolParkirReimburse, '.', '', [rfReplaceAll]));
+      StrTotalTollParkir := IToCurr(IntTolParkir+IntTolParkirDariTamu+IntTolParkirReimburse);
 
       //TOLL
       StrTransId:=QuotedStr('140106');
@@ -2749,10 +2824,35 @@ begin
         Total:=Total+TotalAmount;
       Qry.Close;
 
+     //TOLL  Reimburse
+      StrTransId:=QuotedStr('140109');
+      Amount:=0;
+      TotalAmount:=0;
+      StrQry:='SELECT SUM(a.amount) AS amount,SUM(a.total_amount) AS total_amount FROM wh_vhc_trans_detail a '+
+              'INNER JOIN wh_transaction_type b ON b.transaction_type_id=a.transaction_type_id '+
+              'WHERE vhc_trans_id='+QuotedStr(Trans_Id)+' AND (a.transaction_type_id='+StrTransId+') AND (status=1);';
+      Qry.SQL.Clear;
+      Main.WriteLog('SQL :'+StrQry,2);
+      Qry.SQL.Add(StrQry);
+      Qry.Open;
+      if (Qry.RecordCount>0) then begin
+        if (Qry.FieldValues['amount']<>NULL) then Amount:=Qry.FieldValues['amount'];
+        if (Qry.FieldValues['total_amount']<>NULL) then TotalAmount:=Qry.FieldValues['total_amount'];
+      end;
+      StrTolReimburse:=IToCurr(Amount);
+      StrTolReimburseTotal:=IToCurr(TotalAmount);
+      TotalTolReimburse:=TotalAmount;
+      {Tol dijumlahkan atau tidak}
+      if eToll_Calculation=1 then
+        Total:=Total+TotalAmount;
+      Qry.Close;
+
+
       //Total TOll
       IntTol := StrToInt(StringReplace(StrTol, '.', '', [rfReplaceAll]));
       IntTolDariTamu := StrToInt(StringReplace(StrTolDariTamu, '.', '', [rfReplaceAll]));
-      StrTotalToll := IToCurr(IntTol+IntTolDariTamu);
+      IntTolReimburse := StrToInt(StringReplace(StrTolReimburse, '.', '', [rfReplaceAll]));
+      StrTotalToll := IToCurr(IntTol+IntTolDariTamu+IntTolReimburse);
 
       //Tips
       StrTransId:=QuotedStr('170121');
@@ -2814,6 +2914,26 @@ begin
       Total:=Total+TotalAmount;
       Qry.Close;
 
+      //Insentif
+      StrTransId:=QuotedStr('170123');
+      Amount:=0;
+      TotalAmount:=0;
+      StrQry:='SELECT SUM(a.amount) AS amount,SUM(a.total_amount) AS total_amount FROM wh_vhc_trans_detail a '+
+              'INNER JOIN wh_transaction_type b ON b.transaction_type_id=a.transaction_type_id '+
+              'WHERE vhc_trans_id='+QuotedStr(Trans_Id)+' AND (a.transaction_type_id='+StrTransId+') AND (status=1);';
+      Qry.SQL.Clear;
+      Main.WriteLog('SQL :'+StrQry,2);
+      Qry.SQL.Add(StrQry);
+      Qry.Open;
+      if (Qry.RecordCount>0) then begin
+        if (Qry.FieldValues['amount']<>NULL) then Amount:=Qry.FieldValues['amount'] else Amount:=0;
+        if (Qry.FieldValues['total_amount']<>NULL) then TotalAmount:=Qry.FieldValues['total_amount'] else TotalAmount:=0;
+      end;
+      StrInsentif:=IToCurr(Amount);
+      StrInsentifTotal:=IToCurr(TotalAmount);
+      Total:=Total+TotalAmount;
+      Qry.Close;
+
       //Overtime
       StrTransId:=QuotedStr('140113');
       Amount:=0;
@@ -2838,7 +2958,8 @@ begin
       IntTips := StrToInt(StringReplace(StrTips, '.', '', [rfReplaceAll]));
       IntBermalam := StrToInt(StringReplace(StrOther, '.', '', [rfReplaceAll]));
       IntBiayaDariTamu := StrToInt(StringReplace(StrBiayaDariTamu, '.', '', [rfReplaceAll]));
-      StrTotalOther := IToCurr(IntTips+IntBermalam+IntBiayaDariTamu);
+      IntInsentif := StrToInt(StringReplace(StrInsentif, '.', '', [rfReplaceAll]));
+      StrTotalOther := IToCurr(IntTips+IntBermalam+IntBiayaDariTamu+IntInsentif);
 
 
       StrTotal:=IToCurr(Total);
@@ -3871,6 +3992,47 @@ begin
           StayNightTotal.Text:='0';
           StayNight.Text:='0';
         end;
+
+        if Qry.FieldValues['tol_parking_tamu']<>NULL then begin
+          TollParkingTamuTotal.Text:=IToCurr(Qry.FieldValues['tol_parking_tamu']);
+          TollParkingTamu.Text:=IToCurr(Qry.FieldValues['tol_parking_tamu'])
+        end else begin
+          TollParkingTamuTotal.Text:='0';
+          TollParkingTamu.Text:='0';
+        end;
+
+        if Qry.FieldValues['tol_tamu']<>NULL then begin
+          TollTamuTotal.Text:=IToCurr(Qry.FieldValues['tol_tamu']);
+          TollTamu.Text:=IToCurr(Qry.FieldValues['tol_tamu'])
+        end else begin
+          TollTamuTotal.Text:='0';
+          TollTamu.Text:='0';
+        end;
+
+        if Qry.FieldValues['tips']<>NULL then begin
+          TipsTotal.Text:=IToCurr(Qry.FieldValues['tips']);
+          Tips.Text:=IToCurr(Qry.FieldValues['tips'])
+        end else begin
+          TipsTotal.Text:='0';
+          Tips.Text:='0';
+        end;
+
+        if Qry.FieldValues['biaya_dari_tamu']<>NULL then begin
+          BiayaTamuTotal.Text:=IToCurr(Qry.FieldValues['biaya_dari_tamu']);
+          BiayaTamu.Text:=IToCurr(Qry.FieldValues['biaya_dari_tamu'])
+        end else begin
+          BiayaTamuTotal.Text:='0';
+          BiayaTamu.Text:='0';
+        end;
+
+        if Qry.FieldValues['insentif']<>NULL then begin
+          InsentifTotal.Text:=IToCurr(Qry.FieldValues['insentif']);
+          Insentif.Text:=IToCurr(Qry.FieldValues['insentif'])
+        end else begin
+          InsentifTotal.Text:='0';
+          Insentif.Text:='0';
+        end;
+
         Calculate;
       end else
       begin
@@ -3941,11 +4103,11 @@ end;
 procedure TOrderFee.BiayaTamuKeyPress(Sender: TObject; var Key: Char);
 begin
     if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
-  if Key=#13 then Simpan.SetFocus;
+  if Key=#13 then Insentif.SetFocus;
 
   if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
   if Key=#13 then begin
-    Simpan.SetFocus;
+    Insentif.SetFocus;
    // Simpan.SelectAll;
   end;
 end;
@@ -4013,6 +4175,35 @@ begin
   if Key=#13 then begin
     BiayaTamu.SetFocus;
     BiayaTamu.SelectAll;
+  end;
+end;
+
+procedure TOrderFee.InsentifChange(Sender: TObject);
+begin
+  if Insentif.Text='' then  Insentif.Text:='0';
+end;
+
+procedure TOrderFee.InsentifEnter(Sender: TObject);
+begin
+  Insentif.Text:=ToString(Insentif.Text);
+end;
+
+procedure TOrderFee.InsentifExit(Sender: TObject);
+begin
+    if ToString(Insentif.Text)='' then Insentif.Text:='0';
+    Insentif.Text:=SToCurr(Insentif.Text);
+    Calculate;
+end;
+
+procedure TOrderFee.InsentifKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
+  if Key=#13 then Simpan.SetFocus;
+
+  if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
+  if Key=#13 then begin
+    Simpan.SetFocus;
+   // Simpan.SelectAll;
   end;
 end;
 

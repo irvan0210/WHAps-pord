@@ -55,7 +55,7 @@ type
     ppLabeljabatan: TppLabel;
     ppLabelNamaLengkap: TppLabel;
     ppLabel25: TppLabel;
-    ppLabel28: TppLabel;
+    ppLabeltgl: TppLabel;
     ppLabelTindakan: TppMemo;
     ppLabelDetailPermintaan: TppMemo;
     ppFooterBand1: TppFooterBand;
@@ -475,7 +475,8 @@ begin
         ppLabelUserpembuat.Caption := Qry.FieldValues['requested_user']; //PerkiraanHarga.Text;
         ppLabelPenerima.Caption := Qry.FieldValues['user_pic']; //StrToDateTime(DateToStr(RecomExpired.Date);
         ppLabelTglSelesai.Caption := Qry.FieldValues['completion_date'];
-        ppLabelCatatan.Caption := Qry.FieldValues['note'];;
+        ppLabelCatatan.Caption := Qry.FieldValues['note'];
+        ppLabeltgl.Caption := 'Tangerang, '+DateTimeToStr(Qry.FieldValues['request_date']);
         Main.M_Normal;
         ppReportTRF.PreviewFormSettings.WindowState:=wsMaximized;
         ppReportTRF.Print;

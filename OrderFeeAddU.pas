@@ -689,16 +689,16 @@ begin
           BusBoyFee.Text:='0';
         end;
         if Qry.FieldValues['tol_parking']<>NULL then begin
-          TollParkingTotal.Text:=IToCurr(Qry.FieldValues['tol_parking']);
-          TollParking.Text:=IToCurr(Qry.FieldValues['tol_parking'])
+          TollParkingTotal.Text:=IToCurr(Qry.FieldValues['tol_parking']+Qry.FieldValues['tol_parking_tamu']);
+          TollParking.Text:=IToCurr(Qry.FieldValues['tol_parking']+Qry.FieldValues['tol_parking_tamu']);
         end else begin
           TollParkingTotal.Text:='0';
           TollParking.Text:='0';
         end;
-        
+
         if Qry.FieldValues['tol']<>NULL then begin
-          TollTotal.Text:=IToCurr(Qry.FieldValues['tol']);
-          Toll.Text:=IToCurr(Qry.FieldValues['tol'])
+          TollTotal.Text:=IToCurr(Qry.FieldValues['tol']+Qry.FieldValues['tol_tamu']);
+          Toll.Text:=IToCurr(Qry.FieldValues['tol']+Qry.FieldValues['tol_tamu']);
         end else begin
           TollTotal.Text:='0';
           Toll.Text:='0';

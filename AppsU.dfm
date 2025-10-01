@@ -1,6 +1,6 @@
 object Apps: TApps
-  Left = 320
-  Top = 214
+  Left = 332
+  Top = 305
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Aplikasi'
@@ -126,6 +126,16 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '10/23/2025 (6.2.0.0) '
+      '-Penambahan Kolom Insentif  di Menu Tambah Uang Order'
+      '-Penambahan Kolom insentif di laporan uang order harian.'
+      '-Penambahan nominal reimburse (Jika ada) pada saat cetak ulang'
+      
+        '-Penambahan insentif di total lain-lain di menu integrate gp, tr' +
+        'anfer uang order '
+      'harian dan link integrate ke GP'
+      '-Perbaikan Bug Sistem. '
+      ''
       '10/23/2025 (6.1.11.8) '
       
         '-Penambahan sub menu kontrak crew, daftar kontrak crew, penambah' +

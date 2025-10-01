@@ -1,6 +1,6 @@
 object OrderFeeAdd: TOrderFeeAdd
-  Left = 287
-  Top = 102
+  Left = 250
+  Top = 40
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Uang Order'
@@ -2462,7 +2462,7 @@ object OrderFeeAdd: TOrderFeeAdd
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 121
+    PrinterSetup.PaperSize = 256
     Template.FileName = 'D:\WH App\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'
@@ -3296,7 +3296,7 @@ object OrderFeeAdd: TOrderFeeAdd
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 121
+    PrinterSetup.PaperSize = 256
     Template.FileName = 'D:\WH App\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'
@@ -3614,7 +3614,7 @@ object OrderFeeAdd: TOrderFeeAdd
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 121
+    PrinterSetup.PaperSize = 256
     Template.FileName = 'D:\WH App\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'

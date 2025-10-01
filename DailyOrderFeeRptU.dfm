@@ -1,6 +1,6 @@
 object DailyOrderFeeRpt: TDailyOrderFeeRpt
-  Left = 207
-  Top = 147
+  Left = 217
+  Top = 136
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
   Caption = 'Laporan Uang Order Harian'
@@ -242,7 +242,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     Width = 1036
     Height = 364
     Anchors = [akLeft, akTop, akRight]
-    ColCount = 45
+    ColCount = 46
     DefaultRowHeight = 20
     DefaultDrawing = False
     FixedColor = clSkyBlue

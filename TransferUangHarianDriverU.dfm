@@ -1,6 +1,6 @@
 object TransferUangHarianDriver: TTransferUangHarianDriver
-  Left = 153
-  Top = 178
+  Left = 311
+  Top = 167
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Transfer Uang Harian Driver'
