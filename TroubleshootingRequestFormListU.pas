@@ -21,6 +21,7 @@ type
     Label1: TLabel;
     Cari: TEdit;
     Search: TSpeedButton;
+    ToXCel: TSpeedButton;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -33,6 +34,7 @@ type
     procedure DepartemenChange(Sender: TObject);
     procedure TanggalChange(Sender: TObject);
     procedure Tanggal2Change(Sender: TObject);
+    procedure ToXCelClick(Sender: TObject);
   private
     { Private declarations }
     FormRequest:String;
@@ -391,6 +393,11 @@ procedure TTroubleshootingRequestFormList.Tanggal2Change(Sender: TObject);
 begin
     if Tanggal2.DateTime < Tanggal.DateTime then
     Tanggal.Date := Tanggal2.Date;
+end;
+
+procedure TTroubleshootingRequestFormList.ToXCelClick(Sender: TObject);
+begin
+ if ToExcel4(StrGrid) then ShowMessage('Export ke Excel Berhasil');
 end;
 
 end.

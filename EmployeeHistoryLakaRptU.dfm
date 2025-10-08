@@ -1,6 +1,6 @@
 object EmployeeHistoryLakaRpt: TEmployeeHistoryLakaRpt
-  Left = 90
-  Top = 170
+  Left = 291
+  Top = 147
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan History LaKa'

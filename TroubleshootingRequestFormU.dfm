@@ -311,6 +311,7 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
     Font.Style = []
     ParentFont = False
     TabOrder = 6
+    OnChange = tgl_permintaanChange
   end
   object status: TCheckBox
     Left = 532
@@ -382,6 +383,7 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
     Font.Style = []
     ParentFont = False
     TabOrder = 12
+    OnChange = tgl_selesaiChange
     OnKeyPress = tgl_selesaiKeyPress
   end
   object BussinissUnit: TEdit

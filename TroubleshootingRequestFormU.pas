@@ -121,6 +121,8 @@ type
     procedure BersihkanClick(Sender: TObject);
     procedure chk_sesuai_permintaanClick(Sender: TObject);
     procedure BersihkanKeyPress(Sender: TObject; var Key: Char);
+    procedure tgl_permintaanChange(Sender: TObject);
+    procedure tgl_selesaiChange(Sender: TObject);
 
   private
     { Private declarations }
@@ -266,7 +268,7 @@ begin
                     'requested_user = '+QuotedStr(requested_user_id.Text)+','+
                     'detail_troubles = '+QuotedStr(Detail_permintaan.Text)+','+
                     'action = '+QuotedStr(tindakan.Text)+','+
-                    'user_pic = '+QuotedStr(User)+','+
+                    'user_pic = '+QuotedStr(FullName)+','+
                     'note = '+QuotedStr(catatan.Text)+','+
                     'completion_date = '+QuotedStr(FormatDateTime('yyyy/mm/dd',tgl_selesai.Date))+','+
                     'status ='+QuotedStr(StrStatus)+','+
@@ -281,7 +283,7 @@ begin
                   QuotedStr(StrTRFNO)+', '+QuotedStr(FormatDateTime('yyyy/mm/dd',tgl_permintaan.Date))+', '+
                   QuotedStr(cb_jenis_truouble.Text)+', '+QuotedStr(requested_user_id.Text)+', '+
                   QuotedStr(Detail_permintaan.Text)+', '+QuotedStr(tindakan.Text)+', '+
-                  QuotedStr(FormatDateTime('yyyy/mm/dd',tgl_selesai.Date))+', '+QuotedStr(User)+','+QuotedStr(catatan.Text)+','+
+                  QuotedStr(FormatDateTime('yyyy/mm/dd',tgl_selesai.Date))+', '+QuotedStr(FullName)+','+QuotedStr(catatan.Text)+','+
                   QuotedStr(User)+', '+QuotedStr(FormatDateTime('yyyy/mm/dd',Now()))+', '+
                   QuotedStr(User)+', '+QuotedStr(FormatDateTime('yyyy/mm/dd',Now()))+');';
         StrPesan:= 'Berhasil Menyimpan TRF';
@@ -633,6 +635,17 @@ procedure TTroubleshootingRequestForm.BersihkanKeyPress(Sender: TObject;
   var Key: Char);
 begin
   //if Key=#13 then CariUser.SetFocus;
+end;
+
+procedure TTroubleshootingRequestForm.tgl_permintaanChange(
+  Sender: TObject);
+begin
+  if tgl_selesai.Date<tgl_permintaan.Date then tgl_selesai.Date:=tgl_permintaan.Date;
+end;
+
+procedure TTroubleshootingRequestForm.tgl_selesaiChange(Sender: TObject);
+begin
+  if tgl_permintaan.Date>tgl_selesai.Date then tgl_permintaan.Date:=tgl_selesai.Date;
 end;
 
 end.

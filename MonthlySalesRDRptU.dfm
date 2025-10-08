@@ -1,6 +1,6 @@
 object MonthlySalesRDRpt: TMonthlySalesRDRpt
-  Left = 208
-  Top = 101
+  Left = 216
+  Top = 131
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Laporan Pesanan Bulanan perArmada Jalan'

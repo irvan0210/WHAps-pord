@@ -1,6 +1,6 @@
 object ChartBus: TChartBus
-  Left = 146
-  Top = 170
+  Left = 279
+  Top = 35
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Chart Total Unit'
@@ -135,6 +135,7 @@ object ChartBus: TChartBus
     Title.Font.Style = []
     Title.Text.Strings = (
       'TChart')
+    OnClickSeries = ChartYogyaClickSeries
     AxisVisible = False
     ClipPoints = False
     Frame.Visible = False
@@ -175,6 +176,7 @@ object ChartBus: TChartBus
     Title.Font.Style = []
     Title.Text.Strings = (
       'TChart')
+    OnClickSeries = ChartMedanClickSeries
     AxisVisible = False
     ClipPoints = False
     Frame.Visible = False
@@ -215,6 +217,7 @@ object ChartBus: TChartBus
     Title.Font.Style = []
     Title.Text.Strings = (
       'TChart')
+    OnClickSeries = ChartSemarangClickSeries
     AxisVisible = False
     ClipPoints = False
     Frame.Visible = False
@@ -255,6 +258,7 @@ object ChartBus: TChartBus
     Title.Font.Style = []
     Title.Text.Strings = (
       'TChart')
+    OnClickSeries = ChartJakartaClickSeries
     AxisVisible = False
     ClipPoints = False
     Frame.Visible = False
@@ -299,7 +303,7 @@ object ChartBus: TChartBus
       Top = 14
       Width = 55
       Height = 13
-      Caption = 'PerTanngal'
+      Caption = 'PerTanggal'
     end
     object Tanggal: TDateTimePicker
       Left = 75
@@ -328,6 +332,7 @@ object ChartBus: TChartBus
     Title.Font.Style = []
     Title.Text.Strings = (
       'TChart')
+    OnClickSeries = ChartBaliClickSeries
     AxisVisible = False
     ClipPoints = False
     Frame.Visible = False

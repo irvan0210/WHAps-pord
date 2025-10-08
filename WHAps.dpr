@@ -347,7 +347,8 @@ uses
   TroubleshootingRequestFormListU in 'TroubleshootingRequestFormListU.pas' {TroubleshootingRequestFormList},
   KontrakKaryawanFormU in 'KontrakKaryawanFormU.pas' {EmployeeContractForm},
   EmployeeContractListU in 'EmployeeContractListU.pas' {EmployeeContractList},
-  ChartU in 'ChartU.pas' {ChartBus};
+  ChartU in 'ChartU.pas' {ChartBus},
+  ChartBusDetailU in 'ChartBusDetailU.pas' {ChartBusDetail};
 
 {$R *.res}
 
