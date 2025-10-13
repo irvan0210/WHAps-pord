@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ADODB, ExtCtrls, ComCtrls, WHUnit, ppComm, ppRelatv,
   ppProd, ppClass, ppReport, ppPrnabl, ppCtrls, ppBands, ppCache, ppStrtch,
-  ppMemo, pngimage, jpeg, Buttons;
+  ppMemo, pngimage, jpeg, Buttons, frxpngimage;
 
 type
   TTroubleshootingRequestForm = class(TForm)
@@ -14,18 +14,15 @@ type
     Label3: TLabel;
     Label4: TLabel;
     Label1: TLabel;
-    Label9: TLabel;
     Label10: TLabel;
     Pool_lokasi: TEdit;
     jabatan_departemen: TEdit;
     panel: TPanel;
     Selesai: TButton;
     Simpan: TButton;
-    catatan: TMemo;
     nama_user: TEdit;
     Label11: TLabel;
     tgl_permintaan: TDateTimePicker;
-    status: TCheckBox;
     cetak: TButton;
     Detail_permintaan: TMemo;
     Label23: TLabel;
@@ -60,18 +57,12 @@ type
     ppLabelDetailPermintaan: TppMemo;
     ppFooterBand1: TppFooterBand;
     ppLabel30: TppLabel;
-    ppLabel32: TppLabel;
     ppLabel33: TppLabel;
     ppLabelUserpembuat: TppLabel;
     no_TRF: TEdit;
     CariUser: TSpeedButton;
     Label14: TLabel;
-    tindakan: TMemo;
-    Label5: TLabel;
-    Label6: TLabel;
-    tgl_selesai: TDateTimePicker;
     Label7: TLabel;
-    Label8: TLabel;
     BussinissUnit: TEdit;
     cb_jenis_truouble: TComboBox;
     Label12: TLabel;
@@ -93,7 +84,27 @@ type
     ppLabel15: TppLabel;
     ppLabelJenisPermintaan: TppLabel;
     Bersihkan: TButton;
+    ppLabel24: TppLabel;
+    ppLabel26: TppLabel;
+    ppLabel27: TppLabel;
+    ppLabel28: TppLabel;
+    ppLabel29: TppLabel;
+    ppLabel31: TppLabel;
+    PanelTindakan: TPanel;
+    Label5: TLabel;
+    Label8: TLabel;
+    tindakan: TMemo;
+    Label6: TLabel;
+    tgl_selesai: TDateTimePicker;
     chk_sesuai_permintaan: TCheckBox;
+    Label9: TLabel;
+    catatan: TMemo;
+    PanelRespomUser: TPanel;
+    Status: TCheckBox;
+    Label13: TLabel;
+    CatatanUser: TMemo;
+    Label15: TLabel;
+    Label16: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure SimpanClick(Sender: TObject);
@@ -167,13 +178,14 @@ begin
   tindakan.Clear;
   tgl_permintaan.Date := Now;
   tgl_selesai.Date := Now;
-  status.Checked := True;
-  status.Enabled := False;
+ // status.Checked := True;
+ // status.Enabled := False;
   BussinissUnit.Clear;
   catatan.Clear;
   cetak.Enabled := False;
   chk_sesuai_permintaan.Checked := False;
-
+  cb_jenis_truouble.SetFocus;
+ 
 end;
 
 procedure TTroubleshootingRequestForm.LoadData;
@@ -191,6 +203,7 @@ begin
       tgl_permintaan.Date:=StrToDateTime(Qry.FieldValues['request_date']);
       cb_jenis_truouble.ItemIndex := cb_jenis_truouble.Items.IndexOf(Qry.FieldValues['type']);
       nama_user.Text:=Qry.FieldValues['name'];
+      requested_user_id.Text := Qry.FieldValues['requested_user'];
       jabatan_departemen.Text:=Qry.FieldValues['nama_departement'];
       Pool_lokasi.Text:=Qry.FieldValues['location'];
       BussinissUnit.Text:= Qry.FieldValues['company'];
@@ -198,8 +211,19 @@ begin
       tindakan.Lines.Text := Qry.FieldValues['action'];
       tgl_selesai.Date:=StrToDateTime(Qry.FieldValues['completion_date']);
       catatan.Text:=Qry.FieldValues['note'];
+      if Qry.FieldValues['user_note'] <> null then CatatanUser.Text:=Qry.FieldValues['user_note']
+      else CatatanUser.Text:= '';
 
-      if Qry.FieldValues['status'] then status.Checked:=True else status.Checked:=False;;
+      if Qry.FieldValues['status']='2' then begin
+        status.Checked:=True ;
+        if (user = 'irvan.ruswanto') or (user = 'ari') then
+          Status.Enabled:= True
+        else Status.Enabled:= False;
+      end else begin
+        status.Checked:=False;
+        Status.Enabled:= True;
+      end;
+
     end;
     Qry.Close;
     Main.CloseDb;
@@ -222,12 +246,31 @@ end;
 procedure TTroubleshootingRequestForm.FormShow(Sender: TObject);
 begin
   Init;
- // RefreshDepartemen;
   if StrTRFNO<>'' then begin
     tgl_permintaan.Enabled := True;
-    status.Enabled := True;
+    //status.Enabled := True;
     cetak.Enabled := True;
     LoadData;
+    Bersihkan.Enabled := False;
+  end;
+
+ //MessageBox(0,PChar(DepartmentId),'Troubleshooting Request Form',MB_OK or MB_ICONINFORMATION);
+ // RefreshDepartemen;
+  if (DepartmentId <> '13') then begin
+     tgl_permintaan.Enabled := False;
+
+     if (tindakan.Text<>'')then begin
+        //Height := Height-145;
+        PanelRespomUser.Visible := True;
+        PanelTindakan.Visible := True;
+        PanelTindakan.Enabled := False;
+     end else begin
+        Height := Height-190;
+        SetUser(User);
+        CariUser.Visible := False;
+        PanelRespomUser.Visible := False;
+        PanelTindakan.Visible := False;
+     end;
   end;
 
   if IsView then Input(False)
@@ -249,8 +292,8 @@ begin
      // for IntCount:=0 to Length(DepartemenArr)-1 do
       //if DepartemenArr[IntCount][1]=Departemen.Text then StrDepartemenId:=DepartemenArr[IntCount][0];
 
-      if status.Checked = True then StrStatus := '1'
-      else StrStatus := '0';
+      if status.Checked = True then StrStatus := '2'
+      else StrStatus := '1';
 
       if StrTRFNO = '' then begin
           StrQry:='SELECT dbo.GetNewTRFNo() AS hasil;';
@@ -268,7 +311,7 @@ begin
                     'requested_user = '+QuotedStr(requested_user_id.Text)+','+
                     'detail_troubles = '+QuotedStr(Detail_permintaan.Text)+','+
                     'action = '+QuotedStr(tindakan.Text)+','+
-                    'user_pic = '+QuotedStr(FullName)+','+
+                    'user_pic = '+QuotedStr(User)+','+
                     'note = '+QuotedStr(catatan.Text)+','+
                     'completion_date = '+QuotedStr(FormatDateTime('yyyy/mm/dd',tgl_selesai.Date))+','+
                     'status ='+QuotedStr(StrStatus)+','+
@@ -283,7 +326,7 @@ begin
                   QuotedStr(StrTRFNO)+', '+QuotedStr(FormatDateTime('yyyy/mm/dd',tgl_permintaan.Date))+', '+
                   QuotedStr(cb_jenis_truouble.Text)+', '+QuotedStr(requested_user_id.Text)+', '+
                   QuotedStr(Detail_permintaan.Text)+', '+QuotedStr(tindakan.Text)+', '+
-                  QuotedStr(FormatDateTime('yyyy/mm/dd',tgl_selesai.Date))+', '+QuotedStr(FullName)+','+QuotedStr(catatan.Text)+','+
+                  QuotedStr(FormatDateTime('yyyy/mm/dd',tgl_selesai.Date))+', '+QuotedStr(User)+','+QuotedStr(catatan.Text)+','+
                   QuotedStr(User)+', '+QuotedStr(FormatDateTime('yyyy/mm/dd',Now()))+', '+
                   QuotedStr(User)+', '+QuotedStr(FormatDateTime('yyyy/mm/dd',Now()))+');';
         StrPesan:= 'Berhasil Menyimpan TRF';
@@ -474,11 +517,12 @@ begin
        // MessageBox(0,PChar(MerkdanSpesifikasi.Text),'Rekomendasi Teknis',MB_OK or MB_ICONINFORMATION);
        // ppLabelMerkdanSpek.Caption :=MerkdanSpesifikasi.Text;//TStringList(MerkdanSpesifikasi.Lines);
         ppLabelTindakan.Lines.Text := (Qry.FieldValues['action']);
-        ppLabelUserpembuat.Caption := Qry.FieldValues['requested_user']; //PerkiraanHarga.Text;
+        ppLabelUserpembuat.Caption := Qry.FieldValues['name']; //PerkiraanHarga.Text;
         ppLabelPenerima.Caption := Qry.FieldValues['user_pic']; //StrToDateTime(DateToStr(RecomExpired.Date);
         ppLabelTglSelesai.Caption := Qry.FieldValues['completion_date'];
-        ppLabelCatatan.Caption := Qry.FieldValues['note'];
-        ppLabeltgl.Caption := 'Tangerang, '+DateTimeToStr(Qry.FieldValues['request_date']);
+        if Qry.FieldValues['note'] <> null then ppLabelCatatan.Caption := Qry.FieldValues['note']
+        else ppLabelCatatan.Caption := ' - ';
+        ppLabeltgl.Caption := 'Jakarta, '+DateTimeToStr(Qry.FieldValues['request_date']);
         Main.M_Normal;
         ppReportTRF.PreviewFormSettings.WindowState:=wsMaximized;
         ppReportTRF.Print;

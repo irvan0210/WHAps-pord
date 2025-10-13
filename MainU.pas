@@ -1404,6 +1404,22 @@ begin
             end
           end;
         end;
+
+        {Tire Management}
+        151301..151302:begin
+          Case CaseStr(RightStr(IntToStr(Tag),2),['01','02']) of
+            0:begin
+                if IsFormOpen('BlockUnitForm')=False then BlockUnitForm:=TBlockUnitForm.Create(Self);
+              end;
+            1:begin
+                if IsFormOpen('WorkOrderList')=False then WorkOrderList:=TWorkOrderList.Create(Self,'','',1,2); {2=edit; 1=readonly}
+              end;
+            else begin
+                if IsFormOpen('WorkOrderList')=False then WorkOrderList:=TWorkOrderList.Create(Self,'','',1,1);
+            end
+          end;
+        end;
+
         {160101..160104 Inventory Vendor}
         160101..160104:begin
           if Tag=160101 then begin

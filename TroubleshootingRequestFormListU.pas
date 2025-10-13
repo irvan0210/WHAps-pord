@@ -22,6 +22,7 @@ type
     Cari: TEdit;
     Search: TSpeedButton;
     ToXCel: TSpeedButton;
+    Label5: TLabel;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -52,7 +53,7 @@ type
 
 var
   TroubleshootingRequestFormList: TTroubleshootingRequestFormList;
-  TechnicalRecomArr:Array of TArrString14;
+  TRFArr:Array of TArrString14;
   IntRow, IntCol:Integer;
 
 implementation
@@ -132,17 +133,18 @@ begin
     Qry.SQL.Add(StrQry);
     Qry.Open;
     //if Qry.RecordCount>0 then begin
-      SetLength(TechnicalRecomArr,Qry.RecordCount);
+      SetLength(TRFArr,Qry.RecordCount);
       IntCount:=0;
       while not(Qry.Eof) do begin
-        TechnicalRecomArr[IntCount][0]:=Qry.FieldValues['trf_no'];
-        TechnicalRecomArr[IntCount][1]:=Qry.FieldValues['request_date'];
-        TechnicalRecomArr[IntCount][2]:=Qry.FieldValues['type'];
-        TechnicalRecomArr[IntCount][3]:=Qry.FieldValues['name'];
-        TechnicalRecomArr[IntCount][4]:=Qry.FieldValues['detail_troubles'];
-        TechnicalRecomArr[IntCount][5]:=Qry.FieldValues['action'];
-        TechnicalRecomArr[IntCount][6]:=Qry.FieldValues['user_pic'];
-        TechnicalRecomArr[IntCount][7]:=Qry.FieldValues['completion_date'];
+        TRFArr[IntCount][0]:=Qry.FieldValues['trf_no'];
+        TRFArr[IntCount][1]:=Qry.FieldValues['request_date'];
+        TRFArr[IntCount][2]:=Qry.FieldValues['type'];
+        TRFArr[IntCount][3]:=Qry.FieldValues['name'];
+        TRFArr[IntCount][4]:=Qry.FieldValues['detail_troubles'];
+        TRFArr[IntCount][5]:=Qry.FieldValues['action'];
+        TRFArr[IntCount][6]:=Qry.FieldValues['nama_pic'];
+        TRFArr[IntCount][7]:=Qry.FieldValues['completion_date'];
+        TRFArr[IntCount][8]:=Qry.FieldValues['status'];
         Inc(IntCount);
         Qry.Next;
       end;
@@ -173,22 +175,30 @@ begin
 end;
 
 procedure TTroubleshootingRequestFormList.RefreshList;
-var IntCount:Integer;
+var IntCount, IntCount2:Integer;
 begin
-  StrGrid.RowCount:=Length(TechnicalRecomArr)+1;
-  for IntCount:=0 to Length(TechnicalRecomArr)-1 do begin
-    StrGrid.Cells[0,IntCount+1]:=TechnicalRecomArr[IntCount][0];
-    StrGrid.Cells[1,IntCount+1]:=TechnicalRecomArr[IntCount][1];
-    StrGrid.Cells[2,IntCount+1]:=TechnicalRecomArr[IntCount][2];
-    StrGrid.Cells[3,IntCount+1]:=TechnicalRecomArr[IntCount][3];
-    StrGrid.Cells[4,IntCount+1]:=TechnicalRecomArr[IntCount][4];
-    StrGrid.Cells[5,IntCount+1]:=TechnicalRecomArr[IntCount][5];
-    StrGrid.Cells[6,IntCount+1]:=TechnicalRecomArr[IntCount][6];
-    StrGrid.Cells[7,IntCount+1]:=TechnicalRecomArr[IntCount][7];
+  StrGrid.RowCount:=Length(TRFArr)+1;
+  for IntCount:=0 to Length(TRFArr)-1 do begin
+    StrGrid.Cells[0,IntCount+1]:=TRFArr[IntCount][0];
+    StrGrid.Cells[1,IntCount+1]:=TRFArr[IntCount][1];
+    StrGrid.Cells[2,IntCount+1]:=TRFArr[IntCount][2];
+    StrGrid.Cells[3,IntCount+1]:=TRFArr[IntCount][3];
+    StrGrid.Cells[4,IntCount+1]:=TRFArr[IntCount][4];
+    StrGrid.Cells[5,IntCount+1]:=TRFArr[IntCount][5];
+    StrGrid.Cells[6,IntCount+1]:=TRFArr[IntCount][6];
+    StrGrid.Cells[7,IntCount+1]:=TRFArr[IntCount][7];
 
     StrGrid.CellStyle[0,IntCount+1].HorizontalAlignment :=taCenter;
     StrGrid.CellStyle[1,IntCount+1].HorizontalAlignment :=taCenter;
     StrGrid.CellStyle[7,IntCount+1].HorizontalAlignment :=taCenter;
+
+    if TRFArr[IntCount][8]='2' then
+    //if StrTimeOut <> '' then begin
+    begin
+     for IntCount2:=0 to StrGrid.ColCount-1 do
+     StrGrid.CellStyle[IntCount2,IntCount+1].Font.Color:=clGreen;
+    end;
+
     //StrGrid.CellStyle[4,IntCount+1].HorizontalAlignment :=taRightJustify;
 
     AutoSizeStringGridRows(StrGrid);
@@ -371,8 +381,8 @@ end;
 
 procedure TTroubleshootingRequestFormList.SearchClick(Sender: TObject);
 begin
-LoadData;
-RefreshList;
+  LoadData;
+  RefreshList;
 end;
 
 procedure TTroubleshootingRequestFormList.DepartemenChange(Sender: TObject);

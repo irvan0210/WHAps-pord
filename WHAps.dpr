@@ -18,7 +18,7 @@ uses
   UserListU in 'UserListU.pas' {UserList},
   UserFormU in 'UserFormU.pas' {UserForm},
   GroupMenuFromU in 'GroupMenuFromU.pas' {GroupMenuForm},
-  MenuFormU in 'MenuFormU.pas' {MenuForm},
+  TireMasterFormU in 'TireMasterFormU.pas' {TireMasterForm},
   MenuListU in 'MenuListU.pas' {MenuList},
   SubMenuFormU in 'SubMenuFormU.pas' {SubMenuForm},
   SubMenuListU in 'SubMenuListU.pas' {SubMenuList},

@@ -1,6 +1,6 @@
 object TroubleshootingRequestFormList: TTroubleshootingRequestFormList
-  Left = 284
-  Top = 155
+  Left = 229
+  Top = 143
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Daftar TRF'
@@ -21,8 +21,8 @@ object TroubleshootingRequestFormList: TTroubleshootingRequestFormList
   PixelsPerInch = 96
   TextHeight = 13
   object Search: TSpeedButton
-    Left = 355
-    Top = 8
+    Left = 352
+    Top = 9
     Width = 30
     Height = 28
     Glyph.Data = {
@@ -99,6 +99,19 @@ object TroubleshootingRequestFormList: TTroubleshootingRequestFormList
     ParentBiDiMode = False
     OnClick = ToXCelClick
   end
+  object Label5: TLabel
+    Left = 122
+    Top = 410
+    Width = 121
+    Height = 13
+    Caption = '>TRF SUDAH SELESAI<'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clGreen
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
   object StrGrid: TZColorStringGrid
     Left = 6
     Top = 43
@@ -144,7 +157,7 @@ object TroubleshootingRequestFormList: TTroubleshootingRequestFormList
     Height = 38
     TabOrder = 2
     object Label2: TLabel
-      Left = 371
+      Left = 283
       Top = 13
       Width = 58
       Height = 13
@@ -168,9 +181,9 @@ object TroubleshootingRequestFormList: TTroubleshootingRequestFormList
       Caption = 'S/D'
     end
     object Departemen: TComboBox
-      Left = 435
+      Left = 344
       Top = 10
-      Width = 22
+      Width = 113
       Height = 21
       Style = csDropDownList
       ItemHeight = 13
