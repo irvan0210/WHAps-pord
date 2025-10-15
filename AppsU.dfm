@@ -126,7 +126,11 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
-      '10/23/2025 (6.2.0.0) '
+      '15/10/2025 (6.2.0.0) (force update)'
+      '-Penambahan Menu/Tool untuk merubah invoice bagi finance'
+      '-Penambahan history pada surat jalan.'
+      ''
+      '07/10/2025 (6.2.0.0) '
       '-Penambahan Kolom Insentif  di Menu Tambah Uang Order'
       '-Penambahan Kolom insentif di laporan uang order harian.'
       '-Penambahan nominal reimburse (Jika ada) pada saat cetak ulang'
@@ -137,7 +141,7 @@ object Apps: TApps
       '-Penambahan No Servis Request di Cetakan PKB'
       '-Perbaikan Bug Sistem. '
       ''
-      '10/23/2025 (6.1.11.8) '
+      '23/09/2025 (6.1.11.8) '
       
         '-Penambahan sub menu kontrak crew, daftar kontrak crew, penambah' +
         'an data '
