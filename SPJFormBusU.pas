@@ -348,7 +348,7 @@ type
     IsInput,IsVehicleOnly,FullPayment,AllVehicle,isSent_WA,isChooseWANumber,isMultiple_WA_Number,IsAuthRevCrew:Boolean;
     IntRow,MinRowService,SJRange,SPJ_Form:Integer;
     IsDataFound:Boolean;
-    KMOdo,SJId,FormRequest,URL_Webwhatsapp:String;
+    KMOdo,SJId,FormRequest,URL_Webwhatsapp, StrDeskripsiHist:String;
    // StrGroup,StrIsOnline: String;
     procedure Init;
     procedure InitGrid;
@@ -376,7 +376,8 @@ type
 
 var
   SPJFormBus: TSPJFormBus;
-  StrDriver,StrDriverOld,StrDriver2,StrDriver2Old,StrVehicleID,StrGroup,StrIsOnline,StrHelperPhone,StrBusboyID,StrBusboyIDOld,StrDriverStatus,StrHelperStatus,
+  StrDriver,StrDriverOld,StrDriver2,StrDriver2Old,StrVehicleID,StrGroup,StrIsOnline,
+  StrHelperPhone,StrBusboyID,StrBusboyIDOld,StrDriverStatus,StrHelperStatus,
   KtpDriver1,KtpDriver2,KtpHelper,NoRekDriver1,NoRekDriver2,
   NoRekHelper,SIMDriver,SIMDriver2,TglExpSIMDriver1,TglExpSIMDriver2,ReservedOrderId: String;
   IntWajibHelper: Integer;
@@ -1383,7 +1384,7 @@ var Qry,Qry2,Qry3,Qry4,Qry5,Qry6,Qry7,QryWehaOnline:TADOQuery;
     IsAuth,IsOk:Boolean;
     NewSPJArr:Array of String;
 
-    StrUrl,NameSpace,ParamIn, Pesan_WA, StrDeskripsiHist,StrDriverBackupID,StrDriverBackupName,
+    StrUrl,NameSpace,ParamIn, Pesan_WA,StrDriverBackupID,StrDriverBackupName,
     StrDriverBackupPhone,StrDriverBackupCustomerNo,
     StrWehaHelperID,StrWehaHelperName,
     StrWehaHelperPhone,StrWehaHelperCustomerNo: String;
@@ -1703,14 +1704,14 @@ begin
               StrDeskripsiHist:='Cancel surat jalan';
             end;
             StrTransId:=SJId;
-            StrQry:=' UPDATE wh_vhc_trans SET vehicle_id='+QuotedStr(StrVehicleID)+',employee_id='+QuotedStr(StrDriver)+',employee_id2='+QuotedStr(StrDriver2)+',employee_id3='+StrHelperId+
+            StrQry:=' UPDATE wh_vhc_trans SET vehicle_id='+QuotedStr(StrVehicleID)+',employee_id='+QuotedStr(StrDriver)+',employee_id2='+QuotedStr(StrDriver2)+',employee_id3='+QuotedStr(StrBusboyID)+//StrHelperId+
                     ',phone_no='+StrPhoneNo+',description='+StrRemark+',remark='+StrRemark2+',cancel='+StrCancel+',update_user='+QuotedStr(User)+',update_time=GETDATE(),km_estimasi='+IntToStr(IntKmestimasi)+' '+
                     ' WHERE vhc_trans_id='+QuotedStr(StrTransId)+';';
             if StrStatus='1' then begin
               StrQry:=StrQry+' UPDATE wh_vhc_trans_detail_detail SET status=0 WHERE (vhc_trans_id='+QuotedStr(StrTransId)+') AND (status=1);';
               if (StrDriver<>StrDriverOld) or (StrDriver2<>StrDriver2Old) or (StrBusboyID<>StrBusboyIDOld)
               then StrQry:=StrQry+' UPDATE wh_reserved_order_detail SET employee_id='+QuotedStr(StrDriver)+',employee_id2='+QuotedStr(StrDriver2)+','+
-                      'employee_id3='+StrHelperId+' WHERE reserved_order_detail_id='+StrReservedOrderDetailId+' ';
+                      'employee_id3='+QuotedStr(StrBusboyID)+' WHERE reserved_order_detail_id='+StrReservedOrderDetailId+' ';
             end else begin
 //              if Package.Checked = False then begin
                 StrQry:=StrQry+' UPDATE wh_reserved_order_detail SET vhc_trans_id=NULL, update_user='+QuotedStr(User)+',update_time=GETDATE() WHERE (reserved_order_detail_id='+StrReservedOrderDetailId+') AND (status=1);';
@@ -1899,7 +1900,7 @@ begin
                               IsOk:=False;
                               EnableInput;
                               StrEMsg:=StrEMsg+E.Message;
-                              MessageBox(Handle,PChar('Driver tidak bisa diinput '+Chr(13)+Chr(13)+StrEMsg),'Surat Jalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+                              MessageBox(Handle,PChar('Surat Jalan tidak bisa diinput '+Chr(13)+Chr(13)+StrEMsg),'Surat Jalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
                               Exit;
                             end;
                           end;
@@ -1938,89 +1939,87 @@ begin
                                     'DriverBackupCustomerNo='+StrDriverBackupCustomerNo;
 
                     end
-                    else if StrBusboyIDOld<>StrBusboyID then
-//                        if Kenek.Text<>'' then
-                    begin
 
-                      StrQryWehaOnlineCek:='SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
-                                             'left join Users b ON a.ContactID=b.ContactID WHERE '+
-                                             'b.CustomerNo='+StrHelperId+' AND b.IsActive=1';
-                      QryWehaOnline.Close;
-                      QryWehaOnline.SQL.Clear;
-                      QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
-                      QryWehaOnline.Open;
-
-
-                      if QryWehaOnline.RecordCount=0 then begin
-                        StrQryWehaOnline:= 'INSERT INTO Contacts '+
-                                      '(FullName,Gender,'+
-                                      'HP,ViewHisOwnData,IsMain,CreatedBy,CreatedDate,'+
-                                      'ModifiedBy,ModifiedDate,ViewGroupOnly) VALUES '+
-                                      '('+QuotedStr(Kenek.Text)+',''M'' '+
-                                      ','+QuotedStr(StrHelperPhone)+',0,0,0 '+
-                                      ',GETDATE(),0,GETDATE(),0); ';
-
-                        QryWehaOnline.SQL.Clear;
-                        QryWehaOnline.SQL.Add(StrQryWehaOnline);
-                        try
-                          QryWehaOnline.ExecSQL;
-                        except
-                          on E:Exception do begin
-                            Main.TransRollback;
-                            IsOk:=False;
-                            EnableInput;
-                            StrEMsg:=StrEMsg+E.Message;
-                            MessageBox(Handle,PChar('Surat Jalan tidak bisa diinput '+Chr(13)+Chr(13)+StrEMsg),'Surat jalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
-                            Exit;
-                          end;
-                        end;
-
-
-                        StrQryWehaOnlineCek:='SELECT TOP 1 ContactID FROM Contacts '+
-                                             'WHERE CreatedBy=0 Order By ContactID DESC';
-                        QryWehaOnline.Close;
-                        QryWehaOnline.SQL.Clear;
-                        QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
-                        QryWehaOnline.Open;
-
-                        StrWehaUserID:=StringReplace(QuotedStr(Kenek.Text),' ','.',[rfReplaceAll]);
-
-                        StrQryWehaOnline:= 'INSERT INTO Users '+
-                                      '(ContactID,CustomerNo,'+
-                                      'Email,Password,Role,LoginType,WehaUserID,'+
-                                      'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,IsHelper) VALUES '+
-                                      '('+QuotedStr(QryWehaOnline.FieldValues['ContactID'])+' '+
-                                      ','+StrHelperId+','+StrWehaUserID+' '+
-                                      ',NULL,''DRIVER'',''EMAIL'' '+
-                                      ','+StrWehaUserID+' '+
-                                      ',1,0,GETDATE(),0,GETDATE(),1); ';
-
-                        QryWehaOnline.SQL.Clear;
-                        QryWehaOnline.SQL.Add(StrQryWehaOnline);
-                        try
-                          QryWehaOnline.ExecSQL;
-                        except
-                          on E:Exception do begin
-                            Main.TransRollback;
-                            IsOk:=False;
-                            EnableInput;
-                            StrEMsg:=StrEMsg+E.Message;
-                            MessageBox(Handle,PChar('Driver tidak bisa diinput '+Chr(13)+Chr(13)+StrEMsg),'Surat Jalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
-                            Exit;
-                          end;
-                        end;
-
+                    else if StrBusboyIDOld<>StrBusboyID then begin
+                      if StrBusboyID <>'' then begin
                         StrQryWehaOnlineCek:='SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
-                                           'left join Users b ON a.ContactID=b.ContactID WHERE '+
-                                           'b.CustomerNo='+StrHelperId+' AND b.IsActive=1';
+                                               'left join Users b ON a.ContactID=b.ContactID WHERE '+
+                                               'b.CustomerNo='+QuotedStr(StrBusboyID)+' AND b.IsActive=1';
                         QryWehaOnline.Close;
                         QryWehaOnline.SQL.Clear;
                         QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
                         QryWehaOnline.Open;
 
-                      end;
+                        if QryWehaOnline.RecordCount=0 then begin
+                          StrQryWehaOnline:= 'INSERT INTO Contacts '+
+                                        '(FullName,Gender,'+
+                                        'HP,ViewHisOwnData,IsMain,CreatedBy,CreatedDate,'+
+                                        'ModifiedBy,ModifiedDate,ViewGroupOnly,isHelper) VALUES '+
+                                        '('+QuotedStr(Kenek.Text)+',''M'' '+
+                                        ','+QuotedStr(StrHelperPhone)+',0,0,0,1 '+
+                                        ',GETDATE(),0,GETDATE(),0); ';
 
-                      if StrHelperId='' then
+                          QryWehaOnline.SQL.Clear;
+                          QryWehaOnline.SQL.Add(StrQryWehaOnline);
+                          try
+                            QryWehaOnline.ExecSQL;
+                          except
+                            on E:Exception do begin
+                              Main.TransRollback;
+                              IsOk:=False;
+                              EnableInput;
+                              StrEMsg:=StrEMsg+E.Message;
+                              MessageBox(Handle,PChar('Surat Jalan tidak bisa diinput'+Chr(13)+Chr(13)+StrEMsg),'Surat jalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+                              Exit;
+                            end;
+                          end;
+
+
+                          StrQryWehaOnlineCek:='SELECT TOP 1 ContactID FROM Contacts '+
+                                               'WHERE CreatedBy=0 Order By ContactID DESC';
+                          QryWehaOnline.Close;
+                          QryWehaOnline.SQL.Clear;
+                          QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
+                          QryWehaOnline.Open;
+
+                          StrWehaUserID:=StringReplace(QuotedStr(Kenek.Text),' ','.',[rfReplaceAll]);
+
+                          StrQryWehaOnline:= 'INSERT INTO Users '+
+                                        '(ContactID,CustomerNo,'+
+                                        'Email,Password,Role,LoginType,WehaUserID,'+
+                                        'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,IsHelper) VALUES '+
+                                        '('+QuotedStr(QryWehaOnline.FieldValues['ContactID'])+' '+
+                                        ','+QuotedStr(StrBusboyID)+','+StrWehaUserID+' '+
+                                        ',NULL,''DRIVER'',''EMAIL'' '+
+                                        ','+StrWehaUserID+' '+
+                                        ',1,0,GETDATE(),0,GETDATE(),1); ';
+
+                          QryWehaOnline.SQL.Clear;
+                          QryWehaOnline.SQL.Add(StrQryWehaOnline);
+                          try
+                            QryWehaOnline.ExecSQL;
+                          except
+                            on E:Exception do begin
+                              Main.TransRollback;
+                              IsOk:=False;
+                              EnableInput;
+                              StrEMsg:=StrEMsg+E.Message;
+                              MessageBox(Handle,PChar('Surat Jalan tidak bisa diinput '+Chr(13)+Chr(13)+StrEMsg),'Surat Jalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+                              Exit;
+                            end;
+                          end;
+
+                          StrQryWehaOnlineCek:='SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
+                                             'left join Users b ON a.ContactID=b.ContactID WHERE '+
+                                             'b.CustomerNo='+QuotedStr(StrBusboyID)+' AND b.IsActive=1';
+                          QryWehaOnline.Close;
+                          QryWehaOnline.SQL.Clear;
+                          QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
+                          QryWehaOnline.Open;
+
+                        end;
+                      end;
+                      if StrBusboyID='' then
                       begin
                         StrWehaHelperID:='NULL';
                         StrWehaHelperName:='NULL';
@@ -2030,18 +2029,18 @@ begin
                         StrWehaHelperID:=QuotedStr(QryWehaOnline.FieldValues['UserID']);
                         StrWehaHelperName:=QuotedStr(QryWehaOnline.FieldValues['FullName']);
                         StrWehaHelperPhone:=QuotedStr(QryWehaOnline.FieldValues['HP']);
-                        StrWehaHelperCustomerNo:=StrHelperId;
+                        StrWehaHelperCustomerNo:=QuotedStr(StrBusboyID);
                       end;
 
                       if (StrDriverQry='') AND (StrDriver2Qry='') then
                         StrBusboyQry:='HelperID='+StrWehaHelperID+','+
                                     'HelperName='+StrWehaHelperName+','+
                                     'HelperPhone='+StrWehaHelperPhone+','+
-                                    'WEHAHelperCustomerNo='+StrHelperId
+                                    'WEHAHelperCustomerNo='+QuotedStr(StrBusboyID)
                        else StrBusboyQry :=',HelperID='+StrWehaHelperID+','+
                                     'HelperName='+StrWehaHelperName+','+
                                     'HelperPhone='+StrWehaHelperPhone+','+
-                                    'WEHAHelperCustomerNo='+StrHelperId;
+                                    'WEHAHelperCustomerNo='+QuotedStr(StrBusboyID);
 
                     end;
 
@@ -2115,15 +2114,15 @@ begin
                           FormatDateTime('mm',StrToDate(FromDate.Text))+FormatDateTime('dd',StrToDate(FromDate.Text))+StrUrutID;
               StrQry:='INSERT INTO wh_vhc_trans (vhc_trans_id,vehicle_id,vhc_trans_type_id,employee_id,employee_id2,employee_id3'+
                     ',phone_no,location_id,out_date,out_user,description,remark,update_user,km_estimasi,isConnecting,urut_id) '+
-                    'VALUES ('+QuotedStr(StrTransId)+','+QuotedStr(StrVehicleID)+',1,'+QuotedStr(StrDriver)+','+QuotedStr(StrDriver2)+','+StrHelperId+
+                    'VALUES ('+QuotedStr(StrTransId)+','+QuotedStr(StrVehicleID)+',1,'+QuotedStr(StrDriver)+','+QuotedStr(StrDriver2)+','+QuotedStr(StrBusboyID)+
                     ','+StrPhoneNo+','+LocationId+','+StrFromDates+','+QuotedStr(User)+
                     ','+StrRemark+
                     ','+StrRemark2+
                     ','+QuotedStr(User)+','+IntToStr(IntKmestimasi)+','+QuotedStr(StrConnecting)+','+QuotedStr(StrUrutID)+');';
 
-              if (StrHelperId <> '') then begin
+              if (StrBusboyID <> '') then begin
                   StrQry:=StrQry+' UPDATE wh_reserved_order_detail SET vhc_trans_id='+QuotedStr(StrTransId)+
-                          ',employee_id3 ='+StrHelperId+',helper_status='+QuotedStr(StatusPenugasanHelper.Text)+
+                          ',employee_id3 ='+QuotedStr(StrBusboyID)+',helper_status='+QuotedStr(StatusPenugasanHelper.Text)+
                           ' WHERE reserved_order_detail_id='+StrReservedOrderDetailId+';';
               end else begin
                   StrQry:=StrQry+' UPDATE wh_reserved_order_detail SET vhc_trans_id='+QuotedStr(StrTransId)+
@@ -2277,7 +2276,7 @@ begin
 
                 StrQryWehaOnlineCek:='SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
                                          'left join Users b ON a.ContactID=b.ContactID WHERE '+
-                                         'b.CustomerNo='+ StrHelperId+' AND b.IsActive=1';
+                                         'b.CustomerNo='+QuotedStr(StrBusboyID)+' AND b.IsActive=1';
                 QryWehaOnline.Close;
                 QryWehaOnline.SQL.Clear;
                 QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
@@ -2287,7 +2286,7 @@ begin
                   StrWehaHelperID:=QuotedStr(QryWehaOnline.FieldValues['UserID']);
                   StrWehaHelperName:=QuotedStr(QryWehaOnline.FieldValues['FullName']);
                   StrWehaHelperPhone:=QuotedStr(QryWehaOnline.FieldValues['HP']);
-                  StrWehaHelperCustomerNo:=StrHelperId;
+                  StrWehaHelperCustomerNo:=QuotedStr(StrBusboyID);
                 end else begin
                   StrWehaHelperID:='NULL';
                   StrWehaHelperName:='NULL';
@@ -2298,7 +2297,7 @@ begin
                  StrBusboyQry :=',HelperID='+StrWehaHelperID+','+
                                 'HelperName='+StrWehaHelperName+','+
                                 'HelperPhone='+StrWehaHelperPhone+','+
-                                'WEHAHelperCustomerNo='+StrHelperId;
+                                'WEHAHelperCustomerNo='+QuotedStr(StrBusboyID);
 
                 StrQry:='SELECT * FROM OrderDetailVehicleInfos WHERE WehaReservedCode='+StrReservedOrderDetailId;
                 QryWehaOnline.SQL.Clear;
@@ -2411,18 +2410,26 @@ begin
             end;    }
 
             if IsOk=True then begin
-              StrQry:=  'INSERT INTO wh_vhc_trans_hist '+
-                        '(vhc_trans_id,vehicle_id,employee_id,employee_id2,employee_id3,'+
-                        'deskripsi,from_time,standby_time,route,pickup_point,field_contact,'+
-                        'field_contact_cellular_no,isConnecting,update_user,customer_order_id,from_date,to_date,remark) VALUES '+
-                        '('+QuotedStr(StrTransId)+','+QuotedStr(StrVehicleID)+','+
-                        ''+QuotedStr(StrDriver)+','+QuotedStr(StrDriver2)+','+StrHelperId+','+
-                        ''+QuotedStr(StrDeskripsiHist)+','+StrFromTimes+','+StrStandbyTimes+','+StrRoute+','+
-                        ''+StrPickupPoint+','+StrFieldContact+','+StrFieldPhoneNo+','+
-                        ''+QuotedStr(StrConnecting)+','+QuotedStr(User)+','+QuotedStr(OrderId.Text)+','+
-                        ''+QuotedStr(FormatDateTime('yyyy/mm/dd',StrToDate(FromDate.Text)))+','+
-                        ''+QuotedStr(FormatDateTime('yyyy/mm/dd',StrToDate(ToDate.Text)))+','+
-                        ''+StrRemark2+'); ';
+              StrQry:=  'INSERT INTO wh_vhc_trans_log '+
+                        '(customer_order_id,reserved_order_detail_id,vhc_trans_id,' +
+                        ' cancel_reason,print_to,print_date,print_user) VALUES '+
+                        '('+QuotedStr(OrderId.Text)+','+QuotedStr(ReservedOrderDetaiId.Text)+','+
+                        ''+QuotedStr(StrTransId)+','+QuotedStr(StrDeskripsiHist)+','+IntToStr(RePrintForm.Copy)+','+
+                        ''+QuotedStr(FormatDateTime('yyyy/mm/dd',Now()))+','+
+                        ''+QuotedStr(User)+'); ';
+
+              StrQry:=  StrQry+'INSERT INTO wh_vhc_trans_hist '+
+                                '(vhc_trans_id,vehicle_id,employee_id,employee_id2,employee_id3,'+
+                                'deskripsi,from_time,standby_time,route,pickup_point,field_contact,'+
+                                'field_contact_cellular_no,isConnecting,update_user,customer_order_id,from_date,to_date,remark) VALUES '+
+                                '('+QuotedStr(StrTransId)+','+QuotedStr(StrVehicleID)+','+
+                                ''+QuotedStr(StrDriver)+','+QuotedStr(StrDriver2)+','+QuotedStr(StrBusboyID)+','+
+                                ''+QuotedStr(StrDeskripsiHist)+','+StrFromTimes+','+StrStandbyTimes+','+StrRoute+','+
+                                ''+StrPickupPoint+','+StrFieldContact+','+StrFieldPhoneNo+','+
+                                ''+QuotedStr(StrConnecting)+','+QuotedStr(User)+','+QuotedStr(OrderId.Text)+','+
+                                ''+QuotedStr(FormatDateTime('yyyy/mm/dd',StrToDate(FromDate.Text)))+','+
+                                ''+QuotedStr(FormatDateTime('yyyy/mm/dd',StrToDate(ToDate.Text)))+','+
+                                ''+StrRemark2+'); ';
 
               Qry.SQL.Clear;
               Qry.SQL.Add(StrQry);
@@ -2952,6 +2959,31 @@ begin
 //            end;
 
             ppReport3.Print;
+          end;
+
+          if RePrintForm.Copy>0 then begin
+            StrQry:=  'INSERT INTO wh_vhc_trans_log '+
+                      '(customer_order_id,reserved_order_detail_id,vhc_trans_id,' +
+                      ' cancel_reason,print_to,print_date,print_user) VALUES '+
+                      '('+QuotedStr(OrderId.Text)+','+QuotedStr(ReservedOrderDetaiId.Text)+','+
+                      ''+QuotedStr(Qry.FieldValues['vhc_trans_id'])+','+QuotedStr('Cetak Ulang')+','+IntToStr(RePrintForm.Copy)+','+
+                      ''+QuotedStr(FormatDateTime('yyyy/mm/dd',Now()))+','+
+                      ''+QuotedStr(User)+'); ';
+
+            Qry.SQL.Clear;
+            Qry.SQL.Add(StrQry);
+            try
+              Qry.ExecSQL;
+            except
+              on E:Exception do begin
+                Main.TransRollback;
+               // IsOk:=False;
+               // EnableInput;
+               // StrEMsg:=E.Message;
+                MessageBox(Handle,PChar('Surat Jalan gagal dicetak '),'Surat Jalan',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
+               // Exit;
+              end;
+            end;
           end;
         end;
         Qry.Close;

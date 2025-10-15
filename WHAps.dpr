@@ -348,7 +348,8 @@ uses
   KontrakKaryawanFormU in 'KontrakKaryawanFormU.pas' {EmployeeContractForm},
   EmployeeContractListU in 'EmployeeContractListU.pas' {EmployeeContractList},
   ChartU in 'ChartU.pas' {ChartBus},
-  ChartBusDetailU in 'ChartBusDetailU.pas' {ChartBusDetail};
+  ChartBusDetailU in 'ChartBusDetailU.pas' {ChartBusDetail},
+  RubahInvoiceFormU in 'RubahInvoiceFormU.pas' {RubahInvoiceForm};
 
 {$R *.res}
 

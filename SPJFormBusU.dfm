@@ -1,11 +1,11 @@
 object SPJFormBus: TSPJFormBus
   Left = 257
-  Top = 107
+  Top = 92
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Surat Jalan'
   ClientHeight = 559
-  ClientWidth = 919
+  ClientWidth = 920
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -1776,8 +1776,8 @@ object SPJFormBus: TSPJFormBus
     HTTPWebNode.UseUTF8InHeader = False
     HTTPWebNode.InvokeOptions = [soIgnoreInvalidCerts, soAutoCheckAccessPointViaUDDI]
     Converter.Options = [soSendMultiRefObj, soTryAllSchema, soRootRefNodesToBody, soCacheMimeResponse, soUTF8EncodeXML]
-    Left = 632
-    Top = 168
+    Left = 688
+    Top = 184
   end
   object ppReport2: TppReport
     PrinterSetup.BinName = 'Default'

@@ -243,7 +243,7 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   LaporanWehaMartU, MateriTrainingFormU, MateriTrainingListU,
   RekapPergantianPartperArmadaV2U, KmActualUnitRptU,
   TroubleshootingRequestFormU, TroubleshootingRequestFormListU,
-  EmployeeContractListU, ChartU;
+  EmployeeContractListU, ChartU, RubahInvoiceFormU;
 
 
 constructor TClockThread.Create;
@@ -1286,6 +1286,12 @@ begin
                          end else begin
 //                         if IsFormOpen('BankList')=False then BankList:=TBankList.Create(Self);
                          end;
+        end;
+        {141601 Rubah Invoice}
+        141601:begin
+         if Tag=141601 then begin
+            if IsFormOpen('RubahInvoiceForm')=False then RubahInvoiceForm:=TRubahInvoiceForm.Create(Self);
+         end;
         end;
         {150101..150104 Bengkel Eksternal}
         150101..150104:begin
