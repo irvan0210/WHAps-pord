@@ -2961,7 +2961,7 @@ begin
             ppReport3.Print;
           end;
 
-          if RePrintForm.Copy>0 then begin
+         { if RePrintForm.Copy>0 then begin
             StrQry:=  'INSERT INTO wh_vhc_trans_log '+
                       '(customer_order_id,reserved_order_detail_id,vhc_trans_id,' +
                       ' cancel_reason,print_to,print_date,print_user) VALUES '+
@@ -2984,7 +2984,7 @@ begin
                // Exit;
               end;
             end;
-          end;
+          end;  }
         end;
         Qry.Close;
       end;

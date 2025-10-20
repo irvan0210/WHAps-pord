@@ -368,7 +368,7 @@ end;
 
 procedure TCustomerComplainCorrectionForm.Update;
 var
-StrQry,StrQry2,StrMsg,StrEMsg:string;
+StrQry,StrQry2,StrMsg,StrEMsg, StrPIC:string;
 Qry,Qry2:TADOQuery;
 IsOk: Boolean;
 IntCount:Integer;
@@ -432,14 +432,40 @@ begin
           '(to_date BETWEEN GETDATE() AND DATEADD(dd, 1,GETDATE())))) '+
           'LEFT JOIN wh_employee j ON j.employee_id=a.reference '+
           'WHERE (d.employment_type_id=3) AND '+
-          '(d.location_id=6) AND a.name = '+QuotedStr(StrGrid4.Cells[1,IntCount])+' and a.active=1 ';
+          '(d.location_id='+LocationId+') AND a.name = '+QuotedStr(StrGrid4.Cells[1,IntCount])+' and a.active=1 ';
           Qry2.Close;
           Qry2.SQL.Clear;
           Qry2.SQL.Add(StrQry2);
           Qry2.Open;
-
-          if IsOk=True then
+          if Qry2.RecordCount >0 then begin
+            StrPIC:= Qry2.FieldValues['employee_id'];
+            if IsOk=True then
             begin
+              StrQry:='INSERT INTO wh_cust_complain_investigation_pic (cust_complain_investigation_id,'+
+                      'employee_id,status,submit_date,submit_user,update_user,type)'+
+                      ' VALUES ('+QuotedStr(StrTransId)+','+QuotedStr(Qry2.FieldValues['employee_id'])+',1,'+
+                      'getdate(),'+QuotedStr(User)+','+ QuotedStr(User)+',2); ';
+              Qry.Close;
+              Qry.SQL.Clear;
+              Qry.SQL.Add(StrQry);
+              try
+                Qry.ExecSQL;
+                IsOk:=True;
+              except
+                on E:Exception do begin
+                  IsOk:=False;
+                  StrMsg:=E.Message;
+                end;
+              end;
+            end;
+          end else begin
+            //MessageBox(0,PChar('PIC tidak ada..!'),'Customer Complain (Correction)',MB_OK or MB_ICONWARNING);
+            IsOk:=False;
+            StrMsg:='PIC tidak ada..'+Chr(13)+Chr(13)+'Silahkan Hubungi HRD';
+          end;
+
+        {  if IsOk=True then
+          begin
             StrQry:='INSERT INTO wh_cust_complain_investigation_pic (cust_complain_investigation_id,'+
                     'employee_id,status,submit_date,submit_user,update_user,type)'+
                     ' VALUES ('+QuotedStr(StrTransId)+','+QuotedStr(Qry2.FieldValues['employee_id'])+',1,'+
@@ -456,7 +482,7 @@ begin
                 StrMsg:=E.Message;
               end;
             end;
-          end;
+          end; }
         end;
       end;
 
@@ -594,7 +620,7 @@ begin
     '(to_date BETWEEN GETDATE() AND DATEADD(dd, 1,GETDATE())))) '+
     'LEFT JOIN wh_employee j ON j.employee_id=a.reference '+
     'WHERE (d.employment_type_id=3) AND '+
-    '(d.location_id=6) AND a.name like ''%'+PIC.Text+'%'' and a.active=1 ORDER BY a.name ';
+    '(d.location_id='+LocationId+') AND a.name like ''%'+PIC.Text+'%'' and a.active=1 ORDER BY a.name ';
     Main.WriteLog('SQL :'+StrQry,2);
     Qry.SQL.Add(StrQry);
     Qry.Open;

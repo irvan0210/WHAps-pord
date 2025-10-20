@@ -1,6 +1,6 @@
 object CustomerComplainCorrectionForm: TCustomerComplainCorrectionForm
-  Left = 253
-  Top = 154
+  Left = 256
+  Top = 116
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
   Caption = 'Customer Complain (Correction)'
