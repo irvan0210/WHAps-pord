@@ -1,6 +1,6 @@
 object TroubleshootingRequestFormList: TTroubleshootingRequestFormList
-  Left = 229
-  Top = 143
+  Left = 253
+  Top = 235
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Daftar TRF'

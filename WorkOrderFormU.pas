@@ -636,9 +636,9 @@ begin
       if (Qry.RecordCount>0) then begin
         VehicleId:=Vehicle_Id;
         NoBody.Text:=Qry.FieldValues['body_id'];
-
         NoPolisi.Text:=LicensePlate(Qry.FieldValues['license_plate']);
-        if (CompanyId='2') AND (StatusApiTransTrack='1') then begin
+
+       { if (CompanyId='2') AND (StatusApiTransTrack='1') then begin
           SetOdo(Qry.FieldValues['license_plate']);
           if KMOdo.Text='0' then
           begin
@@ -647,7 +647,9 @@ begin
         end else
         begin
             if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
-        end;
+        end;}
+
+         if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
       end;
       Qry.Close;
     end;

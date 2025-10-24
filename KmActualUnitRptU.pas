@@ -37,7 +37,7 @@ type
     FormRequest,FormFunction:String;
     ColumnWidth:Integer;
     CompanyArr,GroupArr:Array of TArrString5;
-    VehicleArr:Array of TArrString11;
+    VehicleArr:Array of TArrString14;
     IntRow:Integer;
     procedure Init;
     procedure InitGrid;
@@ -78,7 +78,7 @@ procedure TKmActualUnitRpt.InitGrid;
 var Count:Integer;
 begin
   StrGrid.RowCount:=3;
-  StrGrid.ColCount:=13;
+  StrGrid.ColCount:=14;
   StrGrid.MergeCells.AddRectXY(0,0,0,1);
   StrGrid.MergeCells.AddRectXY(1,0,1,1);
   StrGrid.MergeCells.AddRectXY(2,0,2,1);
@@ -88,13 +88,13 @@ begin
   //StrGrid.MergeCells.AddRectXY(15,0,15,1);
   //StrGrid.MergeCells.AddRectXY(16,0,16,1);
   //StrGrid.MergeCells.AddRectXY(17,0,17,1);
-  StrGrid.MergeCells.AddRectXY(4,0,9,0);
-  StrGrid.MergeCells.AddRectXY(10,0,12,0);
-  for Count:=0 to 13 do
+  StrGrid.MergeCells.AddRectXY(4,0,10,0);
+  StrGrid.MergeCells.AddRectXY(11,0,13,0);
+  for Count:=0 to 14 do
     StrGrid.CellStyle[Count,0].HorizontalAlignment:=taCenter;
-  for Count:=4 to 8 do
+  for Count:=4 to 9 do
     StrGrid.CellStyle[Count,1].HorizontalAlignment:=taCenter;
-  for Count:=9 to 12 do
+  for Count:=10 to 13 do
     StrGrid.CellStyle[Count,1].HorizontalAlignment:=taCenter;
   StrGrid.ColWidths[0]:=20;
   StrGrid.ColWidths[1]:=70;
@@ -103,12 +103,13 @@ begin
   StrGrid.ColWidths[4]:=130;
   StrGrid.ColWidths[5]:=100;
   StrGrid.ColWidths[6]:=100;
-  StrGrid.ColWidths[7]:=60;
+  StrGrid.ColWidths[7]:=100;
   StrGrid.ColWidths[8]:=60;
-  StrGrid.ColWidths[9]:=100;
-  StrGrid.ColWidths[10]:=80;
+  StrGrid.ColWidths[9]:=60;
+  StrGrid.ColWidths[10]:=100;
   StrGrid.ColWidths[11]:=80;
-  StrGrid.ColWidths[12]:=100;
+  StrGrid.ColWidths[12]:=80;
+  StrGrid.ColWidths[13]:=100;
  // StrGrid.ColWidths[12]:=0;
   //StrGrid.ColWidths[14]:=0;
   //StrGrid.ColWidths[15]:=0;
@@ -121,20 +122,16 @@ begin
   StrGrid.Cells[4,1]:='Tanggal';
   StrGrid.Cells[5,1]:='Odometer(Km) Out';
   StrGrid.Cells[6,1]:='Odometer(Km) In';
-  StrGrid.Cells[7,1]:='Selisih';
-  StrGrid.Cells[8,1]:='BBM (L)';
-  StrGrid.Cells[9,1]:='No SJ';
-  StrGrid.Cells[10,0]:='Servis Terahir';
-  StrGrid.Cells[10,1]:='Tanggal';
-  StrGrid.Cells[11,1]:='Odometer(Km)';
-  StrGrid.Cells[12,1]:='No PKB';
- // StrGrid.Cells[12,1]:='Sisa hari';
-  //StrGrid.Cells[13,0]:='Jenis Pekerjaan';
-  //StrGrid.Cells[14,0]:='Interval';
-  //StrGrid.Cells[15,0]:='Part Description';
-  //StrGrid.Cells[16,0]:='Part Number';
-  //StrGrid.Cells[17,0]:='Qty';
-  for Count:=0 to 12 do
+  StrGrid.Cells[7,1]:='Odo In (Transtrack)';
+  StrGrid.Cells[8,1]:='Selisih Odo';
+  StrGrid.Cells[9,1]:='BBM (L)';
+  StrGrid.Cells[10,1]:='No SJ';
+  StrGrid.Cells[11,0]:='Servis Terahir';
+  StrGrid.Cells[11,1]:='Tanggal';
+  StrGrid.Cells[12,1]:='Odometer(Km)';
+  StrGrid.Cells[13,1]:='No PKB';
+
+  for Count:=0 to 13 do
     StrGrid.Cells[Count,2]:='';
 //  for Count:=4 to 31 do
 //    StrGrid.ColWidths[Count]:=ColumnWidth;
@@ -251,6 +248,9 @@ begin
 
           if Qry2.FieldValues['vhc_trans_id'] <> null then VehicleArr[IntCount][11] := Qry2.FieldValues['vhc_trans_id']
           else VehicleArr[IntCount][11] := '0';
+
+          if Qry2.FieldValues['transtrack_odo_in_km'] <> NULL then VehicleArr[IntCount][12] :=
+          IToCurr(Qry2.FieldValues['transtrack_odo_in_km']);
          // StrGrid.Cells[(3+Qry2.FieldValues['tgl']),Count]:=Qry2.FieldValues['gross_argo'];
          // IntTotal:=IntTotal+SToInt(Qry2.FieldValues['gross_argo']);
           Qry2.Next;
@@ -306,12 +306,13 @@ begin
     StrGrid.Cells[4,IntCount+2]:=VehicleArr[IntCount][3];
     StrGrid.Cells[5,IntCount+2]:=VehicleArr[IntCount][4];
     StrGrid.Cells[6,IntCount+2]:=VehicleArr[IntCount][5];
-    StrGrid.Cells[7,IntCount+2]:=VehicleArr[IntCount][6];
-    StrGrid.Cells[8,IntCount+2]:=VehicleArr[IntCount][7];
-    StrGrid.Cells[9,IntCount+2]:=VehicleArr[IntCount][11];
-    StrGrid.Cells[10,IntCount+2]:=VehicleArr[IntCount][8];
-    StrGrid.Cells[11,IntCount+2]:=VehicleArr[IntCount][9];
-    StrGrid.Cells[12,IntCount+2]:=VehicleArr[IntCount][10];
+    StrGrid.Cells[7,IntCount+2]:=VehicleArr[IntCount][12];
+    StrGrid.Cells[8,IntCount+2]:=VehicleArr[IntCount][6];
+    StrGrid.Cells[9,IntCount+2]:=VehicleArr[IntCount][7];
+    StrGrid.Cells[10,IntCount+2]:=VehicleArr[IntCount][11];
+    StrGrid.Cells[11,IntCount+2]:=VehicleArr[IntCount][8];
+    StrGrid.Cells[12,IntCount+2]:=VehicleArr[IntCount][9];
+    StrGrid.Cells[13,IntCount+2]:=VehicleArr[IntCount][10];
     StrGrid.CellStyle[4,IntCount+2].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[5,IntCount+2].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[6,IntCount+2].HorizontalAlignment:=taRightJustify;
@@ -319,6 +320,7 @@ begin
     StrGrid.CellStyle[8,IntCount+2].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[9,IntCount+2].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[10,IntCount+2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[11,IntCount+2].HorizontalAlignment:=taRightJustify;
   end;
 end;
 

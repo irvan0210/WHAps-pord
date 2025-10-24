@@ -42,6 +42,10 @@ type
 
     procedure AskDelete(UserGrpTreeMenuId:String);
     procedure AutoSizeStringGridRows(Grid: TZColorStringGrid);
+    procedure SesuaikanTinggiBaris(Grid: TZColorStringGrid);
+    procedure AktifkanWordWrap(Grid: TZColorStringGrid);
+   
+
   public
     { Public declarations }
     procedure Init;
@@ -74,21 +78,23 @@ var IntCount:Integer;
 begin
   //StrGrid.RowCount:=7;
   StrGrid.ColWidths[0]:=110;
-  StrGrid.ColWidths[1]:=80;
-  StrGrid.ColWidths[2]:=100;
+  StrGrid.ColWidths[1]:=130;
+  StrGrid.ColWidths[2]:=130;
   StrGrid.ColWidths[3]:=100;
-  StrGrid.ColWidths[4]:=400;
-  StrGrid.ColWidths[5]:=200;
-  StrGrid.ColWidths[6]:=100;
-  StrGrid.ColWidths[7]:=80;
+  StrGrid.ColWidths[4]:=100;
+  StrGrid.ColWidths[5]:=400;
+  StrGrid.ColWidths[6]:=200;
+  StrGrid.ColWidths[7]:=100;
+
   StrGrid.Cells[0,0]:='Nomor';
   StrGrid.Cells[1,0]:='Tanggal Permintaan';
-  StrGrid.Cells[2,0]:='Jenis Permintaan';
-  StrGrid.Cells[3,0]:='User / Requestor';
-  StrGrid.Cells[4,0]:='Detail';
-  StrGrid.Cells[5,0]:='Tindakan';
-  StrGrid.Cells[6,0]:='PIC';
-  StrGrid.Cells[7,0]:='Tanggal Selesai';
+  StrGrid.Cells[2,0]:='Tanggal Selesai';
+  StrGrid.Cells[3,0]:='Jenis Permintaan';
+  StrGrid.Cells[4,0]:='User / Requestor';
+  StrGrid.Cells[5,0]:='Detail';
+  StrGrid.Cells[7,0]:='Tindakan';
+  StrGrid.Cells[7,0]:='PIC';
+
   StrGrid.CellStyle[0,0].HorizontalAlignment := taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment := taCenter;
   StrGrid.CellStyle[2,0].HorizontalAlignment := taCenter;
@@ -117,6 +123,7 @@ procedure TTroubleshootingRequestFormList.LoadData;
 var Qry:TADOQuery;
     StrQry, StrTgl,StrDepartemenId:String;
     IntCount:Integer;
+    TanggalSaja, WaktuSaja: TDateTime;
 begin
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
@@ -138,35 +145,16 @@ begin
       while not(Qry.Eof) do begin
         TRFArr[IntCount][0]:=Qry.FieldValues['trf_no'];
         TRFArr[IntCount][1]:=Qry.FieldValues['request_date'];
-        TRFArr[IntCount][2]:=Qry.FieldValues['type'];
-        TRFArr[IntCount][3]:=Qry.FieldValues['name'];
-        TRFArr[IntCount][4]:=Qry.FieldValues['detail_troubles'];
-        TRFArr[IntCount][5]:=Qry.FieldValues['action'];
-        TRFArr[IntCount][6]:=Qry.FieldValues['nama_pic'];
-        TRFArr[IntCount][7]:=Qry.FieldValues['completion_date'];
+        TRFArr[IntCount][2]:=Qry.FieldValues['completion_date'];
+        TRFArr[IntCount][3]:=Qry.FieldValues['type'];
+        TRFArr[IntCount][4]:=Qry.FieldValues['name'];
+        TRFArr[IntCount][5]:=Qry.FieldValues['detail_troubles'];
+        TRFArr[IntCount][6]:=Qry.FieldValues['action'];
+        TRFArr[IntCount][7]:=Qry.FieldValues['nama_pic'];
         TRFArr[IntCount][8]:=Qry.FieldValues['status'];
         Inc(IntCount);
         Qry.Next;
       end;
-    //end
-   // else begin
-     //MessageBox(0,'Tidak Ada Data ..!','Rekomendasi Teknis',MB_OK or MB_ICONINFORMATION);
-      // for IntCount:=0 to 6 do
-     // StrGrid.Cells[IntCount,1]:='';
-    { SetLength(TechnicalRecomArr,Qry.RecordCount);
-      IntCount:=0;
-      while not(Qry.Eof) do begin
-        TechnicalRecomArr[IntCount][0]:=Qry.FieldValues['technical_recommendation_no'];
-        TechnicalRecomArr[IntCount][1]:=Qry.FieldValues['date'];
-        TechnicalRecomArr[IntCount][2]:=Qry.FieldValues['type_of_good'];
-        TechnicalRecomArr[IntCount][3]:=Qry.FieldValues['reason_for_procurement'];
-        TechnicalRecomArr[IntCount][4]:=Qry.FieldValues['qty'];
-        TechnicalRecomArr[IntCount][5]:=Qry.FieldValues['departement_name'];
-        TechnicalRecomArr[IntCount][6]:=Qry.FieldValues['user_requestor'];
-        Inc(IntCount);
-        Qry.Next;
-      end;
-    end; }
     Qry.Close;
     Main.CloseDb;
   end;
@@ -190,7 +178,8 @@ begin
 
     StrGrid.CellStyle[0,IntCount+1].HorizontalAlignment :=taCenter;
     StrGrid.CellStyle[1,IntCount+1].HorizontalAlignment :=taCenter;
-    StrGrid.CellStyle[7,IntCount+1].HorizontalAlignment :=taCenter;
+    StrGrid.CellStyle[2,IntCount+1].HorizontalAlignment :=taCenter;
+
 
     if TRFArr[IntCount][8]='2' then
     //if StrTimeOut <> '' then begin
@@ -199,10 +188,21 @@ begin
      StrGrid.CellStyle[IntCount2,IntCount+1].Font.Color:=clGreen;
     end;
 
-    //StrGrid.CellStyle[4,IntCount+1].HorizontalAlignment :=taRightJustify;
+    AktifkanWordWrap(StrGrid);
+    SesuaikanTinggiBaris(StrGrid);
 
-    AutoSizeStringGridRows(StrGrid);
+   // for IntCount2:=0 to StrGrid.ColCount-1 do
+   //     StrGrid.CellStyle[IntCount2,IntCount+1].WordWrap := True;
+
+   // for c := 0 to StrGrid.ColCount - 1 do
+    //  StrGrid.CellStyle[c, r].WordWrap := True;
+
+    //StrGrid.CellStyle[4,IntCount+1].HorizontalAlignment :=taRightJustify;
+     // StrGrid.DefaultRowHeight := 45;
   end;
+
+
+
 end;
 
 procedure TTroubleshootingRequestFormList.AutoSizeStringGridRows(Grid: TZColorStringGrid);
@@ -220,6 +220,58 @@ begin
         TempHeight := H;
     end;
     Grid.RowHeights[Row] := TempHeight;
+  end;
+end;
+
+procedure TTroubleshootingRequestFormList.AktifkanWordWrap(Grid: TZColorStringGrid);
+var
+  c, r: Integer;
+begin
+  for r := 0 to Grid.RowCount - 1 do
+    for c := 0 to Grid.ColCount - 1 do
+      Grid.CellStyle[c, r].WordWrap := True;
+end;
+
+procedure TTroubleshootingRequestFormList.SesuaikanTinggiBaris(Grid: TZColorStringGrid);
+var
+  c, IntR, MaxHeight, TextH: Integer;
+  S: string;
+  R: TRect;             // gunakan nama lain, bukan "Rect"
+  SaveFont: TFont;
+begin
+  // Pastikan canvas pakai font yang sama dengan sel (jika perlu)
+  SaveFont := TFont.Create;
+  try
+    SaveFont.Assign(Grid.Canvas.Font);
+
+    for IntR := 0 to Grid.RowCount - 1 do
+    begin
+      MaxHeight := Grid.DefaultRowHeight;
+      for c := 0 to Grid.ColCount - 1 do
+      begin
+        S := Grid.Cells[c, IntR];
+
+        // siapkan rect untuk lebar kolom - sedikit margin
+        R := Rect(0, 0, Grid.ColWidths[c] - 6, 0);
+
+        // jika tiap sel punya style font berbeda, set Canvas.Font sesuai style di sini
+        // Grid.Canvas.Font.Assign(Grid.CellStyle[c, r].Font); // uncomment kalau perlu
+
+        // hitung tinggi teks multiline tanpa menggambar
+        TextH := DrawText(Grid.Canvas.Handle, PChar(S), Length(S), R,
+                          DT_CALCRECT or DT_WORDBREAK or DT_NOPREFIX);
+
+        // tambahkan sedikit padding vertikal
+        if TextH + 2 > MaxHeight then
+          MaxHeight := TextH + 2;
+      end;
+
+      // atur tinggi baris
+      Grid.RowHeights[IntR] := MaxHeight;
+    end;
+
+  finally
+    SaveFont.Free;
   end;
 end;
 

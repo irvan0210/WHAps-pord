@@ -1651,6 +1651,7 @@ begin
           StrGrid.Cells[3,Count2-1]:=WOArr[Count][3];
           StrGrid.Cells[4,Count2-1]:=WOArr[Count][4];
           StrGrid.Cells[5,Count2-1]:=WOArr[Count][6];
+          StrGrid.Cells[6,Count2-1]:=WOArr[Count][9];
           NoPKB.Items.Add(WOArr[Count][0]);
           Inc(Count2);
       end;

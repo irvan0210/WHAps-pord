@@ -70,8 +70,8 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
     WordWrap = True
   end
   object Label11: TLabel
-    Left = 260
-    Top = 27
+    Left = 316
+    Top = 6
     Width = 88
     Height = 15
     Alignment = taRightJustify
@@ -182,7 +182,6 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
     Height = 21
     ReadOnly = True
     TabOrder = 1
-    OnKeyPress = Pool_lokasiKeyPress
   end
   object jabatan_departemen: TEdit
     Left = 168
@@ -230,14 +229,22 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
       OnClick = cetakClick
     end
     object Bersihkan: TButton
-      Left = 382
+      Left = 461
       Top = 7
       Width = 75
       Height = 25
       Caption = 'Bersihkan'
       TabOrder = 3
       OnClick = BersihkanClick
-      OnKeyPress = BersihkanKeyPress
+    end
+    object Batal: TButton
+      Left = 381
+      Top = 7
+      Width = 75
+      Height = 25
+      Caption = 'Batal'
+      TabOrder = 4
+      OnClick = BatalClick
     end
   end
   object tgl_permintaan: TDateTimePicker
@@ -304,9 +311,9 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
     TabOrder = 9
   end
   object cb_jenis_truouble: TComboBox
-    Left = 358
-    Top = 25
-    Width = 225
+    Left = 414
+    Top = 4
+    Width = 179
     Height = 21
     Color = clBtnFace
     ItemHeight = 13
@@ -392,7 +399,7 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
     object tgl_selesai: TDateTimePicker
       Left = 168
       Top = 95
-      Width = 87
+      Width = 89
       Height = 21
       Date = 41726.000000000000000000
       Time = 41726.000000000000000000
@@ -430,6 +437,23 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
       OnEnter = catatanEnter
       OnExit = catatanExit
       OnKeyPress = catatanKeyPress
+    end
+    object TimeSelesai: TDateTimePicker
+      Left = 260
+      Top = 95
+      Width = 71
+      Height = 21
+      Date = 41726.000000000000000000
+      Format = 'HH:mm:ss'
+      Time = 41726.000000000000000000
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      Kind = dtkTime
+      ParentFont = False
+      TabOrder = 4
     end
   end
   object PanelRespomUser: TPanel
@@ -501,6 +525,23 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
       OnExit = catatanExit
       OnKeyPress = catatanKeyPress
     end
+  end
+  object TimePermintaan: TDateTimePicker
+    Left = 260
+    Top = 26
+    Width = 69
+    Height = 21
+    Date = 41726.000000000000000000
+    Format = 'HH:mm:ss'
+    Time = 41726.000000000000000000
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    Kind = dtkTime
+    ParentFont = False
+    TabOrder = 14
   end
   object ppReportTRF: TppReport
     PrinterSetup.BinName = 'Default'
