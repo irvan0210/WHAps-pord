@@ -126,6 +126,9 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '30/10/2025 (6.2.0.1)'
+      '-Penambahan Laporan Palnning Sevis'
+      ''
       '15/10/2025 (6.2.0.0) (force update)'
       '-Penambahan Menu/Tool untuk merubah invoice bagi finance'
       '-Penambahan history pada surat jalan.'

@@ -81,6 +81,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     Width = 16
     Height = 13
     Caption = 's/d'
+    Visible = False
   end
   object Label7: TLabel
     Left = 204
@@ -315,6 +316,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     Width = 17
     Height = 17
     TabOrder = 8
+    Visible = False
     OnClick = CekTglSampaiClick
   end
   object TglSampai: TDateTimePicker
@@ -325,6 +327,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     Date = 41964.570029108800000000
     Time = 41964.570029108800000000
     TabOrder = 9
+    Visible = False
   end
   object GroupBox1: TGroupBox
     Left = 548

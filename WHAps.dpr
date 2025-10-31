@@ -349,7 +349,8 @@ uses
   EmployeeContractListU in 'EmployeeContractListU.pas' {EmployeeContractList},
   ChartU in 'ChartU.pas' {ChartBus},
   ChartBusDetailU in 'ChartBusDetailU.pas' {ChartBusDetail},
-  RubahInvoiceFormU in 'RubahInvoiceFormU.pas' {RubahInvoiceForm};
+  RubahInvoiceFormU in 'RubahInvoiceFormU.pas' {RubahInvoiceForm},
+  PlannedServiceReportU in 'PlannedServiceReportU.pas' {PlannedServiceReport};
 
 {$R *.res}
 

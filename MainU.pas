@@ -243,7 +243,7 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   LaporanWehaMartU, MateriTrainingFormU, MateriTrainingListU,
   RekapPergantianPartperArmadaV2U, KmActualUnitRptU,
   TroubleshootingRequestFormU, TroubleshootingRequestFormListU,
-  EmployeeContractListU, ChartU, RubahInvoiceFormU;
+  EmployeeContractListU, ChartU, RubahInvoiceFormU, PlannedServiceReportU;
 
 
 constructor TClockThread.Create;
@@ -1334,14 +1334,17 @@ begin
             end
           end;
         end;
-        {150501..150503 Tracking Maintenance}
-        150501..150504:begin
+        {150501..150506 Tracking Maintenance}
+        150501..150506:begin
           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04']) of
           0:begin
               if IsFormOpen('MaintenanceTrackingBody')=False then MaintenanceTrackingBody:=TMaintenanceTrackingBody.Create(Self);
             end;
           3:begin
               if IsFormOpen('MaintenanceTrackingLastUpdate')=False then MaintenanceTrackingLastUpdate:=TMaintenanceTrackingLastUpdate.Create(Self);
+            end;
+          5:begin
+              if IsFormOpen('PlannedServiceReport')=False then PlannedServiceReport:=TPlannedServiceReport.Create(Self);
             end;
           end;
         end;
