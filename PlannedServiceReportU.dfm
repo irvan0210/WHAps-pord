@@ -1,11 +1,11 @@
 object PlannedServiceReport: TPlannedServiceReport
-  Left = 315
-  Top = 148
+  Left = 184
+  Top = 156
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan Prediksi Servis Berdasarkan Kilometer'
   ClientHeight = 453
-  ClientWidth = 1282
+  ClientWidth = 1272
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -150,7 +150,7 @@ object PlannedServiceReport: TPlannedServiceReport
   object StrGrid: TZColorStringGrid
     Left = 8
     Top = 40
-    Width = 1265
+    Width = 1257
     Height = 377
     DefaultRowHeight = 20
     DefaultDrawing = False

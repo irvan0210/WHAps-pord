@@ -1336,7 +1336,7 @@ begin
         end;
         {150501..150506 Tracking Maintenance}
         150501..150506:begin
-          Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04']) of
+          Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04','05','06']) of
           0:begin
               if IsFormOpen('MaintenanceTrackingBody')=False then MaintenanceTrackingBody:=TMaintenanceTrackingBody.Create(Self);
             end;

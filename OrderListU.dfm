@@ -1,6 +1,6 @@
 object OrderList: TOrderList
-  Left = 205
-  Top = 126
+  Left = 394
+  Top = 132
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Daftar Pesanan'

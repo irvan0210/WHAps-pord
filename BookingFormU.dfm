@@ -1,6 +1,6 @@
 object BookingForm: TBookingForm
-  Left = 96
-  Top = 27
+  Left = 379
+  Top = 15
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Penjadwalan'
@@ -632,7 +632,7 @@ object BookingForm: TBookingForm
       MaxLength = 5
       ParentFont = False
       TabOrder = 1
-      Text = '  :  '
+      Text = '  .  '
       Visible = False
       OnExit = TimeStandbyExit
       OnKeyPress = TimeStandbyKeyPress
@@ -698,7 +698,7 @@ object BookingForm: TBookingForm
       MaxLength = 5
       ParentFont = False
       TabOrder = 5
-      Text = '  :  '
+      Text = '  .  '
       Visible = False
       OnExit = TimeStartExit
       OnKeyPress = TimeStartKeyPress

@@ -3088,7 +3088,7 @@ object ServiceRequestForm: TServiceRequestForm
     PrinterSetup.mmMarginTop = 6350
     PrinterSetup.mmPaperHeight = 150000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 121
+    PrinterSetup.PaperSize = 256
     Template.FileName = 'D:\WH App\PBJRpt.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'
