@@ -3262,6 +3262,9 @@ object WorkOrderForm: TWorkOrderForm
       BevelOuter = bvNone
       Enabled = False
       TabOrder = 0
+      DesignSize = (
+        290
+        57)
       object Label7: TLabel
         Left = 146
         Top = 33
@@ -3290,6 +3293,9 @@ object WorkOrderForm: TWorkOrderForm
         Top = 29
         Width = 57
         Height = 21
+        Anchors = [akTop, akRight]
+        BiDiMode = bdRightToLeft
+        ParentBiDiMode = False
         TabOrder = 1
       end
       object NoBody: TEdit

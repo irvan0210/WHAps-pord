@@ -799,7 +799,7 @@ begin
         end else begin
           if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
         end; }
-        if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
+        if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:= IToCurr(Qry.FieldValues['in_ordo_km']) else KMOdo.Text:='0';
       end;
 
       Qry.Close;

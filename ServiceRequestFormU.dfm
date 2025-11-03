@@ -249,6 +249,9 @@ object ServiceRequestForm: TServiceRequestForm
       Height = 67
       BevelOuter = bvNone
       TabOrder = 0
+      DesignSize = (
+        583
+        67)
       object Label7: TLabel
         Left = 225
         Top = 48
@@ -314,6 +317,9 @@ object ServiceRequestForm: TServiceRequestForm
         Top = 45
         Width = 69
         Height = 21
+        Anchors = [akTop, akRight]
+        BiDiMode = bdRightToLeft
+        ParentBiDiMode = False
         TabOrder = 4
       end
       object NoBody: TEdit
