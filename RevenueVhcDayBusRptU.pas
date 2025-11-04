@@ -586,7 +586,7 @@ begin
 
       IntBiayaReimburse :=Qry.FieldValues['fee_driver_reimburse']+Qry.FieldValues['fee_busboy_reimburse']+
                           Qry.FieldValues['parkir_reimburse']+Qry.FieldValues['tol_reimburse'];
-      IntBiaya :=BBMRp+IntFeeDriver+IntFeeBusBoy+Tolparkir_All+LainLain_All+Tol_All+
+      IntBiaya :=BBMRp+IntFeeDriver+IntFeeBusBoy+Tolparkir_All+TotalLain+Tol_All+
                  IntBiayaReimburse;
 
       IntTotalBiaya:=IntTotalBiaya+IntBiaya;
