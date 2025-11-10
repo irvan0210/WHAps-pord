@@ -68,7 +68,7 @@ var
 implementation
 
 uses MainU, ServiceRequestFormU, DriverComplainListDetail, 
-  FResponsDriverComplaint;
+  FResponsDriverComplaint, WorkOrderFormInU;
 
 {$R *.dfm}
 
@@ -82,7 +82,7 @@ end;
 procedure TFDriverComplainList.Init;
 var Count,Count2:Integer;
 begin
-  MaxCol:=10;
+  MaxCol:=12;
   SBU.Items.Clear;
   SBU.Text:='';
   SBU.ItemIndex:=0;
@@ -100,7 +100,7 @@ var IntCount,IntGeserKolom:Integer;
 begin
   MinRowGrid:=2;
   StrGrid.RowCount:=2;
-  StrGrid.ColCount:=12;
+  StrGrid.ColCount:=14;
   StrGrid.ColWidths[0]:=28;
   StrGrid.ColWidths[1]:=100;
   StrGrid.ColWidths[2]:=160;
@@ -113,8 +113,8 @@ begin
   StrGrid.ColWidths[9]:=150;
   StrGrid.ColWidths[10]:=0;
   StrGrid.ColWidths[11]:=0;
-  //StrGrid.ColWidths[12]:=100;
-  //StrGrid.ColWidths[13]:=150;
+  StrGrid.ColWidths[12]:=100;
+  StrGrid.ColWidths[13]:=200;
 
   StrGrid.Cells[0,0]:='No';
   StrGrid.Cells[1,0]:='No Keluhan Driver';
@@ -128,8 +128,8 @@ begin
   StrGrid.Cells[9,0]:='Status';
   StrGrid.Cells[10,0]:='';
   StrGrid.Cells[11,0]:='';
-  //StrGrid.Cells[12,0]:='Id Detail Keluhan';
-  //StrGrid.Cells[13,0]:='Keterangan Ditolak';
+  StrGrid.Cells[12,0]:='Status mekanik';
+  StrGrid.Cells[13,0]:='Nama Mekanik';
 
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
@@ -143,8 +143,8 @@ begin
   StrGrid.CellStyle[9,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[10,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[11,0].HorizontalAlignment:=taCenter;
-  //StrGrid.CellStyle[12,0].HorizontalAlignment:=taCenter;
-  //StrGrid.CellStyle[13,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[12,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[13,0].HorizontalAlignment:=taCenter;
   for IntCount:=0 to StrGrid.ColCount-1 do
     StrGrid.Cells[IntCount,1]:='';
 end;
@@ -265,6 +265,14 @@ begin
          end
 
        else OrderArr[IntCount][10] := 'Diajukan ke bengkel';
+
+        if Qry.FieldValues['status_mekanik']<> Null then
+            OrderArr[IntCount][14]:=Qry.FieldValues['status_mekanik']
+        else OrderArr[IntCount][14]:= '';
+
+        if Qry.FieldValues['mekanik']<> Null then
+            OrderArr[IntCount][15]:=Qry.FieldValues['mekanik']
+        else OrderArr[IntCount][15]:= '';
 
       { if Qry.FieldValues['status_pkb'] <> null then
         OrderArr[IntCount][12]:= Qry.FieldValues['status_pkb']
@@ -387,6 +395,8 @@ begin
       //StrGrid.Cells[9,IntCount+1]:=OrderArr[IntCount][10];
       StrGrid.Cells[10,IntCount+1]:=OrderArr[IntCount][6];
       StrGrid.Cells[11,IntCount+1]:=OrderArr[IntCount][7];
+      StrGrid.Cells[12,IntCount+1]:=OrderArr[IntCount][14];
+      StrGrid.Cells[13,IntCount+1]:=OrderArr[IntCount][15];
 
       IsDrawRect:=False;
     end else if (IntCount<Length(OrderArr)-1) then begin
@@ -405,11 +415,12 @@ begin
       //StrGrid.MergeCells.AddRectXY(9,IntStartRow+1,9,IntCount+1);
       StrGrid.MergeCells.AddRectXY(10,IntStartRow+1,10,IntCount+1);
       StrGrid.MergeCells.AddRectXY(11,IntStartRow+1,11,IntCount+1);
+      StrGrid.MergeCells.AddRectXY(12,IntStartRow+1,12,IntCount+1);
+      StrGrid.MergeCells.AddRectXY(13,IntStartRow+1,13,IntCount+1);
     end;
     StrGrid.Cells[5,IntCount+1]:=OrderArr[IntCount][5];
     StrGrid.Cells[9,IntCount+1]:=OrderArr[IntCount][10];
-    //StrGrid.Cells[12,IntCount+1]:=OrderArr[IntCount][12];
-    //StrGrid.Cells[13,IntCount+1]:=OrderArr[IntCount][13];
+
 
     StrGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[1,IntCount+1].HorizontalAlignment:=taLeftJustify;
@@ -423,8 +434,8 @@ begin
     StrGrid.CellStyle[9,IntCount+1].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[10,IntCount+1].HorizontalAlignment:=taLeftJustify;
     StrGrid.CellStyle[11,IntCount+1].HorizontalAlignment:=taLeftJustify;
-    //StrGrid.CellStyle[12,IntCount+1].HorizontalAlignment:=taLeftJustify;
-    //StrGrid.CellStyle[13,IntCount+1].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[12,IntCount+1].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[13,IntCount+1].HorizontalAlignment:=taLeftJustify;
 
 
     if (OrderArr[IntCount][13]<> '') then begin
@@ -598,6 +609,32 @@ begin
   end
   else if (FormRequest='Laporan Keluhan Driver')and (StrNoSR<>'') then
     MessageBox(0,PChar('Keluhan Sudah jadi Servis Request'),'Keluhan driver',MB_OK or MB_ICONWARNING);
+
+  if IntRow>0 then begin
+    Case IntCol of
+      //0,1:if Main.IsFormOpen('OrderForm')=False then OrderForm:=TOrderForm.Create(Self,StrGrid.Cells[1,IntRow],False);
+      {1:begin
+         // MessageBox(0,PChar(StrGrid.Cells[1,IntRow]),'Tutup PKB',MB_OK or MB_ICONERROR);
+         { if StrGrid.Cells[1,IntRow]<>'' then begin
+            if FormRequest='' then begin
+              if StrGrid.Cells[6,IntRow]<>'' then begin
+                if Main.IsFormOpen('WorkOrderFormIn')=False then WorkOrderFormIn:=TWorkOrderFormIn.Create(nil,StrGrid.Cells[1,IntRow],True);
+              end else begin
+                if Main.IsFormOpen('WorkOrderForm')=False then WorkOrderForm:=TWorkOrderForm.Create(nil,StrGrid.Cells[1,IntRow],True);
+              end;
+            end
+          end;
+        end;  }
+
+      7:if StrGrid.Cells[7,IntRow]<>'' then begin
+          if Main.IsFormOpen('ServiceRequestForm')=False then ServiceRequestForm:=TServiceRequestForm.Create(Self, StrGrid.Cells[7,IntRow],'',False);
+        end;
+      8:if StrGrid.Cells[8,IntRow]<>'' then begin
+         // MessageBox(0,PChar(StrGrid.Cells[3,IntRow]),'Service Berkala',MB_OK or MB_ICONERROR);
+         if Main.IsFormOpen('WorkOrderFormIn')=False then WorkOrderFormIn:=TWorkOrderFormIn.Create(nil,StrGrid.Cells[8,IntRow],True);
+        end;
+    end;
+  end;
 end;
 
 procedure TFDriverComplainList.StrGridSelectCell(Sender: TObject; ACol,
@@ -673,6 +710,8 @@ begin
             StrGrid.Cells[8,Count2+1]:=OrderArr[IntCount][11];
             StrGrid.Cells[9,Count2+1]:=OrderArr[IntCount][10];
             StrGrid.Cells[10,Count2+1]:=OrderArr[IntCount][6];
+            StrGrid.Cells[12,Count2+1]:=OrderArr[IntCount][14];
+            StrGrid.Cells[13,Count2+1]:=OrderArr[IntCount][15];
             //StrGrid.Cells[9,IntCount+1]:=OrderArr[IntCount][9];
             IsDrawRect:=False;
           end else if (IntCount<Length(OrderArr)-1) then begin
@@ -690,6 +729,8 @@ begin
             StrGrid.MergeCells.AddRectXY(8,IntStartRow+1,8,Count2-1);
             StrGrid.MergeCells.AddRectXY(9,IntStartRow+1,9,Count2-1);
             StrGrid.MergeCells.AddRectXY(10,IntStartRow+1,10,Count2-1);
+            StrGrid.MergeCells.AddRectXY(12,IntStartRow+1,12,Count2-1);
+            StrGrid.MergeCells.AddRectXY(13,IntStartRow+1,13,Count2-1);
           end;
           StrGrid.Cells[5,Count2-1]:=OrderArr[IntCount][5];
 

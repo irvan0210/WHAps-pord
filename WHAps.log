@@ -5381,3 +5381,19 @@
 04/11/2025 11:28:45	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
 04/11/2025 11:28:45	Registry Read/Write
 04/11/2025 11:28:45	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+06/11/2025 14.34.53	Get Local Settings
+06/11/2025 14.34.53	Start Change Local Settings
+06/11/2025 14.34.53	Change short date format
+06/11/2025 14.34.53	Change Long date format
+06/11/2025 14:34:53	Finish Change Local Settings
+06/11/2025 14:34:53	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+06/11/2025 14:34:53	Registry Read/Write
+06/11/2025 14:34:53	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+10/11/2025 15.46.54	Get Local Settings
+10/11/2025 15.46.54	Start Change Local Settings
+10/11/2025 15.46.54	Change short date format
+10/11/2025 15.46.54	Change Long date format
+10/11/2025 15:46:54	Finish Change Local Settings
+10/11/2025 15:46:54	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+10/11/2025 15:46:54	Registry Read/Write
+10/11/2025 15:46:54	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3

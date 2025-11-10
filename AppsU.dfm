@@ -126,6 +126,11 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '10/11/2025 (6.2.0.2)'
+      
+        '-Penambahan kolom status mekanik dan nama mekanik di laporan kel' +
+        'uhan driver'
+      ''
       '30/10/2025 (6.2.0.1)'
       '-Penambahan Laporan Palnning Sevis'
       ''
