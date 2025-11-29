@@ -350,7 +350,9 @@ uses
   ChartU in 'ChartU.pas' {ChartBus},
   ChartBusDetailU in 'ChartBusDetailU.pas' {ChartBusDetail},
   RubahInvoiceFormU in 'RubahInvoiceFormU.pas' {RubahInvoiceForm},
-  PlannedServiceReportU in 'PlannedServiceReportU.pas' {PlannedServiceReport};
+  PlannedServiceReportU in 'PlannedServiceReportU.pas' {PlannedServiceReport},
+  MemoListU in 'MemoListU.pas' {MemoList},
+  MemoFormU in 'MemoFormU.pas' {MemoForm};
 
 {$R *.res}
 

@@ -40,9 +40,6 @@ type
     GroupPekerjaan: TGroupBox;
     Label6: TLabel;
     Label9: TLabel;
-    PekerjaanGrid: TStringGrid;
-    PekerjaanDetail: TEdit;
-    Teknisi: TEdit;
     TanggalSelesai: TDateTimePicker;
     JamSelesai: TMaskEdit;
     chkClose: TCheckBox;
@@ -144,6 +141,10 @@ type
     ppLabel34: TppLabel;
     ppLabel35: TppLabel;
     ppNoSR: TppLabel;
+    PekerjaanGrid: TZColorStringGrid;
+    Teknisi: TEdit;
+    PekerjaanDetail: TEdit;
+    chkPekerjaan: TCheckBox;
     procedure SelesaiClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -184,13 +185,14 @@ type
     procedure StatusMekanikExit(Sender: TObject);
     procedure chkCloseClick(Sender: TObject);
     procedure chkkeluhanExit(Sender: TObject);
+    procedure chkPekerjaanExit(Sender: TObject);
   private
     { Private declarations }
     WOArr:Array of TArrString9;
     KeluhanArr:Array of TArrString4;
     WorkOrderId,FormRequest:String;
     IsReadOnly,Initiation:Boolean;
-    IntArow,IntPCol,IntPRow,IntRow,IntCol,IntRow2,IntCol2:Integer;
+    IntArow,IntPCol,IntPRow,IntRow,IntCol,IntRow2,IntCol2, IntRow3,IntCol3:Integer;
     procedure Init;
     procedure RefreshCombo;
     procedure RefreshData;
@@ -253,12 +255,12 @@ var IntCount,IntNum:Integer;
 begin
   IntNum:=0;
   for IntCount:=1 to StrGridMekanik.RowCount-1 do
-    if (Trim(StrGridMekanik.Cells[1,IntCount])<>'') and (Trim(StrGridMekanik.Cells[2,IntCount])<>'') then begin
-      Inc(IntNum);
-      StrGridMekanik.Cells[0,IntCount]:=IntToStr(IntNum);
-      StrGridMekanik.CellStyle[0,IntCount].HorizontalAlignment:=taCenter;
-    end else
-      StrGridMekanik.Cells[0,IntCount]:='';
+  if (Trim(StrGridMekanik.Cells[1,IntCount])<>'') and (Trim(StrGridMekanik.Cells[2,IntCount])<>'') then begin
+    Inc(IntNum);
+    StrGridMekanik.Cells[0,IntCount]:=IntToStr(IntNum);
+    StrGridMekanik.CellStyle[0,IntCount].HorizontalAlignment:=taCenter;
+  end else
+    StrGridMekanik.Cells[0,IntCount]:='';
 end;
 
 procedure TWorkOrderFormIn.InitGrid4;
@@ -289,14 +291,32 @@ end;
 procedure TWorkOrderFormIn.InitPekerjaan;
 var IntCount,IntCount2:Integer;
 begin
-  for IntCount:=0 to PekerjaanGrid.RowCount-1 do
+ { for IntCount:=0 to PekerjaanGrid.RowCount-1 do
     for IntCount2:=0 to PekerjaanGrid.ColCount-1 do
       PekerjaanGrid.Cells[IntCount2,IntCount]:='';
    PekerjaanGrid.RowCount:=2;
   PekerjaanGrid.Cells[0,0]:='           Pekerjaan';
 //  PekerjaanGrid.Cells[1,0]:='    Teknisi';
-  PekerjaanGrid.Cells[0,1]:='';
-//  PekerjaanGrid.Cells[1,1]:='';
+  PekerjaanGrid.Cells[0,1]:='Check';
+//  PekerjaanGrid.Cells[1,1]:=''; }
+
+  PekerjaanGrid.RowCount:=2;
+  PekerjaanGrid.ColWidths[0]:=330;
+  PekerjaanGrid.ColWidths[1]:=45;
+  PekerjaanGrid.ColWidths[2]:= 0;
+
+  PekerjaanGrid.Cells[0,0]:='Deskripsi';
+  PekerjaanGrid.Cells[1,0]:='Check';
+  PekerjaanGrid.Cells[2,0]:='';
+
+  PekerjaanGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
+  PekerjaanGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
+
+  for IntCount:=0 to 2 do begin
+    PekerjaanGrid.Cells[IntCount,1]:='';
+    PekerjaanGrid.CellStyle[IntCount,1].BGColor:=clWindow;
+  end;
+ // PekerjaanGrid.CellStyle[0,1].HorizontalAlignment:=taCenter;
 end;
 
 procedure TWorkOrderFormIn.Init;
@@ -502,13 +522,14 @@ begin
         KeluhanGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
       end else KeluhanGrid.Cells[0,IntCount+1]:='';
       KeluhanGrid.Cells[1,IntCount+1]:=Qry.FieldValues['description'];
-      if Qry.FieldValues['driver_complain_detail_id'] then
+      if Qry.FieldValues['driver_complain_detail_id']<> null then
         KeluhanGrid.Cells[2,IntCount+1]:=Qry.FieldValues['driver_complain_detail_id']
       else KeluhanGrid.Cells[2,IntCount+1]:='';
       Qry.Next;
       Inc(IntCount);
     end;
 
+    //Pekerjaan
     Qry.Close;
     StrQry:='select description,isdone from wh_work_order_detail where work_order_id='+QuotedStr(WorkOrderId)+' AND '+
     'description_id=2 and status=1';
@@ -518,8 +539,14 @@ begin
     IntCount:=0;
     if Qry.RecordCount>0 then while not(Qry.Eof) do begin
       if PekerjaanGrid.RowCount<IntCount+1 then PekerjaanGrid.RowCount:=PekerjaanGrid.RowCount+1;
-      PekerjaanGrid.Cells[0,IntCount+1]:=Qry.FieldValues['description'];
-      PekerjaanGrid.Cells[1,IntCount+1]:='';
+      if Qry.FieldValues['description'] <> null then
+        PekerjaanGrid.Cells[0,IntCount+1]:=Qry.FieldValues['description']
+      else PekerjaanGrid.Cells[0,IntCount+1]:='';
+
+      if Qry.FieldValues['isdone']= 1 then PekerjaanGrid.Cells[1,IntCount+1]:='v'
+      else PekerjaanGrid.Cells[1,IntCount+1]:='';
+
+      PekerjaanGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
       Qry.Next;
       Inc(IntCount);
     end;
@@ -1099,7 +1126,7 @@ begin
 
        //PEKERJAAN
       StrQry:='';
-      StrQry:='select description from wh_work_order_detail where work_order_id='+QuotedStr(WorkOrderId)+' AND '+
+      StrQry:='select * from wh_work_order_detail where work_order_id='+QuotedStr(WorkOrderId)+' AND '+
       'description_id=2 and status=1 ;';
       Qry2.SQL.Clear;
       Qry2.Close;
@@ -1109,8 +1136,13 @@ begin
       if Qry2.RecordCount>0 then while not(Qry2.Eof) do begin
 
         if PekerjaanGrid.RowCount<IntCount+1 then PekerjaanGrid.RowCount:=PekerjaanGrid.RowCount+1;
-        PekerjaanGrid.Cells[0,IntCount]:= Qry2.FieldValues['description'];
 
+        if Qry2.FieldValues['description'] <> null then
+          PekerjaanGrid.Cells[0,IntCount]:= Qry2.FieldValues['description']
+        else PekerjaanGrid.Cells[0,IntCount]:='';
+
+        if Qry2.FieldValues['isdone'] =1 then PekerjaanGrid.Cells[1,IntCount]:='v'
+        else PekerjaanGrid.Cells[1,IntCount]:='';
 //        PekerjaanGrid.CellStyle[0,IntCount].HorizontalAlignment:=taLeftJustify;
 
 
@@ -1155,7 +1187,9 @@ procedure TWorkOrderFormIn.PekerjaanGridSelectCell(Sender: TObject; ACol,
 var
   R: TRect;
 begin
-  IntRow:=ARow;
+  IntRow3:=ARow;
+  IntCol3:=ACol;
+  MinRowGrid:=0;
   if (ARow>0) and not(IsReadOnly) AND (NoPKB.Text<>'') then begin
     if (ACol = 0) then begin
       R := PekerjaanGrid.CellRect(ACol, ARow);
@@ -1173,6 +1207,23 @@ begin
         BringToFront;
         SetFocus;
 
+      end;
+    end;
+    if (ACol = 1) then begin
+      R := PekerjaanGrid.CellRect(ACol, ARow);
+      R.Left := R.Left + PekerjaanGrid.Left;
+      R.Right := R.Right + PekerjaanGrid.Left;
+      R.Top := R.Top + PekerjaanGrid.Top;
+      R.Bottom := R.Bottom + PekerjaanGrid.Top;
+      with chkPekerjaan do begin
+        Left:=R.Left + 9;
+        Top := R.Top + 1;
+        Width :=17;
+        Height :=17;
+        if PekerjaanGrid.Cells[ACol,ARow]='v' then Checked:=True else Checked:=False;
+        Visible:= True;
+        BringToFront;
+        SetFocus;
       end;
     end;
 //    if (ACol = 1) then begin
@@ -1322,9 +1373,9 @@ var Qry,Qry2,Qry3:TADOQuery;
     StrQry,StrQry3,StrStatus,StrMsg,StrEMsg,StrTransId,
     StrVhcId,StrKeluhan,StrAnalisa,StrDone,StrIsUsed,
     StrMekanik,StrStatusMekanik,StrPart,StrQty,StrKodePart,
-    StrTanggalSelesai,StrJamSelesai, StrSRDetailID:String;
+    StrTanggalSelesai,StrJamSelesai, StrSRDetailID, StrIsdone:String;
     IntCount,IntStatus:Integer;
-    IsOk, IsOK2:Boolean;
+    IsOk, IsOK2, IsOK3:Boolean;
 begin
   if (NoPKB.Text<>'') AND (Trim(PekerjaanGrid.Cells[0,0])<>'') then begin
     StrTransId:=NoPKB.Text;
@@ -1352,6 +1403,16 @@ begin
         Break;
        end else IsOK2 := FALSE;
     end;
+
+    IsOK3 := False;
+    for IntCount :=1 to PekerjaanGrid.RowCount-1 do begin
+     // MessageBox(0,PChar(KeluhanGrid.Cells[0,IntCount]) ,'Keluhan',MB_OK or MB_ICONWARNING);
+       if PekerjaanGrid.Cells[1,IntCount] = 'v' then begin
+        IsOK3 := True;
+        Break;
+       end else IsOK3 := FALSE;
+    end;
+
 
     Qry:=TADOQuery.Create(Self);
     Qry.Connection:=Main.MyConnection;
@@ -1383,7 +1444,22 @@ begin
                 IsOK2 := False;
                 StrEMsg:='Silahkan Ceklis Keluhan';
               end;
-            end else begin
+            end else if IsOK3 = False then begin
+              if MessageBox(0,PChar('Pekerjaan Belum ada yang diceklist,'+#13#10+'Yakin mau melanjutkan..?') ,'Keluhan',MB_OKCANCEL or MB_ICONWARNING)=1 then begin
+                if CompareDate(StrToDate(Tanggal.Text),TanggalSelesai.Date)=1 then begin
+                  IsOk:=False;
+                  StrEMsg:='Tanggal selesai lebih kecil dari tanggal masuk'
+                end;
+                StrQry:='UPDATE wh_work_order SET date_out'+StrTanggalSelesai+
+                      ',time_out'+StrJamSelesai+StrStatus+', user_close='+QuotedStr(User)+' WHERE work_order_id='+Chr(39)+StrTransId+Chr(39)+';';
+              end
+               else begin
+                IsOk:=False;
+                IsOK3 := False;
+                StrEMsg:='Pekerjaan Ceklis Keluhan';
+              end;
+
+            end else  begin
               if CompareDate(StrToDate(Tanggal.Text),TanggalSelesai.Date)=1 then begin
                   IsOk:=False;
                   StrEMsg:='Tanggal selesai lebih kecil dari tanggal masuk' ;
@@ -1440,14 +1516,17 @@ begin
             end;
           end;
 
+          //Pekerjaan
           for IntCount:=1 to PekerjaanGrid.RowCount-1 do begin
             //StrSRDetailID := QuotedStr(KeluhanGrid.Cells[2,IntCount]);
+            if PekerjaanGrid.Cells[1,IntCount]= 'v' then StrIsdone := '1'
+            else StrIsdone := '(NULL)';
             if Trim(PekerjaanGrid.Cells[0,IntCount])<>'' then
             StrQry:=StrQry+' INSERT INTO wh_work_order_detail (work_order_id,description_id'+
-                    ',description,technician,update_user)'+
+                    ',description,isdone,update_user)'+
                     ' VALUES ('+Chr(39)+StrTransId+Chr(39)+',2'+
                     ','+Chr(39)+PekerjaanGrid.Cells[0,IntCount]+Chr(39)+
-                    ','+Chr(39)+PekerjaanGrid.Cells[1,IntCount]+Chr(39)+
+                    ','+Chr(39)+StrIsdone+Chr(39)+
                     ','+Chr(39)+User+Chr(39)+
                     '); ';
           end;
@@ -1462,6 +1541,7 @@ begin
               StrEMsg:=E.Message;
             end;
           end;
+
           //KELUHAN
           StrQry:='';
           StrQry:='UPDATE wh_work_order_detail SET status=0 WHERE work_order_id='+QuotedStr(StrTransId)+' and description_id=1;';
@@ -1993,6 +2073,19 @@ begin
       end; }
 
 
+
+end;
+
+procedure TWorkOrderFormIn.chkPekerjaanExit(Sender: TObject);
+begin
+  if chkPekerjaan.Checked=True then begin
+    PekerjaanGrid.Cells[IntCol3,IntRow3]:='v';
+  end else begin
+    PekerjaanGrid.Cells[IntCol3,IntRow3]:='';
+  end;
+  chkPekerjaan.Checked:=False;
+  chkPekerjaan.Visible:=False;
+  PekerjaanGrid.SetFocus;
 
 end;
 

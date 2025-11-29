@@ -1,11 +1,11 @@
 object WorkOrderForm: TWorkOrderForm
-  Left = 503
-  Top = 63
+  Left = 260
+  Top = 172
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Buka Perintah Kerja Bengkel'
-  ClientHeight = 529
-  ClientWidth = 668
+  ClientHeight = 545
+  ClientWidth = 952
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,35 +18,11 @@ object WorkOrderForm: TWorkOrderForm
   Scaled = False
   Visible = True
   OnClose = FormClose
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Label2: TLabel
-    Left = 15
-    Top = 114
-    Width = 48
-    Height = 13
-    Alignment = taRightJustify
-    BiDiMode = bdLeftToRight
-    Caption = 'Pekerjaan'
-    ParentBiDiMode = False
-  end
-  object Label9: TLabel
-    Left = 370
-    Top = 68
-    Width = 76
-    Height = 13
-    Alignment = taRightJustify
-    Caption = 'Tanggal Selesai'
-  end
-  object Label4: TLabel
-    Left = 378
-    Top = 48
-    Width = 67
-    Height = 13
-    Alignment = taRightJustify
-    Caption = 'Tanggal Mulai'
-  end
   object KeluhanGridSebelum: TStringGrid
     Left = 1064
     Top = 472
@@ -2724,7 +2700,7 @@ object WorkOrderForm: TWorkOrderForm
         Size.Values = (
           44.979166666666670000
           317.500000000000000000
-          867.833333333333200000
+          867.833333333333300000
           235.479166666666700000)
         Alignment = taLeftJustify
         AlignToBand = False
@@ -3166,44 +3142,13 @@ object WorkOrderForm: TWorkOrderForm
       end
     end
   end
-  object GroupExternal: TGroupBox
-    Left = 372
-    Top = 103
-    Width = 285
-    Height = 33
-    TabOrder = 2
-    object GeneralRepair: TCheckBox
-      Left = 13
-      Top = 8
-      Width = 97
-      Height = 17
-      Caption = 'General Repair'
-      TabOrder = 0
-    end
-    object BodyRepair: TCheckBox
-      Left = 117
-      Top = 8
-      Width = 97
-      Height = 17
-      Caption = 'Body Repair'
-      TabOrder = 1
-    end
-    object Asuransi: TCheckBox
-      Left = 205
-      Top = 8
-      Width = 66
-      Height = 17
-      Caption = 'Asuransi'
-      TabOrder = 2
-    end
-  end
   object GroupDetail: TGroupBox
-    Left = 667
+    Left = 968
     Top = 45
-    Width = 362
+    Width = 141
     Height = 444
     Caption = 'PKB'
-    TabOrder = 3
+    TabOrder = 2
     object StrGrid: TStringGrid
       Left = 8
       Top = 16
@@ -3223,562 +3168,725 @@ object WorkOrderForm: TWorkOrderForm
         64)
     end
   end
-  object GroupBox1: TGroupBox
-    Left = 8
-    Top = 37
-    Width = 356
-    Height = 68
-    TabOrder = 4
-    object Label1: TLabel
-      Left = 16
-      Top = 13
-      Width = 41
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'No Body'
-    end
-    object Label5: TLabel
-      Left = 25
-      Top = 37
-      Width = 32
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'No SR'
-    end
-    object Panel2: TPanel
-      Left = 96
-      Top = 8
-      Width = 73
-      Height = 25
-      BevelOuter = bvNone
-      Enabled = False
-      TabOrder = 1
-    end
-    object Panel1: TPanel
-      Left = 62
-      Top = 8
-      Width = 290
-      Height = 57
-      BevelOuter = bvNone
-      Enabled = False
-      TabOrder = 0
-      DesignSize = (
-        290
-        57)
-      object Label7: TLabel
-        Left = 146
-        Top = 33
-        Width = 39
-        Height = 13
-        Alignment = taRightJustify
-        Caption = 'KM Odo'
-      end
-      object Label8: TLabel
-        Left = 145
-        Top = 8
-        Width = 41
-        Height = 13
-        Alignment = taRightJustify
-        Caption = 'No Polisi'
-      end
-      object NoPolisi: TEdit
-        Left = 190
-        Top = 5
-        Width = 105
-        Height = 21
-        TabOrder = 0
-      end
-      object KMOdo: TEdit
-        Left = 190
-        Top = 29
-        Width = 57
-        Height = 21
-        Anchors = [akTop, akRight]
-        BiDiMode = bdRightToLeft
-        ParentBiDiMode = False
-        TabOrder = 1
-      end
-      object NoBody: TEdit
-        Left = 0
-        Top = 2
-        Width = 73
-        Height = 21
-        TabOrder = 2
-      end
-      object NoSR: TEdit
-        Left = 0
-        Top = 26
-        Width = 105
-        Height = 21
-        TabOrder = 3
-      end
-    end
-    object PanelCariSR: TPanel
-      Left = 168
-      Top = 32
-      Width = 41
-      Height = 25
-      BevelOuter = bvNone
-      TabOrder = 2
-      object CariSR: TSpeedButton
-        Left = 2
-        Top = 2
-        Width = 23
-        Height = 23
-        Glyph.Data = {
-          26040000424D2604000000000000360000002800000012000000120000000100
-          180000000000F003000000000000000000000000000000000000F8F8F8F8F8F8
-          F8F8F8F8F8F8F7F7F7F7F7F7F7F7F7F7F7F7F6F7F7F7F6F6F6F6F6F7F7F7F4F5
-          F4F7F7F7FBFAF9D2D8D5E4E7E6FCFCFC0000F7F7F7F7F7F7F7F7F7F7F7F7F8F8
-          F8F7F7F7F7F8F7F7F8F8F6F8F7F7F7F7F7F7F7F5F5F5F6F4F6FAFAFAD8DBDB95
-          83899F9598E9EBEB0000F8F8F8F8F8F8F8F8F8F8F8F8F7F7F7F8F8F8F7F7F7F7
-          F7F7F7F7F7F7F8F6F5F5F5F6F5F5FAF9F9D3D9D89B868D8F4054742C41B8AFB4
-          3D22F7F7F7F7F7F7F7F7F7F7F7F7F6F6F6F6F6F6F4F4F4F3F3F3F4F4F4F4F5F4
-          F7F6F6FAF9F9D2D7D69A80898F405596354E7A263FBFAFB70000F6F7F7F7F6F7
-          F6F6F6F5F5F5F6F6F6F8F6F7FCFBFBFDFEFEFCFAFAF6F4F5F7F7F7D3D8D7997F
-          8990405693354E7C2B41B399A3FBFCFD0000F7F7F7F6F6F6F6F6F6F8F7F7FBFB
-          FBF5FAF9E4E7E7DCDEDEE6EAEAFDFFFFE4E5E5997E8790415892344F7D2D42AF
-          959DFCFEFEF8F8F70000F6F6F6F5F4F5F8F7F7EEF1F0C8C8C9A39191977A7A9C
-          7D7C957979AB9C9DC1C1C28F495D8D27437E2E44AF929BFBFCFCF7F5F6F3F3F4
-          0000F5F5F5F9F7F8F2F4F5C1BBBCAF9496CBA8A0DFBDACE7C7B4DDB9A9BD958C
-          A689879E74807E3447AC8D97FAFBFBF7F6F6F2F2F3F7F7F70000F6F5F5FBFDFD
-          D5CFCFBCA1A3F7E9E4FCE9D5F8D7B7F8D6B6FBD9B9FEE2C7E5C4B4A37E7DC7C0
-          C3FBFBFBF7F6F6F4F4F4F7F7F7F7F6F60000FAFBFAF3F4F4C2A9A9E9D9D9FFFB
-          F4EED2B8F0CFB1F3D4B9F2D2B5F4D4BAFFE9D3DAB6ABC1A7A7FCFFFFF4F3F3F6
-          F6F6F7F7F6F6F7F60000FDFFFFE9DFDFC29D9DFFF6EDF4E3D3F5DAC6F7E7D9F7
-          ECE0F7E9DDF4E1D1F8E6D6F2DDCFBE9897E7E1E3FBFEFDF4F3F3F5F6F7F7F6F7
-          0102FEFEFEE4D3D4CEA49EFCE7D0F0CFB6F6E6D6F8F3EDF7F7F5F7F2EFF6ECE5
-          F7EDE3F7EBE1D6B7B5E1D8D9FBFFFEF4F3F3F6F6F6F6F7F70801FDFFFFE5D5D7
-          CFA398F8D9BAECCBAEF7EADFF7F3F0F7F5F3F6F5EFF5F3EEF8F6F2F8F1EDDCC1
-          C0E8E0E1FBFEFEF4F3F3F7F7F7F7F7F70000FAFDFDF0E6E8CBA29AFADEC2F2D8
-          BFF7E8DDF7EFE7F6EFEAF6F5EFF5F7F3F6F9F8F6F1EEDAC3C4F3F0F0F9FAFAF6
-          F4F4F7F6F7F7F6F80000F7F6F7F9FBFBD5B8B9DFBCAEFFF4DFF2E0D1F3E4D7F5
-          E8DEF4EFEBF6F6F6FDFFFEEBDEDDE4D7D9F9FCFCF4F4F4F6F6F6F6F7F7F6F7F7
-          0000F4F5F4F9FAFAF3EAEBC89F9DE2C3B5FFF0DAFDEDDBFCF2E3FFFBF1FDFBF7
-          EADBDBE2CFD1F7F5F6F7F7F7F5F5F5F6F7F6F7F7F7F6F6F70000F6F6F6F6F4F4
-          FAFCFBEFE6E7CEABAAD1ADA6DBBBAFE1C3B6DFC6BCDAC1C0E3D0D2F6F3F4F8F8
-          F8F5F5F5F7F7F8F7F6F6F7F7F7F7F7F80000F5F7F6F6F6F6F6F4F5F9FAFAF9F9
-          F9EADFE0D9BFBFD6B8B8E1CBCDF0E9EAF8F9F9F6F7F8F6F6F5F6F7F8F7F7F7F7
-          F7F7F7F8F8F7F7F70000}
-        OnClick = CariSRClick
-      end
-    end
-    object PanelCari: TPanel
-      Left = 137
-      Top = 8
-      Width = 41
-      Height = 25
-      BevelOuter = bvNone
-      TabOrder = 3
-      object TombolCari: TSpeedButton
-        Left = 1
-        Top = 1
-        Width = 23
-        Height = 23
-        Glyph.Data = {
-          26040000424D2604000000000000360000002800000012000000120000000100
-          180000000000F003000000000000000000000000000000000000F8F8F8F8F8F8
-          F8F8F8F8F8F8F7F7F7F7F7F7F7F7F7F7F7F7F6F7F7F7F6F6F6F6F6F7F7F7F4F5
-          F4F7F7F7FBFAF9D2D8D5E4E7E6FCFCFC0000F7F7F7F7F7F7F7F7F7F7F7F7F8F8
-          F8F7F7F7F7F8F7F7F8F8F6F8F7F7F7F7F7F7F7F5F5F5F6F4F6FAFAFAD8DBDB95
-          83899F9598E9EBEB0000F8F8F8F8F8F8F8F8F8F8F8F8F7F7F7F8F8F8F7F7F7F7
-          F7F7F7F7F7F7F8F6F5F5F5F6F5F5FAF9F9D3D9D89B868D8F4054742C41B8AFB4
-          3D22F7F7F7F7F7F7F7F7F7F7F7F7F6F6F6F6F6F6F4F4F4F3F3F3F4F4F4F4F5F4
-          F7F6F6FAF9F9D2D7D69A80898F405596354E7A263FBFAFB70000F6F7F7F7F6F7
-          F6F6F6F5F5F5F6F6F6F8F6F7FCFBFBFDFEFEFCFAFAF6F4F5F7F7F7D3D8D7997F
-          8990405693354E7C2B41B399A3FBFCFD0000F7F7F7F6F6F6F6F6F6F8F7F7FBFB
-          FBF5FAF9E4E7E7DCDEDEE6EAEAFDFFFFE4E5E5997E8790415892344F7D2D42AF
-          959DFCFEFEF8F8F70000F6F6F6F5F4F5F8F7F7EEF1F0C8C8C9A39191977A7A9C
-          7D7C957979AB9C9DC1C1C28F495D8D27437E2E44AF929BFBFCFCF7F5F6F3F3F4
-          0000F5F5F5F9F7F8F2F4F5C1BBBCAF9496CBA8A0DFBDACE7C7B4DDB9A9BD958C
-          A689879E74807E3447AC8D97FAFBFBF7F6F6F2F2F3F7F7F70000F6F5F5FBFDFD
-          D5CFCFBCA1A3F7E9E4FCE9D5F8D7B7F8D6B6FBD9B9FEE2C7E5C4B4A37E7DC7C0
-          C3FBFBFBF7F6F6F4F4F4F7F7F7F7F6F60000FAFBFAF3F4F4C2A9A9E9D9D9FFFB
-          F4EED2B8F0CFB1F3D4B9F2D2B5F4D4BAFFE9D3DAB6ABC1A7A7FCFFFFF4F3F3F6
-          F6F6F7F7F6F6F7F60000FDFFFFE9DFDFC29D9DFFF6EDF4E3D3F5DAC6F7E7D9F7
-          ECE0F7E9DDF4E1D1F8E6D6F2DDCFBE9897E7E1E3FBFEFDF4F3F3F5F6F7F7F6F7
-          0102FEFEFEE4D3D4CEA49EFCE7D0F0CFB6F6E6D6F8F3EDF7F7F5F7F2EFF6ECE5
-          F7EDE3F7EBE1D6B7B5E1D8D9FBFFFEF4F3F3F6F6F6F6F7F70801FDFFFFE5D5D7
-          CFA398F8D9BAECCBAEF7EADFF7F3F0F7F5F3F6F5EFF5F3EEF8F6F2F8F1EDDCC1
-          C0E8E0E1FBFEFEF4F3F3F7F7F7F7F7F70000FAFDFDF0E6E8CBA29AFADEC2F2D8
-          BFF7E8DDF7EFE7F6EFEAF6F5EFF5F7F3F6F9F8F6F1EEDAC3C4F3F0F0F9FAFAF6
-          F4F4F7F6F7F7F6F80000F7F6F7F9FBFBD5B8B9DFBCAEFFF4DFF2E0D1F3E4D7F5
-          E8DEF4EFEBF6F6F6FDFFFEEBDEDDE4D7D9F9FCFCF4F4F4F6F6F6F6F7F7F6F7F7
-          0000F4F5F4F9FAFAF3EAEBC89F9DE2C3B5FFF0DAFDEDDBFCF2E3FFFBF1FDFBF7
-          EADBDBE2CFD1F7F5F6F7F7F7F5F5F5F6F7F6F7F7F7F6F6F70000F6F6F6F6F4F4
-          FAFCFBEFE6E7CEABAAD1ADA6DBBBAFE1C3B6DFC6BCDAC1C0E3D0D2F6F3F4F8F8
-          F8F5F5F5F7F7F8F7F6F6F7F7F7F7F7F80000F5F7F6F6F6F6F6F4F5F9FAFAF9F9
-          F9EADFE0D9BFBFD6B8B8E1CBCDF0E9EAF8F9F9F6F7F8F6F6F5F6F7F8F7F7F7F7
-          F7F7F7F8F8F7F7F70000}
-        OnClick = TombolCariClick
-      end
-    end
-  end
-  object GroupNo: TGroupBox
-    Left = 8
-    Top = 2
-    Width = 649
-    Height = 33
-    Enabled = False
-    TabOrder = 5
-    object Label3: TLabel
-      Left = 18
-      Top = 11
-      Width = 38
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'No PKB'
-    end
-    object Label6: TLabel
-      Left = 214
-      Top = 10
-      Width = 19
-      Height = 13
-      Caption = 'Jam'
-    end
-    object NoPKB: TEdit
-      Left = 67
-      Top = 8
-      Width = 121
-      Height = 21
-      TabOrder = 0
-    end
-    object Jam: TEdit
-      Left = 246
-      Top = 8
-      Width = 57
-      Height = 21
-      TabOrder = 1
-    end
-  end
-  object GroupInput: TPanel
-    Left = 454
-    Top = 40
-    Width = 195
-    Height = 49
-    BevelOuter = bvNone
-    TabOrder = 6
-    object StartDate: TDateTimePicker
-      Left = 0
-      Top = 4
-      Width = 89
-      Height = 21
-      Date = 41927.000000000000000000
-      Time = 41927.000000000000000000
-      TabOrder = 0
-    end
-    object FinishDate: TDateTimePicker
-      Left = 0
-      Top = 28
-      Width = 89
-      Height = 21
-      Date = 41927.000000000000000000
-      Time = 41927.000000000000000000
-      TabOrder = 1
-    end
-    object FinishUnknown: TCheckBox
-      Left = 92
-      Top = 27
-      Width = 97
-      Height = 17
-      Caption = 'Tidak diketahui'
-      TabOrder = 2
-      OnClick = FinishUnknownClick
-    end
-  end
-  object grp1: TGroupBox
-    Left = 8
-    Top = 142
-    Width = 289
-    Height = 193
-    Caption = 'Keluhan'
-    TabOrder = 7
-    object KeluhanDetail: TEdit
-      Left = 16
-      Top = 20
-      Width = 257
-      Height = 21
-      TabOrder = 0
-      OnExit = KeluhanDetailExit
-      OnKeyDown = KeluhanDetailKeyDown
-      OnKeyPress = KeluhanDetailKeyPress
-    end
-    object KeluhanGrid: TStringGrid
-      Left = 8
-      Top = 16
-      Width = 273
-      Height = 169
-      ColCount = 2
-      DefaultColWidth = 275
-      DefaultRowHeight = 18
-      FixedCols = 0
-      RowCount = 1
-      FixedRows = 0
-      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect]
-      TabOrder = 1
-      OnSelectCell = KeluhanGridSelectCell
-    end
-  end
-  object grp2: TGroupBox
-    Left = 304
-    Top = 142
-    Width = 353
-    Height = 193
-    Caption = 'Barang'
-    TabOrder = 8
-    object StrGrid2: TZColorStringGrid
-      Left = 8
-      Top = 16
-      Width = 337
-      Height = 169
-      ColCount = 4
-      DefaultRowHeight = 20
-      DefaultDrawing = False
-      FixedColor = clBtnFace
-      FixedCols = 0
-      TabOrder = 0
-      DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
-      DefaultCellStyle.Font.Color = clWindowText
-      DefaultCellStyle.Font.Height = -11
-      DefaultCellStyle.Font.Name = 'MS Sans Serif'
-      DefaultCellStyle.Font.Style = []
-      DefaultCellStyle.BGColor = clWindow
-      DefaultFixedCellStyle.Font.Charset = DEFAULT_CHARSET
-      DefaultFixedCellStyle.Font.Color = clWindowText
-      DefaultFixedCellStyle.Font.Height = -11
-      DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
-      DefaultFixedCellStyle.Font.Style = []
-      DefaultFixedCellStyle.BGColor = clBtnFace
-      LineDesign.LineUpColor = clWhite
-    end
-    object ItemDetail: TEdit
-      Left = 8
-      Top = 36
-      Width = 121
-      Height = 21
-      TabOrder = 1
-      Visible = False
-    end
-    object Detail: TEdit
-      Left = 144
-      Top = 36
-      Width = 73
-      Height = 21
-      TabOrder = 2
-      Visible = False
-    end
-    object Qty: TEdit
-      Left = 240
-      Top = 36
-      Width = 49
-      Height = 21
-      TabOrder = 3
-      Visible = False
-    end
-  end
-  object GroupBox2: TGroupBox
-    Left = 7
-    Top = 337
-    Width = 330
-    Height = 154
-    Caption = 'Mekanik'
-    TabOrder = 9
-    object StrGridMekanik: TZColorStringGrid
-      Left = 3
-      Top = 17
-      Width = 318
-      Height = 130
-      ColCount = 3
-      DefaultRowHeight = 20
-      DefaultDrawing = False
-      FixedColor = clBtnFace
-      FixedCols = 0
-      TabOrder = 0
-      OnSelectCell = StrGridMekanikSelectCell
-      DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
-      DefaultCellStyle.Font.Color = clWindowText
-      DefaultCellStyle.Font.Height = -11
-      DefaultCellStyle.Font.Name = 'MS Sans Serif'
-      DefaultCellStyle.Font.Style = []
-      DefaultCellStyle.BGColor = clWindow
-      DefaultFixedCellStyle.Font.Charset = DEFAULT_CHARSET
-      DefaultFixedCellStyle.Font.Color = clWindowText
-      DefaultFixedCellStyle.Font.Height = -11
-      DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
-      DefaultFixedCellStyle.Font.Style = []
-      DefaultFixedCellStyle.BGColor = clBtnFace
-      LineDesign.LineUpColor = clWhite
-      ColWidths = (
-        64
-        64
-        71)
-    end
-    object Mekanik: TEdit
-      Left = 67
-      Top = 35
-      Width = 222
-      Height = 21
-      CharCase = ecUpperCase
-      TabOrder = 1
-      Visible = False
-      OnExit = MekanikExit
-      OnKeyPress = MekanikKeyPress
-    end
-    object StatusMekanik: TComboBox
-      Left = 8
-      Top = 32
-      Width = 65
-      Height = 21
-      ItemHeight = 13
-      ItemIndex = 0
-      TabOrder = 2
-      Text = 'INTERNAL'
-      Visible = False
-      OnExit = StatusMekanikExit
-      Items.Strings = (
-        'INTERNAL'
-        'EXTERNAL')
-    end
-  end
-  object PanelInOut: TPanel
-    Left = 70
-    Top = 113
-    Width = 291
-    Height = 17
-    BevelOuter = bvNone
-    BiDiMode = bdLeftToRight
-    ParentBiDiMode = False
-    TabOrder = 10
-    object Internal: TRadioButton
-      Left = 0
-      Top = 0
-      Width = 113
-      Height = 17
-      Caption = 'Internal'
-      TabOrder = 0
-      OnClick = InternalClick
-    end
-    object Eksternal: TRadioButton
-      Left = 74
-      Top = 0
-      Width = 73
-      Height = 17
-      Caption = 'Eksternal'
-      TabOrder = 1
-      OnClick = EksternalClick
-    end
-  end
-  object GroupBox3: TGroupBox
-    Left = 341
-    Top = 339
-    Width = 317
-    Height = 153
-    Caption = 'Analisa'
-    TabOrder = 11
-    object StrGrid3: TZColorStringGrid
-      Left = 3
-      Top = 15
-      Width = 302
-      Height = 130
-      ColCount = 2
-      DefaultRowHeight = 20
-      DefaultDrawing = False
-      FixedColor = clBtnFace
-      FixedCols = 0
-      TabOrder = 0
-      OnSelectCell = StrGrid3SelectCell
-      DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
-      DefaultCellStyle.Font.Color = clWindowText
-      DefaultCellStyle.Font.Height = -11
-      DefaultCellStyle.Font.Name = 'MS Sans Serif'
-      DefaultCellStyle.Font.Style = []
-      DefaultCellStyle.BGColor = clWindow
-      DefaultFixedCellStyle.Font.Charset = DEFAULT_CHARSET
-      DefaultFixedCellStyle.Font.Color = clWindowText
-      DefaultFixedCellStyle.Font.Height = -11
-      DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
-      DefaultFixedCellStyle.Font.Style = []
-      DefaultFixedCellStyle.BGColor = clBtnFace
-      LineDesign.LineUpColor = clWhite
-    end
-    object Analisa: TEdit
-      Left = 7
-      Top = 38
-      Width = 279
-      Height = 21
-      TabOrder = 1
-      Visible = False
-      OnExit = AnalisaExit
-      OnKeyPress = AnalisaKeyPress
-    end
-  end
-  object Selesai: TButton
-    Left = 454
-    Top = 501
-    Width = 75
-    Height = 25
-    Caption = 'Selesai'
-    TabOrder = 12
-    OnClick = SelesaiClick
-  end
-  object CetakUlang: TButton
-    Left = 282
-    Top = 501
-    Width = 75
-    Height = 25
-    Caption = 'Cetak Ulang'
-    TabOrder = 13
-    OnClick = CetakUlangClick
-  end
-  object Bersihkan: TButton
-    Left = 367
-    Top = 500
-    Width = 75
-    Height = 25
-    Caption = 'Bersihkan'
-    TabOrder = 14
-    OnClick = BersihkanClick
-  end
-  object Simpan: TButton
-    Left = 195
-    Top = 500
-    Width = 75
-    Height = 25
-    Caption = 'Simpan'
-    TabOrder = 15
-    OnClick = SimpanClick
-  end
-  object PanelMemoKhusus: TPanel
-    Left = 56
-    Top = 501
-    Width = 105
-    Height = 19
-    Enabled = False
-    TabOrder = 16
-    object MemoKhusus: TCheckBox
-      Left = 5
-      Top = 3
-      Width = 105
-      Height = 17
-      Caption = 'Memo Khusus'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-      TabOrder = 0
-    end
-  end
   object Memo1: TMemo
-    Left = 880
-    Top = -64
+    Left = 960
+    Top = -56
     Width = 185
     Height = 89
     Lines.Strings = (
       'Memo1')
-    TabOrder = 17
+    TabOrder = 3
     Visible = False
+  end
+  object PageControl1: TPageControl
+    Left = 2
+    Top = 2
+    Width = 944
+    Height = 497
+    ActivePage = TabDetail
+    TabOrder = 4
+    object TabDetail: TTabSheet
+      Caption = 'Detail'
+      object Label2: TLabel
+        Left = 700
+        Top = 74
+        Width = 48
+        Height = 13
+        Alignment = taRightJustify
+        BiDiMode = bdLeftToRight
+        Caption = 'Pekerjaan'
+        ParentBiDiMode = False
+      end
+      object Label4: TLabel
+        Left = 378
+        Top = 48
+        Width = 67
+        Height = 13
+        Alignment = taRightJustify
+        Caption = 'Tanggal Mulai'
+      end
+      object Label9: TLabel
+        Left = 370
+        Top = 68
+        Width = 76
+        Height = 13
+        Alignment = taRightJustify
+        Caption = 'Tanggal Selesai'
+      end
+      object GroupNo: TGroupBox
+        Left = 8
+        Top = 2
+        Width = 921
+        Height = 33
+        Enabled = False
+        TabOrder = 0
+        object Label3: TLabel
+          Left = 18
+          Top = 11
+          Width = 38
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'No PKB'
+        end
+        object Label6: TLabel
+          Left = 214
+          Top = 10
+          Width = 19
+          Height = 13
+          Caption = 'Jam'
+        end
+        object NoPKB: TEdit
+          Left = 67
+          Top = 8
+          Width = 121
+          Height = 21
+          TabOrder = 0
+        end
+        object Jam: TEdit
+          Left = 246
+          Top = 8
+          Width = 57
+          Height = 21
+          TabOrder = 1
+        end
+      end
+      object GroupBox1: TGroupBox
+        Left = 8
+        Top = 37
+        Width = 356
+        Height = 68
+        TabOrder = 1
+        object Label1: TLabel
+          Left = 16
+          Top = 13
+          Width = 41
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'No Body'
+        end
+        object Label5: TLabel
+          Left = 25
+          Top = 37
+          Width = 32
+          Height = 13
+          Alignment = taRightJustify
+          Caption = 'No SR'
+        end
+        object Panel2: TPanel
+          Left = 96
+          Top = 8
+          Width = 73
+          Height = 25
+          BevelOuter = bvNone
+          Enabled = False
+          TabOrder = 1
+        end
+        object Panel1: TPanel
+          Left = 62
+          Top = 8
+          Width = 290
+          Height = 57
+          BevelOuter = bvNone
+          Enabled = False
+          TabOrder = 0
+          object Label7: TLabel
+            Left = 146
+            Top = 33
+            Width = 39
+            Height = 13
+            Alignment = taRightJustify
+            Caption = 'KM Odo'
+          end
+          object Label8: TLabel
+            Left = 145
+            Top = 8
+            Width = 41
+            Height = 13
+            Alignment = taRightJustify
+            Caption = 'No Polisi'
+          end
+          object NoPolisi: TEdit
+            Left = 190
+            Top = 5
+            Width = 105
+            Height = 21
+            TabOrder = 0
+          end
+          object KMOdo: TEdit
+            Left = 190
+            Top = 29
+            Width = 57
+            Height = 21
+            TabOrder = 1
+          end
+          object NoBody: TEdit
+            Left = 0
+            Top = 2
+            Width = 73
+            Height = 21
+            TabOrder = 2
+          end
+          object NoSR: TEdit
+            Left = 0
+            Top = 26
+            Width = 105
+            Height = 21
+            TabOrder = 3
+          end
+        end
+        object PanelCariSR: TPanel
+          Left = 168
+          Top = 32
+          Width = 41
+          Height = 25
+          BevelOuter = bvNone
+          TabOrder = 2
+          object CariSR: TSpeedButton
+            Left = 2
+            Top = 2
+            Width = 23
+            Height = 23
+            Glyph.Data = {
+              26040000424D2604000000000000360000002800000012000000120000000100
+              180000000000F003000000000000000000000000000000000000F8F8F8F8F8F8
+              F8F8F8F8F8F8F7F7F7F7F7F7F7F7F7F7F7F7F6F7F7F7F6F6F6F6F6F7F7F7F4F5
+              F4F7F7F7FBFAF9D2D8D5E4E7E6FCFCFC0000F7F7F7F7F7F7F7F7F7F7F7F7F8F8
+              F8F7F7F7F7F8F7F7F8F8F6F8F7F7F7F7F7F7F7F5F5F5F6F4F6FAFAFAD8DBDB95
+              83899F9598E9EBEB0000F8F8F8F8F8F8F8F8F8F8F8F8F7F7F7F8F8F8F7F7F7F7
+              F7F7F7F7F7F7F8F6F5F5F5F6F5F5FAF9F9D3D9D89B868D8F4054742C41B8AFB4
+              3D22F7F7F7F7F7F7F7F7F7F7F7F7F6F6F6F6F6F6F4F4F4F3F3F3F4F4F4F4F5F4
+              F7F6F6FAF9F9D2D7D69A80898F405596354E7A263FBFAFB70000F6F7F7F7F6F7
+              F6F6F6F5F5F5F6F6F6F8F6F7FCFBFBFDFEFEFCFAFAF6F4F5F7F7F7D3D8D7997F
+              8990405693354E7C2B41B399A3FBFCFD0000F7F7F7F6F6F6F6F6F6F8F7F7FBFB
+              FBF5FAF9E4E7E7DCDEDEE6EAEAFDFFFFE4E5E5997E8790415892344F7D2D42AF
+              959DFCFEFEF8F8F70000F6F6F6F5F4F5F8F7F7EEF1F0C8C8C9A39191977A7A9C
+              7D7C957979AB9C9DC1C1C28F495D8D27437E2E44AF929BFBFCFCF7F5F6F3F3F4
+              0000F5F5F5F9F7F8F2F4F5C1BBBCAF9496CBA8A0DFBDACE7C7B4DDB9A9BD958C
+              A689879E74807E3447AC8D97FAFBFBF7F6F6F2F2F3F7F7F70000F6F5F5FBFDFD
+              D5CFCFBCA1A3F7E9E4FCE9D5F8D7B7F8D6B6FBD9B9FEE2C7E5C4B4A37E7DC7C0
+              C3FBFBFBF7F6F6F4F4F4F7F7F7F7F6F60000FAFBFAF3F4F4C2A9A9E9D9D9FFFB
+              F4EED2B8F0CFB1F3D4B9F2D2B5F4D4BAFFE9D3DAB6ABC1A7A7FCFFFFF4F3F3F6
+              F6F6F7F7F6F6F7F60000FDFFFFE9DFDFC29D9DFFF6EDF4E3D3F5DAC6F7E7D9F7
+              ECE0F7E9DDF4E1D1F8E6D6F2DDCFBE9897E7E1E3FBFEFDF4F3F3F5F6F7F7F6F7
+              0102FEFEFEE4D3D4CEA49EFCE7D0F0CFB6F6E6D6F8F3EDF7F7F5F7F2EFF6ECE5
+              F7EDE3F7EBE1D6B7B5E1D8D9FBFFFEF4F3F3F6F6F6F6F7F70801FDFFFFE5D5D7
+              CFA398F8D9BAECCBAEF7EADFF7F3F0F7F5F3F6F5EFF5F3EEF8F6F2F8F1EDDCC1
+              C0E8E0E1FBFEFEF4F3F3F7F7F7F7F7F70000FAFDFDF0E6E8CBA29AFADEC2F2D8
+              BFF7E8DDF7EFE7F6EFEAF6F5EFF5F7F3F6F9F8F6F1EEDAC3C4F3F0F0F9FAFAF6
+              F4F4F7F6F7F7F6F80000F7F6F7F9FBFBD5B8B9DFBCAEFFF4DFF2E0D1F3E4D7F5
+              E8DEF4EFEBF6F6F6FDFFFEEBDEDDE4D7D9F9FCFCF4F4F4F6F6F6F6F7F7F6F7F7
+              0000F4F5F4F9FAFAF3EAEBC89F9DE2C3B5FFF0DAFDEDDBFCF2E3FFFBF1FDFBF7
+              EADBDBE2CFD1F7F5F6F7F7F7F5F5F5F6F7F6F7F7F7F6F6F70000F6F6F6F6F4F4
+              FAFCFBEFE6E7CEABAAD1ADA6DBBBAFE1C3B6DFC6BCDAC1C0E3D0D2F6F3F4F8F8
+              F8F5F5F5F7F7F8F7F6F6F7F7F7F7F7F80000F5F7F6F6F6F6F6F4F5F9FAFAF9F9
+              F9EADFE0D9BFBFD6B8B8E1CBCDF0E9EAF8F9F9F6F7F8F6F6F5F6F7F8F7F7F7F7
+              F7F7F7F8F8F7F7F70000}
+            OnClick = CariSRClick
+          end
+        end
+        object PanelCari: TPanel
+          Left = 137
+          Top = 8
+          Width = 41
+          Height = 25
+          BevelOuter = bvNone
+          TabOrder = 3
+          object TombolCari: TSpeedButton
+            Left = 1
+            Top = 1
+            Width = 23
+            Height = 23
+            Glyph.Data = {
+              26040000424D2604000000000000360000002800000012000000120000000100
+              180000000000F003000000000000000000000000000000000000F8F8F8F8F8F8
+              F8F8F8F8F8F8F7F7F7F7F7F7F7F7F7F7F7F7F6F7F7F7F6F6F6F6F6F7F7F7F4F5
+              F4F7F7F7FBFAF9D2D8D5E4E7E6FCFCFC0000F7F7F7F7F7F7F7F7F7F7F7F7F8F8
+              F8F7F7F7F7F8F7F7F8F8F6F8F7F7F7F7F7F7F7F5F5F5F6F4F6FAFAFAD8DBDB95
+              83899F9598E9EBEB0000F8F8F8F8F8F8F8F8F8F8F8F8F7F7F7F8F8F8F7F7F7F7
+              F7F7F7F7F7F7F8F6F5F5F5F6F5F5FAF9F9D3D9D89B868D8F4054742C41B8AFB4
+              3D22F7F7F7F7F7F7F7F7F7F7F7F7F6F6F6F6F6F6F4F4F4F3F3F3F4F4F4F4F5F4
+              F7F6F6FAF9F9D2D7D69A80898F405596354E7A263FBFAFB70000F6F7F7F7F6F7
+              F6F6F6F5F5F5F6F6F6F8F6F7FCFBFBFDFEFEFCFAFAF6F4F5F7F7F7D3D8D7997F
+              8990405693354E7C2B41B399A3FBFCFD0000F7F7F7F6F6F6F6F6F6F8F7F7FBFB
+              FBF5FAF9E4E7E7DCDEDEE6EAEAFDFFFFE4E5E5997E8790415892344F7D2D42AF
+              959DFCFEFEF8F8F70000F6F6F6F5F4F5F8F7F7EEF1F0C8C8C9A39191977A7A9C
+              7D7C957979AB9C9DC1C1C28F495D8D27437E2E44AF929BFBFCFCF7F5F6F3F3F4
+              0000F5F5F5F9F7F8F2F4F5C1BBBCAF9496CBA8A0DFBDACE7C7B4DDB9A9BD958C
+              A689879E74807E3447AC8D97FAFBFBF7F6F6F2F2F3F7F7F70000F6F5F5FBFDFD
+              D5CFCFBCA1A3F7E9E4FCE9D5F8D7B7F8D6B6FBD9B9FEE2C7E5C4B4A37E7DC7C0
+              C3FBFBFBF7F6F6F4F4F4F7F7F7F7F6F60000FAFBFAF3F4F4C2A9A9E9D9D9FFFB
+              F4EED2B8F0CFB1F3D4B9F2D2B5F4D4BAFFE9D3DAB6ABC1A7A7FCFFFFF4F3F3F6
+              F6F6F7F7F6F6F7F60000FDFFFFE9DFDFC29D9DFFF6EDF4E3D3F5DAC6F7E7D9F7
+              ECE0F7E9DDF4E1D1F8E6D6F2DDCFBE9897E7E1E3FBFEFDF4F3F3F5F6F7F7F6F7
+              0102FEFEFEE4D3D4CEA49EFCE7D0F0CFB6F6E6D6F8F3EDF7F7F5F7F2EFF6ECE5
+              F7EDE3F7EBE1D6B7B5E1D8D9FBFFFEF4F3F3F6F6F6F6F7F70801FDFFFFE5D5D7
+              CFA398F8D9BAECCBAEF7EADFF7F3F0F7F5F3F6F5EFF5F3EEF8F6F2F8F1EDDCC1
+              C0E8E0E1FBFEFEF4F3F3F7F7F7F7F7F70000FAFDFDF0E6E8CBA29AFADEC2F2D8
+              BFF7E8DDF7EFE7F6EFEAF6F5EFF5F7F3F6F9F8F6F1EEDAC3C4F3F0F0F9FAFAF6
+              F4F4F7F6F7F7F6F80000F7F6F7F9FBFBD5B8B9DFBCAEFFF4DFF2E0D1F3E4D7F5
+              E8DEF4EFEBF6F6F6FDFFFEEBDEDDE4D7D9F9FCFCF4F4F4F6F6F6F6F7F7F6F7F7
+              0000F4F5F4F9FAFAF3EAEBC89F9DE2C3B5FFF0DAFDEDDBFCF2E3FFFBF1FDFBF7
+              EADBDBE2CFD1F7F5F6F7F7F7F5F5F5F6F7F6F7F7F7F6F6F70000F6F6F6F6F4F4
+              FAFCFBEFE6E7CEABAAD1ADA6DBBBAFE1C3B6DFC6BCDAC1C0E3D0D2F6F3F4F8F8
+              F8F5F5F5F7F7F8F7F6F6F7F7F7F7F7F80000F5F7F6F6F6F6F6F4F5F9FAFAF9F9
+              F9EADFE0D9BFBFD6B8B8E1CBCDF0E9EAF8F9F9F6F7F8F6F6F5F6F7F8F7F7F7F7
+              F7F7F7F8F8F7F7F70000}
+            OnClick = TombolCariClick
+          end
+        end
+      end
+      object PanelInOut: TPanel
+        Left = 763
+        Top = 73
+        Width = 163
+        Height = 17
+        BevelOuter = bvNone
+        BiDiMode = bdLeftToRight
+        ParentBiDiMode = False
+        TabOrder = 2
+        object Internal: TRadioButton
+          Left = 8
+          Top = 0
+          Width = 65
+          Height = 17
+          Caption = 'Internal'
+          TabOrder = 0
+          OnClick = InternalClick
+        end
+        object Eksternal: TRadioButton
+          Left = 95
+          Top = 0
+          Width = 73
+          Height = 17
+          Caption = 'Eksternal'
+          TabOrder = 1
+          OnClick = EksternalClick
+        end
+      end
+      object GroupInput: TPanel
+        Left = 454
+        Top = 40
+        Width = 195
+        Height = 49
+        BevelOuter = bvNone
+        TabOrder = 3
+        object StartDate: TDateTimePicker
+          Left = 0
+          Top = 4
+          Width = 89
+          Height = 21
+          Date = 41927.000000000000000000
+          Time = 41927.000000000000000000
+          TabOrder = 0
+        end
+        object FinishDate: TDateTimePicker
+          Left = 0
+          Top = 28
+          Width = 89
+          Height = 21
+          Date = 41927.000000000000000000
+          Time = 41927.000000000000000000
+          TabOrder = 1
+        end
+        object FinishUnknown: TCheckBox
+          Left = 92
+          Top = 30
+          Width = 97
+          Height = 17
+          Caption = 'Tidak diketahui'
+          TabOrder = 2
+          OnClick = FinishUnknownClick
+        end
+      end
+      object GroupExternal: TGroupBox
+        Left = 652
+        Top = 36
+        Width = 277
+        Height = 33
+        TabOrder = 4
+        object GeneralRepair: TCheckBox
+          Left = 13
+          Top = 8
+          Width = 97
+          Height = 17
+          Caption = 'General Repair'
+          TabOrder = 0
+        end
+        object BodyRepair: TCheckBox
+          Left = 117
+          Top = 8
+          Width = 97
+          Height = 17
+          Caption = 'Body Repair'
+          TabOrder = 1
+        end
+        object Asuransi: TCheckBox
+          Left = 205
+          Top = 8
+          Width = 66
+          Height = 17
+          Caption = 'Asuransi'
+          TabOrder = 2
+        end
+      end
+      object grp1: TGroupBox
+        Left = 8
+        Top = 110
+        Width = 289
+        Height = 190
+        Caption = 'Keluhan'
+        TabOrder = 5
+        object KeluhanDetail: TEdit
+          Left = 16
+          Top = 20
+          Width = 257
+          Height = 21
+          TabOrder = 0
+          OnExit = KeluhanDetailExit
+          OnKeyDown = KeluhanDetailKeyDown
+          OnKeyPress = KeluhanDetailKeyPress
+        end
+        object KeluhanGrid: TStringGrid
+          Left = 8
+          Top = 16
+          Width = 273
+          Height = 169
+          ColCount = 2
+          DefaultColWidth = 275
+          DefaultRowHeight = 18
+          FixedCols = 0
+          RowCount = 1
+          FixedRows = 0
+          Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect]
+          TabOrder = 1
+          OnSelectCell = KeluhanGridSelectCell
+        end
+      end
+      object grp2: TGroupBox
+        Left = 300
+        Top = 110
+        Width = 341
+        Height = 190
+        Caption = 'Barang'
+        TabOrder = 6
+        object StrGrid2: TZColorStringGrid
+          Left = 8
+          Top = 16
+          Width = 327
+          Height = 161
+          ColCount = 4
+          DefaultRowHeight = 20
+          DefaultDrawing = False
+          FixedColor = clBtnFace
+          FixedCols = 0
+          TabOrder = 0
+          DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
+          DefaultCellStyle.Font.Color = clWindowText
+          DefaultCellStyle.Font.Height = -11
+          DefaultCellStyle.Font.Name = 'MS Sans Serif'
+          DefaultCellStyle.Font.Style = []
+          DefaultCellStyle.BGColor = clWindow
+          DefaultFixedCellStyle.Font.Charset = DEFAULT_CHARSET
+          DefaultFixedCellStyle.Font.Color = clWindowText
+          DefaultFixedCellStyle.Font.Height = -11
+          DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
+          DefaultFixedCellStyle.Font.Style = []
+          DefaultFixedCellStyle.BGColor = clBtnFace
+          LineDesign.LineUpColor = clWhite
+        end
+        object ItemDetail: TEdit
+          Left = 8
+          Top = 36
+          Width = 121
+          Height = 21
+          TabOrder = 1
+          Visible = False
+        end
+        object Detail: TEdit
+          Left = 144
+          Top = 36
+          Width = 73
+          Height = 21
+          TabOrder = 2
+          Visible = False
+        end
+        object Qty: TEdit
+          Left = 240
+          Top = 36
+          Width = 49
+          Height = 21
+          TabOrder = 3
+          Visible = False
+        end
+      end
+      object GroupBox2: TGroupBox
+        Left = 647
+        Top = 110
+        Width = 285
+        Height = 190
+        Caption = 'Mekanik'
+        TabOrder = 7
+        object StrGridMekanik: TZColorStringGrid
+          Left = 3
+          Top = 17
+          Width = 278
+          Height = 152
+          ColCount = 3
+          DefaultRowHeight = 20
+          DefaultDrawing = False
+          FixedColor = clBtnFace
+          FixedCols = 0
+          TabOrder = 0
+          OnSelectCell = StrGridMekanikSelectCell
+          DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
+          DefaultCellStyle.Font.Color = clWindowText
+          DefaultCellStyle.Font.Height = -11
+          DefaultCellStyle.Font.Name = 'MS Sans Serif'
+          DefaultCellStyle.Font.Style = []
+          DefaultCellStyle.BGColor = clWindow
+          DefaultFixedCellStyle.Font.Charset = DEFAULT_CHARSET
+          DefaultFixedCellStyle.Font.Color = clWindowText
+          DefaultFixedCellStyle.Font.Height = -11
+          DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
+          DefaultFixedCellStyle.Font.Style = []
+          DefaultFixedCellStyle.BGColor = clBtnFace
+          LineDesign.LineUpColor = clWhite
+          ColWidths = (
+            64
+            64
+            71)
+        end
+        object Mekanik: TEdit
+          Left = 75
+          Top = 35
+          Width = 182
+          Height = 21
+          CharCase = ecUpperCase
+          TabOrder = 1
+          Visible = False
+          OnExit = MekanikExit
+          OnKeyPress = MekanikKeyPress
+        end
+        object StatusMekanik: TComboBox
+          Left = 8
+          Top = 32
+          Width = 65
+          Height = 21
+          ItemHeight = 13
+          ItemIndex = 0
+          TabOrder = 2
+          Text = 'INTERNAL'
+          Visible = False
+          OnExit = StatusMekanikExit
+          Items.Strings = (
+            'INTERNAL'
+            'EXTERNAL')
+        end
+        object ListMekanik: TListBox
+          Left = 8
+          Top = 72
+          Width = 257
+          Height = 81
+          ItemHeight = 13
+          TabOrder = 3
+          Visible = False
+          OnDblClick = ListMekanikDblClick
+        end
+      end
+      object GroupBox3: TGroupBox
+        Left = 8
+        Top = 305
+        Width = 454
+        Height = 160
+        Caption = 'Analisa'
+        TabOrder = 8
+        object StrGrid3: TZColorStringGrid
+          Left = 3
+          Top = 15
+          Width = 446
+          Height = 130
+          ColCount = 2
+          DefaultRowHeight = 20
+          DefaultDrawing = False
+          FixedColor = clBtnFace
+          FixedCols = 0
+          TabOrder = 0
+          OnSelectCell = StrGrid3SelectCell
+          DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
+          DefaultCellStyle.Font.Color = clWindowText
+          DefaultCellStyle.Font.Height = -11
+          DefaultCellStyle.Font.Name = 'MS Sans Serif'
+          DefaultCellStyle.Font.Style = []
+          DefaultCellStyle.BGColor = clWindow
+          DefaultFixedCellStyle.Font.Charset = DEFAULT_CHARSET
+          DefaultFixedCellStyle.Font.Color = clWindowText
+          DefaultFixedCellStyle.Font.Height = -11
+          DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
+          DefaultFixedCellStyle.Font.Style = []
+          DefaultFixedCellStyle.BGColor = clBtnFace
+          LineDesign.LineUpColor = clWhite
+        end
+        object Analisa: TEdit
+          Left = 7
+          Top = 38
+          Width = 279
+          Height = 21
+          TabOrder = 1
+          Visible = False
+          OnExit = AnalisaExit
+          OnKeyPress = AnalisaKeyPress
+        end
+      end
+      object GroupPekerjaan: TGroupBox
+        Left = 465
+        Top = 305
+        Width = 466
+        Height = 160
+        Caption = 'Perintah Kerja'
+        TabOrder = 9
+        object StrGridPekerjaan: TZColorStringGrid
+          Left = 8
+          Top = 15
+          Width = 452
+          Height = 130
+          ColCount = 2
+          DefaultRowHeight = 20
+          DefaultDrawing = False
+          FixedColor = clBtnFace
+          FixedCols = 0
+          TabOrder = 0
+          OnSelectCell = StrGridPekerjaanSelectCell
+          DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
+          DefaultCellStyle.Font.Color = clWindowText
+          DefaultCellStyle.Font.Height = -11
+          DefaultCellStyle.Font.Name = 'MS Sans Serif'
+          DefaultCellStyle.Font.Style = []
+          DefaultCellStyle.BGColor = clWindow
+          DefaultFixedCellStyle.Font.Charset = DEFAULT_CHARSET
+          DefaultFixedCellStyle.Font.Color = clWindowText
+          DefaultFixedCellStyle.Font.Height = -11
+          DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
+          DefaultFixedCellStyle.Font.Style = []
+          DefaultFixedCellStyle.BGColor = clBtnFace
+          LineDesign.LineUpColor = clWhite
+        end
+        object Pekerjaan: TEdit
+          Left = 87
+          Top = 38
+          Width = 279
+          Height = 21
+          TabOrder = 1
+          Visible = False
+          OnExit = PekerjaanExit
+          OnKeyPress = PekerjaanKeyPress
+        end
+      end
+    end
+    object TabLampiran: TTabSheet
+      Caption = 'Lampiran'
+      ImageIndex = 1
+      object ScrollBox1: TScrollBox
+        Left = 8
+        Top = 8
+        Width = 689
+        Height = 409
+        TabOrder = 0
+      end
+      object TambahFoto: TButton
+        Left = 720
+        Top = 24
+        Width = 81
+        Height = 35
+        Caption = 'Tambah Foto'
+        TabOrder = 1
+        OnClick = TambahFotoClick
+      end
+      object HapusSemuaFoto: TButton
+        Left = 720
+        Top = 64
+        Width = 129
+        Height = 35
+        Caption = 'Hapus Semua Foto'
+        TabOrder = 2
+        WordWrap = True
+        OnClick = HapusSemuaFotoClick
+      end
+      object SimpanFoto: TButton
+        Left = 720
+        Top = 104
+        Width = 75
+        Height = 25
+        Caption = 'Simpan'
+        TabOrder = 3
+        Visible = False
+        OnClick = SimpanFotoClick
+      end
+    end
+  end
+  object Panel3: TPanel
+    Left = 8
+    Top = 500
+    Width = 937
+    Height = 41
+    TabOrder = 5
+    object PanelMemoKhusus: TPanel
+      Left = 29
+      Top = 7
+      Width = 105
+      Height = 19
+      Enabled = False
+      TabOrder = 0
+      object MemoKhusus: TCheckBox
+        Left = 0
+        Top = 2
+        Width = 105
+        Height = 17
+        Caption = 'Memo Khusus'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 0
+      end
+    end
+    object Simpan: TButton
+      Left = 331
+      Top = 8
+      Width = 75
+      Height = 25
+      Caption = 'Simpan'
+      TabOrder = 1
+      OnClick = SimpanClick
+    end
+    object CetakUlang: TButton
+      Left = 418
+      Top = 8
+      Width = 75
+      Height = 25
+      Caption = 'Cetak Ulang'
+      TabOrder = 2
+      OnClick = CetakUlangClick
+    end
+    object Bersihkan: TButton
+      Left = 503
+      Top = 8
+      Width = 75
+      Height = 25
+      Caption = 'Bersihkan'
+      TabOrder = 3
+      OnClick = BersihkanClick
+    end
+    object Selesai: TButton
+      Left = 590
+      Top = 8
+      Width = 75
+      Height = 25
+      Caption = 'Selesai'
+      TabOrder = 4
+      OnClick = SelesaiClick
+    end
   end
   object ppReport: TppReport
     PrinterSetup.BinName = 'Default'
@@ -3802,8 +3910,8 @@ object WorkOrderForm: TWorkOrderForm
     PreviewFormSettings.WindowState = wsMaximized
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
-    Left = 312
-    Top = 93
+    Left = 816
+    Top = 509
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand1: TppHeaderBand
@@ -4208,7 +4316,7 @@ object WorkOrderForm: TWorkOrderForm
         Border.Color = clBlack
         Border.Style = psSolid
         Border.Visible = False
-        Caption = 'PERINTAH KERJA'
+        Caption = 'KELUHAN'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Name = 'Arial'
@@ -4217,9 +4325,9 @@ object WorkOrderForm: TWorkOrderForm
         TextAlignment = taCentered
         Transparent = True
         mmHeight = 3704
-        mmLeft = 8202
+        mmLeft = 8996
         mmTop = 59531
-        mmWidth = 91281
+        mmWidth = 90488
         BandType = 0
       end
       object ppLabelUnit: TppLabel
@@ -4630,7 +4738,7 @@ object WorkOrderForm: TWorkOrderForm
         Border.Color = clBlack
         Border.Style = psSolid
         Border.Visible = False
-        Caption = 'PEKERJAAN/PERBAIKAN'
+        Caption = 'PERINTAH KERJA/PEKERJAAN'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Name = 'Arial'
@@ -4817,8 +4925,8 @@ object WorkOrderForm: TWorkOrderForm
         Font.Style = []
         Transparent = True
         mmHeight = 80169
-        mmLeft = 9525
-        mmTop = 67469
+        mmLeft = 10054
+        mmTop = 68263
         mmWidth = 88900
         BandType = 0
         mmBottomOffset = 0
@@ -4862,10 +4970,10 @@ object WorkOrderForm: TWorkOrderForm
         Font.Size = 10
         Font.Style = []
         Transparent = True
-        mmHeight = 76465
-        mmLeft = 9525
-        mmTop = 154517
-        mmWidth = 80433
+        mmHeight = 75406
+        mmLeft = 8996
+        mmTop = 154782
+        mmWidth = 75406
         BandType = 0
         mmBottomOffset = 0
         mmOverFlowOffset = 0
@@ -4909,9 +5017,9 @@ object WorkOrderForm: TWorkOrderForm
         Font.Style = []
         Transparent = True
         mmHeight = 76465
-        mmLeft = 91281
+        mmLeft = 91546
         mmTop = 153988
-        mmWidth = 24606
+        mmWidth = 24342
         BandType = 0
         mmBottomOffset = 0
         mmOverFlowOffset = 0
@@ -5062,6 +5170,29 @@ object WorkOrderForm: TWorkOrderForm
         mmTop = 33867
         mmWidth = 51065
         BandType = 0
+      end
+      object ppCheklist: TppMemo
+        UserName = 'Cheklist'
+        Border.BorderPositions = []
+        Border.Color = clBlack
+        Border.Style = psSolid
+        Border.Visible = False
+        CharWrap = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Arial'
+        Font.Size = 10
+        Font.Style = []
+        Transparent = True
+        mmHeight = 75405
+        mmLeft = 84402
+        mmTop = 154517
+        mmWidth = 5821
+        BandType = 0
+        mmBottomOffset = 0
+        mmOverFlowOffset = 0
+        mmStopPosition = 0
+        mmLeading = 0
       end
     end
     object ppDetailBand1: TppDetailBand
@@ -5246,5 +5377,9 @@ object WorkOrderForm: TWorkOrderForm
     end
     object ppParameterList1: TppParameterList
     end
+  end
+  object OpenPictureDialog1: TOpenDialog
+    Left = 893
+    Top = 512
   end
 end

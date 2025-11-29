@@ -243,7 +243,8 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   LaporanWehaMartU, MateriTrainingFormU, MateriTrainingListU,
   RekapPergantianPartperArmadaV2U, KmActualUnitRptU,
   TroubleshootingRequestFormU, TroubleshootingRequestFormListU,
-  EmployeeContractListU, ChartU, RubahInvoiceFormU, PlannedServiceReportU;
+  EmployeeContractListU, ChartU, RubahInvoiceFormU, PlannedServiceReportU,
+  MemoListU;
 
 
 constructor TClockThread.Create;
@@ -1840,8 +1841,8 @@ begin
            end;
         end;
         {190501 Laporan Operasional Bus}
-        190501..190518:begin
-           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18']) of
+        190501..190519:begin
+           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19']) of
              0:if IsFormOpen('VhcOutBusRpt')=False then VhcOutBusRpt:=TVhcOutBusRpt.Create(Self);
              1:if IsFormOpen('BusRunningDaysRpt')=False then BusRunningDaysRpt:=TBusRunningDaysRpt.Create(Self);
              2:if IsFormOpen('DailyVehicleRDRpt')=False then DailyVehicleRDRpt:=TDailyVehicleRDRpt.Create(Self,'Bus','','',6);
@@ -1860,6 +1861,7 @@ begin
              15:if IsFormOpen('EmployeeHistoryLakaRpt')=False then EmployeeHistoryLakaRpt:=TEmployeeHistoryLakaRpt.Create(Self);
              16:if IsFormOpen('EmplHistoryTrainingRpt')=False then EmplHistoryTrainingRpt:=TEmplHistoryTrainingRpt.Create(Self,'TRAINING-LAPORAN','','','');
              17:if IsFormOpen('ListKetidakSesuaianCrew')=False then ListKetidakSesuaianCrew:=TListKetidakSesuaianCrew.Create(Self,'');
+             18:if IsFormOpen('MemoList')=False then MemoList:=TMemoList.Create(Self);
            end;
         end;
 

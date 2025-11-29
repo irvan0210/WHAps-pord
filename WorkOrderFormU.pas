@@ -7,7 +7,10 @@ uses
   Dialogs, StdCtrls, ExtCtrls, jpeg, QuickRpt, QRCtrls, ADODB, WHUnit,
   Grids, ComCtrls, Buttons, ppParameter, ppBands, ppReport, ppSubRpt,
   ppMemo, ppCtrls, ppStrtch, ppPrnabl, ppClass, ppCache, ppComm, ppRelatv,
-  ppProd, ZColorStringGrid;
+  ppProd, ZColorStringGrid, ExtDlgs;
+
+const
+  KolomWidth = 3;   // ? TARUH DI SINI
 
 type
   TWorkOrderForm = class(TForm)
@@ -134,57 +137,8 @@ type
     QRLabel43: TQRLabel;
     QRShape21: TQRShape;
     QRShape25: TQRShape;
-    Label2: TLabel;
-    Label9: TLabel;
-    Label4: TLabel;
-    GroupExternal: TGroupBox;
-    GeneralRepair: TCheckBox;
-    BodyRepair: TCheckBox;
-    Asuransi: TCheckBox;
     GroupDetail: TGroupBox;
     StrGrid: TStringGrid;
-    GroupBox1: TGroupBox;
-    Label1: TLabel;
-    Label5: TLabel;
-    Panel2: TPanel;
-    Panel1: TPanel;
-    Label7: TLabel;
-    Label8: TLabel;
-    NoPolisi: TEdit;
-    KMOdo: TEdit;
-    NoBody: TEdit;
-    NoSR: TEdit;
-    PanelCariSR: TPanel;
-    CariSR: TSpeedButton;
-    PanelCari: TPanel;
-    TombolCari: TSpeedButton;
-    GroupNo: TGroupBox;
-    Label3: TLabel;
-    Label6: TLabel;
-    NoPKB: TEdit;
-    Jam: TEdit;
-    GroupInput: TPanel;
-    StartDate: TDateTimePicker;
-    FinishDate: TDateTimePicker;
-    FinishUnknown: TCheckBox;
-    grp1: TGroupBox;
-    KeluhanDetail: TEdit;
-    KeluhanGrid: TStringGrid;
-    grp2: TGroupBox;
-    StrGrid2: TZColorStringGrid;
-    ItemDetail: TEdit;
-    Detail: TEdit;
-    Qty: TEdit;
-    GroupBox2: TGroupBox;
-    StrGridMekanik: TZColorStringGrid;
-    Mekanik: TEdit;
-    StatusMekanik: TComboBox;
-    PanelInOut: TPanel;
-    Internal: TRadioButton;
-    Eksternal: TRadioButton;
-    GroupBox3: TGroupBox;
-    StrGrid3: TZColorStringGrid;
-    Analisa: TEdit;
     ppReport: TppReport;
     ppHeaderBand1: TppHeaderBand;
     ppShape2: TppShape;
@@ -265,16 +219,79 @@ type
     ppKepalaBengkel: TppLabel;
     ppSummaryBand1: TppSummaryBand;
     ppParameterList1: TppParameterList;
-    Selesai: TButton;
-    CetakUlang: TButton;
-    Bersihkan: TButton;
-    Simpan: TButton;
-    PanelMemoKhusus: TPanel;
-    MemoKhusus: TCheckBox;
     Memo1: TMemo;
     ppLabel34: TppLabel;
     ppLabel35: TppLabel;
     ppNoSR: TppLabel;
+    PageControl1: TPageControl;
+    TabDetail: TTabSheet;
+    TabLampiran: TTabSheet;
+    GroupNo: TGroupBox;
+    Label3: TLabel;
+    Label6: TLabel;
+    NoPKB: TEdit;
+    Jam: TEdit;
+    GroupBox1: TGroupBox;
+    Label1: TLabel;
+    Label5: TLabel;
+    Panel2: TPanel;
+    Panel1: TPanel;
+    Label7: TLabel;
+    Label8: TLabel;
+    NoPolisi: TEdit;
+    KMOdo: TEdit;
+    NoBody: TEdit;
+    NoSR: TEdit;
+    PanelCariSR: TPanel;
+    CariSR: TSpeedButton;
+    PanelCari: TPanel;
+    TombolCari: TSpeedButton;
+    PanelInOut: TPanel;
+    Internal: TRadioButton;
+    Eksternal: TRadioButton;
+    Label2: TLabel;
+    GroupInput: TPanel;
+    StartDate: TDateTimePicker;
+    FinishDate: TDateTimePicker;
+    FinishUnknown: TCheckBox;
+    Label4: TLabel;
+    Label9: TLabel;
+    GroupExternal: TGroupBox;
+    GeneralRepair: TCheckBox;
+    BodyRepair: TCheckBox;
+    Asuransi: TCheckBox;
+    grp1: TGroupBox;
+    KeluhanDetail: TEdit;
+    KeluhanGrid: TStringGrid;
+    grp2: TGroupBox;
+    StrGrid2: TZColorStringGrid;
+    ItemDetail: TEdit;
+    Detail: TEdit;
+    Qty: TEdit;
+    GroupBox2: TGroupBox;
+    StrGridMekanik: TZColorStringGrid;
+    Mekanik: TEdit;
+    StatusMekanik: TComboBox;
+    GroupBox3: TGroupBox;
+    StrGrid3: TZColorStringGrid;
+    Analisa: TEdit;
+    Panel3: TPanel;
+    PanelMemoKhusus: TPanel;
+    MemoKhusus: TCheckBox;
+    Simpan: TButton;
+    CetakUlang: TButton;
+    Bersihkan: TButton;
+    Selesai: TButton;
+    ScrollBox1: TScrollBox;
+    TambahFoto: TButton;
+    HapusSemuaFoto: TButton;
+    SimpanFoto: TButton;
+    OpenPictureDialog1: TOpenDialog;
+    GroupPekerjaan: TGroupBox;
+    StrGridPekerjaan: TZColorStringGrid;
+    Pekerjaan: TEdit;
+    ListMekanik: TListBox;
+    ppCheklist: TppMemo;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure EksternalClick(Sender: TObject);
@@ -306,19 +323,32 @@ type
       var CanSelect: Boolean);
     procedure AnalisaExit(Sender: TObject);
     procedure AnalisaKeyPress(Sender: TObject; var Key: Char);
+    procedure TambahFotoClick(Sender: TObject);
+    procedure HapusSemuaFotoClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure SimpanFotoClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure PekerjaanExit(Sender: TObject);
+    procedure PekerjaanKeyPress(Sender: TObject; var Key: Char);
+    procedure StrGridPekerjaanSelectCell(Sender: TObject; ACol,
+      ARow: Integer; var CanSelect: Boolean);
+    procedure ListMekanikDblClick(Sender: TObject);
   private
     { Private declarations }
     VhcArr:Array of TArrString7;
     WOArr:Array of TArrString10;
     WODetArr:Array of TArrString2;
+    MekanikArr:Array of TArrString5;
     IntRow,IntCol,CompId,MinRow:Integer;
     FormRequest,WorkOrderId,VehicleId,ApiTransTrack,StatusApiTransTrack:String;
     Initiation,IsReadOnly,IsInput:Boolean;
+    ListGambar, ListDeskripsi: TStringList;
     procedure Init;
     procedure InitGrid;
     procedure InitGrid2;
     procedure InitGrid3;
     procedure InitGrid4;
+    procedure InitGridPekerjaan;
     procedure RefreshCombo;
     procedure RefreshGrid;
     procedure LoadData;
@@ -332,26 +362,41 @@ type
     procedure AddDetail;
     procedure Calculate;
     procedure Calculate2;
+    procedure CalculatePekerjaan;
     procedure Calculate4;
     procedure SetOdo(License_plate:String);
+    procedure ImageRightClick(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure RepositionImages;
+    function GetImgFiles: TStringList;
+    function FileSize(const AFileName: string): Int64;
+    procedure SaveAllImagesToDB;
   public
+  StrTransId:String;
     { Public declarations }
 //    constructor Create(AOwner:TComponent);overload;
     constructor Create(AOwner:TComponent;WorkOrder_Id:String='';IsRead_Only:Boolean=False;Form_Request:String='');overload;
     procedure RePrint(No_PKB:String);
     procedure SetVehicleId(Vehicle_Id:String);
     procedure SetServiceRequestId(ServiceRequest_Id:String);
+    procedure CopyFileOld(const SourceFile, DestFile: string);
+    //procedure CompressAndSaveImage(const SrcFile, DestFile: string; MaxWidth, MaxHeight, Quality: Integer);
+    procedure ReLayoutImages;
+    procedure ShowSavedImage(const FilePath, Deskripsi: string);
+    procedure LoadAllImages;
+    procedure RefreshMekanik;
+
   end;
 
 var
   WorkOrderForm: TWorkOrderForm;
   IntRow,IntCol,MinRowGrid,IntMaxRow,MinRow2:Integer;
+  CountSpaces: Integer;
 
 implementation
 
-uses MainU, RePrintFormU, AuthorizedFormU, DateUtils,
+uses MainU, RePrintFormU, AuthorizedFormU, DateUtils,DB,
   VehicleListU, ServiceRequestListU, WorkOrderListU, IdHTTP, IdException, 
-  IdStack, uLkJSON;
+  IdStack, uLkJSON, StrUtils, ImageViewerU, pngimage;
 
 {$R *.dfm}
 
@@ -507,7 +552,7 @@ begin
 
   StrGrid3.RowCount:=2;
   StrGrid3.ColWidths[0]:=20;
-  StrGrid3.ColWidths[1]:=260;
+  StrGrid3.ColWidths[1]:=420;
 
   StrGrid3.Cells[0,0]:='No';
   StrGrid3.Cells[1,0]:='Analisa';
@@ -530,7 +575,7 @@ begin
   StrGridMekanik.RowCount:=2;
   StrGridMekanik.ColWidths[0]:=20;
   StrGridMekanik.ColWidths[1]:=80;
-  StrGridMekanik.ColWidths[2]:=200;
+  StrGridMekanik.ColWidths[2]:=160;
 
   StrGridMekanik.Cells[0,0]:='No';
   StrGridMekanik.Cells[1,0]:='Status';
@@ -542,6 +587,29 @@ begin
   for IntCount:=0 to 1 do begin
     StrGridMekanik.Cells[IntCount,1]:='';
     StrGridMekanik.CellStyle[IntCount,1].BGColor:=clWindow;
+  end;
+end;
+
+procedure TWorkOrderForm.InitGridPekerjaan;
+//var IntCount:Integer;
+var IntCount,IntCount2:Integer;
+begin
+  for IntCount:=0 to StrGridPekerjaan.RowCount-1 do
+    for IntCount2:=0 to StrGridPekerjaan.ColCount-1 do
+      StrGridPekerjaan.Cells[IntCount2,IntCount]:='';
+
+  StrGridPekerjaan.RowCount:=2;
+  StrGridPekerjaan.ColWidths[0]:=20;
+  StrGridPekerjaan.ColWidths[1]:=420;
+
+  StrGridPekerjaan.Cells[0,0]:='No';
+  StrGridPekerjaan.Cells[1,0]:='Perintah Kerja';
+  StrGridPekerjaan.CellStyle[0,0].HorizontalAlignment:=taCenter;
+  StrGridPekerjaan.CellStyle[1,0].HorizontalAlignment:=taCenter;
+
+  for IntCount:=0 to 1 do begin
+    StrGridPekerjaan.Cells[IntCount,1]:='';
+    StrGridPekerjaan.CellStyle[IntCount,1].BGColor:=clWindow;
   end;
 end;
 
@@ -568,6 +636,19 @@ begin
       StrGrid3.CellStyle[0,IntCount].HorizontalAlignment:=taCenter;
     end else
       StrGrid3.Cells[0,IntCount]:='';
+end;
+
+procedure TWorkOrderForm.CalculatePekerjaan;
+var IntCount,IntNum:Integer;
+begin
+  IntNum:=0;
+  for IntCount:=1 to StrGridPekerjaan.RowCount-1 do
+    if (Trim(StrGridPekerjaan.Cells[1,IntCount])<>'') then begin
+      Inc(IntNum);
+      StrGridPekerjaan.Cells[0,IntCount]:=IntToStr(IntNum);
+      StrGridPekerjaan.CellStyle[0,IntCount].HorizontalAlignment:=taCenter;
+    end else
+      StrGridPekerjaan.Cells[0,IntCount]:='';
 end;
 
 procedure TWorkOrderForm.Calculate4;
@@ -649,7 +730,7 @@ begin
             if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
         end;}
 
-         if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=IToCurr(Qry.FieldValues['in_ordo_km']) else KMOdo.Text:='0';
+         if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
       end;
       Qry.Close;
     end;
@@ -924,6 +1005,29 @@ begin
       Inc(IntCount);
 
     end;
+
+     //Pekerjaan
+    StrQry:='';
+    StrQry:='select description from wh_work_order_detail where work_order_id='+QuotedStr(WorkOrderId)+' AND '+
+    'description_id=2 and status=1 ;';
+    Qry.SQL.Clear;
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    IntCount:=1;
+    if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+
+      if StrGridPekerjaan.RowCount<IntCount+1 then StrGridPekerjaan.RowCount:=StrGridPekerjaan.RowCount+1;
+      StrGridPekerjaan.Cells[0,IntCount]:= IntToStr(IntCount);
+      StrGridPekerjaan.Cells[1,IntCount]:= Qry.FieldValues['description'];
+      StrGridPekerjaan.CellStyle[0,IntCount].HorizontalAlignment:=taCenter;
+      StrGridPekerjaan.CellStyle[1,IntCount].HorizontalAlignment:=taLeftJustify;
+
+      Qry.Next;
+      Inc(IntCount);
+
+    end;
+
+    LoadAllImages;
     Qry.Close;
 
   end;
@@ -939,12 +1043,15 @@ begin
       IsInput:=True;
       Simpan.Enabled:=True;
       KeluhanGrid.Enabled:=True;
+      TambahFoto.Enabled := True;
+      HapusSemuaFoto.Enabled := True;
+      ScrollBox1.Enabled := True;
     end;
 end;
 
 procedure TWorkOrderForm.SelesaiClick(Sender: TObject);
 begin
-  Close;
+  WorkOrderForm.Close;
 end;
 
 procedure TWorkOrderForm.FormClose(Sender: TObject;
@@ -1002,6 +1109,7 @@ begin
   InitGrid2;
   InitGrid3;
   InitGrid4;
+  InitGridPekerjaan;
   if FormRequest<>'Buka PKB' then
   begin
 //    WorkOrderForm.Width:='1059';
@@ -1026,6 +1134,7 @@ begin
   if UpperCase(FormRequest)='MAIN-ADDDETAIL' then begin
     AddDetail;
   end;
+  PageControl1.ActivePage := TabDetail;
 
 
 end;
@@ -1097,12 +1206,17 @@ end;
 
 procedure TWorkOrderForm.SimpanClick(Sender: TObject);
 var Qry:TADOQuery;
-    StrQry,StrMaxId,StrKMOdo,StrGenRep,StrBodRep,StrAnalisa,StrAnsur,StrMsg,StrEMsg,StrTransId,StrVhcId,StrStartDate,StrFinishDate,StrFinishDates,
-    StrDescription,StrServiceRequestDetailId,StrServiceRequestId,StrPart,StrQty,StrKodePart,StrMekanik,StrStatusMekanik:String;
-    IntCount,IntJobInEx:Integer;
+    StrQry,StrMaxId,StrKMOdo,StrGenRep,StrBodRep,StrAnalisa,StrAnsur,StrMsg,StrEMsg,StrPekerjaan,
+    StrTransId,StrVhcId,StrStartDate,StrFinishDate,StrFinishDates,
+    StrDescription,StrServiceRequestDetailId,StrServiceRequestId,StrPart,
+    StrQty,StrQry2,StrKodePart,StrMekanik,StrStatusMekanik, HexData, FilePath:String;
+    IntCount,IntJobInEx,I:Integer;
     IsOk,IsCetak:Boolean;
     ADate,AMonth,AYear:Word;
     TglMulai, TglSelesai:TDateTime;
+    ImgJPG: TJPEGImage;
+    StmImage: TMemoryStream;
+    SrcFile, DestDir, DestFile, FileNameOnly, FileExt, Deskripsi, ServerPath: string;
 begin
   Main.M_Busy;
   if (NoBody.Text<>'') AND ((Internal.Checked) OR (Eksternal.Checked)) AND
@@ -1111,6 +1225,8 @@ begin
     IsCetak:=False;
     Qry:=TADOQuery.Create(Self);
     Qry.Connection:=Main.MyConnection;
+    ImgJPG := TJPEGImage.Create;
+    StmImage := TMemoryStream.Create;
 
     TglMulai    := StartDate.Date;
     TglSelesai  := FinishDate.Date;
@@ -1200,6 +1316,7 @@ begin
           StrTransId:=WorkOrderId;
          
         end;
+
         StrQry:='';
         for IntCount:=MinRow to KeluhanGrid.RowCount-1 do begin
           StrDescription:=QuotedStr(KeluhanGrid.Cells[0,IntCount]);
@@ -1245,6 +1362,33 @@ begin
             StrMsg:=E.Message;
           end;
         end;
+
+      //Pekerjaan
+        StrQry:='Update wh_work_order_detail set status=0 where work_order_id='+QuotedStr(StrTransId)+' and description_id=2;';
+        //StrPekerjaan:='';
+        for IntCount:=1 to StrGridPekerjaan.RowCount-1 do begin
+          //StrSRDetailID := QuotedStr(KeluhanGrid.Cells[2,IntCount]);
+          if Trim(StrGridPekerjaan.Cells[0,IntCount])<>'' then
+          StrQry:=StrQry+' INSERT INTO wh_work_order_detail (work_order_id,description_id'+
+                  ',description,update_user)'+
+                  ' VALUES ('+QuotedStr(StrTransId)+',2'+
+                  //','+Chr(39)+PekerjaanGrid.Cells[0,IntCount]+Chr(39)+
+                  ','+Chr(39)+StrGridPekerjaan.Cells[1,IntCount]+Chr(39)+
+                  ','+Chr(39)+User+Chr(39)+
+                  '); ';
+        end;
+        Qry.SQL.Clear;
+        Qry.SQL.Add(StrQry);
+        try
+          Qry.ExecSQL;
+        except
+          on E:Exception do begin
+            IsOk:=False;
+            StrMsg:='Gagal Menyimpan Detail Pekerjaan';
+            StrEMsg:=E.Message;
+          end;
+        end;
+
 
         //Mekanik
         StrQry:='';
@@ -1302,6 +1446,64 @@ begin
           end;
         end;
 
+        //FOTO
+        if (StrTransId<>'') then
+        StrQry:='UPDATE wh_work_order_image_new SET status=0 WHERE work_order_id='+QuotedStr(StrTransId)+';';
+
+        //ServerPath := ExtractFilePath(Application.ExeName) + '\\192.168.10.247\WHAps\WorkImages\';
+        ServerPath := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'WorkImages\';
+        for I := 0 to ListGambar.Count - 1 do
+        begin
+          SrcFile := ListGambar[I];          // ambil path gambar
+          Deskripsi := ListDeskripsi[I]; // ambil deskripsi sesuai urutan
+          // Cek apakah file masih ada
+          if not FileExists(SrcFile) then
+          begin
+            ShowMessage('File tidak ditemukan: ' + SrcFile);
+            Continue;
+          end;
+
+          // Buat nama baru agar unik di folder server
+          FileNameOnly := ChangeFileExt(ExtractFileName(SrcFile), '');
+          FileExt := ExtractFileExt(SrcFile);
+          DestFile := ServerPath+FormatDateTime('yyyymmdd_hhnnss_', Now) + FileNameOnly + FileExt;
+
+          try
+            // Salin file ke folder server
+            //CopyFileOld(SrcFile, DestFile);
+            CompressAndSaveImage(SrcFile, DestFile, 1024, 768, 80);
+          except
+            on E: Exception do
+            begin
+              ShowMessage('Gagal menyalin file: ' + E.Message);
+              Continue;
+            end;
+          end;
+
+          // Simpan ke database hanya path + deskripsi
+          StrQry:=StrQry+' INSERT INTO wh_work_order_image_new '+
+                          '(work_order_id,image_name, image_path, description,status, update_time, update_user) ' +
+                          'VALUES (' +
+                            QuotedStr(StrTransId) + ',' +
+                            QuotedStr(DestFile) + ',' +
+                            QuotedStr(ServerPath) + ',' +
+                            QuotedStr(Deskripsi) + ',' +
+                            ' 1,GETDATE(), ' +
+                            QuotedStr(User) + ');';
+        end;
+        Qry.SQL.Clear;
+        Main.WriteLog('SQL :'+StrQry,5);
+        Qry.SQL.Add(StrQry);
+        try
+          Qry.ExecSQL;
+        except
+          on E:Exception do begin
+            IsOk:=False;
+            StrMsg:='Gagal Menyimpan Gambar';
+            StrEMsg:=E.Message;
+          end;
+        end;
+
         if IsOk then begin
           Main.TransCommit;
           DisableInput;
@@ -1349,6 +1551,9 @@ begin
   GroupInput.Enabled:=False;
   PanelCari.Enabled:=False;
   PanelCariSR.Enabled:=False;
+  ScrollBox1.Enabled := False;
+  TambahFoto.Enabled := False;
+  HapusSemuaFoto.Enabled := False;
 end;
 
 procedure TWorkOrderForm.EnableInput;
@@ -1361,6 +1566,9 @@ begin
   GroupInput.Enabled:=True;
   PanelCari.Enabled:=True;
   PanelCariSR.Enabled:=True;
+  ScrollBox1.Enabled := True;
+  TambahFoto.Enabled := True;
+  HapusSemuaFoto.Enabled := True;
 end;
 
 procedure TWorkOrderForm.BersihkanClick(Sender: TObject);
@@ -1376,6 +1584,7 @@ begin
   InitGrid2;
   InitGrid3;
   InitGrid4;
+  HapusSemuaFotoClick(Sender);
 //  RefreshCombo;
 //  RefreshGrid;
 end;
@@ -1517,7 +1726,7 @@ end;
 
 procedure TWorkOrderForm.RePrint(No_PKB:String);
 var Qry:TADOQuery;
-    StrQry:String;
+    StrQry, StrDes, StrSpaces :String;
     IntCount:Integer;
 begin
   if No_PKB<>'' then begin
@@ -1592,6 +1801,7 @@ begin
           IntCount:=1;
           if Qry.RecordCount>0 then while not(Qry.Eof) do begin
             ppPekerjaan.Lines.Add(IntToStr(IntCount)+'.     '+Qry.FieldValues['description']);
+            ppCheklist.Lines.Add(' [  ]');
             Inc(IntCount);
             Qry.Next;
           end;
@@ -1770,14 +1980,21 @@ end;
 procedure TWorkOrderForm.MekanikExit(Sender: TObject);
 var IntCount: Integer;
 begin
+    if Trim(Mekanik.Text)<>'' then begin
+    StrGridMekanik.Cells[IntCol,IntRow]:=Mekanik.Text;
+    Calculate4;
+  end;
+  Mekanik.Text:='';
+  Mekanik.Visible := False;
+  StrGridMekanik.SetFocus;
 
-  if Trim(Mekanik.Text)<>'' then begin
+ { if Trim(Mekanik.Text)<>'' then begin
     StrGridMekanik.Cells[2,IntRow]:=Mekanik.Text;
     StrGridMekanik.CellStyle[2,IntRow].HorizontalAlignment:=taLeftJustify;
   end;
   Mekanik.Text:='';
   Mekanik.Visible := False;
-  Calculate4;
+  Calculate4; }
 end;
 
 procedure TWorkOrderForm.MekanikKeyPress(Sender: TObject; var Key: Char);
@@ -1797,15 +2014,28 @@ begin
 //    StrGridMekanik.Row:=StrGridMekanik.Row+1;
 //    StrGridMekanik.Col:=1;
 
-    MekanikExit(nil);
-    if (StrGridMekanik.Row=StrGridMekanik.RowCount-1) AND (StrGridMekanik.RowCount<=IntMaxRow)  then begin
-      StrGridMekanik.RowCount:=StrGridMekanik.RowCount+1;
-      for IntCount:=0 to 4 do StrGridMekanik.Cells[IntCount,StrGridMekanik.RowCount-1]:='';
-      StrGridMekanik.CellStyle[0,StrGridMekanik.RowCount-1].HorizontalAlignment:=taCenter;
-    end;
-    StrGridMekanik.Col:=0;
-    StrGridMekanik.Row:=StrGridMekanik.Row+1;
-    StrGridMekanik.Col:=1;
+      if Mekanik.Text<>'' then begin
+        with ListMekanik do begin
+          //Left:=Mekanik.Left;
+          Top := Mekanik.Top+25;
+          Visible:= True;
+          BringToFront;
+        end;
+        RefreshMekanik;
+      end else begin
+        ListMekanik.Visible:=False;
+      end;
+
+      MekanikExit(nil);
+      Calculate4;
+     { if (StrGridMekanik.Row=StrGridMekanik.RowCount-1) AND (StrGridMekanik.RowCount<=IntMaxRow)  then begin
+        StrGridMekanik.RowCount:=StrGridMekanik.RowCount+1;
+        for IntCount:=0 to 4 do StrGridMekanik.Cells[IntCount,StrGridMekanik.RowCount-1]:='';
+        StrGridMekanik.CellStyle[0,StrGridMekanik.RowCount-1].HorizontalAlignment:=taCenter;
+      end;
+      StrGridMekanik.Col:=0;
+      StrGridMekanik.Row:=StrGridMekanik.Row+1;
+      StrGridMekanik.Col:=1;}
 
   end;
   if (Key=#27) then begin
@@ -1924,6 +2154,729 @@ begin
   if (Key=#27) then begin
     AnalisaExit(nil);
   end;
+end;
+
+procedure TWorkOrderForm.TambahFotoClick(Sender: TObject);
+var
+  FilePath, Deskripsi: string;
+  NewImage: TImage;
+  NewLabel: TLabel;
+  Margin, Spacing, Row: Integer;
+  FileInfo: TSearchRec;
+  FileSizeInBytes: Int64;
+begin
+  // Pilih gambar
+  if not OpenPictureDialog1.Execute then Exit;
+  FilePath := OpenPictureDialog1.FileName;
+
+  // ?? Cek ukuran file (lebih dari 3MB)
+  if FindFirst(FilePath, faAnyFile, FileInfo) = 0 then
+  begin
+    FileSizeInBytes := FileInfo.Size;
+    FindClose(FileInfo);
+
+    if FileSizeInBytes > 3 * 1024 * 1024 then
+    begin
+      ShowMessage(Format('Ukuran gambar terlalu besar (%.2f MB). Maksimal 3 MB.',
+        [FileSizeInBytes / 1024 / 1024]));
+      Exit; // batal
+    end;
+  end;
+
+  // Minta deskripsi
+  Deskripsi := InputBox('Deskripsi Gambar', 'Masukkan keterangan gambar:', '');
+
+  // Simpan ke dua list terpisah
+  ListGambar.Add(FilePath);
+  ListDeskripsi.Add(Deskripsi);
+
+  // Tampilkan di ScrollBox
+  Margin := 10;
+  Spacing := 20;
+
+  Row := ListGambar.Count - 1;
+  // --- Gambar ---
+  NewImage := TImage.Create(Self);
+  NewImage.Parent := ScrollBox1;
+  NewImage.Width := 250;
+  NewImage.Height := 180;
+  NewImage.Stretch := True;
+  NewImage.Proportional := True;
+  NewImage.Top := 0;
+  NewImage.Left := 0;
+
+  //NewImage.Left := Margin;
+  //NewImage.Top := Margin + (Row * (NewImage.Height + Spacing));
+  NewImage.Picture.LoadFromFile(FilePath);
+  NewImage.OnMouseDown := ImageRightClick;
+
+// --- Label Deskripsi ---
+  NewLabel := TLabel.Create(Self);
+  NewLabel.Parent := ScrollBox1;
+  NewLabel.Caption := 'Keterangan: ' + Deskripsi;
+  NewLabel.Left := NewImage.Left + NewImage.Width + 15; // di kanan gambar
+  NewLabel.Top := NewImage.Top + (NewImage.Height div 2) - 10;
+  NewLabel.WordWrap := True;
+  NewLabel.Width := 200;
+  NewImage.Tag := NativeInt(NewLabel);
+
+  ReLayoutImages;
+end;
+
+{procedure TWorkOrderForm.TambahFotoClick(Sender: TObject);
+var
+  FilePath, Deskripsi: string;
+  NewImage: TImage;
+  NewLabel: TLabel;
+  Margin, Row: Integer;
+begin
+  // Pilih gambar
+  if not OpenPictureDialog1.Execute then Exit;
+  FilePath := OpenPictureDialog1.FileName;
+
+  // Minta deskripsi
+  Deskripsi := InputBox('Deskripsi Gambar', 'Masukkan keterangan gambar:', '');
+
+  // Simpan path dan deskripsi ke list
+  ListGambar.Add(FilePath + '|' + Deskripsi); // pisahkan dengan "|"
+
+  // Tampilkan di ScrollBox
+  Margin := 10;
+  Row := ScrollBox1.ControlCount div 2; // tiap gambar + label
+  NewImage := TImage.Create(Self);
+  NewImage.Parent := ScrollBox1;
+  NewImage.Width := 350;
+  NewImage.Height := 250;
+  NewImage.Stretch := True;
+  NewImage.Proportional := True;
+  NewImage.Top := Margin + (Row * 300);
+  NewImage.Left := Margin;
+  NewImage.Picture.LoadFromFile(FilePath);
+
+  // Tambahkan label deskripsi
+  NewLabel := TLabel.Create(Self);
+  NewLabel.Parent := ScrollBox1;
+  NewLabel.Caption := Deskripsi;
+  NewLabel.Left := Margin;
+  NewLabel.Top := NewImage.Top + NewImage.Height + 5;
+end;}
+
+
+
+{var
+  I: Integer;
+  FilePath: string;
+  NewImage: TImage;
+  Margin, Col, Row: Integer;
+begin
+  // Ambil semua file gambar yang dipilih
+  ListGambar := GetImgFiles;
+  if ListGambar.Count = 0 then Exit;
+
+  Margin := 10;
+
+  for I := 0 to ListGambar.Count - 1 do
+  begin
+    FilePath := ListGambar[I];
+
+    Col := 0;
+    Row := ScrollBox1.ControlCount; // satu kolom
+
+    NewImage := TImage.Create(Self);
+    NewImage.Parent := ScrollBox1;
+    NewImage.Width := 350;
+    NewImage.Height := 250;
+    NewImage.Stretch := True;
+    NewImage.Proportional := True;
+    NewImage.Left := Margin + (Col * (NewImage.Width + Margin));
+    NewImage.Top := Margin + (Row * (NewImage.Height + Margin));
+
+    try
+      NewImage.Picture.LoadFromFile(FilePath);
+    except
+      on E: EInvalidGraphic do
+      begin
+        ShowMessage('File rusak atau format tidak didukung: ' + FilePath);
+        NewImage.Free;
+        Continue;
+      end;
+    end;
+
+    NewImage.Hint := FilePath; // simpan path
+  end;
+end;}
+
+procedure TWorkOrderForm.ImageRightClick(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  Img: TImage;
+  Lbl: TLabel;
+  idx: Integer;
+begin
+  if Button = mbRight then
+  begin
+    Img := Sender as TImage;
+    if MessageDlg('Hapus gambar ini?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+    begin
+      // Hapus label jika ada
+      if (Img.Tag <> 0) and (TObject(Img.Tag) is TLabel) then
+      begin
+        Lbl := TLabel(Img.Tag);
+        Lbl.Free;
+      end;
+
+      // Hapus dari list
+      idx := ListGambar.IndexOf(Img.Hint);
+      if idx >= 0 then
+      begin
+        ListGambar.Delete(idx);
+        if (idx < ListDeskripsi.Count) then
+          ListDeskripsi.Delete(idx);
+      end;
+
+      // Hapus gambar
+      Img.Free;
+
+      // Relayout ulang
+      ReLayoutImages;
+    end;
+  end;
+end;
+
+procedure TWorkOrderForm.RepositionImages;
+var
+  i, Col, Row, Margin: Integer;
+  img: TImage;
+begin
+  Margin := 10;
+  for i := 0 to ScrollBox1.ControlCount - 1 do
+  begin
+    if ScrollBox1.Controls[i] is TImage then
+    begin
+      img := TImage(ScrollBox1.Controls[i]);
+      Col := i mod 1;
+      Row := i div 1;
+      img.Left := Margin + (Col * (img.Width + Margin));
+      img.Top := Margin + (Row * (img.Height + Margin));
+    end;
+  end;
+end;
+
+procedure TWorkOrderForm.ReLayoutImages;
+var
+  i, Row, Margin, Spacing: Integer;
+  Img: TImage;
+  Lbl: TLabel;
+begin
+  Margin := 10;
+  Spacing := 20;
+  Row := 0;  // hitung baris gambar sesungguhnya, bukan ControlCount
+
+  for i := 0 to ScrollBox1.ControlCount - 1 do
+  begin
+    if ScrollBox1.Controls[i] is TImage then
+    begin
+      Img := TImage(ScrollBox1.Controls[i]);
+
+      Img.Left := Margin;
+      Img.Top  := Margin + (Row * (Img.Height + Spacing));
+
+      // update label
+      if TObject(Img.Tag) is TLabel then
+      begin
+        Lbl := TLabel(Img.Tag);
+        Lbl.Left := Img.Left + Img.Width + 15;
+        Lbl.Top := Img.Top + (Img.Height div 2) - 10;
+      end;
+
+      Inc(Row);  // pindah ke baris gambar berikutnya
+    end;
+  end;
+end;
+
+
+
+procedure TWorkOrderForm.HapusSemuaFotoClick(Sender: TObject);
+var
+  i: Integer;
+begin
+// Hapus semua image & label di ScrollBox
+  for i := ScrollBox1.ControlCount - 1 downto 0 do
+    ScrollBox1.Controls[i].Free;
+
+  // Kosongkan list yang menyimpan file dan deskripsi
+  ListGambar.Clear;
+  ListDeskripsi.Clear;
+
+  // Refresh tampilan ScrollBox
+  ScrollBox1.Repaint;
+end;
+
+procedure TWorkOrderForm.FormCreate(Sender: TObject);
+begin
+  ListGambar := TStringList.Create;
+  ListDeskripsi := TStringList.Create;
+end;
+
+procedure TWorkOrderForm.SimpanFotoClick(Sender: TObject);
+var
+  I: Integer;
+  SrcFile, DestDir, DestFile, FileNameOnly, FileExt, Deskripsi: string;
+  Qry: TADOQuery;
+  ServerPath: string;
+begin
+  if ListGambar.Count = 0 then
+  begin
+    ShowMessage('Belum ada gambar yang ditambahkan!');
+    Exit;
+  end;
+
+    ServerPath := ExtractFilePath(Application.ExeName) + '\\192.168.10.247\WHAps\WorkImages\';
+
+    // Pastikan folder tersedia
+    if not DirectoryExists(ServerPath) then
+      CreateDir(ServerPath);
+
+    // Loop semua gambar
+    for I := 0 to ListGambar.Count - 1 do
+    begin
+      SrcFile := ListGambar[I];
+
+      // Cek apakah file masih ada
+      if not FileExists(SrcFile) then
+      begin
+        ShowMessage('File tidak ditemukan: ' + SrcFile);
+        Continue;
+      end;
+
+      // Buat nama baru agar unik di folder server
+      FileNameOnly := ChangeFileExt(ExtractFileName(SrcFile), '');
+      FileExt := ExtractFileExt(SrcFile);
+      DestFile := ServerPath + FormatDateTime('yyyymmdd_hhnnss_', Now) + FileNameOnly + FileExt;
+
+      try
+        // Salin file ke folder server
+        CopyFileOld(SrcFile, DestFile);
+      except
+        on E: Exception do
+        begin
+          ShowMessage('Gagal menyalin file: ' + E.Message);
+          Continue;
+        end;
+      end;
+
+      // Minta deskripsi (atau bisa ambil dari edit box kalau kamu mau otomatis)
+      Deskripsi := InputBox('Deskripsi Gambar', 'Masukkan keterangan untuk gambar:', '');
+
+      // Simpan ke database hanya path + deskripsi
+      Qry := TADOQuery.Create(Self);
+      try
+        Qry.Connection := Main.MyConnection;
+        Qry.SQL.Text :=
+          'INSERT INTO wh_work_order_image_new (work_order_id, image_path, deskripsi, update_time, update_user) ' +
+          'VALUES (' +
+          QuotedStr(StrTransId) + ',' +
+          QuotedStr(DestFile) + ',' +
+          QuotedStr(Deskripsi) + ',' +
+          'GETDATE(),' +
+          QuotedStr(User) + ')';
+        Qry.ExecSQL;
+      finally
+        Qry.Free;
+      end;
+    end;
+
+    ShowMessage('Semua gambar berhasil disimpan ke server dan database.');
+  //end;
+    //  Main.CloseDb;
+ // end;
+ // Qry.Free;
+end;
+
+procedure TWorkOrderForm.FormDestroy(Sender: TObject);
+var
+  i: Integer;
+begin
+  // Bebaskan semua gambar dulu
+  for i := 0 to ListGambar.Count - 1 do
+    TImage(ListGambar[i]).Free;
+  ListGambar.Free;
+  for i := 0 to ListDeskripsi.Count - 1 do
+  TImage(ListDeskripsi[i]).Free;
+  ListDeskripsi.Free;
+end;
+
+function TWorkOrderForm.GetImgFiles: TStringList;
+var
+  openDialog: TOpenDialog;
+begin
+  Result := TStringList.Create;
+  openDialog := TOpenDialog.Create(nil);
+  try
+    openDialog.InitialDir := GetMyDocuments;
+    openDialog.Options := [ofAllowMultiSelect, ofFileMustExist];
+    openDialog.Filter := 'Image File |*.jpg;*.jpeg;*.bmp;*.png;*.gif';
+    openDialog.FilterIndex := 1;
+    if openDialog.Execute then
+      Result.Assign(openDialog.Files); // salin semua file ke result
+  finally
+    openDialog.Free;
+  end;
+end;
+
+// --- Tambahkan fungsi bantu untuk cek ukuran file ---
+function TWorkOrderForm.FileSize(const AFileName: string): Int64;
+var
+  SR: TSearchRec;
+begin
+  if FindFirst(AFileName, faAnyFile, SR) = 0 then
+  begin
+    Result := SR.Size;
+    SysUtils.FindClose(SR);
+  end
+  else
+    Result := 0;
+end;
+
+// --- Prosedur utama untuk simpan semua gambar di ListGambar ---
+procedure TWorkOrderForm.SaveAllImagesToDB;
+var
+  I: Integer;
+  Qry: TADOQuery;
+  StmImage: TMemoryStream;
+  Pic: TPicture;
+  FilePath: string;
+begin
+  if (ListGambar = nil) or (ListGambar.Count = 0) then
+  begin
+    ShowMessage('Tidak ada gambar yang dipilih untuk disimpan.');
+    Exit;
+  end;
+
+  Qry := TADOQuery.Create(nil);
+  StmImage := TMemoryStream.Create;
+  Pic := TPicture.Create;
+  try
+    Qry.Connection := Main.MyConnection;
+
+    for I := 0 to ListGambar.Count - 1 do
+    begin
+      FilePath := ListGambar[I];
+
+      // --- Validasi file ---
+      if not FileExists(FilePath) then
+      begin
+        ShowMessage('File tidak ditemukan: ' + FilePath);
+        Continue;
+      end;
+      if FileSize(FilePath) = 0 then
+      begin
+        ShowMessage('File kosong: ' + FilePath);
+        Continue;
+      end;
+
+      try
+        // Load gambar (otomatis deteksi format: jpg/png/bmp/gif)
+        Pic.LoadFromFile(FilePath);
+
+        // Simpan gambar ke stream
+        StmImage.Clear;
+        Pic.Graphic.SaveToStream(StmImage);
+        StmImage.Position := 0;
+
+        // Insert ke tabel wh_work_order_image
+        Qry.SQL.Clear;
+        Qry.SQL.Add('INSERT INTO wh_work_order_image ');
+        Qry.SQL.Add('(work_order_id, image_id, image, update_time, update_user)');
+        Qry.SQL.Add('VALUES (:work_order_id, :image_id, :image, GETDATE(), :update_user)');
+
+        Qry.Parameters.ParamByName('work_order_id').Value := '123456';//StrTransId;
+        Qry.Parameters.ParamByName('image_id').Value := I + 1; // nomor urut gambar
+        Qry.Parameters.ParamByName('image').LoadFromStream(StmImage, ftBlob);
+        Qry.Parameters.ParamByName('update_user').Value := User;
+
+        Qry.ExecSQL;
+
+      except
+        on E: EInvalidGraphic do
+        begin
+          ShowMessage('Format gambar tidak didukung atau rusak: ' + FilePath);
+          Continue;
+        end;
+        on E: Exception do
+        begin
+          ShowMessage('Gagal menyimpan gambar ' + IntToStr(I + 1) + ': ' + E.Message);
+          Continue;
+        end;
+      end;
+    end;
+
+    ShowMessage('Semua gambar berhasil disimpan ke database.');
+  finally
+    Qry.Free;
+    StmImage.Free;
+    Pic.Free;
+  end;
+end;
+
+
+procedure TWorkOrderForm.CopyFileOld(const SourceFile, DestFile: string);
+var
+  DestDir: string;
+begin
+  DestDir := ExtractFilePath(DestFile);
+
+  // Pastikan folder tujuan sudah ada
+  if not DirectoryExists(DestDir) then
+    ForceDirectories(DestDir);  // buat semua folder jika belum ada
+
+  // Lanjut menyalin file
+  if not CopyFile(PChar(SourceFile), PChar(DestFile), False) then
+    raise Exception.CreateFmt('Gagal menyalin file: %s', [SysErrorMessage(GetLastError)]);
+end;
+
+{procedure TWorkOrderForm.CompressAndSaveImage(const SrcFile, DestFile: string; MaxWidth, MaxHeight, Quality: Integer);
+var
+  Bitmap, Resized: TBitmap;
+  JPEGImage: TJPEGImage;
+  Scale: Double;
+begin
+  Bitmap := TBitmap.Create;
+  Resized := TBitmap.Create;
+  JPEGImage := TJPEGImage.Create;
+  try
+    // Load gambar apapun (jpg/png/bmp)
+    Bitmap.LoadFromFile(SrcFile);
+
+    // Hitung skala perbandingan untuk resize
+    Scale := Min(MaxWidth / Bitmap.Width, MaxHeight / Bitmap.Height);
+    if Scale > 1 then
+      Scale := 1; // Jangan perbesar, hanya perkecil
+
+    // Ukuran baru
+    Resized.Width := Round(Bitmap.Width * Scale);
+    Resized.Height := Round(Bitmap.Height * Scale);
+
+    // Resize gambar
+    Resized.Canvas.StretchDraw(Rect(0, 0, Resized.Width, Resized.Height), Bitmap);
+
+    // Simpan sebagai JPEG dengan kualitas tertentu (lebih kecil = lebih ringan)
+    JPEGImage.Assign(Resized);
+    JPEGImage.CompressionQuality := Quality; // 1..100
+    JPEGImage.SaveToFile(DestFile);
+  finally
+    Bitmap.Free;
+    Resized.Free;
+    JPEGImage.Free;
+  end;
+end;  }
+
+procedure TWorkOrderForm.ShowSavedImage(const FilePath, Deskripsi: string);
+var
+  NewImage: TImage;
+  NewLabel: TLabel;
+  Margin, Spacing, Row: Integer;
+  Pic: TPicture;
+begin
+  Margin := 10;
+  Spacing := 20;
+
+  // INI YANG BENAR
+  Row := ListGambar.Count - 1;
+
+  NewImage := TImage.Create(Self);
+  NewImage.Parent := ScrollBox1;
+  NewImage.Width := 250;
+  NewImage.Height := 180;
+  NewImage.Stretch := True;
+  NewImage.Proportional := True;
+  NewImage.Left := Margin;
+  NewImage.Top := Margin + (Row * (NewImage.Height + Spacing));
+  NewImage.Top := 0;
+  NewImage.Left := 0;
+
+  Pic := TPicture.Create;
+  try
+    Pic.LoadFromFile(FilePath);
+    NewImage.Picture.Assign(Pic.Graphic);
+  finally
+    Pic.Free;
+  end;
+
+  NewLabel := TLabel.Create(Self);
+  NewLabel.Parent := ScrollBox1;
+  NewLabel.Caption := 'Keterangan: ' + Deskripsi;
+  NewLabel.Left := NewImage.Left + NewImage.Width + 15;
+  NewLabel.Top := NewImage.Top + (NewImage.Height div 2) - 10;
+  NewLabel.WordWrap := True;
+  NewLabel.Width := 200;
+
+  NewImage.Tag := NativeInt(NewLabel);
+  NewImage.OnMouseDown := ImageRightClick;
+
+  ReLayoutImages;
+end;
+
+
+
+procedure TWorkOrderForm.LoadAllImages;
+var
+    Qry: TADOQuery;
+    StrQry : string;
+    FilePath, Desk: string;
+begin
+  // Clear Lists
+  ListGambar.Clear;
+  ListDeskripsi.Clear;
+
+  // Clear UI
+  while ScrollBox1.ControlCount > 0 do
+    ScrollBox1.Controls[0].Free;
+
+
+  Qry:=TADOQuery.Create(Self);
+  Qry.Connection:=Main.MyConnection;
+  // Bersihkan ScrollBox dulu
+ // ScrollBox1.DestroyComponents;
+
+  if Main.OpenDb then begin
+    StrQry:='SELECT * FROM wh_work_order_image_new '+
+            ' WHERE status = 1 AND work_order_id ='+QuotedStr(WorkOrderId);
+    Qry.SQL.Clear;
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    if Qry.RecordCount >0 then begin
+     while not Qry.Eof do
+      begin
+
+        FilePath := Qry.FieldByName('image_name').AsString;
+        Desk := Qry.FieldByName('description').AsString;
+          // simpan ke list (WAJIB!)
+        ListGambar.Add(FilePath);
+        ListDeskripsi.Add(Desk);
+
+        ShowSavedImage(FilePath, Desk);
+        Qry.Next;
+      end;
+    end;
+    Qry.Close;
+    Main.CloseDb;
+  end;
+  Qry.Destroy;
+end;
+
+
+
+procedure TWorkOrderForm.PekerjaanExit(Sender: TObject);
+begin
+  if Trim(Pekerjaan.Text)<>'' then begin
+    StrGridPekerjaan.Cells[IntCol,IntRow]:=Pekerjaan.Text;
+    CalculatePekerjaan;
+  end;
+  Pekerjaan.Text:='';
+  Pekerjaan.Visible := False;
+  StrGridPekerjaan.SetFocus;
+end;
+
+procedure TWorkOrderForm.PekerjaanKeyPress(Sender: TObject; var Key: Char);
+var IntCount:Integer;
+begin
+  if (Key=#13) then begin
+    PekerjaanExit(nil);
+    CalculatePekerjaan;
+    if (StrGridPekerjaan.Row=StrGridPekerjaan.RowCount-1) AND (StrGridPekerjaan.RowCount<=IntMaxRow)  then begin
+      StrGridPekerjaan.RowCount:=StrGridPekerjaan.RowCount+1;
+      for IntCount:=0 to 1 do StrGridPekerjaan.Cells[IntCount,StrGridPekerjaan.RowCount-1]:='';
+      StrGridPekerjaan.CellStyle[0,StrGridPekerjaan.RowCount-1].HorizontalAlignment:=taCenter;
+      StrGridPekerjaan.CellStyle[1,StrGridPekerjaan.RowCount-1].HorizontalAlignment:=taLeftJustify;
+    end;
+    StrGridPekerjaan.Col:=0;
+    StrGridPekerjaan.Row:=StrGridPekerjaan.Row+1;
+    StrGridPekerjaan.Col:=1;
+  end;
+  if (Key=#27) then begin
+    PekerjaanExit(nil);
+  end;
+end;
+
+procedure TWorkOrderForm.StrGridPekerjaanSelectCell(Sender: TObject; ACol,
+  ARow: Integer; var CanSelect: Boolean);
+var
+  R: TRect;
+begin
+  IntRow:=ARow;
+  IntCol:=ACol;
+//  if IsInputGrid then begin
+  if (ACol = 1) and (ARow > MinRowGrid) and (NoPolisi.Text<>'') then begin
+    R := StrGridPekerjaan.CellRect(ACol, ARow);
+    R.Left := R.Left + StrGridPekerjaan.Left;
+    R.Right := R.Right + StrGridPekerjaan.Left;
+    R.Top := R.Top + StrGridPekerjaan.Top;
+    R.Bottom := R.Bottom + StrGridPekerjaan.Top;
+    with Pekerjaan do begin
+      Left:=R.Left + 1;
+      Top := R.Top + 1;
+      Width := (R.Right + 1) - R.Left;
+      Height := (R.Bottom + 1) - R.Top;
+      if Trim(StrGridPekerjaan.Cells[ACol,ARow])<>'' then Text:=StrGridPekerjaan.Cells[ACol,ARow];
+      Visible:= True;
+      BringToFront;
+      SetFocus;
+    end;
+  end;
+end;
+
+procedure TWorkOrderForm.ListMekanikDblClick(Sender: TObject);
+begin
+  StrGridMekanik.Cells[IntCol,IntRow]:=UpperCase(ListMekanik.Items.Strings[ListMekanik.ItemIndex]);
+  ListMekanik.Visible:=False;
+  StrGridMekanik.RowCount:=StrGridMekanik.RowCount+1;
+ // StrGridMekanik.Col := 1;           // fokus ke kolom 1
+  //StrGridMekanik.Row := IntRow + 1;  // ke baris berikutnya
+  //SetFocus;
+end;
+
+procedure TWorkOrderForm.RefreshMekanik;
+var Qry:TADOQuery;
+    StrQry:String;
+    IntCount:Integer;
+begin
+  Main.M_Busy;
+  Qry:=TADOQuery.Create(Self);
+  Qry.Connection:=Main.MyConnection;
+  if Main.OpenDb then begin
+    SetLength(MekanikArr,0);
+    StrQry:='SELECT a.employee_id,a.name FROM wh_employee AS a '+
+    'LEFT JOIN wh_empl_detail b ON b.empl_detail_id= '+
+    '(SELECT MAX(empl_detail_id) FROM wh_empl_detail where employee_id=a.employee_id)  '+
+    'LEFT JOIN wh_license_type c ON c.license_type_id=b.license_type_id '+
+    'LEFT JOIN wh_empl_mutation d ON d.empl_mutation_id= '+
+    '(SELECT MAX(empl_mutation_id) FROM wh_empl_mutation  WHERE (employee_id=a.employee_id) AND '+
+    '((from_date<=DATEADD(dd, 1,GETDATE())) OR (GETDATE() BETWEEN from_date AND to_date) OR '+
+    '(to_date BETWEEN GETDATE() AND DATEADD(dd, 1,GETDATE())))) '+
+    'LEFT JOIN wh_employee j ON j.employee_id=a.reference '+
+    'WHERE (d.employment_type_id=3) AND '+
+    '(d.location_id=6) AND a.name like ''%'+Mekanik.Text+'%'' and a.active=1 ORDER BY a.name ';
+    Main.WriteLog('SQL :'+StrQry,2);
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    IntCount:=0;
+    SetLength(MekanikArr,Qry.RecordCount);
+    if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+      MekanikArr[IntCount][0]:=Qry.FieldValues['employee_id'];
+      MekanikArr[IntCount][1]:=Qry.FieldValues['name'];
+//      EmplArr[IntCount][2]:=Qry.FieldValues['name'];
+      Qry.Next;
+      Inc(IntCount)
+    end;
+    Qry.Close;
+  end;
+  FreeAndNil(Qry);
+  Main.CloseDb;
+  ListMekanik.Items.Clear;
+  for IntCount:=0 to Length(MekanikArr)-1  do begin
+    ListMekanik.Items.Add(MekanikArr[IntCount][1]);
+  end;
+  Main.M_Normal;
 end;
 
 end.

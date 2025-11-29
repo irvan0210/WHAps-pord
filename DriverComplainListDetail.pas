@@ -56,7 +56,7 @@ end;
 procedure TFDriverComplainListDetail.Init;
 var Count,Count2:Integer;
 begin
-  MaxCol:=4;
+  MaxCol:=5;
 end;
 
 procedure TFDriverComplainListDetail.InitGrid;
@@ -70,13 +70,15 @@ begin
   StrGrid.ColWidths[2]:=100;
   StrGrid.ColWidths[3]:=440;
   StrGrid.ColWidths[4]:=100;
+  StrGrid.ColWidths[5]:=300;
+  //StrGrid.ColWidths[6]:=100;
 
   StrGrid.Cells[0,0]:='No';
   StrGrid.Cells[1,0]:='Cek';
-  StrGrid.Cells[2,0]:='No Driver Complain';
+  StrGrid.Cells[2,0]:='ID Keluhan Detail';
   StrGrid.Cells[3,0]:='Keluhan';
-  StrGrid.Cells[4,0]:='ID Keluhan Detail';
-
+  StrGrid.Cells[4,0]:='Status';
+  StrGrid.Cells[5,0]:='Respon';
 
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
@@ -90,7 +92,8 @@ procedure TFDriverComplainListDetail.RefreshData;
 var QStr,StrBatch,StrLocationId,StrCompanyId,StrToDates,StrisAll:String;
     StrIsIntegrate:string;
     Qry, Qry2, QryCek:TADOQuery;
-    Count,Count2,Total1,Total2,Total3,Total4,Total5,Total6,Total7,TotalOperasi,IntDiscount:Integer;
+    Count,Count2,Total1,Total2,Total3,Total4,Total5,
+    Total6,Total7,TotalOperasi,IntDiscount,IntCount, IntCount2:Integer;
 
 begin
 
@@ -123,15 +126,32 @@ begin
     end;
 
     StrGrid.Cells[0,Count]:=IntToStr(Count);
-    StrGrid.Cells[2,Count]:=Qry.FieldValues['driver_complain_id'];
+    StrGrid.Cells[2,Count]:=Qry.FieldValues['driver_complain_detail_id'];
     StrGrid.Cells[3,Count]:=Qry.FieldValues['description'];
-    StrGrid.Cells[4,Count]:=Qry.FieldValues['driver_complain_detail_id'];
+
+    if Qry.FieldValues['status_respons']= 1 then StrGrid.Cells[4,Count]:='DISETUJUI'
+    else StrGrid.Cells[4,Count]:='DITOLAK';
+    StrGrid.Cells[5,Count]:=Qry.FieldValues['note_respons'];
+   // StrGrid.Cells[5,Count]:=Qry.FieldValues['status_respons'];
 
     StrGrid.CellStyle[0,Count].HorizontalAlignment:=taLeftJustify;
     StrGrid.CellStyle[1,Count].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[2,Count].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[2,Count].HorizontalAlignment:=taLeftJustify;
     StrGrid.CellStyle[3,Count].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[4,Count].HorizontalAlignment:=taRightJustify;
+    //StrGrid.CellStyle[4,Count].HorizontalAlignment:=taRightJustify;
+
+    if (StrGrid.Cells[4,Count]='DITOLAK') then begin
+        //for IntCount:=1 to StrGrid.RowCount-1 do begin
+          for IntCount2:=0 to StrGrid.ColCount-1 do
+            StrGrid.CellStyle[IntCount2,Count].font.Color := clRed;
+      //end;
+     end;
+
+    //if WorkOrderArr[IntCount][12]<>'' then
+    //begin
+   //  for IntCount2:=0 to StrGrid.ColCount-1 do
+    // StrGrid.CellStyle[IntCount2,IntCount+2].Font.Color:=clGreen;
+    //end;
 
     Inc(Count);
     Qry.Next;
@@ -149,17 +169,26 @@ end;
 
 procedure TFDriverComplainListDetail.chk1Click(Sender: TObject);
 var
-  intCount3:Integer;
+  intCount3, intCount4:Integer;
 begin
     //StrGrid.Cells[IntCol,IntRow]:='v';
-    if chk1.Checked=false then begin
-      for intCount3:=1 to StrGrid.RowCount-1 do begin
-        StrGrid.Cells[1,intCount3]:='';
-      end;
-    end else begin
-      for intCount3:=1 to StrGrid.RowCount-1 do begin
-        if (StrGrid.Cells[26,intCount3])<>'Sudah Transfer' then begin
-          StrGrid.Cells[1,intCount3]:='v';
+    for intCount4:=1 to StrGrid.RowCount-1 do begin
+      if (StrGrid.Cells[4,intCount4])='DITOLAK' then begin
+         MessageBox(0,PChar('Keluhan sudah ada yang ditolak'+#13#10+'Silahkan pilih satu-satu..'),'Keluhan driver',MB_OK or MB_ICONWARNING);
+         chk1.Checked := False;
+         Break;
+      end else begin
+
+        if chk1.Checked=false then begin
+          for intCount3:= 1 to StrGrid.RowCount-1 do begin
+            StrGrid.Cells[1,intCount3]:='';
+          end;
+        end else begin
+          for intCount3:=1 to StrGrid.RowCount-1 do begin
+            if (StrGrid.Cells[26,intCount3])<>'Sudah Transfer' then begin
+              StrGrid.Cells[1,intCount3]:='v';
+            end;
+          end;
         end;
       end;
     end;
@@ -174,7 +203,8 @@ begin
   IntCol:=ACol;
   MinRowGrid:=0;
 //  if (IsInput) then begin
-    if (StrGrid.Cells[5,ARow]='')  then begin
+    if (StrGrid.Cells[4,ARow]<>'DITOLAK')  then begin
+     //if StrGrid.Cells[5,ARow]='DITOLAK' then
       R := StrGrid.CellRect(ACol, ARow);
       R.Left := R.Left + StrGrid.Left;
       R.Right := R.Right + StrGrid.Left;
@@ -192,6 +222,8 @@ begin
             SetFocus;
           end;
       end;
+    end else begin
+       MessageBox(0,PChar('Keluhan sudah ditolak'),'Keluhan driver',MB_OK or MB_ICONWARNING);
     end;
 //  end;
 
@@ -206,7 +238,7 @@ begin
 //  ServiceRequestForm.IntCount:=ServiceRequestForm.IntLastRow;
   for IntCount:=1 to StrGrid.RowCount do begin
     description:=StrGrid.Cells[3,IntCount];
-    IdKeluhanDetail := StrGrid.Cells[4,IntCount];
+    IdKeluhanDetail := StrGrid.Cells[2,IntCount];
     if StrGrid.Cells[1,IntCount]='v' then begin
       IntCount2:= IntCount2+1;
       with  ServiceRequestForm do

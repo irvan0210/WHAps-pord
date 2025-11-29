@@ -1,11 +1,11 @@
 object ResponsDriverComplaint: TResponsDriverComplaint
-  Left = 584
-  Top = 248
+  Left = 383
+  Top = 97
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Respons Driver Complaint'
-  ClientHeight = 412
-  ClientWidth = 494
+  ClientHeight = 301
+  ClientWidth = 655
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,8 +23,8 @@ object ResponsDriverComplaint: TResponsDriverComplaint
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 494
-    Height = 265
+    Width = 655
+    Height = 305
     Align = alTop
     Caption = 'Data Keluhan Driver'
     TabOrder = 0
@@ -96,26 +96,88 @@ object ResponsDriverComplaint: TResponsDriverComplaint
       Height = 21
       TabOrder = 3
     end
-    object StrGrid: TStringGrid
-      Left = 111
-      Top = 71
-      Width = 364
-      Height = 178
-      Color = clBtnFace
-      ColCount = 1
-      DefaultColWidth = 340
-      DefaultRowHeight = 18
+    object StrGrid: TZColorStringGrid
+      Left = 112
+      Top = 72
+      Width = 537
+      Height = 184
+      DefaultColWidth = 50
+      DefaultRowHeight = 20
+      DefaultDrawing = False
+      FixedColor = clSkyBlue
       FixedCols = 0
-      RowCount = 1
-      FixedRows = 0
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColMoving]
       TabOrder = 4
+      OnSelectCell = StrGridSelectCell
+      DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
+      DefaultCellStyle.Font.Color = clWindowText
+      DefaultCellStyle.Font.Height = -11
+      DefaultCellStyle.Font.Name = 'MS Sans Serif'
+      DefaultCellStyle.Font.Style = []
+      DefaultCellStyle.BGColor = clWindow
+      DefaultFixedCellStyle.Font.Charset = DEFAULT_CHARSET
+      DefaultFixedCellStyle.Font.Color = clWindowText
+      DefaultFixedCellStyle.Font.Height = -11
+      DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
+      DefaultFixedCellStyle.Font.Style = []
+      DefaultFixedCellStyle.BGColor = clSkyBlue
+      LineDesign.LineUpColor = clWhite
+      ColWidths = (
+        50
+        97
+        109
+        269
+        50)
+    end
+    object Status: TComboBox
+      Left = 264
+      Top = 96
+      Width = 97
+      Height = 21
+      ItemHeight = 13
+      TabOrder = 5
+      Text = 'DISETUJUI'
+      Visible = False
+      OnExit = StatusExit
+      Items.Strings = (
+        'DISETUJUI'
+        'DITOLAK')
+    end
+    object Respon: TEdit
+      Left = 363
+      Top = 93
+      Width = 262
+      Height = 21
+      CharCase = ecUpperCase
+      TabOrder = 6
+      Visible = False
+      OnExit = ResponExit
+      OnKeyPress = ResponKeyPress
+    end
+    object save: TButton
+      Left = 271
+      Top = 266
+      Width = 75
+      Height = 25
+      Caption = 'Simpan'
+      TabOrder = 7
+      OnClick = saveClick
+    end
+    object keluar: TButton
+      Left = 353
+      Top = 265
+      Width = 75
+      Height = 25
+      Caption = 'Keluar'
+      TabOrder = 8
+      OnClick = keluarClick
     end
   end
   object GroupBox2: TGroupBox
     Left = 0
-    Top = 265
-    Width = 494
-    Height = 147
+    Top = 305
+    Width = 655
+    Height = 1
     Align = alClient
     TabOrder = 1
     object Label6: TLabel
@@ -142,31 +204,13 @@ object ResponsDriverComplaint: TResponsDriverComplaint
       HideSelection = False
       TabOrder = 0
     end
-    object keluar: TButton
-      Left = 257
-      Top = 109
-      Width = 75
-      Height = 25
-      Caption = 'Keluar'
-      TabOrder = 1
-      OnClick = keluarClick
-    end
-    object save: TButton
-      Left = 175
-      Top = 110
-      Width = 75
-      Height = 25
-      Caption = 'Simpan'
-      TabOrder = 2
-      OnClick = saveClick
-    end
     object CheckReject: TCheckBox
       Left = 112
       Top = 11
       Width = 14
       Height = 17
       Alignment = taLeftJustify
-      TabOrder = 3
+      TabOrder = 1
     end
   end
 end

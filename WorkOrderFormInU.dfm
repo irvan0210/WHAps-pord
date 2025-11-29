@@ -1,6 +1,6 @@
 object WorkOrderFormIn: TWorkOrderFormIn
-  Left = 285
-  Top = 86
+  Left = 334
+  Top = 112
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Tutup Perintah Kerja Bengkel'
@@ -60,7 +60,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
     ParentFont = False
   end
   object GroupBox1: TGroupBox
-    Left = 8
+    Left = 7
     Top = 0
     Width = 433
     Height = 249
@@ -393,41 +393,6 @@ object WorkOrderFormIn: TWorkOrderFormIn
       Alignment = taRightJustify
       Caption = 'Jam'
     end
-    object PekerjaanGrid: TStringGrid
-      Left = 8
-      Top = 48
-      Width = 385
-      Height = 169
-      ColCount = 1
-      DefaultRowHeight = 20
-      FixedCols = 0
-      RowCount = 2
-      TabOrder = 0
-      OnSelectCell = PekerjaanGridSelectCell
-      ColWidths = (
-        376)
-    end
-    object PekerjaanDetail: TEdit
-      Left = 8
-      Top = 72
-      Width = 377
-      Height = 21
-      TabOrder = 1
-      Visible = False
-      OnExit = PekerjaanDetailExit
-      OnKeyDown = PekerjaanDetailKeyDown
-      OnKeyPress = PekerjaanDetailKeyPress
-    end
-    object Teknisi: TEdit
-      Left = 72
-      Top = 144
-      Width = 121
-      Height = 21
-      TabOrder = 2
-      Visible = False
-      OnExit = TeknisiExit
-      OnKeyDown = TeknisiKeyDown
-    end
     object TanggalSelesai: TDateTimePicker
       Left = 96
       Top = 24
@@ -435,7 +400,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
       Height = 21
       Date = 42222.565481944450000000
       Time = 42222.565481944450000000
-      TabOrder = 3
+      TabOrder = 0
     end
     object JamSelesai: TMaskEdit
       Left = 248
@@ -450,7 +415,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
       Font.Style = []
       MaxLength = 5
       ParentFont = False
-      TabOrder = 4
+      TabOrder = 1
       Text = '  .  '
     end
     object chkClose: TCheckBox
@@ -465,8 +430,64 @@ object WorkOrderFormIn: TWorkOrderFormIn
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 5
+      TabOrder = 2
       OnClick = chkCloseClick
+    end
+    object PekerjaanGrid: TZColorStringGrid
+      Left = 6
+      Top = 56
+      Width = 387
+      Height = 161
+      ColCount = 3
+      DefaultRowHeight = 20
+      DefaultDrawing = False
+      FixedColor = clBtnFace
+      FixedCols = 0
+      TabOrder = 3
+      OnSelectCell = PekerjaanGridSelectCell
+      DefaultCellStyle.Font.Charset = DEFAULT_CHARSET
+      DefaultCellStyle.Font.Color = clWindowText
+      DefaultCellStyle.Font.Height = -11
+      DefaultCellStyle.Font.Name = 'MS Sans Serif'
+      DefaultCellStyle.Font.Style = []
+      DefaultCellStyle.BGColor = clWindow
+      DefaultFixedCellStyle.Font.Charset = DEFAULT_CHARSET
+      DefaultFixedCellStyle.Font.Color = clWindowText
+      DefaultFixedCellStyle.Font.Height = -11
+      DefaultFixedCellStyle.Font.Name = 'MS Sans Serif'
+      DefaultFixedCellStyle.Font.Style = []
+      DefaultFixedCellStyle.BGColor = clBtnFace
+      LineDesign.LineUpColor = clWhite
+    end
+    object Teknisi: TEdit
+      Left = 72
+      Top = 144
+      Width = 121
+      Height = 21
+      TabOrder = 4
+      Visible = False
+      OnExit = TeknisiExit
+      OnKeyDown = TeknisiKeyDown
+    end
+    object PekerjaanDetail: TEdit
+      Left = 16
+      Top = 72
+      Width = 265
+      Height = 21
+      TabOrder = 5
+      Visible = False
+      OnExit = PekerjaanDetailExit
+      OnKeyDown = PekerjaanDetailKeyDown
+      OnKeyPress = PekerjaanDetailKeyPress
+    end
+    object chkPekerjaan: TCheckBox
+      Left = 95
+      Top = 98
+      Width = 14
+      Height = 15
+      TabOrder = 6
+      Visible = False
+      OnExit = chkPekerjaanExit
     end
   end
   object CetakUlang: TButton
@@ -571,8 +592,8 @@ object WorkOrderFormIn: TWorkOrderFormIn
       OnKeyPress = MekanikKeyPress
     end
     object ListMekanik: TListBox
-      Left = 26
-      Top = 77
+      Left = 50
+      Top = 101
       Width = 252
       Height = 84
       ItemHeight = 13

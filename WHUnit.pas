@@ -158,6 +158,12 @@ type
   function eToll(const s : string) : string;
   function CekNoEToll(StrNoEtoll:string):String;
   function CekNoSJ(StrNoSJ:string):String;
+
+  //12 Nov 2025
+  function Min(a, b: Double): Double;
+  function Max(a, b: Double): Double;
+  procedure LoadAnyImageToBitmap(const FileName: string; Bitmap: TBitmap);
+  procedure CompressAndSaveImage(const SrcFile, DestFile: string; MaxWidth, MaxHeight, Quality: Integer);
   
 
 implementation
@@ -1715,6 +1721,90 @@ begin
     end;
 
 end;
+
+function Min(a, b: Double): Double;
+begin
+  if a < b then
+    Result := a
+  else
+    Result := b;
+end;
+
+function Max(a, b: Double): Double;
+begin
+  if a > b then
+    Result := a
+  else
+    Result := b;
+end;
+
+procedure LoadAnyImageToBitmap(const FileName: string; Bitmap: TBitmap);
+var
+  Ext: string;
+  Jpg: TJPEGImage;
+  //Png: TPNGImage;
+begin
+  Ext := LowerCase(ExtractFileExt(FileName));
+
+  if Ext = '.jpg' then
+  begin
+    Jpg := TJPEGImage.Create;
+    try
+      Jpg.LoadFromFile(FileName);
+      Bitmap.Assign(Jpg);
+    finally
+      Jpg.Free;
+    end;
+  end
+  {else if Ext = '.png' then
+  begin
+    Png := TPNGImage.Create;
+    try
+      Png.LoadFromFile(FileName);
+      Bitmap.Assign(Png);
+    finally
+      Png.Free;
+    end;
+  end }
+  else
+  begin
+    Bitmap.LoadFromFile(FileName);
+  end;
+end;
+
+procedure CompressAndSaveImage(const SrcFile, DestFile: string; MaxWidth, MaxHeight, Quality: Integer);
+var
+  Bitmap, Resized: TBitmap;
+  JPEGImage: TJPEGImage;
+  Scale: Double;
+begin
+  Bitmap := TBitmap.Create;
+  Resized := TBitmap.Create;
+  JPEGImage := TJPEGImage.Create;
+  try
+    LoadAnyImageToBitmap(SrcFile, Bitmap);
+
+    if (Bitmap.Width = 0) or (Bitmap.Height = 0) then
+      raise Exception.Create('Gambar tidak valid.');
+
+    Scale := Min(MaxWidth / Bitmap.Width, MaxHeight / Bitmap.Height);
+    if Scale > 1 then
+      Scale := 1;
+
+    Resized.Width := Round(Bitmap.Width * Scale);
+    Resized.Height := Round(Bitmap.Height * Scale);
+    Resized.Canvas.StretchDraw(Rect(0, 0, Resized.Width, Resized.Height), Bitmap);
+
+    JPEGImage.Assign(Resized);
+    JPEGImage.CompressionQuality := Quality;
+    JPEGImage.SaveToFile(DestFile);
+  finally
+    Bitmap.Free;
+    Resized.Free;
+    JPEGImage.Free;
+  end;
+end;
+
 
 
 end.

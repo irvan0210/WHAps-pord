@@ -1,11 +1,11 @@
 object ServiceRequestForm: TServiceRequestForm
   Left = 219
-  Top = 153
+  Top = 280
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Service Request'
-  ClientHeight = 539
-  ClientWidth = 949
+  ClientHeight = 619
+  ClientWidth = 951
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -249,9 +249,6 @@ object ServiceRequestForm: TServiceRequestForm
       Height = 67
       BevelOuter = bvNone
       TabOrder = 0
-      DesignSize = (
-        583
-        67)
       object Label7: TLabel
         Left = 225
         Top = 48
@@ -317,9 +314,6 @@ object ServiceRequestForm: TServiceRequestForm
         Top = 45
         Width = 69
         Height = 21
-        Anchors = [akTop, akRight]
-        BiDiMode = bdRightToLeft
-        ParentBiDiMode = False
         TabOrder = 4
       end
       object NoBody: TEdit
@@ -577,7 +571,7 @@ object ServiceRequestForm: TServiceRequestForm
   object GroupNo: TGroupBox
     Left = 0
     Top = 0
-    Width = 949
+    Width = 951
     Height = 33
     Align = alTop
     Enabled = False
@@ -1109,12 +1103,13 @@ object ServiceRequestForm: TServiceRequestForm
     end
     object ListMekanik: TListBox
       Left = 50
-      Top = 37
+      Top = 45
       Width = 252
       Height = 84
       ItemHeight = 13
       TabOrder = 2
       Visible = False
+      OnDblClick = ListMekanikDblClick
     end
     object StatusMekanik: TComboBox
       Left = 8

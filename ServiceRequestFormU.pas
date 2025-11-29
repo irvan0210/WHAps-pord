@@ -336,10 +336,12 @@ type
       Shift: TShiftState);
     procedure StrGridMekanikKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure ListMekanikDblClick(Sender: TObject);
   private
     { Private declarations }
     VhcArr:Array of TArrString7;
     PartArr:Array of TArrString5;
+    MekanikArr:Array of TArrString5;
     GridLArr,GridRArr,GridFArr,GridBArr:Array of TArrString2;
     IntRow,CompId,MaxComponent,IntCol,MinRow2:Integer;
     FormRequest,ServiceRequestId,StrItemReqID:String;
@@ -373,6 +375,7 @@ type
     procedure SetWorkOrderId(WorkOrder_Id:String);
     procedure SetDriverComplainId(DriverComplainId:String);
     procedure Reprint2(ItemServiceRequest_Id:String);
+    procedure RefreshListMekanik;
   end;
 
 var
@@ -793,15 +796,15 @@ begin
         else
           NoPolisi.Text:=Copy(Qry.FieldValues['license_plate'],1,2)+' '+Copy(Qry.FieldValues['license_plate'],3,4)+
                               ' '+Copy(Qry.FieldValues['license_plate'],7,Length(Qry.FieldValues['license_plate'])+1);
-       { if (CompanyId='2') AND (StatusApiTransTrack='1') then begin
+        if (CompanyId='2') AND (StatusApiTransTrack='1') then begin
           SetOdo(Qry.FieldValues['license_plate']);
           if KMOdo.Text='0' then begin
               if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
           end;
         end else begin
           if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
-        end; }
-        if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:= IToCurr(Qry.FieldValues['in_ordo_km']) else KMOdo.Text:='0';
+        end;
+//        if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
       end;
 
       Qry.Close;
@@ -2768,6 +2771,14 @@ begin
   Mekanik.Text:='';
   Mekanik.Visible := False;
   Calculate4;
+
+ { if Trim(Mekanik.Text)<>'' then begin
+    StrGridMekanik.Cells[IntCol,IntRow]:=Mekanik.Text;
+    Calculate4;
+  end;
+  Mekanik.Text:='';
+  Mekanik.Visible := False;
+  StrGridMekanik.SetFocus;   }
 end;
 
 procedure TServiceRequestForm.MekanikKeyPress(Sender: TObject;
@@ -2788,7 +2799,7 @@ begin
 //    StrGridMekanik.Row:=StrGridMekanik.Row+1;
 //    StrGridMekanik.Col:=1;
 
-    MekanikExit(nil);
+    {MekanikExit(nil);
     if (StrGridMekanik.Row=StrGridMekanik.RowCount-1) AND (StrGridMekanik.RowCount<=IntMaxRow)  then begin
       StrGridMekanik.RowCount:=StrGridMekanik.RowCount+1;
       for IntCount:=0 to 4 do StrGridMekanik.Cells[IntCount,StrGridMekanik.RowCount-1]:='';
@@ -2796,7 +2807,21 @@ begin
     end;
     StrGridMekanik.Col:=0;
     StrGridMekanik.Row:=StrGridMekanik.Row+1;
-    StrGridMekanik.Col:=1;
+    StrGridMekanik.Col:=1; }
+    if Mekanik.Text<>'' then begin
+      with ListMekanik do begin
+        //Left:=Mekanik.Left;
+        Top := Mekanik.Top+25;
+        Visible:= True;
+        BringToFront;
+      end;
+      RefreshListMekanik;
+    end else begin
+      ListMekanik.Visible:=False;
+    end;
+
+    MekanikExit(nil);
+    Calculate4;
 
   end;
   if (Key=#27) then begin
@@ -2918,7 +2943,6 @@ procedure TServiceRequestForm.StrGridMekanikKeyDown(Sender: TObject;
   var Key: Word; Shift: TShiftState);
   var i: integer;
 begin
-
   if IntRow>0 then begin
     if Key=VK_DELETE then begin
       if MessageBox(Handle,'Mau Menghapus Baris ini ?','Tanda Terima',MB_OKCANCEL or MB_ICONQUESTION or MB_SYSTEMMODAL or MB_SETFOREGROUND)=1 then begin
@@ -2938,6 +2962,57 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TServiceRequestForm.ListMekanikDblClick(Sender: TObject);
+begin
+  StrGridMekanik.Cells[IntCol,IntRow]:=UpperCase(ListMekanik.Items.Strings[ListMekanik.ItemIndex]);
+  ListMekanik.Visible:=False;
+  StrGridMekanik.RowCount:=StrGridMekanik.RowCount+1;
+end;
+
+procedure TServiceRequestForm.RefreshListMekanik;
+var
+  Qry:TADOQuery;
+    StrQry:String;
+    IntCount:Integer;
+begin
+  Main.M_Busy;
+  Qry:=TADOQuery.Create(Self);
+  Qry.Connection:=Main.MyConnection;
+  if Main.OpenDb then begin
+    SetLength(MekanikArr,0);
+    StrQry:='SELECT a.employee_id,a.name FROM wh_employee AS a '+
+    'LEFT JOIN wh_empl_detail b ON b.empl_detail_id= '+
+    '(SELECT MAX(empl_detail_id) FROM wh_empl_detail where employee_id=a.employee_id)  '+
+    'LEFT JOIN wh_license_type c ON c.license_type_id=b.license_type_id '+
+    'LEFT JOIN wh_empl_mutation d ON d.empl_mutation_id= '+
+    '(SELECT MAX(empl_mutation_id) FROM wh_empl_mutation  WHERE (employee_id=a.employee_id) AND '+
+    '((from_date<=DATEADD(dd, 1,GETDATE())) OR (GETDATE() BETWEEN from_date AND to_date) OR '+
+    '(to_date BETWEEN GETDATE() AND DATEADD(dd, 1,GETDATE())))) '+
+    'LEFT JOIN wh_employee j ON j.employee_id=a.reference '+
+    'WHERE (d.employment_type_id=3) AND '+
+    '(d.location_id=6) AND a.name like ''%'+Mekanik.Text+'%'' and a.active=1 ORDER BY a.name ';
+    Main.WriteLog('SQL :'+StrQry,2);
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    IntCount:=0;
+    SetLength(MekanikArr,Qry.RecordCount);
+    if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+      MekanikArr[IntCount][0]:=Qry.FieldValues['employee_id'];
+      MekanikArr[IntCount][1]:=Qry.FieldValues['name'];
+      Qry.Next;
+      Inc(IntCount)
+    end;
+    Qry.Close;
+  end;
+  FreeAndNil(Qry);
+  Main.CloseDb;
+  ListMekanik.Items.Clear;
+  for IntCount:=0 to Length(MekanikArr)-1  do begin
+    ListMekanik.Items.Add(MekanikArr[IntCount][1]);
+  end;
+  Main.M_Normal;
 end;
 
 end.

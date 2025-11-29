@@ -126,6 +126,15 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '27/11/2025 (6.2.0.3)'
+      '-Penambahanperintah kerja di buka PKB dan di cetakan PKB.'
+      
+        '-Nama mekanik diambil dari data yang tersimpan bukan diketik man' +
+        'ual.'
+      
+        '-respon keluhan driver diganti jadi 1 per 1, bukan secara global' +
+        ' perlaporan.'
+      ''
       '10/11/2025 (6.2.0.2)'
       
         '-Penambahan kolom status mekanik dan nama mekanik di laporan kel' +

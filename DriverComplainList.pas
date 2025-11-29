@@ -222,7 +222,7 @@ begin
               //' LEFT JOIN wh_work_order_detail c ON b.service_request_detail_id=c.service_request_detail_id AND c.status <> 0 '+
               ' WHERE driver_complain_id='+QuotedStr(Qry.FieldValues['driver_complain_id'])+' AND a.status <> 0 '+
               ' AND (a.description IS NOT NULL AND a.description<>'''');';
-      OrderArr[IntCount][8]:=Qry.FieldValues['respons'];
+      //OrderArr[IntCount][8]:=Qry.FieldValues['respons'];
       OrderArr[IntCount][9]:=Qry.FieldValues['service_request_id'];
 
       if Qry.FieldValues['work_order_id'] <> null then
@@ -250,13 +250,17 @@ begin
           OrderArr[IntCount][4]:=FormatDateTime('dd/MM/YYYY', Qry.FieldValues['submit_date']);
         end;
         OrderArr[IntCount][5]:=Qry2.FieldValues['description'];
+        if Qry2.FieldValues['note_respons'] <> null then
+          OrderArr[IntCount][8]:=Qry2.FieldValues['note_respons']
+        else OrderArr[IntCount][8]:= '';
+
         if Qry2.FieldValues['isdone']<> Null then
           OrderArr[IntCount][13]:=Qry2.FieldValues['isdone']
         else OrderArr[IntCount][13]:= '';
 
-        if (Qry.FieldValues['is_reject'] = 1) and (Qry.FieldValues['service_request_id']='') then
+        if (Qry2.FieldValues['status_respons'] = 0) and (Qry.FieldValues['service_request_id']='') then
         OrderArr[IntCount][10] := 'Tidak diproses'
-       else if (Qry.FieldValues['is_reject'] = null) and (Qry.FieldValues['service_request_id']<>'') then
+       else if (Qry2.FieldValues['status_respons'] = 1) and (Qry.FieldValues['service_request_id']<>'') then
          begin
           // if (Qry.FieldValues['status_pkb'] = 2) then
            // OrderArr[IntCount][10] := 'Sudah Tutup PKB'
@@ -389,7 +393,7 @@ begin
       StrGrid.Cells[2,IntCount+1]:=OrderArr[IntCount][2];
       StrGrid.Cells[3,IntCount+1]:=OrderArr[IntCount][3];
       StrGrid.Cells[4,IntCount+1]:=OrderArr[IntCount][4];
-      StrGrid.Cells[6,IntCount+1]:=OrderArr[IntCount][8];
+      //StrGrid.Cells[6,IntCount+1]:=OrderArr[IntCount][8];
       StrGrid.Cells[7,IntCount+1]:=OrderArr[IntCount][9];
       StrGrid.Cells[8,IntCount+1]:=OrderArr[IntCount][11];
       //StrGrid.Cells[9,IntCount+1]:=OrderArr[IntCount][10];
@@ -409,7 +413,7 @@ begin
       StrGrid.MergeCells.AddRectXY(2,IntStartRow+1,2,IntCount+1);
       StrGrid.MergeCells.AddRectXY(3,IntStartRow+1,3,IntCount+1);
       StrGrid.MergeCells.AddRectXY(4,IntStartRow+1,4,IntCount+1);
-      StrGrid.MergeCells.AddRectXY(6,IntStartRow+1,6,IntCount+1);
+      //StrGrid.MergeCells.AddRectXY(6,IntStartRow+1,6,IntCount+1);
       StrGrid.MergeCells.AddRectXY(7,IntStartRow+1,7,IntCount+1);
       StrGrid.MergeCells.AddRectXY(8,IntStartRow+1,8,IntCount+1);
       //StrGrid.MergeCells.AddRectXY(9,IntStartRow+1,9,IntCount+1);
@@ -419,6 +423,7 @@ begin
       StrGrid.MergeCells.AddRectXY(13,IntStartRow+1,13,IntCount+1);
     end;
     StrGrid.Cells[5,IntCount+1]:=OrderArr[IntCount][5];
+    StrGrid.Cells[6,IntCount+1]:=OrderArr[IntCount][8];
     StrGrid.Cells[9,IntCount+1]:=OrderArr[IntCount][10];
 
 
@@ -441,12 +446,14 @@ begin
     if (OrderArr[IntCount][13]<> '') then begin
       for IntCount2:=0 to StrGrid.ColCount-1 do begin
         StrGrid.CellStyle[5,IntCount+1].font.Color := clRed;
+        StrGrid.CellStyle[6,IntCount+1].font.Color := clRed;
         StrGrid.CellStyle[9,IntCount+1].font.Color := clRed;
         //StrGrid.CellStyle[13,IntCount+1].font.Color := clRed;
       end
      end else begin
       for IntCount2:=0 to StrGrid.ColCount-1 do begin
         StrGrid.CellStyle[5,IntCount+1].font.Color := clWindowText;
+        StrGrid.CellStyle[6,IntCount+1].font.Color := clWindowText;
         StrGrid.CellStyle[9,IntCount+1].font.Color := clWindowText;
         //StrGrid.CellStyle[13,IntCount+1].font.Color := clWindowText;
       end;
@@ -454,18 +461,23 @@ begin
 
      if (OrderArr[IntCount][10] = 'Tidak diproses') then begin
       for IntCount2:=0 to StrGrid.ColCount-1 do begin
-        StrGrid.CellStyle[IntCount2,IntCount+1].font.Color := clRed;
-        //StrGrid.CellStyle[9,IntCount+1].font.Color := clRed;
+        //StrGrid.CellStyle[IntCount2,IntCount+1].font.Color := clRed;
+        StrGrid.CellStyle[5,IntCount+1].font.Color := clRed;
+        StrGrid.CellStyle[6,IntCount+1].font.Color := clRed;
         //StrGrid.CellStyle[13,IntCount+1].font.Color := clRed;
-      end
+      end  //OrderArr[IntCount][10] := 'Diproses bengkel'
      end else if (OrderArr[IntCount][10] ='Diproses bengkel') then  begin
       for IntCount2:=0 to StrGrid.ColCount-1 do begin
         StrGrid.CellStyle[IntCount2,IntCount+1].font.Color := clGreen;
-        if (OrderArr[IntCount][13]= '1') then
-        StrGrid.CellStyle[5,IntCount+1].font.Color := clBlue;
+        //StrGrid.CellStyle[5,IntCount+1].font.Color := clGreen;
+        //StrGrid.CellStyle[6,IntCount+1].font.Color := clGreen;
 
-        if (OrderArr[IntCount][12]= '2') then
-        StrGrid.CellStyle[8,IntCount+1].font.Color := clBlue;
+      //  if (OrderArr[IntCount][13]= '1') then
+       // StrGrid.CellStyle[IntCount2,IntCount+1].font.Color := clBlue;
+       // StrGrid.CellStyle[5,IntCount+1].font.Color := clBlue;
+       // StrGrid.CellStyle[6,IntCount+1].font.Color := clBlue;
+       // if (OrderArr[IntCount][12]= '2') then
+       // StrGrid.CellStyle[8,IntCount+1].font.Color := clBlue;
       end
      end
      else begin
@@ -548,10 +560,10 @@ begin
 //        ResponsDriverComplaint.CheckReject.Enabled := False;
       end;
     end
-    else if (Statuskeluhan = 'Tidak diproses') then
+   { else if (Statuskeluhan = 'Tidak diproses') then
       begin
         MessageBox(0,PChar('Keluhan Sudah Ditolak!'),'Keluhan Driver',MB_OK or MB_ICONERROR);
-      end
+      end }
     else if (StrNoSR <> '') then
       begin
         MessageBox(0,PChar('Keluhan Sudah Direquest!'),'Keluhan Driver',MB_OK or MB_ICONINFORMATION);
@@ -596,7 +608,7 @@ begin
         MessageBox(0,PChar('Keluhan tidak diproses bengkel'),'Keluhan driver',MB_OK or MB_ICONWARNING);
     end else  begin
         if Main.IsFormOpen('ResponsDriverComplaint')=False then begin
-            ResponsDriverComplaint :=TResponsDriverComplaint.Create(Self,StrGrid.Cells[1,IntRow],Statuskeluhan);
+            ResponsDriverComplaint :=TResponsDriverComplaint.Create(Self,StrGrid.Cells[1,IntRow],Statuskeluhan,'YA');
             StrDriveComplainID:=StrGrid.Cells[1,IntRow];
             ResponsDriverComplaint.NoKeluhan.Text :=StrGrid.Cells[1,IntRow];
             ResponsDriverComplaint.Driver.Text := StrGrid.Cells[2,IntRow];
