@@ -4,11 +4,11 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Grids, WHUnit, ADODB, frxpngimage, ExtCtrls, Buttons;
+  Dialogs, StdCtrls, Grids, WHUnit, ADODB, frxpngimage, ExtCtrls, Buttons,
+  ZColorStringGrid;
 
 type
   TMemoList = class(TForm)
-    StrGrid: TStringGrid;
     Panel1: TPanel;
     delete: TBitBtn;
     add_new: TBitBtn;
@@ -20,6 +20,8 @@ type
     Image1: TImage;
     StaticText1: TStaticText;
     btn_cari: TSpeedButton;
+    StrGrid: TZColorStringGrid;
+    Edit: TBitBtn;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -28,6 +30,8 @@ type
     procedure StrGridDblClick(Sender: TObject);
     procedure CariChange(Sender: TObject);
     procedure add_newClick(Sender: TObject);
+    procedure previewClick(Sender: TObject);
+    procedure EditClick(Sender: TObject);
   private
     { Private declarations }
     procedure AskDelete(MenuId:String);
@@ -40,12 +44,12 @@ type
 
 var
   MemoList: TMemoList;
-  MenuArr:Array of TArrString4;
+  MemoArr:Array of TArrString10;
   IntRow:Integer;
 
 implementation
 
-uses MainU, MenuFormU, StrUtils, MemoFormU;
+uses MainU, MenuFormU, StrUtils, MemoFormU, PreviewDocumentU;
 
 {$R *.dfm}
 
@@ -62,14 +66,32 @@ end;
 procedure TMemoList.Init;
 begin
   StrGrid.RowCount:=2;
+  StrGrid.ColWidths[0]:=25;
+  StrGrid.ColWidths[1]:=150;
+  StrGrid.ColWidths[2]:=200;
+  StrGrid.ColWidths[3]:=100;
+  StrGrid.ColWidths[4]:=375;
+  StrGrid.ColWidths[5]:=0;
+
   StrGrid.Cells[0,0]:='No';
-  StrGrid.Cells[1,0]:='Menu';
-  StrGrid.Cells[2,0]:='Description';
-  StrGrid.Cells[3,0]:='Status';
+  StrGrid.Cells[1,0]:='Nomor ';
+  StrGrid.Cells[2,0]:='Judul';
+  StrGrid.Cells[3,0]:='Tanggal Effektif';
+  StrGrid.Cells[4,0]:='Deskripsi';
+  StrGrid.Cells[5,0]:='0';
   StrGrid.Cells[0,1]:='';
   StrGrid.Cells[1,1]:='';
   StrGrid.Cells[2,1]:='';
   StrGrid.Cells[3,1]:='';
+  StrGrid.Cells[4,1]:='';
+  StrGrid.Cells[5,1]:='';
+
+  StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[2,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[3,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[4,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[5,0].HorizontalAlignment:=taCenter;
 end;
 
 procedure TMemoList.LoadData;
@@ -80,16 +102,19 @@ begin
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
   if Main.OpenDb then begin
-    StrQry:='SELECT * FROM wh_menu';
+    StrQry:='SELECT * FROM wh_document';
     Qry.SQL.Add(StrQry);
     Qry.Open;
     IntCount:=0;
-    SetLength(MenuArr,Qry.RecordCount);
+    SetLength(MemoArr,Qry.RecordCount);
     if Qry.RecordCount>0 then while Not(Qry.Eof) do begin
-      MenuArr[IntCount][0]:=Qry.FieldValues['menu_id'];
-      MenuArr[IntCount][1]:=Qry.FieldValues['menu'];
-      MenuArr[IntCount][2]:=Qry.FieldValues['menu_description'];
-      if Qry.FieldValues['menu_id'] then MenuArr[IntCount][3]:='Active' else MenuArr[IntCount][3]:='Disable';
+      MemoArr[IntCount][0]:=Qry.FieldValues['doc_number'];
+      MemoArr[IntCount][1]:=Qry.FieldValues['doc_title'];
+      MemoArr[IntCount][2]:=Qry.FieldValues['effective_date'];
+      MemoArr[IntCount][3]:=Qry.FieldValues['description'];
+      MemoArr[IntCount][4]:=Qry.FieldValues['doc_id'];
+      //MenuArr[IntCount][4]:=Qry.FieldValues['effective_date'];
+      //if Qry.FieldValues['menu_id'] then MenuArr[IntCount][3]:='Active' else MenuArr[IntCount][3]:='Disable';
       Inc(IntCount);
       Qry.Next;
     end;
@@ -99,11 +124,22 @@ begin
 end;
 
 procedure TMemoList.RefreshList;
-var IntCount,IntCount2:Integer;
+var
+IntCount:Integer;
 begin
-  if Length(MenuArr)>0 then StrGrid.RowCount:=Length(MenuArr)+1;
-  for IntCount:=0 to Length(MenuArr)-1 do begin
-    for IntCount2:=0 to 3 do StrGrid.Cells[IntCount2,IntCount+1]:=MenuArr[IntCount][IntCount2];
+  {if Length(MemoArr)>0 then StrGrid.RowCount:=Length(MemoArr)+1;
+  for IntCount:=0 to Length(MemoArr)-1 do begin
+    for IntCount2:=0 to 5 do StrGrid.Cells[IntCount2,IntCount+1]:=MemoArr[IntCount][IntCount2];
+  end;}
+  if Length(MemoArr)>0 then StrGrid.RowCount:=Length(MemoArr)+1;
+  for IntCount:=0 to Length(MemoArr)-1 do begin
+    StrGrid.Cells[0,IntCount+1]:=IntToStr(IntCount+1);
+    StrGrid.Cells[1,IntCount+1]:=MemoArr[IntCount][0];
+    StrGrid.Cells[2,IntCount+1]:=MemoArr[IntCount][1];
+    StrGrid.Cells[3,IntCount+1]:=MemoArr[IntCount][2];
+    StrGrid.Cells[4,IntCount+1]:=MemoArr[IntCount][3];
+    StrGrid.Cells[5,IntCount+1]:=MemoArr[IntCount][4];
+    //StrGrid.Cells[5,IntCount+1]:=MemoArr[IntCount][5];
   end;
 end;
 
@@ -123,9 +159,9 @@ end;
 
 procedure TMemoList.StrGridDblClick(Sender: TObject);
 begin
-  if (RightStr(IntToStr(TreeTag),2)='04') then MenuForm:=TMenuForm.Create(Self,StrGrid.Cells[0,IntRow],True)
+ { if (RightStr(IntToStr(TreeTag),2)='04') then MenuForm:=TMenuForm.Create(Self,StrGrid.Cells[0,IntRow],True)
   else if (RightStr(IntToStr(TreeTag),2)='03') then AskDelete(StrGrid.Cells[0,IntRow])
-  else MenuForm:=TMenuForm.Create(Self,StrGrid.Cells[0,IntRow]);
+  else MenuForm:=TMenuForm.Create(Self,StrGrid.Cells[0,IntRow]);}
 end;
 
 procedure TMemoList.AskDelete(MenuId:String);
@@ -179,14 +215,20 @@ begin
   if Trim(Cari.Text)<>'' then begin
     Init;
     Count2:=2;
-    for Count:=0 to Length(MenuArr)-1 do begin
+    for Count:=0 to Length(MemoArr)-1 do begin
       IsTrue:=False;
-      for Count3:=0 to 3 do
-      if (StrPos(PChar(UpperCase(MenuArr[Count][Count3])),PChar(UpperCase(Cari.Text)))<>nil) then IsTrue:=True;
+      for Count3:=0 to 5 do
+      if (StrPos(PChar(UpperCase(MemoArr[Count][Count3])),PChar(UpperCase(Cari.Text)))<>nil) then IsTrue:=True;
       if IsTrue then begin
           StrGrid.RowCount:=Count2;
-          for Count4:=0 to 3 do
-          StrGrid.Cells[Count4,Count2-1]:=MenuArr[Count][Count4];
+          StrGrid.Cells[0,Count2-1]:=IntToStr(Count+1);;
+          StrGrid.Cells[1,Count2-1]:=MemoArr[Count][0];
+          StrGrid.Cells[2,Count2-1]:=MemoArr[Count][1];
+          StrGrid.Cells[3,Count2-1]:=MemoArr[Count][2];
+          StrGrid.Cells[4,Count2-1]:=MemoArr[Count][3];
+          StrGrid.Cells[5,Count2-1]:=MemoArr[Count][4];
+         { for Count4:=0 to 5 do
+          StrGrid.Cells[Count4,Count2-1]:=MemoArr[Count][Count4]; }
           Inc(Count2);
       end;
     end;
@@ -197,6 +239,25 @@ end;
 procedure TMemoList.add_newClick(Sender: TObject);
 begin
   MemoForm:=TMemoForm.Create(Self,'');
+end;
+
+procedure TMemoList.previewClick(Sender: TObject);
+var
+  IntAID : Integer;
+begin
+  IntAID := StrToInt(StrGrid.Cells[5,IntRow]);
+  PreviewDocument:=TPreviewDocument.Create(Self);
+  PreviewDocument.LoadData(IntAID);
+end;
+
+procedure TMemoList.EditClick(Sender: TObject);
+var
+  IntAID : Integer;
+begin
+  IntAID := StrToInt(StrGrid.Cells[5,IntRow]);
+  MemoForm:=TMemoForm.Create(Self);
+  MemoForm.LoadData(IntAID);
+  //MemoForm.ShowModal;
 end;
 
 end.

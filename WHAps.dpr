@@ -352,7 +352,8 @@ uses
   RubahInvoiceFormU in 'RubahInvoiceFormU.pas' {RubahInvoiceForm},
   PlannedServiceReportU in 'PlannedServiceReportU.pas' {PlannedServiceReport},
   MemoListU in 'MemoListU.pas' {MemoList},
-  MemoFormU in 'MemoFormU.pas' {MemoForm};
+  MemoFormU in 'MemoFormU.pas' {MemoForm},
+  PreviewDocumentU in 'PreviewDocumentU.pas' {PreviewDocument};
 
 {$R *.res}
 

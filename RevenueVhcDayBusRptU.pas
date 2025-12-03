@@ -586,7 +586,7 @@ begin
 
       IntBiayaReimburse :=Qry.FieldValues['fee_driver_reimburse']+Qry.FieldValues['fee_busboy_reimburse']+
                           Qry.FieldValues['parkir_reimburse']+Qry.FieldValues['tol_reimburse'];
-      IntBiaya :=BBMRp+IntFeeDriver+IntFeeBusBoy+Tolparkir_All+TotalLain+Tol_All+
+      IntBiaya :=BBMRp+IntFeeDriver+IntFeeBusBoy+Tolparkir_All+Tol_All+LainLain_All+
                  IntBiayaReimburse;
 
       IntTotalBiaya:=IntTotalBiaya+IntBiaya;
@@ -667,7 +667,7 @@ begin
       StrGrid.Cells[32,Count]:=IToCurr(Qry.FieldValues['tol_reimburse']);
 
       StrGrid.Cells[33,Count]:=IToCurr(LainLain_All);
-      StrGrid.Cells[34,Count]:=IToCurr(IntBiaya);
+      StrGrid.Cells[34,Count]:=IToCurr(IntBiaya); //Total Biaya
 
       if Qry.FieldValues['out_ordo_km']<>NULL then StrGrid.Cells[35,Count]:=IToCurr(Qry.FieldValues['out_ordo_km']);
       StrGrid.Cells[39,Count]:=IToCurr(IntGrossProfit);

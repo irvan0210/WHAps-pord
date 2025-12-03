@@ -1954,10 +1954,10 @@ begin
                           StrQryWehaOnline:= 'INSERT INTO Contacts '+
                                         '(FullName,Gender,'+
                                         'HP,ViewHisOwnData,IsMain,CreatedBy,CreatedDate,'+
-                                        'ModifiedBy,ModifiedDate,ViewGroupOnly,isHelper) VALUES '+
+                                        'ModifiedBy,ModifiedDate,ViewGroupOnly) VALUES '+
                                         '('+QuotedStr(Kenek.Text)+',''M'' '+
-                                        ','+QuotedStr(StrHelperPhone)+',0,0,0,1 '+
-                                        ',GETDATE(),0,GETDATE(),0); ';
+                                        ','+QuotedStr(StrHelperPhone)+',0,0,1 '+
+                                        ',GETDATE(),1,GETDATE(),0); ';
 
                           QryWehaOnline.SQL.Clear;
                           QryWehaOnline.SQL.Add(StrQryWehaOnline);
