@@ -34,6 +34,7 @@ object MemoList: TMemoList
       Height = 44
       Caption = 'Delete'
       TabOrder = 0
+      OnClick = deleteClick
       Glyph.Data = {
         36030000424D3603000000000000360000002800000010000000100000000100
         1800000000000003000000000000000000000000000000000000FFFFFFFFFFFF
@@ -370,7 +371,7 @@ object MemoList: TMemoList
       Left = 86
       Top = 14
       Width = 140
-      Height = 32
+      Height = 36
       Caption = 'Memo List'
       Font.Charset = EASTEUROPE_CHARSET
       Font.Color = clWindowText

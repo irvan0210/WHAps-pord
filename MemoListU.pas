@@ -32,9 +32,9 @@ type
     procedure add_newClick(Sender: TObject);
     procedure previewClick(Sender: TObject);
     procedure EditClick(Sender: TObject);
+    procedure deleteClick(Sender: TObject);
   private
     { Private declarations }
-    procedure AskDelete(MenuId:String);
   public
     { Public declarations }
     procedure Init;
@@ -102,7 +102,7 @@ begin
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
   if Main.OpenDb then begin
-    StrQry:='SELECT * FROM wh_document';
+    StrQry:='SELECT * FROM wh_document WHERE status =1;';
     Qry.SQL.Add(StrQry);
     Qry.Open;
     IntCount:=0;
@@ -140,6 +140,9 @@ begin
     StrGrid.Cells[4,IntCount+1]:=MemoArr[IntCount][3];
     StrGrid.Cells[5,IntCount+1]:=MemoArr[IntCount][4];
     //StrGrid.Cells[5,IntCount+1]:=MemoArr[IntCount][5];
+    StrGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[3,IntCount+1].HorizontalAlignment:=taCenter;
+    //StrGrid.CellStyle[5,IntCount+1].HorizontalAlignment:=taCenter;
   end;
 end;
 
@@ -163,50 +166,6 @@ begin
   else if (RightStr(IntToStr(TreeTag),2)='03') then AskDelete(StrGrid.Cells[0,IntRow])
   else MenuForm:=TMenuForm.Create(Self,StrGrid.Cells[0,IntRow]);}
 end;
-
-procedure TMemoList.AskDelete(MenuId:String);
-var Qry:TADOQuery;
-    StrQry,StrEMsg:String;
-    IsOk:Boolean;
-begin
-  if (Trim(MenuId)<>'') then begin
-    StrEMsg:='';
-    IsOk:=True;
-    Qry:=TADOQuery.Create(Self);
-    Qry.Connection:=Main.MyConnection;
-    if MessageBox(0,PChar('Menu Id '+MenuId+' Mau Dihapus ?') ,'Menu',MB_OKCANCEL or MB_ICONINFORMATION)=1 then begin
-      if Main.OpenDb then begin
-        Main.TransStart;
-        StrQry:='DELETE FROM wh_menu WHERE menu_id='+Chr(39)+MenuId+Chr(39)+';';
-        Qry.SQL.Clear;
-        Qry.SQL.Add(StrQry);
-        try
-          Qry.ExecSQL;
-        except
-          on E:Exception do  begin
-            IsOk:=False;
-            StrEMsg:=E.Message;
-          end
-        end;
-        if IsOk then begin
-          Main.TransCommit;
-          MessageBox(0,'Berhasil Menghapus Menu','Menu',MB_OK or MB_ICONINFORMATION);
-        end else begin
-          Main.TransRollback;
-          StrEMsg:='Gagal Menghapus Menu'+Chr(13)+Chr(13)+'Kesalahan :'+Chr(13)+StrEMsg;
-          MessageBox(0,PChar(StrEMsg),'Menu',MB_OK or MB_ICONERROR);
-        end;
-        Main.CloseDb;
-      end;
-      Qry.Destroy;
-    end;
-    if IsOk then begin
-      LoadData;
-      RefreshList;
-    end;
-  end;
-end;
-
 
 procedure TMemoList.CariChange(Sender: TObject);
 var Count,Count2,Count3,Count4:Integer;
@@ -255,9 +214,56 @@ var
   IntAID : Integer;
 begin
   IntAID := StrToInt(StrGrid.Cells[5,IntRow]);
-  MemoForm:=TMemoForm.Create(Self);
-  MemoForm.LoadData(IntAID);
-  //MemoForm.ShowModal;
+ // MemoForm:=TMemoForm.Create(Self);
+ // MemoForm.LoadData;
+  if StrGrid.Cells[2,IntRow]<>'' then begin
+    if Main.IsFormOpen('MemoForm')=False then MemoForm:=TMemoForm.Create(Self, StrGrid.Cells[5,IntRow]);
+  end;
+end;
+
+procedure TMemoList.deleteClick(Sender: TObject);
+var Qry:TADOQuery;
+    StrQry,StrEMsg:String;
+    IsOk:Boolean;
+   // IntAID : Integer;
+begin
+  //IntAID := StrToInt(StrGrid.Cells[5,IntRow]);
+  if (Trim(StrGrid.Cells[5,IntRow])<>'') then begin
+    StrEMsg:='';
+    IsOk:=True;
+    Qry:=TADOQuery.Create(Self);
+    Qry.Connection:=Main.MyConnection;
+    if MessageBox(0,PChar('Memo '+StrGrid.Cells[2,IntRow]+' Mau Dihapus ?') ,'Memo',MB_OKCANCEL or MB_ICONINFORMATION)=1 then begin
+      if Main.OpenDb then begin
+        Main.TransStart;
+        StrQry:='UPDATE wh_document SET status = 0 WHERE doc_id = '+Chr(39)+StrGrid.Cells[5,IntRow]+Chr(39)+';';
+        Qry.SQL.Clear;
+        Qry.SQL.Add(StrQry);
+        try
+          Qry.ExecSQL;
+        except
+          on E:Exception do  begin
+            IsOk:=False;
+            StrEMsg:=E.Message;
+          end
+        end;
+        if IsOk then begin
+          Main.TransCommit;
+          MessageBox(0,'Berhasil Menghapus Memo','Memo',MB_OK or MB_ICONINFORMATION);
+        end else begin
+          Main.TransRollback;
+          StrEMsg:='Gagal Menghapus Memo'+Chr(13)+Chr(13)+'Kesalahan :'+Chr(13)+StrEMsg;
+          MessageBox(0,PChar(StrEMsg),'Memo',MB_OK or MB_ICONERROR);
+        end;
+        Main.CloseDb;
+      end;
+      Qry.Destroy;
+    end;
+    if IsOk then begin
+      LoadData;
+      RefreshList;
+    end;
+  end;
 end;
 
 end.

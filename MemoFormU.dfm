@@ -1,6 +1,6 @@
 object MemoForm: TMemoForm
-  Left = 410
-  Top = 342
+  Left = 399
+  Top = 245
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Memo Form'
@@ -249,6 +249,7 @@ object MemoForm: TMemoForm
     Width = 58
     Height = 17
     Caption = 'Active'
+    Enabled = False
     TabOrder = 4
     OnKeyPress = ActiveKeyPress
   end
@@ -256,7 +257,7 @@ object MemoForm: TMemoForm
     Left = 9
     Top = 171
     Width = 528
-    Height = 38
+    Height = 42
     TabOrder = 5
     object Label10: TLabel
       Left = 7

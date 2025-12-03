@@ -126,6 +126,9 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '03/12/2025 (6.2.0.3) Force update'
+      '-Perbaikan bug laporan pengeluaran perarmada.'
+      ''
       '27/11/2025 (6.2.0.3)'
       '-Penambahanperintah kerja di buka PKB dan di cetakan PKB.'
       

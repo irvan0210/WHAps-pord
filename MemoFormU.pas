@@ -63,7 +63,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner:TComponent;MemoId:String;IsViewOnly:Boolean=False);Overload;
-    procedure LoadData(AID: Integer);
+    procedure LoadData;
   end;
 
 var
@@ -91,7 +91,7 @@ end;
 procedure TMemoForm.Init;
 begin
   GroupId.Enabled:=False;
-  Active.Checked:=False;
+  Active.Checked:=True;
   DocId.Clear;
   DocTitle.Text:='';
   DocNumber.Text:='';
@@ -102,7 +102,7 @@ begin
   EditFileSize.Text:='';
 end;
 
-procedure TMemoForm.LoadData(AID: Integer);
+procedure TMemoForm.LoadData;
 var Qry:TADOQuery;
     StrQry:String;
 begin
@@ -126,8 +126,7 @@ begin
       EditFileSize.Text := Qry.FieldValues['file_sizekb'];
       EditFileExt.Text := Qry.FieldValues['file_ext'];
       IsNewFileUploaded := False;
-
-      if Qry.FieldValues['active'] then Active.Checked:=True else Active.Checked:=False;;
+      if Qry.FieldValues['status']=1 then Active.Checked:=True else Active.Checked:=False;;
     end;
     Qry.Close;
     Main.CloseDb;
@@ -196,7 +195,7 @@ begin
   FileByte := nil;
   IsNewFileUploaded := False;
  // RefreshMenu;
- // if StrMemoId<>'' then LoadData(AID: Integer);
+  if StrMemoId<>'' then LoadData;
  // if IsView then Input(False)
   //else Input(True);
 end;
@@ -204,7 +203,7 @@ end;
 procedure TMemoForm.SimpanClick(Sender: TObject);
 var Qry:TADOQuery;
     StrQry,StrMsg,StrException:String; //,StrMaxId
-   IntCount:Integer;  // IntActive,
+    IntCount, IntActive:Integer;  // ,
     IsOk:Boolean;
 begin
   if (Trim(DocNumber.Text)<>'') AND (DocTitle.Text <>'')
@@ -212,39 +211,39 @@ begin
     IsOk:=True;
     Qry:=TADOQuery.Create(Self);
     Qry.Connection:=Main.MyConnection;
-   // if Active.Checked then IntActive:=1 else IntActive:=0;
+    if Active.Checked then IntActive:=1 else IntActive:=0;
 
     if Main.OpenDb then begin
-    
       if StrMemoId<>'' then begin
-         StrQry := 'UPDATE wh_document SET ' +
-          'doc_number = ' + QuotedStr(DocNumber.Text) + ', ' +
-          'doc_title = ' + QuotedStr(DocTitle.Text) + ', ' +
-          'effective_date = ' + QuotedStr(FormatDateTime('yyyy-mm-dd', StartDate.Date)) + ', ' +
-          'description = ' + QuotedStr(Description.Lines.Text) + ', ' +
-          'file_ext = ' + QuotedStr(FileExt) + ', ' +
-          'file_sizekb = ' + IntToStr(FileByte.Size div 1024) + ', ' +
-          'file_name = ' + QuotedStr(FileNameOnly) + ', ' +
+         StrQry := 'UPDATE wh_document SET '+
+          'doc_number = ' +QuotedStr(DocNumber.Text)+', '+
+          'doc_title = ' +QuotedStr(DocTitle.Text)+', '+
+          'effective_date = ' +QuotedStr(FormatDateTime('yyyy-mm-dd', StartDate.Date)) + ', ' +
+          'description = ' +QuotedStr(Description.Lines.Text)+', ' +
+          'file_ext = ' +QuotedStr(EditFileExt.Text) + ', ' +
+          'file_sizekb = '+IntToStr(FileByte.Size div 1024)+', '+
+          'file_name = '+QuotedStr(EditFileName.Text)+', '+
           'file_data = :file_data, ' +
-          'update_date = GETDATE(), ' +
-          'update_by = ' + QuotedStr(User) + ' ' +
-          'WHERE doc_id = ' + QuotedStr(DocId.text)+';';
+          'update_date = GETDATE(), '+
+          'update_by = '+QuotedStr(User)+','+
+          'status ='+IntToStr(IntActive)+' '+
+          'WHERE doc_id = '+QuotedStr(DocId.text)+';';
       end else begin
         StrQry := 'INSERT INTO wh_document '+
-          '(doc_number, doc_title, doc_type, effective_date, description, '+
-          'file_ext, file_sizekb, file_name, file_data, create_date, create_by) '+
+          '(doc_number, doc_title, doc_type, effective_date, description,file_ext,file_sizekb,'+
+          ' file_name, file_data, create_date, create_by,update_date,update_by, status) '+
           'VALUES (' +
-          QuotedStr(DocNumber.Text) + ', ' +
-          QuotedStr(DocTitle.Text) + ', ' +
-          QuotedStr('MEMO') + ', ' +
-          QuotedStr(FormatDateTime('yyyy-mm-dd', StartDate.Date)) + ', ' +
-          QuotedStr(Description.Lines.Text) + ', ' +
-          QuotedStr(FileExt) + ', ' +
-          IntToStr(FileByte.Size div 1024) + ', ' +
-          QuotedStr(FileNameOnly) + ', ' +
+          QuotedStr(DocNumber.Text)+', '+
+          QuotedStr(DocTitle.Text)+', '+
+          QuotedStr('MEMO')+', '+
+          QuotedStr(FormatDateTime('yyyy-mm-dd', StartDate.Date))+ ', ' +
+          QuotedStr(Description.Lines.Text)+ ', '+
+          QuotedStr(EditFileExt.Text) + ', '+  //FileExt
+          IntToStr(FileByte.Size div 1024)+ ', ' +
+          QuotedStr(EditFileName.Text) + ', ' +   //FileNameOnly
           ':file_data, ' +                 // ? parameter untuk BLOB
-          'GETDATE(), ' +
-          QuotedStr(User) + ')';
+          'GETDATE(), ' +QuotedStr(User)+
+          ',GETDATE(),'+QuotedStr(User)+','+IntToStr(IntActive)+')';
       end;
       Qry.SQL.Clear;
       Qry.SQL.Add(StrQry);
@@ -262,11 +261,13 @@ begin
       Main.CloseDb;
     end;
     if IsOk then begin
-      MessageBox(0,'Berhasil Memo','Memo',MB_OK or MB_ICONINFORMATION);
+      MessageBox(0,'Berhasil Menyimpan Memo','Memo',MB_OK or MB_ICONINFORMATION);
       Init;
     end else begin
       MessageBox(0,PChar(StrMsg+Chr(13)+Chr(13)+'Kesalahan:'+Chr(13)+StrException),'Memo',MB_OK or MB_ICONERROR);
     end;
+  end else begin
+    MessageBox(0,PChar('Tanda Bintang Tidak Boleh Kosong'+Chr(13)+Chr(13)+'Kesalahan:'+Chr(13)+StrException),'Memo',MB_OK or MB_ICONWARNING);
   end;
   if Main.IsFormOpen('MemoList') then begin
     MemoList.Init;
@@ -352,18 +353,23 @@ procedure TMemoForm.PreviewClick(Sender: TObject);
 var
   TempFile: string;
 begin
-    // Jika file belum di-upload
-  if FileByte = nil then
-  begin
-    ShowMessage('Tidak ada file untuk di-preview.');
-    Exit;
+  if DocId.Text <> '' then begin
+    PreviewDocument:=TPreviewDocument.Create(Self);
+    PreviewDocument.LoadData(StrToInt(DocId.Text));
+  end else begin
+       // Jika file belum di-upload
+    if FileByte = nil then
+    begin
+      ShowMessage('Tidak ada file untuk di-preview.');
+      Exit;
+    end;
+
+    TempFile := GetEnvironmentVariable('TEMP') + '\preview.pdf';
+    FileByte.SaveToFile(TempFile);
+
+    PreviewDocument := TPreviewDocument.Create(Self);
+    PreviewDocument.PreviewLocalPDF(TempFile);
   end;
-
-  TempFile := GetEnvironmentVariable('TEMP') + '\preview.pdf';
-  FileByte.SaveToFile(TempFile);
-
-  PreviewDocument := TPreviewDocument.Create(Self);
-  PreviewDocument.PreviewLocalPDF(TempFile);
 end;
 
 procedure TMemoForm.UpdateDocument(DocID: Integer);
