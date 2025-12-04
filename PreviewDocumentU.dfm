@@ -1,11 +1,11 @@
 object PreviewDocument: TPreviewDocument
-  Left = 480
-  Top = 277
+  Left = 424
+  Top = 118
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Preview Document'
-  ClientHeight = 324
-  ClientWidth = 552
+  ClientHeight = 483
+  ClientWidth = 608
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,8 +21,8 @@ object PreviewDocument: TPreviewDocument
   PixelsPerInch = 96
   TextHeight = 13
   object Selesai: TButton
-    Left = 240
-    Top = 296
+    Left = 267
+    Top = 447
     Width = 75
     Height = 25
     Caption = 'Selesai'
@@ -31,12 +31,12 @@ object PreviewDocument: TPreviewDocument
   end
   object PdfViewer: TWebBrowser
     Left = 8
-    Top = 8
-    Width = 537
-    Height = 281
+    Top = 0
+    Width = 594
+    Height = 440
     TabOrder = 1
     ControlData = {
-      4C000000803700000B1D00000000000000000000000000000000000000000000
+      4C000000643D00007A2D00000000000000000000000000000000000000000000
       000000004C000000000000000000000001000000E0D057007335CF11AE690800
       2B2E126208000000000000004C0000000114020000000000C000000000000046
       8000000000000000000000000000000000000000000000000000000000000000

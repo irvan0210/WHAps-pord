@@ -1,6 +1,6 @@
 object Apps: TApps
-  Left = 330
-  Top = 180
+  Left = 336
+  Top = 232
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Aplikasi'
@@ -126,6 +126,11 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '04/12/2025 (6.2.0.4)'
+      
+        '-Penambahan menu Laporan Rekap SK Fee Order dimenu laporan opras' +
+        'ional bus'
+      ''
       '03/12/2025 (6.2.0.3) Force update'
       '-Perbaikan bug laporan pengeluaran perarmada.'
       ''

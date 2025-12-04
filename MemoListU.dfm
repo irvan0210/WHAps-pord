@@ -3,7 +3,7 @@ object MemoList: TMemoList
   Top = 234
   BorderIcons = []
   BorderStyle = bsNone
-  Caption = 'Memo List'
+  Caption = 'Laporan Rekap SK Fee Order'
   ClientHeight = 382
   ClientWidth = 868
   Color = clBtnFace
