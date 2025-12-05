@@ -1,11 +1,11 @@
 object ItemServiceRequestList: TItemServiceRequestList
-  Left = 275
-  Top = 170
+  Left = 242
+  Top = 164
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'ItemServiceRequestList'
   ClientHeight = 418
-  ClientWidth = 918
+  ClientWidth = 921
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -34,7 +34,7 @@ object ItemServiceRequestList: TItemServiceRequestList
     ParentFont = False
   end
   object GroupDetail: TGroupBox
-    Left = 2
+    Left = 5
     Top = 0
     Width = 913
     Height = 65
@@ -90,8 +90,8 @@ object ItemServiceRequestList: TItemServiceRequestList
       Caption = 'Tanggal Dibutuhkan'
     end
     object Label3: TLabel
-      Left = 762
-      Top = 27
+      Left = 749
+      Top = 24
       Width = 18
       Height = 13
       Caption = 'Cari'
@@ -104,17 +104,17 @@ object ItemServiceRequestList: TItemServiceRequestList
       Caption = 'Status'
     end
     object GroupCombo: TPanel
-      Left = 419
-      Top = -60
-      Width = 193
-      Height = 49
+      Left = 1000
+      Top = -100
+      Width = 251
+      Height = 26
       BevelOuter = bvNone
       TabOrder = 4
       Visible = False
       object SBU: TComboBox
-        Left = 51
-        Top = -68
-        Width = 177
+        Left = 11
+        Top = 1
+        Width = 94
         Height = 21
         Style = csDropDownList
         ItemHeight = 13
@@ -122,9 +122,9 @@ object ItemServiceRequestList: TItemServiceRequestList
         OnChange = SBUChange
       end
       object Location: TComboBox
-        Left = 51
-        Top = -44
-        Width = 177
+        Left = 108
+        Top = 2
+        Width = 138
         Height = 21
         Style = csDropDownList
         ItemHeight = 13
@@ -189,8 +189,8 @@ object ItemServiceRequestList: TItemServiceRequestList
       Visible = False
     end
     object Lihat: TButton
-      Left = 664
-      Top = 22
+      Left = 659
+      Top = 19
       Width = 75
       Height = 25
       Caption = 'Lihat'
@@ -198,9 +198,9 @@ object ItemServiceRequestList: TItemServiceRequestList
       OnClick = LihatClick
     end
     object Cari: TEdit
-      Left = 786
-      Top = 25
-      Width = 121
+      Left = 775
+      Top = 22
+      Width = 129
       Height = 21
       TabOrder = 8
       OnChange = CariChange
@@ -242,9 +242,9 @@ object ItemServiceRequestList: TItemServiceRequestList
   end
   object StrGrid: TZColorStringGrid
     Left = 3
-    Top = 68
+    Top = 70
     Width = 912
-    Height = 315
+    Height = 310
     ColCount = 11
     DefaultRowHeight = 20
     DefaultDrawing = False

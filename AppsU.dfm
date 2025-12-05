@@ -126,6 +126,12 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '05/12/2025 (6.2.0.4)  Force update'
+      
+        '-Perbaikan permintaan dan serah terima barang, agar bisa dipergu' +
+        'nakan disemua '
+      'cabang.'
+      ''
       '04/12/2025 (6.2.0.4)'
       
         '-Penambahan menu Laporan Rekap SK Fee Order dimenu laporan opras' +

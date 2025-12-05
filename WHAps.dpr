@@ -353,7 +353,8 @@ uses
   PlannedServiceReportU in 'PlannedServiceReportU.pas' {PlannedServiceReport},
   MemoListU in 'MemoListU.pas' {MemoList},
   MemoFormU in 'MemoFormU.pas' {MemoForm},
-  PreviewDocumentU in 'PreviewDocumentU.pas' {PreviewDocument};
+  PreviewDocumentU in 'PreviewDocumentU.pas' {PreviewDocument},
+  CustomerListMiniU in 'CustomerListMiniU.pas' {CustomerListMini};
 
 {$R *.res}
 

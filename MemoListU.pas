@@ -68,23 +68,27 @@ begin
   StrGrid.RowCount:=2;
   StrGrid.ColWidths[0]:=25;
   StrGrid.ColWidths[1]:=150;
-  StrGrid.ColWidths[2]:=200;
-  StrGrid.ColWidths[3]:=100;
-  StrGrid.ColWidths[4]:=375;
-  StrGrid.ColWidths[5]:=0;
+  StrGrid.ColWidths[2]:=100;
+  StrGrid.ColWidths[3]:=200;
+  StrGrid.ColWidths[4]:=100;
+  StrGrid.ColWidths[5]:=100;
+  StrGrid.ColWidths[6]:=375;
 
   StrGrid.Cells[0,0]:='No';
-  StrGrid.Cells[1,0]:='Nomor ';
-  StrGrid.Cells[2,0]:='Judul';
-  StrGrid.Cells[3,0]:='Tanggal Effektif';
-  StrGrid.Cells[4,0]:='Deskripsi';
-  StrGrid.Cells[5,0]:='0';
+  StrGrid.Cells[1,0]:='Nomor Dokumen';
+  StrGrid.Cells[2,0]:='Nomor Memo';
+  StrGrid.Cells[3,0]:='Judul';
+  StrGrid.Cells[4,0]:='Tanggal Effektif';
+  StrGrid.Cells[5,0]:='Tanggal Berahir';
+  StrGrid.Cells[6,0]:='Deskripsi';
+
   StrGrid.Cells[0,1]:='';
   StrGrid.Cells[1,1]:='';
   StrGrid.Cells[2,1]:='';
   StrGrid.Cells[3,1]:='';
   StrGrid.Cells[4,1]:='';
   StrGrid.Cells[5,1]:='';
+  StrGrid.Cells[6,1]:='';
 
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
@@ -92,6 +96,7 @@ begin
   StrGrid.CellStyle[3,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[4,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[5,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[6,0].HorizontalAlignment:=taCenter;
 end;
 
 procedure TMemoList.LoadData;
@@ -108,11 +113,12 @@ begin
     IntCount:=0;
     SetLength(MemoArr,Qry.RecordCount);
     if Qry.RecordCount>0 then while Not(Qry.Eof) do begin
-      MemoArr[IntCount][0]:=Qry.FieldValues['doc_number'];
-      MemoArr[IntCount][1]:=Qry.FieldValues['doc_title'];
-      MemoArr[IntCount][2]:=Qry.FieldValues['effective_date'];
-      MemoArr[IntCount][3]:=Qry.FieldValues['description'];
-      MemoArr[IntCount][4]:=Qry.FieldValues['doc_id'];
+      MemoArr[IntCount][0]:=Qry.FieldValues['doc_id'];
+      MemoArr[IntCount][1]:=Qry.FieldValues['doc_number'];
+      MemoArr[IntCount][2]:=Qry.FieldValues['doc_title'];
+      MemoArr[IntCount][3]:=Qry.FieldValues['effective_date'];
+      MemoArr[IntCount][4]:=Qry.FieldValues['expired_date'];
+      MemoArr[IntCount][5]:=Qry.FieldValues['description'];
       //MenuArr[IntCount][4]:=Qry.FieldValues['effective_date'];
       //if Qry.FieldValues['menu_id'] then MenuArr[IntCount][3]:='Active' else MenuArr[IntCount][3]:='Disable';
       Inc(IntCount);

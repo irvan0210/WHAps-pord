@@ -1,11 +1,11 @@
-object CustomerList: TCustomerList
-  Left = 321
-  Top = 248
+object CustomerListMini: TCustomerListMini
+  Left = 284
+  Top = 140
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Daftar Pelanggan'
-  ClientHeight = 546
-  ClientWidth = 958
+  ClientHeight = 378
+  ClientWidth = 764
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -29,8 +29,8 @@ object CustomerList: TCustomerList
     Caption = 'Cari'
   end
   object ToXCel: TSpeedButton
-    Left = 932
-    Top = 513
+    Left = 689
+    Top = 342
     Width = 23
     Height = 22
     Glyph.Data = {
@@ -64,10 +64,11 @@ object CustomerList: TCustomerList
     OnClick = ToXCelClick
   end
   object CariOffering: TSpeedButton
-    Left = 234
-    Top = 8
-    Width = 23
-    Height = 23
+    Left = 298
+    Top = 5
+    Width = 58
+    Height = 25
+    Caption = 'Cari'
     Glyph.Data = {
       26040000424D2604000000000000360000002800000012000000120000000100
       180000000000F003000000000000000000000000000000000000F8F8F8F8F8F8
@@ -134,17 +135,17 @@ object CustomerList: TCustomerList
   object Cari: TEdit
     Left = 32
     Top = 8
-    Width = 201
+    Width = 257
     Height = 21
     TabOrder = 1
     OnChange = CariChange
     OnKeyPress = CariKeyPress
   end
   object StrGrid: TZColorStringGrid
-    Left = 8
+    Left = 12
     Top = 40
-    Width = 945
-    Height = 465
+    Width = 737
+    Height = 289
     DefaultRowHeight = 20
     DefaultDrawing = False
     FixedColor = clBtnFace
@@ -167,8 +168,8 @@ object CustomerList: TCustomerList
     LineDesign.LineUpColor = clWhite
   end
   object Selesai: TButton
-    Left = 440
-    Top = 512
+    Left = 343
+    Top = 343
     Width = 75
     Height = 25
     Caption = 'Selesai'
@@ -176,8 +177,8 @@ object CustomerList: TCustomerList
     OnClick = SelesaiClick
   end
   object GroupBox1: TGroupBox
-    Left = 16
-    Top = 512
+    Left = 20
+    Top = 340
     Width = 257
     Height = 33
     TabOrder = 4
@@ -213,9 +214,9 @@ object CustomerList: TCustomerList
     end
   end
   object ProgressBar: TProgressBar
-    Left = 738
-    Top = 525
-    Width = 185
+    Left = 550
+    Top = 350
+    Width = 129
     Height = 9
     TabOrder = 5
   end

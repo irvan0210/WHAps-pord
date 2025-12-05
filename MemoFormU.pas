@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, WHUnit, ComCtrls;
+  Dialogs, StdCtrls, ExtCtrls, WHUnit, ComCtrls, Buttons;
 
 type
   TMemoForm = class(TForm)
@@ -44,6 +44,15 @@ type
     EditFileSize: TEdit;
     Label17: TLabel;
     Label18: TLabel;
+    Label19: TLabel;
+    Panel1: TPanel;
+    Label20: TLabel;
+    CustomerName: TEdit;
+    Label21: TLabel;
+    CariCustomer: TSpeedButton;
+    CustomerID: TEdit;
+    Label22: TLabel;
+    EndDate: TDateTimePicker;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BatalClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -54,6 +63,7 @@ type
     procedure ActiveKeyPress(Sender: TObject; var Key: Char);
     procedure UploadClick(Sender: TObject);
     procedure PreviewClick(Sender: TObject);
+    procedure CariCustomerClick(Sender: TObject);
   private
     { Private declarations }
     procedure Init;
@@ -77,7 +87,8 @@ var
   FileExt, FileNameOnly , TempPreviewFile: string;
 implementation
 
-uses MainU, ADODB, SubMenuListU, MemoListU, DB, PreviewDocumentU;
+uses MainU, ADODB, SubMenuListU, MemoListU, DB, PreviewDocumentU,
+  CustomerListMiniU;
 
 {$R *.dfm}
 
@@ -126,7 +137,8 @@ begin
       EditFileSize.Text := Qry.FieldValues['file_sizekb'];
       EditFileExt.Text := Qry.FieldValues['file_ext'];
       IsNewFileUploaded := False;
-      if Qry.FieldValues['status']=1 then Active.Checked:=True else Active.Checked:=False;;
+      if Qry.FieldValues['status']=1 then Active.Checked:=True else Active.Checked:=False;
+      CustomerID.Text := Qry.FieldValues['customer_id'];
     end;
     Qry.Close;
     Main.CloseDb;
@@ -227,11 +239,12 @@ begin
           'update_date = GETDATE(), '+
           'update_by = '+QuotedStr(User)+','+
           'status ='+IntToStr(IntActive)+' '+
+          'customer_id ='+QuotedStr(CustomerID.Text)+' '+
           'WHERE doc_id = '+QuotedStr(DocId.text)+';';
       end else begin
         StrQry := 'INSERT INTO wh_document '+
           '(doc_number, doc_title, doc_type, effective_date, description,file_ext,file_sizekb,'+
-          ' file_name, file_data, create_date, create_by,update_date,update_by, status) '+
+          ' file_name, file_data, create_date, create_by,update_date,update_by, status, customer_id) '+
           'VALUES (' +
           QuotedStr(DocNumber.Text)+', '+
           QuotedStr(DocTitle.Text)+', '+
@@ -243,7 +256,8 @@ begin
           QuotedStr(EditFileName.Text) + ', ' +   //FileNameOnly
           ':file_data, ' +                 // ? parameter untuk BLOB
           'GETDATE(), ' +QuotedStr(User)+
-          ',GETDATE(),'+QuotedStr(User)+','+IntToStr(IntActive)+')';
+          ',GETDATE(),'+QuotedStr(User)+','+IntToStr(IntActive)+
+          ', '+QuotedStr(DocId.text)+')';
       end;
       Qry.SQL.Clear;
       Qry.SQL.Add(StrQry);
@@ -418,5 +432,10 @@ end;
 
 
 
+
+procedure TMemoForm.CariCustomerClick(Sender: TObject);
+begin
+  CustomerListMini:=TCustomerListMini.Create(Self,'BUS','Memo-Create');
+end;
 
 end.

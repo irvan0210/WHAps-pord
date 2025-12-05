@@ -188,8 +188,14 @@ begin
   Main.CloseDb;
   for IntCount:=0 to Length(CompanyArr)-1 do begin
     SBU.Items.Add(CompanyArr[IntCount][1]);
-    if CompanyArr[IntCount][0]=CompanyId then SBU.ItemIndex:=SBU.Items.IndexOf(CompanyArr[IntCount][1]);
+    if CompanyArr[IntCount][0]=CompanyId then SBU.ItemIndex:=IntCount;
   end;
+
+  {for IntCount:=0 to Length(CompanyArr)-1 do begin
+    SBU.Items.Add(CompanyArr[IntCount][1]);
+    if CompanyArr[IntCount][0]=CompanyId then SBU.ItemIndex:=SBU.Items.IndexOf(CompanyArr[IntCount][1]);
+  end; }
+
   for IntCount:=1 to 12 do
     Month.Items.Add(LongMonthNames[IntCount]);
 //  if CompanyId<>'1' then
@@ -283,6 +289,7 @@ begin
   if Main.OpenDb then begin
     AwalBulan:='1/'+Month.Text+'/'+Year.Text;
     StrCompanyId:=CompanyArr[SBU.ItemIndex][0];
+   // MessageBox(0,PChar(StrCompanyId+Chr(13)+Chr(13)+'Kesalahan:'+Chr(13)),'List barang',MB_OK or MB_ICONERROR);
     StrLocationId:=LocationArr[Location.ItemIndex][0];
     StrDepartmentID:=DepartmentArr[Department.ItemIndex][0];
     StrDepartmentToID:=DepartmentArr[ToDepartment.ItemIndex][0];
