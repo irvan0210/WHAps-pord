@@ -1,6 +1,6 @@
 object YearlySalesRDRpt: TYearlySalesRDRpt
-  Left = 299
-  Top = 30
+  Left = 276
+  Top = 284
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Laporan Penjualan Tahunan perArmada Jalan'

@@ -365,7 +365,7 @@ begin
     Application.Initialize;
     Application.Title := 'White Horse Group Application';
     Application.CreateForm(TMain, Main);
-  Application.Run;
+    Application.Run;
   end;
 end.
 

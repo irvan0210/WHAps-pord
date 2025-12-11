@@ -4,7 +4,7 @@ object MemoForm: TMemoForm
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Memo Form'
-  ClientHeight = 289
+  ClientHeight = 286
   ClientWidth = 547
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -289,11 +289,10 @@ object MemoForm: TMemoForm
     Width = 58
     Height = 17
     Caption = 'Active'
-    Enabled = False
     TabOrder = 4
     OnKeyPress = ActiveKeyPress
   end
-  object GroupBox1: TGroupBox
+  object GroupUpload: TGroupBox
     Left = 9
     Top = 200
     Width = 528
@@ -412,7 +411,7 @@ object MemoForm: TMemoForm
   object Panel1: TPanel
     Left = 100
     Top = 36
-    Width = 397
+    Width = 439
     Height = 25
     BevelOuter = bvNone
     TabOrder = 6
@@ -431,7 +430,7 @@ object MemoForm: TMemoForm
       ParentFont = False
     end
     object CariCustomer: TSpeedButton
-      Left = 368
+      Left = 412
       Top = 0
       Width = 23
       Height = 23
@@ -475,7 +474,7 @@ object MemoForm: TMemoForm
     object CustomerName: TEdit
       Left = 96
       Top = 1
-      Width = 269
+      Width = 312
       Height = 21
       ReadOnly = True
       TabOrder = 0

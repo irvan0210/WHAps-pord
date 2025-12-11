@@ -1,6 +1,6 @@
 object ListItemRequest: TListItemRequest
-  Left = 204
-  Top = 236
+  Left = 141
+  Top = 185
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'List Permintaan Barang'

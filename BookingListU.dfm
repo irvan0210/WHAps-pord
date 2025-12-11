@@ -1,6 +1,6 @@
 object BookingList: TBookingList
-  Left = 416
-  Top = 279
+  Left = 287
+  Top = 248
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Daftar Penjadwalan'

@@ -21,7 +21,7 @@ type
     { Public declarations }
     procedure Init;
    // procedure LoadPdfFromBlob(const AFileName: string; const ABytes: TBytes);
-    procedure LoadData(AID: Integer);
+    procedure LoadData(AID: string);
     procedure PreviewLocalPDF(AFile: string);
   //  procedure RefreshList;
   end;
@@ -29,8 +29,8 @@ type
 var
   PreviewDocument: TPreviewDocument;
   SubMenuArr:Array of TArrString4;
-  IntRow, AID:Integer;
-  TempFile,FTempFile: string;
+  IntRow:Integer;
+  TempFile,FTempFile, AID: string;
 
 implementation
 
@@ -43,7 +43,7 @@ begin
 
 end;
 
-procedure TPreviewDocument.LoadData(AID: Integer);
+procedure TPreviewDocument.LoadData(AID: string);
 var
   MS: TMemoryStream;
 
@@ -97,7 +97,7 @@ end;
 
 procedure TPreviewDocument.FormShow(Sender: TObject);
 begin
-    if AID > 0 then
+    if AID <>'' then
     LoadData(AID);
 end;
 

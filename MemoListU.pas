@@ -22,6 +22,8 @@ type
     btn_cari: TSpeedButton;
     StrGrid: TZColorStringGrid;
     Edit: TBitBtn;
+    Label5: TLabel;
+    ToXCel: TSpeedButton;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -33,6 +35,7 @@ type
     procedure previewClick(Sender: TObject);
     procedure EditClick(Sender: TObject);
     procedure deleteClick(Sender: TObject);
+    procedure ToXCelClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -40,6 +43,7 @@ type
     procedure Init;
     procedure LoadData;
     procedure RefreshList;
+    procedure CekOtorisasi;
   end;
 
 var
@@ -70,17 +74,19 @@ begin
   StrGrid.ColWidths[1]:=150;
   StrGrid.ColWidths[2]:=100;
   StrGrid.ColWidths[3]:=200;
-  StrGrid.ColWidths[4]:=100;
+  StrGrid.ColWidths[4]:=300;
   StrGrid.ColWidths[5]:=100;
-  StrGrid.ColWidths[6]:=375;
+  StrGrid.ColWidths[6]:=100;
+  StrGrid.ColWidths[7]:=450;
 
   StrGrid.Cells[0,0]:='No';
   StrGrid.Cells[1,0]:='Nomor Dokumen';
   StrGrid.Cells[2,0]:='Nomor Memo';
-  StrGrid.Cells[3,0]:='Judul';
-  StrGrid.Cells[4,0]:='Tanggal Effektif';
-  StrGrid.Cells[5,0]:='Tanggal Berahir';
-  StrGrid.Cells[6,0]:='Deskripsi';
+  StrGrid.Cells[3,0]:='Customer';
+  StrGrid.Cells[4,0]:='Judul';
+  StrGrid.Cells[5,0]:='Tanggal Effektif';
+  StrGrid.Cells[6,0]:='Tanggal Berahir';
+  StrGrid.Cells[7,0]:='Deskripsi';
 
   StrGrid.Cells[0,1]:='';
   StrGrid.Cells[1,1]:='';
@@ -89,6 +95,7 @@ begin
   StrGrid.Cells[4,1]:='';
   StrGrid.Cells[5,1]:='';
   StrGrid.Cells[6,1]:='';
+  StrGrid.Cells[7,1]:='';
 
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
@@ -97,6 +104,7 @@ begin
   StrGrid.CellStyle[4,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[5,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[6,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[7,0].HorizontalAlignment:=taCenter;
 end;
 
 procedure TMemoList.LoadData;
@@ -107,7 +115,8 @@ begin
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
   if Main.OpenDb then begin
-    StrQry:='SELECT * FROM wh_document WHERE status =1;';
+    StrQry:='EXEC GetDocument '+CompanyId+';';
+
     Qry.SQL.Add(StrQry);
     Qry.Open;
     IntCount:=0;
@@ -115,10 +124,13 @@ begin
     if Qry.RecordCount>0 then while Not(Qry.Eof) do begin
       MemoArr[IntCount][0]:=Qry.FieldValues['doc_id'];
       MemoArr[IntCount][1]:=Qry.FieldValues['doc_number'];
-      MemoArr[IntCount][2]:=Qry.FieldValues['doc_title'];
-      MemoArr[IntCount][3]:=Qry.FieldValues['effective_date'];
-      MemoArr[IntCount][4]:=Qry.FieldValues['expired_date'];
-      MemoArr[IntCount][5]:=Qry.FieldValues['description'];
+      MemoArr[IntCount][2]:=Qry.FieldValues['name'];
+      MemoArr[IntCount][3]:=Qry.FieldValues['doc_title'];
+      MemoArr[IntCount][4]:=Qry.FieldValues['effective_date'];
+      MemoArr[IntCount][5]:=Qry.FieldValues['expired_date'];
+      MemoArr[IntCount][6]:=Qry.FieldValues['description'];
+      if Qry.FieldValues['status']=1then  MemoArr[IntCount][7]:='Aktif'
+      else MemoArr[IntCount][7]:='Tidak Aktif';
       //MenuArr[IntCount][4]:=Qry.FieldValues['effective_date'];
       //if Qry.FieldValues['menu_id'] then MenuArr[IntCount][3]:='Active' else MenuArr[IntCount][3]:='Disable';
       Inc(IntCount);
@@ -131,7 +143,7 @@ end;
 
 procedure TMemoList.RefreshList;
 var
-IntCount:Integer;
+IntCount, IntCount2:Integer;
 begin
   {if Length(MemoArr)>0 then StrGrid.RowCount:=Length(MemoArr)+1;
   for IntCount:=0 to Length(MemoArr)-1 do begin
@@ -145,10 +157,22 @@ begin
     StrGrid.Cells[3,IntCount+1]:=MemoArr[IntCount][2];
     StrGrid.Cells[4,IntCount+1]:=MemoArr[IntCount][3];
     StrGrid.Cells[5,IntCount+1]:=MemoArr[IntCount][4];
-    //StrGrid.Cells[5,IntCount+1]:=MemoArr[IntCount][5];
-    StrGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[3,IntCount+1].HorizontalAlignment:=taCenter;
+    StrGrid.Cells[6,IntCount+1]:=MemoArr[IntCount][5];
+    StrGrid.Cells[7,IntCount+1]:=MemoArr[IntCount][6];
+
+    StrGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[1,IntCount+1].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[2,IntCount+1].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[5,IntCount+1].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[6,IntCount+1].HorizontalAlignment:=taCenter;
     //StrGrid.CellStyle[5,IntCount+1].HorizontalAlignment:=taCenter;
+
+    if MemoArr[IntCount][7]='Tidak Aktif' then
+    begin
+     for IntCount2:=0 to StrGrid.ColCount-1 do
+     StrGrid.CellStyle[IntCount2,IntCount+1].Font.Color:=clRed;
+    end;
+
   end;
 end;
 
@@ -156,6 +180,7 @@ procedure TMemoList.FormShow(Sender: TObject);
 begin
   Cari.Text:='';
   Init;
+  CekOtorisasi;
   LoadData;
   RefreshList;
 end;
@@ -171,6 +196,9 @@ begin
  { if (RightStr(IntToStr(TreeTag),2)='04') then MenuForm:=TMenuForm.Create(Self,StrGrid.Cells[0,IntRow],True)
   else if (RightStr(IntToStr(TreeTag),2)='03') then AskDelete(StrGrid.Cells[0,IntRow])
   else MenuForm:=TMenuForm.Create(Self,StrGrid.Cells[0,IntRow]);}
+  if StrGrid.Cells[1,IntRow]<>'' then begin
+    if Main.IsFormOpen('MemoForm')=False then MemoForm:=TMemoForm.Create(Self, StrGrid.Cells[1,IntRow],True);
+  end;
 end;
 
 procedure TMemoList.CariChange(Sender: TObject);
@@ -182,7 +210,7 @@ begin
     Count2:=2;
     for Count:=0 to Length(MemoArr)-1 do begin
       IsTrue:=False;
-      for Count3:=0 to 5 do
+      for Count3:=0 to 6 do
       if (StrPos(PChar(UpperCase(MemoArr[Count][Count3])),PChar(UpperCase(Cari.Text)))<>nil) then IsTrue:=True;
       if IsTrue then begin
           StrGrid.RowCount:=Count2;
@@ -192,6 +220,8 @@ begin
           StrGrid.Cells[3,Count2-1]:=MemoArr[Count][2];
           StrGrid.Cells[4,Count2-1]:=MemoArr[Count][3];
           StrGrid.Cells[5,Count2-1]:=MemoArr[Count][4];
+          StrGrid.Cells[6,Count2-1]:=MemoArr[Count][5];
+          StrGrid.Cells[7,Count2-1]:=MemoArr[Count][6];
          { for Count4:=0 to 5 do
           StrGrid.Cells[Count4,Count2-1]:=MemoArr[Count][Count4]; }
           Inc(Count2);
@@ -208,22 +238,22 @@ end;
 
 procedure TMemoList.previewClick(Sender: TObject);
 var
-  IntAID : Integer;
+  StrAID : String;
 begin
-  IntAID := StrToInt(StrGrid.Cells[5,IntRow]);
+  StrAID := StrGrid.Cells[1,IntRow];
   PreviewDocument:=TPreviewDocument.Create(Self);
-  PreviewDocument.LoadData(IntAID);
+  PreviewDocument.LoadData(StrAID);
 end;
 
 procedure TMemoList.EditClick(Sender: TObject);
 var
-  IntAID : Integer;
+  StrAID : String;
 begin
-  IntAID := StrToInt(StrGrid.Cells[5,IntRow]);
+  StrAID := StrGrid.Cells[1,IntRow];
  // MemoForm:=TMemoForm.Create(Self);
  // MemoForm.LoadData;
-  if StrGrid.Cells[2,IntRow]<>'' then begin
-    if Main.IsFormOpen('MemoForm')=False then MemoForm:=TMemoForm.Create(Self, StrGrid.Cells[5,IntRow]);
+  if StrGrid.Cells[1,IntRow]<>'' then begin
+    if Main.IsFormOpen('MemoForm')=False then MemoForm:=TMemoForm.Create(Self, StrGrid.Cells[1,IntRow]);
   end;
 end;
 
@@ -234,7 +264,7 @@ var Qry:TADOQuery;
    // IntAID : Integer;
 begin
   //IntAID := StrToInt(StrGrid.Cells[5,IntRow]);
-  if (Trim(StrGrid.Cells[5,IntRow])<>'') then begin
+  if (Trim(StrGrid.Cells[1,IntRow])<>'') then begin
     StrEMsg:='';
     IsOk:=True;
     Qry:=TADOQuery.Create(Self);
@@ -242,7 +272,7 @@ begin
     if MessageBox(0,PChar('Memo '+StrGrid.Cells[2,IntRow]+' Mau Dihapus ?') ,'Memo',MB_OKCANCEL or MB_ICONINFORMATION)=1 then begin
       if Main.OpenDb then begin
         Main.TransStart;
-        StrQry:='UPDATE wh_document SET status = 0 WHERE doc_id = '+Chr(39)+StrGrid.Cells[5,IntRow]+Chr(39)+';';
+        StrQry:='UPDATE wh_document SET status = 0 WHERE doc_id = '+Chr(39)+StrGrid.Cells[1,IntRow]+Chr(39)+';';
         Qry.SQL.Clear;
         Qry.SQL.Add(StrQry);
         try
@@ -270,6 +300,37 @@ begin
       RefreshList;
     end;
   end;
+end;
+
+procedure TMemoList.CekOtorisasi;
+var StrQry:String;
+    Qry:TADOQuery;
+begin
+  Qry:=TADOQuery.Create(Self);
+  Qry.Connection:=Main.MyConnection;
+  if Main.OpenDb then begin
+    StrQry:='select * from wh_user_auth_form '+
+            'where form_id= ''190519'' and user_id='+QuotedStr(User)+' and active=1';
+    Qry.SQL.Clear;
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    if Qry.RecordCount>0  then begin
+      delete.Visible := True;
+      Edit.Visible := True;
+    end else begin
+      delete.Visible := False;
+      Edit.Visible := False;
+    end;
+    Qry.Close;
+
+  end;
+  Qry.Destroy;
+  Main.CloseDb;
+end;
+
+procedure TMemoList.ToXCelClick(Sender: TObject);
+begin
+ if ToExcel4(StrGrid) then ShowMessage('Export ke Excel Berhasil');
 end;
 
 end.

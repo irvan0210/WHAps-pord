@@ -1,6 +1,6 @@
 object YearlySalesRecapRpt: TYearlySalesRecapRpt
-  Left = 226
-  Top = 114
+  Left = 216
+  Top = 289
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Laporan Penjualan Tahunan'

@@ -32,7 +32,7 @@ type
     OpenDialog1: TOpenDialog;
     Label30: TLabel;
     Label13: TLabel;
-    GroupBox1: TGroupBox;
+    GroupUpload: TGroupBox;
     Label10: TLabel;
     Label14: TLabel;
     EditFileName: TEdit;
@@ -107,6 +107,7 @@ begin
   DocTitle.Text:='';
   DocNumber.Text:='';
   StartDate.Date := Now;
+  EndDate.Date := Now;
   Description.Text:='';
   EditFileName.Text:='';
   EditFileExt.Text:='';
@@ -114,13 +115,15 @@ begin
 end;
 
 procedure TMemoForm.LoadData;
-var Qry:TADOQuery;
+var Qry, Qry2:TADOQuery;
     StrQry:String;
 begin
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
+  Qry2:=TADOQuery.Create(Self);
+  Qry2.Connection:=Main.MyConnection;
   if Main.OpenDb then begin
-    StrQry:='SELECT * FROM wh_document WHERE doc_id='+StrMemoId+';';
+    StrQry:='SELECT * FROM wh_document WHERE doc_id='+QuotedStr(StrMemoId)+';';
     Qry.SQL.Add(StrQry);
     Qry.Open;
     if Qry.RecordCount>0 then begin
@@ -131,6 +134,7 @@ begin
       if Qry.FieldValues['description']<> NULL then
         description.Text:=Qry.FieldValues['description'];
       StartDate.Date:=StrToDate(Qry.FieldValues['effective_date']);
+      EndDate.Date:=StrToDate(Qry.FieldValues['expired_date']);
       FileNameOnly :=Qry.FieldValues['file_name'];
       FileExt := Qry.FieldValues['file_ext'];
       EditFileName.Text := Qry.FieldValues['file_name'];
@@ -138,12 +142,23 @@ begin
       EditFileExt.Text := Qry.FieldValues['file_ext'];
       IsNewFileUploaded := False;
       if Qry.FieldValues['status']=1 then Active.Checked:=True else Active.Checked:=False;
-      CustomerID.Text := Qry.FieldValues['customer_id'];
+      if Qry.FieldValues['customer_id']<> '' then begin
+        //StrCustID:= Qry.FieldValues['customer_id'];
+        StrQry:='SELECT customer_id, name FROM wh_customer WHERE customer_id ='+QuotedStr(Qry.FieldValues['customer_id'])+';';
+        Qry2.SQL.Clear;
+        Qry2.SQL.Add(StrQry);
+        Qry2.Open;
+        if Qry2.RecordCount>0 then begin
+         CustomerID.Text := Qry2.FieldValues['customer_id'];
+         CustomerName.Text := Qry2.FieldValues['name'];
+        end;
+        Qry2.Close;
+      end;
+
     end;
     Qry.Close;
     Main.CloseDb;
-    RefreshMenu;
-
+   // RefreshMenu;
   end;
   Qry.Destroy;
 end;
@@ -186,6 +201,8 @@ end;
 procedure TMemoForm.Input(IsEnable:Boolean);
 begin
   GroupInput.Enabled:=IsEnable;
+  GroupUpload.Enabled := IsEnable;
+  Active.Enabled := IsEnable;
   Simpan.Visible:=IsEnable;
 end;
 
@@ -208,13 +225,13 @@ begin
   IsNewFileUploaded := False;
  // RefreshMenu;
   if StrMemoId<>'' then LoadData;
- // if IsView then Input(False)
-  //else Input(True);
+  if IsView then Input(False)
+  else Input(True);
 end;
 
 procedure TMemoForm.SimpanClick(Sender: TObject);
 var Qry:TADOQuery;
-    StrQry,StrMsg,StrException:String; //,StrMaxId
+    StrQry,StrQry2,StrMsg,StrException:String; //,StrMaxId
     IntCount, IntActive:Integer;  // ,
     IsOk:Boolean;
 begin
@@ -223,33 +240,65 @@ begin
     IsOk:=True;
     Qry:=TADOQuery.Create(Self);
     Qry.Connection:=Main.MyConnection;
+   // Qry2:=TADOQuery.Create(Self);
+   // Qry2.Connection:=Main.MyConnection;
     if Active.Checked then IntActive:=1 else IntActive:=0;
-
     if Main.OpenDb then begin
-      if StrMemoId<>'' then begin
-         StrQry := 'UPDATE wh_document SET '+
-          'doc_number = ' +QuotedStr(DocNumber.Text)+', '+
-          'doc_title = ' +QuotedStr(DocTitle.Text)+', '+
-          'effective_date = ' +QuotedStr(FormatDateTime('yyyy-mm-dd', StartDate.Date)) + ', ' +
-          'description = ' +QuotedStr(Description.Lines.Text)+', ' +
-          'file_ext = ' +QuotedStr(EditFileExt.Text) + ', ' +
-          'file_sizekb = '+IntToStr(FileByte.Size div 1024)+', '+
-          'file_name = '+QuotedStr(EditFileName.Text)+', '+
-          'file_data = :file_data, ' +
-          'update_date = GETDATE(), '+
-          'update_by = '+QuotedStr(User)+','+
-          'status ='+IntToStr(IntActive)+' '+
-          'customer_id ='+QuotedStr(CustomerID.Text)+' '+
-          'WHERE doc_id = '+QuotedStr(DocId.text)+';';
+     { if StrMemoId = '' then begin
+        StrQry2:='SELECT dbo.GetNewDocumentId('+CompanyId+') AS hasil;';
+        Qry2.SQL.Clear;
+        Qry2.SQL.Add(StrQry2);
+        Qry2.Open;
+        if Qry2.RecordCount>0 then StrMemoId :=Qry2.FieldValues['hasil'];
+      end; }
+
+
+      if DocId.Text<>'' then begin
+        if IsNewFileUploaded = True then begin
+          StrQry := 'UPDATE wh_document SET doc_number = '+QuotedStr(DocNumber.Text)+', '+
+              'doc_title = ' +QuotedStr(DocTitle.Text)+', '+
+              'effective_date = ' +QuotedStr(FormatDateTime('yyyy-mm-dd', StartDate.Date)) + ', ' +
+              'expired_date = ' +QuotedStr(FormatDateTime('yyyy-mm-dd', EndDate.Date)) + ', ' +
+              'description = ' +QuotedStr(Description.Lines.Text)+', ' +
+              'file_ext = ' +QuotedStr(EditFileExt.Text) + ', ' +
+              'file_sizekb = '+IntToStr(FileByte.Size div 1024)+', '+
+              'file_name = '+QuotedStr(EditFileName.Text)+', '+
+              'file_data = :file_data, ' +
+              'update_date = GETDATE(), '+
+              'update_by = '+QuotedStr(User)+','+
+              'status ='+IntToStr(IntActive)+','+
+              'customer_id ='+QuotedStr(CustomerID.Text)+', '+
+              'company_id ='+QuotedStr(CompanyId)+' '+
+              'WHERE doc_id = '+QuotedStr(DocId.text)+';';
+        end else begin
+           StrQry := 'UPDATE wh_document SET doc_number = '+QuotedStr(DocNumber.Text)+', '+
+              'doc_title = ' +QuotedStr(DocTitle.Text)+', '+
+              'effective_date = ' +QuotedStr(FormatDateTime('yyyy-mm-dd', StartDate.Date)) + ', ' +
+              'expired_date = ' +QuotedStr(FormatDateTime('yyyy-mm-dd', EndDate.Date)) + ', ' +
+              'description = ' +QuotedStr(Description.Lines.Text)+', ' +
+             // 'file_ext = ' +QuotedStr(EditFileExt.Text) + ', ' +
+             // 'file_sizekb = '+QuotedStr(EditFileSize.Text)+', '+
+             // 'file_sizekb = '+IntToStr(FileByte.Size div 1024)+', '+
+             // 'file_name = '+QuotedStr(EditFileName.Text)+', '+
+             // 'file_data = :file_data, ' +
+              'update_date = GETDATE(), '+
+              'update_by = '+QuotedStr(User)+','+
+              'status ='+IntToStr(IntActive)+','+
+              'customer_id ='+QuotedStr(CustomerID.Text)+', '+
+              'company_id ='+QuotedStr(CompanyId)+' '+
+              'WHERE doc_id = '+QuotedStr(DocId.text)+';';
+        end;
+
       end else begin
         StrQry := 'INSERT INTO wh_document '+
-          '(doc_number, doc_title, doc_type, effective_date, description,file_ext,file_sizekb,'+
-          ' file_name, file_data, create_date, create_by,update_date,update_by, status, customer_id) '+
-          'VALUES (' +
+          '(doc_id,doc_number, doc_title, doc_type, effective_date,expired_date, description,file_ext,file_sizekb,'+
+          ' file_name, file_data, create_date, create_by,update_date,update_by, status, customer_id, company_id) '+
+          'VALUES ((SELECT dbo.GetNewDocumentId('+CompanyId+') AS hasil), '+ //+QuotedStr(StrMemoId)+', '+
           QuotedStr(DocNumber.Text)+', '+
           QuotedStr(DocTitle.Text)+', '+
           QuotedStr('MEMO')+', '+
           QuotedStr(FormatDateTime('yyyy-mm-dd', StartDate.Date))+ ', ' +
+          QuotedStr(FormatDateTime('yyyy-mm-dd', EndDate.Date))+ ', ' +
           QuotedStr(Description.Lines.Text)+ ', '+
           QuotedStr(EditFileExt.Text) + ', '+  //FileExt
           IntToStr(FileByte.Size div 1024)+ ', ' +
@@ -257,11 +306,14 @@ begin
           ':file_data, ' +                 // ? parameter untuk BLOB
           'GETDATE(), ' +QuotedStr(User)+
           ',GETDATE(),'+QuotedStr(User)+','+IntToStr(IntActive)+
-          ', '+QuotedStr(DocId.text)+')';
+          ', '+QuotedStr(CustomerID.Text)+', '+CompanyId+')';
       end;
       Qry.SQL.Clear;
       Qry.SQL.Add(StrQry);
-      Qry.Parameters.ParamByName('file_data').LoadFromStream(FileByte, ftBlob);
+      if IsNewFileUploaded = True then begin
+        Qry.Parameters.ParamByName('file_data').LoadFromStream(FileByte, ftBlob);
+      end;
+
       try
         Qry.ExecSQL;
       except
@@ -338,6 +390,7 @@ begin
       FileStream.Free;
       MessageBox(0,'File berhasil di-upload!','Memo',MB_OK or MB_ICONINFORMATION);
      // ShowMessage('File berhasil di-upload!');
+     IsNewFileUploaded := True;
     end;
   finally
     OpenDlg.Free;
@@ -369,7 +422,7 @@ var
 begin
   if DocId.Text <> '' then begin
     PreviewDocument:=TPreviewDocument.Create(Self);
-    PreviewDocument.LoadData(StrToInt(DocId.Text));
+    PreviewDocument.LoadData(DocId.Text);
   end else begin
        // Jika file belum di-upload
     if FileByte = nil then

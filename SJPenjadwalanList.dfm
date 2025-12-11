@@ -1,5 +1,5 @@
 object FSJPenjadwalanList: TFSJPenjadwalanList
-  Left = 209
+  Left = 51
   Top = 145
   BorderIcons = []
   BorderStyle = bsSingle
