@@ -11,7 +11,7 @@ uses
   uNativeXLSExport in 'uNativeXLSExport.pas' { Export to Excel },
   LoginU in 'LoginU.pas' {Login},
   ChangePassU in 'ChangePassU.pas' {ChangePass},
-  SettingU in 'SettingU.pas' {Setting},
+  SettingKoneksiU in '..\Whaps dev\SettingKoneksiU.pas' {SettingKoneksi},
   PrintSettingU in 'PrintSettingU.pas' {PrintSetting},
   LocationChangeU in 'LocationChangeU.pas' {LocationChange},
   AddUserU in 'AddUserU.pas' {AddUser},
@@ -354,7 +354,8 @@ uses
   MemoListU in 'MemoListU.pas' {MemoList},
   MemoFormU in 'MemoFormU.pas' {MemoForm},
   PreviewDocumentU in 'PreviewDocumentU.pas' {PreviewDocument},
-  CustomerListMiniU in 'CustomerListMiniU.pas' {CustomerListMini};
+  CustomerListMiniU in 'CustomerListMiniU.pas' {CustomerListMini},
+  KoneksiDatabaseU in 'KoneksiDatabaseU.pas' {KoneksiDatabase};
 
 {$R *.res}
 
@@ -365,7 +366,7 @@ begin
     Application.Initialize;
     Application.Title := 'White Horse Group Application';
     Application.CreateForm(TMain, Main);
-    Application.Run;
+  Application.Run;
   end;
 end.
 

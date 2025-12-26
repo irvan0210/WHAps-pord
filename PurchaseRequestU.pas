@@ -237,6 +237,12 @@ type
     ppLine22: TppLine;
     Label14: TLabel;
     Rev: TEdit;
+    CariVendor: TSpeedButton;
+    VendorID: TEdit;
+    TambahBarang: TButton;
+    CariBudget: TSpeedButton;
+    BudgetCoa: TEdit;
+    BudgetId: TEdit;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -264,6 +270,11 @@ type
     procedure SBUKeyPress(Sender: TObject; var Key: Char);
     procedure SBUChange(Sender: TObject);
     procedure CariClick(Sender: TObject);
+    procedure CariVendorClick(Sender: TObject);
+    procedure TambahBarangClick(Sender: TObject);
+    procedure CariBudgetClick(Sender: TObject);
+    procedure StrGridKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
     procedure Init;
@@ -278,6 +289,7 @@ type
     procedure EnableInput;
     procedure PreparePrint;
     procedure SetPoint(PointValue:Integer);
+       // procedure DeleteRow(Grid: TZColorStringGrid; ARow: Integer);
   public
     { Public declarations }
     procedure SetPBJNo(Str:String);
@@ -295,7 +307,8 @@ var
 
 implementation
 
-uses MainU, PurchaseRequestListU, RePrintFormU, ItemServiceRequestListU;
+uses MainU, PurchaseRequestListU, RePrintFormU, ItemServiceRequestListU,
+  VendorListU, BrowsePartU, BudgetViewU, ListPartsU;
 
 {$R *.dfm}
 
@@ -634,9 +647,12 @@ begin
       StrGrid.CellStyle[3,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
       StrGrid.CellStyle[4,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
     end;
+    StrGrid.CellStyle[2,StrGrid.RowCount-1].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[3,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[4,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
     StrGrid.Col:=0;
     StrGrid.Row:=StrGrid.Row+1;
-    StrGrid.Col:=1;
+    //StrGrid.Col:=1;
   end;
   if (Key=#27) then begin
     PriceUnitExit(nil);
@@ -714,8 +730,8 @@ var Qry:TADOQuery;
     IntCount:Integer;
     IsOk:Boolean;
 begin
-  if (Trim(Budget.Text)<>'') AND  (StrBudgetId<>'') AND (SToInt(BudgetSisa.Text)-SToInt(Total.Text)>=0)
-  and (Trim(Total.Text)<>'') and (Trim(Total.Text)<>'0')  then begin
+  if (BudgetId.Text<>'') AND (Trim(BudgetCoa.Text)<>'') AND(SToInt(BudgetSisa.Text)-SToInt(Total.Text)>=0)
+  and (Trim(Total.Text)<>'') and (Trim(Total.Text)<>'0')  then begin //(StrBudgetId<>'') AND //(Trim(Budget.Text)<>'') AND
     Qry:=TADOQuery.Create(Self);
     Qry.Connection:=Main.MyConnection;
     Main.M_Busy;
@@ -749,14 +765,15 @@ begin
         StrTransId:='PRQ'+CompanyCode+LocationCode+DepartmentCode+
                     FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
                     FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+StrTransId;
+        StrBudgetId := BudgetId.Text;
         StrQry:='INSERT INTO wh_purchase_request (purchase_request_id,item_request_id,budget_id,company_id,location_id'+
                 ',department_id,requester_id,request_date,vendor_name,attn,referensi'+
-                ',tax,description,update_user) VALUES '+
+                ',tax,description,update_user, vendor_id) VALUES '+
                 '('+QuotedStr(StrTransId)+','+StrPBJNo+','+QuotedStr(StrBudgetId)+','+QuotedStr(StrCompanyId)+','+QuotedStr(StrLocationId)+
                 ','+QuotedStr(DepartmentId)+',dbo.GetUserId('+QuotedStr(RequestedBy.Text)+'),GETDATE(),'+
                 QuotedStr(Trim(VendorName.Text))+','+QuotedStr(Trim(Attn.Text))+
                 ','+QuotedStr(Trim(Referensi.Text))+','+ToString(Tax.Text)+
-                ','+StrRemark+','+QuotedStr(User)+');';
+                ','+StrRemark+','+QuotedStr(User)+','+QuotedStr(VendorID.Text)+');';
         StrQry:=StrQry+'INSERT INTO wh_budget_detail (budget_id,form_name,form_id,value,update_user) VALUES ('+
                        QuotedStr(Trim(StrBudgetId))+','+QuotedStr('wh_purchase_request')+','+QuotedStr(StrTransId)+
                        ','+IntToStr(0-SToInt(ToString(Total.Text)))+
@@ -770,6 +787,7 @@ begin
                 ',attn='+QuotedStr(Trim(Attn.Text))+',referensi='+QuotedStr(Trim(Referensi.Text))+
                 ',tax='+ToString(Tax.Text)+',description='+StrRemark+
                 ',update_time=GETDATE(),update_user='+QuotedStr(User)+',cancel='+StrCancel+',rev='+Rev.Text+ 
+                ',vendor_id='+QuotedStr(VendorID.Text)+
                 ' WHERE purchase_request_id='+QuotedStr(StrTransId)+';';
         if Batal.Checked=False then begin
           StrQry:=StrQry+' UPDATE wh_budget_detail SET value=0,update_time=GETDATE(),update_user='+QuotedStr(User)+
@@ -857,8 +875,8 @@ begin
   IsInputGrid:=False;
   Remark.Enabled:=False;
   Simpan.Enabled:=False;
+  TambahBarang.Enabled:=False;
 end;
-
 procedure TPurchaseRequest.EnableInput;
 begin
   SBU.Enabled:=True;
@@ -872,6 +890,7 @@ begin
   GroupFooter.Enabled:=True;
   Remark.Enabled:=True;
   Simpan.Enabled:=True;
+  TambahBarang.Enabled:=True;
 end;
 
 procedure TPurchaseRequest.SetPBJNo(Str:String);
@@ -930,14 +949,21 @@ begin
     Qry.Open;
     SetLength(BudgetArr,Qry.RecordCount);
     if Qry.RecordCount>0 then while not(Qry.Eof) do begin
+      //Qry.FieldValues['name']
       Tanggal.Text:=Qry.FieldValues['request_dates'];
       PRNo.Text:=PurchaseRequestId;
       SBU.ItemIndex:=SBU.Items.IndexOf(Qry.FieldValues['company_name']+' ('+Qry.FieldValues['location']+')');
       StrBudget:=Qry.FieldValues['coa_id'];
       StrBudgetId:=Qry.FieldValues['budget_id'];
+      BudgetId.Text := Qry.FieldValues['budget_id'];
+      BudgetCoa.Text := Qry.FieldValues['coa_id'];
+      BudgetDisp.Text := Qry.FieldValues['name'];
+      if Qry.FieldValues['vendor_id'] <> Null then VendorID.Text := Qry.FieldValues['vendor_id']
+      else VendorID.Text :='';
       VendorName.Text:=Qry.FieldValues['vendor_name'];
       Attn.Text:=Qry.FieldValues['attn'];
       Referensi.Text:=Qry.FieldValues['referensi'];
+      Remark.Text := Qry.FieldValues['description'];
 //      PaymentTerm.ItemIndex:=Qry.FieldValues['payment_term_id']-1;
       RequestedBy.Text:=Qry.FieldValues['user_name'];
       if Qry.FieldValues['tax']>0 then TaxCheck.Checked:=True else TaxCheck.Checked:=False;
@@ -993,8 +1019,8 @@ begin
   end;
   Qry.Destroy;
   Main.CloseDb;
-  RefreshBudget;
-  Budget.ItemIndex:=Budget.Items.IndexOf(StrBudget);
+ // RefreshBudget;
+ // Budget.ItemIndex:=Budget.Items.IndexOf(StrBudget);
   BudgetTotal.Text:=StrBudgetTotal;
   BudgetTerpakai.Text:=StrBudgetTerpakai;
   BudgetSisa.Text:=IToCurr(SToInt(StrBudgetTotal)-SToInt(StrBudgetTerpakai));
@@ -1170,8 +1196,9 @@ end;
 
 procedure TPurchaseRequest.CetakUlangClick(Sender: TObject);
 begin
-  if Main.IsFormOpen('PurchaseRequestList')=False then PurchaseRequestList:=TPurchaseRequestList.Create(Self,'PurchaseRequest','Reprint')
-  else MessageBox(0,PChar('Silahkan Tutup Jendela List Purchase Request dahulu'),'Purchase Request',MB_OK or MB_ICONERROR);
+  Reprint(PRNo.Text);
+//  if Main.IsFormOpen('PurchaseRequestList')=False then PurchaseRequestList:=TPurchaseRequestList.Create(Self,'PurchaseRequest','Reprint')
+ // else MessageBox(0,PChar('Silahkan Tutup Jendela List Purchase Request dahulu'),'Purchase Request',MB_OK or MB_ICONERROR);
 end;
 
 procedure TPurchaseRequest.QReportBeforePrint(Sender: TCustomQuickRep;
@@ -1193,17 +1220,79 @@ end;
 
 procedure TPurchaseRequest.SBUKeyPress(Sender: TObject; var Key: Char);
 begin
-  if Key=#13 then Budget.SetFocus;
+  //if Key=#13 then Budget.SetFocus;
+  //CariBudget.sFocus;
 end;
 
 procedure TPurchaseRequest.SBUChange(Sender: TObject);
 begin
-  RefreshBudget;
+ // RefreshBudget;
 end;
 
 procedure TPurchaseRequest.CariClick(Sender: TObject);
 begin
   ItemServiceRequestList:=TItemServiceRequestList.Create(Self,'PurchaseRequest','',DepartmentId);
 end;
+
+procedure TPurchaseRequest.CariVendorClick(Sender: TObject);
+begin
+ VendorList:=TVendorList.Create(Self,'PR Create',True);
+end;
+
+procedure TPurchaseRequest.TambahBarangClick(Sender: TObject);
+begin
+  {if Main.IsFormOpen('BrowsePartU')=False then
+  begin
+    //BrowsePartVehicleId:=VehicleId;
+    BrowsePart:=TBrowsePart.Create(Self,'PURCHESREQUSEST');
+  end;}
+
+   if Main.IsFormOpen('ListPartsU')=False then
+  begin
+    //BrowsePartVehicleId:=VehicleId;
+    ListParts:=TListParts.Create(Self,'PURCHESREQUSEST');
+  end;
+end;
+
+procedure TPurchaseRequest.CariBudgetClick(Sender: TObject);
+begin
+   if Main.IsFormOpen('BudgetViewtU')=False then
+  begin
+    BudgetView:=TBudgetView.Create(Self,'PURCHESREQUSEST');
+  end;
+ // CariVendor.SetFocus;
+end;
+
+procedure DeleteRow(Grid: TZColorStringGrid; ARow: Integer);
+var
+  i: Integer;
+begin
+  for i := ARow to Grid.RowCount - 2 do
+    Grid.Rows[i].Assign(Grid.Rows[i + 1]);
+  Grid.RowCount := Grid.RowCount - 1;
+end;
+
+
+procedure TPurchaseRequest.StrGridKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+   var
+  IntCount,i:Integer;
+  StrNamaPart : string;
+begin
+  StrNamaPart := StrGrid.Cells[0,IntRow];
+  if IntRow>0 then begin
+    if Key=VK_DELETE then begin
+      if MessageBox(Handle,PChar('Mau Menghapus '+QuotedStr(StrNamaPart)+' ?'),'Item Dipilih',MB_OKCANCEL or MB_ICONQUESTION or MB_SYSTEMMODAL or MB_SETFOREGROUND)=1 then begin
+       // for IntCount:=0 to StrGridTemp.ColCount-1  do
+         // StrGridTemp.Cells[IntCount,IntRowTemp]:= '';
+       DeleteRow(StrGrid,IntRow);
+
+      // TotalTemp.Text:= IntToStr(StrGrid.RowCount-1);
+       MessageBox(0,PChar('Item berhasil dihapus.'),'Item Dipilih',MB_OK or MB_ICONINFORMATION);
+      end;
+    end;
+  end;
+end;
+
 
 end.

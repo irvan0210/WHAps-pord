@@ -1,6 +1,6 @@
 object Login: TLogin
-  Left = 645
-  Top = 250
+  Left = 574
+  Top = 254
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Login'

@@ -168,6 +168,8 @@ type
     Label3: TLabel;
     Label10: TLabel;
     Rev: TEdit;
+    VendorID_Disp: TEdit;
+    CariVendor: TSpeedButton;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure CariClick(Sender: TObject);
@@ -200,6 +202,8 @@ type
     procedure PaymentTermKeyPress(Sender: TObject; var Key: Char);
     procedure RemarkKeyPress(Sender: TObject; var Key: Char);
     procedure CetakUlangClick(Sender: TObject);
+    procedure CariVendorClick(Sender: TObject);
+    procedure VendorID_DispChange(Sender: TObject);
   private
     { Private declarations }
     PurchaseOrderId,VendorId:String;
@@ -233,7 +237,8 @@ var
 implementation
 
 uses PurchaseOrderPickListU, PurchaseRequestListU, MainU, PartSelectFormU,
-  DateUtils, StrUtils, RePrintFormU, PurchaseOrderListU;
+  DateUtils, StrUtils, RePrintFormU, PurchaseOrderListU, VendorListU, 
+  PartSelectFormGridU;
 
 {$R *.dfm}
 
@@ -576,7 +581,9 @@ begin
       PONo.Text:=PurchaseOrderId;
       PRNo.Text:=Qry.FieldValues['purchase_request_id'];
       Vendor.ItemIndex:=Vendor.Items.IndexOf(Qry.FieldValues['vendor_id']);
+      PaymentTerm.ItemIndex:=PaymentTerm.Items.IndexOf(Qry.FieldValues['payment_term_name']);
       VendorId:=Qry.FieldValues['vendor_id'];
+      VendorID_Disp.Text:=Qry.FieldValues['vendor_id'];
       VendorDisp.Text:=Qry.FieldValues['vendor_name'];
       Lokasi.ItemIndex:=Lokasi.Items.IndexOf(Qry.FieldValues['delivery_company_name']+' ('+Qry.FieldValues['delivery_location']+')');
       RequestedBy.Text:=Qry.FieldValues['user_name'];
@@ -833,9 +840,10 @@ begin
       R.Right := R.Right + StrGrid.Left;
       R.Top := R.Top + StrGrid.Top;
       R.Bottom := R.Bottom + StrGrid.Top;
-      PartSelectForm:=TPartSelectForm.Create(Self,StrGrid.Cells[ACol,ARow],'PurchaseOrder');
-      PartSelectForm.Left:=R.Left+Left+5;
-      PartSelectForm.Top:=R.Top+Top+20;
+      //PartSelectForm:=TPartSelectForm.Create(Self,StrGrid.Cells[ACol,ARow],'PurchaseOrder');
+      //PartSelectForm.Left:=R.Left+Left+5;
+      //PartSelectForm.Top:=R.Top+Top+20;
+       PartSelectFormGrid:=TPartSelectFormGrid.Create(Self,StrGrid.Cells[ACol,ARow],'PurchaseOrder');
     end;
     if (ACol = 2) and (ARow > MinRowGrid) then begin
       R := StrGrid.CellRect(ACol, ARow);
@@ -878,6 +886,7 @@ procedure TPurchaseOrder.GridCell(Str:String);
 var IntCount:Integer;
 begin
   RefreshPart;
+ // MessageBox(0,PChar(Str),'Kiriman',MB_OK or MB_ICONERROR);
   for IntCount:=0 to Length(PartDetailArr)-1 do
     if Str=PartDetailArr[IntCount][0] then begin
       StrGrid.Cells[1,IntRow]:=PartDetailArr[IntCount][1];
@@ -1053,6 +1062,7 @@ begin
     StrGrid.Cells[6,IntCount-1]:=StrGridPR.Cells[5,IntUpRow];
     StrGrid.Cells[7,IntCount-1]:=ToString(StrGridPR.Cells[2,IntUpRow]);
     StrGrid.Cells[8,IntCount-1]:=ToString(StrGridPR.Cells[3,IntUpRow]);
+
     StrGrid.CellStyle[2,IntCount-1].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[4,IntCount-1].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[5,IntCount-1].HorizontalAlignment:=taRightJustify;
@@ -1112,7 +1122,7 @@ var Qry:TADOQuery;
     IntCount,IntCount2:Integer;
     IsOk,IsComplete:Boolean;
 begin
-  if (Trim(PRNo.Text)<>'') AND (Trim(Vendor.Text)<>'') AND (Trim(Lokasi.Text)<>'') and (Trim(PaymentTerm.Text)<>'')then begin
+  if (Trim(PRNo.Text)<>'') AND (Trim(VendorID_Disp.Text)<>'') AND (Trim(Lokasi.Text)<>'') and (Trim(PaymentTerm.Text)<>'')then begin
     Qry:=TADOQuery.Create(Self);
     Qry.Connection:=Main.MyConnection;
     Main.M_Busy;
@@ -1126,7 +1136,7 @@ begin
       StrLocationId:=LocationArr[Lokasi.ItemIndex][0];
 //      for IntCount:=0 to Length(VendorArr)-1 do
 //        if Vendor.Text=VendorArr[IntCount][1] then StrVendorId:=VendorArr[IntCount][0];
-      StrVendorId:=Vendor.Text;
+      StrVendorId:= VendorID_Disp.Text; //Vendor.Text;
       StrCompanyCode:=SBUCode.Text;
       StrPaymentId:=PaymentTermArr[PaymentTerm.ItemIndex][0];
       if Remark.Text<>'' then StrRemark:=QuotedStr(Trim(Remark.Text)) else StrRemark:='NULL';
@@ -1308,10 +1318,26 @@ end;
 
 procedure TPurchaseOrder.CetakUlangClick(Sender: TObject);
 begin
-  if Main.IsFormOpen('PurchaseOrderList')=False then PurchaseOrderList:=TPurchaseOrderList.Create(Self,'PurchaseOrder','Reprint',1)
-  else MessageBox(0,PChar('Silahkan Tutup Jendela List Purchase Order dahulu'),'Purchase Order',MB_OK or MB_ICONERROR);
+  Reprint(PONo.Text);
+//  if Main.IsFormOpen('PurchaseOrderList')=False then PurchaseOrderList:=TPurchaseOrderList.Create(Self,'PurchaseOrder','Reprint',1)
+//  else MessageBox(0,PChar('Silahkan Tutup Jendela List Purchase Order dahulu'),'Purchase Order',MB_OK or MB_ICONERROR);
 //  PreparePrint;
 //  Reprint('');
+end;
+
+procedure TPurchaseOrder.CariVendorClick(Sender: TObject);
+begin
+  VendorList:=TVendorList.Create(Self,'PO Create',True);
+end;
+
+procedure TPurchaseOrder.VendorID_DispChange(Sender: TObject);
+begin
+  if Trim(VendorID_Disp.Text)<>'' then begin
+   // PaymentTerm.ItemIndex:=PaymentTerm.Items.IndexOf(VendorArr[Vendor.ItemIndex][2])
+   { VendorDisp.Text:=VendorArr[Vendor.ItemIndex][1];
+    if VendorArr[Vendor.ItemIndex][2]<>'' then PaymentTerm.ItemIndex:=PaymentTerm.Items.IndexOf(VendorArr[Vendor.ItemIndex][2])
+    else PaymentTerm.ItemIndex:=-1;  }
+  end;
 end;
 
 end.

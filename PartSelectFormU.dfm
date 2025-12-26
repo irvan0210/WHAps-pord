@@ -1,11 +1,11 @@
 object PartSelectForm: TPartSelectForm
-  Left = 688
-  Top = 391
+  Left = 429
+  Top = 163
   BorderIcons = []
   BorderStyle = bsDialog
   Caption = 'PartSelectForm'
-  ClientHeight = 69
-  ClientWidth = 370
+  ClientHeight = 73
+  ClientWidth = 371
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

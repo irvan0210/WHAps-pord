@@ -1,6 +1,6 @@
 object PartDetailList: TPartDetailList
-  Left = 451
-  Top = 52
+  Left = 323
+  Top = 296
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Part Detail List'

@@ -1,6 +1,6 @@
 object BrowsePart: TBrowsePart
-  Left = 381
-  Top = 155
+  Left = 406
+  Top = 157
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'List Parts'

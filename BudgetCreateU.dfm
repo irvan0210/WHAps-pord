@@ -1,6 +1,6 @@
 object BudgetCreate: TBudgetCreate
-  Left = 354
-  Top = 83
+  Left = 201
+  Top = 292
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Pembuatan Budget'

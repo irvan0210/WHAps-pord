@@ -50,7 +50,7 @@ var
 
 implementation
 
-uses MainU, ADODB, VendorFormU, StrUtils;
+uses MainU, ADODB, VendorFormU, StrUtils, PurchaseRequestU, PurchaseOrderU;
 
 {$R *.dfm}
 
@@ -234,6 +234,14 @@ begin
   if StrGrid.Cells[0,IntRow]<>'' then begin
     if UpperCase(FormRequest)='VENDOR FORM' then begin
       VendorForm.SetVendorId(StrGrid.Cells[0,IntRow]);
+      Close;
+    end else if UpperCase(FormRequest)='PR CREATE' then begin
+      PurchaseRequest.VendorID.Text :=(StrGrid.Cells[0,IntRow]);
+      PurchaseRequest.VendorName.Text := (StrGrid.Cells[1,IntRow]);
+      Close;
+    end else if UpperCase(FormRequest)='PO CREATE' then begin
+      PurchaseOrder.VendorID_Disp.Text :=(StrGrid.Cells[0,IntRow]);
+      PurchaseOrder.VendorDisp.Text := (StrGrid.Cells[1,IntRow]);
       Close;
     end else begin
       if (RightStr(IntToStr(TreeTag),2)='02') then VendorForm:=TVendorForm.Create(Self,StrGrid.Cells[0,IntRow],False)

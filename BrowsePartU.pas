@@ -46,7 +46,7 @@ var
 implementation
 
 uses MainU, ServiceRequestFormU, PartU, RekapHistoryArmadaPergantianPartU, 
-  RekapPergantianPartperArmadaU;
+  RekapPergantianPartperArmadaU, PurchaseRequestU;
 
 {$R *.dfm}
 constructor TBrowsePart.Create(AOwner:TComponent;Form_Request:String='');
@@ -273,6 +273,44 @@ begin
     RekapPergantianPartperArmada.StrGrid.Cells[10,RekapPergantianPartperArmada.StrGrid.RowCount-1]:=kode_part_gp;
     RekapPergantianPartperArmada.StrGrid.CellStyle[0,RekapPergantianPartperArmada.StrGrid.RowCount-1].HorizontalAlignment:=taCenter;
     RekapPergantianPartperArmada.StrGrid.RowCount:=RekapPergantianPartperArmada.StrGrid.RowCount+1;
+
+  end else if FormRequest='PURCHESREQUSEST' then
+  begin
+    if Trim(part)<>'' then
+      begin
+        for IntCount:=2 to PurchaseRequest.StrGrid.RowCount do begin
+          if Trim(part)=PurchaseRequest.StrGrid.Cells[1,IntCount-1] then
+          begin
+            MessageBox(0,PChar('Item sudah dipilih'),'List Item',MB_OK or MB_ICONWARNING);
+            Exit;
+          end;
+        end;
+      end;
+
+   { PurchaseRequest.StrGrid.Cells[0,PurchaseRequest.StrGrid.RowCount-1]:=IntToStr(RekapPergantianPartperArmada.StrGrid.RowCount-1);
+    PurchaseRequest.StrGrid.Cells[1,PurchaseRequest.StrGrid.RowCount-1]:=part;
+    PurchaseRequest.StrGrid.Cells[2,PurchaseRequest.StrGrid.RowCount-1]:=part;
+    PurchaseRequest.StrGrid.Cells[3,PurchaseRequest.StrGrid.RowCount-1]:=kode_part_gp;
+   // PurchaseRequest.StrGrid.CellStyle[0,PurchaseRequest.StrGrid.RowCount-1].HorizontalAlignment:=taCenter;
+    PurchaseRequest.StrGrid.CellStyle[0,PurchaseRequest.StrGrid.RowCount-1].HorizontalAlignment:=taCenter;
+    PurchaseRequest.StrGrid.CellStyle[1,PurchaseRequest.StrGrid.RowCount-1].HorizontalAlignment:=taLeftJustify;
+    PurchaseRequest.StrGrid.RowCount:=PurchaseRequest.StrGrid.RowCount+1;}
+    IntRowCount:=PurchaseRequest.StrGrid.RowCount;
+    PurchaseRequest.StrGrid.RowCount:=IntRowCount;
+    with PurchaseRequest do begin
+      rowcount2:=StrGrid.RowCount;
+      StrGrid.Cells[0,StrGrid.RowCount-1]:=IntToStr(StrGrid.RowCount-1);
+      StrGrid.Cells[1,StrGrid.RowCount-1]:=part;
+      StrGrid.Cells[2,StrGrid.RowCount-1]:='1';
+      StrGrid.Cells[5,StrGrid.RowCount-1]:=kode_part_gp;
+      StrGrid.CellStyle[0,StrGrid.RowCount-1].HorizontalAlignment:=taCenter;
+      StrGrid.CellStyle[1,StrGrid.RowCount-1].HorizontalAlignment:=taLeftJustify;
+      StrGrid.CellStyle[2,StrGrid.RowCount-1].HorizontalAlignment:=taCenter;
+      //ItemDetailExit(nil);
+      StrGrid.Col:=3;
+      StrGrid.RowCount := StrGrid.RowCount+1
+    end;
+    Close;
   end;
 end;
 

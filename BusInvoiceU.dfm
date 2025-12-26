@@ -1,6 +1,6 @@
 object BusInvoice: TBusInvoice
-  Left = 186
-  Top = 48
+  Left = 189
+  Top = 210
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Invoice'
@@ -709,7 +709,7 @@ object BusInvoice: TBusInvoice
     PrinterSetup.mmMarginTop = 6350
     PrinterSetup.mmPaperHeight = 139700
     PrinterSetup.mmPaperWidth = 210079
-    PrinterSetup.PaperSize = 134
+    PrinterSetup.PaperSize = 256
     Template.FileName = 'D:\WHAPS\CetakInovicePPHdiketerangan.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
@@ -1425,7 +1425,7 @@ object BusInvoice: TBusInvoice
     PrinterSetup.mmMarginTop = 6350
     PrinterSetup.mmPaperHeight = 304801
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 40
+    PrinterSetup.PaperSize = 256
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
     OutlineSettings.CreateNode = True
@@ -2025,7 +2025,7 @@ object BusInvoice: TBusInvoice
     PrinterSetup.mmMarginTop = 6350
     PrinterSetup.mmPaperHeight = 140208
     PrinterSetup.mmPaperWidth = 210079
-    PrinterSetup.PaperSize = 134
+    PrinterSetup.PaperSize = 256
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
     OutlineSettings.CreateNode = True

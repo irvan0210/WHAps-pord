@@ -244,7 +244,7 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   RekapPergantianPartperArmadaV2U, KmActualUnitRptU,
   TroubleshootingRequestFormU, TroubleshootingRequestFormListU,
   EmployeeContractListU, ChartU, RubahInvoiceFormU, PlannedServiceReportU,
-  MemoListU;
+  MemoListU, SettingKoneksiU, KoneksiDatabaseU;
 
 
 constructor TClockThread.Create;
@@ -279,6 +279,7 @@ begin
   RegisterHotKey(Handle,8,MOD_ALT,Ord('U'));
   RegisterHotKey(Handle,9,MOD_ALT,VK_F2);
   RegisterHotKey(Handle,10,MOD_ALT,Ord('C'));
+  RegisterHotKey(Handle,11,MOD_ALT,VK_F12);
 end;
 
 procedure TMain.DeInitShortKey;
@@ -310,6 +311,7 @@ begin
       7:Apps:=TApps.Create(nil);
       8:TanyaUpdate;
       10:if IsFormOpen('SettingChat')=False then SettingChat:=TSettingChat.Create(Self);
+      11:if IsFormOpen('KoneksiDatabase')=False then KoneksiDatabase:=TKoneksiDatabase.Create(Self);
     end;
   end;
 end;
@@ -1294,6 +1296,26 @@ begin
             if IsFormOpen('RubahInvoiceForm')=False then RubahInvoiceForm:=TRubahInvoiceForm.Create(Self);
          end;
         end;
+
+         {160801..160804 Inventory - Purchasing Request}
+        141801..141803:begin
+          if Tag=141801 then begin
+            if IsFormOpen('PurchaseRequest')=False then PurchaseRequest:=TPurchaseRequest.Create(Self);
+          //end else if Tag=141802 then begin
+         //   if IsFormOpen('PurchaseRequestList')=False then PurchaseRequestList:=TPurchaseRequestList.Create(Self);
+          end else begin
+            if IsFormOpen('PurchaseRequestList')=False then PurchaseRequestList:=TPurchaseRequestList.Create(Self);
+          end;
+        end;
+        {160801..160804 Inventory - Purchasing Order}
+        141901..141903:begin
+          if Tag=141901 then begin
+            if IsFormOpen('PurchaseOrder')=False then PurchaseOrder:=TPurchaseOrder.Create(Self);
+          end else begin
+            if IsFormOpen('PurchaseOrderList')=False then PurchaseOrderList:=TPurchaseOrderList.Create(Self);
+          end;
+        end;
+
         {150101..150104 Bengkel Eksternal}
         150101..150104:begin
          if Tag=150101 then begin

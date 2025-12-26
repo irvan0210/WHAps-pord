@@ -164,12 +164,17 @@ type
   function Max(a, b: Double): Double;
   procedure LoadAnyImageToBitmap(const FileName: string; Bitmap: TBitmap);
   procedure CompressAndSaveImage(const SrcFile, DestFile: string; MaxWidth, MaxHeight, Quality: Integer);
+
+  //16-12-2025
+  function SafeTempDir: string;
+  function SafeFileName(const S: string): string;
+
   
 
 implementation
 
 Uses MainU, ShellApi,uNativeXLSExport,zEXMLss,zEXMLssUtils,zsspXML , Math,
-  Types;
+  Types, Forms;
 
 const
 c1 = 52845;
@@ -1804,6 +1809,37 @@ begin
     JPEGImage.Free;
   end;
 end;
+
+function SafeTempDir: string;
+begin
+  Result := GetEnvironmentVariable('TEMP');
+  if Result = '' then
+    Result := GetEnvironmentVariable('TMP');
+
+  if Result = '' then
+    Result := ExtractFilePath(Application.ExeName) + 'temp';
+
+  if not DirectoryExists(Result) then
+    ForceDirectories(Result);
+
+  if Result[Length(Result)] <> '\' then
+    Result := Result + '\';
+end;
+
+function SafeFileName(const S: string): string;
+const
+  BadChars = '\/:*?"<>|';
+var
+  i: Integer;
+begin
+  Result := S;
+  for i := 1 to Length(BadChars) do
+    Result := StringReplace(Result, BadChars[i], '_', [rfReplaceAll]);
+
+  if Result = '' then
+    Result := 'image.jpg';
+end;
+
 
 
 

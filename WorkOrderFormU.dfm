@@ -1,6 +1,6 @@
 object WorkOrderForm: TWorkOrderForm
-  Left = 260
-  Top = 172
+  Left = 288
+  Top = 141
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Buka Perintah Kerja Bengkel'
@@ -3183,7 +3183,7 @@ object WorkOrderForm: TWorkOrderForm
     Top = 2
     Width = 944
     Height = 497
-    ActivePage = TabDetail
+    ActivePage = TabLampiran
     TabOrder = 4
     object TabDetail: TTabSheet
       Caption = 'Detail'
@@ -3792,34 +3792,41 @@ object WorkOrderForm: TWorkOrderForm
         Height = 409
         TabOrder = 0
       end
-      object TambahFoto: TButton
+      object GroupInputGambar: TGroupBox
         Left = 720
-        Top = 24
-        Width = 81
-        Height = 35
-        Caption = 'Tambah Foto'
+        Top = 32
+        Width = 145
+        Height = 185
         TabOrder = 1
-        OnClick = TambahFotoClick
-      end
-      object HapusSemuaFoto: TButton
-        Left = 720
-        Top = 64
-        Width = 129
-        Height = 35
-        Caption = 'Hapus Semua Foto'
-        TabOrder = 2
-        WordWrap = True
-        OnClick = HapusSemuaFotoClick
-      end
-      object SimpanFoto: TButton
-        Left = 720
-        Top = 104
-        Width = 75
-        Height = 25
-        Caption = 'Simpan'
-        TabOrder = 3
-        Visible = False
-        OnClick = SimpanFotoClick
+        object TambahFoto: TButton
+          Left = 29
+          Top = 24
+          Width = 84
+          Height = 35
+          Caption = 'Tambah Foto'
+          TabOrder = 0
+          OnClick = TambahFotoClick
+        end
+        object HapusSemuaFoto: TButton
+          Left = 29
+          Top = 64
+          Width = 84
+          Height = 35
+          Caption = 'Bersihkan Foto'
+          TabOrder = 1
+          WordWrap = True
+          OnClick = HapusSemuaFotoClick
+        end
+        object SimpanFoto: TButton
+          Left = 29
+          Top = 104
+          Width = 84
+          Height = 35
+          Caption = 'Simpan'
+          TabOrder = 2
+          Visible = False
+          OnClick = SimpanFotoClick
+        end
       end
     end
   end

@@ -1,6 +1,6 @@
 object RekapPergantianPartperArmadaV2: TRekapPergantianPartperArmadaV2
-  Left = 96
-  Top = 71
+  Left = 204
+  Top = 175
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Rekap Pergantian Part perArmada (V2)'

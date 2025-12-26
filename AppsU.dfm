@@ -1,6 +1,6 @@
 object Apps: TApps
-  Left = 336
-  Top = 232
+  Left = 348
+  Top = 180
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Aplikasi'
@@ -126,6 +126,13 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '26/12/2025 (6.2.0.5)'
+      
+        '- Perbaikan Menu Purchase Request,(Penambah Tools Pilih vendor, ' +
+        'budget, '
+      'barang/item)'
+      '- Penambahan Insert gambar pada form tutup PKB.'
+      ''
       '05/12/2025 (6.2.0.4)  Force update'
       
         '-Perbaikan permintaan dan serah terima barang, agar bisa dipergu' +

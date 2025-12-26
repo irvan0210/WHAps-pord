@@ -3,7 +3,7 @@ object MemoList: TMemoList
   Top = 220
   BorderIcons = []
   BorderStyle = bsNone
-  Caption = 'Laporan Rekap SK Fee Order'
+  Caption = 'SK Tol dan Parkir Shuttle'
   ClientHeight = 382
   ClientWidth = 868
   Color = clBtnFace
@@ -30,7 +30,7 @@ object MemoList: TMemoList
     object Label5: TLabel
       Left = 280
       Top = 21
-      Width = 233
+      Width = 229
       Height = 13
       Caption = '>Memo Tidak Aktif Atau Sudah Ada Yang Baru<'
       Font.Charset = DEFAULT_CHARSET
@@ -421,9 +421,9 @@ object MemoList: TMemoList
     object StaticText1: TStaticText
       Left = 86
       Top = 14
-      Width = 140
+      Width = 424
       Height = 36
-      Caption = 'Memo List'
+      Caption = 'Daftar SK Tol dan Parkir Shuttle'
       Font.Charset = EASTEUROPE_CHARSET
       Font.Color = clWindowText
       Font.Height = -27

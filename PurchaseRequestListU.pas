@@ -398,7 +398,8 @@ begin
       end;
     end else if UpperCase(FormRequest)='PURCHASEREQUEST' then begin
       if UpperCase(FormFunction)='REPRINT' then begin
-          PurchaseRequest.Reprint(StrGrid.Cells[1,IntRow]);
+        if Main.IsFormOpen('PurchaseRequest')=False then PurchaseRequest:=TPurchaseRequest.Create(Self,StrGrid.Cells[1,IntRow],True);
+        PurchaseRequest.Reprint(StrGrid.Cells[1,IntRow]);
       end;
       Close;
     end;

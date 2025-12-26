@@ -283,15 +283,16 @@ type
     Bersihkan: TButton;
     Selesai: TButton;
     ScrollBox1: TScrollBox;
-    TambahFoto: TButton;
-    HapusSemuaFoto: TButton;
-    SimpanFoto: TButton;
     OpenPictureDialog1: TOpenDialog;
     GroupPekerjaan: TGroupBox;
     StrGridPekerjaan: TZColorStringGrid;
     Pekerjaan: TEdit;
     ListMekanik: TListBox;
     ppCheklist: TppMemo;
+    GroupInputGambar: TGroupBox;
+    TambahFoto: TButton;
+    HapusSemuaFoto: TButton;
+    SimpanFoto: TButton;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure EksternalClick(Sender: TObject);
@@ -366,6 +367,7 @@ type
     procedure Calculate4;
     procedure SetOdo(License_plate:String);
     procedure ImageRightClick(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    Function  CompressImageToTemp(const SrcFile: string): string;
     procedure RepositionImages;
     function GetImgFiles: TStringList;
     function FileSize(const AFileName: string): Int64;
@@ -381,8 +383,11 @@ type
     procedure CopyFileOld(const SourceFile, DestFile: string);
     //procedure CompressAndSaveImage(const SrcFile, DestFile: string; MaxWidth, MaxHeight, Quality: Integer);
     procedure ReLayoutImages;
-    procedure ShowSavedImage(const FilePath, Deskripsi: string);
-    procedure LoadAllImages;
+   // procedure ShowSavedImage(const FilePath, Deskripsi: string);
+    
+    procedure LoadImagesForEdit(WorkOrderId:String);
+    procedure ShowImageOnScrollBox(const FilePath, Desc: string);
+    //procedure LoadAllImages;
     procedure RefreshMekanik;
 
   end;
@@ -1027,7 +1032,19 @@ begin
 
     end;
 
-    LoadAllImages;
+    //Gambar
+    StrQry:='';
+    StrQry:='select count(*) from wh_work_order_image where work_order_id='+QuotedStr(WorkOrderId)+' AND '+
+    'description_id=1 and status=1 ;';
+    Qry.SQL.Clear;
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    IntCount:=1;
+    if Qry.RecordCount>0 then begin
+       LoadImagesForEdit(WorkOrderId);
+    end;
+
+   // LoadAllImages;
     Qry.Close;
 
   end;
@@ -1056,7 +1073,16 @@ end;
 
 procedure TWorkOrderForm.FormClose(Sender: TObject;
   var Action: TCloseAction);
+var
+  i: Integer;
 begin
+  // Hapus semua image + label
+  for i := ScrollBox1.ControlCount - 1 downto 0 do
+    ScrollBox1.Controls[i].Free;
+
+  // Kosongkan list (JANGAN Free kalau dibuat di FormCreate)
+  ListGambar.Clear;
+  ListDeskripsi.Clear;
   Action:=caFree;
 end;
 
@@ -1217,7 +1243,9 @@ var Qry:TADOQuery;
     ImgJPG: TJPEGImage;
     StmImage: TMemoryStream;
     SrcFile, DestDir, DestFile, FileNameOnly, FileExt, Deskripsi, ServerPath: string;
+    ImageName,StrException, CompressedFile :String;
 begin
+
   Main.M_Busy;
   if (NoBody.Text<>'') AND ((Internal.Checked) OR (Eksternal.Checked)) AND
   (Trim(KeluhanGrid.Cells[0,0])<>'')  then begin
@@ -1446,7 +1474,7 @@ begin
           end;
         end;
 
-        //FOTO
+      {  //FOTO
         if (StrTransId<>'') then
         StrQry:='UPDATE wh_work_order_image_new SET status=0 WHERE work_order_id='+QuotedStr(StrTransId)+';';
 
@@ -1480,14 +1508,15 @@ begin
             end;
           end;
 
+
           // Simpan ke database hanya path + deskripsi
-          StrQry:=StrQry+' INSERT INTO wh_work_order_image_new '+
-                          '(work_order_id,image_name, image_path, description,status, update_time, update_user) ' +
+          StrQry:=StrQry+' INSERT INTO wh_work_order_image'+
+                          '(work_order_id,image_name, image_path, description, description_id, status, update_time, update_user) ' +
                           'VALUES (' +
                             QuotedStr(StrTransId) + ',' +
                             QuotedStr(DestFile) + ',' +
                             QuotedStr(ServerPath) + ',' +
-                            QuotedStr(Deskripsi) + ',' +
+                            QuotedStr(Deskripsi) + ',1,' +
                             ' 1,GETDATE(), ' +
                             QuotedStr(User) + ');';
         end;
@@ -1501,6 +1530,41 @@ begin
             IsOk:=False;
             StrMsg:='Gagal Menyimpan Gambar';
             StrEMsg:=E.Message;
+          end;
+        end;  }
+
+            //simpan gambar
+        if (StrTransId<>'') then
+        StrQry:='UPDATE wh_work_order_image SET status=0 WHERE work_order_id='+QuotedStr(StrTransId)+';';
+          //SaveImagesToDB;
+       for I := 0 to ListGambar.Count - 1 do
+        begin
+           StmImage.LoadFromFile(ListGambar[I]);
+           StmImage.Position := 0;
+        // Compress otomatis
+         // CompressImageToStream(ListGambar[I],StmImage,1280,1280,70);
+          ImageName := ExtractFileName(ListGambar[I]);
+          StrQry := StrQry+'INSERT INTO wh_work_order_image '+
+            '(work_order_id, description_id, image_name, image, description, status, update_time, update_user) '+
+            'VALUES ('+QuotedStr(StrTransId)+', 1, :p_name, :p_img, :p_desc, 1, GETDATE(), :usr);';
+
+          Qry.SQL.Clear;
+          Main.WriteLog('SQL :'+StrQry,4);
+          Qry.SQL.Add(StrQry);
+         // Qry.Parameters.ParamByName('wo').Value  := StrTransId;
+          Qry.Parameters.ParamByName('p_name').Value := ImageName;
+          Qry.Parameters.ParamByName('p_desc').Value := ListDeskripsi[I];
+          Qry.Parameters.ParamByName('usr').Value := User;
+          Qry.Parameters.ParamByName('p_img').LoadFromStream(StmImage, ftBlob);
+
+          try
+            Qry.ExecSQL;
+          except
+            on E:Exception do begin
+              IsOk:=False;
+              StrMsg:='Gagal Menambah Memo';
+              StrException:=E.Message;
+            end;
           end;
         end;
 
@@ -1551,9 +1615,10 @@ begin
   GroupInput.Enabled:=False;
   PanelCari.Enabled:=False;
   PanelCariSR.Enabled:=False;
-  ScrollBox1.Enabled := False;
-  TambahFoto.Enabled := False;
-  HapusSemuaFoto.Enabled := False;
+  GroupInputGambar.Enabled := False;
+  //ScrollBox1.Enabled := False;
+  //TambahFoto.Enabled := False;
+ // HapusSemuaFoto.Enabled := False;
 end;
 
 procedure TWorkOrderForm.EnableInput;
@@ -1567,8 +1632,7 @@ begin
   PanelCari.Enabled:=True;
   PanelCariSR.Enabled:=True;
   ScrollBox1.Enabled := True;
-  TambahFoto.Enabled := True;
-  HapusSemuaFoto.Enabled := True;
+  GroupInputGambar.Enabled := True;
 end;
 
 procedure TWorkOrderForm.BersihkanClick(Sender: TObject);
@@ -2158,6 +2222,79 @@ end;
 
 procedure TWorkOrderForm.TambahFotoClick(Sender: TObject);
 var
+  FilePath, Deskripsi, CompressedFile: string;
+  NewImage: TImage;
+  NewLabel: TLabel;
+  Pic: TPicture;
+  FileInfo: TSearchRec;
+  FileSizeInBytes: Int64;
+begin
+  if not OpenPictureDialog1.Execute then Exit;
+  FilePath := OpenPictureDialog1.FileName;
+
+  // Cek ukuran file asli
+  if FindFirst(FilePath, faAnyFile, FileInfo) = 0 then
+  begin
+    FileSizeInBytes := FileInfo.Size;
+    FindClose(FileInfo);
+
+    if FileSizeInBytes > 3 * 1024 * 1024 then
+    begin
+      ShowMessage(
+        Format('Ukuran gambar terlalu besar (%.2f MB). Maksimal 3 MB.',
+        [FileSizeInBytes / 1024 / 1024])
+      );
+      Exit;
+    end;
+  end;
+
+  // === COMPRESS DI SINI ===
+  CompressedFile := CompressImageToTemp(FilePath);
+  if CompressedFile = '' then
+  begin
+    ShowMessage('Gagal memproses gambar.');
+    Exit;
+  end;
+
+  // Deskripsi
+  Deskripsi := InputBox('Deskripsi Gambar', 'Masukkan keterangan gambar:', '');
+
+  // ?? SIMPAN YANG SUDAH COMPRESS
+  ListGambar.Add(CompressedFile);
+  ListDeskripsi.Add(Deskripsi);
+
+  // === IMAGE ===
+  NewImage := TImage.Create(ScrollBox1);
+  NewImage.Parent := ScrollBox1;
+  NewImage.Width := 250;
+  NewImage.Height := 180;
+  NewImage.Stretch := True;
+  NewImage.Proportional := True;
+  NewImage.OnMouseDown := ImageRightClick;
+  NewImage.Tag := ListGambar.Count - 1;       // index
+  NewLabel.Name := 'LBL_' + IntToStr(NewImage.Tag);
+  NewImage.Hint := NewLabel.Name;             // simpan nama label
+
+  Pic := TPicture.Create;
+  try
+    Pic.LoadFromFile(CompressedFile);
+    NewImage.Picture.Assign(Pic.Graphic);
+  finally
+    Pic.Free;
+  end;
+
+  // === LABEL ===
+  NewLabel := TLabel.Create(ScrollBox1);
+  NewLabel.Parent := ScrollBox1;
+  NewLabel.Caption := 'Keterangan: ' + Deskripsi;
+  NewLabel.WordWrap := True;
+  NewLabel.Width := 200;
+
+  NewImage.Tag := NativeInt(NewLabel);
+
+  ReLayoutImages;
+end;
+{var
   FilePath, Deskripsi: string;
   NewImage: TImage;
   NewLabel: TLabel;
@@ -2221,7 +2358,7 @@ begin
   NewImage.Tag := NativeInt(NewLabel);
 
   ReLayoutImages;
-end;
+end;  }
 
 {procedure TWorkOrderForm.TambahFotoClick(Sender: TObject);
 var
@@ -2306,42 +2443,109 @@ begin
   end;
 end;}
 
+Function TWorkOrderForm.CompressImageToTemp(const SrcFile: string): string;
+var
+  SrcPic: TPicture;
+  Bmp: TBitmap;
+  Jpg: TJPEGImage;
+  MaxW, NewW, NewH: Integer;
+  Scale: Double;
+begin
+  Result := '';
+
+  SrcPic := TPicture.Create;
+  Bmp := TBitmap.Create;
+  Jpg := TJPEGImage.Create;
+  try
+    SrcPic.LoadFromFile(SrcFile);
+
+    // copy ke bitmap (AMAN utk PNG/JPG)
+    Bmp.Assign(SrcPic.Graphic);
+
+    if (Bmp.Width = 0) or (Bmp.Height = 0) then
+      Exit;
+
+    MaxW := 1280;
+    if Bmp.Width > MaxW then
+    begin
+      Scale := MaxW / Bmp.Width;
+      NewW := MaxW;
+      NewH := Round(Bmp.Height * Scale);
+    end
+    else
+    begin
+      NewW := Bmp.Width;
+      NewH := Bmp.Height;
+    end;
+
+    // resize bitmap (Delphi 7 way)
+    Bmp.Width  := NewW;
+    Bmp.Height := NewH;
+
+    Bmp.Canvas.Brush.Color := clWhite;
+    Bmp.Canvas.FillRect(Rect(0, 0, NewW, NewH));
+
+    Bmp.Canvas.StretchDraw(
+      Rect(0, 0, NewW, NewH),
+      SrcPic.Graphic
+    );
+
+
+    // simpan ke JPEG
+    Jpg.Assign(Bmp);
+    Jpg.CompressionQuality := 75; // 70–80 ideal
+    Jpg.Compress;
+
+    Result :=
+      IncludeTrailingPathDelimiter(GetEnvironmentVariable('TEMP')) +
+      'TutupPKB_' + FormatDateTime('yyyymmddhhnnsszzz', Now) + '.jpg';
+
+    Jpg.SaveToFile(Result);
+  finally
+    SrcPic.Free;
+    Bmp.Free;
+    Jpg.Free;
+  end;
+end;
+
 procedure TWorkOrderForm.ImageRightClick(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   Img: TImage;
   Lbl: TLabel;
   idx: Integer;
 begin
-  if Button = mbRight then
+  if Simpan.Enabled = True then
   begin
-    Img := Sender as TImage;
-    if MessageDlg('Hapus gambar ini?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+    if Button = mbRight then
     begin
-      // Hapus label jika ada
-      if (Img.Tag <> 0) and (TObject(Img.Tag) is TLabel) then
+      Img := Sender as TImage;
+      if MessageDlg('Hapus gambar ini?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
       begin
-        Lbl := TLabel(Img.Tag);
-        Lbl.Free;
+        // Hapus label jika ada
+        if (Img.Tag <> 0) and (TObject(Img.Tag) is TLabel) then
+        begin
+          Lbl := TLabel(Img.Tag);
+          Lbl.Free;
+        end;
+
+        // Hapus dari list
+        idx := ListGambar.IndexOf(Img.Hint);
+        if idx >= 0 then
+        begin
+          ListGambar.Delete(idx);
+          if (idx < ListDeskripsi.Count) then
+            ListDeskripsi.Delete(idx);
+        end;
+
+        // Hapus gambar
+        Img.Free;
+
+        // Relayout ulang
+        ReLayoutImages;
       end;
-
-      // Hapus dari list
-      idx := ListGambar.IndexOf(Img.Hint);
-      if idx >= 0 then
-      begin
-        ListGambar.Delete(idx);
-        if (idx < ListDeskripsi.Count) then
-          ListDeskripsi.Delete(idx);
-      end;
-
-      // Hapus gambar
-      Img.Free;
-
-      // Relayout ulang
-      ReLayoutImages;
     end;
   end;
 end;
-
 procedure TWorkOrderForm.RepositionImages;
 var
   i, Col, Row, Margin: Integer;
@@ -2496,6 +2700,9 @@ procedure TWorkOrderForm.FormDestroy(Sender: TObject);
 var
   i: Integer;
 begin
+ // FreeAndNil(ListGambar);
+  //FreeAndNil(ListDeskripsi);
+
   // Bebaskan semua gambar dulu
   for i := 0 to ListGambar.Count - 1 do
     TImage(ListGambar[i]).Free;
@@ -2669,8 +2876,102 @@ begin
     JPEGImage.Free;
   end;
 end;  }
+procedure TWorkOrderForm.LoadImagesForEdit(WorkOrderId:String);
+var
+  Qry: TADOQuery;
+  TmpFile: string;
+  Stm: TMemoryStream;
+begin
+  // Bersihkan tampilan lama
+  ScrollBox1.DisableAlign;
+  try
+    ScrollBox1.DestroyComponents;
+    ListGambar.Clear;
+    ListDeskripsi.Clear;
 
-procedure TWorkOrderForm.ShowSavedImage(const FilePath, Deskripsi: string);
+    Qry := TADOQuery.Create(nil);
+    try
+      Qry.Connection := Main.MyConnection;
+      Qry.SQL.Text :=
+        'SELECT image_name, image, description ' +
+        'FROM wh_work_order_image ' +
+        'WHERE work_order_id = :id AND status = 1 AND description_id = 1';
+
+      Qry.Parameters.ParamByName('id').Value := WorkOrderId;
+      Qry.Open;
+
+      while not Qry.Eof do
+      begin
+        TmpFile :=
+          SafeTempDir +
+          FormatDateTime('yyyymmddhhnnsszzz', Now) + '_' +
+          Qry.FieldByName('image_name').AsString;
+
+        Stm := TMemoryStream.Create;
+        try
+          TBlobField(Qry.FieldByName('image')).SaveToStream(Stm);
+
+          if Stm.Size > 0 then
+          begin
+            Stm.Position := 0;
+            Stm.SaveToFile(TmpFile);
+
+            ListGambar.Add(TmpFile);
+            ListDeskripsi.Add(Qry.FieldByName('description').AsString);
+
+            ShowImageOnScrollBox(
+              TmpFile,
+              Qry.FieldByName('description').AsString
+            );
+          end;
+        finally
+          Stm.Free;
+        end;
+
+        Qry.Next;
+      end;
+    finally
+      Qry.Free;
+    end;
+
+  finally
+    ScrollBox1.EnableAlign;
+    ReLayoutImages; // ?? cukup SEKALI
+  end;
+end;
+
+procedure TWorkOrderForm.ShowImageOnScrollBox(
+  const FilePath, Desc: string);
+var
+  Img: TImage;
+  Lbl: TLabel;
+  Pic: TPicture;
+begin
+  Img := TImage.Create(ScrollBox1);
+  Img.Parent := ScrollBox1;
+  Img.Width := 250;
+  Img.Height := 180;
+  Img.Stretch := True;
+  Img.Proportional := True;
+  Img.OnMouseDown := ImageRightClick;
+
+  Pic := TPicture.Create;
+  try
+    Pic.LoadFromFile(FilePath);     // AUTO PNG / JPG
+    Img.Picture.Assign(Pic);
+  finally
+    Pic.Free;
+  end;
+
+  Lbl := TLabel.Create(ScrollBox1);
+  Lbl.Parent := ScrollBox1;
+  Lbl.Caption := 'Keterangan: ' + Desc;
+  Lbl.WordWrap := True;
+  Lbl.Width := 200;
+
+  Img.Tag := NativeInt(Lbl);
+end;
+{procedure TWorkOrderForm.ShowSavedImage(const FilePath, Deskripsi: string);
 var
   NewImage: TImage;
   NewLabel: TLabel;
@@ -2714,11 +3015,9 @@ begin
   NewImage.OnMouseDown := ImageRightClick;
 
   ReLayoutImages;
-end;
+end;}
 
-
-
-procedure TWorkOrderForm.LoadAllImages;
+{procedure TWorkOrderForm.LoadAllImages;
 var
     Qry: TADOQuery;
     StrQry : string;
@@ -2739,8 +3038,8 @@ begin
  // ScrollBox1.DestroyComponents;
 
   if Main.OpenDb then begin
-    StrQry:='SELECT * FROM wh_work_order_image_new '+
-            ' WHERE status = 1 AND work_order_id ='+QuotedStr(WorkOrderId);
+    StrQry:='SELECT * FROM wh_work_order_image '+
+            ' WHERE status = 1 AND description_id =1 AND work_order_id ='+QuotedStr(WorkOrderId);
     Qry.SQL.Clear;
     Qry.SQL.Add(StrQry);
     Qry.Open;
@@ -2762,9 +3061,7 @@ begin
     Main.CloseDb;
   end;
   Qry.Destroy;
-end;
-
-
+end; }
 
 procedure TWorkOrderForm.PekerjaanExit(Sender: TObject);
 begin

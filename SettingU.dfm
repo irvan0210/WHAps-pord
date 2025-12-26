@@ -5,7 +5,7 @@ object Setting: TSetting
   BorderStyle = bsNone
   Caption = 'Setting Database'
   ClientHeight = 183
-  ClientWidth = 248
+  ClientWidth = 238
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

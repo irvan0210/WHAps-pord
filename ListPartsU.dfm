@@ -1,11 +1,11 @@
 object ListParts: TListParts
-  Left = 513
-  Top = 173
+  Left = 472
+  Top = 88
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'List Parts'
   ClientHeight = 488
-  ClientWidth = 777
+  ClientWidth = 722
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,12 +19,12 @@ object ListParts: TListParts
   OnClose = FormClose
   OnShow = FormShow
   DesignSize = (
-    777
+    722
     488)
   PixelsPerInch = 96
   TextHeight = 13
   object btnTombolCari: TSpeedButton
-    Left = 742
+    Left = 685
     Top = 9
     Width = 23
     Height = 23
@@ -66,7 +66,7 @@ object ListParts: TListParts
     OnClick = btnTombolCariClick
   end
   object Label1: TLabel
-    Left = 524
+    Left = 467
     Top = 13
     Width = 19
     Height = 13
@@ -112,7 +112,7 @@ object ListParts: TListParts
   object StrGrid: TZColorStringGrid
     Left = 6
     Top = 40
-    Width = 764
+    Width = 709
     Height = 401
     Anchors = [akLeft, akTop, akRight]
     ColCount = 20
@@ -141,7 +141,7 @@ object ListParts: TListParts
     WordWrap = True
   end
   object Button1: TButton
-    Left = 344
+    Left = 289
     Top = 448
     Width = 75
     Height = 25
@@ -151,7 +151,7 @@ object ListParts: TListParts
     OnClick = Button1Click
   end
   object Cari: TEdit
-    Left = 548
+    Left = 491
     Top = 9
     Width = 185
     Height = 21

@@ -48,7 +48,7 @@ implementation
 
 uses
   MainU, PartU, RekapHistoryArmadaPergantianPartU, 
-  RekapPergantianPartperArmadaV2U;
+  RekapPergantianPartperArmadaV2U, PurchaseRequestU;
 
 {$R *.dfm}
 
@@ -259,7 +259,7 @@ end;
 
 procedure TListParts.StrGridDblClick(Sender: TObject);
 var
-StrPartName : string;
+StrPartName, kode_part_gp : string;
 IntCount,IntRowCount,rowcount2:Integer;
 begin
   if IntRow>1 then begin
@@ -285,17 +285,46 @@ begin
       RekapPergantianPartperArmadaV2.StrGridTemp.Cells[1,RekapPergantianPartperArmadaV2.StrGridTemp.RowCount-1]:=ListParts.StrGrid.Cells[1,IntRow];
 
       RekapPergantianPartperArmadaV2.TotalTemp.Text:= IntToStr(RekapPergantianPartperArmadaV2.StrGridTemp.RowCount-1);
+    end else if FormRequest='PURCHESREQUSEST' then begin
+      StrPartName := ListParts.StrGrid.Cells[2,IntRow];
+      kode_part_gp := ListParts.StrGrid.Cells[1,IntRow];
+      if Trim(StrPartName)<>'' then
+        begin
+          for IntCount:=2 to PurchaseRequest.StrGrid.RowCount do begin
+            if Trim(StrPartName)=PurchaseRequest.StrGrid.Cells[1,IntCount-1] then
+            begin
+              MessageBox(0,PChar('Item sudah dipilih'),'List Item',MB_OK or MB_ICONWARNING);
+              Exit;
+            end;
+          end;
+        end;
+      IntRowCount:=PurchaseRequest.StrGrid.RowCount;
+      PurchaseRequest.StrGrid.RowCount:=IntRowCount;
+      with PurchaseRequest do begin
+        rowcount2:=StrGrid.RowCount;
+        StrGrid.Cells[0,StrGrid.RowCount-1]:=IntToStr(StrGrid.RowCount-1);
+        StrGrid.Cells[1,StrGrid.RowCount-1]:=StrPartName;
+        StrGrid.Cells[2,StrGrid.RowCount-1]:='1';
+        StrGrid.Cells[5,StrGrid.RowCount-1]:=kode_part_gp;
+        StrGrid.CellStyle[0,StrGrid.RowCount-1].HorizontalAlignment:=taCenter;
+        StrGrid.CellStyle[1,StrGrid.RowCount-1].HorizontalAlignment:=taLeftJustify;
+        StrGrid.CellStyle[2,StrGrid.RowCount-1].HorizontalAlignment:=taCenter;
+        //ItemDetailExit(nil);
+        StrGrid.Col:=3;
+        StrGrid.RowCount := StrGrid.RowCount+1
+       end;
+      close;
     end else begin
       if Main.IsFormOpen('Part')=False then
-      begin
-        Part:=TPart.Create(Self);
-        Part.KodePart.Text:=StrGrid.Cells[1,IntRow];
-        Part.PartName.Text:=StrGrid.Cells[2,IntRow];
-        Part.KmStandardPergantian.Text:=StrGrid.Cells[3,IntRow];
-        IDPart :=StrGrid.Cells[4,IntRow];
-        StatusPart:='UPDATE';
+        begin
+          Part:=TPart.Create(Self);
+          Part.KodePart.Text:=StrGrid.Cells[1,IntRow];
+          Part.PartName.Text:=StrGrid.Cells[2,IntRow];
+          Part.KmStandardPergantian.Text:=StrGrid.Cells[3,IntRow];
+          IDPart :=StrGrid.Cells[4,IntRow];
+          StatusPart:='UPDATE';
+        end;
       end;
-    end;
   end;
 end;
 
