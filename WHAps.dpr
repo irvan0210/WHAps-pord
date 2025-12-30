@@ -11,7 +11,7 @@ uses
   uNativeXLSExport in 'uNativeXLSExport.pas' { Export to Excel },
   LoginU in 'LoginU.pas' {Login},
   ChangePassU in 'ChangePassU.pas' {ChangePass},
-  SettingKoneksiU in '..\Whaps dev\SettingKoneksiU.pas' {SettingKoneksi},
+  SettingU in 'SettingU.pas' {Setting},
   PrintSettingU in 'PrintSettingU.pas' {PrintSetting},
   LocationChangeU in 'LocationChangeU.pas' {LocationChange},
   AddUserU in 'AddUserU.pas' {AddUser},
@@ -355,6 +355,7 @@ uses
   MemoFormU in 'MemoFormU.pas' {MemoForm},
   PreviewDocumentU in 'PreviewDocumentU.pas' {PreviewDocument},
   CustomerListMiniU in 'CustomerListMiniU.pas' {CustomerListMini},
+  PartSelectFormGridU in 'PartSelectFormGridU.pas' {PartSelectFormGrid},
   KoneksiDatabaseU in 'KoneksiDatabaseU.pas' {KoneksiDatabase};
 
 {$R *.res}

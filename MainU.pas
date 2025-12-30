@@ -100,7 +100,7 @@ type
     procedure WMHotKey(var Msg: TWMHotKey); message WM_HOTKEY;
   public           
     { Public declarations }
-    Db,DbHost,DbUser,DbPass,AppVersion,AppVersionSvr,Provider,IsChatAutoStart,DbPort:String;
+    Db,DbName,DbHost,DbUser,DbPass,AppVersion,AppVersionSvr,Provider,IsChatAutoStart,DbPort:String;
     ThisMonth,ThisYear:String;
     ChatHost,ChatPort,StrUrlApi:String;
     MyConnection:TADOConnection;
@@ -244,7 +244,7 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   RekapPergantianPartperArmadaV2U, KmActualUnitRptU,
   TroubleshootingRequestFormU, TroubleshootingRequestFormListU,
   EmployeeContractListU, ChartU, RubahInvoiceFormU, PlannedServiceReportU,
-  MemoListU, SettingKoneksiU, KoneksiDatabaseU;
+  MemoListU,  KoneksiDatabaseU;
 
 
 constructor TClockThread.Create;
@@ -279,7 +279,7 @@ begin
   RegisterHotKey(Handle,8,MOD_ALT,Ord('U'));
   RegisterHotKey(Handle,9,MOD_ALT,VK_F2);
   RegisterHotKey(Handle,10,MOD_ALT,Ord('C'));
-  RegisterHotKey(Handle,11,MOD_ALT,VK_F12);
+  RegisterHotKey(Handle,11,MOD_CONTROL,VK_F6);
 end;
 
 procedure TMain.DeInitShortKey;

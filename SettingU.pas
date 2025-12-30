@@ -73,6 +73,7 @@ end;
 
 procedure TSetting.Init;
 begin
+  //MessageBox(0,PChar(Main.DbName),'Setting',MB_OK or MB_ICONINFORMATION);
   Simpan.Enabled:=False;
   Host.Text:=Main.DbHost;
   Database.Text:=Main.Db;

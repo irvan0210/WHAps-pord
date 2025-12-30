@@ -148,7 +148,7 @@ object ScheduleForm: TScheduleForm
       Top = 16
       Width = 260
       Height = 154
-      Date = 41191.659302719910000000
+      Date = 41191.555329270840000000
       TabOrder = 0
     end
   end

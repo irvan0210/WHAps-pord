@@ -1,6 +1,6 @@
 object SPJFormBus: TSPJFormBus
-  Left = 268
-  Top = 205
+  Left = 361
+  Top = 132
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Surat Jalan'
@@ -1790,7 +1790,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 144780
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 119
     Template.FileName = 'D:\WH App\Order.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
@@ -2221,7 +2221,7 @@ object SPJFormBus: TSPJFormBus
         mmHeight = 7408
         mmLeft = 84667
         mmTop = 25400
-        mmWidth = 44715
+        mmWidth = 43127
         BandType = 0
       end
       object ppCompany2: TppLabel
@@ -2900,6 +2900,25 @@ object SPJFormBus: TSPJFormBus
         mmWidth = 55298
         BandType = 0
       end
+      object ppSJTambahan2: TppLabel
+        UserName = 'SJTambahan2'
+        AutoSize = False
+        Border.BorderPositions = []
+        Border.Color = clBlack
+        Border.Style = psSolid
+        Border.Visible = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Arial'
+        Font.Size = 10
+        Font.Style = [fsBold]
+        Transparent = True
+        mmHeight = 4233
+        mmLeft = 87048
+        mmTop = 33338
+        mmWidth = 37306
+        BandType = 0
+      end
     end
     object ppDetailBand2: TppDetailBand
       mmBottomOffset = 0
@@ -2930,7 +2949,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152400
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 119
     Template.FileName = 'D:\WH App\Order.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
@@ -3509,7 +3528,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152400
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 119
     Template.FileName = 'D:\NANANG\WHAPS UPDATE PROD\surat jalan baru.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
@@ -4020,6 +4039,25 @@ object SPJFormBus: TSPJFormBus
         mmWidth = 110067
         BandType = 0
       end
+      object ppSJTambahan3: TppLabel
+        UserName = 'SJTambahan3'
+        Border.BorderPositions = []
+        Border.Color = clBlack
+        Border.Style = psSolid
+        Border.Visible = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Arial'
+        Font.Size = 11
+        Font.Style = [fsBold]
+        TextAlignment = taCentered
+        Transparent = True
+        mmHeight = 4763
+        mmLeft = 84138
+        mmTop = 19050
+        mmWidth = 44186
+        BandType = 0
+      end
     end
     object ppDetailBand3: TppDetailBand
       mmBottomOffset = 0
@@ -4050,7 +4088,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152400
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 119
     Template.FileName = 'D:\WH App\Order.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
@@ -4481,6 +4519,26 @@ object SPJFormBus: TSPJFormBus
         mmLeft = 165100
         mmTop = 98954
         mmWidth = 30427
+        BandType = 0
+      end
+      object ppSJTambahan4: TppLabel
+        UserName = 'SJTambahan4'
+        AutoSize = False
+        Border.BorderPositions = []
+        Border.Color = clBlack
+        Border.Style = psSolid
+        Border.Visible = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Arial'
+        Font.Size = 11
+        Font.Style = [fsBold]
+        TextAlignment = taCentered
+        Transparent = True
+        mmHeight = 4763
+        mmLeft = 83608
+        mmTop = 19579
+        mmWidth = 44715
         BandType = 0
       end
     end

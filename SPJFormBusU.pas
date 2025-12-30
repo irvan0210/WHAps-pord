@@ -304,6 +304,9 @@ type
     ppLabel50: TppLabel;
     ppLabel51: TppLabel;
     HelperID: TEdit;
+    ppSJTambahan2: TppLabel;
+    ppSJTambahan4: TppLabel;
+    ppSJTambahan3: TppLabel;
     procedure KeluarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure GridMitraSelectCell(Sender: TObject; ACol, ARow: Integer;
@@ -2775,6 +2778,10 @@ begin
             ppAlamat.Lines.Add(UpperCase(Qry.FieldValues['pickup_point']));
             ppAcara.Lines.Add(UpperCase(Qry.FieldValues['route']));
             if Qry.FieldValues['description']<>NULL then ppCatatan.Lines.Add(UpperCase(Qry.FieldValues['description']));
+           // if (Qry.FieldValues['additional_day']<>NULL) then begin
+            //  ppSJTambahan.Caption:='Surat Jalan Tambahan'
+           // end else ppSJTambahan.Caption:='';
+
             if SetPrinterSJ='EPSON LX-310' then
             begin
               ppcustomer.Top:= ppcustomer.Top+0.05;
@@ -2845,6 +2852,11 @@ begin
             if Qry.FieldValues['field_contact_cellular_no']<>NULL then ppGuidePhone2.Caption:=Qry.FieldValues['field_contact_cellular_no'];
             ppAlamat2.Lines.Add(UpperCase(Qry.FieldValues['pickup_point']));
             ppAcara2.Lines.Add(UpperCase(Qry.FieldValues['route']));
+
+            if (Qry.FieldValues['additional_day']<>NULL) then begin
+              ppSJTambahan2.Caption:='Surat Jalan Tambahan'
+            end else ppSJTambahan2.Caption:='';
+
             ppReport2.Print;
           end;
 
@@ -2915,6 +2927,10 @@ begin
             if (Qry.FieldValues['description']<>NULL) then begin
               ppCatatan3.Lines.Add(UpperCase(Qry.FieldValues['description'])+sLineBreak+StrLokasiStandBy);
             end;
+
+            if (Qry.FieldValues['additional_day']<>NULL) then begin
+              ppSJTambahan3.Caption:='Surat Jalan Tambahan'
+            end else ppSJTambahan3.Caption:='';
 
             ppNoSPJ3.Top:=0.5417+ StrToFloat(SetTambahanTopSJ);
             ppcustomer3.Top:=1.0625+ StrToFloat(SetTambahanTopSJ);
