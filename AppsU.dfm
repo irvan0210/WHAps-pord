@@ -127,11 +127,10 @@ object Apps: TApps
     Font.Style = []
     Lines.Strings = (
       '26/12/2025 (6.2.0.5)'
-      
-        '- Perbaikan Menu Purchase Request,(Penambah Tools Pilih vendor, ' +
-        'budget, '
-      'barang/item)'
+      '- Perbaikan Menu Purchase Request,(Penambah Tools Pilih vendor, '
+      'budget,barang/item)'
       '- Penambahan Insert gambar pada form tutup PKB.'
+      '- Perbaikan Bug Sistem.'
       ''
       '05/12/2025 (6.2.0.4)  Force update'
       
@@ -153,7 +152,7 @@ object Apps: TApps
         '-Nama mekanik diambil dari data yang tersimpan bukan diketik man' +
         'ual.'
       
-        '-respon keluhan driver diganti jadi 1 per 1, bukan secara global' +
+        '-Respon keluhan driver diganti jadi 1 per 1, bukan secara global' +
         ' perlaporan.'
       ''
       '10/11/2025 (6.2.0.2)'

@@ -613,6 +613,7 @@ begin
   TotalTotalDriver1 :=0;
   TotalTotalDriver1_Driver2_Helper :=0;
   TotalSelisih2 :=0;
+  TotalOvertime :=0;
 
   if Length(OrderFeeArr)>0 then StrGrid.RowCount:=Length(OrderFeeArr)+1
   else begin
@@ -715,7 +716,7 @@ begin
 
       TotalLain:=TotalLain+StoInt(OrderFeeArr[IntCount][24])+StoInt(OrderFeeArr[IntCount][80])+
                   StoInt(OrderFeeArr[IntCount][81])+StoInt(OrderFeeArr[IntCount][82]);
-      TotalOvertime:=TotalOvertime+StoInt(OrderFeeArr[IntCount][25]);
+     // TotalOvertime:=TotalOvertime+StoInt(OrderFeeArr[IntCount][25]);
      // TotalInsentif := TotalInsentif+StoInt(OrderFeeArr[IntCount][82]);
 
       IntBiaya:=BBMRp+(StoInt(OrderFeeArr[IntCount][16])*StoInt(OrderFeeArr[IntCount][15]))+(StoInt(OrderFeeArr[IntCount][17])*StoInt(OrderFeeArr[IntCount][15]))+StoInt(OrderFeeArr[IntCount][18])+StoInt(OrderFeeArr[IntCount][78]);
@@ -2163,7 +2164,7 @@ begin
           TotalTolReimburse:=TotalTolReimburse+StoInt(OrderFeeArr[Count][23]);
 
           TotalLain:=TotalLain+StoInt(OrderFeeArr[Count][24])+StoInt(OrderFeeArr[Count][80])+StoInt(OrderFeeArr[Count][81])+StoInt(OrderFeeArr[Count][82]);
-          TotalOvertime:=TotalOvertime+StoInt(OrderFeeArr[Count][25]);
+          //TotalOvertime:=TotalOvertime+StoInt(OrderFeeArr[Count][25]);
 
           IntBiaya:=BBMRp+(StoInt(OrderFeeArr[Count][16])*StoInt(OrderFeeArr[Count][15]))+(StoInt(OrderFeeArr[Count][17])*StoInt(OrderFeeArr[Count][15]))+StoInt(OrderFeeArr[Count][18])+StoInt(OrderFeeArr[Count][78]);
           IntBiayaReimburse:=(StoInt(OrderFeeArr[Count][20])) + (StoInt(OrderFeeArr[Count][21])) + //*StoInt(OrderFeeArr[IntCount][15])
