@@ -36,6 +36,7 @@ type
     procedure EditClick(Sender: TObject);
     procedure deleteClick(Sender: TObject);
     procedure ToXCelClick(Sender: TObject);
+    procedure btn_cariClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -78,6 +79,7 @@ begin
   StrGrid.ColWidths[5]:=100;
   StrGrid.ColWidths[6]:=100;
   StrGrid.ColWidths[7]:=450;
+  StrGrid.ColWidths[8]:=120;
 
   StrGrid.Cells[0,0]:='No';
   StrGrid.Cells[1,0]:='Nomor Dokumen';
@@ -87,6 +89,7 @@ begin
   StrGrid.Cells[5,0]:='Tanggal Effektif';
   StrGrid.Cells[6,0]:='Tanggal Berahir';
   StrGrid.Cells[7,0]:='Deskripsi';
+  StrGrid.Cells[8,0]:='Tanggal Upload';
 
   StrGrid.Cells[0,1]:='';
   StrGrid.Cells[1,1]:='';
@@ -96,6 +99,7 @@ begin
   StrGrid.Cells[5,1]:='';
   StrGrid.Cells[6,1]:='';
   StrGrid.Cells[7,1]:='';
+  StrGrid.Cells[8,1]:='';
 
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
@@ -105,6 +109,7 @@ begin
   StrGrid.CellStyle[5,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[6,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[7,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[8,0].HorizontalAlignment:=taCenter;
 end;
 
 procedure TMemoList.LoadData;
@@ -131,6 +136,7 @@ begin
       MemoArr[IntCount][6]:=Qry.FieldValues['description'];
       if Qry.FieldValues['status']=1then  MemoArr[IntCount][7]:='Aktif'
       else MemoArr[IntCount][7]:='Tidak Aktif';
+      MemoArr[IntCount][8]:=Qry.FieldValues['create_date'];
       //MenuArr[IntCount][4]:=Qry.FieldValues['effective_date'];
       //if Qry.FieldValues['menu_id'] then MenuArr[IntCount][3]:='Active' else MenuArr[IntCount][3]:='Disable';
       Inc(IntCount);
@@ -159,13 +165,14 @@ begin
     StrGrid.Cells[5,IntCount+1]:=MemoArr[IntCount][4];
     StrGrid.Cells[6,IntCount+1]:=MemoArr[IntCount][5];
     StrGrid.Cells[7,IntCount+1]:=MemoArr[IntCount][6];
+    StrGrid.Cells[8,IntCount+1]:=MemoArr[IntCount][8];
 
     StrGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[1,IntCount+1].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[2,IntCount+1].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[5,IntCount+1].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[6,IntCount+1].HorizontalAlignment:=taCenter;
-    //StrGrid.CellStyle[5,IntCount+1].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[8,IntCount+1].HorizontalAlignment:=taCenter;
 
     if MemoArr[IntCount][7]='Tidak Aktif' then
     begin
@@ -181,8 +188,8 @@ begin
   Cari.Text:='';
   Init;
   CekOtorisasi;
-  LoadData;
-  RefreshList;
+ // LoadData;
+ // RefreshList;
 end;
 
 procedure TMemoList.StrGridSelectCell(Sender: TObject; ACol, ARow: Integer;
@@ -331,6 +338,12 @@ end;
 procedure TMemoList.ToXCelClick(Sender: TObject);
 begin
  if ToExcel4(StrGrid) then ShowMessage('Export ke Excel Berhasil');
+end;
+
+procedure TMemoList.btn_cariClick(Sender: TObject);
+begin
+  LoadData;
+  RefreshList;
 end;
 
 end.

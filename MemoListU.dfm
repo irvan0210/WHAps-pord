@@ -3,7 +3,7 @@ object MemoList: TMemoList
   Top = 220
   BorderIcons = []
   BorderStyle = bsNone
-  Caption = 'SK Tol dan Parkir Shuttle'
+  Caption = 'Laporan Rekap SK Fee Order'
   ClientHeight = 382
   ClientWidth = 868
   Color = clBtnFace
@@ -30,9 +30,9 @@ object MemoList: TMemoList
     object Label5: TLabel
       Left = 280
       Top = 21
-      Width = 229
+      Width = 217
       Height = 13
-      Caption = '>Memo Tidak Aktif Atau Sudah Ada Yang Baru<'
+      Caption = '>Memo tidak aktif atau sudah ada yang baru<'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clRed
       Font.Height = -11
@@ -408,7 +408,7 @@ object MemoList: TMemoList
         F8F5F5F5F7F7F8F7F6F6F7F7F7F7F7F80000F5F7F6F6F6F6F6F4F5F9FAFAF9F9
         F9EADFE0D9BFBFD6B8B8E1CBCDF0E9EAF8F9F9F6F7F8F6F6F5F6F7F8F7F7F7F7
         F7F7F7F8F8F7F7F70000}
-      Visible = False
+      OnClick = btn_cariClick
     end
     object Cari: TEdit
       Left = 607
@@ -421,9 +421,9 @@ object MemoList: TMemoList
     object StaticText1: TStaticText
       Left = 86
       Top = 14
-      Width = 424
+      Width = 140
       Height = 36
-      Caption = 'Daftar SK Tol dan Parkir Shuttle'
+      Caption = 'Memo List'
       Font.Charset = EASTEUROPE_CHARSET
       Font.Color = clWindowText
       Font.Height = -27
@@ -439,7 +439,7 @@ object MemoList: TMemoList
     Width = 868
     Height = 265
     Align = alClient
-    ColCount = 8
+    ColCount = 9
     DefaultRowHeight = 20
     DefaultDrawing = False
     FixedColor = clBtnFace

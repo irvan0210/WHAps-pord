@@ -356,7 +356,9 @@ uses
   PreviewDocumentU in 'PreviewDocumentU.pas' {PreviewDocument},
   CustomerListMiniU in 'CustomerListMiniU.pas' {CustomerListMini},
   PartSelectFormGridU in 'PartSelectFormGridU.pas' {PartSelectFormGrid},
-  KoneksiDatabaseU in 'KoneksiDatabaseU.pas' {KoneksiDatabase};
+  KoneksiDatabaseU in 'KoneksiDatabaseU.pas' {KoneksiDatabase},
+  DriverVehicleAuthorizationListU in 'DriverVehicleAuthorizationListU.pas' {DriverVehicleAuthorizationList},
+  DriverVehicleAuthorizationU in 'DriverVehicleAuthorizationU.pas' {DriverVehicleAuthorization};
 
 {$R *.res}
 

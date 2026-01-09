@@ -244,7 +244,8 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   RekapPergantianPartperArmadaV2U, KmActualUnitRptU,
   TroubleshootingRequestFormU, TroubleshootingRequestFormListU,
   EmployeeContractListU, ChartU, RubahInvoiceFormU, PlannedServiceReportU,
-  MemoListU,  KoneksiDatabaseU;
+  MemoListU,  KoneksiDatabaseU, DriverVehicleAuthorizationU,
+  DriverVehicleAuthorizationListU;
 
 
 constructor TClockThread.Create;
@@ -855,6 +856,18 @@ begin
         end;
        end;
 
+       {130317..130319 Kualifikasi Kendaraan Driver}
+       130317..130319 :begin
+        case CaseStr(RightStr(IntToStr(Tag),2),['17','18','19'])of
+          1:begin
+             if IsFormOpen('DriverVehicleAuthorization')=False then DriverVehicleAuthorization:=TDriverVehicleAuthorization.Create(Self,'Bus');
+          end;
+
+          2:begin
+             if IsFormOpen('DriverVehicleAuthorizationList')=False then DriverVehicleAuthorizationList:=TDriverVehicleAuthorizationList.Create(Self,'Bus');
+          end;
+        end;
+        end;
         {130507..130511 Surat Jalan Service Bus}
         130507..130511:begin
            Case CaseStr(RightStr(IntToStr(Tag),2),['07','08','10']) of
