@@ -253,6 +253,7 @@ type
     UpdateUser: TEdit;
     UpdateDate: TEdit;
     Label13: TLabel;
+    BlokDaytrans: TRadioButton;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -446,9 +447,15 @@ begin
       if (VarToStr(Qry.FieldValues['flag'])='1') then begin
         BlokUnit.Checked:=True;
         BlokMudik.Checked:=False;
-      end else begin
+        BlokDaytrans.Checked := False;
+      end else if (VarToStr(Qry.FieldValues['flag'])='2') then begin
         BlokUnit.Checked:=False;
         BlokMudik.Checked:=True;
+        BlokDaytrans.Checked := False;
+      end else  begin
+        BlokUnit.Checked:=False;
+        BlokMudik.Checked:=False;
+        BlokDaytrans.Checked := True;
       end;
 
       if Qry.FieldValues['create_name']<>null then
@@ -566,7 +573,7 @@ var Qry:TADOQuery;
     TglMulai, TglSelesai:TDateTime;
 begin
   Main.M_Busy;
-  if (NoBody.Text<>'') AND (Alasan.Text<>'') AND (BlokUnit.Checked or BlokMudik.Checked) then begin
+  if (NoBody.Text<>'') AND (Alasan.Text<>'') AND (BlokUnit.Checked or BlokMudik.Checked or BlokDaytrans.Checked) then begin
     IsOk:=True;
     IsCetak:=False;
     Qry:=TADOQuery.Create(Self);
@@ -602,7 +609,8 @@ begin
       Qry.Close;
       if IsOk then begin
         if BlokUnit.Checked=True then StrFlag:='1'
-        else StrFlag:='2';
+        else if BlokMudik.Checked=True then StrFlag:='2'
+        else StrFlag:='3';
 
         if WorkOrderId='' then begin
 

@@ -33,14 +33,14 @@ type
     LokasiArr:Array of TArrString2;
     IntRow:Integer;
     is_Helper,is_ReadOnly:Boolean;
-
+    FormRequest:String;
     procedure Init;
     procedure RefreshCombo;
   public
     { Public declarations }
     EmplType:Integer;
     Employee_Type:String;
-    constructor Create(AOwner:TComponent;EmployeeType:String;isHelper:Boolean=False;isReadOnly:Boolean=True);Overload;
+    constructor Create(AOwner:TComponent;EmployeeType:String;isHelper:Boolean=False;Form_Request:String='';isReadOnly:Boolean=True);Overload;
     procedure RefreshList;
   end;
 
@@ -53,10 +53,11 @@ uses MainU, ScheduleFormU, DriverVehicleAuthorizationU;
 
 {$R *.dfm}
 
-constructor TDriverVehicleAuthorizationList.Create(AOwner:TComponent;EmployeeType:String;isHelper:Boolean=False;isReadOnly:Boolean=True);
+constructor TDriverVehicleAuthorizationList.Create(AOwner:TComponent;EmployeeType:String;isHelper:Boolean=False;Form_Request:String='';isReadOnly:Boolean=True);
 begin
   is_Helper:=isHelper;
   is_ReadOnly:=isReadOnly;
+  FormRequest:=Form_Request;
   Employee_Type:=EmployeeType;
   if UpperCase(EmployeeType)='TAXI' then begin
     EmplType:=1;
@@ -231,7 +232,14 @@ end;
 
 procedure TDriverVehicleAuthorizationList.StrGridDblClick(Sender: TObject);
 begin
-  DriverVehicleAuthorization:=TDriverVehicleAuthorization.Create(Self,'BUS',StrGrid.Cells[0,IntRow],is_Helper,is_readonly);
+  if FormRequest='' then begin
+    DriverVehicleAuthorization:=TDriverVehicleAuthorization.Create(Self,'BUS',StrGrid.Cells[0,IntRow],is_Helper,'',is_readonly);
+  end else begin
+    if UpperCase(FormRequest)='MAIN-CHANGE' then begin
+        DriverVehicleAuthorization:=TDriverVehicleAuthorization.Create(Self, 'BUS',StrGrid.Cells[0,IntRow],is_Helper,'MAIN-CHANGE',False);
+        RefreshList;;
+    end;
+  end;
 end;
 
 procedure TDriverVehicleAuthorizationList.StrGridSelectCell(Sender: TObject; ACol,

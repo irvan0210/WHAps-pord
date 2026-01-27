@@ -1,6 +1,6 @@
 object BlockUnitFinish: TBlockUnitFinish
-  Left = 468
-  Top = 312
+  Left = 487
+  Top = 215
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Tutup Blok Unit'

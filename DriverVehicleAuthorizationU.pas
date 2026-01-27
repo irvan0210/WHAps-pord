@@ -40,11 +40,11 @@ type
     EmplType:Integer;
     VhcType:Integer;
     is_Helper,is_ReadOnly:Boolean;
-    AuthId,StrCompanyId:String;
+    AuthId,StrCompanyId, FormRequest:String;
     procedure Init;
   public
     { Public declarations }
-    constructor Create(AOwner:TComponent;EmployeeType:String;AuthorizationId:String='';isHelper:Boolean=false;isReadOnly:Boolean=True)Overload;
+    constructor Create(AOwner:TComponent;EmployeeType:String;AuthorizationId:String='';isHelper:Boolean=false;Form_Request:String='';isReadOnly:Boolean=True)Overload;
     procedure RefreshDriver(isActive:Integer=1);
     procedure RefreshVehicle;
     procedure LoadData;
@@ -60,10 +60,11 @@ uses MainU, DB;
 
 {$R *.dfm}
 
-constructor TDriverVehicleAuthorization.Create(AOwner:TComponent;EmployeeType:String;AuthorizationId:String='';isHelper:Boolean=false;isReadOnly:Boolean=True);
+constructor TDriverVehicleAuthorization.Create(AOwner:TComponent;EmployeeType:String;AuthorizationId:String='';isHelper:Boolean=false;Form_Request:String='';isReadOnly:Boolean=True);
 begin
   is_Helper:=isHelper;
   is_ReadOnly:=isReadOnly;
+  FormRequest:=Form_Request;
   if UpperCase(EmployeeType)='TAXI' then begin
     EmplType:=1;
     VhcType:=1;
@@ -195,25 +196,25 @@ begin
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
   if Main.OpenDb then begin
-    StrQry:='SELECT b.name,a.employee_id,a.vehicle_id,c.body_id,'+
-            'CONVERT(VARCHAR(10),a.from_date,103) AS from_date,CONVERT(VARCHAR(10),a.to_date,103) AS to_date'+
-            ' FROM wh_working_schedule a'+
-            ' INNER JOIN wh_employee b ON b.employee_id=a.employee_id'+
-            ' INNER JOIN wh_vehicle c ON c.vehicle_id=a.vehicle_id '+
-            ' WHERE a.working_schedule_id='+AuthId+';';
+    StrQry:='SELECT * FROM dbo.wh_driver_vehicle_authorization a '+
+            'INNER JOIN wh_employee b ON b.employee_id=a.driver_id '+
+            ' WHERE a.authorization_id='+AuthId+' AND status =1;';
     Qry.SQL.Clear;
     Qry.SQL.Add(StrQry);
     Qry.Open;
     IntCount:=0;
     if (Qry.RecordCount>0) then begin
-      Driver.ItemIndex:=Driver.Items.IndexOf(Qry.FieldValues['employee_id']);
+      Driver.ItemIndex:=Driver.Items.IndexOf(Qry.FieldValues['driver_id']);
+      if Qry.FieldValues['big_bus']='1' then BigBus.Checked := True;
+      if Qry.FieldValues['medium']='1' then MediumBus.Checked := True;
+      if Qry.FieldValues['haice']='1' then Hiace.Checked := True;
 
      // Vechile.ItemIndex:=Vechile.Items.IndexOf(Qry.FieldValues['body_id']);
       //TglDari.Date:=StrToDate(Qry.FieldValues['from_date']);
       //TglSampai.Date:=StrToDate(Qry.FieldValues['to_date']);
 
       DriverChange(Nil);
-      VechileChange(Nil);
+      //VechileChange(Nil);
     end;
     Qry.Close;
     Main.CloseDb;
@@ -335,10 +336,24 @@ begin
 
     if Main.OpenDb then begin
       if AuthId ='' then begin
-           QStr:='INSERT INTO wh_driver_vehicle_authorization (driver_id,big_bus,medium,haice,'+
-              'status,create_by,update_date,update_by)'+
-              ' VALUES ('+QuotedStr(StrEmplId)+','+StrBigbus+','+StrMediumBus+
-              ','+StrHaice+',1,'+QuotedStr(User)+',getdate(),'+QuotedStr(User)+');';
+        QStr:='SELECT * FROM wh_driver_vehicle_authorization '+
+              'WHERE driver_id='+Chr(39)+StrEmplId+Chr(39)+
+              ' AND Status =1;';
+        Qry.SQL.Add(QStr);
+        Qry.Open;
+        QStr:='';
+        if (Qry.RecordCount>0) then begin
+           MessageBox(0,'Driver Sudah diinput','Kualifikasi Kendaraan Driver',MB_OK or MB_ICONWARNING);
+           IsOk:=False;
+          {QStr:='UPDATE wh_driver_vehicle_authorization SET driver_id ='+QuotedStr(StrEmplId)+
+          ',big_bus ='+StrBigbus+',medium ='+StrMediumBus+',haice ='+StrHaice+
+          ',status=1,update_date=getdate(),update_by='+QuotedStr(User)+';';}
+        end else begin
+         QStr:='INSERT INTO wh_driver_vehicle_authorization (driver_id,big_bus,medium,haice,'+
+               'status,create_by,update_date,update_by)'+
+               ' VALUES ('+QuotedStr(StrEmplId)+','+StrBigbus+','+StrMediumBus+
+               ','+StrHaice+',1,'+QuotedStr(User)+',getdate(),'+QuotedStr(User)+');';
+        end;
         Qry.SQL.Clear;
         Qry.SQL.Add(QStr);
         try
@@ -348,10 +363,11 @@ begin
             IsOk:=False;
           end
         end;
+
       end else begin
         QStr:='UPDATE wh_driver_vehicle_authorization SET driver_id='+Chr(39)+StrEmplId+Chr(39)+',big_bus='+
-              StrBigbus+',medium_bus='+StrMediumBus+',haice='+StrHaice+
-              ' WHERE driver_vehicle_authorization_id='+AuthId+';';
+              StrBigbus+',medium='+StrMediumBus+',haice='+StrHaice+
+              ' WHERE authorization_id='+AuthId+';';
         Qry.SQL.Add(QStr);
         try
           Qry.ExecSQL;

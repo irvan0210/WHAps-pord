@@ -1,6 +1,6 @@
 object PurchaseOrderList: TPurchaseOrderList
-  Left = 148
-  Top = 131
+  Left = 315
+  Top = 121
   Width = 848
   Height = 526
   Caption = 'List Purchase Order'

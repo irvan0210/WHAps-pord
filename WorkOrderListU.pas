@@ -175,7 +175,7 @@ begin
     if ToDates.Checked=True then StrToDates:=',@ToDates='+QuotedStr(FormatDateTime('yyyy/mm/dd',TanggalSampai.date)) else StrToDates:='';
 //    if IsAll<>9 then StrIsAll:=',@Status='+IntToStr(IsAll) else
     StrIsAll:='';
-    if IsBlok in [1,2] then StrIsBlok:=',@flag='+IntToStr(IsBlok) else StrIsBlok:='';
+    if IsBlok in [1,2,3] then StrIsBlok:=',@flag='+IntToStr(IsBlok) else StrIsBlok:='';
     StrQry:='EXEC GetWorkOrderLists '+StrCompanyId+','+StrLocationId+StrTanggal+StrToDates+StrIsAll+StrIsBlok+';';
     Qry.SQL.Add(StrQry);
     Qry.Open;

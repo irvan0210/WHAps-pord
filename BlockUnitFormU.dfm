@@ -1,6 +1,6 @@
 object BlockUnitForm: TBlockUnitForm
-  Left = 356
-  Top = 161
+  Left = 479
+  Top = 241
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Blok Unit'
@@ -3504,12 +3504,20 @@ object BlockUnitForm: TBlockUnitForm
     TabOrder = 4
   end
   object BlokMudik: TRadioButton
-    Left = 168
+    Left = 175
     Top = 161
-    Width = 113
+    Width = 95
     Height = 17
     Caption = 'Blok Mudik'
     TabOrder = 5
+  end
+  object BlokDaytrans: TRadioButton
+    Left = 270
+    Top = 161
+    Width = 93
+    Height = 17
+    Caption = 'Blok Daytrans'
+    TabOrder = 11
   end
   object ppReport: TppReport
     PrinterSetup.BinName = 'Default'

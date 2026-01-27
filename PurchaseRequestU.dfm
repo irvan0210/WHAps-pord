@@ -1,10 +1,10 @@
 object PurchaseRequest: TPurchaseRequest
-  Left = 405
-  Top = 108
+  Left = 330
+  Top = 217
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Purchase Request'
-  ClientHeight = 550
+  ClientHeight = 554
   ClientWidth = 715
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -63,7 +63,7 @@ object PurchaseRequest: TPurchaseRequest
   end
   object Label16: TLabel
     Left = 72
-    Top = 216
+    Top = 234
     Width = 37
     Height = 13
     Alignment = taRightJustify
@@ -171,10 +171,10 @@ object PurchaseRequest: TPurchaseRequest
   end
   object StrGrid: TZColorStringGrid
     Left = 16
-    Top = 272
+    Top = 286
     Width = 665
     Height = 177
-    ColCount = 6
+    ColCount = 7
     DefaultRowHeight = 20
     DefaultDrawing = False
     FixedColor = clBtnFace
@@ -198,7 +198,7 @@ object PurchaseRequest: TPurchaseRequest
   end
   object Selesai: TButton
     Left = 608
-    Top = 208
+    Top = 206
     Width = 75
     Height = 25
     Caption = 'Selesai'
@@ -339,7 +339,7 @@ object PurchaseRequest: TPurchaseRequest
   end
   object ItemDetail: TEdit
     Left = 56
-    Top = 296
+    Top = 310
     Width = 121
     Height = 21
     TabOrder = 14
@@ -349,7 +349,7 @@ object PurchaseRequest: TPurchaseRequest
   end
   object Qty: TEdit
     Left = 416
-    Top = 296
+    Top = 310
     Width = 41
     Height = 21
     TabOrder = 15
@@ -359,7 +359,7 @@ object PurchaseRequest: TPurchaseRequest
   end
   object PriceUnit: TEdit
     Left = 480
-    Top = 304
+    Top = 318
     Width = 73
     Height = 21
     TabOrder = 16
@@ -370,7 +370,7 @@ object PurchaseRequest: TPurchaseRequest
   end
   object Panel2: TPanel
     Left = 496
-    Top = 455
+    Top = 469
     Width = 169
     Height = 73
     BevelOuter = bvNone
@@ -412,7 +412,7 @@ object PurchaseRequest: TPurchaseRequest
   end
   object Panel3: TPanel
     Left = 16
-    Top = 455
+    Top = 469
     Width = 273
     Height = 73
     BevelOuter = bvNone
@@ -501,14 +501,6 @@ object PurchaseRequest: TPurchaseRequest
     Height = 21
     TabOrder = 17
   end
-  object Remark: TEdit
-    Left = 120
-    Top = 216
-    Width = 473
-    Height = 21
-    TabOrder = 18
-    OnKeyPress = AttnKeyPress
-  end
   object SBU: TComboBox
     Left = 120
     Top = 96
@@ -522,11 +514,11 @@ object PurchaseRequest: TPurchaseRequest
   end
   object GroupFooter: TPanel
     Left = 296
-    Top = 455
+    Top = 469
     Width = 259
     Height = 72
     BevelOuter = bvNone
-    TabOrder = 19
+    TabOrder = 18
     object Label18: TLabel
       Left = 213
       Top = 4
@@ -576,7 +568,7 @@ object PurchaseRequest: TPurchaseRequest
     BevelOuter = bvNone
     Caption = 'Panel4'
     Enabled = False
-    TabOrder = 21
+    TabOrder = 20
     object PBJNo: TEdit
       Left = 0
       Top = 0
@@ -591,7 +583,7 @@ object PurchaseRequest: TPurchaseRequest
     Width = 31
     Height = 25
     BevelOuter = bvNone
-    TabOrder = 20
+    TabOrder = 19
     object Cari: TSpeedButton
       Left = 0
       Top = 2
@@ -641,7 +633,7 @@ object PurchaseRequest: TPurchaseRequest
     Width = 81
     Height = 17
     Caption = 'PBJ Selesai'
-    TabOrder = 23
+    TabOrder = 22
   end
   object QReport: TQuickRep
     Left = 968
@@ -2958,16 +2950,17 @@ object PurchaseRequest: TPurchaseRequest
     Width = 136
     Height = 21
     ReadOnly = True
-    TabOrder = 24
+    TabOrder = 23
     OnKeyPress = ReferensiKeyPress
   end
   object TambahBarang: TButton
-    Left = 591
-    Top = 243
-    Width = 89
+    Left = 608
+    Top = 256
+    Width = 75
     Height = 25
     Caption = 'Tambah Item'
-    TabOrder = 25
+    TabOrder = 24
+    WordWrap = True
     OnClick = TambahBarangClick
   end
   object BudgetCoa: TEdit
@@ -2976,7 +2969,7 @@ object PurchaseRequest: TPurchaseRequest
     Width = 136
     Height = 21
     ReadOnly = True
-    TabOrder = 26
+    TabOrder = 25
     OnKeyPress = ReferensiKeyPress
   end
   object BudgetId: TEdit
@@ -2985,9 +2978,26 @@ object PurchaseRequest: TPurchaseRequest
     Width = 153
     Height = 21
     ReadOnly = True
-    TabOrder = 27
+    TabOrder = 26
     Visible = False
     OnKeyPress = ReferensiKeyPress
+  end
+  object Chk_Pembelian: TCheckBox
+    Left = 25
+    Top = 213
+    Width = 108
+    Height = 17
+    Alignment = taLeftJustify
+    Caption = 'Catatan Pembalian'
+    TabOrder = 27
+    OnClick = Chk_PembelianClick
+  end
+  object Remark: TMemo
+    Left = 120
+    Top = 232
+    Width = 473
+    Height = 49
+    TabOrder = 28
   end
   object ppReport: TppReport
     PrinterSetup.BinName = 'Default'
@@ -3000,7 +3010,7 @@ object PurchaseRequest: TPurchaseRequest
     PrinterSetup.mmMarginTop = 6350
     PrinterSetup.mmPaperHeight = 150018
     PrinterSetup.mmPaperWidth = 210079
-    PrinterSetup.PaperSize = 119
+    PrinterSetup.PaperSize = 256
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
     OutlineSettings.CreateNode = True
@@ -3037,7 +3047,7 @@ object PurchaseRequest: TPurchaseRequest
         Border.Visible = False
         mmHeight = 21431
         mmLeft = 0
-        mmTop = 0
+        mmTop = 794
         mmWidth = 61648
         BandType = 0
       end
@@ -4217,7 +4227,7 @@ object PurchaseRequest: TPurchaseRequest
         Transparent = True
         mmHeight = 3969
         mmLeft = 6350
-        mmTop = 41275
+        mmTop = 37571
         mmWidth = 63765
         BandType = 8
       end
@@ -4238,7 +4248,7 @@ object PurchaseRequest: TPurchaseRequest
         Transparent = True
         mmHeight = 3969
         mmLeft = 122767
-        mmTop = 41275
+        mmTop = 37571
         mmWidth = 63765
         BandType = 8
       end
@@ -4258,7 +4268,7 @@ object PurchaseRequest: TPurchaseRequest
         Transparent = True
         mmHeight = 3969
         mmLeft = 6350
-        mmTop = 40217
+        mmTop = 37571
         mmWidth = 63765
         BandType = 8
       end
@@ -4278,7 +4288,7 @@ object PurchaseRequest: TPurchaseRequest
         Transparent = True
         mmHeight = 3969
         mmLeft = 122767
-        mmTop = 40217
+        mmTop = 37571
         mmWidth = 63765
         BandType = 8
       end
@@ -4431,7 +4441,7 @@ object PurchaseRequest: TPurchaseRequest
         Transparent = True
         mmHeight = 3704
         mmLeft = 0
-        mmTop = 45508
+        mmTop = 43127
         mmWidth = 12965
         BandType = 8
       end
@@ -4448,9 +4458,9 @@ object PurchaseRequest: TPurchaseRequest
         Font.Size = 9
         Font.Style = []
         Transparent = True
-        mmHeight = 3704
+        mmHeight = 5821
         mmLeft = 12700
-        mmTop = 45508
+        mmTop = 43127
         mmWidth = 178065
         BandType = 8
       end

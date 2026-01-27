@@ -94,13 +94,14 @@ var IntCount:Integer;
 begin
   StrGrid.RowCount:=2;
   StrGrid.ColWidths[0]:=20;
-  StrGrid.ColWidths[1]:=120;
+  StrGrid.ColWidths[1]:=140;
   StrGrid.ColWidths[2]:=70;
   StrGrid.ColWidths[3]:=140;
   StrGrid.ColWidths[4]:=350;
   StrGrid.ColWidths[5]:=120;
   StrGrid.ColWidths[6]:=90;
   StrGrid.ColWidths[7]:=0;
+  StrGrid.ColWidths[8]:=60;
   StrGrid.Cells[0,0]:='No';
   StrGrid.Cells[1,0]:='No PR';
   StrGrid.Cells[2,0]:='Tanggal';
@@ -108,6 +109,7 @@ begin
   StrGrid.Cells[4,0]:='Budget';
   StrGrid.Cells[5,0]:='Requestor';
   StrGrid.Cells[6,0]:='Total';
+  StrGrid.Cells[8,0]:='Status';
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[2,0].HorizontalAlignment:=taCenter;
@@ -115,7 +117,7 @@ begin
   StrGrid.CellStyle[4,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[5,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[6,0].HorizontalAlignment:=taCenter;
-  for IntCount:=0 to 7 do begin
+  for IntCount:=0 to 8 do begin
     StrGrid.Cells[IntCount,1]:='';
     StrGrid.CellStyle[IntCount,1].Font.Color:=clWindowText;
   end;
@@ -297,6 +299,8 @@ begin
     StrGrid.Cells[5,IntCount+1]:=PurchaseRArr[IntCount][4];
     StrGrid.Cells[6,IntCount+1]:=PurchaseRArr[IntCount][5];
     StrGrid.Cells[7,IntCount+1]:=PurchaseRArr[IntCount][7];
+    if PurchaseRArr[IntCount][6]<> '' then StrGrid.Cells[8,IntCount+1]:='Diproses'
+    else StrGrid.Cells[8,IntCount+1]:='';
     StrGrid.CellStyle[6,IntCount+1].HorizontalAlignment:=taRightJustify;
     if PurchaseRArr[IntCount][8]='1' then begin
       StrGrid.CellStyle[0,IntCount+1].BGColor:=clRed;
@@ -306,6 +310,7 @@ begin
       StrGrid.CellStyle[4,IntCount+1].Font.Color:=clRed;
       StrGrid.CellStyle[5,IntCount+1].Font.Color:=clRed;
       StrGrid.CellStyle[6,IntCount+1].Font.Color:=clRed;
+      StrGrid.CellStyle[8,IntCount+1].Font.Color:=clRed;
     end else if PurchaseRArr[IntCount][6]='1' then begin
       StrGrid.CellStyle[0,IntCount+1].Font.Color:=clGreen;
       StrGrid.CellStyle[1,IntCount+1].Font.Color:=clGreen;
@@ -314,6 +319,7 @@ begin
       StrGrid.CellStyle[4,IntCount+1].Font.Color:=clGreen;
       StrGrid.CellStyle[5,IntCount+1].Font.Color:=clGreen;
       StrGrid.CellStyle[6,IntCount+1].Font.Color:=clGreen;
+      StrGrid.CellStyle[8,IntCount+1].Font.Color:=clGreen;
     end else begin
       StrGrid.CellStyle[0,IntCount+1].Font.Color:=clWindowText;
       StrGrid.CellStyle[1,IntCount+1].Font.Color:=clWindowText;
@@ -322,8 +328,8 @@ begin
       StrGrid.CellStyle[4,IntCount+1].Font.Color:=clWindowText;
       StrGrid.CellStyle[5,IntCount+1].Font.Color:=clWindowText;
       StrGrid.CellStyle[6,IntCount+1].Font.Color:=clWindowText;
+      StrGrid.CellStyle[8,IntCount+1].Font.Color:=clWindowText;
     end;
-
   end;
 end;
 
@@ -363,6 +369,7 @@ begin
 end;
 
 procedure TPurchaseRequestList.StrGridDblClick(Sender: TObject);
+var IntCount:Integer;
 begin
   if StrGrid.Cells[1,IntRow]<>'' then begin
     if FormRequest='' then begin
@@ -378,23 +385,31 @@ begin
         else MessageBox(0,'Tutup Form Purchase Request terlebih dahulu','List Purchase Request',MB_OK or MB_ICONERROR);
       end;
     end else if UpperCase(FormRequest)='PURCHASEORDER' then begin
-      if (PurchaseExpiredDay)>0 then begin
+      if StrGrid.Cells[8,IntRow]='' then begin
+        if (PurchaseExpiredDay)>0 then begin
          if DaysBetween(StrToDate(Main.WhatDate),StrToDate(StrGrid.Cells[2,IntRow]))<PurchaseExpiredDay then begin
            PurchaseOrder.SetPRNo(StrGrid.Cells[1,IntRow]);
            Close;
          end else begin
             MessageBox(0,PChar('Purchase Request Sudah Kadaluarsa'+Chr(13)+Chr(13)+' Maksimum PR dapat diproses dibawah '+IntToStr(PurchaseExpiredDay)+' hari'),'List Purchase Request',MB_OK or MB_ICONERROR);
          end;
-      end else if (PurchaseExpiredMonth)>0 then begin
-        if MonthsBetween(StrToDate(Main.WhatDate),StrToDate(StrGrid.Cells[2,IntRow]))<PurchaseExpiredMonth then begin
-           PurchaseOrder.SetPRNo(StrGrid.Cells[1,IntRow]);
-           Close;
-         end else begin
-            MessageBox(0,PChar('Purchase Request Sudah Kadaluarsa'+Chr(13)+Chr(13)+' Maksimum PR dapat diproses '+IntToStr(PurchaseExpiredMonth)+' bulan'),'List Purchase Request',MB_OK or MB_ICONERROR);
-         end;
+        end else if (PurchaseExpiredMonth)>0 then begin
+          if MonthsBetween(StrToDate(Main.WhatDate),StrToDate(StrGrid.Cells[2,IntRow]))<PurchaseExpiredMonth then begin
+             PurchaseOrder.SetPRNo(StrGrid.Cells[1,IntRow]);
+             Close;
+           end else begin
+              MessageBox(0,PChar('Purchase Request Sudah Kadaluarsa'+Chr(13)+Chr(13)+' Maksimum PR dapat diproses PO '+IntToStr(PurchaseExpiredMonth)+' bulan'),'List Purchase Request',MB_OK or MB_ICONERROR);
+           end;
+        end else begin
+          PurchaseOrder.SetPRNo(StrGrid.Cells[1,IntRow]);
+          Close;
+        end;
       end else begin
-        PurchaseOrder.SetPRNo(StrGrid.Cells[1,IntRow]);
-        Close;
+          MessageBox(0,PChar('Purchase Request sudah diproses Purchase Order '),'List Purchase Request',MB_OK or MB_ICONWARNING);
+         // TPurchaseOrder.Create(Self,StrGrid.Cells[1,IntRow],True);  '+Chr(13)+Chr(13)+'
+         // PurchaseOrder:=TPurchaseOrder.Create(Self,StrGrid.Cells[1,IntRow],False);
+         // TPurchaseOrder.Create(Self,StrGrid.Cells[1,IntRow],True);
+         // Close;
       end;
     end else if UpperCase(FormRequest)='PURCHASEREQUEST' then begin
       if UpperCase(FormFunction)='REPRINT' then begin

@@ -43,7 +43,8 @@ var
 
 implementation
 
-uses MainU, PartDetailFormU, StrUtils, MaintenanceJobFormU;
+uses MainU, PartDetailFormU, StrUtils, MaintenanceJobFormU,
+  PurchaseRequestU;
 
 {$R *.dfm}
 
@@ -207,6 +208,9 @@ begin
 end;
 
 procedure TPartDetailList.StrGridDblClick(Sender: TObject);
+var
+StrPartName, kode_part_gp, kd_part_datail : string;
+IntCount,IntRowCount,rowcount2:Integer;
 begin
   if StrGrid.Cells[1,IntRow]<>'' then begin
     if FormRequest='' then begin
@@ -217,15 +221,46 @@ begin
           if Main.IsFormOpen('PartDetailForm')=False then PartDetailForm:=TPartDetailForm.Create(Self,StrGrid.Cells[1,IntRow])
           else MessageBox(0,'Tutup Part Detail terlebih dahulu','List Part Detail',MB_OK or MB_ICONERROR);
       end;
-    end else begin
-      if UpperCase(FormRequest)='MAINTENANCE-JOB' then begin
+    end else if UpperCase(FormRequest)='MAINTENANCE-JOB' then begin
         MaintenanceJobForm.SetPartDetail(StrGrid.Cells[1,IntRow]);
         Close;
+    end else begin
+      if UpperCase(FormRequest)='PURCHESREQUSEST' then begin
+        MessageBox(0,'Pastikan part sudah terdaftar di GP','List Part Detail',MB_OK or MB_ICONINFORMATION);
+        StrPartName := PartDetailList.StrGrid.Cells[4,IntRow];
+        kode_part_gp := PartDetailList.StrGrid.Cells[7,IntRow];
+        kd_part_datail := PartDetailList.StrGrid.Cells[1,IntRow];
+        if Trim(StrPartName)<>'' then
+          begin
+            for IntCount:=2 to PurchaseRequest.StrGrid.RowCount do begin
+              if Trim(StrPartName)=PurchaseRequest.StrGrid.Cells[1,IntCount-1] then
+              begin
+                MessageBox(0,PChar('Item sudah dipilih'),'List Item',MB_OK or MB_ICONWARNING);
+                Exit;
+              end;
+            end;
+          end;
+        IntRowCount:=PurchaseRequest.StrGrid.RowCount;
+        PurchaseRequest.StrGrid.RowCount:=IntRowCount;
+        with PurchaseRequest do begin
+          rowcount2:=StrGrid.RowCount;
+          StrGrid.Cells[0,StrGrid.RowCount-1]:=IntToStr(StrGrid.RowCount-1);
+          StrGrid.Cells[1,StrGrid.RowCount-1]:=StrPartName;
+          StrGrid.Cells[2,StrGrid.RowCount-1]:='1';
+          StrGrid.Cells[5,StrGrid.RowCount-1]:=kode_part_gp;
+          StrGrid.Cells[6,StrGrid.RowCount-1]:=kd_part_datail;
+          StrGrid.CellStyle[0,StrGrid.RowCount-1].HorizontalAlignment:=taCenter;
+          StrGrid.CellStyle[1,StrGrid.RowCount-1].HorizontalAlignment:=taLeftJustify;
+          StrGrid.CellStyle[2,StrGrid.RowCount-1].HorizontalAlignment:=taCenter;
+          //ItemDetailExit(nil);
+          StrGrid.Col:=3;
+          StrGrid.RowCount := StrGrid.RowCount+1
+         end;
+        close;
       end;
     end;
   end;
 end;
-
 procedure TPartDetailList.StrGridKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key=#13 then StrGridDblClick(Nil); 

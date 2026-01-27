@@ -134,7 +134,6 @@ type
     QRLabel23: TQRLabel;
     QNotes: TQRLabel;
     Label16: TLabel;
-    Remark: TEdit;
     Label17: TLabel;
     SBU: TComboBox;
     GroupFooter: TPanel;
@@ -243,6 +242,8 @@ type
     CariBudget: TSpeedButton;
     BudgetCoa: TEdit;
     BudgetId: TEdit;
+    Chk_Pembelian: TCheckBox;
+    Remark: TMemo;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -275,6 +276,7 @@ type
     procedure CariBudgetClick(Sender: TObject);
     procedure StrGridKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure Chk_PembelianClick(Sender: TObject);
   private
     { Private declarations }
     procedure Init;
@@ -308,7 +310,7 @@ var
 implementation
 
 uses MainU, PurchaseRequestListU, RePrintFormU, ItemServiceRequestListU,
-  VendorListU, BrowsePartU, BudgetViewU, ListPartsU;
+  VendorListU, BrowsePartU, BudgetViewU, ListPartsU, PartDetailListU;
 
 {$R *.dfm}
 
@@ -391,6 +393,7 @@ begin
   StrGrid.ColWidths[3]:=100;
   StrGrid.ColWidths[4]:=100;
   StrGrid.ColWidths[5]:=0;
+  StrGrid.ColWidths[6]:=0;
   StrGrid.Cells[0,0]:='No';
   StrGrid.Cells[1,0]:='Barang/Jasa';
   StrGrid.Cells[2,0]:='Qty';
@@ -401,7 +404,7 @@ begin
   StrGrid.CellStyle[2,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[3,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[4,0].HorizontalAlignment:=taCenter;
-  for IntCount:=0 to 5 do begin
+  for IntCount:=0 to 6 do begin
     StrGrid.Cells[IntCount,1]:='';
     StrGrid.CellStyle[IntCount,1].BGColor:=clWindow;
   end;
@@ -520,7 +523,7 @@ begin
   end;
   SubTotal.Text:=IToCurr(IntSubTotal);
   if (TaxCheck.Checked)  then
-    if IntTotal>0 then IntTax:=Integer(Round((IntSubTotal*10)/100));
+    if IntTotal>0 then IntTax:=Integer(Round((IntSubTotal*11)/100));
   Tax.Text:=IToCurr(IntTax);
   Total.Text:=IToCurr(IntSubTotal+IntTax);
 end;
@@ -819,11 +822,11 @@ begin
             if (ToString(StrGrid.Cells[3,IntCount])<>'') then StrPriceUnit:=ToString(StrGrid.Cells[3,IntCount]) else StrPriceUnit:='0';;
             if (ToString(StrGrid.Cells[4,IntCount])<>'') then StrTotalPrice:=ToString(StrGrid.Cells[4,IntCount]) else StrTotalPrice:='0';
             StrQry:=StrQry+' INSERT INTO wh_purchase_request_detail (purchase_request_id'+
-                    ',item_request_detail_id,item_detail,quantity,price_unit,total,update_user) '+
+                    ',item_request_detail_id,item_detail,quantity,price_unit,total,update_user,item_detail_id) '+
                     ' VALUES ('+QuotedStr(StrTransId)+','+StrItemRequestDetailId+
                     ','+QuotedStr(StrGrid.Cells[1,IntCount])+
                     ','+StrGrid.Cells[2,IntCount]+','+StrPriceUnit+
-                    ','+StrTotalPrice+','+QuotedStr(User)+');';
+                    ','+StrTotalPrice+','+QuotedStr(User)+','+QuotedStr(StrGrid.Cells[6,IntCount])+');';
           end;
         end;
       end;
@@ -1046,8 +1049,8 @@ begin
       ppFax.Caption:=Qry.FieldValues['fax_no'];
       ppCompany.Caption:=Qry.FieldValues['company_name'];
       case Qry.FieldValues['logo'] of
-        1:ppLogo.Picture:=Main.LogoWH.Picture;
-        2:ppLogo.Picture:=Main.LogoWHDC.Picture;
+        1:ppLogo.Picture:=Main.LogoWHDC.Picture;
+        2:ppLogo.Picture:=Main.LogoWH.Picture;
         3:ppLogo.Picture:=Main.LogoWHET.Picture;
         4:ppLogo.Picture:=Main.LogoDT.Picture;
         5:ppLogo.Picture:=Main.LogoEUR.Picture;
@@ -1247,10 +1250,11 @@ begin
     BrowsePart:=TBrowsePart.Create(Self,'PURCHESREQUSEST');
   end;}
 
-   if Main.IsFormOpen('ListPartsU')=False then
+   if Main.IsFormOpen('PartDetailList')=False then
   begin
     //BrowsePartVehicleId:=VehicleId;
-    ListParts:=TListParts.Create(Self,'PURCHESREQUSEST');
+    //ListParts:=TListParts.Create(Self,'PURCHESREQUSEST');
+    PartDetailList:=TPartDetailList.Create(Self,'PURCHESREQUSEST');
   end;
 end;
 
@@ -1294,5 +1298,13 @@ begin
   end;
 end;
 
+
+procedure TPurchaseRequest.Chk_PembelianClick(Sender: TObject);
+begin
+ if Chk_Pembelian.Checked then begin
+   Remark.Text := 'Lampirkan uji emisi ' + #13#10 +
+                  'dan vendor memenuhi perundang-undagan yang berlaku';
+ end else Remark.Text := '';
+end;
 
 end.

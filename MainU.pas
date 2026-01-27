@@ -1433,8 +1433,8 @@ begin
           end;
         end;
         {Blok Unit}
-        151101..151104:begin
-          Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04']) of
+        151101..151107:begin
+          Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04','05','06','07']) of
             0:begin
                 if IsFormOpen('BlockUnitForm')=False then BlockUnitForm:=TBlockUnitForm.Create(Self);
               end;
@@ -1443,6 +1443,12 @@ begin
               end;
             2:begin
                 if IsFormOpen('BlockUnitFinish')=False then BlockUnitFinish:=TBlockUnitFinish.Create(Self);
+              end;
+            5:begin
+                if IsFormOpen('WorkOrderList')=False then WorkOrderList:=TWorkOrderList.Create(Self,'','',1,3); {2=edit; 1=readonly}
+              end;
+            6:begin
+                if IsFormOpen('WorkOrderList')=False then WorkOrderList:=TWorkOrderList.Create(Self,'','',1,3);
               end;
             else begin
                 if IsFormOpen('WorkOrderList')=False then WorkOrderList:=TWorkOrderList.Create(Self,'','',1,1);

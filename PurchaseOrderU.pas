@@ -156,7 +156,6 @@ type
     Vendor: TComboBox;
     TanggalKirim: TDateTimePicker;
     PaymentTerm: TComboBox;
-    Remark: TEdit;
     GroupFooter: TPanel;
     Batal: TCheckBox;
     TaxCheck: TCheckBox;
@@ -170,6 +169,8 @@ type
     Rev: TEdit;
     VendorID_Disp: TEdit;
     CariVendor: TSpeedButton;
+    Chk_Pembelian: TCheckBox;
+    Remark: TMemo;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure CariClick(Sender: TObject);
@@ -204,6 +205,7 @@ type
     procedure CetakUlangClick(Sender: TObject);
     procedure CariVendorClick(Sender: TObject);
     procedure VendorID_DispChange(Sender: TObject);
+    procedure Chk_PembelianClick(Sender: TObject);
   private
     { Private declarations }
     PurchaseOrderId,VendorId:String;
@@ -321,6 +323,7 @@ begin
   StrGridPR.ColWidths[4]:=100;
   StrGridPR.ColWidths[5]:=0;
   StrGridPR.ColWidths[6]:=0;
+  StrGridPR.ColWidths[7]:=0;
   StrGridPR.Cells[0,0]:='No';
   StrGridPR.Cells[1,0]:='Barang/Jasa';
   StrGridPR.Cells[2,0]:='Qty';
@@ -338,22 +341,24 @@ begin
   StrGridPR.CellStyle[2,1].HorizontalAlignment:=taCenter;
   StrGridPR.CellStyle[3,1].HorizontalAlignment:=taRightJustify;
   StrGridPR.CellStyle[4,1].HorizontalAlignment:=taRightJustify;
+  //
   StrGrid.RowCount:=2;
-  StrGrid.ColWidths[0]:=20;
-  StrGrid.ColWidths[1]:=300;
+  StrGrid.ColWidths[0]:=30;
+  StrGrid.ColWidths[1]:=320;
   StrGrid.ColWidths[2]:=60;
   StrGrid.ColWidths[3]:=70;
-  StrGrid.ColWidths[4]:=100;
-  StrGrid.ColWidths[5]:=100;
-  StrGrid.ColWidths[6]:=0;
+  StrGrid.ColWidths[4]:=150;
+  StrGrid.ColWidths[5]:=80;
+  StrGrid.ColWidths[6]:=50;
   StrGrid.ColWidths[7]:=0;
   StrGrid.ColWidths[8]:=0;
   StrGrid.Cells[0,0]:='No';
   StrGrid.Cells[1,0]:='Barang/Jasa';
   StrGrid.Cells[2,0]:='Qty';
-  StrGrid.Cells[3,0]:='Satuan';
-  StrGrid.Cells[4,0]:='Harga Satuan';
-  StrGrid.Cells[5,0]:='Total';
+  StrGrid.Cells[3,0]:='Harga Satuan';
+  StrGrid.Cells[4,0]:='Total';
+  StrGrid.Cells[5,0]:='Part Detail ID';
+  StrGrid.Cells[6,0]:='PR Detail ID';
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[2,0].HorizontalAlignment:=taCenter;
@@ -365,6 +370,7 @@ begin
   StrGrid.CellStyle[2,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[4,1].HorizontalAlignment:=taRightJustify;
   StrGrid.CellStyle[5,1].HorizontalAlignment:=taRightJustify;
+  StrGrid.CellStyle[6,1].HorizontalAlignment:=taRightJustify;
 end;
 
 procedure TPurchaseOrder.RefreshCombo;
@@ -491,6 +497,7 @@ procedure TPurchaseOrder.LoadDataPurchaseRequest;
 var Qry,Qry2:TADOQuery;
     StrQry:String;
     IntCount:Integer;
+    IsOk :Boolean;
 begin
   if Trim(PRNo.Text)<>'' then begin
     Qry:=TADOQuery.Create(Self);
@@ -506,6 +513,8 @@ begin
         PRTanggal.Text:=Qry.FieldValues['request_dates'];
         BudgetDisp.Text:=Qry.FieldValues['coa_id']+' '+Qry.FieldValues['name'];
         VendorName.Text:=Qry.FieldValues['vendor_name'];
+        VendorID_Disp.Text:=Qry.FieldValues['vendor_id'];
+        VendorDisp.Text:=Qry.FieldValues['vendor_name'];
         Attn.Text:=Qry.FieldValues['attn'];
         Referensi.Text:=Qry.FieldValues['referensi'];
         RequestedByPR.Text:=Qry.FieldValues['user_name'];
@@ -521,14 +530,16 @@ begin
         Qry2.SQL.Add(StrQry);
         Qry2.Open;
         if Qry2.RecordCount>0 then begin
-          StrGridPR.RowCount:=Qry2.RecordCount+1;
+          //StrGridPR.RowCount:=Qry2.RecordCount+1;
+          StrGrid.RowCount:=Qry2.RecordCount+1;
           while not(Qry2.Eof) do begin
-            StrGridPR.Cells[0,IntCount+1]:=IntToStr(IntCount+1);
+           { StrGridPR.Cells[0,IntCount+1]:=IntToStr(IntCount+1);
             StrGridPR.Cells[1,IntCount+1]:=Qry2.FieldValues['item_detail'];
             StrGridPR.Cells[2,IntCount+1]:=Qry2.FieldValues['quantity'];
             StrGridPR.Cells[3,IntCount+1]:=SToCurr(Qry2.FieldValues['price_unit']);
             StrGridPR.Cells[4,IntCount+1]:=SToCurr(Qry2.FieldValues['total']);
-            StrGridPR.Cells[5,IntCount+1]:=Qry2.FieldValues['purchase_request_detail_id'];
+            StrGridPR.Cells[5,IntCount+1]:=Qry2.FieldValues['item_detail_id'];
+            StrGridPR.Cells[6,IntCount+1]:=Qry2.FieldValues['purchase_order_detail_id'];
             if Qry2.FieldValues['purchase_order_detail_id']<>NULL then begin
               StrGridPR.Cells[6,IntCount+1]:='R';
               StrGridPR.CellStyle[0,IntCount+1].BGColor:=clGreen;
@@ -546,7 +557,58 @@ begin
             end;
             StrGridPR.CellStyle[2,IntCount+1].HorizontalAlignment:=taCenter;
             StrGridPR.CellStyle[3,IntCount+1].HorizontalAlignment:=taRightJustify;
-            StrGridPR.CellStyle[4,IntCount+1].HorizontalAlignment:=taRightJustify;
+            StrGridPR.CellStyle[4,IntCount+1].HorizontalAlignment:=taRightJustify;  }
+
+            //PO
+            StrGrid.Cells[0,IntCount+1]:=IntToStr(IntCount+1);
+            StrGrid.Cells[1,IntCount+1]:=Qry2.FieldValues['item_detail'];
+            StrGrid.Cells[2,IntCount+1]:=Qry2.FieldValues['quantity'];
+            StrGrid.Cells[3,IntCount+1]:=SToCurr(Qry2.FieldValues['price_unit']);
+            StrGrid.Cells[4,IntCount+1]:=SToCurr(Qry2.FieldValues['total']);
+            StrGrid.Cells[5,IntCount+1]:=Qry2.FieldValues['item_detail_id'];
+            StrGrid.Cells[6,IntCount+1]:=Qry2.FieldValues['purchase_request_detail_id'];
+            if Qry2.FieldValues['purchase_order_detail_id']<>NULL then begin
+              StrGrid.Cells[7,IntCount+1]:='R';
+              StrGrid.CellStyle[0,IntCount+1].BGColor:=clGreen;
+              StrGrid.CellStyle[1,IntCount+1].BGColor:=clGreen;
+              StrGrid.CellStyle[2,IntCount+1].BGColor:=clGreen;
+              StrGrid.CellStyle[3,IntCount+1].BGColor:=clGreen;
+              StrGrid.CellStyle[4,IntCount+1].BGColor:=clGreen;
+              StrGrid.CellStyle[5,IntCount+1].BGColor:=clGreen;
+            end else begin
+              StrGrid.Cells[7,IntCount+1]:='';
+              StrGrid.CellStyle[0,IntCount+1].BGColor:=clWindow;
+              StrGrid.CellStyle[1,IntCount+1].BGColor:=clWindow;
+              StrGrid.CellStyle[2,IntCount+1].BGColor:=clWindow;
+              StrGrid.CellStyle[3,IntCount+1].BGColor:=clWindow;
+              StrGrid.CellStyle[4,IntCount+1].BGColor:=clWindow;
+              StrGrid.CellStyle[5,IntCount+1].BGColor:=clWindow;
+            end;
+            StrGrid.CellStyle[2,IntCount+1].HorizontalAlignment:=taCenter;
+            StrGrid.CellStyle[3,IntCount+1].HorizontalAlignment:=taRightJustify;
+            StrGrid.CellStyle[4,IntCount+1].HorizontalAlignment:=taRightJustify;
+            StrGrid.CellStyle[5,IntCount+1].HorizontalAlignment:=taRightJustify;
+           // IsOk:=True;
+             // if Trim(Qty.Text)<>'' then begin
+            //    StrGrid.Cells[2,IntRow]:=SToCurr(Qty.Text);
+                Calculate;
+             //   if StrToInt(StrGrid.Cells[2,IntRow])>0 then begin
+              //    if isLock Then begin
+              //      if (StrToInt(StrGrid.Cells[2,IntRow])>StrToInt(StrGrid.Cells[7,IntRow])) then begin
+              //        MessageBox(0,'Jumlah Quantity tidak boleh lebih besar dari PR','Purchase Order',MB_OK or MB_ICONERROR);
+                      //Qty.Text:=StrGrid.Cells[2,IntRow];
+                     // Qty.SetFocus;
+                     // IsOk:=False;
+               //     end;
+               //   end;
+             //   end;
+            //  end;
+            //  if IsOk then begin
+            //    Qty.Visible:=False;
+            //    StrGrid.SetFocus;
+            //  end;
+
+
             Inc(IntCount);
             Qry2.Next;
           end;
@@ -559,6 +621,7 @@ begin
     Qry.Destroy;
     Main.CloseDb;
     Main.M_Normal;
+    RefreshPart;
   end;
 end;
 
@@ -617,10 +680,11 @@ begin
       StrGrid.Cells[0,IntCount]:=Qry.FieldValues['no'];
       StrGrid.Cells[1,IntCount]:=Qry.FieldValues['part_detail_name'];
       StrGrid.Cells[2,IntCount]:=Qry.FieldValues['quantity'];
-      StrGrid.Cells[3,IntCount]:=Qry.FieldValues['uom'];
-      StrGrid.Cells[4,IntCount]:=SToCurr(Qry.FieldValues['price_unit']);
-      StrGrid.Cells[5,IntCount]:=SToCurr(Qry.FieldValues['total']);
-      StrGrid.Cells[6,IntCount]:=Qry.FieldValues['purchase_request_detail_id'];
+     // StrGrid.Cells[3,IntCount]:=Qry.FieldValues['uom'];
+      StrGrid.Cells[3,IntCount]:=SToCurr(Qry.FieldValues['price_unit']);
+      StrGrid.Cells[4,IntCount]:=SToCurr(Qry.FieldValues['total']);
+      StrGrid.Cells[5,IntCount]:=Qry.FieldValues['purchase_request_detail_id'];
+     // StrGrid.Cells[6,IntCount]:=Qry.FieldValues['item_detail'];
       StrGrid.Cells[7,IntCount]:=Qry.FieldValues['purchase_request_quantity'];
       StrGrid.Cells[8,IntCount]:=Qry.FieldValues['purchase_request_price_unit'];
       StrGrid.CellStyle[2,IntCount].HorizontalAlignment:=taCenter;
@@ -654,16 +718,16 @@ begin
   IntSubTotal:=0;
   IntTax:=0;
   for IntCount:=1 to StrGrid.RowCount-1 do begin
-    if (Trim(StrGrid.Cells[1,IntCount])<>'') AND (Trim(StrGrid.Cells[2,IntCount])<>'') AND (Trim(StrGrid.Cells[4,IntCount])<>'') then
+    if (Trim(StrGrid.Cells[1,IntCount])<>'') AND (Trim(StrGrid.Cells[2,IntCount])<>'') AND (Trim(StrGrid.Cells[3,IntCount])<>'') then
       if (Trim(StrGrid.Cells[2,IntCount])<>'0') AND (Trim(StrGrid.Cells[4,IntCount])<>'0') then begin
-        IntTotal:=SToInt(ToString(StrGrid.Cells[2,IntCount]))*SToInt(ToString(StrGrid.Cells[4,IntCount]));
+        IntTotal:=SToInt(ToString(StrGrid.Cells[2,IntCount]))*SToInt(ToString(StrGrid.Cells[3,IntCount]));
         IntSubTotal:=IntSubTotal+IntTotal;
-        StrGrid.Cells[5,IntCount]:=IToCurr(IntTotal);
+        StrGrid.Cells[4,IntCount]:=IToCurr(IntTotal);
     end;
   end;
   SubTotal.Text:=IToCurr(IntSubTotal);
   if (TaxCheck.Checked)  then
-    if IntTotal>0 then IntTax:=Integer(Round((IntSubTotal*10)/100));
+    if IntTotal>0 then IntTax:=Integer(Round((IntSubTotal*11)/100));
   Tax.Text:=IToCurr(IntTax);
   Total.Text:=IToCurr(IntSubTotal+IntTax);
 end;
@@ -686,8 +750,8 @@ begin
       ppPhone.Caption:=Qry.FieldValues['phone_no'];
       ppFax.Caption:=Qry.FieldValues['fax_no'];
       case Qry.FieldValues['logo'] of
-        1:ppLogo.Picture:=Main.LogoWH.Picture;
-        2:ppLogo.Picture:=Main.LogoWHDC.Picture;
+        1:ppLogo.Picture:=Main.LogoWHDC.Picture;
+        2:ppLogo.Picture:=Main.LogoWH.Picture;
         3:ppLogo.Picture:=Main.LogoWHET.Picture;
         4:ppLogo.Picture:=Main.LogoDT.Picture;
         5:ppLogo.Picture:=Main.LogoEUR.Picture;
@@ -813,9 +877,9 @@ procedure TPurchaseOrder.StrGridSelectCell(Sender: TObject; ACol,
   ARow: Integer; var CanSelect: Boolean);
 var R:TRect;
 begin
-  IntRow:=ARow;
+ { IntRow:=ARow;
   IntCol:=ACol;
-  if (IsInputGrid) and (StrGrid.Cells[6,IntRow]<>'')  then begin
+  if (IsInputGrid) and (StrGrid.Cells[5,IntRow]<>'')  then begin
 {    if (ACol = 1) and (ARow > MinRowGrid) then begin
       R := StrGrid.CellRect(ACol, ARow);
       R.Left := R.Left + StrGrid.Left;
@@ -834,7 +898,7 @@ begin
       end;
     end;
 }
-    if (ACol = 1) and (ARow > MinRowGrid) then begin
+ {   if (ACol = 1) and (ARow > MinRowGrid) then begin
       R := StrGrid.CellRect(ACol, ARow);
       R.Left := R.Left + StrGrid.Left;
       R.Right := R.Right + StrGrid.Left;
@@ -879,7 +943,7 @@ begin
         SetFocus;
       end;
     end;
-  end;
+  end; }
 end;
 
 procedure TPurchaseOrder.GridCell(Str:String);
@@ -1191,6 +1255,7 @@ begin
       Qry.SQL.Clear;
       Qry.SQL.Add(StrQry);
       try
+
         Qry.ExecSQL;
       except
         on E:Exception do begin
@@ -1217,13 +1282,14 @@ begin
         StrQry:='';
         for IntCount:=1 to StrGrid.RowCount-1 do begin
           if (Trim(StrGrid.Cells[1,IntCount])<>'') AND (Trim(StrGrid.Cells[2,IntCount])<>'') then begin
-            for IntCount2:=0 to Length(PartDetailArr)-1 do
-              if StrGrid.Cells[1,IntCount]=PartDetailArr[IntCount2][1] then StrPartDetailId:=PartDetailArr[IntCount2][0];
+           // for IntCount2:=0 to Length(PartDetailArr)-1 do
+           //   if StrGrid.Cells[1,IntCount]=PartDetailArr[IntCount2][1] then StrPartDetailId:=PartDetailArr[IntCount2][0];
+
             StrQry:=StrQry+' INSERT INTO wh_purchase_order_detail (purchase_order_id,purchase_request_detail_id'+
                     ',part_detail_id,quantity,price_unit,total,update_user) '+
                     ' VALUES ('+QuotedStr(StrTransId)+','+QuotedStr(StrGrid.Cells[6,IntCount])+
-                    ','+QuotedStr(StrPartDetailId)+','+StrGrid.Cells[2,IntCount]+
-                    ','+ToString(StrGrid.Cells[4,IntCount])+','+ToString(StrGrid.Cells[5,IntCount])+
+                    ','+QuotedStr(StrGrid.Cells[5,IntCount])+','+StrGrid.Cells[2,IntCount]+
+                    ','+ToString(StrGrid.Cells[3,IntCount])+','+ToString(StrGrid.Cells[4,IntCount])+
                     ','+QuotedStr(User)+');';
           end;
         end;
@@ -1237,10 +1303,10 @@ begin
             StrEMessage:=StrEMessage+' '+E.Message;
           end;
         end;
-        IsComplete:=True;
-        for IntCount:=1 to StrGridPR.RowCount-1 do
-          if StrGridPR.Cells[6,IntCount]<>'R' then IsComplete:=False;
-        if IsComplete=True then begin
+       // IsComplete:=True;
+       // for IntCount:=1 to StrGridPR.RowCount-1 do
+       // if StrGridPR.Cells[6,IntCount]<>'R' then IsComplete:=False;
+       // if IsComplete=True then begin
           StrQry:='UPDATE wh_purchase_request SET complete=1 WHERE purchase_request_id='+QuotedStr(StrPRNo)+';';
           Qry.SQL.Clear;
           Qry.SQL.Add(StrQry);
@@ -1252,8 +1318,9 @@ begin
               StrEMessage:=StrEMessage+' '+E.Message;
             end;
           end;
-        end;
+       // end;
       end;
+
       if IsOk then begin
         Main.TransCommit;
         PONo.Text:=StrTransId;
@@ -1338,6 +1405,15 @@ begin
     if VendorArr[Vendor.ItemIndex][2]<>'' then PaymentTerm.ItemIndex:=PaymentTerm.Items.IndexOf(VendorArr[Vendor.ItemIndex][2])
     else PaymentTerm.ItemIndex:=-1;  }
   end;
+
+end;
+
+procedure TPurchaseOrder.Chk_PembelianClick(Sender: TObject);
+begin
+ if Chk_Pembelian.Checked then begin
+   Remark.Text := 'Lampirkan uji emisi ' + #13#10 +
+                  'dan vendor memenuhi perundang-undagan yang berlaku';
+ end else Remark.Text := '';
 end;
 
 end.

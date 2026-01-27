@@ -46,6 +46,7 @@ type
     Label15: TLabel;
     Label16: TLabel;
     Label17: TLabel;
+    Label18: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SelesaiClick(Sender: TObject);
     procedure TahunKeyPress(Sender: TObject; var Key: Char);
@@ -331,7 +332,6 @@ begin
   ProgressBar.Visible:=IsVisible;
   ProgressBar.Position:=IntPosition;
 end;
-
 
 procedure TBusRunningDaysminiRpt.RefreshData;
 var StrQry,StrQry3,QAddParam,AkhirBulan,AwalBulan,StrBodyId,StrLicensePlate,StrCompanyId,StrLocationId,StrSeat,StrBatchId,StrCategorized,StrBatchName,StrIsFacelift,
@@ -686,6 +686,13 @@ begin
               StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].HorizontalAlignment:=taCenter;
               Inc(IntRepair[IntCount2]);
               Inc(IntBroken);
+            end else if Qry2.FieldValues['out_type']='8' then begin
+              StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clPurple;
+              StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].Font.Color:=clWhite;
+              StrGrid.Cells[IntCount2+2+IntGsrKlm,IntCount]:=' D';
+              StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].HorizontalAlignment:=taCenter;
+              Inc(IntRepair[IntCount2]);
+              Inc(IntBroken);
             end;
           end else begin
             if Qry2.FieldValues['out_type']='0' then begin
@@ -694,7 +701,7 @@ begin
                 StrGrid.Cells[IntCount2+2+IntGsrKlm,IntCount]:='@2';
                 StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].HorizontalAlignment:=taCenter;
                 if (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor<>clRed) and (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor<>clBlue)
-                    and (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor<>clFuchsia) then
+                    and (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor<>clFuchsia) and (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor<>clPurple) then
                   StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clWindow;
 
                 if (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor=clAqua) then begin
@@ -740,7 +747,7 @@ begin
                 StrGrid.Cells[IntCount2+2+IntGsrKlm,IntCount]:='@2';
                 StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].HorizontalAlignment:=taCenter;
                 if (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor<>clRed) AND (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor<>clBlue)
-                   and (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor<>clFuchsia) then
+                   and (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor<>clFuchsia) and (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor<>clPurple) then
                   StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clWindow;
 
                 if (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor=clAqua) then begin

@@ -1,6 +1,6 @@
 object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
-  Left = 246
-  Top = 205
+  Left = 258
+  Top = 277
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Running Days Mini'
@@ -31,7 +31,7 @@ object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
     Caption = 'Bulan'
   end
   object ToXCel: TSpeedButton
-    Left = 1008
+    Left = 1022
     Top = 562
     Width = 23
     Height = 22
@@ -173,12 +173,12 @@ object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
   object PanelLegend: TPanel
     Left = 8
     Top = 560
-    Width = 345
+    Width = 305
     Height = 25
     BevelOuter = bvNone
     TabOrder = 7
     object Label7: TLabel
-      Left = 160
+      Left = 135
       Top = 4
       Width = 79
       Height = 13
@@ -191,7 +191,7 @@ object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
       ParentFont = False
     end
     object Label8: TLabel
-      Left = 104
+      Left = 85
       Top = 4
       Width = 41
       Height = 13
@@ -217,7 +217,7 @@ object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
       ParentFont = False
     end
     object Label6: TLabel
-      Left = 257
+      Left = 220
       Top = 4
       Width = 82
       Height = 13
@@ -233,7 +233,7 @@ object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
     end
   end
   object Selesai: TButton
-    Left = 1056
+    Left = 1065
     Top = 560
     Width = 75
     Height = 25
@@ -242,14 +242,14 @@ object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
     OnClick = SelesaiClick
   end
   object Panel1: TPanel
-    Left = 352
+    Left = 314
     Top = 560
-    Width = 649
+    Width = 701
     Height = 25
     BevelOuter = bvNone
     TabOrder = 8
     object Label12: TLabel
-      Left = 112
+      Left = 107
       Top = 4
       Width = 84
       Height = 13
@@ -264,7 +264,7 @@ object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
       ParentFont = False
     end
     object Label13: TLabel
-      Left = 8
+      Left = 3
       Top = 4
       Width = 91
       Height = 13
@@ -279,7 +279,7 @@ object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
       ParentFont = False
     end
     object Label10: TLabel
-      Left = 211
+      Left = 200
       Top = 4
       Width = 55
       Height = 13
@@ -294,7 +294,7 @@ object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
       ParentFont = False
     end
     object Label14: TLabel
-      Left = 283
+      Left = 266
       Top = 4
       Width = 65
       Height = 13
@@ -309,7 +309,7 @@ object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
       ParentFont = False
     end
     object Label15: TLabel
-      Left = 361
+      Left = 437
       Top = 4
       Width = 97
       Height = 13
@@ -324,7 +324,7 @@ object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
       ParentFont = False
     end
     object Label16: TLabel
-      Left = 473
+      Left = 544
       Top = 4
       Width = 76
       Height = 13
@@ -339,7 +339,7 @@ object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
       ParentFont = False
     end
     object Label17: TLabel
-      Left = 561
+      Left = 627
       Top = 4
       Width = 69
       Height = 13
@@ -347,6 +347,21 @@ object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
       Color = clLime
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label18: TLabel
+      Left = 340
+      Top = 4
+      Width = 87
+      Height = 13
+      Caption = '>Blok DaysTrans<'
+      Color = clPurple
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
       Font.Height = -11
       Font.Name = 'MS Sans Serif'
       Font.Style = []

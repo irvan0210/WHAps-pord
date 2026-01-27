@@ -1,11 +1,11 @@
 object PurchaseOrder: TPurchaseOrder
-  Left = 352
-  Top = 21
+  Left = 557
+  Top = 246
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Purchase Order'
-  ClientHeight = 614
-  ClientWidth = 711
+  ClientHeight = 503
+  ClientWidth = 660
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,15 +21,15 @@ object PurchaseOrder: TPurchaseOrder
   PixelsPerInch = 96
   TextHeight = 13
   object Label6: TLabel
-    Left = 88
-    Top = 4
+    Left = 57
+    Top = 7
     Width = 25
     Height = 13
     Caption = 'PR #'
   end
   object CreatePO: TSpeedButton
-    Left = 648
-    Top = 312
+    Left = 604
+    Top = 179
     Width = 23
     Height = 25
     Glyph.Data = {
@@ -46,10 +46,11 @@ object PurchaseOrder: TPurchaseOrder
       33333337FFFFFF7FF3333333000000000333333777777777F33333330000000B
       03333337777777F7F33333330000000003333337777777773333}
     NumGlyphs = 2
+    Visible = False
     OnClick = CreatePOClick
   end
   object GroupBox1: TGroupBox
-    Left = 8
+    Left = 712
     Top = 24
     Width = 609
     Height = 115
@@ -173,8 +174,8 @@ object PurchaseOrder: TPurchaseOrder
     end
   end
   object Selesai: TButton
-    Left = 623
-    Top = 108
+    Left = 576
+    Top = 138
     Width = 75
     Height = 25
     Caption = 'Selesai'
@@ -182,8 +183,8 @@ object PurchaseOrder: TPurchaseOrder
     OnClick = SelesaiClick
   end
   object Simpan: TButton
-    Left = 623
-    Top = 12
+    Left = 576
+    Top = 42
     Width = 75
     Height = 25
     Caption = 'Simpan'
@@ -191,8 +192,8 @@ object PurchaseOrder: TPurchaseOrder
     OnClick = SimpanClick
   end
   object Bersihkan: TButton
-    Left = 623
-    Top = 44
+    Left = 576
+    Top = 74
     Width = 75
     Height = 25
     Caption = 'Bersihkan'
@@ -200,8 +201,8 @@ object PurchaseOrder: TPurchaseOrder
     OnClick = BersihkanClick
   end
   object CetakUlang: TButton
-    Left = 623
-    Top = 76
+    Left = 576
+    Top = 106
     Width = 75
     Height = 25
     Caption = 'Cetak Ulang'
@@ -209,8 +210,8 @@ object PurchaseOrder: TPurchaseOrder
     OnClick = CetakUlangClick
   end
   object Panel2: TPanel
-    Left = 512
-    Top = 536
+    Left = 468
+    Top = 419
     Width = 177
     Height = 73
     BevelOuter = bvNone
@@ -252,8 +253,8 @@ object PurchaseOrder: TPurchaseOrder
   end
   object Panel3: TPanel
     Left = 8
-    Top = 537
-    Width = 273
+    Top = 419
+    Width = 284
     Height = 73
     BevelOuter = bvNone
     Enabled = False
@@ -335,51 +336,51 @@ object PurchaseOrder: TPurchaseOrder
     end
   end
   object GroupBox2: TGroupBox
-    Left = 8
-    Top = 263
-    Width = 627
+    Left = 9
+    Top = 32
+    Width = 552
     Height = 39
     Enabled = False
     TabOrder = 2
     object Label16: TLabel
-      Left = 241
-      Top = 12
+      Left = 186
+      Top = 15
       Width = 39
       Height = 13
       Alignment = taRightJustify
       Caption = 'Tanggal'
     end
     object Label18: TLabel
-      Left = 48
+      Left = 17
       Top = 12
       Width = 25
       Height = 13
       Caption = 'PO #'
     end
     object Label22: TLabel
-      Left = 408
-      Top = 12
+      Left = 334
+      Top = 15
       Width = 56
       Height = 13
       Alignment = taRightJustify
       Caption = 'Dibuat Oleh'
     end
     object Tanggal: TEdit
-      Left = 288
+      Left = 233
       Top = 12
       Width = 89
       Height = 21
       TabOrder = 0
     end
     object PONo: TEdit
-      Left = 80
+      Left = 49
       Top = 12
       Width = 129
       Height = 21
       TabOrder = 1
     end
     object RequestedBy: TEdit
-      Left = 472
+      Left = 400
       Top = 12
       Width = 129
       Height = 21
@@ -388,9 +389,9 @@ object PurchaseOrder: TPurchaseOrder
   end
   object StrGrid: TZColorStringGrid
     Left = 8
-    Top = 399
-    Width = 689
-    Height = 137
+    Top = 232
+    Width = 641
+    Height = 177
     ColCount = 9
     DefaultRowHeight = 20
     DefaultDrawing = False
@@ -413,11 +414,11 @@ object PurchaseOrder: TPurchaseOrder
     LineDesign.LineUpColor = clWhite
   end
   object StrGridPR: TZColorStringGrid
-    Left = 8
-    Top = 142
+    Left = 720
+    Top = 222
     Width = 689
     Height = 117
-    ColCount = 7
+    ColCount = 8
     DefaultRowHeight = 20
     DefaultDrawing = False
     FixedColor = clBtnFace
@@ -440,10 +441,10 @@ object PurchaseOrder: TPurchaseOrder
     LineDesign.LineUpColor = clWhite
   end
   object Qty: TEdit
-    Left = 344
-    Top = 423
+    Left = 352
+    Top = 286
     Width = 49
-    Height = 21
+    Height = 27
     TabOrder = 10
     Visible = False
     OnEnter = QtyEnter
@@ -451,10 +452,10 @@ object PurchaseOrder: TPurchaseOrder
     OnKeyPress = QtyKeyPress
   end
   object PriceUnit: TEdit
-    Left = 488
-    Top = 423
+    Left = 496
+    Top = 286
     Width = 89
-    Height = 21
+    Height = 27
     TabOrder = 11
     Visible = False
     OnEnter = PriceUnitEnter
@@ -462,8 +463,8 @@ object PurchaseOrder: TPurchaseOrder
     OnKeyPress = PriceUnitKeyPress
   end
   object PartDescription: TComboBox
-    Left = 377
-    Top = 2
+    Left = 329
+    Top = 4
     Width = 121
     Height = 21
     Style = csDropDownList
@@ -474,8 +475,8 @@ object PurchaseOrder: TPurchaseOrder
     OnKeyPress = PartDescriptionKeyPress
   end
   object PartNumber: TComboBox
-    Left = 513
-    Top = 2
+    Left = 465
+    Top = 4
     Width = 97
     Height = 21
     Style = csDropDownList
@@ -486,14 +487,14 @@ object PurchaseOrder: TPurchaseOrder
     OnKeyPress = PartNumberKeyPress
   end
   object GroupFooter: TPanel
-    Left = 288
-    Top = 537
-    Width = 284
+    Left = 303
+    Top = 419
+    Width = 217
     Height = 72
     BevelOuter = bvNone
     TabOrder = 16
     object Label5: TLabel
-      Left = 262
+      Left = 192
       Top = 23
       Width = 18
       Height = 13
@@ -501,7 +502,7 @@ object PurchaseOrder: TPurchaseOrder
       Caption = 'Tax'
     end
     object Label4: TLabel
-      Left = 256
+      Left = 187
       Top = 46
       Width = 24
       Height = 13
@@ -509,7 +510,7 @@ object PurchaseOrder: TPurchaseOrder
       Caption = 'Total'
     end
     object Label3: TLabel
-      Left = 237
+      Left = 168
       Top = 2
       Width = 43
       Height = 13
@@ -525,7 +526,7 @@ object PurchaseOrder: TPurchaseOrder
       TabOrder = 0
     end
     object TaxCheck: TCheckBox
-      Left = 242
+      Left = 173
       Top = 22
       Width = 17
       Height = 17
@@ -534,9 +535,9 @@ object PurchaseOrder: TPurchaseOrder
     end
   end
   object Panel4: TPanel
-    Left = 120
+    Left = 89
     Top = 0
-    Width = 185
+    Width = 144
     Height = 29
     BevelOuter = bvNone
     Caption = 'Panel4'
@@ -544,7 +545,7 @@ object PurchaseOrder: TPurchaseOrder
     TabOrder = 17
     object PRNo: TEdit
       Left = 0
-      Top = 3
+      Top = 5
       Width = 137
       Height = 21
       TabOrder = 0
@@ -552,8 +553,8 @@ object PurchaseOrder: TPurchaseOrder
     end
   end
   object PanelCari: TPanel
-    Left = 258
-    Top = 0
+    Left = 228
+    Top = 3
     Width = 31
     Height = 25
     BevelOuter = bvNone
@@ -603,54 +604,54 @@ object PurchaseOrder: TPurchaseOrder
   end
   object GroupPO: TGroupBox
     Left = 8
-    Top = 307
-    Width = 627
-    Height = 91
+    Top = 74
+    Width = 553
+    Height = 157
     Caption = 'PO Detail'
     TabOrder = 15
     object Label15: TLabel
-      Left = 40
-      Top = 16
-      Width = 34
+      Left = 5
+      Top = 19
+      Width = 85
       Height = 13
       Alignment = taRightJustify
       Caption = 'Vendor'
     end
     object Label17: TLabel
-      Left = 27
-      Top = 40
-      Width = 47
+      Left = 5
+      Top = 66
+      Width = 85
       Height = 13
       Alignment = taRightJustify
       Caption = 'Dikirim Ke'
     end
     object Label19: TLabel
-      Left = 425
-      Top = 41
+      Left = 251
+      Top = 42
       Width = 64
       Height = 13
       Alignment = taRightJustify
       Caption = 'Tanggal Kirim'
     end
     object Label20: TLabel
-      Left = 405
-      Top = 17
-      Width = 84
+      Left = 5
+      Top = 43
+      Width = 85
       Height = 13
       Alignment = taRightJustify
       Caption = 'Cara Pembayaran'
     end
     object Label21: TLabel
-      Left = 37
-      Top = 64
-      Width = 37
+      Left = 5
+      Top = 108
+      Width = 85
       Height = 13
       Alignment = taRightJustify
       Caption = 'Catatan'
     end
     object CariVendor: TSpeedButton
-      Left = 377
-      Top = 14
+      Left = 485
+      Top = 15
       Width = 21
       Height = 22
       Glyph.Data = {
@@ -691,25 +692,25 @@ object PurchaseOrder: TPurchaseOrder
       OnClick = CariVendorClick
     end
     object Panel1: TPanel
-      Left = 172
+      Left = 185
       Top = 16
-      Width = 203
-      Height = 33
+      Width = 298
+      Height = 22
       BevelOuter = bvNone
       Enabled = False
       TabOrder = 0
       object VendorDisp: TEdit
         Left = 0
         Top = 0
-        Width = 200
-        Height = 21
+        Width = 295
+        Height = 22
         TabOrder = 0
       end
     end
     object Lokasi: TComboBox
-      Left = 80
-      Top = 40
-      Width = 297
+      Left = 97
+      Top = 63
+      Width = 312
       Height = 21
       Style = csDropDownList
       ItemHeight = 13
@@ -717,7 +718,7 @@ object PurchaseOrder: TPurchaseOrder
       OnKeyPress = LokasiKeyPress
     end
     object Vendor: TComboBox
-      Left = 179
+      Left = 187
       Top = 16
       Width = 97
       Height = 21
@@ -730,8 +731,8 @@ object PurchaseOrder: TPurchaseOrder
       OnKeyPress = VendorKeyPress
     end
     object TanggalKirim: TDateTimePicker
-      Left = 493
-      Top = 40
+      Left = 319
+      Top = 41
       Width = 89
       Height = 21
       Date = 41596.000000000000000000
@@ -740,8 +741,8 @@ object PurchaseOrder: TPurchaseOrder
       OnKeyPress = TanggalKirimKeyPress
     end
     object PaymentTerm: TComboBox
-      Left = 493
-      Top = 16
+      Left = 97
+      Top = 40
       Width = 129
       Height = 21
       Style = csDropDownList
@@ -749,27 +750,36 @@ object PurchaseOrder: TPurchaseOrder
       TabOrder = 4
       OnKeyPress = PaymentTermKeyPress
     end
-    object Remark: TEdit
-      Left = 80
-      Top = 64
-      Width = 542
+    object VendorID_Disp: TEdit
+      Left = 97
+      Top = 16
+      Width = 86
       Height = 21
       TabOrder = 5
-      OnKeyPress = RemarkKeyPress
-    end
-    object VendorID_Disp: TEdit
-      Left = 80
-      Top = 16
-      Width = 91
-      Height = 21
-      TabOrder = 6
       OnChange = VendorID_DispChange
+    end
+    object Chk_Pembelian: TCheckBox
+      Left = 2
+      Top = 85
+      Width = 108
+      Height = 17
+      Alignment = taLeftJustify
+      Caption = 'Catatan Pembalian'
+      TabOrder = 6
+      OnClick = Chk_PembelianClick
+    end
+    object Remark: TMemo
+      Left = 96
+      Top = 104
+      Width = 417
+      Height = 41
+      TabOrder = 7
     end
   end
   object ppReport: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'A4 210 x 297 mm'
+    PrinterSetup.PaperName = 'A4'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 6350
     PrinterSetup.mmMarginLeft = 6350
@@ -789,8 +799,8 @@ object PurchaseOrder: TPurchaseOrder
     PreviewFormSettings.WindowState = wsMaximized
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
-    Left = 344
-    Top = 32
+    Left = 880
+    Top = 328
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand1: TppHeaderBand

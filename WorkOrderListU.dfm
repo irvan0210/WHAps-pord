@@ -1,6 +1,6 @@
 object WorkOrderList: TWorkOrderList
-  Left = 330
-  Top = 158
+  Left = 361
+  Top = 352
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data PKB'

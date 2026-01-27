@@ -1,6 +1,6 @@
 object PurchaseRequestList: TPurchaseRequestList
-  Left = 183
-  Top = 297
+  Left = 345
+  Top = 211
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'List Purchase Request'
@@ -134,7 +134,7 @@ object PurchaseRequestList: TPurchaseRequestList
     Top = 88
     Width = 945
     Height = 361
-    ColCount = 8
+    ColCount = 9
     DefaultRowHeight = 20
     DefaultDrawing = False
     FixedColor = clBtnFace
