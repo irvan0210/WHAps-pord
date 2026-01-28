@@ -583,7 +583,7 @@ begin
       end;
       Main.TransStart;
       StrQry:='UPDATE wh_work_order SET date_out='+QuotedStr(FormatDateTime('yyyy-mm-dd',TanggalSelesai.Date))+
-              ',time_out='+QuotedStr('00:00')+',status=0 WHERE work_order_id='+Chr(39)+StrTransId+Chr(39)+' and flag in (1,2);';
+              ',time_out='+QuotedStr('00:00')+',status=0 WHERE work_order_id='+Chr(39)+StrTransId+Chr(39)+' and flag in (1,2,3);';
       Qry.SQL.Add(StrQry);
       try
         Qry.ExecSQL;

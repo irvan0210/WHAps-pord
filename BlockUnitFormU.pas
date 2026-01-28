@@ -617,7 +617,7 @@ begin
           Qry.SQL.Clear;
           StrQry:='SELECT RIGHT(MAX(work_order_id),4) AS max_id FROM wh_work_order WHERE work_order_id '+
                   'LIKE '+Chr(39)+'BLC'+LocationCode+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
-                  FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+'____'+Chr(39)+' AND (flag=1 OR flag=2);';
+                  FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+'____'+Chr(39)+' AND (flag=1 OR flag=2 OR flag=3);';
           Qry.SQL.Add(StrQry);
           Qry.Open;
           if Qry.FieldValues['max_id']<>NULL then begin

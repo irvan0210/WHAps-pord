@@ -1,6 +1,6 @@
 object PurchaseRequestList: TPurchaseRequestList
-  Left = 345
-  Top = 211
+  Left = 340
+  Top = 53
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'List Purchase Request'
@@ -42,6 +42,19 @@ object PurchaseRequestList: TPurchaseRequestList
     Width = 18
     Height = 13
     Caption = 'Cari'
+  end
+  object Label7: TLabel
+    Left = 57
+    Top = 464
+    Width = 106
+    Height = 13
+    Caption = '> Sudah diproses PO<'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clGreen
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
   end
   object GroupDetail: TGroupBox
     Left = 8

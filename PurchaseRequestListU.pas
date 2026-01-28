@@ -25,6 +25,7 @@ type
     Cari: TEdit;
     Label6: TLabel;
     Location: TComboBox;
+    Label7: TLabel;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -405,7 +406,7 @@ begin
           Close;
         end;
       end else begin
-          MessageBox(0,PChar('Purchase Request sudah diproses Purchase Order '),'List Purchase Request',MB_OK or MB_ICONWARNING);
+          MessageBox(0,PChar('Purchase Request sudah diproses PO'),'List Purchase Request',MB_OK or MB_ICONWARNING);
          // TPurchaseOrder.Create(Self,StrGrid.Cells[1,IntRow],True);  '+Chr(13)+Chr(13)+'
          // PurchaseOrder:=TPurchaseOrder.Create(Self,StrGrid.Cells[1,IntRow],False);
          // TPurchaseOrder.Create(Self,StrGrid.Cells[1,IntRow],True);

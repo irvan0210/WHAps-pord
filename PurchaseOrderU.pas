@@ -1412,7 +1412,7 @@ procedure TPurchaseOrder.Chk_PembelianClick(Sender: TObject);
 begin
  if Chk_Pembelian.Checked then begin
    Remark.Text := 'Lampirkan uji emisi ' + #13#10 +
-                  'dan vendor memenuhi perundang-undagan yang berlaku';
+                  'dan vendor harus memenuhi perundang-undagan yang berlaku';
  end else Remark.Text := '';
 end;
 

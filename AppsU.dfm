@@ -126,6 +126,14 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '28/01/2026 (6.2.0.6)'
+      
+        '- Perbaikan Menu Purchase Order,(Tax jadi 11%, PR tidak muncul d' +
+        'i PO, Perubahan '
+      'Logo di Printout)'
+      '- Penambahan Blok Daytrans.'
+      '- Penambahan Menu Kualifikasi Kendaraan Driver.'
+      ''
       '26/12/2025 (6.2.0.5)'
       '- Perbaikan Menu Purchase Request,(Penambah Tools Pilih vendor, '
       'budget,barang/item)'

@@ -137,5 +137,11 @@ object DriverVehicleAuthorizationList: TDriverVehicleAuthorizationList
     DefaultFixedCellStyle.Font.Style = []
     DefaultFixedCellStyle.BGColor = clBtnFace
     LineDesign.LineUpColor = clWhite
+    ColWidths = (
+      64
+      64
+      64
+      64
+      64)
   end
 end

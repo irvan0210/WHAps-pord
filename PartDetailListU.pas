@@ -226,7 +226,7 @@ begin
         Close;
     end else begin
       if UpperCase(FormRequest)='PURCHESREQUSEST' then begin
-        MessageBox(0,'Pastikan part sudah terdaftar di GP','List Part Detail',MB_OK or MB_ICONINFORMATION);
+        MessageBox(0,'Pastikan part sudah terdaftar di GP','List Part Detail',MB_OK or MB_ICONWARNING);
         StrPartName := PartDetailList.StrGrid.Cells[4,IntRow];
         kode_part_gp := PartDetailList.StrGrid.Cells[7,IntRow];
         kd_part_datail := PartDetailList.StrGrid.Cells[1,IntRow];
