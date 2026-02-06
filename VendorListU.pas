@@ -50,7 +50,8 @@ var
 
 implementation
 
-uses MainU, ADODB, VendorFormU, StrUtils, PurchaseRequestU, PurchaseOrderU;
+uses MainU, ADODB, VendorFormU, StrUtils, PurchaseRequestU, PurchaseOrderU, 
+  PurchaseRequestRptU;
 
 {$R *.dfm}
 
@@ -238,6 +239,10 @@ begin
     end else if UpperCase(FormRequest)='PR CREATE' then begin
       PurchaseRequest.VendorID.Text :=(StrGrid.Cells[0,IntRow]);
       PurchaseRequest.VendorName.Text := (StrGrid.Cells[1,IntRow]);
+      Close;
+    end else if UpperCase(FormRequest)='REPORT PR' then begin
+      PurchaseRequestRpt.VendorID.Text :=(StrGrid.Cells[0,IntRow]);
+      PurchaseRequestRpt.VendorName.Text := (StrGrid.Cells[1,IntRow]);
       Close;
     end else if UpperCase(FormRequest)='PO CREATE' then begin
       PurchaseOrder.VendorID_Disp.Text :=(StrGrid.Cells[0,IntRow]);

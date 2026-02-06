@@ -501,7 +501,19 @@ begin
               end;
               Inc(IntRepair[IntCount2]);
               Inc(IntBroken);
-            end
+            end else if Qry2.FieldValues['out_type']='8' then begin
+             // StrGrid.CellStyle[IntCount2+3,IntCount].BGColor:=clPurple;
+              StrGrid.CellStyle[IntCount2+3,IntCount].Font.Color:=clFuchsia;
+              if Qry2.FieldValues['customer_order_id']<>NULL then begin
+                OrderNumber[IntCount2+3,IntCount]  :=Qry2.FieldValues['customer_order_id'];
+                StrGrid.Cells[IntCount2+3,IntCount]:='Blok Daytrans    '+Qry2.FieldValues['customer_order_id'];
+              end else begin
+                OrderNumber[IntCount2+3,IntCount]  :='Blok Daytrans '+'             ';
+                StrGrid.Cells[IntCount2+3,IntCount]:='Blok Daytrans '+'             ';
+              end;
+              Inc(IntRepair[IntCount2]);
+              Inc(IntBroken);
+             end
           end else begin
             if Qry2.FieldValues['out_type']='0' then begin
               if StrGrid.CellStyle[IntCount2+2,IntCount].BGColor=clRed then begin

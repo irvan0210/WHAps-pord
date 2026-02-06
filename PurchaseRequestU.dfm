@@ -1,6 +1,6 @@
 object PurchaseRequest: TPurchaseRequest
-  Left = 330
-  Top = 217
+  Left = 327
+  Top = 312
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Purchase Request'
@@ -3010,7 +3010,7 @@ object PurchaseRequest: TPurchaseRequest
     PrinterSetup.mmMarginTop = 6350
     PrinterSetup.mmPaperHeight = 150018
     PrinterSetup.mmPaperWidth = 210079
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 119
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
     OutlineSettings.CreateNode = True

@@ -1,6 +1,6 @@
 object PurchaseOrder: TPurchaseOrder
-  Left = 557
-  Top = 246
+  Left = 405
+  Top = 121
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Purchase Order'

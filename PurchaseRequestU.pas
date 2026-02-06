@@ -964,9 +964,11 @@ begin
       if Qry.FieldValues['vendor_id'] <> Null then VendorID.Text := Qry.FieldValues['vendor_id']
       else VendorID.Text :='';
       VendorName.Text:=Qry.FieldValues['vendor_name'];
-      Attn.Text:=Qry.FieldValues['attn'];
+      if Qry.FieldValues['attn']<> Null then Attn.Text:=Qry.FieldValues['attn']
+      else Attn.Text:= '';
       Referensi.Text:=Qry.FieldValues['referensi'];
-      Remark.Text := Qry.FieldValues['description'];
+      if Qry.FieldValues['description'] <> Null then Remark.Text := Qry.FieldValues['description']
+      else Remark.Text := '';
 //      PaymentTerm.ItemIndex:=Qry.FieldValues['payment_term_id']-1;
       RequestedBy.Text:=Qry.FieldValues['user_name'];
       if Qry.FieldValues['tax']>0 then TaxCheck.Checked:=True else TaxCheck.Checked:=False;

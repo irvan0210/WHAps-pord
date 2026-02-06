@@ -1,6 +1,6 @@
 object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
-  Left = 90
-  Top = 144
+  Left = 154
+  Top = 358
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Running Days Mini'
@@ -356,9 +356,9 @@ object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
     object Label18: TLabel
       Left = 340
       Top = 4
-      Width = 87
+      Width = 78
       Height = 13
-      Caption = '>Blok DaysTrans<'
+      Caption = '>Blok Daytrans<'
       Color = clPurple
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWhite

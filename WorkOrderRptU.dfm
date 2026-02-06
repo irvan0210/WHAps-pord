@@ -1,6 +1,6 @@
 object WorkOrderRpt: TWorkOrderRpt
-  Left = 274
-  Top = 138
+  Left = 276
+  Top = 299
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan PKB'

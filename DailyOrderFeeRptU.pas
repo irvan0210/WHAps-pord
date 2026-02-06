@@ -120,6 +120,7 @@ type
     procedure CekTglMasukClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
+    //procedure EditLinkDblClick(Sender: TObject);
   private
     { Private declarations }
     LokasiArr,GroupArr:Array of TArrString2;
@@ -135,6 +136,7 @@ type
     procedure RefreshGrid;
     procedure Search;
     procedure RePrintReimburse(Trans_Id:String);
+    procedure OpenLink(Link:String);
   public
     { Public declarations }
     constructor Create(AOwner:TComponent);Overload;
@@ -146,7 +148,7 @@ var
 implementation
 
 uses MainU, OrderFormU, VehicleFormU, OrderFeeU, AuthorizedFormU,
-  SPJFormBusU, Math, BrowseCustomerU;
+  SPJFormBusU, Math, BrowseCustomerU, ShellAPI;
 
 {$R *.dfm}
 
@@ -162,7 +164,7 @@ var Count,Count2:Integer;
     StrQry:String;
     IntCount:Integer;
 begin
-  MaxCol:=88;
+  MaxCol:=92;
   cbCancel.Checked:=False;
   SBU.Items.Clear;
   SBU.Text:='';
@@ -291,6 +293,10 @@ begin
 
   StrGrid.MergeCells.AddRectXY(84,0,87,0);
   StrGrid.MergeCells.AddRectXY(88,0,88,1);
+  StrGrid.MergeCells.AddRectXY(89,0,89,1);
+  StrGrid.MergeCells.AddRectXY(90,0,90,1);
+  StrGrid.MergeCells.AddRectXY(91,0,91,1);
+  StrGrid.MergeCells.AddRectXY(92,0,92,1);
 
   //StrGrid.MergeCells.AddRectXY(11,0,11,1);
   IntGeserKolom:=6;
@@ -455,6 +461,10 @@ begin
   StrGrid.Cells[86,1]:='Helper';
   StrGrid.Cells[87,1]:='Catatan';
   StrGrid.Cells[88,0]:='Reprint Terakhir';
+  StrGrid.Cells[89,0]:='Pengisian 1';
+  StrGrid.Cells[90,0]:='Titik Kordinat 1';
+  StrGrid.Cells[91,0]:='Pengisian 2';
+  StrGrid.Cells[92,0]:='Titik Kordinat 2';
 
 
   StrGrid.ColWidths[44]:=120;
@@ -503,6 +513,10 @@ begin
   StrGrid.ColWidths[86]:=50;
   StrGrid.ColWidths[87]:=400;
   StrGrid.ColWidths[88]:=500;
+  StrGrid.ColWidths[89]:=200;
+  StrGrid.ColWidths[90]:=200;
+  StrGrid.ColWidths[91]:=200;
+  StrGrid.ColWidths[92]:=200;
 
 
   for IntCount:=0 to MaxCol do begin
@@ -929,6 +943,10 @@ begin
       StrGrid.Cells[87,Count]:= OrderFeeArr[IntCount][74];
       StrGrid.Cells[88,Count]:= OrderFeeArr[IntCount][77];
 
+      StrGrid.Cells[89,Count]:= OrderFeeArr[IntCount][83];
+      StrGrid.Cells[90,Count]:= OrderFeeArr[IntCount][84];
+      StrGrid.Cells[91,Count]:= OrderFeeArr[IntCount][85];
+      StrGrid.Cells[92,Count]:= OrderFeeArr[IntCount][86];
 //      if (OrderFeeArr[IntCount][57]<>'') AND (OrderFeeArr[IntCount][57]<>NULL) then begin
 //        StrGrid.CellStyle[2,Count].Font.Color:=clGreen;
 //      end else begin
@@ -1696,7 +1714,6 @@ begin
       if Qry.FieldValues['insentif']<>NULL then
       OrderFeeArr[IntCount][82]:=VartoStr(Qry.FieldValues['insentif']);
 
-
       StrGrid.Cells[38,Count]:=Qry.FieldValues['UpdateUser'];
       if Qry.FieldValues['description']<>NULL then StrGrid.Cells[39,Count]:=Qry.FieldValues['description'] else StrGrid.Cells[38,Count]:='';
       if Qry.FieldValues['etoll_number']<>NULL then StrGrid.Cells[40,Count]:=eToll(Qry.FieldValues['etoll_number']);
@@ -1708,6 +1725,30 @@ begin
       if Qry.FieldValues['seat']<>NULL then StrGrid.Cells[45,Count]:=Qry.FieldValues['seat'];
       if Qry.FieldValues['JamSelesai']<>NULL then StrGrid.Cells[46,Count]:=Qry.FieldValues['JamSelesai'];
 
+      QStr:='EXEC GetLinkBBM '+QuotedStr(Qry.FieldValues['vhc_trans_id'])+';';
+      Qry2.SQL.Clear;
+      Qry2.SQL.Add(QStr);
+      Qry2.Open;
+      if Qry2.RecordCount>0 then while Not(Qry2.Eof) do begin
+        if Qry2.FieldValues['fuel_proof_file_1']<>NULL then
+              OrderFeeArr[IntCount][83]:= Qry2.FieldValues['fuel_proof_file_1']
+        else OrderFeeArr[IntCount][83]:='';
+
+        if Qry2.FieldValues['map_link_1']<>NULL then
+          OrderFeeArr[IntCount][84]:= 'https://www.google.com/maps?q='+Qry2.FieldValues['map_link_1']
+        else OrderFeeArr[IntCount][84]:='';
+
+        if Qry2.FieldValues['fuel_proof_file_2']<>NULL then
+          OrderFeeArr[IntCount][85]:= Qry2.FieldValues['fuel_proof_file_2']
+        else OrderFeeArr[IntCount][85]:='';
+
+        if Qry2.FieldValues['map_link_2']<>NULL then
+          OrderFeeArr[IntCount][86]:= 'https://www.google.com/maps?q='+Qry2.FieldValues['map_link_2']
+        else OrderFeeArr[IntCount][86]:='';
+
+        Qry2.Next;
+      end;
+      Qry2.Close;
     end;
     Inc(Count);
     Inc(IntCount);
@@ -1924,6 +1965,11 @@ begin
             end;
       14 : RePrintReimburse(StrGrid.Cells[2,IntRow]); {Preview Form Reimbursement}
       55 : ShowMessage(StrGrid.Cells[55,IntRow]);
+      89 : OpenLink(StrGrid.Cells[89,IntRow]);
+      90 : OpenLink(StrGrid.Cells[90,IntRow]);
+      91 : OpenLink(StrGrid.Cells[91,IntRow]);
+      92 : OpenLink(StrGrid.Cells[91,IntRow]);
+
     end;
   end;
 end;
@@ -2533,6 +2579,23 @@ end;
 procedure TDailyOrderFeeRpt.BitBtn1Click(Sender: TObject);
 begin
   CustomerName.Text:='';
+end;
+
+procedure TDailyOrderFeeRpt.OpenLink(Link : string);
+var
+  StrLink: string;
+begin
+  StrLink := Trim(Link);
+  if StrLink <> '' then begin
+    ShellExecute(
+      Handle,
+      'open',
+      PChar(StrLink),
+      nil, nil,
+      SW_SHOWNORMAL
+    );
+  end else
+  MessageBox(0,'Lnik tidak valid'+#13#10+' Silahkan periksa kembali ','Laporan Uang Harian Driver',MB_OK or MB_ICONWARNING);
 end;
 
 end.

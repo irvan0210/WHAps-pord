@@ -358,7 +358,8 @@ uses
   PartSelectFormGridU in 'PartSelectFormGridU.pas' {PartSelectFormGrid},
   KoneksiDatabaseU in 'KoneksiDatabaseU.pas' {KoneksiDatabase},
   DriverVehicleAuthorizationListU in 'DriverVehicleAuthorizationListU.pas' {DriverVehicleAuthorizationList},
-  DriverVehicleAuthorizationU in 'DriverVehicleAuthorizationU.pas' {DriverVehicleAuthorization};
+  DriverVehicleAuthorizationU in 'DriverVehicleAuthorizationU.pas' {DriverVehicleAuthorization},
+  PurchaseRequestRptU in 'PurchaseRequestRptU.pas';
 
 {$R *.res}
 

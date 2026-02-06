@@ -1,6 +1,6 @@
 object Apps: TApps
-  Left = 348
-  Top = 180
+  Left = 508
+  Top = 252
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Aplikasi'
