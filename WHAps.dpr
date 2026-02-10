@@ -359,7 +359,8 @@ uses
   KoneksiDatabaseU in 'KoneksiDatabaseU.pas' {KoneksiDatabase},
   DriverVehicleAuthorizationListU in 'DriverVehicleAuthorizationListU.pas' {DriverVehicleAuthorizationList},
   DriverVehicleAuthorizationU in 'DriverVehicleAuthorizationU.pas' {DriverVehicleAuthorization},
-  PurchaseRequestRptU in 'PurchaseRequestRptU.pas';
+  PurchaseOrderRptU in 'PurchaseOrderRptU.pas' {PurchaseOrderRpt},
+  PurchaseRequestRptU in 'PurchaseRequestRptU.pas' {PurchaseRequestRpt};
 
 {$R *.res}
 

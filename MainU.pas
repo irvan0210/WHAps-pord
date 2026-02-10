@@ -245,7 +245,7 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   TroubleshootingRequestFormU, TroubleshootingRequestFormListU,
   EmployeeContractListU, ChartU, RubahInvoiceFormU, PlannedServiceReportU,
   MemoListU,  KoneksiDatabaseU, DriverVehicleAuthorizationU,
-  DriverVehicleAuthorizationListU, PurchaseRequestRptU;
+  DriverVehicleAuthorizationListU, PurchaseRequestRptU, PurchaseOrderRptU;
 
 
 constructor TClockThread.Create;
@@ -1882,7 +1882,7 @@ begin
              4:if IsFormOpen('RevenueVhcMonthyRpt')=False then RevenueVhcMonthlyRpt:=TRevenueVhcMonthlyRpt.Create(Self);
              5:if IsFormOpen('BudgetListRpt')=False then BudgetListRpt:=TBudgetListRpt.Create(Self,'Bus','','',0);
              6:if IsFormOpen('PurchaseRequestRpt')=False then PurchaseRequestRpt:=TPurchaseRequestRpt.Create(Self);
-             7:if IsFormOpen('PurchaseOrderList')=False then PurchaseOrderList:=TPurchaseOrderList.Create(Self);
+             7:if IsFormOpen('PurchaseOrderRpt')=False then PurchaseOrderRpt:=TPurchaseOrderRpt.Create(Self);
            end;
         end;
         {190501 Laporan Operasional Bus}

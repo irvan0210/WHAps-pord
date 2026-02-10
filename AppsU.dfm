@@ -126,6 +126,13 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '10/02/2026 (6.2.0.6)  Force update'
+      '- Perbaikan bug sistem pada laporan service request.'
+      
+        '- Penambahan kolom Pengisan 1, Titik Kordinat 1, Pengisian 2, da' +
+        'n Titik Kordinat 2 '
+      'pada menu laporan uang order harian driver'
+      ''
       '28/01/2026 (6.2.0.6)'
       
         '- Perbaikan Menu Purchase Order,(Tax jadi 11%, PR tidak muncul d' +

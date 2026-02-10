@@ -1,6 +1,6 @@
 object COAList: TCOAList
-  Left = 258
-  Top = 58
+  Left = 458
+  Top = 73
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'COAList'

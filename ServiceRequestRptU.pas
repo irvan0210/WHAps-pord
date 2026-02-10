@@ -315,7 +315,7 @@ procedure TServiceRequestRpt.StrGridDblClick(Sender: TObject);
 begin
   if StrGrid.Cells[1,IntRow]<>'' then begin
     if FormRequest='' then begin
-      if Main.IsFormOpen('ServiceRequestForm')=False then ServiceRequestForm:=TServiceRequestForm.Create(Self, StrGrid.Cells[0,IntRow],'',False);
+      if Main.IsFormOpen('ServiceRequestForm')=False then ServiceRequestForm:=TServiceRequestForm.Create(Self, StrGrid.Cells[2,IntRow],'',False);
     end else if UpperCase(FormRequest)='SERVICEREQUEST' then begin
       if UpperCase(FormFunction)='REPRINT' then begin
 //        ServiceRequestForm.RePrint(StrGrid.Cells[2,IntRow]);
