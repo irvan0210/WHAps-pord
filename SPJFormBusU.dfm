@@ -1790,7 +1790,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 144780
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 119
+    PrinterSetup.PaperSize = 256
     Template.FileName = 'D:\WH App\Order.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
@@ -2949,7 +2949,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152400
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 119
+    PrinterSetup.PaperSize = 256
     Template.FileName = 'D:\WH App\Order.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
@@ -3528,7 +3528,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152400
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 119
+    PrinterSetup.PaperSize = 256
     Template.FileName = 'D:\NANANG\WHAPS UPDATE PROD\surat jalan baru.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
@@ -4088,7 +4088,7 @@ object SPJFormBus: TSPJFormBus
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152400
     PrinterSetup.mmPaperWidth = 215900
-    PrinterSetup.PaperSize = 119
+    PrinterSetup.PaperSize = 256
     Template.FileName = 'D:\WH App\Order.rtm'
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'

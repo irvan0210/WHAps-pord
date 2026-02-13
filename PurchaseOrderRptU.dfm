@@ -1,6 +1,6 @@
 object PurchaseOrderRpt: TPurchaseOrderRpt
-  Left = 226
-  Top = 315
+  Left = 285
+  Top = 296
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Laporan Purchase Order'
@@ -45,13 +45,13 @@ object PurchaseOrderRpt: TPurchaseOrderRpt
     Caption = 'Cari'
   end
   object Label7: TLabel
-    Left = 12
+    Left = 52
     Top = 446
-    Width = 106
+    Width = 63
     Height = 13
-    Caption = '> Sudah diproses PO<'
+    Caption = '> P.O Batal <'
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clGreen
+    Font.Color = clRed
     Font.Height = -11
     Font.Name = 'MS Sans Serif'
     Font.Style = []
@@ -329,7 +329,7 @@ object PurchaseOrderRpt: TPurchaseOrderRpt
     Top = 88
     Width = 1105
     Height = 345
-    ColCount = 11
+    ColCount = 13
     DefaultRowHeight = 20
     DefaultDrawing = False
     FixedColor = clBtnFace

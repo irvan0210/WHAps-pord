@@ -44,7 +44,7 @@ var
 implementation
 
 uses MainU, PartDetailFormU, StrUtils, MaintenanceJobFormU,
-  PurchaseRequestU, PurchaseRequestRptU;
+  PurchaseRequestU, PurchaseRequestRptU, PurchaseOrderRptU;
 
 {$R *.dfm}
 
@@ -260,7 +260,11 @@ begin
       end else if UpperCase(FormRequest)='PURCHESREQUSESTRPT' then begin
         PurchaseRequestRpt.PartID.Text := PartDetailList.StrGrid.Cells[1,IntRow];;
         PurchaseRequestRpt.PartName.Text := PartDetailList.StrGrid.Cells[4,IntRow];;
-      Close;
+        Close;
+      end else if UpperCase(FormRequest)='PURCHESORDERRPT' then begin
+        PurchaseOrderRpt.PartID.Text := PartDetailList.StrGrid.Cells[1,IntRow];;
+        PurchaseOrderRpt.PartName.Text := PartDetailList.StrGrid.Cells[4,IntRow];;
+        Close;
       end;
     end;
   end;

@@ -1,11 +1,11 @@
 object WorkOrderFormIn: TWorkOrderFormIn
-  Left = 326
-  Top = 35
+  Left = 243
+  Top = 74
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Tutup Perintah Kerja Bengkel'
-  ClientHeight = 601
-  ClientWidth = 1213
+  ClientHeight = 586
+  ClientWidth = 1214
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -47,16 +47,16 @@ object WorkOrderFormIn: TWorkOrderFormIn
   object PageControl1: TPageControl
     Left = 0
     Top = 0
-    Width = 1213
-    Height = 560
-    ActivePage = TabLampiran
+    Width = 1214
+    Height = 545
+    ActivePage = TabDetail
     Align = alClient
     TabOrder = 1
     object TabDetail: TTabSheet
       Caption = 'Detail'
       object Label10: TLabel
-        Left = 554
-        Top = 475
+        Left = 854
+        Top = 462
         Width = 337
         Height = 16
         Caption = 'Note: 1. Keluhan yang sudah dikerjakan silahkan diceklis'
@@ -68,8 +68,8 @@ object WorkOrderFormIn: TWorkOrderFormIn
         ParentFont = False
       end
       object Label11: TLabel
-        Left = 589
-        Top = 492
+        Left = 890
+        Top = 482
         Width = 220
         Height = 16
         Caption = '2. Part yang dipakai silahkan diceklis'
@@ -81,8 +81,8 @@ object WorkOrderFormIn: TWorkOrderFormIn
         ParentFont = False
       end
       object Label12: TLabel
-        Left = 590
-        Top = 510
+        Left = 889
+        Top = 501
         Width = 243
         Height = 16
         Caption = '3. Untuk Tutup PKB silahkan ceklis close '
@@ -221,7 +221,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
           OnExit = chkkeluhanExit
         end
         object NoSB: TEdit
-          Left = 227
+          Left = 219
           Top = 22
           Width = 150
           Height = 21
@@ -330,7 +330,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         Left = 447
         Top = 4
         Width = 400
-        Height = 234
+        Height = 269
         Caption = 'Pekerjaan'
         TabOrder = 2
         object Label6: TLabel
@@ -391,9 +391,9 @@ object WorkOrderFormIn: TWorkOrderFormIn
         end
         object PekerjaanGrid: TZColorStringGrid
           Left = 6
-          Top = 56
+          Top = 75
           Width = 387
-          Height = 161
+          Height = 185
           ColCount = 3
           DefaultRowHeight = 20
           DefaultDrawing = False
@@ -417,7 +417,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         end
         object Teknisi: TEdit
           Left = 72
-          Top = 144
+          Top = 170
           Width = 121
           Height = 21
           TabOrder = 4
@@ -427,7 +427,7 @@ object WorkOrderFormIn: TWorkOrderFormIn
         end
         object PekerjaanDetail: TEdit
           Left = 16
-          Top = 72
+          Top = 98
           Width = 265
           Height = 21
           TabOrder = 5
@@ -438,25 +438,40 @@ object WorkOrderFormIn: TWorkOrderFormIn
         end
         object chkPekerjaan: TCheckBox
           Left = 95
-          Top = 98
+          Top = 124
           Width = 14
           Height = 15
           TabOrder = 6
           Visible = False
           OnExit = chkPekerjaanExit
         end
+        object chkSBSelanjutnya: TCheckBox
+          Left = 92
+          Top = 50
+          Width = 216
+          Height = 17
+          Alignment = taLeftJustify
+          Caption = 'Jadwalkan Servis Berkala Sealanjutnya'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 7
+        end
       end
       object GroupParts: TGroupBox
         Left = 447
-        Top = 242
+        Top = 276
         Width = 400
-        Height = 231
+        Height = 236
         Caption = 'Pemakaian Parts'
         TabOrder = 3
         object PartsGrid: TZColorStringGrid
-          Left = 8
+          Left = 6
           Top = 17
-          Width = 386
+          Width = 389
           Height = 208
           DefaultRowHeight = 20
           DefaultDrawing = False
@@ -498,17 +513,17 @@ object WorkOrderFormIn: TWorkOrderFormIn
         end
       end
       object GroupBox3: TGroupBox
-        Left = 854
-        Top = 4
-        Width = 350
-        Height = 234
+        Left = 850
+        Top = 275
+        Width = 353
+        Height = 179
         Caption = 'Mekanik'
         TabOrder = 4
         object StrGridMekanik: TZColorStringGrid
           Left = 3
           Top = 17
-          Width = 334
-          Height = 200
+          Width = 341
+          Height = 155
           ColCount = 3
           DefaultRowHeight = 20
           DefaultDrawing = False
@@ -547,9 +562,9 @@ object WorkOrderFormIn: TWorkOrderFormIn
         end
         object ListMekanik: TListBox
           Left = 50
-          Top = 101
+          Top = 78
           Width = 252
-          Height = 84
+          Height = 76
           ItemHeight = 13
           TabOrder = 2
           Visible = False
@@ -571,17 +586,17 @@ object WorkOrderFormIn: TWorkOrderFormIn
         end
       end
       object GroupBox2: TGroupBox
-        Left = 854
-        Top = 241
+        Left = 850
+        Top = 4
         Width = 350
-        Height = 231
+        Height = 269
         Caption = 'Analisa'
         TabOrder = 5
         object StrGrid3: TZColorStringGrid
           Left = 4
           Top = 18
           Width = 337
-          Height = 209
+          Height = 237
           ColCount = 2
           DefaultRowHeight = 20
           DefaultDrawing = False
@@ -666,8 +681,8 @@ object WorkOrderFormIn: TWorkOrderFormIn
   end
   object Panel2: TPanel
     Left = 0
-    Top = 560
-    Width = 1213
+    Top = 545
+    Width = 1214
     Height = 41
     Align = alBottom
     TabOrder = 2
@@ -2177,6 +2192,6 @@ object WorkOrderFormIn: TWorkOrderFormIn
   end
   object OpenPictureDialog1: TOpenDialog
     Left = 1125
-    Top = 256
+    Top = 201
   end
 end

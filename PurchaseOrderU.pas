@@ -206,6 +206,7 @@ type
     procedure CariVendorClick(Sender: TObject);
     procedure VendorID_DispChange(Sender: TObject);
     procedure Chk_PembelianClick(Sender: TObject);
+    procedure BatalClick(Sender: TObject);
   private
     { Private declarations }
     PurchaseOrderId,VendorId:String;
@@ -814,7 +815,8 @@ begin
         ppDeliveryAddress.Lines.Add(Qry.FieldValues['delivery_address']);
         ppDeliveryPhone.Caption:=LeftStr(Qry.FieldValues['delivery_phone_no'],3)+'-'+RightStr(Qry.FieldValues['delivery_phone_no'],Length(Qry.FieldValues['delivery_phone_no'])-3);
         ppOrderBy.Caption:=Qry.FieldValues['user_name'];
-        ppApprovedBy.Caption:=Qry.FieldValues['user_superior'];
+        if Qry.FieldValues['user_superior']='' then ppApprovedBy.Caption:='Andrianto Putera Tirtawisata'
+        else ppApprovedBy.Caption:=Qry.FieldValues['user_superior'];
         if Qry.FieldValues['description']<>NULL then ppNotes.Caption:=Qry.FieldValues['description']
         else ppNotes.Caption:='';
       end;
@@ -1255,7 +1257,6 @@ begin
       Qry.SQL.Clear;
       Qry.SQL.Add(StrQry);
       try
-
         Qry.ExecSQL;
       except
         on E:Exception do begin
@@ -1263,6 +1264,7 @@ begin
           StrEMessage:=E.Message;
         end;
       end;
+
       if Batal.Checked=False then begin
         if (PONo.Text<>'') and (VendorId=StrVendorId)  then begin
           StrQry:='UPDATE wh_purchase_order_detail SET cancel=1 '+
@@ -1325,10 +1327,12 @@ begin
         Main.TransCommit;
         PONo.Text:=StrTransId;
         Tanggal.Text:=Main.WhatDate;
-        if Batal.Checked=False then
+        if Batal.Checked=False then begin
           if MessageBox(0,PChar('PR Berhasil Disimpan'+Chr(13)+Chr(13)+'Mau Dicetak ?'),'Purchase Request',MB_OKCANCEL or MB_ICONINFORMATION)=1 then begin
             Reprint(StrTransId);
           end;
+        end else
+        MessageBox(0,PChar('PR Berhasil Batalkan'+Chr(13)+Chr(13)+StrEMessage),'Purchase Request',MB_OK or MB_ICONINFORMATION);
       end else begin
         Main.TransRollback;
         MessageBox(0,PChar('PR Gagal Disimpan'+Chr(13)+Chr(13)+StrEMessage),'Purchase Request',MB_OK or MB_ICONERROR);
@@ -1414,6 +1418,13 @@ begin
    Remark.Text := 'Lampirkan uji emisi ' + #13#10 +
                   'dan vendor harus memenuhi perundang-undagan yang berlaku';
  end else Remark.Text := '';
+end;
+
+procedure TPurchaseOrder.BatalClick(Sender: TObject);
+begin
+  if MessageBox(0,PChar('Yakin P.O Mau Dihapus ?') ,'Purchase Order',MB_OKCANCEL or MB_ICONINFORMATION)=1 then begin
+     Batal.Checked := True;
+  end else   Batal.Checked := False;
 end;
 
 end.

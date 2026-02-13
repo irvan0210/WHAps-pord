@@ -1,6 +1,6 @@
 object LaporanPermintaanBarangJasa: TLaporanPermintaanBarangJasa
-  Left = 131
-  Top = 15
+  Left = 111
+  Top = 296
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan Permintaan Barang dan Jasa'

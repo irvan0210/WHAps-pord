@@ -82,7 +82,7 @@ var
 implementation
 
 uses MainU, PurchaseRequestU, StrUtils, PurchaseOrderU, DateUtils,
-  VendorListU, PartDetailListU;
+  VendorListU, PartDetailListU, GoodReceiveingU;
 
 {$R *.dfm}
 
@@ -113,33 +113,37 @@ end;
 procedure TPurchaseOrderRpt.InitGrid;
 var IntCount:Integer;
 begin
-  IntMaxCol := 11;
+  IntMaxCol := 13;
   StrGrid.RowCount:=2;
  // StrGrid.ColWidths[0]:=20;
   StrGrid.ColWidths[0]:=140;
   StrGrid.ColWidths[1]:=70;
-  StrGrid.ColWidths[2]:=350;
-  StrGrid.ColWidths[3]:=150;
-  StrGrid.ColWidths[4]:=200;
-  StrGrid.ColWidths[5]:=60;
+  StrGrid.ColWidths[2]:=150;
+  StrGrid.ColWidths[3]:=180;
+  StrGrid.ColWidths[4]:=220;
+  StrGrid.ColWidths[5]:=30;
   StrGrid.ColWidths[6]:=90;
   StrGrid.ColWidths[7]:=90;
-  StrGrid.ColWidths[8]:=120;
-  StrGrid.ColWidths[9]:=90;
-  StrGrid.ColWidths[10]:=140;
+  StrGrid.ColWidths[8]:=100;
+  StrGrid.ColWidths[9]:=110;
+  StrGrid.ColWidths[10]:=70;
+  StrGrid.ColWidths[11]:=90;
+  StrGrid.ColWidths[12]:=140;
  // StrGrid.ColWidths[8]:=140;
  // StrGrid.Cells[0,0]:='No';
   StrGrid.Cells[0,0]:='No PO';
   StrGrid.Cells[1,0]:='Tanggal';
-  StrGrid.Cells[2,0]:='Budget';
+  StrGrid.Cells[2,0]:='Departement';
   StrGrid.Cells[3,0]:='Vendor';
   StrGrid.Cells[4,0]:='Item';
-  StrGrid.Cells[5,0]:='Quantity';
+  StrGrid.Cells[5,0]:='Qty';
   StrGrid.Cells[6,0]:='Harga';
   StrGrid.Cells[7,0]:='Jumlah Harga';
   StrGrid.Cells[8,0]:='Total';
-  StrGrid.Cells[9,0]:='Requestor';
-  StrGrid.Cells[10,0]:='No PR';
+  StrGrid.Cells[9,0]:='Cara Pembayaran';
+  StrGrid.Cells[10,0]:='Tanggal Kirim';
+  StrGrid.Cells[11,0]:='Requestor';
+  StrGrid.Cells[12,0]:='No PR';
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[2,0].HorizontalAlignment:=taCenter;
@@ -151,8 +155,10 @@ begin
   StrGrid.CellStyle[8,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[9,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[10,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[11,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[12,0].HorizontalAlignment:=taCenter;
   //StrGrid.CellStyle[11,0].HorizontalAlignment:=taCenter;
-  for IntCount:=0 to 10 do begin
+  for IntCount:=0 to 12 do begin
     StrGrid.Cells[IntCount,1]:='';
     StrGrid.CellStyle[IntCount,1].Font.Color:=clWindowText;
   end;
@@ -296,7 +302,7 @@ begin
       if cari.Text <>'' then StrLike := QuotedStr(cari.Text)
       else StrLike :=QuotedStr('');
 
-      StrQry:='EXEC GetPurchaseRequestRpt '+StrCompanyId+','+StrLocationId+','+
+      StrQry:='EXEC GetPurchaseOrderRpt '+StrCompanyId+','+StrLocationId+','+
       QuotedStr(FormatDateTime('yyyy-mm-dd',VarToDateTime(AwalBulan)))+
       ','+StrVendorID+','+StrPartID+','+StrLike+';';
       Qry.SQL.Add(StrQry);
@@ -304,24 +310,27 @@ begin
       SetLength(PurchaseRArr,Qry.RecordCount);
       IntCount:=0;
       if Qry.RecordCount>0 then while not(Qry.Eof) do begin
-        PurchaseRArr[IntCount][0]:=Qry.FieldValues['purchase_request_id'];
-        PurchaseRArr[IntCount][1]:=Qry.FieldValues['request_dates'];
-        PurchaseRArr[IntCount][2]:=Qry.FieldValues['name'];
+        PurchaseRArr[IntCount][0]:=Qry.FieldValues['purchase_order_id'];
+        PurchaseRArr[IntCount][1]:=FormatDateTime('dd-MM-yyyy', Qry.FieldValues['order_date']);
+        PurchaseRArr[IntCount][2]:=Qry.FieldValues['department_name'];
         PurchaseRArr[IntCount][3]:=Qry.FieldValues['vendor_name'];
-        PurchaseRArr[IntCount][4]:=Qry.FieldValues['item_detail'];
+        PurchaseRArr[IntCount][4]:=Qry.FieldValues['part_name'];
         PurchaseRArr[IntCount][5]:=Qry.FieldValues['quantity'];
         PurchaseRArr[IntCount][6]:=SToCurr(Qry.FieldValues['price_unit']);
         PurchaseRArr[IntCount][7]:=SToCurr(Qry.FieldValues['total']);
         PurchaseRArr[IntCount][8]:=SToCurr(Qry.FieldValues['total_1']);
-        PurchaseRArr[IntCount][9]:=Qry.FieldValues['user_name'];
-        if Qry.FieldValues['complete']<>NULL then PurchaseRArr[IntCount][10]:=Qry.FieldValues['complete']
-        else PurchaseRArr[IntCount][10]:='';
+        PurchaseRArr[IntCount][9]:=Qry.FieldValues['payment_term_name'];
+        PurchaseRArr[IntCount][10]:=FormatDateTime('dd-MM-yyyy', Qry.FieldValues['delivery_date']);
+        PurchaseRArr[IntCount][11]:=Qry.FieldValues['user_name'];
 
-        if Qry.FieldValues['purchase_order_id']<>NULL then PurchaseRArr[IntCount][11]:=Qry.FieldValues['purchase_order_id']
-        else PurchaseRArr[IntCount][11]:='';
-
-        if Qry.FieldValues['cancel']='1' then PurchaseRArr[IntCount][12]:=Qry.FieldValues['cancel']
+        if Qry.FieldValues['complete']<>NULL then PurchaseRArr[IntCount][12]:=Qry.FieldValues['complete']
         else PurchaseRArr[IntCount][12]:='';
+
+        if Qry.FieldValues['purchase_request_id']<>NULL then PurchaseRArr[IntCount][13]:=Qry.FieldValues['purchase_request_id']
+        else PurchaseRArr[IntCount][13]:='';
+
+        if Qry.FieldValues['purchase_cancel']<>NULL then PurchaseRArr[IntCount][14]:=Qry.FieldValues['purchase_cancel']
+        else PurchaseRArr[IntCount][14]:='';
         Qry.Next;
         Inc(IntCount);
       end;
@@ -377,8 +386,15 @@ begin
      // StrGrid.Cells[7,IntCount+1]:=PurchaseRArr[IntCount][7];
       StrGrid.Cells[8,IntCount+1]:=PurchaseRArr[IntCount][8];
       StrGrid.Cells[9,IntCount+1]:=PurchaseRArr[IntCount][9];
-      if PurchaseRArr[IntCount][11]<> '' then StrGrid.Cells[10,IntCount+1]:=PurchaseRArr[IntCount][11]
+      if PurchaseRArr[IntCount][10]<> '' then
+        StrGrid.Cells[10,IntCount+1]:=PurchaseRArr[IntCount][10]
       else StrGrid.Cells[10,IntCount+1]:='';
+      if PurchaseRArr[IntCount][11]<> '' then
+        StrGrid.Cells[11,IntCount+1]:=PurchaseRArr[IntCount][11]
+      else StrGrid.Cells[11,IntCount+1]:='';
+      if PurchaseRArr[IntCount][13]<> '' then
+        StrGrid.Cells[12,IntCount+1]:=PurchaseRArr[IntCount][13]
+      else StrGrid.Cells[12,IntCount+1]:='';
      IsDrawRect:=False;
     end else if (IntCount<Length(PurchaseRArr)-1) then begin
       if (StrPRId<>PurchaseRArr[IntCount+1][0]) then IsDrawRect:=True;
@@ -397,19 +413,22 @@ begin
       StrGrid.MergeCells.AddRectXY(9,IntStartRow+1,9,IntCount+1);
       StrGrid.MergeCells.AddRectXY(10,IntStartRow+1,10,IntCount+1);
       StrGrid.MergeCells.AddRectXY(11,IntStartRow+1,11,IntCount+1);
+      StrGrid.MergeCells.AddRectXY(12,IntStartRow+1,12,IntCount+1);
     end;
     StrGrid.Cells[4,IntCount+1]:=PurchaseRArr[IntCount][4];
     StrGrid.Cells[5,IntCount+1]:=PurchaseRArr[IntCount][5];
     StrGrid.Cells[6,IntCount+1]:=PurchaseRArr[IntCount][6];
     StrGrid.Cells[7,IntCount+1]:=PurchaseRArr[IntCount][7];
 
-
+    StrGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
+    StrGrid.CellStyle[1,IntCount+1].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[5,IntCount+1].HorizontalAlignment:=taCenter;
-    StrGrid.CellStyle[6,IntCount+1].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[10,IntCount+1].HorizontalAlignment:=taCenter;
+    //StrGrid.CellStyle[10,IntCount+1].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[7,IntCount+1].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[8,IntCount+1].HorizontalAlignment:=taRightJustify;
-    
-    if PurchaseRArr[IntCount][11]='1' then begin
+
+    if PurchaseRArr[IntCount][14]='1' then begin
       StrGrid.CellStyle[0,IntCount+1].Font.Color:=clRed;
       StrGrid.CellStyle[1,IntCount+1].Font.Color:=clRed;
       StrGrid.CellStyle[2,IntCount+1].Font.Color:=clRed;
@@ -422,7 +441,8 @@ begin
       StrGrid.CellStyle[9,IntCount+1].Font.Color:=clRed;
       StrGrid.CellStyle[10,IntCount+1].Font.Color:=clRed;
       StrGrid.CellStyle[11,IntCount+1].Font.Color:=clRed;
-    end else if PurchaseRArr[IntCount][10]='1' then begin
+      StrGrid.CellStyle[12,IntCount+1].Font.Color:=clRed;
+  {  end else if PurchaseRArr[IntCount][12]='1' then begin
       StrGrid.CellStyle[0,IntCount+1].Font.Color:=clGreen;
       StrGrid.CellStyle[1,IntCount+1].Font.Color:=clGreen;
       StrGrid.CellStyle[2,IntCount+1].Font.Color:=clGreen;
@@ -435,6 +455,7 @@ begin
       StrGrid.CellStyle[9,IntCount+1].Font.Color:=clGreen;
       StrGrid.CellStyle[10,IntCount+1].Font.Color:=clGreen;
       StrGrid.CellStyle[11,IntCount+1].Font.Color:=clGreen;
+      StrGrid.CellStyle[12,IntCount+1].Font.Color:=clGreen;}
     end else begin
       StrGrid.CellStyle[0,IntCount+1].Font.Color:=clWindowText;
       StrGrid.CellStyle[1,IntCount+1].Font.Color:=clWindowText;
@@ -448,6 +469,7 @@ begin
       StrGrid.CellStyle[9,IntCount+1].Font.Color:=clWindowText;
       StrGrid.CellStyle[10,IntCount+1].Font.Color:=clWindowText;
       StrGrid.CellStyle[11,IntCount+1].Font.Color:=clWindowText;
+      StrGrid.CellStyle[12,IntCount+1].Font.Color:=clWindowText;
     end;
 
   end;
@@ -491,52 +513,24 @@ end;
 procedure TPurchaseOrderRpt.StrGridDblClick(Sender: TObject);
 var IntCount:Integer;
 begin
-  if StrGrid.Cells[0,IntRow]<>'' then begin
+   if StrGrid.Cells[0,IntRow]<>'' then begin
     if FormRequest='' then begin
-      if (RightStr(IntToStr(TreeTag),2)='02') then begin
-        if (StrGrid.Cells[7,IntRow]='') then begin
-          if Main.IsFormOpen('PurchaseRequest')=False then PurchaseRequest:=TPurchaseRequest.Create(Self,StrGrid.Cells[1,IntRow],False)
-          else MessageBox(0,'Tutup Form Purchase Request terlebih dahulu','List Purchase Request',MB_OK or MB_ICONERROR);
-        end else begin
-          MessageBox(0,'Batalkan Purchase Order Dahulu','List Purchase Request',MB_OK or MB_ICONERROR);
-        end;
-      end else begin
-        if Main.IsFormOpen('PurchaseRequest')=False then PurchaseRequest:=TPurchaseRequest.Create(Self,StrGrid.Cells[0,IntRow],True)
-        else MessageBox(0,'Tutup Form Purchase Request terlebih dahulu','List Purchase Request',MB_OK or MB_ICONERROR);
-      end;
+      if (RightStr(IntToStr(TreeTag),2)='02') then PurchaseOrder:=TPurchaseOrder.Create(Self,StrGrid.Cells[0,IntRow],False)
+      else PurchaseOrder:=TPurchaseOrder.Create(Self,StrGrid.Cells[0,IntRow],True);
+//    end else if UpperCase(FormRequest)='PURCHASEORDER' then begin
+//        PurchaseOrder.SetPRNo(StrGrid.Cells[1,IntRow]);
+//        Close;
     end else if UpperCase(FormRequest)='PURCHASEORDER' then begin
-      if StrGrid.Cells[8,IntRow]='' then begin
-        if (PurchaseExpiredDay)>0 then begin
-         if DaysBetween(StrToDate(Main.WhatDate),StrToDate(StrGrid.Cells[1,IntRow]))<PurchaseExpiredDay then begin
-           PurchaseOrder.SetPRNo(StrGrid.Cells[0,IntRow]);
-           Close;
-         end else begin
-            MessageBox(0,PChar('Purchase Request Sudah Kadaluarsa'+Chr(13)+Chr(13)+' Maksimum PR dapat diproses dibawah '+IntToStr(PurchaseExpiredDay)+' hari'),'List Purchase Request',MB_OK or MB_ICONERROR);
-         end;
-        end else if (PurchaseExpiredMonth)>0 then begin
-          if MonthsBetween(StrToDate(Main.WhatDate),StrToDate(StrGrid.Cells[2,IntRow]))<PurchaseExpiredMonth then begin
-             PurchaseOrder.SetPRNo(StrGrid.Cells[1,IntRow]);
-             Close;
-           end else begin
-              MessageBox(0,PChar('Purchase Request Sudah Kadaluarsa'+Chr(13)+Chr(13)+' Maksimum PR dapat diproses PO '+IntToStr(PurchaseExpiredMonth)+' bulan'),'List Purchase Request',MB_OK or MB_ICONERROR);
-           end;
-        end else begin
-          PurchaseOrder.SetPRNo(StrGrid.Cells[0,IntRow]);
-          Close;
-        end;
-      end else begin
-          MessageBox(0,PChar('Purchase Request sudah diproses PO'),'List Purchase Request',MB_OK or MB_ICONWARNING);
-         // TPurchaseOrder.Create(Self,StrGrid.Cells[1,IntRow],True);  '+Chr(13)+Chr(13)+'
-         // PurchaseOrder:=TPurchaseOrder.Create(Self,StrGrid.Cells[1,IntRow],False);
-         // TPurchaseOrder.Create(Self,StrGrid.Cells[1,IntRow],True);
-         // Close;
-      end;
-    end else if UpperCase(FormRequest)='PURCHASEREQUEST' then begin
       if UpperCase(FormFunction)='REPRINT' then begin
-        if Main.IsFormOpen('PurchaseRequest')=False then PurchaseRequest:=TPurchaseRequest.Create(Self,StrGrid.Cells[1,IntRow],True);
-        PurchaseRequest.Reprint(StrGrid.Cells[0,IntRow]);
+          PurchaseOrder.Reprint(StrGrid.Cells[0,IntRow]);
       end;
       Close;
+   { end else if UpperCase(FormRequest)='GOODRECEIVING' then begin
+      if PurchaseRArr[IntCount][12]='' then begin
+        GoodReceiving.SetPRNo(StrGrid.Cells[0,IntRow]);
+        Close;
+      end else MessageBox(0,'P.O Sudah Diterima Lengkap','Laporan Purchase Order',MB_OK or MB_ICONWARNING);
+      }
     end;
   end;
 end;
@@ -594,12 +588,12 @@ end;
 
 procedure TPurchaseOrderRpt.CariVendorClick(Sender: TObject);
 begin
- VendorList:=TVendorList.Create(Self,'REPORT PR',True);
+ VendorList:=TVendorList.Create(Self,'REPORT PO',True);
 end;
 
 procedure TPurchaseOrderRpt.SpeedButton1Click(Sender: TObject);
 begin
-  PartDetailList:=TPartDetailList.Create(Self,'PURCHESREQUSESTRPT');
+  PartDetailList:=TPartDetailList.Create(Self,'PURCHESORDERRPT');
 end;
 
 procedure TPurchaseOrderRpt.ClearVendorClick(Sender: TObject);

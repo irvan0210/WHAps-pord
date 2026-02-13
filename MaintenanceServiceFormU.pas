@@ -434,7 +434,13 @@ begin
         else
           NoPolisi.Text:=Copy(Qry.FieldValues['license_plate'],1,2)+' '+Copy(Qry.FieldValues['license_plate'],3,4)+
                               ' '+Copy(Qry.FieldValues['license_plate'],7,Length(Qry.FieldValues['license_plate'])+1);
-        if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
+        if Qry.FieldValues['in_ordo_km']<>NULL then begin
+            KMOdo.Text:=Qry.FieldValues['in_ordo_km'];
+            PredictOdo.Text := IntToStr(StrToInt(Qry.FieldValues['in_ordo_km'])+10000);
+        end else begin
+           KMOdo.Text:='0';
+           PredictOdo.Text := '10000';
+        end;
       end;
       Qry.Close;
       StrQry:='SELECT c.vhc_type_detail_image_id,c.vhc_image '+
@@ -762,9 +768,6 @@ begin
       Qry.Connection:=Main.MyConnection;
       Main.WriteLog('Form Save:MaintenanceService',1);
       if Main.OpenDb then begin
-
-
-
         StrVhcId:=QuotedStr(VehicleId);
         StrKMOdo:=ToString(KMOdo.Text);
         StrStartDate:=QuotedStr(FormatDateTime('yyyy/mm/dd',StartDate.Date));

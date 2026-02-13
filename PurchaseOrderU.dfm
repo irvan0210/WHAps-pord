@@ -1,11 +1,11 @@
 object PurchaseOrder: TPurchaseOrder
-  Left = 405
-  Top = 121
+  Left = 242
+  Top = 112
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Purchase Order'
   ClientHeight = 503
-  ClientWidth = 660
+  ClientWidth = 659
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -444,7 +444,7 @@ object PurchaseOrder: TPurchaseOrder
     Left = 352
     Top = 286
     Width = 49
-    Height = 27
+    Height = 21
     TabOrder = 10
     Visible = False
     OnEnter = QtyEnter
@@ -455,7 +455,7 @@ object PurchaseOrder: TPurchaseOrder
     Left = 496
     Top = 286
     Width = 89
-    Height = 27
+    Height = 21
     TabOrder = 11
     Visible = False
     OnEnter = PriceUnitEnter
@@ -524,6 +524,7 @@ object PurchaseOrder: TPurchaseOrder
       Height = 17
       Caption = 'P.O Batal'
       TabOrder = 0
+      OnClick = BatalClick
     end
     object TaxCheck: TCheckBox
       Left = 173
@@ -610,17 +611,17 @@ object PurchaseOrder: TPurchaseOrder
     Caption = 'PO Detail'
     TabOrder = 15
     object Label15: TLabel
-      Left = 5
+      Left = 56
       Top = 19
-      Width = 85
+      Width = 34
       Height = 13
       Alignment = taRightJustify
       Caption = 'Vendor'
     end
     object Label17: TLabel
-      Left = 5
+      Left = 43
       Top = 66
-      Width = 85
+      Width = 47
       Height = 13
       Alignment = taRightJustify
       Caption = 'Dikirim Ke'
@@ -634,17 +635,17 @@ object PurchaseOrder: TPurchaseOrder
       Caption = 'Tanggal Kirim'
     end
     object Label20: TLabel
-      Left = 5
+      Left = 6
       Top = 43
-      Width = 85
+      Width = 84
       Height = 13
       Alignment = taRightJustify
       Caption = 'Cara Pembayaran'
     end
     object Label21: TLabel
-      Left = 5
+      Left = 53
       Top = 108
-      Width = 85
+      Width = 37
       Height = 13
       Alignment = taRightJustify
       Caption = 'Catatan'
@@ -703,7 +704,7 @@ object PurchaseOrder: TPurchaseOrder
         Left = 0
         Top = 0
         Width = 295
-        Height = 22
+        Height = 21
         TabOrder = 0
       end
     end
@@ -799,8 +800,8 @@ object PurchaseOrder: TPurchaseOrder
     PreviewFormSettings.WindowState = wsMaximized
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
-    Left = 880
-    Top = 328
+    Left = 560
+    Top = 192
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand1: TppHeaderBand
@@ -1934,8 +1935,8 @@ object PurchaseOrder: TPurchaseOrder
         Font.Style = []
         Transparent = True
         mmHeight = 3969
-        mmLeft = 84667
-        mmTop = 40217
+        mmLeft = 71173
+        mmTop = 48419
         mmWidth = 22225
         BandType = 8
       end
@@ -1953,8 +1954,8 @@ object PurchaseOrder: TPurchaseOrder
         Font.Style = []
         Transparent = True
         mmHeight = 3969
-        mmLeft = 150284
-        mmTop = 40217
+        mmLeft = 143669
+        mmTop = 48419
         mmWidth = 22754
         BandType = 8
       end
@@ -1973,8 +1974,8 @@ object PurchaseOrder: TPurchaseOrder
         TextAlignment = taCentered
         Transparent = True
         mmHeight = 3969
-        mmLeft = 67733
-        mmTop = 56092
+        mmLeft = 54769
+        mmTop = 64294
         mmWidth = 57415
         BandType = 8
       end
@@ -1992,8 +1993,8 @@ object PurchaseOrder: TPurchaseOrder
         TextAlignment = taCentered
         Transparent = True
         mmHeight = 3969
-        mmLeft = 133350
-        mmTop = 56356
+        mmLeft = 129382
+        mmTop = 64558
         mmWidth = 55298
         BandType = 8
       end
@@ -2011,9 +2012,9 @@ object PurchaseOrder: TPurchaseOrder
         Font.Style = []
         Transparent = True
         mmHeight = 3969
-        mmLeft = 66146
-        mmTop = 57150
-        mmWidth = 59796
+        mmLeft = 52388
+        mmTop = 65881
+        mmWidth = 66940
         BandType = 8
       end
       object ppLabel27: TppLabel
@@ -2030,9 +2031,9 @@ object PurchaseOrder: TPurchaseOrder
         Font.Style = []
         Transparent = True
         mmHeight = 3969
-        mmLeft = 130704
-        mmTop = 57679
-        mmWidth = 59796
+        mmLeft = 124090
+        mmTop = 65881
+        mmWidth = 64558
         BandType = 8
       end
       object ppLabel28: TppLabel
@@ -2050,7 +2051,7 @@ object PurchaseOrder: TPurchaseOrder
         Transparent = True
         mmHeight = 2910
         mmLeft = 76200
-        mmTop = 71967
+        mmTop = 75671
         mmWidth = 8731
         BandType = 8
       end
@@ -2069,7 +2070,7 @@ object PurchaseOrder: TPurchaseOrder
         Transparent = True
         mmHeight = 2910
         mmLeft = 167217
-        mmTop = 71967
+        mmTop = 75671
         mmWidth = 24871
         BandType = 8
       end

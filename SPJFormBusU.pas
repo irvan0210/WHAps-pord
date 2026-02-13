@@ -582,6 +582,8 @@ begin
       SJDate.Text:=Qry.FieldValues['out_dates'];
       if Qry.FieldValues['reserved_order_detail_id']<> NULL then
       ReservedOrderDetaiId.Text:=Qry.FieldValues['reserved_order_detail_id'];
+
+
       OrderId.Text:=Qry.FieldValues['customer_order_id'];
       CustomerId.Text:=Qry.FieldValues['customer_id'];
       CustomerDisp.Text:=Qry.FieldValues['customer_name'];

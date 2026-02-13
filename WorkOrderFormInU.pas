@@ -155,6 +155,7 @@ type
     TambahFoto: TButton;
     HapusSemuaFoto: TButton;
     SimpanFoto: TButton;
+    chkSBSelanjutnya: TCheckBox;
     procedure SelesaiClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -367,6 +368,8 @@ begin
   Label9.Visible:=False;
   JamSelesai.Visible:=False;
   chkClose.Checked:=False;
+  chkSBSelanjutnya.Visible := False;
+  chkSBSelanjutnya.Checked := False;
   StrGrid.RowCount:=2;
   StrGrid.Cells[0,0]:='No PKB';
   StrGrid.Cells[1,0]:='No Body';
@@ -2125,12 +2128,14 @@ begin
     TanggalSelesai.Visible:=True;
     Label9.Visible:=True;
     JamSelesai.Visible:=True;
+    chkSBSelanjutnya.Visible := True;
   end else
   begin
     Label6.Visible:=False;
     TanggalSelesai.Visible:=False;
     Label9.Visible:=False;
     JamSelesai.Visible:=False;
+    chkSBSelanjutnya.Visible := False;
   end;
 end;
 

@@ -1,6 +1,6 @@
 object MaintenanceServiceRpt: TMaintenanceServiceRpt
-  Left = 163
-  Top = 217
+  Left = 198
+  Top = 104
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan Service Berkala'

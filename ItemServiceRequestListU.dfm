@@ -1,6 +1,6 @@
 object ItemServiceRequestList: TItemServiceRequestList
-  Left = 242
-  Top = 164
+  Left = 230
+  Top = 329
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'ItemServiceRequestList'
