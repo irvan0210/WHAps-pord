@@ -88,6 +88,7 @@ type
     ChkCrew: TCheckBox;
     ChkStaf: TCheckBox;
     ChkTeknikal: TCheckBox;
+    cbDriverBermasalah: TCheckBox;
     procedure SelesaiClick(Sender: TObject);
     procedure BersihkanClick(Sender: TObject);
     procedure PICExit(Sender: TObject);
@@ -217,6 +218,7 @@ begin
         if (Qry.FieldValues['pelayanan_status'])=1 then cbPelayanan.Checked:=True else cbPelayanan.Checked:=False;
         if (Qry.FieldValues['penjemputan_status'])=1 then cbPenjemputan.Checked:=True else cbPenjemputan.Checked:=False;
         if (Qry.FieldValues['mogok_status'])=1 then cbMogok.Checked:=True else cbMogok.Checked:=False;
+        if (Qry.FieldValues['driver_bermasalah_status'])=1 then cbDriverBermasalah.Checked:=True else cbDriverBermasalah.Checked:=False;
 
         if (Qry.FieldValues['iscrew'])=1 then ChkCrew.Checked:=True else ChkCrew.Checked:=False;
         if (Qry.FieldValues['isstaf'])=1 then ChkStaf.Checked:=True else ChkStaf.Checked:=False;
@@ -519,7 +521,7 @@ begin
         '(to_date BETWEEN GETDATE() AND DATEADD(dd, 1,GETDATE())))) '+
         'LEFT JOIN wh_employee j ON j.employee_id=a.reference '+
         'WHERE (d.employment_type_id=3) AND '+
-        '(d.location_id=6) AND a.name = '+QuotedStr(StrGrid5.Cells[1,IntCount])+' and a.active=1 ';
+        '(d.location_id='+LocationId+') AND a.name = '+QuotedStr(StrGrid5.Cells[1,IntCount])+' and a.active=1 ';
         Qry2.Close;
         Qry2.SQL.Clear;
         Qry2.SQL.Add(StrQry2);
@@ -662,7 +664,7 @@ begin
     '(to_date BETWEEN GETDATE() AND DATEADD(dd, 1,GETDATE())))) '+
     'LEFT JOIN wh_employee j ON j.employee_id=a.reference '+
     'WHERE (d.employment_type_id=3) AND '+
-    '(d.location_id=6) AND a.name like ''%'+PIC.Text+'%'' and a.active=1 ORDER BY a.name ';
+    '(d.location_id='+LocationId+') AND a.name like ''%'+PIC.Text+'%'' and a.active=1 ORDER BY a.name ';
     Main.WriteLog('SQL :'+StrQry,2);
     Qry.SQL.Add(StrQry);
     Qry.Open;

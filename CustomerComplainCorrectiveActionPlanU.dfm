@@ -1,11 +1,11 @@
 object CustComplainCorrectiveActionPlan: TCustComplainCorrectiveActionPlan
-  Left = 186
-  Top = 218
+  Left = 308
+  Top = 45
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
   Caption = 'CustComplainCorrectiveActionPlan'
   ClientHeight = 615
-  ClientWidth = 949
+  ClientWidth = 955
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,7 +22,7 @@ object CustComplainCorrectiveActionPlan: TCustComplainCorrectiveActionPlan
   TextHeight = 13
   object LabelKeluhan: TLabel
     Left = 497
-    Top = 40
+    Top = 57
     Width = 71
     Height = 13
     Alignment = taRightJustify
@@ -261,9 +261,9 @@ object CustComplainCorrectiveActionPlan: TCustComplainCorrectiveActionPlan
   end
   object KomplainGrid: TStringGrid
     Left = 571
-    Top = 37
+    Top = 56
     Width = 380
-    Height = 141
+    Height = 122
     ColCount = 1
     DefaultColWidth = 435
     DefaultRowHeight = 18
@@ -300,12 +300,12 @@ object CustComplainCorrectiveActionPlan: TCustComplainCorrectiveActionPlan
   object GbKategori: TPanel
     Left = 572
     Top = 2
-    Width = 379
-    Height = 31
+    Width = 381
+    Height = 50
     Enabled = False
     TabOrder = 5
     object cbKebersihan: TCheckBox
-      Left = 4
+      Left = 5
       Top = 7
       Width = 81
       Height = 17
@@ -313,7 +313,7 @@ object CustComplainCorrectiveActionPlan: TCustComplainCorrectiveActionPlan
       TabOrder = 0
     end
     object cbFasilitas: TCheckBox
-      Left = 84
+      Left = 107
       Top = 7
       Width = 81
       Height = 17
@@ -321,7 +321,7 @@ object CustComplainCorrectiveActionPlan: TCustComplainCorrectiveActionPlan
       TabOrder = 1
     end
     object cbPelayanan: TCheckBox
-      Left = 148
+      Left = 200
       Top = 7
       Width = 89
       Height = 17
@@ -329,20 +329,28 @@ object CustComplainCorrectiveActionPlan: TCustComplainCorrectiveActionPlan
       TabOrder = 2
     end
     object cbPenjemputan: TCheckBox
-      Left = 228
-      Top = 7
+      Left = 5
+      Top = 27
       Width = 89
       Height = 17
       Caption = 'Penjemputan'
       TabOrder = 3
     end
     object cbMogok: TCheckBox
-      Left = 316
-      Top = 7
+      Left = 107
+      Top = 27
       Width = 57
       Height = 17
       Caption = 'Mogok'
       TabOrder = 4
+    end
+    object cbDriverBermasalah: TCheckBox
+      Left = 200
+      Top = 26
+      Width = 120
+      Height = 17
+      Caption = 'Driver Bermasalah'
+      TabOrder = 5
     end
   end
   object grpinvestigasi: TGroupBox

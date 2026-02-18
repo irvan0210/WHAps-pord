@@ -1,6 +1,6 @@
 object CustomerComplainInvestigationForm: TCustomerComplainInvestigationForm
-  Left = 266
-  Top = 127
+  Left = 284
+  Top = 254
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Customer Complain [Investigasi]'
