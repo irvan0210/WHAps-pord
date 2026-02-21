@@ -226,6 +226,7 @@ type
     procedure InitPekerjaan;
     procedure Calculate2;
     procedure Calculate4;
+    procedure CreateNewSB;
   public
     { Public declarations }
     constructor Create(AOwner:TComponent;WorkOrder_Id:String='';IsRead_Only:Boolean=False;Form_Request:String='');overload;
@@ -1450,6 +1451,7 @@ var Qry,Qry2,Qry3:TADOQuery;
     IsOk, IsOK2, IsOK3:Boolean;
     StmImage: TMemoryStream;
 begin
+
   if (NoPKB.Text<>'') AND (Trim(PekerjaanGrid.Cells[0,0])<>'') then begin
     StrTransId:=NoPKB.Text;
     StrVhcId:=WOArr[ArrayIndexOf(WOArr,NoPKB.Text,0)][7];
@@ -1503,7 +1505,6 @@ begin
           Main.TransStart;
           if chkClose.Checked = True then
           begin
-
             if IsOK2 = False then begin
               if MessageBox(0,PChar('Keluhan Belum ada yang diceklist,'+#13#10+'Yakin mau melanjutkan..?') ,'Keluhan',MB_OKCANCEL or MB_ICONWARNING)=1 then begin
                 if CompareDate(StrToDate(Tanggal.Text),TanggalSelesai.Date)=1 then begin
@@ -1538,11 +1539,20 @@ begin
                   IsOk:=False;
                   StrEMsg:='Tanggal selesai lebih kecil dari tanggal masuk' ;
               end;
+
+              if (NoSB.Text <> '') AND (chkSBSelanjutnya.Checked= True)  then begin
+                 StrQry3:='EXEC GetNexServisBerkala '+CompanyId+',@PrevServiceID ='+QuotedStr(NoSB.Text)+
+                          ',@LocationCode ='+QuotedStr(LocationCode)+',@UserName ='+QuotedStr(User)+';';
+              end else begin
+                StrQry3:='';
+              end;
                 StrQry:='UPDATE wh_work_order SET date_out'+StrTanggalSelesai+
-                      ',time_out'+StrJamSelesai+StrStatus+', user_close='+QuotedStr(User)+' WHERE work_order_id='+Chr(39)+StrTransId+Chr(39)+';';
+                      ',time_out'+StrJamSelesai+StrStatus+', user_close='+QuotedStr(User)+
+                      ' WHERE work_order_id='+Chr(39)+StrTransId+Chr(39)+';'+
+                      StrQry3;
 
               //Penambahan KM Prediksi
-              if NoSB.Text <> '' then begin
+             { if NoSB.Text <> '' then begin
 
                 StrQry3:='';
                 StrQry3:=' UPDATE wh_maintenance_service SET odo_predict = (odo_in + 10000) '+
@@ -1557,7 +1567,23 @@ begin
                     StrEMsg:=E.Message;
                   end;
                 end;
-              end;
+              end;}
+                 //Pembuatan Nex Servis berkala
+             {  if (NoSB.Text <> '') AND (chkSBSelanjutnya.Checked= True)  then begin
+                StrQry3:='';
+                StrQry3:='EXEC GetNexServisBerkala '+CompanyId+',@PrevServiceID ='+QuotedStr(NoSB.Text)+
+                ',@LocationCode ='+QuotedStr(LocationCode)+',@UserName ='+QuotedStr(User)+';';
+                Qry3.SQL.Add(StrQry3);
+                try
+                  Qry3.ExecSQL;
+                except
+                  on E:Exception do begin
+                    IsOk:=False;
+                    StrMsg:='Gagal Menambah Servis Berkala';
+                    StrEMsg:=E.Message;
+                  end;
+                end;
+              end; }
             end;
 
           end else begin
@@ -3003,5 +3029,65 @@ begin
 end;}
 
 
+procedure TWorkOrderFormIn.CreateNewSB;
+var
+  I: Integer;
+  StmImage: TMemoryStream;
+  Qry: TADOQuery;
+  ImageName, StrQry, StrTransId, StrMsg, StrException: string;
+  IsOk:Boolean;
+begin
+  if (NoSB.Text <>'') then begin
+    StrTransId:=NoSB.Text;
+    IsOk:=True;
+    Qry:=TADOQuery.Create(Self);
+    Qry.Connection:=Main.MyConnection;
+    StmImage := TMemoryStream.Create;
+    if Main.OpenDb then begin
+      for I := 0 to ListGambar.Count - 1 do
+      begin
+         StmImage.LoadFromFile(ListGambar[I]);
+         StmImage.Position := 0;
+      // Compress otomatis
+       // CompressImageToStream(ListGambar[I],StmImage,1280,1280,70);
+        ImageName := ExtractFileName(ListGambar[I]);
+        StrQry :=
+          'INSERT INTO wh_work_order_image '+
+          '(work_order_id, description_id, image_name, image, description, status, update_time, update_user) '+
+          'VALUES ('+QuotedStr(StrTransId)+', 2, :p_name, :p_img, :p_desc, 1, GETDATE(), :usr)';
+
+        Qry.SQL.Clear;
+        Qry.SQL.Add(StrQry);
+       // Qry.Parameters.ParamByName('wo').Value  := StrTransId;
+        Qry.Parameters.ParamByName('p_name').Value := ImageName;
+        Qry.Parameters.ParamByName('p_desc').Value := ListDeskripsi[I];
+        Qry.Parameters.ParamByName('usr').Value := User;
+        Qry.Parameters.ParamByName('p_img').LoadFromStream(StmImage, ftBlob);
+
+
+        try
+          Qry.ExecSQL;
+        except
+          on E:Exception do begin
+            IsOk:=False;
+            StrMsg:='Gagal Menambah Memo';
+            StrException:=E.Message;
+          end;
+        end;
+      end;
+      Qry.Close;
+      Main.CloseDb;
+    end;
+
+    if IsOk then begin
+      MessageBox(0,'Berhasil enambah Gambar','Tutup PKB',MB_OK or MB_ICONINFORMATION);
+      Init;
+    end else begin
+      MessageBox(0,PChar(StrMsg+Chr(13)+Chr(13)+'Kesalahan:'+Chr(13)+StrException),'Tutup PKB',MB_OK or MB_ICONERROR);
+    end;
+
+ end else
+    MessageBox(0,'PKB belum dipilih','Tutup PKB',MB_OK or MB_ICONERROR);
+end;
 
 end.

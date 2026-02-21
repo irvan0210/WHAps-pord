@@ -1,6 +1,6 @@
 object MaintenanceServiceRpt: TMaintenanceServiceRpt
-  Left = 198
-  Top = 104
+  Left = 352
+  Top = 221
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan Service Berkala'
@@ -107,7 +107,7 @@ object MaintenanceServiceRpt: TMaintenanceServiceRpt
     Top = 42
     Width = 1166
     Height = 383
-    ColCount = 8
+    ColCount = 10
     DefaultRowHeight = 20
     DefaultDrawing = False
     FixedColor = clBtnFace

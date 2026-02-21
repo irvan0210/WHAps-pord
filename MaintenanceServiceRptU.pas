@@ -80,7 +80,7 @@ procedure TMaintenanceServiceRpt.InitGrid;
 var IntCount:Integer;
 begin
     StrGrid.RowCount:=2;
-  StrGrid.ColCount:=11;
+  StrGrid.ColCount:=13;
   StrGrid.ColWidths[0]:=20;
   StrGrid.ColWidths[1]:=70;
   StrGrid.ColWidths[2]:=100;
@@ -90,8 +90,10 @@ begin
   StrGrid.ColWidths[6]:=140;
   StrGrid.ColWidths[7]:=60;
   StrGrid.ColWidths[8]:=60;
-  StrGrid.ColWidths[9]:=100;
-  StrGrid.ColWidths[10]:=350;
+  StrGrid.ColWidths[9]:=70;
+  StrGrid.ColWidths[10]:=60;
+  StrGrid.ColWidths[11]:=100;
+  StrGrid.ColWidths[12]:=350;
   StrGrid.Cells[0,0]:='No';
   StrGrid.Cells[1,0]:='Pool';
   StrGrid.Cells[2,0]:='No SB';
@@ -101,8 +103,10 @@ begin
   StrGrid.Cells[6,0]:='No Bodi/No Polisi';
   StrGrid.Cells[7,0]:='Odo';
   StrGrid.Cells[8,0]:='Odo (P)';
-  StrGrid.Cells[9,0]:='Jenis Servis';
-  StrGrid.Cells[10,0]:='Pekerjaan';
+  StrGrid.Cells[9,0]:='Odo Saat Ini';
+  StrGrid.Cells[10,0]:='Selisih Odo';
+  StrGrid.Cells[11,0]:='Jenis Servis';
+  StrGrid.Cells[12,0]:='Pekerjaan';
 
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
@@ -115,7 +119,9 @@ begin
   StrGrid.CellStyle[8,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[9,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[10,0].HorizontalAlignment:=taCenter;
-  for IntCount:=0 to 8 do begin
+  StrGrid.CellStyle[11,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[12,0].HorizontalAlignment:=taCenter;
+  for IntCount:=0 to 10 do begin
     StrGrid.Cells[IntCount,1]:='';
     StrGrid.CellStyle[IntCount,1].BGColor:=clWindow;
   end;
@@ -232,15 +238,21 @@ begin
                               ' '+Copy(Qry.FieldValues['license_plate'],7,Length(Qry.FieldValues['license_plate'])+1);
 
       if Qry.FieldValues['odo_in']<>NULL then MaintenanceServiceArr[IntCount][7]:=IToCurr(Qry.FieldValues['odo_in'])
-      else MaintenanceServiceArr[IntCount][7]:='';
+      else MaintenanceServiceArr[IntCount][7]:='0';
 
       if Qry.FieldValues['odo_predict']<>NULL then MaintenanceServiceArr[IntCount][8]:=IToCurr(Qry.FieldValues['odo_predict'])
-      else MaintenanceServiceArr[IntCount][8]:='';
+      else MaintenanceServiceArr[IntCount][8]:='0';
 
-      MaintenanceServiceArr[IntCount][9]:=Qry.FieldValues['jenis_service'];
-      MaintenanceServiceArr[IntCount][10]:=Qry.FieldValues['maintenance_job'];
-      if Qry.FieldValues['time_out'] <> null then MaintenanceServiceArr[IntCount][11]:=Qry.FieldValues['time_out']
-      else MaintenanceServiceArr[IntCount][11]:='';
+      if Qry.FieldValues['last_odo']<>NULL then MaintenanceServiceArr[IntCount][9]:=IToCurr(Qry.FieldValues['last_odo'])
+      else MaintenanceServiceArr[IntCount][9]:='0';
+
+      if Qry.FieldValues['selisih_odo']<>NULL then MaintenanceServiceArr[IntCount][10]:=IToCurr(Qry.FieldValues['selisih_odo'])
+      else MaintenanceServiceArr[IntCount][10]:='0';
+
+      MaintenanceServiceArr[IntCount][11]:=Qry.FieldValues['jenis_service'];
+      MaintenanceServiceArr[IntCount][12]:=Qry.FieldValues['maintenance_job'];
+      if Qry.FieldValues['time_out'] <> null then MaintenanceServiceArr[IntCount][13]:=Qry.FieldValues['time_out']
+      else MaintenanceServiceArr[IntCount][13]:='';
 
 {      MaintenanceServiceArr[IntCount][0]:=Qry.FieldValues['location'];
       MaintenanceServiceArr[IntCount][1]:=Qry.FieldValues['maintenance_service_id'];
@@ -317,12 +329,13 @@ begin
       StrGrid.Cells[3,IntCount+1]:=MaintenanceServiceArr[IntCount][2];
       StrGrid.Cells[4,IntCount+1]:=MaintenanceServiceArr[IntCount][3];
       StrGrid.Cells[5,IntCount+1]:=MaintenanceServiceArr[IntCount][4];
-
       StrGrid.Cells[6,IntCount+1]:=MaintenanceServiceArr[IntCount][5]+' / '+MaintenanceServiceArr[IntCount][6];
       StrGrid.Cells[7,IntCount+1]:=MaintenanceServiceArr[IntCount][7];
       StrGrid.Cells[8,IntCount+1]:=MaintenanceServiceArr[IntCount][8];
       StrGrid.Cells[9,IntCount+1]:=MaintenanceServiceArr[IntCount][9];
       StrGrid.Cells[10,IntCount+1]:=MaintenanceServiceArr[IntCount][10];
+      StrGrid.Cells[11,IntCount+1]:=MaintenanceServiceArr[IntCount][11];
+      StrGrid.Cells[12,IntCount+1]:=MaintenanceServiceArr[IntCount][12];
 
       StrGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
      { StrGrid.CellStyle[1,IntCount+1].HorizontalAlignment:=taCenter;
@@ -332,6 +345,8 @@ begin
      // StrGrid.CellStyle[6,IntCount+1].HorizontalAlignment:=taRightJustify;
       StrGrid.CellStyle[7,IntCount+1].HorizontalAlignment:=taRightJustify;
       StrGrid.CellStyle[8,IntCount+1].HorizontalAlignment:=taRightJustify;
+      StrGrid.CellStyle[9,IntCount+1].HorizontalAlignment:=taRightJustify;
+      StrGrid.CellStyle[10,IntCount+1].HorizontalAlignment:=taRightJustify;
 
       IsDrawRect:=False;
     end else if (IntCount<Length(MaintenanceServiceArr)-1) then begin
@@ -349,15 +364,20 @@ begin
       StrGrid.MergeCells.AddRectXY(7,IntStartRow+1,7,IntCount+1);
       StrGrid.MergeCells.AddRectXY(8,IntStartRow+1,8,IntCount+1);
       StrGrid.MergeCells.AddRectXY(9,IntStartRow+1,9,IntCount+1);
-     StrGrid.MergeCells.AddRectXY(10,IntStartRow+1,10,IntCount+1);
+      StrGrid.MergeCells.AddRectXY(10,IntStartRow+1,10,IntCount+1);
+      StrGrid.MergeCells.AddRectXY(11,IntStartRow+1,11,IntCount+1);
+      StrGrid.MergeCells.AddRectXY(12,IntStartRow+1,12,IntCount+1);
       //StrGrid.MergeCells.AddRectXY(12,IntStartRow+2,12,IntCount+2);
     end;
     StrGrid.Cells[3,IntCount+1]:=MaintenanceServiceArr[IntCount][2];
     StrGrid.Cells[4,IntCount+1]:=MaintenanceServiceArr[IntCount][3];
     // MessageBox(0,PChar(MaintenanceServiceArr[IntCount][3]),'No pkb',MB_OK or MB_ICONINFORMATION);
-    // MessageBox(0,PChar(MaintenanceServiceArr[IntCount][11]),'Jam Tutup',MB_OK or MB_ICONINFORMATION);
-    if (MaintenanceServiceArr[IntCount][11]<>'') AND (MaintenanceServiceArr[IntCount][11] <> null )then   //(MaintenanceServiceArr[IntCount][3]<>'') AND
+    // MessageBox(0,PChar(StringReplace(MaintenanceServiceArr[IntCount][9], '.', '', [rfReplaceAll])),'selisih odo',MB_OK or MB_ICONINFORMATION);
+    if (MaintenanceServiceArr[IntCount][13]<>'') AND (MaintenanceServiceArr[IntCount][13] <> null )then   //(MaintenanceServiceArr[IntCount][3]<>'') AND
     for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[4,IntCount+1].Font.Color:=clGreen;
+
+    if (StrToInt(StringReplace(MaintenanceServiceArr[IntCount][10], '.', '', [rfReplaceAll]))<=0)then
+    for IntCount2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[10,IntCount+1].Font.Color:=clRed;
 
   end;
 
@@ -391,6 +411,9 @@ begin
       2: begin
           if StrGrid.Cells[2,IntRow]<>'' then begin
             if FormRequest='' then begin
+              if (StrGrid.Cells[3,IntRow]='')then begin
+               if Main.IsFormOpen('MaintenanceServiceForm')=False then MaintenanceServiceForm:=TMaintenanceServiceForm.Create(Self,StrGrid.Cells[2,IntRow],'UPDATE-MAINTENACESERVICE',True);
+              end else
               if Main.IsFormOpen('MaintenanceServiceForm')=False then MaintenanceServiceForm:=TMaintenanceServiceForm.Create(Self,StrGrid.Cells[2,IntRow],'',False);
             end else if UpperCase(FormRequest)='UPDATE' then begin
               if Main.IsFormOpen('MaintenanceServiceForm')=False then MaintenanceServiceForm:=TMaintenanceServiceForm.Create(Self,StrGrid.Cells[2,IntRow],'UPDATE-MAINTENACESERVICE',True);

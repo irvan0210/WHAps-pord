@@ -1,6 +1,6 @@
 object WorkOrderFormIn: TWorkOrderFormIn
-  Left = 243
-  Top = 74
+  Left = 399
+  Top = 56
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Tutup Perintah Kerja Bengkel'
@@ -391,9 +391,9 @@ object WorkOrderFormIn: TWorkOrderFormIn
         end
         object PekerjaanGrid: TZColorStringGrid
           Left = 6
-          Top = 75
+          Top = 72
           Width = 387
-          Height = 185
+          Height = 188
           ColCount = 3
           DefaultRowHeight = 20
           DefaultDrawing = False

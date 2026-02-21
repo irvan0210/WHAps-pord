@@ -126,6 +126,16 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '20/02/2026 (6.2.0.8)'
+      
+        '- Penambahan Kolom odo saat ini, selisih odo di laporan servis b' +
+        'erkala.'
+      
+        '- Perubahan Menu laporan servis berkala yaitu bisa rubah servis ' +
+        'berkala jika belum '
+      'ada SR.'
+      '- Servis Berkala selanjutnya dibuat Otomatis ketika tutup PKB. '
+      ''
       '13/02/2026 (6.2.0.7)'
       '- Penambahan Laporan Purchase Request dan Purchase Order.'
       ''
