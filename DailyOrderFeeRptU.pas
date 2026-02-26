@@ -164,7 +164,7 @@ var Count,Count2:Integer;
     StrQry:String;
     IntCount:Integer;
 begin
-  MaxCol:=92;
+  MaxCol:=96;
   cbCancel.Checked:=False;
   SBU.Items.Clear;
   SBU.Text:='';
@@ -293,10 +293,13 @@ begin
 
   StrGrid.MergeCells.AddRectXY(84,0,87,0);
   StrGrid.MergeCells.AddRectXY(88,0,88,1);
-  StrGrid.MergeCells.AddRectXY(89,0,89,1);
-  StrGrid.MergeCells.AddRectXY(90,0,90,1);
-  StrGrid.MergeCells.AddRectXY(91,0,91,1);
-  StrGrid.MergeCells.AddRectXY(92,0,92,1);
+  StrGrid.MergeCells.AddRectXY(89,0,92,0);
+  //StrGrid.MergeCells.AddRectXY(90,0,90,1);
+  //StrGrid.MergeCells.AddRectXY(91,0,92,0);
+  StrGrid.MergeCells.AddRectXY(93,0,96,0);
+ // StrGrid.MergeCells.AddRectXY(94,0,94,1);
+ // StrGrid.MergeCells.AddRectXY(95,0,96,0);
+
 
   //StrGrid.MergeCells.AddRectXY(11,0,11,1);
   IntGeserKolom:=6;
@@ -461,11 +464,19 @@ begin
   StrGrid.Cells[86,1]:='Helper';
   StrGrid.Cells[87,1]:='Catatan';
   StrGrid.Cells[88,0]:='Reprint Terakhir';
-  StrGrid.Cells[89,0]:='Pengisian 1';
-  StrGrid.Cells[90,0]:='Titik Kordinat 1';
-  StrGrid.Cells[91,0]:='Pengisian 2';
-  StrGrid.Cells[92,0]:='Titik Kordinat 2';
 
+  StrGrid.Cells[89,0]:='Driver Input 1';
+  StrGrid.Cells[89,1]:='Pengisian';
+  StrGrid.Cells[90,1]:='Titik Kordinat';
+  //StrGrid.Cells[91,0]:='BBM 1';
+  StrGrid.Cells[91,1]:='BBM(Ltr)';
+  StrGrid.Cells[92,1]:='BBM(Rp)';
+  StrGrid.Cells[93,0]:='Driver Input 2';
+  StrGrid.Cells[93,1]:='Pengisian';
+  StrGrid.Cells[94,1]:='Titik Kordinat';
+ // StrGrid.Cells[95,0]:='BBM 2';
+  StrGrid.Cells[95,1]:='BBM(Ltr)';
+  StrGrid.Cells[96,1]:='BBM(Rp)';
 
   StrGrid.ColWidths[44]:=120;
   StrGrid.ColWidths[45]:=35;
@@ -513,11 +524,14 @@ begin
   StrGrid.ColWidths[86]:=50;
   StrGrid.ColWidths[87]:=400;
   StrGrid.ColWidths[88]:=500;
-  StrGrid.ColWidths[89]:=200;
-  StrGrid.ColWidths[90]:=200;
-  StrGrid.ColWidths[91]:=200;
-  StrGrid.ColWidths[92]:=200;
-
+  StrGrid.ColWidths[89]:=100;
+  StrGrid.ColWidths[90]:=100;
+  StrGrid.ColWidths[91]:=60;
+  StrGrid.ColWidths[92]:=80;
+  StrGrid.ColWidths[93]:=100;
+  StrGrid.ColWidths[94]:=100;
+  StrGrid.ColWidths[95]:=60;
+  StrGrid.ColWidths[96]:=80;
 
   for IntCount:=0 to MaxCol do begin
     StrGrid.CellStyle[IntCount,0].Font.Style:=[fsBold];
@@ -945,8 +959,28 @@ begin
 
       StrGrid.Cells[89,Count]:= OrderFeeArr[IntCount][83];
       StrGrid.Cells[90,Count]:= OrderFeeArr[IntCount][84];
-      StrGrid.Cells[91,Count]:= OrderFeeArr[IntCount][85];
-      StrGrid.Cells[92,Count]:= OrderFeeArr[IntCount][86];
+      if OrderFeeArr[IntCount][85]<>'0' then begin
+        StrGrid.Cells[91,Count]:= IToCurr(StoInt(OrderFeeArr[IntCount][85]));
+        StrGrid.Cells[92,Count]:= IToCurr(StoInt(OrderFeeArr[IntCount][86]));
+      end else begin
+         StrGrid.Cells[91,Count]:='0';
+         StrGrid.Cells[92,Count]:='0';
+      end;
+      StrGrid.Cells[93,Count]:= OrderFeeArr[IntCount][87];
+      StrGrid.Cells[94,Count]:= OrderFeeArr[IntCount][88];
+
+      if OrderFeeArr[IntCount][89]<>Null then begin
+        StrGrid.Cells[95,Count]:= IToCurr(StoInt(OrderFeeArr[IntCount][89]));
+        StrGrid.Cells[96,Count]:= IToCurr(StoInt(OrderFeeArr[IntCount][90]));
+      end else begin
+         StrGrid.Cells[95,Count]:='0';
+         StrGrid.Cells[96,Count]:='0';
+      end;
+
+      //IToCurr(StoInt(OrderFeeArr[IntCount][82]));
+     // StrGrid.Cells[95,Count]:= OrderFeeArr[IntCount][89];
+     // StrGrid.Cells[96,Count]:= OrderFeeArr[IntCount][90];
+
 //      if (OrderFeeArr[IntCount][57]<>'') AND (OrderFeeArr[IntCount][57]<>NULL) then begin
 //        StrGrid.CellStyle[2,Count].Font.Color:=clGreen;
 //      end else begin
@@ -1318,6 +1352,11 @@ begin
     StrGrid.CellStyle[85,Count2].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[86,Count2].HorizontalAlignment:=taCenter;
     StrGrid.CellStyle[87,Count2].HorizontalAlignment:=taLeftJustify;
+    
+    StrGrid.CellStyle[91,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[92,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[95,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[96,Count2].HorizontalAlignment:=taRightJustify;
   end;
 
 
@@ -1738,13 +1777,27 @@ begin
           OrderFeeArr[IntCount][84]:= 'https://www.google.com/maps?q='+Qry2.FieldValues['map_link_1']
         else OrderFeeArr[IntCount][84]:='';
 
+        if Qry2.FieldValues['fuel_litre_1']<>NULL then
+              OrderFeeArr[IntCount][85]:= Qry2.FieldValues['fuel_litre_1']
+        else OrderFeeArr[IntCount][85]:='0';
+        if Qry2.FieldValues['fuel_price_1']<>NULL then
+              OrderFeeArr[IntCount][86]:= Qry2.FieldValues['fuel_price_1']
+        else OrderFeeArr[IntCount][86]:='0';
+
         if Qry2.FieldValues['fuel_proof_file_2']<>NULL then
-          OrderFeeArr[IntCount][85]:= Qry2.FieldValues['fuel_proof_file_2']
-        else OrderFeeArr[IntCount][85]:='';
+          OrderFeeArr[IntCount][87]:= Qry2.FieldValues['fuel_proof_file_2']
+        else OrderFeeArr[IntCount][87]:='';
 
         if Qry2.FieldValues['map_link_2']<>NULL then
-          OrderFeeArr[IntCount][86]:= 'https://www.google.com/maps?q='+Qry2.FieldValues['map_link_2']
-        else OrderFeeArr[IntCount][86]:='';
+          OrderFeeArr[IntCount][88]:= 'https://www.google.com/maps?q='+Qry2.FieldValues['map_link_2']
+        else OrderFeeArr[IntCount][88]:='';
+
+        if Qry2.FieldValues['fuel_litre_2']<>NULL then
+              OrderFeeArr[IntCount][89]:= Qry2.FieldValues['fuel_litre_2']
+        else OrderFeeArr[IntCount][89]:='0';
+        if Qry2.FieldValues['fuel_price_2']<>NULL then
+              OrderFeeArr[IntCount][90]:= Qry2.FieldValues['fuel_price_2']
+        else OrderFeeArr[IntCount][90]:='0';
 
         Qry2.Next;
       end;
@@ -1967,8 +2020,8 @@ begin
       55 : ShowMessage(StrGrid.Cells[55,IntRow]);
       89 : OpenLink(StrGrid.Cells[89,IntRow]);
       90 : OpenLink(StrGrid.Cells[90,IntRow]);
-      91 : OpenLink(StrGrid.Cells[91,IntRow]);
-      92 : OpenLink(StrGrid.Cells[91,IntRow]);
+      93 : OpenLink(StrGrid.Cells[93,IntRow]);
+      94 : OpenLink(StrGrid.Cells[94,IntRow]);
 
     end;
   end;

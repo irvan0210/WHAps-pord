@@ -357,7 +357,9 @@ begin
               Sep.Text:=SToCurr(Qry.FieldValues['value']);ActSep.Text:=SToCurr(Qry.FieldValues['budget_used']);
              End;
           10:begin
-              Okt.Text:=SToCurr(Qry.FieldValues['value']);ActOkt.Text:=SToCurr(Qry.FieldValues['budget_used']);
+                Okt.Text:=FormatCurr('#,##0', Qry.FieldByName('value').AsCurrency);ActOkt.Text:= FormatCurr('#,##0', Qry.FieldByName('budget_used').AsCurrency);
+               //Okt.Text:=CurrToStr(Qry.FieldByName('value').AsCurrency); ActOkt.Text:= SToCurr(Qry.FieldValues['budget_used']);
+              //Okt.Text:=SToCurr(Qry.FieldValues['value']);ActOkt.Text:=SToCurr(Qry.FieldValues['budget_used']);
              End;
           11:begin
               Nov.Text:=SToCurr(Qry.FieldValues['value']);ActNov.Text:=SToCurr(Qry.FieldValues['budget_used']);
@@ -641,6 +643,7 @@ end;
 
 procedure TBudgetCreateYear.OktExit(Sender: TObject);
 begin
+
   if Trim(Okt.Text)<>'' then Okt.Text:=SToCurr(Okt.Text);
 end;
 

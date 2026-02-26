@@ -1,6 +1,6 @@
 object BudgetCreateYear: TBudgetCreateYear
-  Left = 179
-  Top = 133
+  Left = 448
+  Top = 101
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Pembuatan Budget Tahunan'
@@ -271,8 +271,6 @@ object BudgetCreateYear: TBudgetCreateYear
       Alignment = taRightJustify
       MaxLength = 25
       TabOrder = 0
-      WantReturns = False
-      WantTabs = True
       OnEnter = JanEnter
       OnExit = JanExit
       OnKeyPress = JanKeyPress

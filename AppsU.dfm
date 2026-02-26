@@ -126,6 +126,13 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '26/02/2026 (6.2.0.8)  Force update'
+      
+        '- Penambahan Kolom BBM rupiah dan BBM liter ( driver input) di L' +
+        'aporan uang '
+      'harian driver.'
+      '- Penambahan Kolom Mekanik di laporan PKB'
+      ''
       '20/02/2026 (6.2.0.8)'
       
         '- Penambahan Kolom odo saat ini, selisih odo di laporan servis b' +

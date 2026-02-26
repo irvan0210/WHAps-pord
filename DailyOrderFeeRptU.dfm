@@ -242,7 +242,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     Width = 1036
     Height = 364
     Anchors = [akLeft, akTop, akRight]
-    ColCount = 46
+    ColCount = 50
     DefaultRowHeight = 20
     DefaultDrawing = False
     FixedColor = clSkyBlue
@@ -447,7 +447,7 @@ object DailyOrderFeeRpt: TDailyOrderFeeRpt
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 140000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 119
+    PrinterSetup.PaperSize = 541
     Template.FileName = 'D:\Source\SC Delphi\06 Jan 2020\formReimburse.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'

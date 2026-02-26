@@ -49,7 +49,7 @@ type
     FormRequest,FormFunction, StrDecId, StrTimeOut:String;
     StatusArr,LocationArr:Array of TArrString4;
     CompanyArr:Array of TArrString7;
-    WorkOrderArr:Array of TArrString14;
+    WorkOrderArr:Array of TArrString16;
     IntRow, IntCol:Integer;
     Initiation:Boolean;
     procedure Init;
@@ -103,7 +103,7 @@ procedure TWorkOrderRpt.InitGrid;
 begin
   MinRowGrid:=1;
   StrGrid.RowCount:=3;
-  StrGrid.ColCount:=12;
+  StrGrid.ColCount:=13;
   StrGrid.ColWidths[0]:=0;
   StrGrid.ColWidths[1]:=90;
   StrGrid.ColWidths[2]:=90;
@@ -117,6 +117,7 @@ begin
   StrGrid.ColWidths[9]:=400;
   StrGrid.ColWidths[10]:=250;
   StrGrid.ColWidths[11]:=150;
+  StrGrid.ColWidths[12]:=150;
 
   StrGrid.MergeCells.AddRectXY(0,0,0,1);
   StrGrid.MergeCells.AddRectXY(1,0,1,1);
@@ -129,7 +130,7 @@ begin
   StrGrid.MergeCells.AddRectXY(9,0,9,1);
   StrGrid.MergeCells.AddRectXY(10,0,10,1);
   StrGrid.MergeCells.AddRectXY(11,0,11,1);
- // StrGrid.MergeCells.AddRectXY(12,0,12,1);
+  StrGrid.MergeCells.AddRectXY(12,0,12,1);
   //StrGrid.MergeCells.AddRectXY(13,0,13,1);
   //StrGrid.Cells[0,0]:='No';
  // StrGrid.Cells[0,0]:='Pool';
@@ -145,7 +146,7 @@ begin
   StrGrid.Cells[11,0]:='Spare Part';
   StrGrid.Cells[4,1]:='Masuk';
   StrGrid.Cells[5,1]:='Selesai';
-  //StrGrid.Cells[12,0]:='No Polisi';
+  StrGrid.Cells[12,0]:='Mekanik';
   //StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
@@ -160,7 +161,7 @@ begin
   StrGrid.CellStyle[11,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[4,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[5,1].HorizontalAlignment:=taCenter;
-  //StrGrid.CellStyle[12,0].HorizontalAlignment:=taCenter;
+  StrGrid.CellStyle[12,0].HorizontalAlignment:=taCenter;
   
   for IntCount:=0 to StrGrid.ColCount-1 do begin
     StrGrid.Cells[IntCount,2]:='';
@@ -286,6 +287,10 @@ begin
         WorkOrderArr[IntCount][14] := Qry.FieldValues['isdone'];
       end;
 
+      if Qry.FieldValues['work_mekanik']<>NULL then  begin
+        WorkOrderArr[IntCount][15] := Qry.FieldValues['work_mekanik'];
+      end else  WorkOrderArr[IntCount][15] :='';
+
       Inc(IntCount);
       Qry.Next;
 
@@ -388,7 +393,7 @@ begin
       StrGrid.Cells[8,IntCount+2]:=WorkOrderArr[IntCount][8];
       StrGrid.Cells[10,IntCount+2]:=WorkOrderArr[IntCount][10];
       StrGrid.Cells[11,IntCount+2]:=WorkOrderArr[IntCount][11];
-      //StrGrid.Cells[12,IntCount+2]:=WorkOrderArr[IntCount][12];
+      StrGrid.Cells[12,IntCount+2]:=WorkOrderArr[IntCount][15];
       IsDrawRect:=False;
     end else if (IntCount<Length(WorkOrderArr)-1) then begin
       if (StrWorkOrderId<>WorkOrderArr[IntCount+1][1]) then IsDrawRect:=True;
@@ -406,7 +411,7 @@ begin
       StrGrid.MergeCells.AddRectXY(8,IntStartRow+2,8,IntCount+2);
       StrGrid.MergeCells.AddRectXY(10,IntStartRow+2,10,IntCount+2);
       StrGrid.MergeCells.AddRectXY(11,IntStartRow+2,11,IntCount+2);
-      //StrGrid.MergeCells.AddRectXY(12,IntStartRow+2,12,IntCount+2);
+      StrGrid.MergeCells.AddRectXY(12,IntStartRow+2,12,IntCount+2);
     end;
     StrGrid.Cells[9,IntCount+2]:=WorkOrderArr[IntCount][9];
 
