@@ -13,6 +13,7 @@ type
     Cari: TEdit;
     StrGrid: TZColorStringGrid;
     ToXCel: TSpeedButton;
+    btn_cari: TSpeedButton;
     procedure SelesaiClick(Sender: TObject);
     procedure CariChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -23,6 +24,7 @@ type
     procedure StrGridKeyPress(Sender: TObject; var Key: Char);
     procedure CariKeyPress(Sender: TObject; var Key: Char);
     procedure ToXCelClick(Sender: TObject);
+    procedure btn_cariClick(Sender: TObject);
   private
     PartDetailArr:Array of TArrString7;
     IntRow,IntCol:Integer;
@@ -32,7 +34,7 @@ type
     procedure RefreshCombo;
     { Private declarations }
   public
-    procedure LoadData;
+    procedure LoadData(Str:String);
     procedure RefreshGrid;
     constructor Create(AOwner:TComponent;Form_Request:String='');Overload;
     { Public declarations }
@@ -95,16 +97,19 @@ begin
 
 end;
 
-procedure TPartDetailList.LoadData;
+procedure TPartDetailList.LoadData(Str:String);
 var Qry:TADOQuery;
-    StrQry:String;
+    StrQry, StrWhere:String;
     IntCount:Integer;
 begin
+  if Str <> '' then StrWhere := QuotedStr(Str)
+  else  StrWhere := '';
+
   Qry:=TADOQuery.Create(Self);
   Qry.Connection:=Main.MyConnection;
   Main.M_Busy;
   if Main.OpenDb then begin
-    StrQry:='EXEC GetPartDetailList;';
+    StrQry:='EXEC GetPartDetailList'+StrWhere+';';
     Qry.SQL.Add(StrQry);
     Qry.Open;
     SetLength(PartDetailArr,Qry.RecordCount);
@@ -157,7 +162,7 @@ procedure TPartDetailList.CariChange(Sender: TObject);
 var Count,Count2,Count3,Count4:Integer;
     IsTrue:Boolean;
 begin
-  if Trim(Cari.Text)<>'' then begin
+{  if Trim(Cari.Text)<>'' then begin
     InitGrid;
     Count2:=2;
     for Count:=0 to Length(PartDetailArr)-1 do begin
@@ -176,7 +181,7 @@ begin
   end else begin
     LoadData;
     RefreshGrid;
-  end;
+  end;   }
 end;
 
 
@@ -196,8 +201,8 @@ begin
   Init;
   InitGrid;
   RefreshCombo;
-  LoadData;
-  RefreshGrid;
+ // LoadData;
+ // RefreshGrid;
 end;
 
 procedure TPartDetailList.StrGridSelectCell(Sender: TObject; ACol,
@@ -282,6 +287,33 @@ end;
 procedure TPartDetailList.ToXCelClick(Sender: TObject);
 begin
   if ToExcel2(StrGrid) then ShowMessage('Export ke Excel Berhasil');
+end;
+
+procedure TPartDetailList.btn_cariClick(Sender: TObject);
+begin
+ if Trim(Cari.Text)<>'' then begin
+    LoadData(Cari.Text) ;
+    RefreshGrid;
+  end else
+  MessageBox(0,'Silahkan Lengkapi Kolom Yang kosong','Purchase Request',MB_OK or MB_ICONERROR);
+ {  else begin
+
+    InitGrid;
+    Count2:=2;
+    for Count:=0 to Length(PartDetailArr)-1 do begin
+      IsTrue:=False;
+      for Count3:=0 to 4 do
+      if (StrPos(PChar(UpperCase(PartDetailArr[Count][Count3])),PChar(UpperCase(Cari.Text)))<>nil) then IsTrue:=True;
+      if IsTrue then begin
+          StrGrid.RowCount:=Count2;
+          StrGrid.Cells[Count4,Count2-1]:=IntToStr(Count2);
+          for Count4:=0 to 4 do
+          StrGrid.Cells[Count4+1,Count2-1]:=PartDetailArr[Count][Count4];
+          StrGrid.CellStyle[0,Count2-1].HorizontalAlignment:=taCenter;
+          Inc(Count2);
+      end;
+    end;
+  end; }
 end;
 
 end.

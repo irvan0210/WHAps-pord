@@ -245,7 +245,8 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   TroubleshootingRequestFormU, TroubleshootingRequestFormListU,
   EmployeeContractListU, ChartU, RubahInvoiceFormU, PlannedServiceReportU,
   MemoListU,  KoneksiDatabaseU, DriverVehicleAuthorizationU,
-  DriverVehicleAuthorizationListU, PurchaseRequestRptU, PurchaseOrderRptU;
+  DriverVehicleAuthorizationListU, PurchaseRequestRptU, PurchaseOrderRptU,
+  RevenueVhcDayBusRptV2U;
 
 
 constructor TClockThread.Create;
@@ -1873,8 +1874,8 @@ begin
            end;
         end;
         {190401 Laporan Keuangan}
-        190401..190409:begin
-           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04','05','06','08','09']) of
+        190401..190411:begin
+           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04','05','06','08','09','11']) of
              0:if IsFormOpen('RevenueVhcDayBusRpt')=False then RevenueVhcDayBusRpt:=TRevenueVhcDayBusRpt.Create(Self);
              1:if IsFormOpen('YearlySalesRDRpt')=False then YearlySalesRDRpt:=TYearlySalesRDRpt.Create(Self,'Bus','','',6);
              2:if IsFormOpen('YearlySalesRecapRpt')=False then YearlySalesRecapRpt:=TYearlySalesRecapRpt.Create(Self,'Bus');
@@ -1883,6 +1884,7 @@ begin
              5:if IsFormOpen('BudgetListRpt')=False then BudgetListRpt:=TBudgetListRpt.Create(Self,'Bus','','',0);
              6:if IsFormOpen('PurchaseRequestRpt')=False then PurchaseRequestRpt:=TPurchaseRequestRpt.Create(Self);
              7:if IsFormOpen('PurchaseOrderRpt')=False then PurchaseOrderRpt:=TPurchaseOrderRpt.Create(Self);
+             8:if IsFormOpen('RevenueVhcDayBusRptV2')=False then RevenueVhcDayBusRptV2:=TRevenueVhcDayBusRptV2.Create(Self);
            end;
         end;
         {190501 Laporan Operasional Bus}

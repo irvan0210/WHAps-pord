@@ -1,6 +1,6 @@
 object PartDetailForm: TPartDetailForm
-  Left = 703
-  Top = 164
+  Left = 266
+  Top = 177
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Part Detail'

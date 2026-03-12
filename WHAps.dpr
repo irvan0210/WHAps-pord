@@ -360,7 +360,8 @@ uses
   DriverVehicleAuthorizationListU in 'DriverVehicleAuthorizationListU.pas' {DriverVehicleAuthorizationList},
   DriverVehicleAuthorizationU in 'DriverVehicleAuthorizationU.pas' {DriverVehicleAuthorization},
   PurchaseOrderRptU in 'PurchaseOrderRptU.pas' {PurchaseOrderRpt},
-  PurchaseRequestRptU in 'PurchaseRequestRptU.pas' {PurchaseRequestRpt};
+  PurchaseRequestRptU in 'PurchaseRequestRptU.pas' {PurchaseRequestRpt},
+  RevenueVhcDayBusRptV2U in 'RevenueVhcDayBusRptV2U.pas' {RevenueVhcDayBusRptV2};
 
 {$R *.res}
 

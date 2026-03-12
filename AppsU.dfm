@@ -1,6 +1,6 @@
 object Apps: TApps
-  Left = 508
-  Top = 252
+  Left = 369
+  Top = 225
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Aplikasi'
@@ -30,8 +30,8 @@ object Apps: TApps
     OnClick = TutupClick
   end
   object Memo: TMemo
-    Left = 8
-    Top = 8
+    Left = 0
+    Top = 0
     Width = 185
     Height = 385
     Alignment = taCenter
@@ -126,6 +126,10 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '03/03/2026 (6.2.0.8)  Force update'
+      '- Penambahan Laporan Pengeluaran perArmada Ver.2'
+      '- Perbaikan Bug'
+      ''
       '26/02/2026 (6.2.0.8)  Force update'
       
         '- Penambahan Kolom BBM rupiah dan BBM liter ( driver input) di L' +

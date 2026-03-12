@@ -249,7 +249,7 @@ end;
 
 
 procedure TPartDetailForm.SimpanClick(Sender: TObject);
-var StrQry,StrPartGroup,StrVhcType,StrGPRef,StrScale,StrNonInventory,StrPriceUnit,StrPriceFromDate,StrPriceToDate:String;
+var StrQry,StrPartType,StrPartGroup,StrVhcType,StrGPRef,StrScale,StrNonInventory,StrPriceUnit,StrPriceFromDate,StrPriceToDate:String;
     StrStockMin,StrStockMax,StrTransId:String;
     Qry:TADOQuery;
     IntCount:Integer;
@@ -268,6 +268,7 @@ begin
         StrVhcType:=QuotedStr(VehicleGroupArr[VehicleGroup.ItemIndex][0]);
       end else StrVhcType:='NULL';
       StrPartGroup:=PartGroupArr[PartGroup.ItemIndex][0];
+      StrPartType:= TypeArr[PartType.itemindex][0];
       StrScale:=ScaleArr[Scale.ItemIndex][0];
       if (StockMin.Text<>'') then StrStockMin:=ToString(StockMin.Text) else StrStockMin:='0';
       if (StockSafe.Text<>'') then StrStockMax:=ToString(StockSafe.Text) else StrStockMax:='0';
@@ -321,16 +322,17 @@ begin
         end;
         if Not(IsExist) then begin
           StrQry:='INSERT INTO wh_part_detail (part_detail_id,name,part_group_id'+
-                  ',vehicle_type_id,uom_id,non_inventory,qty_min,qty_safe,gp_reference_id,update_user)'+
+                  ',vehicle_type_id,uom_id,non_inventory,qty_min,qty_safe,gp_reference_id,update_user,Part_type_id)'+
                   ' VALUES ('+QuotedStr(StrTransId)+','+QuotedStr(Trim(PartDescription.Text ))+
                   ','+QuotedStr(StrPartGroup)+','+StrVhcType+','+StrScale+','+StrNonInventory+','+StrStockMin+','+StrStockMax+
-                  ','+StrGPRef+','+QuotedStr(User)+');';
+                  ','+StrGPRef+','+QuotedStr(User)+','+QuotedStr(StrPartType)+');';
         end;
       end else begin
           StrTransId:=PartNumber.Text;
           StrQry:='UPDATE wh_part_detail SET name='+QuotedStr(Trim(PartDescription.Text))+',part_group_id='+QuotedStr(StrPartGroup)+
                   ',vehicle_type_id='+StrVhcType+',uom_id='+StrScale+',non_inventory='+StrNonInventory+',qty_min='+StrStockMin+
                   ',qty_safe='+StrStockMax+',gp_reference_id='+StrGPRef+',update_time=GETDATE(),update_user='+QuotedStr(User)+
+                  ',Part_type_id='+QuotedStr(StrPartType)+
                   ' WHERE part_detail_id='+QuotedStr(StrTransId)+';';
       end;
       if StrPriceUnit<>'NULL' then begin
@@ -350,7 +352,7 @@ begin
           Main.TransCommit;
           MessageBox(0,'Berhasil Disimpan','Part Detail',MB_OKCANCEL or MB_ICONINFORMATION);
           if Main.IsFormOpen('PartDetailList')=True then begin
-            PartDetailList.LoadData;
+            PartDetailList.LoadData('');
             PartDetailList.RefreshGrid;
           end;
           if Not(IsReadOnly) then begin
