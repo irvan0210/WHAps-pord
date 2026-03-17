@@ -1,6 +1,6 @@
 object OrderFee: TOrderFee
-  Left = 238
-  Top = 152
+  Left = 267
+  Top = 114
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Uang Order'
@@ -64,8 +64,8 @@ object OrderFee: TOrderFee
     Caption = 'Pemakaian'
   end
   object Label10: TLabel
-    Left = 774
-    Top = 431
+    Left = 783
+    Top = 477
     Width = 24
     Height = 13
     Alignment = taRightJustify
@@ -149,8 +149,8 @@ object OrderFee: TOrderFee
     Caption = 'Kenek'
   end
   object Selesai: TButton
-    Left = 689
-    Top = 595
+    Left = 685
+    Top = 599
     Width = 89
     Height = 25
     Caption = 'Selesai'
@@ -416,8 +416,8 @@ object OrderFee: TOrderFee
     end
   end
   object Simpan: TButton
-    Left = 689
-    Top = 531
+    Left = 585
+    Top = 569
     Width = 89
     Height = 25
     Caption = 'Simpan'
@@ -425,8 +425,8 @@ object OrderFee: TOrderFee
     OnClick = SimpanClick
   end
   object Bersihkan: TButton
-    Left = 689
-    Top = 563
+    Left = 585
+    Top = 599
     Width = 89
     Height = 25
     Caption = 'Bersihkan'
@@ -434,8 +434,8 @@ object OrderFee: TOrderFee
     OnClick = BersihkanClick
   end
   object CetakUlang: TButton
-    Left = 791
-    Top = 563
+    Left = 783
+    Top = 569
     Width = 89
     Height = 25
     Caption = 'Cetak Ulang'
@@ -489,17 +489,17 @@ object OrderFee: TOrderFee
     end
   end
   object Panel4: TPanel
-    Left = 808
-    Top = 429
+    Left = 817
+    Top = 470
     Width = 97
-    Height = 20
+    Height = 29
     BevelOuter = bvNone
     Enabled = False
     TabOrder = 6
     object TotalBayar: TMemo
       Left = 8
-      Top = -2
-      Width = 81
+      Top = 5
+      Width = 82
       Height = 21
       Alignment = taRightJustify
       MaxLength = 25
@@ -509,10 +509,10 @@ object OrderFee: TOrderFee
     end
   end
   object GroupBiaya: TGroupBox
-    Left = 576
+    Left = 584
     Top = 118
     Width = 332
-    Height = 309
+    Height = 354
     Caption = 'Biaya'
     TabOrder = 5
     TabStop = True
@@ -634,11 +634,27 @@ object OrderFee: TOrderFee
       Alignment = taRightJustify
       Caption = 'Insentif'
     end
+    object Label37: TLabel
+      Left = 40
+      Top = 301
+      Width = 50
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'Uang Joss'
+    end
+    object Label38: TLabel
+      Left = 29
+      Top = 323
+      Width = 61
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'Uang Tuslah'
+    end
     object GroupRupiah: TGroupBox
       Left = 96
       Top = 8
       Width = 82
-      Height = 294
+      Height = 338
       Caption = 'Rupiah'
       TabOrder = 0
       object BusBoyFee: TMemo
@@ -825,12 +841,42 @@ object OrderFee: TOrderFee
         OnExit = InsentifExit
         OnKeyPress = InsentifKeyPress
       end
+      object uang_tuslah: TMemo
+        Left = 5
+        Top = 311
+        Width = 73
+        Height = 21
+        Alignment = taRightJustify
+        MaxLength = 25
+        TabOrder = 12
+        WantReturns = False
+        WantTabs = True
+        OnChange = uang_tuslahChange
+        OnEnter = uang_tuslahEnter
+        OnExit = uang_tuslahExit
+        OnKeyPress = uang_tuslahKeyPress
+      end
+      object uang_joss: TMemo
+        Left = 5
+        Top = 290
+        Width = 73
+        Height = 21
+        Alignment = taRightJustify
+        MaxLength = 25
+        TabOrder = 13
+        WantReturns = False
+        WantTabs = True
+        OnChange = uang_jossChange
+        OnEnter = uang_jossEnter
+        OnExit = uang_jossExit
+        OnKeyPress = uang_jossKeyPress
+      end
     end
     object GroupLiter: TGroupBox
       Left = 179
       Top = 8
       Width = 53
-      Height = 294
+      Height = 338
       Caption = 'Liter'
       TabOrder = 1
       object BBMLiter: TEdit
@@ -848,7 +894,7 @@ object OrderFee: TOrderFee
       Left = 232
       Top = 8
       Width = 97
-      Height = 294
+      Height = 338
       Caption = 'Total'
       Enabled = False
       TabOrder = 2
@@ -984,18 +1030,40 @@ object OrderFee: TOrderFee
         WantReturns = False
         WantTabs = True
       end
+      object Uang_tuslah_total: TMemo
+        Left = 8
+        Top = 311
+        Width = 81
+        Height = 21
+        Alignment = taRightJustify
+        MaxLength = 25
+        TabOrder = 12
+        WantReturns = False
+        WantTabs = True
+      end
+      object uang_joss_total: TMemo
+        Left = 8
+        Top = 290
+        Width = 81
+        Height = 21
+        Alignment = taRightJustify
+        MaxLength = 25
+        TabOrder = 13
+        WantReturns = False
+        WantTabs = True
+      end
     end
   end
   object GroupDailyPackage: TPanel
-    Left = 689
-    Top = 477
+    Left = 583
+    Top = 538
     Width = 178
     Height = 17
     BevelOuter = bvNone
     TabOrder = 12
     object AllDailyPackage: TCheckBox
-      Left = 0
-      Top = -1
+      Left = 4
+      Top = 0
       Width = 153
       Height = 17
       Caption = 'Update Semua Surat Jalan'
@@ -1006,7 +1074,7 @@ object OrderFee: TOrderFee
   object GroupSPJ: TGroupBox
     Left = 16
     Top = 431
-    Width = 655
+    Width = 553
     Height = 193
     Caption = 'Data SPJ'
     TabOrder = 7
@@ -1054,7 +1122,7 @@ object OrderFee: TOrderFee
     object GridSPJ: TStringGrid
       Left = 8
       Top = 40
-      Width = 641
+      Width = 537
       Height = 145
       TabStop = False
       ColCount = 8
@@ -1094,8 +1162,8 @@ object OrderFee: TOrderFee
     TabOrder = 13
   end
   object CetakUlangSPJ: TButton
-    Left = 791
-    Top = 531
+    Left = 685
+    Top = 569
     Width = 89
     Height = 25
     Caption = 'Cetak SPPB'
@@ -3981,7 +4049,7 @@ object OrderFee: TOrderFee
     OnKeyDown = FormKeyDown
   end
   object EditRemark: TEdit
-    Left = 536
+    Left = 408
     Top = 590
     Width = 113
     Height = 21
@@ -3989,8 +4057,8 @@ object OrderFee: TOrderFee
     Visible = False
   end
   object FuelSet: TCheckBox
-    Left = 842
-    Top = 455
+    Left = 766
+    Top = 515
     Width = 81
     Height = 17
     Caption = 'BBM Sesuai'
@@ -4027,8 +4095,8 @@ object OrderFee: TOrderFee
     Visible = False
   end
   object DailyPackage: TCheckBox
-    Left = 689
-    Top = 455
+    Left = 588
+    Top = 515
     Width = 97
     Height = 17
     Caption = 'Paket Harian'
@@ -4036,8 +4104,8 @@ object OrderFee: TOrderFee
     TabOrder = 23
   end
   object CopyBiaya: TCheckBox
-    Left = 690
-    Top = 498
+    Left = 766
+    Top = 537
     Width = 142
     Height = 17
     Caption = 'Copy Biaya Sebelumnya'
@@ -4046,8 +4114,8 @@ object OrderFee: TOrderFee
     OnClick = CopyBiayaClick
   end
   object RiwayatCetak: TButton
-    Left = 791
-    Top = 595
+    Left = 783
+    Top = 599
     Width = 89
     Height = 25
     Caption = 'Riwayat Cetak'
@@ -4065,7 +4133,7 @@ object OrderFee: TOrderFee
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 119
     Template.FileName = 'D:\WH App\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'
@@ -4077,7 +4145,7 @@ object OrderFee: TOrderFee
     PreviewFormSettings.WindowState = wsMaximized
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
-    Left = 880
+    Left = 896
     Top = 76
     Version = '10.06'
     mmColumnWidth = 0
@@ -4441,7 +4509,7 @@ object OrderFee: TOrderFee
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 119
     Template.FileName = 'D:\WH App\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'
@@ -5294,7 +5362,7 @@ object OrderFee: TOrderFee
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 152000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 119
     Template.FileName = 'D:\PRAM\SC Delphi\23 Jan 2018\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'
@@ -5306,8 +5374,8 @@ object OrderFee: TOrderFee
     PreviewFormSettings.WindowState = wsMaximized
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
-    Left = 528
-    Top = 524
+    Left = 768
+    Top = 76
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand3: TppHeaderBand
@@ -6166,7 +6234,7 @@ object OrderFee: TOrderFee
     PrinterSetup.mmMarginTop = 2540
     PrinterSetup.mmPaperHeight = 140000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 119
     Template.FileName = 'D:\WH App\OffLtr.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'
@@ -6178,8 +6246,8 @@ object OrderFee: TOrderFee
     PreviewFormSettings.WindowState = wsMaximized
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
-    Left = 864
-    Top = 531
+    Left = 784
+    Top = 27
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand2: TppHeaderBand

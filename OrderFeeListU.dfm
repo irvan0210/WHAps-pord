@@ -1,6 +1,6 @@
 object OrderFeeList: TOrderFeeList
-  Left = 348
-  Top = 203
+  Left = 546
+  Top = 211
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Data Uang Order'

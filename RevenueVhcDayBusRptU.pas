@@ -581,7 +581,9 @@ begin
       TotalTolParkirReimburse:=TotalTolParkirReimburse+Qry.FieldValues['parkir_reimburse'];
       TotalTolReimburse:=TotalTolReimburse+Qry.FieldValues['tol_reimburse'];
 
-      LainLain_All := Qry.FieldValues['lain_lain']+Qry.FieldValues['tips']+Qry.FieldValues['biaya_dari_tamu']+Qry.FieldValues['insentif'];
+      LainLain_All := Qry.FieldValues['lain_lain']+Qry.FieldValues['tips']
+                      +Qry.FieldValues['biaya_dari_tamu']+Qry.FieldValues['insentif']
+                      +Qry.FieldValues['uang_joss']+Qry.FieldValues['uang_tuslah'];
       TotalLain:=TotalLain+LainLain_All;
 
       IntBiayaReimburse :=Qry.FieldValues['fee_driver_reimburse']+Qry.FieldValues['fee_busboy_reimburse']+
@@ -753,7 +755,7 @@ begin
   StrGrid.CellStyle[34,StrGrid.RowCount-1].BGColor:=clSilver;
   StrGrid.CellStyle[39,StrGrid.RowCount-1].BGColor:=clSilver;
 
-  StrGrid.CellStyle[16,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+  StrGrid.CellStyle[17,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
   StrGrid.CellStyle[18,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
   StrGrid.CellStyle[19,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
   StrGrid.CellStyle[20,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;

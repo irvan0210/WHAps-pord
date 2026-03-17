@@ -81,7 +81,7 @@ var Count,Count2:Integer;
     StrQry:String;
     IntCount:Integer;
 begin
-  MaxCol:=48;
+  MaxCol:=50;
   Customer.Text:='';
   Tanggal.Date:=Now();
   TglSampai.Date:=Now();
@@ -173,20 +173,22 @@ begin
   StrGrid.Cells[34,1]:='Tips';
   StrGrid.Cells[35,1]:='Biaya dari Tamu';
   StrGrid.Cells[36,1]:='insentif';
+  StrGrid.Cells[37,1]:='Uang Joss';
+  StrGrid.Cells[38,1]:='Uang Tuslah';
 
-  StrGrid.Cells[37,0]:='Total Biaya';
+  StrGrid.Cells[39,0]:='Total Biaya';
 
-  StrGrid.Cells[38,0]:='KM Out';
-  StrGrid.Cells[39,0]:='KM In';
-  StrGrid.Cells[40,0]:='KM Run';
-  StrGrid.Cells[41,0]:='R BBM';
-  StrGrid.Cells[42,0]:='Inv-Biaya';
-  StrGrid.Cells[43,0]:='Keterangan';
-  StrGrid.Cells[44,0]:='No E-Toll';
-  StrGrid.Cells[45,0]:='Keberangkatan';
-  StrGrid.Cells[46,0]:='Jenis Service';
-  StrGrid.Cells[47,0]:='Keterangan SJ';
-  StrGrid.Cells[48,0]:='Customer ID';
+  StrGrid.Cells[40,0]:='KM Out';
+  StrGrid.Cells[41,0]:='KM In';
+  StrGrid.Cells[42,0]:='KM Run';
+  StrGrid.Cells[43,0]:='R BBM';
+  StrGrid.Cells[44,0]:='Inv-Biaya';
+  StrGrid.Cells[45,0]:='Keterangan';
+  StrGrid.Cells[46,0]:='No E-Toll';
+  StrGrid.Cells[47,0]:='Keberangkatan';
+  StrGrid.Cells[48,0]:='Jenis Service';
+  StrGrid.Cells[49,0]:='Keterangan SJ';
+  StrGrid.Cells[50,0]:='Customer ID';
 
 
   StrGrid.ColWidths[0]:=25;
@@ -231,18 +233,20 @@ begin
   StrGrid.ColWidths[35]:=100;
   StrGrid.ColWidths[36]:=70;
   StrGrid.ColWidths[37]:=90;
+  StrGrid.ColWidths[38]:=90;
+  StrGrid.ColWidths[39]:=90;
 
-  StrGrid.ColWidths[38]:=50;
-  StrGrid.ColWidths[39]:=50;
   StrGrid.ColWidths[40]:=50;
   StrGrid.ColWidths[41]:=50;
-  StrGrid.ColWidths[42]:=70;
-  StrGrid.ColWidths[43]:=150;
-  StrGrid.ColWidths[44]:=140;
-  StrGrid.ColWidths[45]:=100;
-  StrGrid.ColWidths[46]:=120;
+  StrGrid.ColWidths[42]:=50;
+  StrGrid.ColWidths[43]:=50;
+  StrGrid.ColWidths[44]:=70;
+  StrGrid.ColWidths[45]:=150;
+  StrGrid.ColWidths[46]:=140;
   StrGrid.ColWidths[47]:=100;
-  StrGrid.ColWidths[48]:=70;
+  StrGrid.ColWidths[48]:=120;
+  StrGrid.ColWidths[49]:=100;
+  StrGrid.ColWidths[50]:=70;
 
   
   StrGrid.MergeCells.AddRectXY(0,0,0,1);
@@ -273,9 +277,7 @@ begin
   StrGrid.MergeCells.AddRectXY(29,0,30,0);
   StrGrid.MergeCells.AddRectXY(31,0,32,0);
 
-  StrGrid.MergeCells.AddRectXY(33,0,36,0);
-  StrGrid.MergeCells.AddRectXY(37,0,37,1);
-  StrGrid.MergeCells.AddRectXY(38,0,38,1);
+  StrGrid.MergeCells.AddRectXY(33,0,38,0);
   StrGrid.MergeCells.AddRectXY(39,0,39,1);
   StrGrid.MergeCells.AddRectXY(40,0,40,1);
   StrGrid.MergeCells.AddRectXY(41,0,41,1);
@@ -286,6 +288,8 @@ begin
   StrGrid.MergeCells.AddRectXY(46,0,46,1);
   StrGrid.MergeCells.AddRectXY(47,0,47,1);
   StrGrid.MergeCells.AddRectXY(48,0,48,1);
+  StrGrid.MergeCells.AddRectXY(49,0,49,1);
+  StrGrid.MergeCells.AddRectXY(50,0,50,1);
 
   for Count:=0 to MaxCol do begin
     StrGrid.CellStyle[Count,0].Font.Style:=[fsBold];
@@ -379,7 +383,7 @@ var StrQry,StrBatch,StrLocationId,StrCompanyId,StrToDates,StrisAll,StrCustomer,S
 
     TotalBBMRp,TotalBBMRp_Budget,TotalBBMRp_SPBU,TotalBBMRp_Reimburse,TotalBBMRp_All:Int64;
     TotalBBMLiter, TotalBBMLiter_Budget,TotalBBMLiter_SPBU,TotalBBMLiter_Reimburse,TotalBBMLiter_All:Double;
-    Tolparkir_All,Tol_All,LainLain_All, TotalBermalam,TotalTips,TotalInsentif,TotalBiayaDrTamu:Int64;
+    Tolparkir_All,Tol_All,LainLain_All, TotalBermalam,TotalTips,TotalInsentif,TotalBiayaDrTamu, TotalUangJoss,TotalUangTuslah:Int64;
 begin
   TotalBBMRp:=0;
   TotalBBMLiter:=0;
@@ -412,6 +416,8 @@ begin
   TotalTips:=0;
   TotalInsentif:= 0;
   TotalBiayaDrTamu:=0;
+  TotalUangJoss :=0;
+  TotalUangTuslah :=0;
   TotalOperasi:=0;
   IntTotalGrossProfit:=0;
   IntTotalBiaya:=0;
@@ -599,8 +605,12 @@ begin
       TotalTips :=TotalTips+Qry.FieldValues['tips'];
       TotalBiayaDrTamu :=TotalBiayaDrTamu+Qry.FieldValues['biaya_dari_tamu'];
       TotalInsentif :=TotalInsentif+Qry.FieldValues['insentif'];
+      TotalUangJoss :=TotalUangJoss+Qry.FieldValues['uang_joss'];
+      TotalUangTuslah :=TotalUangTuslah+Qry.FieldValues['uang_tuslah'];
 
-      LainLain_All := Qry.FieldValues['lain_lain']+Qry.FieldValues['tips']+Qry.FieldValues['biaya_dari_tamu']+Qry.FieldValues['insentif'];
+      LainLain_All := Qry.FieldValues['lain_lain']+Qry.FieldValues['tips']
+                      +Qry.FieldValues['biaya_dari_tamu']+Qry.FieldValues['insentif']
+                      +Qry.FieldValues['uang_joss']+Qry.FieldValues['uang_tuslah'];
       TotalLain:=TotalLain+LainLain_All;
 
       IntBiayaReimburse :=Qry.FieldValues['fee_driver_reimburse']+Qry.FieldValues['fee_busboy_reimburse']+
@@ -690,29 +700,31 @@ begin
       StrGrid.Cells[34,Count]:=IToCurr(Qry.FieldValues['tips']);
       StrGrid.Cells[35,Count]:=IToCurr(Qry.FieldValues['biaya_dari_tamu']);
       StrGrid.Cells[36,Count]:=IToCurr(Qry.FieldValues['insentif']);
-      StrGrid.Cells[37,Count]:=IToCurr(IntBiaya); //Total Biaya
+      StrGrid.Cells[37,Count]:=IToCurr(Qry.FieldValues['uang_joss']);
+      StrGrid.Cells[38,Count]:=IToCurr(Qry.FieldValues['uang_tuslah']);
+      StrGrid.Cells[39,Count]:=IToCurr(IntBiaya); //Total Biaya
 
      // TotalLain:=TotalLain+LainLain_All;
-      if Qry.FieldValues['out_ordo_km']<>NULL then StrGrid.Cells[38,Count]:=IToCurr(Qry.FieldValues['out_ordo_km']);
-      StrGrid.Cells[42,Count]:=IToCurr(IntGrossProfit);
+      if Qry.FieldValues['out_ordo_km']<>NULL then StrGrid.Cells[40,Count]:=IToCurr(Qry.FieldValues['out_ordo_km']);
+      StrGrid.Cells[44,Count]:=IToCurr(IntGrossProfit);
       if Qry.FieldValues['in_ordo_km']<>NULL then begin
-        StrGrid.Cells[39,Count]:=IToCurr(Qry.FieldValues['in_ordo_km']);
-        StrGrid.Cells[40,Count]:=IToCurr(Qry.FieldValues['distance']);
+        StrGrid.Cells[41,Count]:=IToCurr(Qry.FieldValues['in_ordo_km']);
+        StrGrid.Cells[42,Count]:=IToCurr(Qry.FieldValues['distance']);
         if (Qry.FieldValues['fuel_litre']>0) then
-          StrGrid.Cells[41,Count]:=FloatToStrF(Qry.FieldValues['distance']/StrToFloat(Qry.FieldValues['fuel_litre']),ffNumber,6,2)
+          StrGrid.Cells[43,Count]:=FloatToStrF(Qry.FieldValues['distance']/StrToFloat(Qry.FieldValues['fuel_litre']),ffNumber,6,2)
         else
-          StrGrid.Cells[41,Count]:='0';
+          StrGrid.Cells[43,Count]:='0';
       end else begin
-        StrGrid.Cells[39,Count]:='';
-        StrGrid.Cells[40,Count]:='0';
-        StrGrid.Cells[41,Count]:='0';
+        StrGrid.Cells[41,Count]:='';
+        StrGrid.Cells[42,Count]:='0';
+        StrGrid.Cells[43,Count]:='0';
       end;
-      if Qry.FieldValues['description']<>NULL then StrGrid.Cells[43,Count]:=Qry.FieldValues['description'];
-      if Qry.FieldValues['etoll_number']<>NULL then StrGrid.Cells[44,Count]:=eToll(Qry.FieldValues['etoll_number']);
-      if Qry.FieldValues['from_to_dates2']<>NULL then StrGrid.Cells[45,Count]:=Qry.FieldValues['from_to_dates2'];
-      if Qry.FieldValues['JenisService']<>NULL then StrGrid.Cells[46,Count]:=Qry.FieldValues['JenisService'];
-      if Qry.FieldValues['remarkSJ']<>NULL then StrGrid.Cells[47,Count]:=Qry.FieldValues['remarkSJ'];
-      if Qry.FieldValues['customer_id']<>NULL then StrGrid.Cells[48,Count]:=Qry.FieldValues['customer_id'];
+      if Qry.FieldValues['description']<>NULL then StrGrid.Cells[45,Count]:=Qry.FieldValues['description'];
+      if Qry.FieldValues['etoll_number']<>NULL then StrGrid.Cells[46,Count]:=eToll(Qry.FieldValues['etoll_number']);
+      if Qry.FieldValues['from_to_dates2']<>NULL then StrGrid.Cells[47,Count]:=Qry.FieldValues['from_to_dates2'];
+      if Qry.FieldValues['JenisService']<>NULL then StrGrid.Cells[48,Count]:=Qry.FieldValues['JenisService'];
+      if Qry.FieldValues['remarkSJ']<>NULL then StrGrid.Cells[49,Count]:=Qry.FieldValues['remarkSJ'];
+      if Qry.FieldValues['customer_id']<>NULL then StrGrid.Cells[50,Count]:=Qry.FieldValues['customer_id'];
     end;
     Application.ProcessMessages;
     Inc(Count);
@@ -752,9 +764,11 @@ begin
   StrGrid.Cells[34,StrGrid.RowCount-1]:=IToCurr(TotalTips);
   StrGrid.Cells[35,StrGrid.RowCount-1]:=IToCurr(TotalBiayaDrTamu);
   StrGrid.Cells[36,StrGrid.RowCount-1]:=IToCurr(TotalInsentif);
-  StrGrid.Cells[37,StrGrid.RowCount-1]:=IToCurr(IntTotalBiaya);
+  StrGrid.Cells[37,StrGrid.RowCount-1]:=IToCurr(TotalUangJoss);
+  StrGrid.Cells[38,StrGrid.RowCount-1]:=IToCurr(TotalUangTuslah);
+  StrGrid.Cells[39,StrGrid.RowCount-1]:=IToCurr(IntTotalBiaya);
 
-  StrGrid.Cells[42,StrGrid.RowCount-1]:=IToCurr(IntTotalGrossProfit);
+  StrGrid.Cells[44,StrGrid.RowCount-1]:=IToCurr(IntTotalGrossProfit);
 
   StrGrid.CellStyle[14,StrGrid.RowCount-1].BGColor:=clSilver;
   StrGrid.CellStyle[17,StrGrid.RowCount-1].BGColor:=clSilver;
@@ -782,7 +796,9 @@ begin
   StrGrid.CellStyle[35,StrGrid.RowCount-1].BGColor:=clSilver;
   StrGrid.CellStyle[36,StrGrid.RowCount-1].BGColor:=clSilver;
   StrGrid.CellStyle[37,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[42,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[38,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[39,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[44,StrGrid.RowCount-1].BGColor:=clSilver;
 
   StrGrid.CellStyle[16,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
   StrGrid.CellStyle[18,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
@@ -806,7 +822,9 @@ begin
   StrGrid.CellStyle[35,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
   StrGrid.CellStyle[36,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
   StrGrid.CellStyle[37,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[42,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+  StrGrid.CellStyle[38,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+  StrGrid.CellStyle[39,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+  StrGrid.CellStyle[44,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
   Application.ProcessMessages;
 
 

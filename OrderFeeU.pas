@@ -435,6 +435,12 @@ type
     Label36: TLabel;
     Insentif: TMemo;
     InsentifTotal: TMemo;
+    uang_tuslah: TMemo;
+    uang_joss: TMemo;
+    Uang_tuslah_total: TMemo;
+    uang_joss_total: TMemo;
+    Label37: TLabel;
+    Label38: TLabel;
     procedure BBMLiterKeyPress(Sender: TObject; var Key: Char);
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -514,6 +520,14 @@ type
     procedure InsentifEnter(Sender: TObject);
     procedure InsentifExit(Sender: TObject);
     procedure InsentifKeyPress(Sender: TObject; var Key: Char);
+    procedure uang_jossEnter(Sender: TObject);
+    procedure uang_jossChange(Sender: TObject);
+    procedure uang_jossExit(Sender: TObject);
+    procedure uang_jossKeyPress(Sender: TObject; var Key: Char);
+    procedure uang_tuslahKeyPress(Sender: TObject; var Key: Char);
+    procedure uang_tuslahExit(Sender: TObject);
+    procedure uang_tuslahEnter(Sender: TObject);
+    procedure uang_tuslahChange(Sender: TObject);
   private
     { Private declarations }
     SJArr,BiayaArr:Array of TArrString45;
@@ -695,6 +709,10 @@ begin
   BiayaTamuTotal.Text := '0';
   Insentif.Text:= '0';
   InsentifTotal.Text := '0';
+  uang_joss.Text:= '0';
+  uang_joss_total.Text := '0';
+  uang_tuslah.Text := '0';
+  uang_joss_total.Text := '0';
 
   TotalBayar.Text:='0';
   StayNight.Text:='0';
@@ -781,20 +799,20 @@ procedure TOrderFee.InitGridSJ;
 begin
   GridSPJ.RowCount:=2;
   GridSPJ.Cells[0,0]:='No SJ';
-  GridSPJ.Cells[1,0]:='No Body';
-  GridSPJ.Cells[2,0]:='No Polisi';
-  GridSPJ.Cells[3,0]:='No KPP';
-  GridSPJ.Cells[4,0]:='Driver';
-  GridSPJ.Cells[5,0]:='Tanggal';
-  GridSPJ.Cells[6,0]:='Jam';
+  //GridSPJ.Cells[1,0]:='No Body';
+  GridSPJ.Cells[1,0]:='No Polisi';
+  GridSPJ.Cells[2,0]:='No KPP';
+  GridSPJ.Cells[3,0]:='Driver';
+  GridSPJ.Cells[4,0]:='Tanggal';
+  GridSPJ.Cells[5,0]:='Jam';
   GridSPJ.Cells[0,1]:='';
+  //GridSPJ.Cells[1,1]:='';
   GridSPJ.Cells[1,1]:='';
   GridSPJ.Cells[2,1]:='';
   GridSPJ.Cells[3,1]:='';
   GridSPJ.Cells[4,1]:='';
   GridSPJ.Cells[5,1]:='';
   GridSPJ.Cells[6,1]:='';
-  GridSPJ.Cells[7,1]:='';
   IntRow:=1;
 end;
 
@@ -1134,25 +1152,25 @@ begin
         if (SJArr[Count][25]='') then begin
           GridSPJ.RowCount:=Count2+1;
           GridSPJ.Cells[0,Count2]:=SJArr[Count][0];
+         // GridSPJ.Cells[1,Count2]:=SJArr[Count][1];
           GridSPJ.Cells[1,Count2]:=SJArr[Count][1];
           GridSPJ.Cells[2,Count2]:=SJArr[Count][2];
           GridSPJ.Cells[3,Count2]:=SJArr[Count][3];
-          GridSPJ.Cells[4,Count2]:=SJArr[Count][4];
-          GridSPJ.Cells[5,Count2]:=SJArr[Count][13];
-          GridSPJ.Cells[6,Count2]:=SJArr[Count][14];
-          GridSPJ.Cells[7,Count2]:='';
+          GridSPJ.Cells[4,Count2]:=SJArr[Count][14];
+          GridSPJ.Cells[5,Count2]:=SJArr[Count][15];
+          GridSPJ.Cells[6,Count2]:='';
           Inc(Count2);
         end;
       end else begin
         GridSPJ.RowCount:=Count2+1;
         GridSPJ.Cells[0,Count2]:=SJArr[Count][0];
+       // GridSPJ.Cells[1,Count2]:=SJArr[Count][1];
         GridSPJ.Cells[1,Count2]:=SJArr[Count][1];
         GridSPJ.Cells[2,Count2]:=SJArr[Count][2];
         GridSPJ.Cells[3,Count2]:=SJArr[Count][3];
-        GridSPJ.Cells[4,Count2]:=SJArr[Count][4];
-        GridSPJ.Cells[5,Count2]:=SJArr[Count][13];
-        GridSPJ.Cells[6,Count2]:=SJArr[Count][14];
-        if (SJArr[Count][25]<>'') then GridSPJ.Cells[7,Count2]:='OK'
+        GridSPJ.Cells[4,Count2]:=SJArr[Count][14];
+        GridSPJ.Cells[5,Count2]:=SJArr[Count][15];
+        if (SJArr[Count][25]<>'') then GridSPJ.Cells[6,Count2]:='OK'
 //        if (SJArr[Count][8]<>'') and (SJArr[Count][9]<>'') then GridSPJ.Cells[7,Count2]:='OK'
         else GridSPJ.Cells[7,Count2]:='';
         Inc(Count2);
@@ -1364,6 +1382,22 @@ begin
         Insentif.Text:='0';
       end;
 
+      if Qry.FieldValues['uang_joss']<>NULL then begin
+        uang_joss_total.Text:=IToCurr(Qry.FieldValues['uang_joss']);
+        uang_joss.Text:=IToCurr(Qry.FieldValues['uang_joss'])
+      end else begin
+        uang_joss_total.Text:='0';
+        uang_joss.Text:='0';
+      end;
+
+      if Qry.FieldValues['uang_tuslah']<>NULL then begin
+        Uang_tuslah_total.Text:=IToCurr(Qry.FieldValues['uang_tuslah']);
+        Uang_tuslah.Text:=IToCurr(Qry.FieldValues['uang_tuslah'])
+      end else begin
+        Uang_tuslah_total.Text:='0';
+        Uang_tuslah.Text:='0';
+      end;
+
       if (Qry.FieldValues['daily_package']<>NULL) AND (Qry.FieldValues['daily_package']<>'0') then begin
         AllDailyPackage.Checked:=True;
         AllDailyPackage.Enabled:=True;
@@ -1562,7 +1596,8 @@ end;
 procedure TOrderFee.Calculate;
 var TotalBBM,TotalDriverFee,TotalDriverFee2,TotalBusBoyFee,TotalTollParking,
     TotalStayNight,TotalBiaya,IntCount,TotalToll,TotalOvertime,
-    TotalTollParkingTamu,TotalTollTamu,TotalTips, TotalBiayaDariTamu, TotalInsentif:Integer;
+    TotalTollParkingTamu,TotalTollTamu,TotalTips, TotalBiayaDariTamu,
+    TotalInsentif,TotalUangJoss, TotalUangTuslah:Integer;
 begin
   TotalToll:=0;
   TotalBBM:=0;
@@ -1578,6 +1613,9 @@ begin
   TotalTips := 0;
   TotalBiayaDariTamu :=0;
   TotalInsentif:=0;
+  TotalUangJoss := 0;
+  TotalUangTuslah := 0;
+
   if IsInput then begin
     if (ToString(BBMLiter.Text)<>'') and (IsInput) then begin
       //BBMRupiah.Text:=IToCurr(SolarPerLiter*SToInt(BBMLiter.Text));
@@ -1627,6 +1665,12 @@ begin
     if ToString(Insentif.Text )<>'' then begin
       TotalInsentif:=SToInt(Insentif.Text);
     end;
+    if ToString(uang_joss.Text )<>'' then begin
+      TotalUangJoss:=SToInt(uang_joss.Text);
+    end;
+    if ToString(Uang_tuslah.Text )<>'' then begin
+      TotalUangTuslah:=SToInt(Uang_tuslah.Text);
+    end;
     //if ToString(Overtime.Text )<>'' then begin
     //  TotalOvertime:=SToInt(Overtime.Text);
    // end;
@@ -1643,8 +1687,12 @@ begin
   BiayaTamuTotal.Text := IToCurr(TotalBiayaDariTamu);
   InsentifTotal.Text := IToCurr(TotalInsentif);
   StayNightTotal.Text:=IToCurr(TotalStayNight);
+  uang_joss_total.Text:=IToCurr(TotalUangJoss);
+  uang_tuslah_total.Text:=IToCurr(TotalUangTuslah);
  // OvertimeTotal.Text:=IToCurr(TotalOvertime);
-  TotalBiaya:=TotalDriverFee+TotalDriverFee2+TotalBusBoyFee+TotalTollParking+TotalToll+TotalStayNight+TotalTollParkingTamu+TotalTollTamu+TotalTips+TotalBiayaDariTamu+TotalInsentif;
+  TotalBiaya:=TotalDriverFee+TotalDriverFee2+TotalBusBoyFee+TotalTollParking+
+              TotalToll+TotalStayNight+TotalTollParkingTamu+TotalTollTamu+TotalTips+
+              TotalBiayaDariTamu+TotalInsentif+TotalUangJoss+TotalUangTuslah;
   TotalBayar.Text:=IToCurr(TotalBBM+TotalBiaya);
 end;
 
@@ -2219,6 +2267,64 @@ begin
         if (Insentif.Text<>'0') or (SJId<>'')  then begin
           TransType:=QuotedStr('170123');
           Amount:=ToString(Insentif.Text);
+          if AllDailyPackage.Checked=False then begin
+            StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,update_time,update_user)'+
+                    ' VALUES ('+QuotedStr(TransId)+','+TransType+','+ToString(Amount)+','+IntToStr(SToInt(Amount))+',GETDATE(),'+QuotedStr(User)+');';
+          end else begin
+            for Count:=0 to Length(NoSJArr) do
+              StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,update_time,update_user)'+
+                      ' VALUES ('+QuotedStr(NoSJArr[Count])+','+TransType+','+ToString(Amount)+','+ToString(Amount)+',GETDATE(),'+QuotedStr(User)+');';
+          end;
+        end;
+        if Trim(StrQry)<>'' then begin
+          Qry.SQL.Clear;
+          Main.WriteLog('SQL :'+StrQry,4);
+          Qry.SQL.Add(StrQry);
+          try
+            Qry.ExecSQL;
+          except
+            on E:Exception do begin
+              StrMsg:='Tidak Dapat Menyimpan Order Fee detail (4)';
+              StrEMessage:=E.Message;
+              IsOk:=False;
+            end;
+          end;
+        end;
+
+        //uang Joss
+        StrQry:='';
+        if (uang_joss.Text<>'0') or (SJId<>'')  then begin
+          TransType:=QuotedStr('170124');
+          Amount:=ToString(uang_joss.Text);
+          if AllDailyPackage.Checked=False then begin
+            StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,update_time,update_user)'+
+                    ' VALUES ('+QuotedStr(TransId)+','+TransType+','+ToString(Amount)+','+IntToStr(SToInt(Amount))+',GETDATE(),'+QuotedStr(User)+');';
+          end else begin
+            for Count:=0 to Length(NoSJArr) do
+              StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,update_time,update_user)'+
+                      ' VALUES ('+QuotedStr(NoSJArr[Count])+','+TransType+','+ToString(Amount)+','+ToString(Amount)+',GETDATE(),'+QuotedStr(User)+');';
+          end;
+        end;
+        if Trim(StrQry)<>'' then begin
+          Qry.SQL.Clear;
+          Main.WriteLog('SQL :'+StrQry,4);
+          Qry.SQL.Add(StrQry);
+          try
+            Qry.ExecSQL;
+          except
+            on E:Exception do begin
+              StrMsg:='Tidak Dapat Menyimpan Order Fee detail (4)';
+              StrEMessage:=E.Message;
+              IsOk:=False;
+            end;
+          end;
+        end;
+
+        //Uang Tuslah
+        StrQry:='';
+        if (Uang_tuslah.Text<>'0') or (SJId<>'')  then begin
+          TransType:=QuotedStr('170125');
+          Amount:=ToString(Uang_tuslah.Text);
           if AllDailyPackage.Checked=False then begin
             StrQry:=StrQry+' INSERT INTO wh_vhc_trans_detail (vhc_trans_id,transaction_type_id,amount,total_amount,update_time,update_user)'+
                     ' VALUES ('+QuotedStr(TransId)+','+TransType+','+ToString(Amount)+','+IntToStr(SToInt(Amount))+',GETDATE(),'+QuotedStr(User)+');';
@@ -4108,7 +4214,7 @@ begin
   if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
   if Key=#13 then begin
     Insentif.SetFocus;
-   // Simpan.SelectAll;
+    Insentif.SelectAll;
   end;
 end;
 
@@ -4198,6 +4304,47 @@ end;
 procedure TOrderFee.InsentifKeyPress(Sender: TObject; var Key: Char);
 begin
   if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
+  if Key=#13 then uang_joss.SetFocus;
+
+  if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
+  if Key=#13 then begin
+    uang_joss.SetFocus;
+    uang_joss.SelectAll;
+  end;
+end;
+
+procedure TOrderFee.uang_jossEnter(Sender: TObject);
+begin
+ uang_joss.Text:=ToString(uang_joss.Text);
+end;
+
+procedure TOrderFee.uang_jossChange(Sender: TObject);
+begin
+   if uang_joss.Text='' then  uang_joss.Text:='0';
+end;
+
+procedure TOrderFee.uang_jossExit(Sender: TObject);
+begin
+  if ToString(uang_joss.Text)='' then uang_joss.Text:='0';
+  uang_joss.Text:=SToCurr(uang_joss.Text);
+  Calculate;
+end;
+
+procedure TOrderFee.uang_jossKeyPress(Sender: TObject; var Key: Char);
+begin
+    if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
+  if Key=#13 then uang_tuslah.SetFocus;
+
+  if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
+  if Key=#13 then begin
+    uang_tuslah.SetFocus;
+    uang_tuslah.SelectAll;
+  end;
+end;
+
+procedure TOrderFee.uang_tuslahKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
   if Key=#13 then Simpan.SetFocus;
 
   if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
@@ -4205,6 +4352,23 @@ begin
     Simpan.SetFocus;
    // Simpan.SelectAll;
   end;
+end;
+
+procedure TOrderFee.uang_tuslahExit(Sender: TObject);
+begin
+    if ToString(uang_tuslah.Text)='' then uang_tuslah.Text:='0';
+    uang_tuslah.Text:=SToCurr(uang_tuslah.Text);
+    Calculate;
+end;
+
+procedure TOrderFee.uang_tuslahEnter(Sender: TObject);
+begin
+  uang_tuslah.Text:=ToString(uang_tuslah.Text);
+end;
+
+procedure TOrderFee.uang_tuslahChange(Sender: TObject);
+begin
+  if uang_tuslah.Text='' then  uang_tuslah.Text:='0';
 end;
 
 end.

@@ -491,7 +491,8 @@ begin
       TotalTolReimburse:=TotalTolReimburse+Qry.FieldValues['tol_reimburse'];
       TotalOvertime := TotalOvertime+Qry.FieldValues['overtime'];
 
-      LainLain_All := Qry.FieldValues['lain_lain']+Qry.FieldValues['tips']+Qry.FieldValues['biaya_dari_tamu']+Qry.FieldValues['insentif'];
+      LainLain_All := Qry.FieldValues['lain_lain']+Qry.FieldValues['tips']+Qry.FieldValues['biaya_dari_tamu']
+                      +Qry.FieldValues['insentif']+Qry.FieldValues['uang_joss']+Qry.FieldValues['uang_tuslah'];
       TotalLain:=TotalLain+LainLain_All;
 
       IntBiaya:=BBMRp+(Qry.FieldValues['fee_driver']*Qry.FieldValues['day'])+(Qry.FieldValues['fee_busboy']*Qry.FieldValues['day'])+TolParkir_All;

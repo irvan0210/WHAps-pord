@@ -503,7 +503,9 @@ begin
       TotalTolParkirReimburse:=TotalTolParkirReimburse+Qry.FieldValues['parkir_reimburse'];
       TotalTolReimburse:=TotalTolReimburse+Qry.FieldValues['tol_reimburse'];
 
-      LainLain_All :=Qry.FieldValues['lain_lain']+Qry.FieldValues['tips']+Qry.FieldValues['biaya_dari_tamu']+Qry.FieldValues['insentif'];
+      LainLain_All :=Qry.FieldValues['lain_lain']+Qry.FieldValues['tips']
+                    +Qry.FieldValues['biaya_dari_tamu']+Qry.FieldValues['insentif']
+                    +Qry.FieldValues['uang_joss']+Qry.FieldValues['uang_tuslah'];
       TotalLain:=TotalLain+LainLain_All;
 
       IntBiaya:=BBMRp+(Qry.FieldValues['fee_driver']*Qry.FieldValues['day'])+(Qry.FieldValues['fee_busboy']*Qry.FieldValues['day'])+Tolparkir_All;
@@ -558,12 +560,12 @@ begin
       StrGrid.Cells[25,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+LainLain_All+Tol_All+Qry.FieldValues['overtime']-BBMRp_SPBU);
 //      if Qry.FieldValues['etoll_number']<>NULL then StrGrid.Cells[25,Count]:=eToll(Qry.FieldValues['etoll_number']);
 
-      StrGrid.Cells[26,Count]:=VarToStr(Qry.FieldValues['status_sj']);
+ {     StrGrid.Cells[26,Count]:=VarToStr(Qry.FieldValues['status_sj']);
       if LowerCase(Trim(StrGrid.Cells[26,Count]))<>'completed' then begin
         for Count2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[Count2,Count].Font.Color:=clRed;
       end else begin
         for Count2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[Count2,Count].Font.Color:=clWindowText;
-      end;
+      end; }
 
       if Qry.FieldValues['JenisService']<>NULL then StrGrid.Cells[27,Count]:=VartoStr(Qry.FieldValues['JenisService']);
 
