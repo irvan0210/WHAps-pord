@@ -805,6 +805,7 @@ begin
   GridSPJ.Cells[3,0]:='Driver';
   GridSPJ.Cells[4,0]:='Tanggal';
   GridSPJ.Cells[5,0]:='Jam';
+  
   GridSPJ.Cells[0,1]:='';
   //GridSPJ.Cells[1,1]:='';
   GridSPJ.Cells[1,1]:='';
@@ -812,7 +813,7 @@ begin
   GridSPJ.Cells[3,1]:='';
   GridSPJ.Cells[4,1]:='';
   GridSPJ.Cells[5,1]:='';
-  GridSPJ.Cells[6,1]:='';
+  //GridSPJ.Cells[6,1]:='';
   IntRow:=1;
 end;
 
@@ -1153,11 +1154,11 @@ begin
           GridSPJ.RowCount:=Count2+1;
           GridSPJ.Cells[0,Count2]:=SJArr[Count][0];
          // GridSPJ.Cells[1,Count2]:=SJArr[Count][1];
-          GridSPJ.Cells[1,Count2]:=SJArr[Count][1];
-          GridSPJ.Cells[2,Count2]:=SJArr[Count][2];
-          GridSPJ.Cells[3,Count2]:=SJArr[Count][3];
-          GridSPJ.Cells[4,Count2]:=SJArr[Count][14];
-          GridSPJ.Cells[5,Count2]:=SJArr[Count][15];
+          GridSPJ.Cells[1,Count2]:=SJArr[Count][2];
+          GridSPJ.Cells[2,Count2]:=SJArr[Count][3];
+          GridSPJ.Cells[3,Count2]:=SJArr[Count][4];
+          GridSPJ.Cells[4,Count2]:=SJArr[Count][13];
+          GridSPJ.Cells[5,Count2]:=SJArr[Count][14];
           GridSPJ.Cells[6,Count2]:='';
           Inc(Count2);
         end;
@@ -1165,14 +1166,14 @@ begin
         GridSPJ.RowCount:=Count2+1;
         GridSPJ.Cells[0,Count2]:=SJArr[Count][0];
        // GridSPJ.Cells[1,Count2]:=SJArr[Count][1];
-        GridSPJ.Cells[1,Count2]:=SJArr[Count][1];
-        GridSPJ.Cells[2,Count2]:=SJArr[Count][2];
-        GridSPJ.Cells[3,Count2]:=SJArr[Count][3];
-        GridSPJ.Cells[4,Count2]:=SJArr[Count][14];
-        GridSPJ.Cells[5,Count2]:=SJArr[Count][15];
+          GridSPJ.Cells[1,Count2]:=SJArr[Count][2];
+          GridSPJ.Cells[2,Count2]:=SJArr[Count][3];
+          GridSPJ.Cells[3,Count2]:=SJArr[Count][4];
+          GridSPJ.Cells[4,Count2]:=SJArr[Count][13];
+          GridSPJ.Cells[5,Count2]:=SJArr[Count][14];
         if (SJArr[Count][25]<>'') then GridSPJ.Cells[6,Count2]:='OK'
 //        if (SJArr[Count][8]<>'') and (SJArr[Count][9]<>'') then GridSPJ.Cells[7,Count2]:='OK'
-        else GridSPJ.Cells[7,Count2]:='';
+        else GridSPJ.Cells[6,Count2]:='';
         Inc(Count2);
       end;
     end;
@@ -2694,10 +2695,10 @@ var Qry:TADOQuery;
     StrTolParkirDariTamu,StrTolParkirDariTamuTotal,StrTolDariTamu,StrTolDariTamuTotal,StrTolReimburseTotal,StrTolReimburse,
     StrTolParkirReimburse, StrTolParkirReimburseTotal,
     StrTips, StrTipsTotal,StrBiayaDariTamu,StrBiayaDariTamuTotal, StrTotalToll, StrTotalTollParkir,
-    StrTotalOther, StrInsentif, StrInsentifTotal:String;
+    StrTotalOther, StrInsentif, StrInsentifTotal,StrUangJoss,StrUangJossTotal,StrUangTuslah, StrUangTuslahTotal :String;
     Total,TotalHari,Amount,TotalAmount,DriverFeeTotal,Driver2FeeTotal,TotalParkir,TotalParkirDariTamu,TotalTolReimburse,TotalTolParkirReimburse,
     TotalTol, TotalTolDariTamu,FormNumber, IntTolParkir, IntTolParkirDariTamu,IntTol,IntTolDariTamu,IntTolReimburse, IntTolParkirReimburse,
-    IntTips,IntBermalam,IntBiayaDariTamu, IntInsentif:Integer;
+    IntTips,IntBermalam,IntBiayaDariTamu, IntInsentif, IntUangJoss, IntUangTuslah:Integer;
 begin
   RePrintForm.ReportName:='Order Fee';
   RePrintForm.ReportId:=Trans_Id;
@@ -3040,6 +3041,46 @@ begin
       Total:=Total+TotalAmount;
       Qry.Close;
 
+      //Uang Joss
+      StrTransId:=QuotedStr('170124');
+      Amount:=0;
+      TotalAmount:=0;
+      StrQry:='SELECT SUM(a.amount) AS amount,SUM(a.total_amount) AS total_amount FROM wh_vhc_trans_detail a '+
+              'INNER JOIN wh_transaction_type b ON b.transaction_type_id=a.transaction_type_id '+
+              'WHERE vhc_trans_id='+QuotedStr(Trans_Id)+' AND (a.transaction_type_id='+StrTransId+') AND (status=1);';
+      Qry.SQL.Clear;
+      Main.WriteLog('SQL :'+StrQry,2);
+      Qry.SQL.Add(StrQry);
+      Qry.Open;
+      if (Qry.RecordCount>0) then begin
+        if (Qry.FieldValues['amount']<>NULL) then Amount:=Qry.FieldValues['amount'] else Amount:=0;
+        if (Qry.FieldValues['total_amount']<>NULL) then TotalAmount:=Qry.FieldValues['total_amount'] else TotalAmount:=0;
+      end;
+      StrUangJoss:=IToCurr(Amount);
+      StrUangJossTotal:=IToCurr(TotalAmount);
+      Total:=Total+TotalAmount;
+      Qry.Close;
+
+      //Uang Tuslah
+      StrTransId:=QuotedStr('170125');
+      Amount:=0;
+      TotalAmount:=0;
+      StrQry:='SELECT SUM(a.amount) AS amount,SUM(a.total_amount) AS total_amount FROM wh_vhc_trans_detail a '+
+              'INNER JOIN wh_transaction_type b ON b.transaction_type_id=a.transaction_type_id '+
+              'WHERE vhc_trans_id='+QuotedStr(Trans_Id)+' AND (a.transaction_type_id='+StrTransId+') AND (status=1);';
+      Qry.SQL.Clear;
+      Main.WriteLog('SQL :'+StrQry,2);
+      Qry.SQL.Add(StrQry);
+      Qry.Open;
+      if (Qry.RecordCount>0) then begin
+        if (Qry.FieldValues['amount']<>NULL) then Amount:=Qry.FieldValues['amount'] else Amount:=0;
+        if (Qry.FieldValues['total_amount']<>NULL) then TotalAmount:=Qry.FieldValues['total_amount'] else TotalAmount:=0;
+      end;
+      StrUangTuslah:=IToCurr(Amount);
+      StrUangTuslahTotal:=IToCurr(TotalAmount);
+      Total:=Total+TotalAmount;
+      Qry.Close;
+
       //Overtime
       StrTransId:=QuotedStr('140113');
       Amount:=0;
@@ -3065,7 +3106,9 @@ begin
       IntBermalam := StrToInt(StringReplace(StrOther, '.', '', [rfReplaceAll]));
       IntBiayaDariTamu := StrToInt(StringReplace(StrBiayaDariTamu, '.', '', [rfReplaceAll]));
       IntInsentif := StrToInt(StringReplace(StrInsentif, '.', '', [rfReplaceAll]));
-      StrTotalOther := IToCurr(IntTips+IntBermalam+IntBiayaDariTamu+IntInsentif);
+      IntUangJoss := StrToInt(StringReplace(StrUangJoss, '.', '', [rfReplaceAll]));
+      IntUangTuslah := StrToInt(StringReplace(StrUangTuslah, '.', '', [rfReplaceAll]));
+      StrTotalOther := IToCurr(IntTips+IntBermalam+IntBiayaDariTamu+IntInsentif+IntUangJoss+IntUangTuslah);
 
 
       StrTotal:=IToCurr(Total);

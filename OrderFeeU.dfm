@@ -1125,7 +1125,7 @@ object OrderFee: TOrderFee
       Width = 537
       Height = 145
       TabStop = False
-      ColCount = 8
+      ColCount = 7
       DefaultRowHeight = 20
       FixedCols = 0
       RowCount = 2
@@ -1135,13 +1135,12 @@ object OrderFee: TOrderFee
       OnSelectCell = GridSPJSelectCell
       ColWidths = (
         104
-        50
-        69
-        80
-        167
-        63
-        41
-        33)
+        74
+        65
+        157
+        68
+        46
+        41)
     end
     object SewaLuar: TCheckBox
       Left = 256
@@ -4363,8 +4362,8 @@ object OrderFee: TOrderFee
         TextAlignment = taRightJustified
         Transparent = True
         mmHeight = 5027
-        mmLeft = 24871
-        mmTop = 106627
+        mmLeft = 23283
+        mmTop = 106363
         mmWidth = 30427
         BandType = 0
       end
