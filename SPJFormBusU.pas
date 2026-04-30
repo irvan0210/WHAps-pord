@@ -1710,7 +1710,7 @@ begin
             end;
             StrTransId:=SJId;
             StrQry:=' UPDATE wh_vhc_trans SET vehicle_id='+QuotedStr(StrVehicleID)+',employee_id='+QuotedStr(StrDriver)+',employee_id2='+QuotedStr(StrDriver2)+',employee_id3='+QuotedStr(StrBusboyID)+//StrHelperId+
-                    ',phone_no='+StrPhoneNo+',description='+StrRemark+',remark='+StrRemark2+',cancel='+StrCancel+',update_user='+QuotedStr(User)+',update_time=GETDATE(),km_estimasi='+IntToStr(IntKmestimasi)+' '+
+                    ',phone_no='+StrPhoneNo+',description='+StrRemark+',remark='+StrRemark2+',cancel='+StrCancel+',update_user='+QuotedStr(User)+',update_time=GETDATE(),km_estimasi='+IntToStr(IntKmestimasi)+',cancel_by='+QuotedStr(User)+' '+
                     ' WHERE vhc_trans_id='+QuotedStr(StrTransId)+';';
             if StrStatus='1' then begin
               StrQry:=StrQry+' UPDATE wh_vhc_trans_detail_detail SET status=0 WHERE (vhc_trans_id='+QuotedStr(StrTransId)+') AND (status=1);';

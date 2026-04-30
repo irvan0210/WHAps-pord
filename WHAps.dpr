@@ -361,7 +361,8 @@ uses
   DriverVehicleAuthorizationU in 'DriverVehicleAuthorizationU.pas' {DriverVehicleAuthorization},
   PurchaseOrderRptU in 'PurchaseOrderRptU.pas' {PurchaseOrderRpt},
   PurchaseRequestRptU in 'PurchaseRequestRptU.pas' {PurchaseRequestRpt},
-  RevenueVhcDayBusRptV2U in 'RevenueVhcDayBusRptV2U.pas' {RevenueVhcDayBusRptV2};
+  RevenueVhcDayBusRptV2U in 'RevenueVhcDayBusRptV2U.pas' {RevenueVhcDayBusRptV2},
+  DriverFuelFillingRptU in 'DriverFuelFillingRptU.pas' {DriverFuelFillingRpt};
 
 {$R *.res}
 

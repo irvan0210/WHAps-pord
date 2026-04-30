@@ -1863,7 +1863,7 @@ begin
         if SJId<>'' then begin
           TransId:=SJId;
         end;
-        StrQry:='UPDATE wh_vhc_trans_detail SET status=0 WHERE (vhc_trans_id='+QuotedStr(TransId)+') AND (transaction_type_id in (140101, 140102, 140103, 140106, 140104, 140113,140114,170122,170121,170120,170119,170123) ) AND (status=1); ';
+        StrQry:='UPDATE wh_vhc_trans_detail SET status=0 WHERE (vhc_trans_id='+QuotedStr(TransId)+') AND (transaction_type_id in (140101, 140102, 140103, 140106, 140104, 140113,140114,170122,170121,170120,170119,170123,170124,170125) ) AND (status=1); ';
         Qry.SQL.Clear;
         Main.WriteLog('SQL :'+StrQry,4);
         Qry.SQL.Add(StrQry);

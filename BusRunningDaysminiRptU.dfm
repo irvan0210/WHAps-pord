@@ -1,6 +1,6 @@
 object BusRunningDaysminiRpt: TBusRunningDaysminiRpt
-  Left = -55
-  Top = 258
+  Left = 157
+  Top = 154
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Running Days Mini'

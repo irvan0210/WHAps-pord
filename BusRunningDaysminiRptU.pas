@@ -727,6 +727,16 @@ begin
                 else
                   StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].Font.Color:=clBlue;
 
+              end else if (StrGrid.Cells[IntCount2+2+IntGsrKlm,IntCount]=' D') then begin
+                StrGrid.Cells[IntCount2+2+IntGsrKlm,IntCount]:=' @';
+                StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clWindow;
+                StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].HorizontalAlignment:=taCenter;
+
+                if Qry2.FieldValues['total']<=Qry2.FieldValues['total_payment'] then
+                  StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].Font.Color:=clGreen
+                else
+                  StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].Font.Color:=clPurple;
+
               end else if (StrGrid.Cells[IntCount2+2+IntGsrKlm,IntCount]=' W') then begin
                 StrGrid.Cells[IntCount2+2+IntGsrKlm,IntCount]:=' @';
                 StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clWindow;
@@ -753,6 +763,7 @@ begin
                 if (StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor=clAqua) then begin
                 StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clAqua;
                 end;
+
               end else if (StrGrid.Cells[IntCount2+2+IntGsrKlm,IntCount]=' X') then begin
                 if Qry2.FieldValues['total']<=Qry2.FieldValues['total_payment'] then
                   StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].Font.Color:=clGreen
@@ -769,11 +780,27 @@ begin
                 //StrGrid.CellStyle[IntCount2+2,IntCount].BGColor:=clGray;
                 //StrGrid.Cells[IntCount2+2,IntCount]:=' @';
                 //StrGrid.CellStyle[IntCount2+2,IntCount].HorizontalAlignment:=taCenter;
+
               end else if (StrGrid.Cells[IntCount2+2+IntGsrKlm,IntCount]=' B') then begin
                if Qry2.FieldValues['total']<=Qry2.FieldValues['total_payment'] then
                   StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].Font.Color:=clGreen
                 else
                   StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].Font.Color:=clBlue;
+                StrGrid.Cells[IntCount2+2+IntGsrKlm,IntCount]:='@';
+                StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].HorizontalAlignment:=taCenter;
+                StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clWindow;
+
+                Inc(IntUsage[IntCount2]);
+                Inc(IntCategory[IntCount2]); // pram ubah .
+                Inc(IntRunning);
+                Dec(IntRepair[IntCount2]);
+                Dec(IntBroken);
+
+              end else if (StrGrid.Cells[IntCount2+2+IntGsrKlm,IntCount]=' D') then begin
+               if Qry2.FieldValues['total']<=Qry2.FieldValues['total_payment'] then
+                  StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].Font.Color:=clGreen
+                else
+                  StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].Font.Color:=clPurple;
                 StrGrid.Cells[IntCount2+2+IntGsrKlm,IntCount]:='@';
                 StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].HorizontalAlignment:=taCenter;
                 StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clWindow;
@@ -816,6 +843,13 @@ begin
                   StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clBlue;
               end else
                   StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clBlue;
+           // end;
+            end else if Qry2.FieldValues['out_type']='8' then begin
+              StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].Font.Color:=clWhite;
+              if (StrGrid.Cells[IntCount2+2+IntGsrKlm,IntCount]=' @') or (StrGrid.Cells[IntCount2+2+IntGsrKlm,IntCount]='@2') then begin
+                  StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clPurple;
+              end else
+                  StrGrid.CellStyle[IntCount2+2+IntGsrKlm,IntCount].BGColor:=clPurple;
             end;
           end;
 

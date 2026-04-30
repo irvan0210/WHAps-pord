@@ -164,7 +164,7 @@ begin
   StrGrid.ColWidths[23]:=60;
   StrGrid.ColWidths[24]:=90;
   StrGrid.ColWidths[25]:=95;
-  StrGrid.ColWidths[26]:=0;
+  StrGrid.ColWidths[26]:=80;
   StrGrid.ColWidths[27]:=120;
 
 
@@ -560,8 +560,8 @@ begin
       StrGrid.Cells[25,Count]:=IToCurr(IntBiaya+IntBiayaReimburse+LainLain_All+Tol_All+Qry.FieldValues['overtime']-BBMRp_SPBU);
 //      if Qry.FieldValues['etoll_number']<>NULL then StrGrid.Cells[25,Count]:=eToll(Qry.FieldValues['etoll_number']);
 
- {     StrGrid.Cells[26,Count]:=VarToStr(Qry.FieldValues['status_sj']);
-      if LowerCase(Trim(StrGrid.Cells[26,Count]))<>'completed' then begin
+      StrGrid.Cells[26,Count]:=VarToStr(Qry.FieldValues['status_sj']);
+  {    if LowerCase(Trim(StrGrid.Cells[26,Count]))<>'completed' then begin
         for Count2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[Count2,Count].Font.Color:=clRed;
       end else begin
         for Count2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[Count2,Count].Font.Color:=clWindowText;
@@ -590,6 +590,7 @@ begin
     StrGrid.CellStyle[7,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
     StrGrid.CellStyle[8,StrGrid.RowCount-2].HorizontalAlignment:=taLeftJustify;
     StrGrid.CellStyle[9,StrGrid.RowCount-2].HorizontalAlignment:=taCenter;
+
 
   end;
   TotalUnitOperasi.Text:=IntToStr(TotalOperasi);
@@ -650,6 +651,29 @@ begin
   StrGrid.CellStyle[23,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
   StrGrid.CellStyle[24,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
   StrGrid.CellStyle[25,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
+
+  {if LowerCase(Trim( StrGrid.Cells[26,Count] ))<>'completed' then begin
+    for Count2:=0 to StrGrid.ColCount-1 do
+    begin
+      StrGrid.CellStyle[Count2,Count].Font.Color:=clRed;
+    end;
+
+  end else begin
+    for Count2:=0 to StrGrid.ColCount-1 do
+    begin
+      StrGrid.CellStyle[Count2,Count].Font.Color:=clWindowText;
+    end;
+  end; }
+  for Count:=2 to StrGrid.RowCount-1 do
+  begin
+    if LowerCase(Trim(StrGrid.Cells[26,Count]))<>'completed' then
+    begin
+     if Count = StrGrid.RowCount - 1 then Continue;
+     for Count2:=0 to StrGrid.ColCount-1 do begin
+        StrGrid.CellStyle[Count2,Count].font.Color := clRed;
+      end;
+    end;
+  end;
 
   Main.M_Normal;
 end;
@@ -775,7 +799,7 @@ begin
     StrGrid.Cells[IntCol,IntRow]:='v';
   end else begin
     StrGrid.Cells[IntCol,IntRow]:='';
-  end;
+  end; 
 
   if StrGrid.Cells[IntCol,IntRow]='v' then begin
     //ShowMessage(Trim(StrGrid.Cells[25, IntRow]));

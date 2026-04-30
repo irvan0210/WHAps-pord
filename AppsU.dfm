@@ -126,6 +126,10 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '30/03/2026 (6.2.1.0)'
+      '- Penambahan Menu Laporan Pengisian BBM Driver'
+      '- Perbaikan Bus diruning days mini dan cheklist integrate'
+      ''
       '17/03/2026 (6.2.0.9)  Force update'
       '- Penambahan uang joss dan uang tuslah di form fee order'
       ''
