@@ -2416,7 +2416,7 @@ var
 begin
   RegPath:='SOFTWARE\WEHA\Aplikasi\3';
   WriteLog('Registry Read: Path='+RegPath,1);
-  RegHost:='103.96.147.245';
+  RegHost:='157.20.255.48';
   RegDb:='wh_prod';
   RegUser:='sa';
   RegPass:='admin@mssql#';
@@ -2424,7 +2424,7 @@ begin
   RegLogLevel:='5';
   RegLogFileName:='WHAps.log';
   RegLogFileAPIName:='WHApsAPI.log';
-  RegChatHost:='103.96.147.245';
+  RegChatHost:='157.20.255.48';
   RegChatPort:='7090';
   RegChatAutoStart:='1';
   try
@@ -2524,9 +2524,9 @@ begin
   {ADODB}
   if (Db='wh_prod') then
   begin
-    if (DbHost<>'103.96.147.245') AND (DbHost<>'10.10.27.221') AND (DbHost<>'whapsdb.whitehorse.co.id') then
+    if (DbHost<>'157.20.255.48') AND (DbHost<>'10.164.21.4') AND (DbHost<>'whapsdb.whitehorse.co.id') then
     begin
-      DbHost:='10.10.27.221';
+      DbHost:='10.164.21.4';
     end;
     {$Define WH_PROD}
   end
@@ -2551,16 +2551,16 @@ begin
   MyConnection.ConnectionTimeout:=3600;
 
 
-  if (DbHost='103.96.147.245') OR (DbHost='10.10.27.221') or (DbHost='whapsdb.whitehorse.co.id') then
+  if (DbHost='157.20.255.48') OR (DbHost='10.164.21.4') or (DbHost='whapsdb.whitehorse.co.id') then
   begin
-    if (DbHost='103.96.147.245') then begin
-      StrConnectionWehaOnline:='Provider='+Provider+';Password=''password2018'';Persist Security Info=True;User ID=''weha'';Initial Catalog=''WHOnline'';Data Source=''103.96.146.219''';
+    if (DbHost='157.20.255.48') then begin
+      StrConnectionWehaOnline:='Provider='+Provider+';Password=''password2018'';Persist Security Info=True;User ID=''weha'';Initial Catalog=''WHOnline'';Data Source=''157.20.255.47''';
     end else begin
-      StrConnectionWehaOnline:='Provider='+Provider+';Password=''password2018'';Persist Security Info=True;User ID=''weha'';Initial Catalog=''WHOnline'';Data Source=''10.10.27.230''';
+      StrConnectionWehaOnline:='Provider='+Provider+';Password=''password2018'';Persist Security Info=True;User ID=''weha'';Initial Catalog=''WHOnline'';Data Source=''10.164.21.3''';
     end;
-  end else if (DbHost='10.10.27.130') then
+  end else if (DbHost='10.164.21.3') then
   begin
-     StrConnectionWehaOnline:='Provider='+Provider+';Password=''password2018'';Persist Security Info=True;User ID=''weha'';Initial Catalog=''whonline_dev'';Data Source=''10.10.27.134''';
+     StrConnectionWehaOnline:='Provider='+Provider+';Password=''password2018'';Persist Security Info=True;User ID=''weha'';Initial Catalog=''whonline_dev'';Data Source=''10.164.21.3''';
   end else
   begin
     StrConnectionWehaOnline:='Provider='+Provider+';Password=''password2018'';Persist Security Info=True;User ID=''weha'';Initial Catalog=''whonline_dev'';Data Source=''192.168.8.102''';
@@ -2795,9 +2795,9 @@ begin
       MyConnectionWehaOnline.Open;
     except
       on E:Exception do begin
-        if DbHost='103.96.147.245' then
+        if DbHost='157.20.255.48' then
         begin
-           DbHost:='10.10.27.221';
+           DbHost:='10.164.21.4';
            InitDb;
            try
               WriteLog('Open DB Connection');
@@ -2811,9 +2811,9 @@ begin
                 MessageBox(Handle,PChar(StrMsg),'Koneksi Database',MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND);
               end;
             end;
-        end else if (DbHost='10.10.27.221') or (DbHost='whapsdb.whitehorse.co.id') then
+        end else if (DbHost='10.164.21.4') or (DbHost='whapsdb.whitehorse.co.id') then
         begin
-           DbHost:='103.96.147.245';
+           DbHost:='157.20.255.48';
            InitDb;
            try
               WriteLog('Open DB Connection');

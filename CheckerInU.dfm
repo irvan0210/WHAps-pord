@@ -1,5 +1,5 @@
 object CheckerIn: TCheckerIn
-  Left = 285
+  Left = 608
   Top = 132
   BorderIcons = []
   BorderStyle = bsSingle
@@ -824,7 +824,7 @@ object CheckerIn: TCheckerIn
   object ppReportReimburse: TppReport
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = '1/2 A4'
+    PrinterSetup.PaperName = 'Custom'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 5080
     PrinterSetup.mmMarginLeft = 6350

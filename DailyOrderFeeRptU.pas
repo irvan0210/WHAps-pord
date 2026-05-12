@@ -2551,14 +2551,14 @@ begin
           StrGrid.Cells[88,Count2-1]:= OrderFeeArr[Count][73];
           StrGrid.Cells[89,Count2-1]:= OrderFeeArr[Count][74];
           StrGrid.Cells[90,Count2-1]:= OrderFeeArr[Count][77];
-          StrGrid.Cells[91,Count2-1]:= OrderFeeArr[Count][83];
+         { StrGrid.Cells[91,Count2-1]:= OrderFeeArr[Count][83];
           StrGrid.Cells[92,Count2-1]:= OrderFeeArr[Count][84];
           StrGrid.Cells[93,Count2-1]:= IToCurr(SToInt(OrderFeeArr[Count][85]));
           StrGrid.Cells[94,Count2-1]:= IToCurr(SToInt(OrderFeeArr[Count][86]));
           StrGrid.Cells[95,Count2-1]:= OrderFeeArr[Count][87];
           StrGrid.Cells[96,Count2-1]:= OrderFeeArr[Count][88];
           StrGrid.Cells[97,Count2-1]:= IToCurr(SToInt(OrderFeeArr[Count][89]));
-          StrGrid.Cells[98,Count2-1]:= IToCurr(SToInt(OrderFeeArr[Count][90]));
+          StrGrid.Cells[98,Count2-1]:= IToCurr(SToInt(OrderFeeArr[Count][90]));}
 
           if OrderFeeArr[Count][27]<>'' then begin
             StrGrid.CellStyle[30,Count2-1].Font.Color:=clBlue;

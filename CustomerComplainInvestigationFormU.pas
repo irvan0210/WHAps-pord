@@ -1083,7 +1083,7 @@ begin
     '(to_date BETWEEN GETDATE() AND DATEADD(dd, 1,GETDATE())))) '+
     'LEFT JOIN wh_employee j ON j.employee_id=a.reference '+
     'WHERE (d.employment_type_id=3) AND '+
-    '(d.location_id=6) AND a.name like ''%'+PIC.Text+'%'' and a.active=1 ORDER BY a.name ';
+    '(d.location_id='+LocationId+') AND a.name like ''%'+PIC.Text+'%'' and a.active=1 ORDER BY a.name ';
     Main.WriteLog('SQL :'+StrQry,2);
     Qry.SQL.Add(StrQry);
     Qry.Open;

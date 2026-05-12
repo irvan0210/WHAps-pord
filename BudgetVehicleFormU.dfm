@@ -1,6 +1,6 @@
 object BudgetVehicleForm: TBudgetVehicleForm
-  Left = 409
-  Top = 242
+  Left = 685
+  Top = 249
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Master Budget Armada'

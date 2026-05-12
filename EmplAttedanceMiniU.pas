@@ -174,6 +174,23 @@ begin
   Days:=DaysInMonth(VarToDateTime(AwalBulan));
   StrGrid.ColCount:=Days+3;
 
+  StrGrid.Cells[Days+3,0]:='Total Masuk';
+  StrGrid.Cells[Days+4,0]:='Total Sakit';
+  StrGrid.Cells[Days+5,0]:='Total Ijin';
+  StrGrid.Cells[Days+6,0]:='Total Cuti';
+  StrGrid.Cells[Days+7,0]:='Uang Makan';
+
+   // kolom awal
+  StrGrid.ColWidths[0] := 30;
+  StrGrid.ColWidths[1] := 75;
+  StrGrid.ColWidths[2] := 185;
+
+  // RESET WARNA DULU
+  for Count := 1 to 31 do
+  begin
+    StrGrid.CellStyle[Count+2,0].BGColor := clBtnFace;
+  end;
+  //warna hari sabtu minggu
   for Count:=1 to Days do begin
     StrGrid.ColWidths[Count+2]:=IntColumnWidth;
     StrGrid.Cells[Count+2, 0]:=IntToStr(Count);
@@ -216,7 +233,7 @@ var QStr,QAddParam,AkhirBulan,AwalBulan,StrLocationId,StrCompanyId,StrEmplType:S
     Count,Count2,Count3,Count4,IntTotal,IntCountEmpl:Integer;
     IntCount,IntCount2,IntCount3, IntCount4 : Integer;
     IntJenis,IntStatusMasuk, IntStatusSakit, IntStatusIjin, IntStatusCuti : array [1..31] of integer;
-    IntMasuk,IntSakit, IntIjin, IntCuti : Integer;
+    IntMasuk,IntSakit, IntIjin, IntCuti, IntUangMakan : Integer;
     StrList:TStringList;
 begin
   Main.M_Busy;
@@ -224,14 +241,44 @@ begin
   AwalBulan:='1/'+Bulan.Text+'/'+Tahun.Text;
   Days:=DaysInMonth(VarToDateTime(AwalBulan));
   AkhirBulan:=IntToStr(Days)+'/'+Bulan.Text+'/'+Tahun.Text;
-  StrGrid.ColCount:=Days+3+4; {nilai 2 untuk menampilkan total hadir}
+  StrGrid.ColCount:=Days+3+5; {nilai 2 untuk menampilkan total hadir}
 
-  SetLength(DailyArr,0);
+  // kolom awal
+  StrGrid.ColWidths[0] := 30;
+  StrGrid.ColWidths[1] := 75;
+  StrGrid.ColWidths[2] := 185;
+
+  // RESET WARNA DULU
+ { for Count := 1 to 31 do
+  begin
+    StrGrid.CellStyle[Count+2,0].BGColor := clBtnFace;
+  end;
+  //warna hari sabtu minggu
+  for Count:=1 to Days do begin
+    StrGrid.ColWidths[Count+2]:=IntColumnWidth;
+    StrGrid.Cells[Count+2, 0]:=IntToStr(Count);
+    if DayOfWeek(VarToDateTime(IntToStr(Count)+'/'+Bulan.Text+'/'+Tahun.Text))=1 then
+      StrGrid.CellStyle[Count+2, 0].BGColor:=clRed
+    else if DayOfWeek(VarToDateTime(IntToStr(Count)+'/'+Bulan.Text+'/'+Tahun.Text))=7 then
+      StrGrid.CellStyle[Count+2, 0].BGColor:=clGreen
+    else
+      StrGrid.CellStyle[Count+2, 0].BGColor:=clBtnFace;
+    Application.ProcessMessages;
+  end; }
 
   StrGrid.Cells[Days+3,0]:='Total Masuk';
   StrGrid.Cells[Days+4,0]:='Total Sakit';
   StrGrid.Cells[Days+5,0]:='Total Ijin';
   StrGrid.Cells[Days+6,0]:='Total Cuti';
+  StrGrid.Cells[Days+7,0]:='Uang Makan';
+    // kolom total
+  StrGrid.ColWidths[Days+3] := 70;
+  StrGrid.ColWidths[Days+4] := 65;
+  StrGrid.ColWidths[Days+5] := 55;
+  StrGrid.ColWidths[Days+6] := 55;
+  StrGrid.ColWidths[Days+7] := 75;
+
+  SetLength(DailyArr,0);
 
   Main.MyConnection.Open;
   Qry:=TADOQuery.Create(Self);
@@ -295,7 +342,6 @@ begin
         IntSakit := 0;
         IntIjin  := 0;
         IntCuti  := 0;
-
         SetLength(DailyArr,Length(DailyArr)+1);
 
         for IntCount2:=0 to Days+4 do begin
@@ -305,19 +351,21 @@ begin
         if StrJenisKaryawan<>EmplArr[IntCountEmpl][2] then begin
             if StrJenisKaryawan<>'' then begin
               StrGrid.RowCount:=StrGrid.RowCount+1;
-              for IntCount2:=2 to Days+3 do begin
+              //Total Masuk
+              for IntCount2:=1 to Days+3 do begin
                 StrGrid.Cells[IntCount2,IntCount]:='';
                 StrGrid.CellStyle[IntCount2,IntCount].BGColor:=clSilver;
               end;
               StrGrid.RowCount:=StrGrid.RowCount+1;
-              for IntCount2:=1 to Days do begin
+              for IntCount2:=1 to Days+3 do begin
                 StrGrid.Cells[2,IntCount]:='Total Masuk';
                 StrGrid.Cells[IntCount2+3, IntCount]:=IntToStr(IntStatusMasuk[IntCount2]);
               end;
               Inc(IntCount);
               SetLength(DailyArr,Length(DailyArr)+1);
 
-              for IntCount2:=2 to Days+3 do begin
+               //Total Sakit
+              for IntCount2:=1 to Days+3 do begin
                 StrGrid.Cells[IntCount2,IntCount]:='';
                 StrGrid.CellStyle[IntCount2,IntCount].BGColor:=clSilver;
               end;
@@ -329,7 +377,8 @@ begin
               Inc(IntCount);
               SetLength(DailyArr,Length(DailyArr)+1);
 
-              for IntCount2:=2 to Days+3 do begin
+               //Total Ijin
+              for IntCount2:=1 to Days+3 do begin
                 StrGrid.Cells[IntCount2,IntCount]:='';
                 StrGrid.CellStyle[IntCount2,IntCount].BGColor:=clSilver;
               end;
@@ -341,7 +390,8 @@ begin
               Inc(IntCount);
               SetLength(DailyArr,Length(DailyArr)+1);
 
-              for IntCount2:=2 to Days+3 do begin
+               //Total Cuti
+              for IntCount2:=1 to Days+3 do begin
                 StrGrid.Cells[IntCount2,IntCount]:='';
                 StrGrid.CellStyle[IntCount2,IntCount].BGColor:=clSilver;
               end;
@@ -352,8 +402,8 @@ begin
               end;
               Inc(IntCount);
               SetLength(DailyArr,Length(DailyArr)+1);
-
             end;
+
             {Reset}
             For IntCount3:=1 to 31 do IntStatusMasuk[IntCount3]:=0;
             For IntCount3:=1 to 31 do IntStatusSakit[IntCount3]:=0;
@@ -373,10 +423,10 @@ begin
             StrGrid.CellStyle[1,IntCount].BGColor:=clSkyBlue;
             StrGrid.CellStyle[1,IntCount].Font.Color:=clWindowText;
             StrGrid.CellStyle[1,IntCount].Font.Style:=[fsBold];
-            StrGrid.CellStyle[1,IntCount].HorizontalAlignment:=taLeftJustify;
+            StrGrid.CellStyle[1,IntCount].HorizontalAlignment:=taCenter;
             StrGrid.CellStyle[1,IntCount].BGColor:=clSkyBlue;
             //StrGrid.MergeCells.AddRectXY(3,IntCount, Days+7, IntCount);
-            StrGrid.MergeCells.AddRectXY(1,IntCount, Days+6,      IntCount);
+            StrGrid.MergeCells.AddRectXY(1,IntCount, Days+6,IntCount);
             StrGrid.Cells[1,IntCount]:=StrJenisKaryawan;
             Inc(IntCount);
             SetLength(DailyArr,Length(DailyArr)+1);
@@ -406,7 +456,6 @@ begin
 //              Count4:=StrToInt(VarToStr(Qry2.FieldValues['tgl']));
               StrGrid.Cells[(2+Count4),IntCount]:=VarToStr(Qry2.FieldValues['body_id']);
 
-
               if DailyArr[Length(DailyArr)-1][Count4-2]<>'' then begin
                 StrList:=TStringList.Create;
                 StrList:=SplitStrings(DailyArr[Length(DailyArr)-1][Count4-2],'  ');
@@ -419,20 +468,24 @@ begin
                   DailyArr[Length(DailyArr)-1][Count4-2]:=DailyArr[Length(DailyArr)-1][Count4-2]+'  '+Qry2.FieldValues['kode'];
               end;
 
-              if Qry2.FieldValues['body_id']='1' then begin
+              if Qry2.FieldValues['body_id']='H' then begin
                   StrGrid.CellStyle[(2+Count4), IntCount].Font.Color:=clGreen;
+                  StrGrid.CellStyle[(2+Count4), IntCount].Font.Style:=[fsBold];
                   Inc(IntStatusMasuk[Count4]);
                   Inc(IntMasuk);
               end else if Qry2.FieldValues['body_id']='S' then begin
                   StrGrid.CellStyle[(2+Count4), IntCount].Font.Color:=clFuchsia;
+                  StrGrid.CellStyle[(2+Count4), IntCount].Font.Style:=[fsBold];
                   Inc(IntStatusSakit[Count4]);
                   Inc(IntSakit);
               end else if Qry2.FieldValues['body_id']='I' then begin
                   StrGrid.CellStyle[(2+Count4), IntCount].Font.Color:=$000080FF;
+                  StrGrid.CellStyle[(2+Count4), IntCount].Font.Style:=[fsBold];
                   Inc(IntStatusIjin[Count4]);
                   Inc(IntIjin);
               end else if Qry2.FieldValues['body_id']='C' then begin
                   StrGrid.CellStyle[(2+Count4), IntCount].Font.Color:=clBlue;
+                  StrGrid.CellStyle[(2+Count4), IntCount].Font.Style:=[fsBold];
                   Inc(IntStatusCuti[Count4]);
                   Inc(IntCuti);
               end else
@@ -443,10 +496,13 @@ begin
 
         end;
 
+        IntUangMakan := IntMasuk * 15000;
         StrGrid.Cells[Days+3, IntCount] := IntToStr(IntMasuk);
         StrGrid.Cells[Days+4, IntCount] := IntToStr(IntSakit);
         StrGrid.Cells[Days+5, IntCount] := IntToStr(IntIjin);
         StrGrid.Cells[Days+6, IntCount] := IntToStr(IntCuti);
+        StrGrid.Cells[Days+7, IntCount] := IToCurr(IntUangMakan);
+        StrGrid.CellStyle[Days+7, IntCount].HorizontalAlignment:=taRightJustify;
         ProgressBar.Position:=1+Round((99/Length(EmplArr))*IntCount4);
         Qry2.Close;
         Inc(IntCount);
@@ -458,9 +514,9 @@ begin
         Application.ProcessMessages;
     end;
 
+    //row dibawah
     StrGrid.RowCount:=StrGrid.RowCount+4;
-
-    for IntCount2:=2 to Days+2 do begin
+    for IntCount2:=1 to Days+2 do begin
       StrGrid.Cells[IntCount2,IntCount]:='';
       StrGrid.CellStyle[IntCount2,IntCount].BGColor:=clSilver;
     end;
@@ -470,7 +526,7 @@ begin
     end;
 
     Inc(IntCount);
-    for IntCount2:=2 to Days+2 do begin
+    for IntCount2:=1 to Days+2 do begin
       StrGrid.Cells[IntCount2,IntCount]:='';
       StrGrid.CellStyle[IntCount2,IntCount].BGColor:=clSilver;
     end;
@@ -480,7 +536,7 @@ begin
     end;
 
     Inc(IntCount);
-    for IntCount2:=2 to Days+2 do begin
+    for IntCount2:=1 to Days+2 do begin
       StrGrid.Cells[IntCount2,IntCount]:='';
       StrGrid.CellStyle[IntCount2,IntCount].BGColor:=clSilver;
     end;
@@ -490,7 +546,7 @@ begin
     end;
 
     Inc(IntCount);
-    for IntCount2:=2 to Days+2 do begin
+    for IntCount2:=1 to Days+2 do begin
       StrGrid.Cells[IntCount2,IntCount]:='';
       StrGrid.CellStyle[IntCount2,IntCount].BGColor:=clSilver;
     end;
@@ -543,7 +599,7 @@ end;
 
 procedure TEmplAttedanceMini.LihatDataClick(Sender: TObject);
 begin
-//  RefreshGrid;
+  RefreshGrid;
   RefreshData;
 end;
 
