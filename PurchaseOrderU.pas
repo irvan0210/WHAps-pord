@@ -1249,10 +1249,12 @@ begin
           StrTransId:=PONo.Text;
           if Batal.Checked=True then StrCancel:='1' else StrCancel:='NULL';
           StrQry:='UPDATE wh_purchase_order SET vendor_id='+QuotedStr(StrVendorId)+',payment_term_id='+StrPaymentId+
+                  ',purchase_request_id = NULL'+
                   ',delivery_date='+QuotedStr(FormatDateTime('yyyy-mm-dd',TanggalKirim.Date))+
                   ',delivery_company_location_id='+StrLocationId+',tax='+ToString(Tax.Text)+',cancel='+StrCancel+
+                  ',complete = NULL '+
                   ',description='+StrRemark+',update_time=GETDATE(),update_user='+QuotedStr(User)+
-                  ' WHERE purchase_order_id='+QuotedStr(StrTransId)+' ;';
+                  ' WHERE purchase_order_id='+QuotedStr(StrTransId)+';';
       end;
       Qry.SQL.Clear;
       Qry.SQL.Add(StrQry);
@@ -1265,10 +1267,12 @@ begin
         end;
       end;
 
-      if Batal.Checked=False then begin
+      if Batal.Checked=TRUE then begin
         if (PONo.Text<>'') and (VendorId=StrVendorId)  then begin
           StrQry:='UPDATE wh_purchase_order_detail SET cancel=1 '+
-                  ' WHERE purchase_order_id='+QuotedStr(PONo.Text)+' ;';
+                  ' WHERE purchase_order_id='+QuotedStr(PONo.Text)+' ;'+
+                  ' UPDATE wh_purchase_request SET complete = NULL WHERE purchase_request_id='+QuotedStr(StrPRNo)+';';
+          //StrQry:=StrQry+'UPDATE wh_purchase_request SET complete = NULL WHERE purchase_request_id='+QuotedStr(StrPRNo)+';';
           Qry.SQL.Clear;
           Qry.SQL.Add(StrQry);
           try
@@ -1281,6 +1285,7 @@ begin
           end;
           StrQry:='';
         end;
+      end else begin
         StrQry:='';
         for IntCount:=1 to StrGrid.RowCount-1 do begin
           if (Trim(StrGrid.Cells[1,IntCount])<>'') AND (Trim(StrGrid.Cells[2,IntCount])<>'') then begin
@@ -1305,10 +1310,10 @@ begin
             StrEMessage:=StrEMessage+' '+E.Message;
           end;
         end;
-       // IsComplete:=True;
+        IsComplete:=True;
        // for IntCount:=1 to StrGridPR.RowCount-1 do
        // if StrGridPR.Cells[6,IntCount]<>'R' then IsComplete:=False;
-       // if IsComplete=True then begin
+        if IsComplete=True then begin
           StrQry:='UPDATE wh_purchase_request SET complete=1 WHERE purchase_request_id='+QuotedStr(StrPRNo)+';';
           Qry.SQL.Clear;
           Qry.SQL.Add(StrQry);
@@ -1320,7 +1325,7 @@ begin
               StrEMessage:=StrEMessage+' '+E.Message;
             end;
           end;
-       // end;
+        end;
       end;
 
       if IsOk then begin
@@ -1328,14 +1333,14 @@ begin
         PONo.Text:=StrTransId;
         Tanggal.Text:=Main.WhatDate;
         if Batal.Checked=False then begin
-          if MessageBox(0,PChar('PR Berhasil Disimpan'+Chr(13)+Chr(13)+'Mau Dicetak ?'),'Purchase Request',MB_OKCANCEL or MB_ICONINFORMATION)=1 then begin
+          if MessageBox(0,PChar('PO Berhasil Disimpan'+Chr(13)+Chr(13)+'Mau Dicetak ?'),'Purchase Request',MB_OKCANCEL or MB_ICONINFORMATION)=1 then begin
             Reprint(StrTransId);
           end;
         end else
-        MessageBox(0,PChar('PR Berhasil Batalkan'+Chr(13)+Chr(13)+StrEMessage),'Purchase Request',MB_OK or MB_ICONINFORMATION);
+        MessageBox(0,PChar('PO Berhasil Batalkan'+Chr(13)+Chr(13)+StrEMessage),'Purchase Request',MB_OK or MB_ICONINFORMATION);
       end else begin
         Main.TransRollback;
-        MessageBox(0,PChar('PR Gagal Disimpan'+Chr(13)+Chr(13)+StrEMessage),'Purchase Request',MB_OK or MB_ICONERROR);
+        MessageBox(0,PChar('PO Gagal Disimpan'+Chr(13)+Chr(13)+StrEMessage),'Purchase Request',MB_OK or MB_ICONERROR);
         EnableInput;
       end;
     end;

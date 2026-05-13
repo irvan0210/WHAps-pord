@@ -1935,8 +1935,8 @@ object PurchaseOrder: TPurchaseOrder
         Font.Style = []
         Transparent = True
         mmHeight = 3969
-        mmLeft = 71173
-        mmTop = 48419
+        mmLeft = 59531
+        mmTop = 49477
         mmWidth = 22225
         BandType = 8
       end
@@ -1954,8 +1954,8 @@ object PurchaseOrder: TPurchaseOrder
         Font.Style = []
         Transparent = True
         mmHeight = 3969
-        mmLeft = 143669
-        mmTop = 48419
+        mmLeft = 132027
+        mmTop = 49477
         mmWidth = 22754
         BandType = 8
       end
@@ -1974,8 +1974,8 @@ object PurchaseOrder: TPurchaseOrder
         TextAlignment = taCentered
         Transparent = True
         mmHeight = 3969
-        mmLeft = 54769
-        mmTop = 64294
+        mmLeft = 43127
+        mmTop = 65352
         mmWidth = 57415
         BandType = 8
       end
@@ -1993,9 +1993,9 @@ object PurchaseOrder: TPurchaseOrder
         TextAlignment = taCentered
         Transparent = True
         mmHeight = 3969
-        mmLeft = 129382
-        mmTop = 64558
-        mmWidth = 55298
+        mmLeft = 114300
+        mmTop = 65617
+        mmWidth = 60325
         BandType = 8
       end
       object ppLabel26: TppLabel
@@ -2012,8 +2012,8 @@ object PurchaseOrder: TPurchaseOrder
         Font.Style = []
         Transparent = True
         mmHeight = 3969
-        mmLeft = 52388
-        mmTop = 65881
+        mmLeft = 40746
+        mmTop = 66940
         mmWidth = 66940
         BandType = 8
       end
@@ -2031,8 +2031,8 @@ object PurchaseOrder: TPurchaseOrder
         Font.Style = []
         Transparent = True
         mmHeight = 3969
-        mmLeft = 124090
-        mmTop = 65881
+        mmLeft = 112448
+        mmTop = 66940
         mmWidth = 64558
         BandType = 8
       end

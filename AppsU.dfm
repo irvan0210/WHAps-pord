@@ -128,6 +128,7 @@ object Apps: TApps
     Lines.Strings = (
       '12/05/2026 (6.2.1.2)'
       '- Perbaikan Menu Laporan Absensi Driver'
+      '- Perbaikan Cancel PO'
       ''
       '07/05/2026 (6.2.1.1)'
       '- Perbaikan Menu Laporan Pengeluaran PerArmada Jalan'
