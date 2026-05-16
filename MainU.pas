@@ -246,7 +246,7 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   EmployeeContractListU, ChartU, RubahInvoiceFormU, PlannedServiceReportU,
   MemoListU,  KoneksiDatabaseU, DriverVehicleAuthorizationU,
   DriverVehicleAuthorizationListU, PurchaseRequestRptU, PurchaseOrderRptU,
-  RevenueVhcDayBusRptV2U, DriverFuelFillingRptU;
+  RevenueVhcDayBusRptV2U, DriverFuelFillingRptU, AbsensiDrvRptU;
 
 
 constructor TClockThread.Create;
@@ -1933,12 +1933,13 @@ begin
         end;
 
         {Laporan Data Driver}
-        190701..190704:begin
-           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04']) of
+        190701..190705:begin
+           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04','05']) of
               0:if IsFormOpen('EmployeeList')=False then EmployeeList:=TEmployeeList.Create(Self,'Bus',9);
               1:if IsFormOpen('NewEmployeeRpt')=False then NewEmployeeRpt:=TNewEmployeeRpt.Create(Self,'Bus');
               2:if IsFormOpen('EmployeeHistoryListRpt')=False then EmployeeHistoryListRpt:=TEmployeeHistoryListRpt.Create(Self,'Bus', '');
               3:if IsFormOpen('EmplAttedanceMini')=False then EmplAttedanceMini:=TEmplAttedanceMini.Create(Self);
+              4:if IsFormOpen('AbsensiDrvRpt')=False then AbsensiDrvRpt:=TAbsensiDrvRpt.Create(Self);
            end;
         end;
         {Laporan Bengkel}

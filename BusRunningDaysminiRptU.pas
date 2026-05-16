@@ -521,6 +521,7 @@ begin
             SetLength(DailyArr,Length(DailyArr)+1);
             Inc(IntCount);
           end;
+
           StrBatchName:=VehicleArr[IntCountVhc][1]+' '+VehicleArr[IntCountVhc][2];
           {Cek}
           for IntCount2:=0 to Days+3 do begin

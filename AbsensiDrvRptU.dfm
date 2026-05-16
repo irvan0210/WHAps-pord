@@ -1,9 +1,9 @@
-object TxDrvRunningDaysRpt: TTxDrvRunningDaysRpt
-  Left = 282
-  Top = 135
+object AbsensiDrvRpt: TAbsensiDrvRpt
+  Left = 245
+  Top = 203
   BorderIcons = []
   BorderStyle = bsNone
-  Caption = 'Laporan Running Days Driver & Helper'
+  Caption = 'Laporan Absensi Driver & Helper'
   ClientHeight = 470
   ClientWidth = 1261
   Color = clBtnFace
@@ -211,7 +211,6 @@ object TxDrvRunningDaysRpt: TTxDrvRunningDaysRpt
     Width = 105
     Height = 21
     ItemHeight = 13
-    ItemIndex = 0
     TabOrder = 8
     Text = 'Driver'
     Items.Strings = (

@@ -362,7 +362,8 @@ uses
   PurchaseOrderRptU in 'PurchaseOrderRptU.pas' {PurchaseOrderRpt},
   PurchaseRequestRptU in 'PurchaseRequestRptU.pas' {PurchaseRequestRpt},
   RevenueVhcDayBusRptV2U in 'RevenueVhcDayBusRptV2U.pas' {RevenueVhcDayBusRptV2},
-  DriverFuelFillingRptU in 'DriverFuelFillingRptU.pas' {DriverFuelFillingRpt};
+  DriverFuelFillingRptU in 'DriverFuelFillingRptU.pas' {DriverFuelFillingRpt},
+  AbsensiDrvRptU in 'AbsensiDrvRptU.pas' {AbsensiDrvRpt};
 
 {$R *.res}
 
