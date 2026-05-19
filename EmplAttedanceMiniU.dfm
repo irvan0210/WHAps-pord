@@ -1,6 +1,6 @@
 object EmplAttedanceMini: TEmplAttedanceMini
-  Left = 246
-  Top = 202
+  Left = 297
+  Top = 320
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Daftar Absen Karyawan'

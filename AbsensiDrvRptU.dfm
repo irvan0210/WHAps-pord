@@ -232,4 +232,11 @@ object AbsensiDrvRpt: TAbsensiDrvRpt
       'Tetap'
       'Harian')
   end
+  object ProgressBar: TProgressBar
+    Left = 928
+    Top = 447
+    Width = 193
+    Height = 9
+    TabOrder = 10
+  end
 end

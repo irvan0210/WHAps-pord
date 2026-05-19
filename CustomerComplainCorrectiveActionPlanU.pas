@@ -742,7 +742,7 @@ procedure TCustComplainCorrectiveActionPlan.ListEmplDblClick(
 begin
   StrGrid5.Cells[IntCol,IntRow]:=UpperCase(ListEmpl.Items.Strings[ListEmpl.ItemIndex]);
   ListEmpl.Visible:=False;
-  StrGrid5.RowCount:=StrGrid5.RowCount+1;
+  //StrGrid5.RowCount:=StrGrid5.RowCount+1;
 end;
 
 procedure TCustComplainCorrectiveActionPlan.FormClose(Sender: TObject;
