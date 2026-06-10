@@ -1,11 +1,11 @@
-object WorkOrderList: TWorkOrderList
-  Left = 362
-  Top = 243
+object ApprovalWorkOrderList: TApprovalWorkOrderList
+  Left = 379
+  Top = 391
   BorderIcons = []
   BorderStyle = bsNone
-  Caption = 'Data PKB'
-  ClientHeight = 466
-  ClientWidth = 850
+  Caption = 'Approval PKB'
+  ClientHeight = 470
+  ClientWidth = 948
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,15 +21,15 @@ object WorkOrderList: TWorkOrderList
   PixelsPerInch = 96
   TextHeight = 13
   object Label3: TLabel
-    Left = 668
-    Top = 13
+    Left = 348
+    Top = 45
     Width = 18
     Height = 13
     Caption = 'Cari'
   end
   object ToXCel: TSpeedButton
-    Left = 784
-    Top = 432
+    Left = 832
+    Top = 440
     Width = 23
     Height = 22
     BiDiMode = bdLeftToRight
@@ -65,9 +65,9 @@ object WorkOrderList: TWorkOrderList
     OnClick = ToXCelClick
   end
   object TombolCari: TSpeedButton
-    Left = 812
-    Top = 8
-    Width = 23
+    Left = 524
+    Top = 40
+    Width = 45
     Height = 23
     Glyph.Data = {
       26040000424D2604000000000000360000002800000012000000120000000100
@@ -107,15 +107,22 @@ object WorkOrderList: TWorkOrderList
     OnClick = TombolCariClick
   end
   object Label2: TLabel
-    Left = 255
-    Top = 12
+    Left = 15
+    Top = 44
     Width = 67
     Height = 13
     Caption = 'Tanggal Mulai'
   end
+  object Label4: TLabel
+    Left = 337
+    Top = 15
+    Width = 30
+    Height = 13
+    Caption = 'Status'
+  end
   object Selesai: TButton
-    Left = 366
-    Top = 432
+    Left = 414
+    Top = 440
     Width = 75
     Height = 25
     Caption = 'Selesai'
@@ -123,18 +130,18 @@ object WorkOrderList: TWorkOrderList
     OnClick = SelesaiClick
   end
   object Lihat: TButton
-    Left = 570
-    Top = 6
-    Width = 75
+    Left = 525
+    Top = 9
+    Width = 84
     Height = 25
     Caption = 'Lihat'
     TabOrder = 1
     OnClick = LihatClick
   end
   object Cari: TEdit
-    Left = 692
-    Top = 8
-    Width = 121
+    Left = 372
+    Top = 40
+    Width = 146
     Height = 21
     TabOrder = 2
     OnChange = CariChange
@@ -142,9 +149,9 @@ object WorkOrderList: TWorkOrderList
   end
   object StrGrid: TZColorStringGrid
     Left = 8
-    Top = 42
-    Width = 833
-    Height = 383
+    Top = 72
+    Width = 929
+    Height = 353
     ColCount = 8
     DefaultRowHeight = 20
     DefaultDrawing = False
@@ -173,11 +180,11 @@ object WorkOrderList: TWorkOrderList
   object GroupCompany: TGroupBox
     Left = 8
     Top = 0
-    Width = 241
+    Width = 321
     Height = 33
     TabOrder = 4
     object Label1: TLabel
-      Left = 16
+      Left = 51
       Top = 12
       Width = 22
       Height = 13
@@ -185,7 +192,7 @@ object WorkOrderList: TWorkOrderList
       Caption = 'SBU'
     end
     object SBU: TComboBox
-      Left = 48
+      Left = 88
       Top = 8
       Width = 185
       Height = 21
@@ -195,8 +202,8 @@ object WorkOrderList: TWorkOrderList
     end
   end
   object Tanggal: TDateTimePicker
-    Left = 324
-    Top = 8
+    Left = 96
+    Top = 40
     Width = 89
     Height = 21
     Date = 42528.603823240740000000
@@ -204,8 +211,8 @@ object WorkOrderList: TWorkOrderList
     TabOrder = 5
   end
   object TanggalSampai: TDateTimePicker
-    Left = 464
-    Top = 8
+    Left = 236
+    Top = 40
     Width = 89
     Height = 21
     Date = 42528.603823240740000000
@@ -214,12 +221,26 @@ object WorkOrderList: TWorkOrderList
     OnChange = TanggalSampaiChange
   end
   object ToDates: TCheckBox
-    Left = 417
-    Top = 11
+    Left = 189
+    Top = 43
     Width = 41
     Height = 17
     Caption = 's/d'
     TabOrder = 7
     OnClick = ToDatesClick
+  end
+  object Status: TComboBox
+    Left = 373
+    Top = 12
+    Width = 146
+    Height = 21
+    ItemHeight = 13
+    TabOrder = 8
+    Text = 'DIAJUKAN'
+    Items.Strings = (
+      'SEMUA'
+      'DIAJUKAN'
+      'DISETUJUI'
+      'DITOLAK')
   end
 end

@@ -87,7 +87,12 @@ begin
   Month.ItemIndex:=-1;
   Year.Text:='';
   IntRow:=0;
-  if FormRequest='' then GroupDetail.Enabled:=False;
+  if FormRequest='' then begin
+     if FullName='Irvan Ruswanto' then
+      GroupDetail.Enabled:=True
+     else GroupDetail.Enabled:=False;
+  end;
+
 end;
 
 procedure TPurchaseRequestList.InitGrid;
@@ -186,12 +191,14 @@ begin
     Month.Items.Add(LongMonthNames[IntCount]);
   Department.ItemIndex:=Department.Items.IndexOf(DepartmentId);
   DepartmentDisp.Text:=DepartmentArr[Department.ItemIndex][1];
-  if CompanyId<>'1' then
+  if CompanyId<>'1' then begin
     if UpperCase(FormRequest)<>'PURCHASEORDER' then begin
-      GroupDetail.Enabled:=False
+      GroupDetail.Enabled:=False;
     end else begin
-      if (CompanyId<>'2') and (LocationId<>'6') then GroupDetail.Enabled:=False
+      if (CompanyId<>'2') and (LocationId<>'6') then GroupDetail.Enabled:= False;
     end;
+    if FullName='Irvan Ruswanto' then GroupDetail.Enabled:= True;
+  end;
   RefreshLocation;
   Main.M_Normal;
 end;

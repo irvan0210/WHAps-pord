@@ -126,8 +126,15 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '10/06/2026 (6.2.1.4)'
+      '- Penambahan Menu Approval PKB'
+      '- Perbaikan bug di menu PO'
+      ''
+      '19/05/2026 (6.2.1.3)'
+      '- Penambahan Menu Laporan Absensi Driver dan Helper'
+      ''
       '12/05/2026 (6.2.1.2)'
-      '- Perbaikan Menu Laporan Absensi Driver'
+      '- Perbaikan Menu Laporan Absensi karyawan'
       '- Perbaikan Cancel PO'
       ''
       '07/05/2026 (6.2.1.1)'

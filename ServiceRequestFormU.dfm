@@ -1,10 +1,10 @@
 object ServiceRequestForm: TServiceRequestForm
-  Left = 288
-  Top = 152
+  Left = 426
+  Top = 330
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Service Request'
-  ClientHeight = 619
+  ClientHeight = 552
   ClientWidth = 951
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -3089,7 +3089,7 @@ object ServiceRequestForm: TServiceRequestForm
     PrinterSetup.mmMarginTop = 6350
     PrinterSetup.mmPaperHeight = 150000
     PrinterSetup.mmPaperWidth = 210000
-    PrinterSetup.PaperSize = 256
+    PrinterSetup.PaperSize = 119
     Template.FileName = 'D:\WH App\PBJRpt.rtm'
     Units = utMillimeters
     DeviceType = 'Screen'

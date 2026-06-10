@@ -2118,12 +2118,12 @@ begin
               StrUrutId:='TF'+LocationCode+FormatDateTime('yy',StrToDate(FromDate.Text))+
                           FormatDateTime('mm',StrToDate(FromDate.Text))+FormatDateTime('dd',StrToDate(FromDate.Text))+StrUrutID;
               StrQry:='INSERT INTO wh_vhc_trans (vhc_trans_id,vehicle_id,vhc_trans_type_id,employee_id,employee_id2,employee_id3'+
-                    ',phone_no,location_id,out_date,out_user,description,remark,update_user,km_estimasi,isConnecting,urut_id) '+
+                    ',phone_no,location_id,out_date,out_user,description,remark,update_user,km_estimasi,isConnecting,urut_id, create_by) '+
                     'VALUES ('+QuotedStr(StrTransId)+','+QuotedStr(StrVehicleID)+',1,'+QuotedStr(StrDriver)+','+QuotedStr(StrDriver2)+','+QuotedStr(StrBusboyID)+
                     ','+StrPhoneNo+','+LocationId+','+StrFromDates+','+QuotedStr(User)+
                     ','+StrRemark+
                     ','+StrRemark2+
-                    ','+QuotedStr(User)+','+IntToStr(IntKmestimasi)+','+QuotedStr(StrConnecting)+','+QuotedStr(StrUrutID)+');';
+                    ','+QuotedStr(User)+','+IntToStr(IntKmestimasi)+','+QuotedStr(StrConnecting)+','+QuotedStr(StrUrutID)+','+QuotedStr(User)+');';
 
               if (StrBusboyID <> '') then begin
                   StrQry:=StrQry+' UPDATE wh_reserved_order_detail SET vhc_trans_id='+QuotedStr(StrTransId)+

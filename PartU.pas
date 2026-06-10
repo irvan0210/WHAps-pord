@@ -190,7 +190,7 @@ begin
   Clear;
 
 
-  if DepartmentId='24' then
+  if (DepartmentId='24') or (DepartmentId='13') then
   begin
     PartName.Enabled:=True;
     KodePart.Enabled:=True;
@@ -199,6 +199,7 @@ begin
     PartName.Enabled:=False;
     KodePart.Enabled:=False;
   end;
+  
   Main.M_Busy;
   if Main.OpenDb then begin
     StrQry:='SELECT * FROM wh_user_auth_form where user_id='+QuotedStr(User)+' and active=1 and form_id=162301';

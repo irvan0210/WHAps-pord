@@ -223,7 +223,7 @@ begin
   if Main.OpenDb then begin
     StrQry:='SELECT * FROM wh_tree_sub_menu a '+
             'LEFT JOIN wh_user_grp_tree_sub_menu b ON (b.tree_sub_menu_id=a.tree_sub_menu_id) AND'+
-            '(b.user_group_id=(SELECT user_group_id FROM wh_user WHERE username='+QuotedStr(StrUserId)+')) '+
+            '(b.user_group_id=(SELECT user_group_id FROM wh_user WHERE username='+QuotedStr(StrUserId)+' AND active = 1)) '+
             'LEFT JOIN wh_user_tree_sub_menu c ON (c.tree_sub_menu_id=a.tree_sub_menu_id) AND (c.user_id='+QuotedStr(StrUserId)+')'+
             'WHERE (b.user_grp_tree_sub_menu_id IS NULL) AND (c.user_tree_sub_menu_id IS NULL) AND (sub_menu_id='+Chr(39)+StrSubMenuId+Chr(39)+');' ;
     Qry.SQL.Add(StrQry);

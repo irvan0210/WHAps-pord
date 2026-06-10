@@ -2331,7 +2331,7 @@ begin
         MessageBox(0,'Berhasil Setujui Service Request','',MB_OK or MB_ICONINFORMATION);
       end else begin
         Main.TransRollback;
-        MessageBox(0,PChar(StrMsg+Chr(13)+Chr(13)+'Kesalahan:'+Chr(13)+StrException),'Checklist Integrate',MB_OK or MB_ICONERROR);
+        MessageBox(0,PChar(StrMsg+Chr(13)+Chr(13)+'Kesalahan:'+Chr(13)+StrException),'Service Request',MB_OK or MB_ICONERROR);
       end;
     end;
     FreeAndNil(Qry);

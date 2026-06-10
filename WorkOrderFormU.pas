@@ -293,6 +293,10 @@ type
     TambahFoto: TButton;
     HapusSemuaFoto: TButton;
     SimpanFoto: TButton;
+    Approve: TButton;
+    Reject: TButton;
+    LabStat: TLabel;
+    Status: TLabel;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure EksternalClick(Sender: TObject);
@@ -334,6 +338,8 @@ type
     procedure StrGridPekerjaanSelectCell(Sender: TObject; ACol,
       ARow: Integer; var CanSelect: Boolean);
     procedure ListMekanikDblClick(Sender: TObject);
+    procedure ApproveClick(Sender: TObject);
+    procedure RejectClick(Sender: TObject);
   private
     { Private declarations }
     VhcArr:Array of TArrString7;
@@ -344,6 +350,8 @@ type
     FormRequest,WorkOrderId,VehicleId,ApiTransTrack,StatusApiTransTrack:String;
     Initiation,IsReadOnly,IsInput:Boolean;
     ListGambar, ListDeskripsi: TStringList;
+    procedure CekOtorisasi;
+    procedure Otorisasi;
     procedure Init;
     procedure InitGrid;
     procedure InitGrid2;
@@ -394,14 +402,14 @@ type
 
 var
   WorkOrderForm: TWorkOrderForm;
-  IntRow,IntCol,MinRowGrid,IntMaxRow,MinRow2:Integer;
+  IntRow,IntCol,MinRowGrid,IntMaxRow,MinRow2, IntOtorisasi:Integer;
   CountSpaces: Integer;
 
 implementation
 
 uses MainU, RePrintFormU, AuthorizedFormU, DateUtils,DB,
   VehicleListU, ServiceRequestListU, WorkOrderListU, IdHTTP, IdException, 
-  IdStack, uLkJSON, StrUtils, ImageViewerU, pngimage;
+  IdStack, uLkJSON, StrUtils, ImageViewerU, pngimage, NoteRejectPKBU;
 
 {$R *.dfm}
 
@@ -446,6 +454,47 @@ begin
   end;
 end;
 
+procedure TWorkOrderForm.CekOtorisasi;
+var StrQry:String;
+    Qry:TADOQuery;
+begin
+  Qry:=TADOQuery.Create(Self);
+  Qry.Connection:=Main.MyConnection;
+  if Main.OpenDb then begin
+    StrQry:='select * from wh_user_auth_form '+
+            'where form_id= ''150311'' and user_id='+QuotedStr(User)+' and active=1';
+    Qry.SQL.Clear;
+    Qry.SQL.Add(StrQry);
+    Qry.Open;
+    if Qry.RecordCount>0  then begin
+      IntOtorisasi:=1;
+      MemoKhusus.Enabled:=True;
+    end else begin
+      IntOtorisasi:=0;
+      MemoKhusus.Enabled:=False;
+    end;
+    Qry.Close;
+
+  end;
+  Qry.Destroy;
+  Main.CloseDb;
+end;
+
+procedure TWorkOrderForm.Otorisasi;
+var StrQry:String;
+    Qry:TADOQuery;
+begin
+  if IntOtorisasi=1  then begin
+    Approve.Enabled:=True;
+    Reject.Enabled:=True;
+    MemoKhusus.Enabled:=True;
+  end else begin
+    Approve.Enabled:=False;
+    Reject.Enabled:=False;
+    MemoKhusus.Enabled:=False;
+  end;
+end;
+
 procedure TWorkOrderForm.Init;
 var StrQry:String;
     Qry:TADOQuery;
@@ -465,6 +514,9 @@ begin
   BodyRepair.Checked:=False;
   Asuransi.Checked:=False;
   Simpan.Enabled:=True;
+  Approve.Enabled:=False;
+  Reject.Enabled:=False;
+  CetakUlang.Enabled:=False;
   KeluhanDetail.Visible:=False;
   QNoPolisi.Caption:='';
   QNoPKB.Caption:='';
@@ -886,6 +938,46 @@ begin
     Qry.Open;
     IntCount:=0;
     if Qry.RecordCount>0 then begin
+       //Otorisasi
+      if (Qry.FieldValues['approve']=2) then begin
+        LabStat.Visible := True;
+        Status.Visible:=True;
+        Status.Caption:='DITOLAK';
+        Status.Font.Color:=clRed;
+        CetakUlang.Enabled:=False;
+        Reject.Enabled:=False;
+        Approve.Enabled:=False;
+        Simpan.Enabled:=False;
+      end else if (Qry.FieldValues['approve']=1) then begin
+        LabStat.Visible := True;
+        Status.Visible:=True;
+        Status.Caption:='DISETUJUI';
+        Status.Font.Color:=clGreen;
+        CetakUlang.Enabled:=True;
+        Reject.Enabled:=False;
+        Approve.Enabled:=False;
+        Simpan.Enabled:=False;
+      end else if (IntOtorisasi=1) then begin
+        LabStat.Visible := True;
+        Status.Visible:=True;
+        Status.Caption:='DIAJUKAN';
+        Status.Font.Color:=clBlack;
+        Simpan.Enabled:=True;
+        Reject.Enabled:=True;
+        Approve.Enabled:=True;
+        CetakUlang.Enabled:=False;
+      end else begin
+        LabStat.Visible := True;
+        Status.Visible:=True;
+        Status.Caption:='DIAJUKAN';
+        Status.Font.Color:=clBlack;
+        Simpan.Enabled:=True;
+        Reject.Enabled:=False;
+        Approve.Enabled:=False;
+        CetakUlang.Enabled:=False;
+      end;
+
+       //End otorisasi
       VehicleId:=Qry.FieldValues['vehicle_id'];
       NoBody.Text:=Qry.FieldValues['body_id'];
       if IsCharAlpha(PChar(Copy(Qry.FieldValues['license_plate'],2,1))^)=False then
@@ -1136,6 +1228,7 @@ begin
   InitGrid3;
   InitGrid4;
   InitGridPekerjaan;
+  CekOtorisasi;
   if FormRequest<>'Buka PKB' then
   begin
 //    WorkOrderForm.Width:='1059';
@@ -1147,7 +1240,9 @@ begin
 //    WorkOrderForm.Width:='678';
     GroupDetail.Visible:=False;
   end;
+
   if WorkOrderId<>'' then begin
+    Otorisasi;
     LoadData;
 //    TambahDetail.Enabled:=False;
   end else begin
@@ -1584,14 +1679,20 @@ begin
             end;
             Qry.Close;
           end;
-          if StrTransId<>'' then
-            if MessageBox(0,'PKB berhasil disimpan, Mau Dicetak ?','Buka PKB',MB_OKCANCEL or MB_ICONINFORMATION) = 1 then IsCetak:=True;
+          if StrTransId<>'' then  begin
+            Otorisasi;
+            MessageBox(0,PChar('Berhasil menyimpan PKB'),'Buka PKB',MB_OK );
+            Simpan.Enabled := False;
+            IsCetak:=True;
+          end;
+
+           // if MessageBox(0,'PKB berhasil disimpan, Mau Dicetak ?','Buka PKB',MB_OKCANCEL or MB_ICONINFORMATION) = 1 then IsCetak:=True;
         end else begin
           Main.TransRollback;
           MessageBox(0,PChar(StrMsg+Chr(13)+Chr(13)+'Kesalahan'+Chr(13)+StrEMsg),'Buka PKB',MB_OK or MB_ICONERROR);
         end;
         if IsOk AND IsCetak then begin
-          RePrint(StrTransId);
+         // RePrint(StrTransId);
           Qry.Close;
         end;
         FreeAndNil(Qry);
@@ -1619,6 +1720,8 @@ begin
   //ScrollBox1.Enabled := False;
   //TambahFoto.Enabled := False;
  // HapusSemuaFoto.Enabled := False;
+ Approve.Enabled := False;
+ Reject.Enabled := False;
 end;
 
 procedure TWorkOrderForm.EnableInput;
@@ -1693,6 +1796,7 @@ end;
 
 procedure TWorkOrderForm.CetakUlangClick(Sender: TObject);
 begin
+
   if WorkOrderId<>'' then RePrint(WorkOrderId)
   else WorkOrderList:=TWorkOrderList.Create(self,'WorkOrder','RePrint');
 end;
@@ -3174,6 +3278,66 @@ begin
     ListMekanik.Items.Add(MekanikArr[IntCount][1]);
   end;
   Main.M_Normal;
+end;
+
+procedure TWorkOrderForm.ApproveClick(Sender: TObject);
+var Qry:TADOQuery;
+    StrQry,StrMsg,StrException:String;
+    IntCount:Integer;
+    IsOk:Boolean;
+begin
+  if MessageBox(0,'Apakah anda yakin ingin Setujui ','Buat PKB',MB_OKCANCEL or MB_ICONQUESTION)=1 then begin
+
+    IsOk:=True;
+    Qry:=TADOQuery.Create(Self);
+    Qry.Connection:=Main.MyConnection;
+
+    if Main.OpenDb then begin
+      Main.TransStart;
+
+      StrQry:=' UPDATE wh_work_order SET approve=1,update_user='+QuotedStr(User)+' '+
+              ' WHERE work_order_id='+QuotedStr(NoPKB.Text)+';';
+      Qry.SQL.Clear;
+      Main.WriteLog('SQL :'+StrQry,4);
+      Qry.SQL.Add(StrQry);
+      try
+        Qry.ExecSQL;
+      except
+        on E:Exception do begin
+          IsOk:=False;
+          StrMsg:='Gagal Setujui Buat PKB!!';
+          StrException:=E.Message;
+        end;
+      end;
+
+      if IsOk then begin
+        Main.TransCommit;
+        //LabStat.Visible:=True;
+        Status.Visible:=True;
+        Status.Caption:='DISETUJUI' ;
+        Status.Font.Color:=clGreen;
+        CetakUlang.Enabled:=True;
+       // CetakFormulirBarang.Enabled:=True;
+        Approve.Enabled:=False;
+        Reject.Enabled:=False;
+        Simpan.Enabled:=False;
+        MessageBox(0,'Berhasil Setujui PKB','',MB_OK or MB_ICONINFORMATION);
+      end else begin
+        Main.TransRollback;
+        MessageBox(0,PChar(StrMsg+Chr(13)+Chr(13)+'Kesalahan:'+Chr(13)+StrException),'Checklist Integrate',MB_OK or MB_ICONERROR);
+      end;
+    end;
+    FreeAndNil(Qry);
+    Main.CloseDb;
+  end;
+end;
+
+procedure TWorkOrderForm.RejectClick(Sender: TObject);
+begin
+  if Main.IsFormOpen('NoteRejectPKB')=False then begin
+    NoteRejectPKB:=TNoteRejectPKB.Create(Self);
+    StrNoPKB:=NoPKB.Text;
+  end;
 end;
 
 end.

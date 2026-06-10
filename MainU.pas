@@ -246,7 +246,8 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   EmployeeContractListU, ChartU, RubahInvoiceFormU, PlannedServiceReportU,
   MemoListU,  KoneksiDatabaseU, DriverVehicleAuthorizationU,
   DriverVehicleAuthorizationListU, PurchaseRequestRptU, PurchaseOrderRptU,
-  RevenueVhcDayBusRptV2U, DriverFuelFillingRptU, AbsensiDrvRptU;
+  RevenueVhcDayBusRptV2U, DriverFuelFillingRptU, AbsensiDrvRptU,
+  ApprovalWorkOrderListU;
 
 
 constructor TClockThread.Create;
@@ -1341,8 +1342,8 @@ begin
           end;
         end;
         {Perintah Kerja Bengkel}
-        150301..150309:begin
-          Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04','06','07','08','09']) of
+        150301..150311:begin
+          Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04','06','07','08','09','10','11']) of
             0:begin
                 if IsFormOpen('WorkOrderForm')=False then WorkOrderForm:=TWorkOrderForm.Create(Self);
               end;
@@ -1367,6 +1368,9 @@ begin
               end;
             7:begin
                 if IsFormOpen('WorkOrderLiteList')=False then WorkOrderLiteList:=TWorkOrderLiteList.Create(Self);
+              end;
+            9:begin
+                if IsFormOpen('ApprovalWorkOrderList')=False then ApprovalWorkOrderList:=TApprovalWorkOrderList.Create(Self,'Approve');
               end;
             else begin
                 if IsFormOpen('WorkOrderList')=False then WorkOrderList:=TWorkOrderList.Create(Self);
@@ -1401,7 +1405,7 @@ begin
             end
           end;
         end;
-        {150901..150905 Service Request}
+        {150901..150905 Service Request} 
         150901..150905:begin
           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','05']) of
             0:begin

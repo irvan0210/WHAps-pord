@@ -1,6 +1,6 @@
 object PurchaseRequestList: TPurchaseRequestList
-  Left = 340
-  Top = 53
+  Left = 411
+  Top = 261
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'List Purchase Request'

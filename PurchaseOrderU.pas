@@ -1249,12 +1249,13 @@ begin
           StrTransId:=PONo.Text;
           if Batal.Checked=True then StrCancel:='1' else StrCancel:='NULL';
           StrQry:='UPDATE wh_purchase_order SET vendor_id='+QuotedStr(StrVendorId)+',payment_term_id='+StrPaymentId+
-                  ',purchase_request_id = NULL'+
+                 // ',purchase_request_id = NULL'+
                   ',delivery_date='+QuotedStr(FormatDateTime('yyyy-mm-dd',TanggalKirim.Date))+
                   ',delivery_company_location_id='+StrLocationId+',tax='+ToString(Tax.Text)+',cancel='+StrCancel+
                   ',complete = NULL '+
                   ',description='+StrRemark+',update_time=GETDATE(),update_user='+QuotedStr(User)+
                   ' WHERE purchase_order_id='+QuotedStr(StrTransId)+';';
+
       end;
       Qry.SQL.Clear;
       Qry.SQL.Add(StrQry);
@@ -1269,10 +1270,16 @@ begin
 
       if Batal.Checked=TRUE then begin
         if (PONo.Text<>'') and (VendorId=StrVendorId)  then begin
-          StrQry:='UPDATE wh_purchase_order_detail SET cancel=1 '+
-                  ' WHERE purchase_order_id='+QuotedStr(PONo.Text)+' ;'+
-                  ' UPDATE wh_purchase_request SET complete = NULL WHERE purchase_request_id='+QuotedStr(StrPRNo)+';';
-          //StrQry:=StrQry+'UPDATE wh_purchase_request SET complete = NULL WHERE purchase_request_id='+QuotedStr(StrPRNo)+';';
+          StrQry := 'UPDATE wh_purchase_order_detail ' + #13#10 +
+            'SET cancel = 1 ' + #13#10 +
+            'WHERE purchase_order_id = '+QuotedStr(PONo.Text)+';'+ #13#10 +
+
+            'UPDATE wh_purchase_request '+ #13#10 +
+            'SET complete = NULL ' + #13#10 +
+            'WHERE purchase_request_id = '+QuotedStr(StrPRNo)+';'+ #13#10 +
+
+            'UPDATE wh_purchase_order SET  purchase_request_id = NULL'+ #13#10 +
+            'WHERE purchase_order_id = '+ QuotedStr(PONo.Text)+';';
           Qry.SQL.Clear;
           Qry.SQL.Add(StrQry);
           try

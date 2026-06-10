@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=6
 MinorVer=2
 Release=1
-Build=2
+Build=4
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=PT Panorama Transportasi Tbk
 FileDescription=White Horse Application
-FileVersion=6.2.1.2
+FileVersion=6.2.1.4
 InternalName=WHAps
 LegalCopyright=Korynsan
 LegalTrademarks=Korynsan
@@ -134,6 +134,18 @@ OriginalFilename=WHAps
 ProductName=WHAps
 ProductVersion=6
 Comments=
+[Excluded Packages]
+D:\Data Irvan\Master\Master\Komponen\FastReport 4\LibD7\dclfrxADO7.bpl=FastReport 4.0 ADO Components
+D:\Data Irvan\Master\Master\Komponen\FastReport 4\LibD7\dclfrxBDE7.bpl=FastReport 4.0 BDE Components
+D:\Data Irvan\Master\Master\Komponen\FastReport 4\LibD7\dclfrxcs7.bpl=FastReport 4.0 Client/Server Components
+D:\Data Irvan\Master\Master\Komponen\FastReport 4\LibD7\dclfrxDB7.bpl=FastReport 4.0 DB Components
+D:\Data Irvan\Master\Master\Komponen\FastReport 4\LibD7\dclfrxDBX7.bpl=FastReport 4.0 DBX Components
+D:\Data Irvan\Master\Master\Komponen\FastReport 4\LibD7\dclfrxe7.bpl=FastReport 4.0 Exports
+D:\Data Irvan\Master\Master\Komponen\FastReport 4\LibD7\dclfrxIBX7.bpl=FastReport 4.0 IBX Components
+D:\Data Irvan\Master\Master\Komponen\FastReport 4\LibD7\dclfrxTee7.bpl=FastReport 4.0 Tee Components
+D:\Data Irvan\Master\Master\Komponen\FastReport 4\LibD7\dclfs7.bpl=FastScript 1.9 Components
+D:\Data Irvan\Master\Master\Komponen\FastReport 4\LibD7\dclfsADO7.bpl=FastScript 1.9 ADO Components
+D:\Data Irvan\Master\Master\Komponen\FastReport 4\LibD7\dclfsBDE7.bpl=FastScript 1.9 BDE Components
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;

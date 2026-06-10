@@ -1,11 +1,11 @@
 object WorkOrderForm: TWorkOrderForm
-  Left = 288
-  Top = 141
+  Left = 293
+  Top = 156
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Buka Perintah Kerja Bengkel'
-  ClientHeight = 545
-  ClientWidth = 952
+  ClientHeight = 553
+  ClientWidth = 950
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -3182,8 +3182,8 @@ object WorkOrderForm: TWorkOrderForm
     Left = 2
     Top = 2
     Width = 944
-    Height = 497
-    ActivePage = TabLampiran
+    Height = 495
+    ActivePage = TabDetail
     TabOrder = 4
     object TabDetail: TTabSheet
       Caption = 'Detail'
@@ -3234,6 +3234,28 @@ object WorkOrderForm: TWorkOrderForm
           Width = 19
           Height = 13
           Caption = 'Jam'
+        end
+        object LabStat: TLabel
+          Left = 383
+          Top = 11
+          Width = 36
+          Height = 13
+          Caption = 'Status :'
+          Visible = False
+        end
+        object Status: TLabel
+          Left = 423
+          Top = 12
+          Width = 37
+          Height = 13
+          Caption = 'Status'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -9
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentFont = False
+          Visible = False
         end
         object NoPKB: TEdit
           Left = 67
@@ -3831,10 +3853,10 @@ object WorkOrderForm: TWorkOrderForm
     end
   end
   object Panel3: TPanel
-    Left = 8
-    Top = 500
-    Width = 937
-    Height = 41
+    Left = 5
+    Top = 502
+    Width = 940
+    Height = 45
     TabOrder = 5
     object PanelMemoKhusus: TPanel
       Left = 29
@@ -3859,7 +3881,7 @@ object WorkOrderForm: TWorkOrderForm
       end
     end
     object Simpan: TButton
-      Left = 331
+      Left = 219
       Top = 8
       Width = 75
       Height = 25
@@ -3868,7 +3890,7 @@ object WorkOrderForm: TWorkOrderForm
       OnClick = SimpanClick
     end
     object CetakUlang: TButton
-      Left = 418
+      Left = 306
       Top = 8
       Width = 75
       Height = 25
@@ -3877,7 +3899,7 @@ object WorkOrderForm: TWorkOrderForm
       OnClick = CetakUlangClick
     end
     object Bersihkan: TButton
-      Left = 503
+      Left = 396
       Top = 8
       Width = 75
       Height = 25
@@ -3886,13 +3908,31 @@ object WorkOrderForm: TWorkOrderForm
       OnClick = BersihkanClick
     end
     object Selesai: TButton
-      Left = 590
+      Left = 480
       Top = 8
       Width = 75
       Height = 25
       Caption = 'Selesai'
       TabOrder = 4
       OnClick = SelesaiClick
+    end
+    object Approve: TButton
+      Left = 567
+      Top = 8
+      Width = 75
+      Height = 25
+      Caption = 'Setujui'
+      TabOrder = 5
+      OnClick = ApproveClick
+    end
+    object Reject: TButton
+      Left = 650
+      Top = 8
+      Width = 75
+      Height = 25
+      Caption = 'Tolak'
+      TabOrder = 6
+      OnClick = RejectClick
     end
   end
   object ppReport: TppReport
@@ -3917,8 +3957,8 @@ object WorkOrderForm: TWorkOrderForm
     PreviewFormSettings.WindowState = wsMaximized
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
-    Left = 816
-    Top = 509
+    Left = 848
+    Top = 373
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand1: TppHeaderBand
@@ -5386,7 +5426,7 @@ object WorkOrderForm: TWorkOrderForm
     end
   end
   object OpenPictureDialog1: TOpenDialog
-    Left = 893
-    Top = 512
+    Left = 885
+    Top = 424
   end
 end
