@@ -1,6 +1,6 @@
 object DailyVehicleRDRpt: TDailyVehicleRDRpt
-  Left = 505
-  Top = 276
+  Left = 304
+  Top = 148
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Laporan Harian perArmada Jalan'

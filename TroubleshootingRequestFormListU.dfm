@@ -1,6 +1,6 @@
 object TroubleshootingRequestFormList: TTroubleshootingRequestFormList
-  Left = 253
-  Top = 235
+  Left = 241
+  Top = 315
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Daftar TRF'
@@ -21,7 +21,7 @@ object TroubleshootingRequestFormList: TTroubleshootingRequestFormList
   PixelsPerInch = 96
   TextHeight = 13
   object Search: TSpeedButton
-    Left = 352
+    Left = 630
     Top = 9
     Width = 30
     Height = 28
@@ -231,6 +231,38 @@ object TroubleshootingRequestFormList: TTroubleshootingRequestFormList
       Height = 21
       TabOrder = 0
       OnChange = CariChange
+    end
+  end
+  object GroupBox2: TGroupBox
+    Left = 353
+    Top = 1
+    Width = 274
+    Height = 38
+    TabOrder = 4
+    object Label3: TLabel
+      Left = 5
+      Top = 13
+      Width = 79
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'Jenis permintaan'
+    end
+    object cb_jenis_truouble: TComboBox
+      Left = 91
+      Top = 10
+      Width = 179
+      Height = 21
+      ItemHeight = 13
+      ItemIndex = 0
+      TabOrder = 0
+      Text = 'ALL'
+      Items.Strings = (
+        'ALL'
+        'Perubahan Data'
+        'Bug Sistem'
+        'Infrastruktur dan jaringan'
+        'Hardware'
+        'Software')
     end
   end
 end

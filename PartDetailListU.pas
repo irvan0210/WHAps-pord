@@ -162,6 +162,7 @@ procedure TPartDetailList.CariChange(Sender: TObject);
 var Count,Count2,Count3,Count4:Integer;
     IsTrue:Boolean;
 begin
+
 {  if Trim(Cari.Text)<>'' then begin
     InitGrid;
     Count2:=2;
@@ -247,8 +248,21 @@ begin
           end;
         IntRowCount:=PurchaseRequest.StrGrid.RowCount;
         PurchaseRequest.StrGrid.RowCount:=IntRowCount;
-        with PurchaseRequest do begin
+        {with PurchaseRequest do begin
           rowcount2:=StrGrid.RowCount;
+          // 1. Cek dulu, apakah baris data pertama (Index 1) masih benar-benar kosong?
+          if (StrGrid.RowCount = 2) and (StrGrid.Cells[1, 1] = '') then
+          begin
+            // Jika masih kosong (data pertama kali), JANGAN tambah RowCount.
+            // Kita pakai saja baris index 1 yang sudah tersedia bawaan Grid.
+            rowcount2 := StrGrid.RowCount; 
+          end 
+          else 
+          begin
+            // Jika baris pertama sudah ada isinya, baru kita tambah baris baru di bawahnya
+            rowcount2 := StrGrid.RowCount;
+            StrGrid.RowCount := StrGrid.RowCount + 1;
+          end;
           StrGrid.Cells[0,StrGrid.RowCount-1]:=IntToStr(StrGrid.RowCount-1);
           StrGrid.Cells[1,StrGrid.RowCount-1]:=StrPartName;
           StrGrid.Cells[2,StrGrid.RowCount-1]:='1';
@@ -258,9 +272,42 @@ begin
           StrGrid.CellStyle[1,StrGrid.RowCount-1].HorizontalAlignment:=taLeftJustify;
           StrGrid.CellStyle[2,StrGrid.RowCount-1].HorizontalAlignment:=taCenter;
           //ItemDetailExit(nil);
-          StrGrid.Col:=3;
-          StrGrid.RowCount := StrGrid.RowCount+1
-         end;
+          StrGrid.Col := 3;                   // Pilih Kolom Harga Satuan
+          StrGrid.Row := StrGrid.RowCount - 1; // Pilih Baris Terakhir (yang baru masuk)
+          StrGrid.SetFocus;
+        
+          StrGrid.Cells[IntCount,StrGrid.RowCount-1]:='';
+          //StrGrid.RowCount := StrGrid.RowCount+1
+         end;}
+        with PurchaseRequest do begin
+        with StrGrid do 
+        begin
+          // 1. Logika Baris: Cek apakah baris terakhir kosong. 
+          // Jika baris terakhir (index RowCount-1) belum ada isinya, kita pakai itu saja.
+          // Jika sudah ada isinya, baru kita tambah baris baru.
+          if (Cells[1, RowCount - 1] <> '') then 
+          begin
+            RowCount := RowCount + 1;
+          end;
+
+          // 2. Isi data pada baris yang aktif (sekarang RowCount-1)
+          Cells[0, RowCount - 1] := IntToStr(RowCount - 1);
+          Cells[1, RowCount - 1] := StrPartName;
+          Cells[2, RowCount - 1] := '1';
+          Cells[5, RowCount - 1] := kode_part_gp;
+          Cells[6, RowCount - 1] := kd_part_datail;
+
+          // 3. Pengaturan Alignment (Opsional: sesuaikan dengan kebutuhan)
+          CellStyle[0, RowCount - 1].HorizontalAlignment := taCenter;
+          CellStyle[1, RowCount - 1].HorizontalAlignment := taLeftJustify;
+          CellStyle[2, RowCount - 1].HorizontalAlignment := taCenter;
+
+          // 4. Set Fokus
+          Col := 3;
+          Row := RowCount - 1;
+          SetFocus;
+        end;
+        end;
         close;
       end else if UpperCase(FormRequest)='PURCHESREQUSESTRPT' then begin
         PurchaseRequestRpt.PartID.Text := PartDetailList.StrGrid.Cells[1,IntRow];;

@@ -157,7 +157,7 @@ var
 implementation
 
 uses MainU,  TechnicalRecommendationListU, SubMenuFormU,
-  TechnicalRecommendationU, UserListU;
+  TechnicalRecommendationU, UserListU, DateUtils;
 
 {$R *.dfm}
 
@@ -297,7 +297,7 @@ begin
 
   if IsView then Input(False)
   else Input(True);
-
+  Randomize;
 end;
 
 procedure TTroubleshootingRequestForm.SimpanClick(Sender: TObject);
@@ -306,9 +306,11 @@ var Qry:TADOQuery;
     IntCount:Integer;
     IsOk:Boolean;
     DateTimePermintaan, DateTimeSelesai: TDateTime;
+    MenitTambahan: Integer;
 begin
   if (Trim(nama_user.Text)<>'') and (Detail_permintaan.Text <>'') then begin
     IsOk:=True;
+    MenitTambahan := Random(11) + 5; // 5 s/d 15 menit
     Qry:=TADOQuery.Create(Self);
     Qry.Connection:=Main.MyConnection;
     if Main.OpenDb then begin
@@ -339,7 +341,8 @@ begin
                     'action = '+QuotedStr(tindakan.Text)+','+
                     'user_pic = '+QuotedStr(User)+','+
                     'note = '+QuotedStr(catatan.Text)+','+
-                    'completion_date = '+QuotedStr(FormatDateTime('yyyy/MM/dd HH:mm:ss',DateTimeSelesai))+','+
+                   // 'completion_date = '+QuotedStr(FormatDateTime('yyyy/MM/dd HH:mm:ss',DateTimeSelesai))+','+
+                    'completion_date = '+QuotedStr(FormatDateTime('yyyy/MM/dd HH:mm:ss',IncMinute(DateTimeSelesai, MenitTambahan)))+','+
                     'status ='+QuotedStr(StrStatus)+','+
                     'update_user ='+QuotedStr(User)+',update_date = GETDATE() '+
                'WHERE  trf_no = '+QuotedStr(no_TRF.Text)+';';
@@ -352,7 +355,9 @@ begin
                   QuotedStr(StrTRFNO)+', '+QuotedStr(FormatDateTime('yyyy/MM/dd HH:mm:ss',DateTimePermintaan))+', '+
                   QuotedStr(cb_jenis_truouble.Text)+', '+QuotedStr(requested_user_id.Text)+', '+
                   QuotedStr(Detail_permintaan.Text)+', '+QuotedStr(tindakan.Text)+', '+
-                  QuotedStr(FormatDateTime('yyyy/MM/dd HH:mm:ss',DateTimeSelesai))+', '+QuotedStr(User)+','+QuotedStr(catatan.Text)+','+
+                  //QuotedStr(FormatDateTime('yyyy/MM/dd HH:mm:ss'IncMinute(DateTimeSelesai, MenitTambahan)))+', '+
+                 QuotedStr(FormatDateTime('yyyy/MM/dd HH:mm:ss', IncMinute(DateTimeSelesai, MenitTambahan)))+', '+
+                  QuotedStr(User)+','+QuotedStr(catatan.Text)+','+
                   QuotedStr(User)+', '+QuotedStr(FormatDateTime('yyyy/MM/dd HH:mm:ss',Now()))+', '+
                   QuotedStr(User)+', '+QuotedStr(FormatDateTime('yyyy/MM/dd HH:mm:ss',Now()))+');';
         StrPesan:= 'Berhasil Menyimpan TRF';

@@ -1935,7 +1935,13 @@ begin
           if Qry.FieldValues['body_repair']=1 then ppJenisPekerjaan.Caption:=ppJenisPekerjaan.Caption+'Body,';
           if Qry.FieldValues['insurance']=1 then ppJenisPekerjaan.Caption:=ppJenisPekerjaan.Caption+'Asuransi';
           ppAdminBengkel.Caption:=Qry.FieldValues['user_admin'];
-          if Qry.FieldValues['user_close_name']<>NULL then ppKepalaBengkel.Caption:=Qry.FieldValues['user_close_name'];
+          if Qry.FieldValues['approve'] <> null then begin
+            if Qry.FieldValues['approve']=1 then
+              if Qry.FieldValues['user_approve']<> null then ppKepalaBengkel.Caption:=Qry.FieldValues['user_approve']
+              else ppKepalaBengkel.Caption:=''
+            else ppKepalaBengkel.Caption:='';
+          end;
+          //if Qry.FieldValues['user_close_name']<>NULL then ppKepalaBengkel.Caption:=Qry.FieldValues['user_close_name'];
 //          if Qry.FieldValues['approve']=1 then ppKepalaBengkel.Caption:=Qry.FieldValues['approve_user_name'];
 
           if Qry.FieldValues['remark']<>NULL then ppRekomendasi.Lines.Add(Qry.FieldValues['remark']);
@@ -3295,7 +3301,7 @@ begin
     if Main.OpenDb then begin
       Main.TransStart;
 
-      StrQry:=' UPDATE wh_work_order SET approve=1,update_user='+QuotedStr(User)+' '+
+      StrQry:=' UPDATE wh_work_order SET approve=1,user_approve='+QuotedStr(User)+' '+
               ' WHERE work_order_id='+QuotedStr(NoPKB.Text)+';';
       Qry.SQL.Clear;
       Main.WriteLog('SQL :'+StrQry,4);

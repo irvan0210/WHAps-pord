@@ -349,8 +349,8 @@ begin
   StrGrid.ColWidths[2]:=60;
   StrGrid.ColWidths[3]:=70;
   StrGrid.ColWidths[4]:=150;
-  StrGrid.ColWidths[5]:=80;
-  StrGrid.ColWidths[6]:=50;
+  StrGrid.ColWidths[5]:=50;
+  StrGrid.ColWidths[6]:=0;
   StrGrid.ColWidths[7]:=0;
   StrGrid.ColWidths[8]:=0;
   StrGrid.Cells[0,0]:='No';
@@ -358,20 +358,20 @@ begin
   StrGrid.Cells[2,0]:='Qty';
   StrGrid.Cells[3,0]:='Harga Satuan';
   StrGrid.Cells[4,0]:='Total';
-  StrGrid.Cells[5,0]:='Part Detail ID';
-  StrGrid.Cells[6,0]:='PR Detail ID';
+  //StrGrid.Cells[5,0]:='Part Detail ID';
+  //StrGrid.Cells[6,0]:='PR Detail ID';
   StrGrid.CellStyle[0,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[1,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[2,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[3,0].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[4,0].HorizontalAlignment:=taCenter;
-  StrGrid.CellStyle[5,0].HorizontalAlignment:=taCenter;
+  //StrGrid.CellStyle[5,0].HorizontalAlignment:=taCenter;
   for IntCount:=0 to 6 do
     StrGrid.Cells[IntCount,1]:='';
   StrGrid.CellStyle[2,1].HorizontalAlignment:=taCenter;
   StrGrid.CellStyle[4,1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[5,1].HorizontalAlignment:=taRightJustify;
-  StrGrid.CellStyle[6,1].HorizontalAlignment:=taRightJustify;
+  //StrGrid.CellStyle[5,1].HorizontalAlignment:=taRightJustify;
+  //StrGrid.CellStyle[6,1].HorizontalAlignment:=taRightJustify;
 end;
 
 procedure TPurchaseOrder.RefreshCombo;
@@ -684,7 +684,8 @@ begin
      // StrGrid.Cells[3,IntCount]:=Qry.FieldValues['uom'];
       StrGrid.Cells[3,IntCount]:=SToCurr(Qry.FieldValues['price_unit']);
       StrGrid.Cells[4,IntCount]:=SToCurr(Qry.FieldValues['total']);
-      StrGrid.Cells[5,IntCount]:=Qry.FieldValues['purchase_request_detail_id'];
+      //StrGrid.Cells[5,IntCount]:=Qry.FieldValues['purchase_request_detail_id'];
+      StrGrid.Cells[5,IntCount]:=Qry.FieldValues['part_detail_id'];
      // StrGrid.Cells[6,IntCount]:=Qry.FieldValues['item_detail'];
       StrGrid.Cells[7,IntCount]:=Qry.FieldValues['purchase_request_quantity'];
       StrGrid.Cells[8,IntCount]:=Qry.FieldValues['purchase_request_price_unit'];

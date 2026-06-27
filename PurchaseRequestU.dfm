@@ -5,7 +5,7 @@ object PurchaseRequest: TPurchaseRequest
   BorderStyle = bsSingle
   Caption = 'Purchase Request'
   ClientHeight = 554
-  ClientWidth = 715
+  ClientWidth = 692
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

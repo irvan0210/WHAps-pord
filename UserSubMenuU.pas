@@ -120,10 +120,10 @@ begin
     if UserArr[IntCount][2]=cb_username.Text then cUsername:=UserArr[IntCount][1];
 
   if Main.OpenDb then begin
-    StrQry:='SELECT * FROM wh_menu WHERE active= 1 '+
-            ' AND menu_id NOT IN(SELECT menu_id FROM wh_user_menu  '+
-                ' WHERE  USER_ID ='+Chr(39)+cUsername+Chr(39)+
-                ') ORDER BY menu_id ;';
+    StrQry:='SELECT * FROM wh_menu WHERE active= 1 ORDER BY menu_id ;';
+           // ' AND menu_id NOT IN(SELECT menu_id FROM wh_user_menu  '+
+           //     ' WHERE  USER_ID ='+Chr(39)+cUsername+Chr(39)+
+           //     ') ORDER BY menu_id ;';
     Qry.SQL.Add(StrQry);
     Qry.Open;
     if Qry.RecordCount>0 then begin

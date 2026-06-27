@@ -247,7 +247,7 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   MemoListU,  KoneksiDatabaseU, DriverVehicleAuthorizationU,
   DriverVehicleAuthorizationListU, PurchaseRequestRptU, PurchaseOrderRptU,
   RevenueVhcDayBusRptV2U, DriverFuelFillingRptU, AbsensiDrvRptU,
-  ApprovalWorkOrderListU;
+  ApprovalWorkOrderListU, DashboardTroublesootingU;
 
 
 constructor TClockThread.Create;
@@ -2088,15 +2088,17 @@ begin
         end;
 
         {162501..162505 Permintaan Troubleshooting}
-        162601..162602:begin
-          case CaseStr(RightStr(IntToStr(Tag),2),['01','02']) of
+        162601..162603:begin
+          case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03']) of
             0:begin
               if IsFormOpen('TroubleshootingRequestForm')=False then TroubleshootingRequestForm:=TTroubleshootingRequestForm.Create(Self,'',False);
             end;
             1:begin
               if IsFormOpen('TroubleshootingRequestFormList')=False then TroubleshootingRequestFormList:=TTroubleshootingRequestFormList.Create(Self);
             end;
-
+            2:begin
+              if IsFormOpen('DashboardTroublesooting')=False then DashboardTroublesooting:=TDashboardTroublesooting.Create(Self);
+            end;
           end;
         end;
 

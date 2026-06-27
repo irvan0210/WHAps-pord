@@ -1,6 +1,6 @@
 object DailyInvoiceRpt: TDailyInvoiceRpt
-  Left = 194
-  Top = 187
+  Left = 357
+  Top = 190
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Laporan Invoice'

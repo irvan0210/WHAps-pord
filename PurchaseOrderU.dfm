@@ -1,11 +1,11 @@
 object PurchaseOrder: TPurchaseOrder
-  Left = 582
-  Top = 296
+  Left = 522
+  Top = 128
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Purchase Order'
   ClientHeight = 503
-  ClientWidth = 659
+  ClientWidth = 645
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -174,7 +174,7 @@ object PurchaseOrder: TPurchaseOrder
     end
   end
   object Selesai: TButton
-    Left = 576
+    Left = 553
     Top = 138
     Width = 75
     Height = 25
@@ -183,7 +183,7 @@ object PurchaseOrder: TPurchaseOrder
     OnClick = SelesaiClick
   end
   object Simpan: TButton
-    Left = 576
+    Left = 553
     Top = 42
     Width = 75
     Height = 25
@@ -192,7 +192,7 @@ object PurchaseOrder: TPurchaseOrder
     OnClick = SimpanClick
   end
   object Bersihkan: TButton
-    Left = 576
+    Left = 553
     Top = 74
     Width = 75
     Height = 25
@@ -201,7 +201,7 @@ object PurchaseOrder: TPurchaseOrder
     OnClick = BersihkanClick
   end
   object CetakUlang: TButton
-    Left = 576
+    Left = 553
     Top = 106
     Width = 75
     Height = 25
@@ -210,7 +210,7 @@ object PurchaseOrder: TPurchaseOrder
     OnClick = CetakUlangClick
   end
   object Panel2: TPanel
-    Left = 468
+    Left = 462
     Top = 419
     Width = 177
     Height = 73
@@ -338,7 +338,7 @@ object PurchaseOrder: TPurchaseOrder
   object GroupBox2: TGroupBox
     Left = 9
     Top = 32
-    Width = 552
+    Width = 535
     Height = 39
     Enabled = False
     TabOrder = 2
@@ -390,7 +390,7 @@ object PurchaseOrder: TPurchaseOrder
   object StrGrid: TZColorStringGrid
     Left = 8
     Top = 232
-    Width = 641
+    Width = 801
     Height = 177
     ColCount = 9
     DefaultRowHeight = 20
@@ -414,7 +414,7 @@ object PurchaseOrder: TPurchaseOrder
     LineDesign.LineUpColor = clWhite
   end
   object StrGridPR: TZColorStringGrid
-    Left = 720
+    Left = 888
     Top = 222
     Width = 689
     Height = 117
@@ -463,7 +463,7 @@ object PurchaseOrder: TPurchaseOrder
     OnKeyPress = PriceUnitKeyPress
   end
   object PartDescription: TComboBox
-    Left = 329
+    Left = 306
     Top = 4
     Width = 121
     Height = 21
@@ -475,7 +475,7 @@ object PurchaseOrder: TPurchaseOrder
     OnKeyPress = PartDescriptionKeyPress
   end
   object PartNumber: TComboBox
-    Left = 465
+    Left = 442
     Top = 4
     Width = 97
     Height = 21
@@ -489,7 +489,7 @@ object PurchaseOrder: TPurchaseOrder
   object GroupFooter: TPanel
     Left = 303
     Top = 419
-    Width = 217
+    Width = 215
     Height = 72
     BevelOuter = bvNone
     TabOrder = 16
@@ -606,7 +606,7 @@ object PurchaseOrder: TPurchaseOrder
   object GroupPO: TGroupBox
     Left = 8
     Top = 74
-    Width = 553
+    Width = 535
     Height = 157
     Caption = 'PO Detail'
     TabOrder = 15

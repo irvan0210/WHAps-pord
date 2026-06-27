@@ -1,6 +1,6 @@
 object ApprovalWorkOrderList: TApprovalWorkOrderList
-  Left = 379
-  Top = 391
+  Left = 416
+  Top = 132
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Approval PKB'

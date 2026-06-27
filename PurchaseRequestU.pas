@@ -291,6 +291,7 @@ type
     procedure EnableInput;
     procedure PreparePrint;
     procedure SetPoint(PointValue:Integer);
+    procedure CommitPriceUnit;
        // procedure DeleteRow(Grid: TZColorStringGrid; ARow: Integer);
   public
     { Public declarations }
@@ -557,7 +558,7 @@ begin
   IntRow:=ARow;
   IntCol:=ACol;
   if IsInputGrid then begin
-    if (ACol = 1) and (ARow > MinRowGrid) then begin
+   { if (ACol = 1) and (ARow > MinRowGrid) then begin
       R := StrGrid.CellRect(ACol, ARow);
       R.Left := R.Left + StrGrid.Left;
       R.Right := R.Right + StrGrid.Left;
@@ -573,7 +574,8 @@ begin
         BringToFront;
         SetFocus;
       end;
-    end;
+    end; }
+
     if (ACol = 2) and (ARow > MinRowGrid) then begin
       R := StrGrid.CellRect(ACol, ARow);
       R.Left := R.Left + StrGrid.Left;
@@ -591,6 +593,7 @@ begin
         SetFocus;
       end;
     end;
+
     if (ACol = 3) and (ARow > MinRowGrid) then begin
       R := StrGrid.CellRect(ACol, ARow);
       R.Left := R.Left + StrGrid.Left;
@@ -636,7 +639,7 @@ begin
   end;
 end;
 
-procedure TPurchaseRequest.PriceUnitKeyPress(Sender: TObject;
+{procedure TPurchaseRequest.PriceUnitKeyPress(Sender: TObject;
   var Key: Char);
 var IntCount:Integer;
 begin
@@ -644,7 +647,7 @@ begin
   if (Key=#13) then begin
     PriceUnitExit(nil);
     if (StrGrid.Row=StrGrid.RowCount-1) AND (StrGrid.RowCount<=IntMaxRow)  then begin
-      StrGrid.RowCount:=StrGrid.RowCount+1;
+      //StrGrid.RowCount:=StrGrid.RowCount+1;
       for IntCount:=0 to 4 do StrGrid.Cells[IntCount,StrGrid.RowCount-1]:='';
       StrGrid.CellStyle[2,StrGrid.RowCount-1].HorizontalAlignment:=taCenter;
       StrGrid.CellStyle[3,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
@@ -654,24 +657,122 @@ begin
     StrGrid.CellStyle[3,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
     StrGrid.CellStyle[4,StrGrid.RowCount-1].HorizontalAlignment:=taRightJustify;
     StrGrid.Col:=0;
-    StrGrid.Row:=StrGrid.Row+1;
+    //StrGrid.Row:=StrGrid.Row+1;
     //StrGrid.Col:=1;
   end;
   if (Key=#27) then begin
     PriceUnitExit(nil);
   end;
+end;}
+
+procedure TPurchaseRequest.CommitPriceUnit;
+begin
+  if Trim(PriceUnit.Text) <> '' then begin
+    PriceUnit.Text := SToCurr(ToString(PriceUnit.Text));
+    StrGrid.Cells[IntCol, IntRow] := PriceUnit.Text;
+    Calculate;
+  end;
+end;
+
+{procedure TPurchaseRequest.PriceUnitKeyPress(Sender: TObject; var Key: Char);
+var 
+  IntCount: Integer;
+begin
+   if StrGrid.Cells[1,IntRow]<>'' then begin
+    // Pastikan input hanya angka, backspace, atau enter
+      if not (Key in ['0'..'9', #8, #13]) then
+      begin
+        Key := #0; 
+        Exit;
+      end;
+
+      if (Key = #13) then 
+      begin
+        PriceUnitExit(nil);
+        // Cek apakah posisi di baris terakhir dan belum mencapai batas maksimal
+        if (StrGrid.Row = StrGrid.RowCount - 1) AND (StrGrid.RowCount < IntMaxRow) then 
+        begin
+          // 1. Tambah baris baru
+          StrGrid.RowCount := StrGrid.RowCount + 1;
+
+          // 2. Set format kolom setelah menambah baris [cite: 15]
+          StrGrid.CellStyle[2, StrGrid.RowCount - 1].HorizontalAlignment := taCenter;
+          StrGrid.CellStyle[3, StrGrid.RowCount - 1].HorizontalAlignment := taRightJustify;
+          StrGrid.CellStyle[4, StrGrid.RowCount - 1].HorizontalAlignment := taRightJustify;
+      
+          // Pindahkan fokus ke baris baru
+          StrGrid.Row := StrGrid.RowCount - 1;
+          StrGrid.Col := 1; 
+        end;
+
+        // Menghilangkan bunyi "bip" sistem saat menekan Enter 
+        Key := #0; 
+      end else if (Key = #27) then
+      begin
+        PriceUnitExit(nil);
+      end;
+    end; 
+end;  }
+
+procedure TPurchaseRequest.PriceUnitKeyPress(Sender: TObject; var Key: Char);
+begin
+  if not (Key in ['0'..'9', #8, #13]) then begin
+    Key := #0; Exit;
+  end;
+
+  if (Key = #13) then begin
+    // 1. Simpan Data (Sama dengan prosedur CommitPriceUnit Anda)
+    if Trim(PriceUnit.Text) <> '' then begin
+       PriceUnit.Text := SToCurr(ToString(PriceUnit.Text));
+       StrGrid.Cells[IntCol, IntRow] := PriceUnit.Text;
+       Calculate;
+       StrGrid.CellStyle[0, IntRow].HorizontalAlignment := taLeftJustify;
+       StrGrid.CellStyle[3, IntRow].HorizontalAlignment := taRightJustify;
+       StrGrid.CellStyle[4, IntRow].HorizontalAlignment := taRightJustify;
+    end;
+
+    // 2. Tentukan Alur Fokus
+    // Jika baris terakhir, tambah baris (Fokus tetap di Grid)
+    if (StrGrid.Row = StrGrid.RowCount - 1) AND (StrGrid.RowCount < IntMaxRow) then begin
+       StrGrid.RowCount := StrGrid.RowCount + 1;
+       StrGrid.Row := StrGrid.RowCount - 1;
+       StrGrid.Col := 1;
+       // Karena tambah baris, kita tidak pindah ke tombol
+    end 
+    else begin
+       // Jika bukan baris terakhir, pindah ke tombol
+       TambahBarang.SetFocus;
+    end;
+
+    // 3. Bersihkan editor & Sembunyikan
+    PriceUnit.Text := ''; 
+    PriceUnit.Visible := False;
+    
+    Key := #0; // Matikan bunyi "bip"
+  end 
+  else if (Key = #27) then begin
+    PriceUnit.Text := '';
+    PriceUnit.Visible := False;
+  end;
 end;
 
 procedure TPurchaseRequest.PriceUnitExit(Sender: TObject);
 begin
-  if Trim(PriceUnit.Text)<>'' then begin
-    PriceUnit.Text:=SToCurr(ToString(PriceUnit.Text));
-    StrGrid.Cells[IntCol,IntRow]:=PriceUnit.Text;
-    Calculate;
-  end;
-  PriceUnit.Text:='';
+  {if StrGrid.Cells[1,IntRow]<>'' then begin
+    if Trim(PriceUnit.Text)<>'' then begin
+      PriceUnit.Text:=SToCurr(ToString(PriceUnit.Text));
+      StrGrid.Cells[IntCol,IntRow]:=PriceUnit.Text;
+     Calculate;
+    end;
+    CommitPriceUnit; // Panggil prosedur simpan
+    PriceUnit.Text:='';
+    PriceUnit.Visible := False;
+    TambahBarang.SetFocus;
+  end else
+    MessageBox(0,PChar('Item masih kosong'),'Purchase Request',MB_OK or MB_ICONWARNING); }
+  // Hanya simpan jika ada nilai
+  PriceUnit.Text := '';
   PriceUnit.Visible := False;
-  StrGrid.SetFocus;
 end;
 
 procedure TPurchaseRequest.QtyExit(Sender: TObject);
@@ -729,7 +830,7 @@ end;
 procedure TPurchaseRequest.SimpanClick(Sender: TObject);
 var Qry:TADOQuery;
     StrQry,StrTransId,StrEMessage,StrCompanyId,StrLocationId,StrDepartmentId,StrPaymentId,StrRemark,StrCompanyCode:String;
-    StrPBJNo,StrCancel,StrItemRequestDetailId,StrPriceUnit,StrTotalPrice:String;
+    StrPBJNo,StrCancel,StrItemRequestDetailId,StrPriceUnit,StrTotalPrice, StrItemDetailId:String;
     IntCount:Integer;
     IsOk:Boolean;
 begin
@@ -749,6 +850,7 @@ begin
       StrDepartmentId:=DepartmentId;
       if Trim(PBJNo.Text)<>'' then StrPBJNo:=QuotedStr(PBJNo.Text) else StrPBJNo:='NULL';   
       if Remark.Text<>'' then StrRemark:=QuotedStr(Trim(Remark.Text)) else StrRemark:='NULL';
+
       if PRNo.Text='' then begin
         StrQry:='SELECT RIGHT(MAX(purchase_request_id),4) AS purchase_request_id FROM wh_purchase_request '+
                 'WHERE purchase_request_id  LIKE '+Chr(39)+'PRQ'+CompanyCode+LocationCode+DepartmentCode+
@@ -811,6 +913,7 @@ begin
         end;
       end;
       StrQry:='';
+
       if Batal.Checked=False then begin
         if Trim(PRNo.Text)<>'' then begin
           StrQry:='UPDATE wh_purchase_request_detail SET cancel=1 WHERE purchase_request_id='+QuotedStr(StrTransId)+';';
@@ -819,6 +922,10 @@ begin
           if (Trim(StrGrid.Cells[1,IntCount])<>'') AND (Trim(StrGrid.Cells[2,IntCount])<>'') then begin
             if StrGrid.Cells[5,IntCount]<>'' then StrItemRequestDetailId:=QuotedStr(StrGrid.Cells[5,IntCount])
             else StrItemRequestDetailId:='NULL';
+
+            if StrGrid.Cells[6,IntCount]<>'' then StrItemDetailId:=QuotedStr(StrGrid.Cells[6,IntCount])
+            else StrItemDetailId:='NULL';
+
             if (ToString(StrGrid.Cells[3,IntCount])<>'') then StrPriceUnit:=ToString(StrGrid.Cells[3,IntCount]) else StrPriceUnit:='0';;
             if (ToString(StrGrid.Cells[4,IntCount])<>'') then StrTotalPrice:=ToString(StrGrid.Cells[4,IntCount]) else StrTotalPrice:='0';
             StrQry:=StrQry+' INSERT INTO wh_purchase_request_detail (purchase_request_id'+
@@ -826,7 +933,7 @@ begin
                     ' VALUES ('+QuotedStr(StrTransId)+','+StrItemRequestDetailId+
                     ','+QuotedStr(StrGrid.Cells[1,IntCount])+
                     ','+StrGrid.Cells[2,IntCount]+','+StrPriceUnit+
-                    ','+StrTotalPrice+','+QuotedStr(User)+','+QuotedStr(StrGrid.Cells[6,IntCount])+');';
+                    ','+StrTotalPrice+','+QuotedStr(User)+','+StrItemDetailId+');';
           end;
         end;
       end;
@@ -922,6 +1029,7 @@ begin
         StrGrid.Cells[1,IntCount+1]:=Qry.FieldValues['item_detail'];
         StrGrid.Cells[2,IntCount+1]:=Qry.FieldValues['quantity'];
         StrGrid.Cells[5,IntCount+1]:=Qry.FieldValues['item_request_detail_id'];
+        StrGrid.Cells[6,IntCount+1]:=Qry.FieldValues['item_detail_id'];
         StrGrid.CellStyle[0,IntCount+1].HorizontalAlignment:=taCenter;
         StrGrid.CellStyle[2,IntCount+1].HorizontalAlignment:=taCenter;
         StrGrid.CellStyle[3,IntCount+1].HorizontalAlignment:=taRightJustify;
@@ -1001,6 +1109,8 @@ begin
         StrGrid.Cells[2,IntCount+1]:=Qry.FieldValues['quantity'];
         StrGrid.Cells[3,IntCount+1]:=SToCurr(Qry.FieldValues['price_unit']);
         StrGrid.Cells[4,IntCount+1]:=SToCurr(Qry.FieldValues['total']);
+        //StrGrid.Cells[5,IntCount+1]:=Qry.FieldValues['item_request_detail_id'];
+        StrGrid.Cells[6,IntCount+1]:=Qry.FieldValues['item_detail_id'];
         StrGrid.CellStyle[2,IntCount+1].HorizontalAlignment:=taCenter;
         StrGrid.CellStyle[3,IntCount+1].HorizontalAlignment:=taRightJustify;
         StrGrid.CellStyle[4,IntCount+1].HorizontalAlignment:=taRightJustify;
@@ -1220,7 +1330,11 @@ end;
 
 procedure TPurchaseRequest.PriceUnitEnter(Sender: TObject);
 begin
-  if Trim(PriceUnit.Text)<>'' then PriceUnit.Text:=ToString(PriceUnit.Text);
+//  if Trim(PriceUnit.Text)<>'' then PriceUnit.Text:=ToString(PriceUnit.Text);
+
+// Kosongkan agar fresh setiap kali kursor masuk
+  // PriceUnit.Text := '';  <-- Pastikan ini dikosongkan jika perlu
+  PriceUnit.SelectAll;
 end;
 
 procedure TPurchaseRequest.SBUKeyPress(Sender: TObject; var Key: Char);
@@ -1292,7 +1406,7 @@ begin
        // for IntCount:=0 to StrGridTemp.ColCount-1  do
          // StrGridTemp.Cells[IntCount,IntRowTemp]:= '';
        DeleteRow(StrGrid,IntRow);
-
+       Calculate;
       // TotalTemp.Text:= IntToStr(StrGrid.RowCount-1);
        MessageBox(0,PChar('Item berhasil dihapus.'),'Item Dipilih',MB_OK or MB_ICONINFORMATION);
       end;

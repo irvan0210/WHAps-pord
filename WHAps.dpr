@@ -365,7 +365,8 @@ uses
   DriverFuelFillingRptU in 'DriverFuelFillingRptU.pas' {DriverFuelFillingRpt},
   AbsensiDrvRptU in 'AbsensiDrvRptU.pas' {AbsensiDrvRpt},
   ApprovalWorkOrderListU in 'ApprovalWorkOrderListU.pas' {ApprovalWorkOrderList},
-  NoteRejectPKBU in 'NoteRejectPKBU.pas' {NoteRejectPKB};
+  NoteRejectPKBU in 'NoteRejectPKBU.pas' {NoteRejectPKB},
+  DashboardTroublesootingU in 'DashboardTroublesootingU.pas' {DashboardTroublesooting};
 
 {$R *.res}
 

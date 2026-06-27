@@ -1,6 +1,6 @@
 object TroubleshootingRequestForm: TTroubleshootingRequestForm
-  Left = 419
-  Top = 93
+  Left = 568
+  Top = 250
   BorderIcons = []
   BorderStyle = bsNone
   BorderWidth = 1

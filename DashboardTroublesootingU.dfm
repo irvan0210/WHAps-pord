@@ -1,11 +1,11 @@
-object ChartBusDetail: TChartBusDetail
-  Left = 535
-  Top = 230
+object DashboardTroublesooting: TDashboardTroublesooting
+  Left = 274
+  Top = 136
   BorderIcons = []
   BorderStyle = bsNone
-  Caption = 'Total Armada Detail'
-  ClientHeight = 392
-  ClientWidth = 782
+  Caption = 'Dashboard Troublesooting'
+  ClientHeight = 561
+  ClientWidth = 608
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -60,7 +60,6 @@ object ChartBusDetail: TChartBusDetail
       F8F5F5F5F7F7F8F7F6F6F7F7F7F7F7F80000F5F7F6F6F6F6F6F4F5F9FAFAF9F9
       F9EADFE0D9BFBFD6B8B8E1CBCDF0E9EAF8F9F9F6F7F8F6F6F5F6F7F8F7F7F7F7
       F7F7F7F8F8F7F7F70000}
-    Visible = False
     OnClick = LihatClick
   end
   object Sets: TPanel
@@ -80,8 +79,8 @@ object ChartBusDetail: TChartBusDetail
     TabOrder = 1
   end
   object Tutup: TButton
-    Left = 343
-    Top = 352
+    Left = 191
+    Top = 504
     Width = 75
     Height = 30
     Caption = 'Tutup'
@@ -112,10 +111,10 @@ object ChartBusDetail: TChartBusDetail
     end
   end
   object Chart1: TChart
-    Left = 16
-    Top = 0
-    Width = 753
-    Height = 343
+    Left = 8
+    Top = 50
+    Width = 577
+    Height = 439
     BackWall.Brush.Color = clWhite
     Title.Font.Charset = ANSI_CHARSET
     Title.Font.Color = clBlue

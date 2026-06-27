@@ -1,6 +1,6 @@
 object CheckerIn: TCheckerIn
-  Left = 608
-  Top = 132
+  Left = 450
+  Top = 284
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Armada Kembali'

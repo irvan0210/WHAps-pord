@@ -23,6 +23,9 @@ type
     Search: TSpeedButton;
     ToXCel: TSpeedButton;
     Label5: TLabel;
+    GroupBox2: TGroupBox;
+    Label3: TLabel;
+    cb_jenis_truouble: TComboBox;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -121,7 +124,7 @@ end;
 
 procedure TTroubleshootingRequestFormList.LoadData;
 var Qry:TADOQuery;
-    StrQry, StrTgl,StrDepartemenId:String;
+    StrQry, StrTgl,StrDepartemenId, StrType:String;
     IntCount:Integer;
     TanggalSaja, WaktuSaja: TDateTime;
 begin
@@ -134,8 +137,11 @@ begin
       if DepartemenArr[IntCount][1]=Departemen.Text then StrDepartemenId:=DepartemenArr[IntCount][0];
 
     // MessageBox(0,PChar(StrDepartemenId),'Rekomendasi Teknis',MB_OK or MB_ICONINFORMATION);
+      if cb_jenis_truouble.Text <> 'ALL' then begin
+         StrType := ',@Type ='+QuotedStr(cb_jenis_truouble.Text);
+      end else  StrType := '';
 
-    StrQry:= 'EXEC GetTroubleshootingList  @FromDate='+StrTgl+';';
+    StrQry:= 'EXEC GetTroubleshootingList  @FromDate='+StrTgl+StrType+';';
     Qry.SQL.Clear;
     Qry.SQL.Add(StrQry);
     Qry.Open;
@@ -144,8 +150,10 @@ begin
       IntCount:=0;
       while not(Qry.Eof) do begin
         TRFArr[IntCount][0]:=Qry.FieldValues['trf_no'];
-        TRFArr[IntCount][1]:=Qry.FieldValues['request_date'];
-        TRFArr[IntCount][2]:=Qry.FieldValues['completion_date'];
+        TRFArr[IntCount][1]:=FormatDateTime('dd/MM/yyyy HH:mm',Qry.FieldValues['request_date']);
+        TRFArr[IntCount][2]:=FormatDateTime('dd/MM/yyyy HH:mm',Qry.FieldValues['completion_date']);
+        //TRFArr[IntCount][1]:=Qry.FieldValues['request_date'];
+        //TRFArr[IntCount][2]:=Qry.FieldValues['completion_date'];
         TRFArr[IntCount][3]:=Qry.FieldValues['type'];
         TRFArr[IntCount][4]:=Qry.FieldValues['name'];
         TRFArr[IntCount][5]:=Qry.FieldValues['detail_troubles'];

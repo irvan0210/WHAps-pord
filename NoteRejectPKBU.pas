@@ -58,7 +58,7 @@ begin
         Main.TransStart;
 
         StrQry:=' UPDATE wh_work_order SET approve=2,notes='+QuotedStr(NoteReject.Text)+','+
-                ' update_user='+QuotedStr(User)+' '+
+                ' user_approve='+QuotedStr(User)+' '+
                 ' WHERE work_order_id='+QuotedStr(StrNoPKB)+';';
         Qry.SQL.Clear;
         Main.WriteLog('SQL :'+StrQry,4);

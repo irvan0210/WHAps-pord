@@ -3963,7 +3963,7 @@ object WorkOrderForm: TWorkOrderForm
     mmColumnWidth = 0
     object ppHeaderBand1: TppHeaderBand
       mmBottomOffset = 0
-      mmHeight = 257705
+      mmHeight = 256382
       mmPrintPosition = 0
       object ppShape2: TppShape
         UserName = 'Shape2'
@@ -5042,7 +5042,7 @@ object WorkOrderForm: TWorkOrderForm
         Transparent = True
         mmHeight = 21431
         mmLeft = 8467
-        mmTop = 234950
+        mmTop = 234421
         mmWidth = 180182
         BandType = 0
         mmBottomOffset = 0
@@ -5249,7 +5249,7 @@ object WorkOrderForm: TWorkOrderForm
     end
     object ppFooterBand1: TppFooterBand
       mmBottomOffset = 0
-      mmHeight = 26194
+      mmHeight = 30163
       mmPrintPosition = 0
       object ppLabel5: TppLabel
         UserName = 'Label29'
