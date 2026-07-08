@@ -1599,8 +1599,13 @@ begin
     StrGrid.Cells[5,Count]:=Qry.FieldValues['body_id'];
     }
     OrderFeeArr[IntCount][1]:=Qry.FieldValues['vhc_trans_id'];
-    OrderFeeArr[IntCount][2]:=Qry.FieldValues['customer_name'];
-    OrderFeeArr[IntCount][3]:=Qry.FieldValues['route'];
+    if Qry.FieldValues['customer_name']<> null  then
+      OrderFeeArr[IntCount][2]:=Qry.FieldValues['customer_name']
+    else OrderFeeArr[IntCount][2]:= '';
+
+    if Qry.FieldValues['route'] <> Null then
+      OrderFeeArr[IntCount][3]:=Qry.FieldValues['route']
+    else OrderFeeArr[IntCount][3]:= '';
     OrderFeeArr[IntCount][4]:=Qry.FieldValues['body_id'];
 
     if Qry.FieldValues['employee_id']<>NULL then begin

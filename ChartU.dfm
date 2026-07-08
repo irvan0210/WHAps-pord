@@ -1,6 +1,6 @@
 object ChartBus: TChartBus
-  Left = 261
-  Top = 153
+  Left = 267
+  Top = 389
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Chart Total Unit'

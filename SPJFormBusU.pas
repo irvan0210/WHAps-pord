@@ -367,6 +367,7 @@ type
     procedure LoadData1;
     procedure PreparePrint;
     procedure send_WA();
+    Function ReserveTravelDocumentNumber(ALocationCode: string;AOutDate: TDateTime;AReservedBy: string;AReservedOrderDetailId: string;ASourceApp: string;AJobId: Integer): string;
   public
     { Public declarations }
 
@@ -507,6 +508,57 @@ begin
   for IntCount:=MinRowService+1 to GridService.RowCount-1 do
     for IntCount2:=0 to GridService.ColCount-1 do
       GridService.Cells[IntCount2,IntCount]:='';
+end;
+
+Function TSPJFormBus.ReserveTravelDocumentNumber(ALocationCode: string; AOutDate: TDateTime; AReservedBy: string;
+  AReservedOrderDetailId: string; ASourceApp: string; AJobId: Integer): string;
+var
+  Qry: TADOQuery;
+  StrSQL: string;
+  DocType, ExpectedPrefix: string;
+  Period: string;
+  RunningNumber: Integer;
+  VhcTransId: string;
+begin
+  Result := '';
+
+  DocType := 'SJB';
+  ALocationCode := UpperCase(Trim(ALocationCode));
+  ExpectedPrefix := DocType + ALocationCode;
+
+  Qry := TADOQuery.Create(nil);
+  try
+    Qry.Connection := Main.MyConnection;
+
+    StrSQL :=
+      'EXEC dbo.sp_reserve_vhc_trans_number ' +
+      '@LocationCode = ' + QuotedStr(ALocationCode) + ', ' +
+      '@OutDate = ' + QuotedStr(FormatDateTime('yyyy-mm-dd', AOutDate)) + ', ' +
+      '@ReservedBy = ' + QuotedStr(AReservedBy) + ', ' +
+      '@ReservedOrderDetailId = ' + QuotedStr(AReservedOrderDetailId) + ', ' +
+      '@SourceApp = ' + QuotedStr(ASourceApp);
+
+    if AJobId > 0 then
+      StrSQL := StrSQL + ', @JobId = ' + IntToStr(AJobId);
+
+    Qry.SQL.Text := StrSQL;
+    Qry.Open;
+
+    if Qry.IsEmpty then
+      raise Exception.Create('Gagal reservasi nomor SJ');
+
+    Period := Qry.FieldByName('period').AsString;
+    RunningNumber := Qry.FieldByName('runningNumber').AsInteger;
+    VhcTransId := Qry.FieldByName('vhcTransId').AsString;
+
+    if Copy(VhcTransId, 1, Length(ExpectedPrefix)) <> ExpectedPrefix then
+      raise Exception.Create('Format nomor SJ hasil reservasi tidak valid');
+
+    Result := VhcTransId;
+
+  finally
+    Qry.Free;
+  end;
 end;
 
 procedure TSPJFormBus.LoadData1;
@@ -1392,7 +1444,7 @@ var Qry,Qry2,Qry3,Qry4,Qry5,Qry6,Qry7,QryWehaOnline:TADOQuery;
     StrUrl,NameSpace,ParamIn, Pesan_WA,StrDriverBackupID,StrDriverBackupName,
     StrDriverBackupPhone,StrDriverBackupCustomerNo,
     StrWehaHelperID,StrWehaHelperName,
-    StrWehaHelperPhone,StrWehaHelperCustomerNo: String;
+    StrWehaHelperPhone,StrWehaHelperCustomerNo, NoSJ: String;
     API: JadeServiceSoap;
     RequestAPI:VehicleInfoModel;
     ResponAPI: ServiceResponse;
@@ -2079,7 +2131,10 @@ begin
           end
           else
           begin
-            StrQry:='SELECT RIGHT(MAX(vhc_trans_id),4) AS max_id FROM wh_vhc_trans '+
+            StrTransId := ReserveTravelDocumentNumber(LocationCode,StrToDate(FromDate.Text),User,QuotedStr(ReservedOrderDetaiId.Text),'WHAPS_DESKTOP',0);
+           // ShowMessage('Nomor SJ: ' + StrTransId);
+
+            {StrQry:='SELECT RIGHT(MAX(vhc_trans_id),4) AS max_id FROM wh_vhc_trans '+
                     'WHERE vhc_trans_id  LIKE '+QuotedStr('SJB'+LocationCode+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
                   FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+'____')+';';
             Qry.SQL.Clear;
@@ -2092,7 +2147,7 @@ begin
               Qry.Close;
               Qry.SQL.Clear;
             end else
-              StrTransId:='0001';
+              StrTransId:='0001';}
 
             StrQry:='SELECT RIGHT(MAX(urut_id),3) AS max_id FROM wh_vhc_trans '+
                     'WHERE urut_id  LIKE '+QuotedStr('TF'+LocationCode+FormatDateTime('yy',StrToDate(FromDate.Text))+
@@ -2113,8 +2168,9 @@ begin
               StrDeskripsiHist:='Buat surat jalan';
 
 //            if Package.Checked = False then begin
-              StrTransId:='SJB'+LocationCode+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
-                          FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+StrTransId;
+             { StrTransId:='SJB'+LocationCode+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+
+                          FormatDateTime('mm',StrToDate(Main.Status.Panels.Items[0].Text))+StrTransId;}
+
               StrUrutId:='TF'+LocationCode+FormatDateTime('yy',StrToDate(FromDate.Text))+
                           FormatDateTime('mm',StrToDate(FromDate.Text))+FormatDateTime('dd',StrToDate(FromDate.Text))+StrUrutID;
               StrQry:='INSERT INTO wh_vhc_trans (vhc_trans_id,vehicle_id,vhc_trans_type_id,employee_id,employee_id2,employee_id3'+
@@ -2549,7 +2605,7 @@ end;
 procedure TSPJFormBus.send_WA();
 var
   URL, Pesan_WA, enter_char, StrNoHP,StrQry,StrGroupOrder: string;
-  StrCustomer,StrPickUpPoint: Variant;
+  StrCustomer,StrPickUpPoint,StrRute: Variant;
   Qry : TADOQuery;
   IntCount : Byte;
   StrList:TStringList;
@@ -2599,12 +2655,17 @@ begin
         StrPickUpPoint:= PickupPoint.Text;
         StrPickUpPoint:= StringReplace(StrPickUpPoint, ' & ', ' And ', [rfReplaceAll]);
         StrPickUpPoint:= StringReplace(StrPickUpPoint, '&', ' And ', [rfReplaceAll]);
+
+        StrRute := Route.Text;
+        StrRute := StringReplace(StrRute, ' & ', ' And ', [rfReplaceAll]);
+        StrRute := StringReplace(StrRute, ' & ', ' And ', [rfReplaceAll]);
       Pesan_WA :=
                     'Customer = *'+StrCustomer+'*'+enter_char+
 //                    'Customer = *'+StrCustomer+'*'+enter_char+
                     'Group = '+StrGroupOrder+enter_char+
                     'Tgl/Jam = *'+FromDate.Text+'* / *'+StandbyTime.Text+'*'+enter_char+
 //                    'Standby = *'+Trim(PickupPoint.Text)+'*'+enter_char+
+                    'Rute = *'+StrRute+'*'+enter_char+
                     'Standby = *'+StrPickUpPoint+'*'+enter_char+
                     'Nama Driver = *'+Trim(DriverDisp.Text)+'*'+enter_char+
                     'HP = *'+Trim(TelpHP.Text)+'*'+enter_char+
@@ -3062,6 +3123,8 @@ begin
 end;
 
 procedure TSPJFormBus.FormShow(Sender: TObject);
+  var
+  NoSJ: string;
 begin
   SJRange:=60;
   Init;
@@ -3088,6 +3151,10 @@ begin
     CariPengemudi1.Enabled:=False;
     CariPengemudi2.Enabled:=False;
   end;
+
+
+
+
 end;
 
 procedure TSPJFormBus.CariOrderClick(Sender: TObject);

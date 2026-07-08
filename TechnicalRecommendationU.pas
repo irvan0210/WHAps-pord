@@ -93,8 +93,9 @@ type
     ppLabel30: TppLabel;
     ppLabel31: TppLabel;
     ppLabel32: TppLabel;
-    ppLabel33: TppLabel;
+    lblDiSetujui: TppLabel;
     ppLabelUser: TppLabel;
+    ppLabel33: TppLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure SimpanClick(Sender: TObject);

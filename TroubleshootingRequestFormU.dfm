@@ -1,11 +1,11 @@
 object TroubleshootingRequestForm: TTroubleshootingRequestForm
-  Left = 568
-  Top = 250
+  Left = 517
+  Top = 172
   BorderIcons = []
   BorderStyle = bsNone
   BorderWidth = 1
   Caption = 'Troubleshooting Request Form'
-  ClientHeight = 521
+  ClientHeight = 499
   ClientWidth = 602
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -190,18 +190,17 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
     Height = 21
     ReadOnly = True
     TabOrder = 2
-    OnKeyPress = jabatan_departemenKeyPress
   end
   object panel: TPanel
     Left = 0
-    Top = 483
+    Top = 461
     Width = 602
     Height = 38
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 4
     object Selesai: TButton
-      Left = 302
+      Left = 214
       Top = 7
       Width = 75
       Height = 25
@@ -210,7 +209,7 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
       OnClick = SelesaiClick
     end
     object Simpan: TButton
-      Left = 146
+      Left = 122
       Top = 7
       Width = 75
       Height = 25
@@ -219,7 +218,7 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
       OnClick = SimpanClick
     end
     object cetak: TButton
-      Left = 224
+      Left = 304
       Top = 7
       Width = 75
       Height = 25
@@ -341,14 +340,14 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
   end
   object PanelTindakan: TPanel
     Left = 0
-    Top = 338
+    Top = 335
     Width = 602
-    Height = 145
+    Height = 126
     Align = alBottom
     TabOrder = 12
     object Label5: TLabel
       Left = 22
-      Top = 7
+      Top = 8
       Width = 130
       Height = 15
       Alignment = taRightJustify
@@ -358,7 +357,7 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
     end
     object Label8: TLabel
       Left = 159
-      Top = 6
+      Top = 9
       Width = 6
       Height = 20
       Caption = '*'
@@ -371,7 +370,7 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
     end
     object Label6: TLabel
       Left = 22
-      Top = 99
+      Top = 101
       Width = 130
       Height = 15
       Alignment = taRightJustify
@@ -381,7 +380,7 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
     end
     object Label9: TLabel
       Left = 22
-      Top = 120
+      Top = 156
       Width = 130
       Height = 15
       Alignment = taRightJustify
@@ -390,7 +389,7 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
     end
     object tindakan: TMemo
       Left = 168
-      Top = 5
+      Top = 7
       Width = 424
       Height = 87
       TabOrder = 0
@@ -398,7 +397,7 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
     end
     object tgl_selesai: TDateTimePicker
       Left = 168
-      Top = 95
+      Top = 97
       Width = 89
       Height = 21
       Date = 41726.000000000000000000
@@ -415,7 +414,7 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
     end
     object chk_sesuai_permintaan: TCheckBox
       Left = 480
-      Top = 99
+      Top = 101
       Width = 110
       Height = 17
       Alignment = taLeftJustify
@@ -425,7 +424,7 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
     end
     object catatan: TMemo
       Left = 168
-      Top = 119
+      Top = 155
       Width = 423
       Height = 21
       Color = clWhite
@@ -433,14 +432,11 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
       TabOrder = 3
       WantReturns = False
       WantTabs = True
-      OnChange = catatanChange
-      OnEnter = catatanEnter
-      OnExit = catatanExit
       OnKeyPress = catatanKeyPress
     end
     object TimeSelesai: TDateTimePicker
       Left = 260
-      Top = 95
+      Top = 97
       Width = 71
       Height = 21
       Date = 41726.000000000000000000
@@ -458,7 +454,7 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
   end
   object PanelRespomUser: TPanel
     Left = 0
-    Top = 293
+    Top = 290
     Width = 602
     Height = 45
     Align = alBottom
@@ -473,13 +469,13 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
       Caption = 'Catatan User'
     end
     object Label15: TLabel
-      Left = 184
+      Left = 192
       Top = 4
-      Width = 249
+      Width = 265
       Height = 15
       Alignment = taRightJustify
       AutoSize = False
-      Caption = '-- Cheklis untuk menandakan permintaan selesai --'
+      Caption = '-- Cheklis untuk menandakan permintaan selesai--'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clGreen
       Font.Height = -11
@@ -489,7 +485,7 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
       WordWrap = True
     end
     object Label16: TLabel
-      Left = 182
+      Left = 350
       Top = 1
       Width = 6
       Height = 20
@@ -520,9 +516,6 @@ object TroubleshootingRequestForm: TTroubleshootingRequestForm
       TabOrder = 1
       WantReturns = False
       WantTabs = True
-      OnChange = catatanChange
-      OnEnter = catatanEnter
-      OnExit = catatanExit
       OnKeyPress = catatanKeyPress
     end
   end

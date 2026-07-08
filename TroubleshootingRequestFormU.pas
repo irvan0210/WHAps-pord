@@ -111,13 +111,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure SimpanClick(Sender: TObject);
-    procedure jabatan_departemenKeyPress(Sender: TObject; var Key: Char);
-    procedure catatanChange(Sender: TObject);
-    procedure catatanEnter(Sender: TObject);
-    procedure catatanExit(Sender: TObject);
     procedure catatanKeyPress(Sender: TObject; var Key: Char);
-    procedure JumlahChange(Sender: TObject);
-    procedure JumlahKeyPress(Sender: TObject; var Key: Char);
     procedure RefreshDepartemen;
     procedure Detail_permintaanKeyPress(Sender: TObject; var Key: Char);
     procedure nama_userKeyPress(Sender: TObject; var Key: Char);
@@ -301,16 +295,18 @@ begin
 end;
 
 procedure TTroubleshootingRequestForm.SimpanClick(Sender: TObject);
-var Qry:TADOQuery;
-    StrQry,StrMsg,StrException, StrTechnicalRekomNO, StrDepartemenId, StrStatus, StrPesan, StrPerkiraanHarga:String;
-    IntCount:Integer;
-    IsOk:Boolean;
-    DateTimePermintaan, DateTimeSelesai: TDateTime;
-    MenitTambahan: Integer;
+var
+  Qry:TADOQuery;
+  StrQry,StrMsg,StrException, StrTechnicalRekomNO, StrDepartemenId,
+  StrStatus, StrPesan, StrPerkiraanHarga:String;
+  IntCount:Integer;
+  IsOk:Boolean;
+  DateTimePermintaan, DateTimeResponse, DateTimeSelesai: TDateTime;
+  MenitResponse, MenitSelesai: Integer;
 begin
   if (Trim(nama_user.Text)<>'') and (Detail_permintaan.Text <>'') then begin
     IsOk:=True;
-    MenitTambahan := Random(11) + 5; // 5 s/d 15 menit
+    //MenitTambahan := Random(11) + 5; // 5 s/d 15 menit
     Qry:=TADOQuery.Create(Self);
     Qry.Connection:=Main.MyConnection;
     if Main.OpenDb then begin
@@ -329,11 +325,18 @@ begin
           StrTRFNO :=Qry.FieldValues['hasil'];
       end;
 
+     // DateTimePermintaan := Trunc(tgl_permintaan.Date) + Frac(TimePermintaan.Time);
+     // DateTimeSelesai := Trunc(tgl_selesai.Date) + Frac(TimeSelesai.Time);
+
       DateTimePermintaan := Trunc(tgl_permintaan.Date) + Frac(TimePermintaan.Time);
-      DateTimeSelesai := Trunc(tgl_selesai.Date) + Frac(TimeSelesai.Time);
+      MenitResponse := Random(15) + 1; // 1 s/d 15 menit
+      MenitSelesai  := Random(30) + 1; // 1 s/d 30 menit
+
+      DateTimeResponse := IncMinute(DateTimePermintaan, MenitResponse);
+      DateTimeSelesai  := IncMinute(DateTimeResponse, MenitSelesai);
 
       if no_TRF.Text <> '' then begin
-         StrQry := 'UPDATE wh_troubleshooting SET '+
+         {StrQry := 'UPDATE wh_troubleshooting SET '+
                     'request_date ='+QuotedStr(FormatDateTime('yyyy/MM/dd HH:mm:ss',DateTimePermintaan))+', '+
                     'type ='+QuotedStr(cb_jenis_truouble.Text)+','+
                     'requested_user = '+QuotedStr(requested_user_id.Text)+','+
@@ -345,12 +348,26 @@ begin
                     'completion_date = '+QuotedStr(FormatDateTime('yyyy/MM/dd HH:mm:ss',IncMinute(DateTimeSelesai, MenitTambahan)))+','+
                     'status ='+QuotedStr(StrStatus)+','+
                     'update_user ='+QuotedStr(User)+',update_date = GETDATE() '+
-               'WHERE  trf_no = '+QuotedStr(no_TRF.Text)+';';
-        StrPesan:= 'Berhasil mengubah  TRF';
+               'WHERE  trf_no = '+QuotedStr(no_TRF.Text)+';';   }
+          StrQry := 'UPDATE wh_troubleshooting SET '+
+            'request_date = '+QuotedStr(FormatDateTime('yyyy-mm-dd HH:nn:ss',DateTimePermintaan))+', '+
+            'response_date = COALESCE(response_date, '+QuotedStr(FormatDateTime('yyyy-mm-dd HH:nn:ss',DateTimeResponse))+'), '+
+            'type = '+QuotedStr(cb_jenis_truouble.Text)+','+
+            'requested_user = '+QuotedStr(requested_user_id.Text)+','+
+            'detail_troubles = '+QuotedStr(Detail_permintaan.Text)+','+
+            'action = '+QuotedStr(tindakan.Text)+','+
+            'user_pic = '+QuotedStr(User)+','+
+            'note = '+QuotedStr(catatan.Text)+','+
+            'completion_date = '+QuotedStr(FormatDateTime('yyyy-mm-dd HH:nn:ss',DateTimeSelesai))+','+
+            'status = '+QuotedStr(StrStatus)+','+
+            'update_user = '+QuotedStr(User)+', update_date = GETDATE() '+
+            'WHERE trf_no = '+QuotedStr(no_TRF.Text)+';';
+
+         StrPesan:= 'Berhasil mengubah  TRF';
 
       end
       else begin
-        StrQry := 'INSERT INTO wh_troubleshooting (trf_no, request_date, type,requested_user,detail_troubles,action, '+
+        {StrQry := 'INSERT INTO wh_troubleshooting (trf_no, request_date, type,requested_user,detail_troubles,action, '+
                   'completion_date,user_pic, note, user_create,create_date, update_user, update_date) VALUES ( '+
                   QuotedStr(StrTRFNO)+', '+QuotedStr(FormatDateTime('yyyy/MM/dd HH:mm:ss',DateTimePermintaan))+', '+
                   QuotedStr(cb_jenis_truouble.Text)+', '+QuotedStr(requested_user_id.Text)+', '+
@@ -359,7 +376,23 @@ begin
                  QuotedStr(FormatDateTime('yyyy/MM/dd HH:mm:ss', IncMinute(DateTimeSelesai, MenitTambahan)))+', '+
                   QuotedStr(User)+','+QuotedStr(catatan.Text)+','+
                   QuotedStr(User)+', '+QuotedStr(FormatDateTime('yyyy/MM/dd HH:mm:ss',Now()))+', '+
-                  QuotedStr(User)+', '+QuotedStr(FormatDateTime('yyyy/MM/dd HH:mm:ss',Now()))+');';
+                  QuotedStr(User)+', '+QuotedStr(FormatDateTime('yyyy/MM/dd HH:mm:ss',Now()))+');';}
+
+          StrQry := 'INSERT INTO wh_troubleshooting '+
+            '(trf_no, request_date, response_date, type, requested_user, detail_troubles, action, '+
+            'completion_date, user_pic, note, user_create, create_date, update_user, update_date) VALUES ( '+
+            QuotedStr(StrTRFNO)+', '+
+            QuotedStr(FormatDateTime('yyyy-mm-dd HH:nn:ss',DateTimePermintaan))+', '+
+            QuotedStr(FormatDateTime('yyyy-mm-dd HH:nn:ss',DateTimeResponse))+', '+
+            QuotedStr(cb_jenis_truouble.Text)+', '+
+            QuotedStr(requested_user_id.Text)+', '+
+            QuotedStr(Detail_permintaan.Text)+', '+
+            QuotedStr(tindakan.Text)+', '+
+            QuotedStr(FormatDateTime('yyyy-mm-dd HH:nn:ss',DateTimeSelesai))+', '+
+            QuotedStr(User)+','+
+            QuotedStr(catatan.Text)+','+
+            QuotedStr(User)+', GETDATE(), '+
+            QuotedStr(User)+', GETDATE());';
         StrPesan:= 'Berhasil Menyimpan TRF';
       end;
 
@@ -406,45 +439,11 @@ begin
 
 end;
 
-procedure TTroubleshootingRequestForm.jabatan_departemenKeyPress(Sender: TObject; var Key: Char);
-begin
- //if Key=#13 then D.SetFocus;
-end;
-
-procedure TTroubleshootingRequestForm.catatanChange(Sender: TObject);
-begin
-  //if PerkiraanHarga.Text = '' then PerkiraanHarga.Text := '0';
-end;
-
-procedure TTroubleshootingRequestForm.catatanEnter(Sender: TObject);
-begin
- // PerkiraanHarga.Text:=ToString(PerkiraanHarga.Text);
-end;
-
-procedure TTroubleshootingRequestForm.catatanExit(Sender: TObject);
-begin
-  //  if ToString(PerkiraanHarga.Text)='' then PerkiraanHarga.Text:='0';
-  //  PerkiraanHarga.Text:=SToCurr(PerkiraanHarga.Text);
-end;
-
 procedure TTroubleshootingRequestForm.catatanKeyPress(Sender: TObject;
   var Key: Char);
 begin
   //  if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
     if Key=#13 then Simpan.SetFocus;
-end;
-
-procedure TTroubleshootingRequestForm.JumlahChange(Sender: TObject);
-begin
- // if Jumlah.Text = '' then Jumlah.Text := '0';
-end;
-
-procedure TTroubleshootingRequestForm.JumlahKeyPress(Sender: TObject;
-  var Key: Char);
-begin
- //if Not(Key In ['0'..'9',#8,#13]) then Key:=#0;
- //if Key=#13 then MerkdanSpesifikasi.SetFocus;
-
 end;
 
 procedure TTroubleshootingRequestForm.RefreshDepartemen;

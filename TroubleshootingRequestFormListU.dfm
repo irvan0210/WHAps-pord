@@ -21,10 +21,10 @@ object TroubleshootingRequestFormList: TTroubleshootingRequestFormList
   PixelsPerInch = 96
   TextHeight = 13
   object Search: TSpeedButton
-    Left = 630
-    Top = 9
+    Left = 783
+    Top = 4
     Width = 30
-    Height = 28
+    Height = 34
     Glyph.Data = {
       26040000424D2604000000000000360000002800000012000000120000000100
       180000000000F003000000000000000000000000000000000000F8F8F8F8F8F8
@@ -151,7 +151,7 @@ object TroubleshootingRequestFormList: TTroubleshootingRequestFormList
     OnClick = SelesaiClick
   end
   object GroupCompany: TGroupBox
-    Left = 64
+    Left = 8
     Top = 1
     Width = 281
     Height = 38
@@ -212,7 +212,7 @@ object TroubleshootingRequestFormList: TTroubleshootingRequestFormList
     end
   end
   object GroupBox1: TGroupBox
-    Left = 843
+    Left = 868
     Top = 1
     Width = 246
     Height = 38
@@ -234,7 +234,7 @@ object TroubleshootingRequestFormList: TTroubleshootingRequestFormList
     end
   end
   object GroupBox2: TGroupBox
-    Left = 353
+    Left = 297
     Top = 1
     Width = 274
     Height = 38
@@ -263,6 +263,34 @@ object TroubleshootingRequestFormList: TTroubleshootingRequestFormList
         'Infrastruktur dan jaringan'
         'Hardware'
         'Software')
+    end
+  end
+  object GroupBox3: TGroupBox
+    Left = 577
+    Top = 1
+    Width = 200
+    Height = 38
+    TabOrder = 5
+    object Label4: TLabel
+      Left = 6
+      Top = 13
+      Width = 30
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'Status'
+    end
+    object cb_status: TComboBox
+      Left = 56
+      Top = 10
+      Width = 134
+      Height = 21
+      ItemHeight = 13
+      TabOrder = 0
+      Text = 'ALL'
+      Items.Strings = (
+        'ALL'
+        'Selesai'
+        'Belum Selesai')
     end
   end
 end

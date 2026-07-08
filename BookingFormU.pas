@@ -1243,13 +1243,13 @@ var Qry,QryWehaOnline,QryWehaOnline2:TADOQuery;
     StrIsAuth,StrIsAuthReason,StrOrderDetailVehicleID,StrWehaUserID, StremployeeId3,StrHelperName,StrHelperPhone:String;
     StrBatchOld, StrBatchNew, StrSeatNew, StrSeatOld, StrEmployeeOld,StrVehicleOld, StrStatusOrderVehicleInfos,StrConfirmDriverVehicleInfos,StrConfirmHelperVehicleInfos,StrConfirmDriver2VehicleInfos: string;
     StrStatus,StrRevision,StrVehicleId,StrEmployeeId,StrEmployeeIdLast,StremployeeId2,StrDriver2Name,StrDriver2Phone,StrFullDay,StrCustomerOrderId,StrTransIds,StrError:String;
-    StrTransId2,StrVhcTransId,StrRemarkChange,StrLockBooking,StrFix:String;
+    StrTransId2,StrVhcTransId,StrRemarkChange,StrLockBooking,StrFix, StrOldWehaReservedCode,StrOrderDetailVehicleInfoID:String;
     StrTransId,StrEMsg,StrEMsgAPI,StrCompanyId,StrLocationId,StrGroup,StrGuide,StrGuideCellular,StrReserver,StrPackage,StrStatusWL,StrFieldDriverStatus,StrFieldDriver2Status,StrFieldHelperStatus:String;
     IntCount,IntCount2,IntCount3,IntFromDate,IntToDate,IntDates,IntYears,IntMonths,IntFromMonths,IntToMonths,IntFromYears,IntToYears,IntRowCount,IntUnits:Integer;
     StrList,StrList2:TStringList;
     IsOk,IsComplete,IsAuth:Boolean;
     Dates:TDate;
-
+   
     StrUrl,NameSpace,ParamIn,StrDriver2FullName,StrDriver2HP,StrDriver2UserID,StrHelperFullName,StrHelperHP, StrHelperUserID, StrDriverStatus, StrHelperStatus, StrDriverConfirmDate, StrHelperConfirmDate, StrDriver2Status, StrDriver2ConfirmDate: String;
     API: JadeServiceSoap;
     ResponAPI: ServiceResponse;
@@ -1739,7 +1739,7 @@ begin
 //                  end;
 
                   StrEmployeeOld:=QuotedStr(StrGrid.Cells[31,IntCount]); //sudah diganti
-
+                 {
   //                GESER UNIT
                   if (StrIsOnline='1') AND (LeftStr(UpperCase(FormRequest),11)<>'WAITINGLIST') then
                   begin
@@ -2092,6 +2092,310 @@ begin
                       end;
                    // end;
                   end;
+                       }
+
+                       
+                  //Geser Unit Irvan
+                   // GESER UNIT
+                  if (StrIsOnline='1') AND (LeftStr(UpperCase(FormRequest),11)<>'WAITINGLIST') then
+                  begin
+                    // 1. Cari row OrderDetailVehicleInfos berdasarkan reserved lama
+                    StrOldWehaReservedCode := Trim(StrGrid.Cells[24, IntCount]);
+
+                    StrQryWehaOnlineCek :=
+                      'SELECT TOP 1 OrderDetailVehicleInfoID, OrderDetailVehicleID, WehaReservedCode '+
+                      'FROM OrderDetailVehicleInfos '+
+                      'WHERE WehaReservedCode = '+QuotedStr(StrOldWehaReservedCode);
+
+                    QryWehaOnline.Close;
+                    QryWehaOnline.SQL.Clear;
+                    QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
+                    QryWehaOnline.Open;
+
+                    if QryWehaOnline.RecordCount = 0 then
+                    begin
+                      IsOk := False;
+                      Main.TransRollback;
+                      EnableInput;
+                      Main.M_Normal;
+
+                      StrEMsg := 'WehaReservedCode lama tidak ditemukan di OrderDetailVehicleInfos: '+
+                                 QuotedStr(StrOldWehaReservedCode);
+
+                      MessageBox(
+                        Handle,
+                        PChar('Data Gagal Disimpan'+Chr(13)+Chr(13)+StrEMsg),
+                        'Penjadwalan',
+                        MB_OK or MB_ICONERROR or MB_SYSTEMMODAL or MB_SETFOREGROUND
+                      );
+                      Exit;
+                    end;
+
+                    StrOrderDetailVehicleInfoID := IntToStr(QryWehaOnline.FieldByName('OrderDetailVehicleInfoID').AsInteger);
+
+                    // 2. Reset status konfirmasi kalau driver/helper berubah
+                    if (StrEmployeeOld <> StrEmployeeId) then
+                    begin
+                      StrStatusOrderVehicleInfos := ' ,Status=''ORDERED'' ';
+                      StrConfirmDriverVehicleInfos := ' ,ConfirmedByAppVersion=NULL,ConfirmedDate=NULL ';
+                    end
+                    else
+                    begin
+                      StrStatusOrderVehicleInfos := '';
+                      StrConfirmDriverVehicleInfos := '';
+                    end;
+
+                    if (StremployeeId3 <> QuotedStr(StrGrid.Cells[37,IntCount])) then
+                      StrConfirmHelperVehicleInfos :=
+                        ' ,HelperConfirmedByAppVersion=NULL,HelperConfirmedDate=NULL '
+                    else
+                      StrConfirmHelperVehicleInfos := '';
+
+                    if (StremployeeId2 <> QuotedStr(StrGrid.Cells[42,IntCount])) then
+                      StrConfirmDriver2VehicleInfos :=
+                        ' ,DriverBackupConfirmedByAppVersion=NULL,DriverBackupConfirmedDate=NULL '
+                    else
+                      StrConfirmDriver2VehicleInfos := '';
+
+                    // 3. Ambil / buat user driver utama
+                    StrQryWehaOnlineCek :=
+                      'SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
+                      'LEFT JOIN Users b ON a.ContactID=b.ContactID '+
+                      'WHERE b.CustomerNo='+StrEmployeeId+' AND b.IsActive=1';
+
+                    QryWehaOnline.Close;
+                    QryWehaOnline.SQL.Clear;
+                    QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
+                    QryWehaOnline.Open;
+
+                    if QryWehaOnline.RecordCount = 0 then
+                    begin
+                      StrQryWehaOnlineUser :=
+                        'INSERT INTO Contacts '+
+                        '(FullName,Gender,HP,ViewHisOwnData,IsMain,CreatedBy,CreatedDate,'+
+                        'ModifiedBy,ModifiedDate,ViewGroupOnly) VALUES '+
+                        '('+QuotedStr(StrGrid.Cells[9,IntCount])+',''M'','+
+                        QuotedStr(StrGrid.Cells[26,IntCount])+',0,0,0,GETDATE(),0,GETDATE(),0);';
+
+                      QryWehaOnline.SQL.Clear;
+                      QryWehaOnline.SQL.Add(StrQryWehaOnlineUser);
+                      QryWehaOnline.ExecSQL;
+
+                      StrQryWehaOnlineCek :=
+                        'SELECT TOP 1 ContactID FROM Contacts WHERE CreatedBy=0 ORDER BY ContactID DESC';
+
+                      QryWehaOnline.Close;
+                      QryWehaOnline.SQL.Clear;
+                      QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
+                      QryWehaOnline.Open;
+
+                      StrWehaUserID :=
+                        StringReplace(QuotedStr(StrGrid.Cells[9,IntCount]),' ','.',[rfReplaceAll]);
+
+                      StrQryWehaOnlineUser :=
+                        'INSERT INTO Users '+
+                        '(ContactID,CustomerNo,Email,Password,Role,LoginType,WehaUserID,'+
+                        'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate) VALUES '+
+                        '('+QuotedStr(QryWehaOnline.FieldValues['ContactID'])+','+
+                        StrEmployeeId+','+StrWehaUserID+
+                        ',NULL,''DRIVER'',''EMAIL'','+StrWehaUserID+
+                        ',1,0,GETDATE(),0,GETDATE());';
+
+                      QryWehaOnline.SQL.Clear;
+                      QryWehaOnline.SQL.Add(StrQryWehaOnlineUser);
+                      QryWehaOnline.ExecSQL;
+
+                      StrQryWehaOnlineCek :=
+                        'SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
+                        'LEFT JOIN Users b ON a.ContactID=b.ContactID '+
+                        'WHERE b.CustomerNo='+StrEmployeeId+' AND b.IsActive=1';
+
+                      QryWehaOnline.Close;
+                      QryWehaOnline.SQL.Clear;
+                      QryWehaOnline.SQL.Add(StrQryWehaOnlineCek);
+                      QryWehaOnline.Open;
+                    end;
+
+                    if QryWehaOnline.RecordCount = 0 then
+                    begin
+                      IsOk := False;
+                      Main.TransRollback;
+                      EnableInput;
+                      Main.M_Normal;
+                      MessageBox(Handle,PChar('Driver tidak ditemukan / gagal dibuat di WehaOnline'),
+                        'Penjadwalan',MB_OK or MB_ICONERROR);
+                      Exit;
+                    end;
+
+                    // 4. Helper
+                    StrHelperFullName := 'NULL';
+                    StrHelperHP := 'NULL';
+                    StrHelperUserID := 'NULL';
+
+                    if StremployeeId3 <> 'NULL' then
+                    begin
+                      StrQryWehaOnlineCek :=
+                        'SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
+                        'LEFT JOIN Users b ON a.ContactID=b.ContactID '+
+                        'WHERE b.CustomerNo='+StremployeeId3+' AND b.IsActive=1';
+
+                      QryWehaOnline2.Close;
+                      QryWehaOnline2.SQL.Clear;
+                      QryWehaOnline2.SQL.Add(StrQryWehaOnlineCek);
+                      QryWehaOnline2.Open;
+
+                      if QryWehaOnline2.RecordCount = 0 then
+                      begin
+                        StrQryWehaOnlineUser :=
+                          'INSERT INTO Contacts '+
+                          '(FullName,Gender,HP,ViewHisOwnData,IsMain,CreatedBy,CreatedDate,'+
+                          'ModifiedBy,ModifiedDate,ViewGroupOnly) VALUES '+
+                          '('+StrHelperName+',''M'','+StrHelperPhone+
+                          ',0,0,0,GETDATE(),0,GETDATE(),0);';
+
+                        QryWehaOnline2.SQL.Clear;
+                        QryWehaOnline2.SQL.Add(StrQryWehaOnlineUser);
+                        QryWehaOnline2.ExecSQL;
+
+                        StrQryWehaOnlineCek :=
+                          'SELECT TOP 1 ContactID FROM Contacts WHERE CreatedBy=0 ORDER BY ContactID DESC';
+
+                        QryWehaOnline2.Close;
+                        QryWehaOnline2.SQL.Clear;
+                        QryWehaOnline2.SQL.Add(StrQryWehaOnlineCek);
+                        QryWehaOnline2.Open;
+
+                        StrWehaUserID := StringReplace(StrHelperName,' ','.',[rfReplaceAll]);
+
+                        StrQryWehaOnlineUser :=
+                          'INSERT INTO Users '+
+                          '(ContactID,CustomerNo,Email,Password,Role,LoginType,WehaUserID,'+
+                          'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,IsHelper) VALUES '+
+                          '('+QuotedStr(QryWehaOnline2.FieldValues['ContactID'])+','+
+                          StremployeeId3+','+StrWehaUserID+
+                          ',NULL,''DRIVER'',''EMAIL'','+StrWehaUserID+
+                          ',1,0,GETDATE(),0,GETDATE(),1);';
+
+                        QryWehaOnline2.SQL.Clear;
+                        QryWehaOnline2.SQL.Add(StrQryWehaOnlineUser);
+                        QryWehaOnline2.ExecSQL;
+
+                        StrQryWehaOnlineCek :=
+                          'SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
+                          'LEFT JOIN Users b ON a.ContactID=b.ContactID '+
+                          'WHERE b.CustomerNo='+StremployeeId3+' AND b.IsActive=1';
+
+                        QryWehaOnline2.Close;
+                        QryWehaOnline2.SQL.Clear;
+                        QryWehaOnline2.SQL.Add(StrQryWehaOnlineCek);
+                        QryWehaOnline2.Open;
+                      end;
+
+                      if QryWehaOnline2.RecordCount > 0 then
+                      begin
+                        StrHelperFullName := QuotedStr(QryWehaOnline2.FieldValues['FullName']);
+                        StrHelperHP := QuotedStr(QryWehaOnline2.FieldValues['HP']);
+                        StrHelperUserID := QuotedStr(QryWehaOnline2.FieldValues['UserID']);
+                      end;
+                    end;
+
+                    // 5. Driver 2
+                    StrDriver2FullName := 'NULL';
+                    StrDriver2HP := 'NULL';
+                    StrDriver2UserID := 'NULL';
+
+                    if StremployeeId2 <> 'NULL' then
+                    begin
+                      StrQryWehaOnlineCek :=
+                        'SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
+                        'LEFT JOIN Users b ON a.ContactID=b.ContactID '+
+                        'WHERE b.CustomerNo='+StremployeeId2+' AND b.IsActive=1';
+
+                      QryWehaOnline2.Close;
+                      QryWehaOnline2.SQL.Clear;
+                      QryWehaOnline2.SQL.Add(StrQryWehaOnlineCek);
+                      QryWehaOnline2.Open;
+
+                      if QryWehaOnline2.RecordCount = 0 then
+                      begin
+                        StrQryWehaOnlineUser :=
+                          'INSERT INTO Contacts '+
+                          '(FullName,Gender,HP,ViewHisOwnData,IsMain,CreatedBy,CreatedDate,'+
+                          'ModifiedBy,ModifiedDate,ViewGroupOnly) VALUES '+
+                          '('+StrDriver2Name+',''M'','+StrDriver2Phone+
+                          ',0,0,0,GETDATE(),0,GETDATE(),0);';
+
+                        QryWehaOnline2.SQL.Clear;
+                        QryWehaOnline2.SQL.Add(StrQryWehaOnlineUser);
+                        QryWehaOnline2.ExecSQL;
+
+                        StrQryWehaOnlineCek :=
+                          'SELECT TOP 1 ContactID FROM Contacts WHERE CreatedBy=0 ORDER BY ContactID DESC';
+
+                        QryWehaOnline2.Close;
+                        QryWehaOnline2.SQL.Clear;
+                        QryWehaOnline2.SQL.Add(StrQryWehaOnlineCek);
+                        QryWehaOnline2.Open;
+
+                        StrWehaUserID := StringReplace(StrDriver2Name,' ','.',[rfReplaceAll]);
+
+                        StrQryWehaOnlineUser :=
+                          'INSERT INTO Users '+
+                          '(ContactID,CustomerNo,Email,Password,Role,LoginType,WehaUserID,'+
+                          'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,IsHelper) VALUES '+
+                          '('+QuotedStr(QryWehaOnline2.FieldValues['ContactID'])+','+
+                          StremployeeId2+','+StrWehaUserID+
+                          ',NULL,''DRIVER'',''EMAIL'','+StrWehaUserID+
+                          ',1,0,GETDATE(),0,GETDATE(),1);';
+
+                        QryWehaOnline2.SQL.Clear;
+                        QryWehaOnline2.SQL.Add(StrQryWehaOnlineUser);
+                        QryWehaOnline2.ExecSQL;
+
+                        StrQryWehaOnlineCek :=
+                          'SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
+                          'LEFT JOIN Users b ON a.ContactID=b.ContactID '+
+                          'WHERE b.CustomerNo='+StremployeeId2+' AND b.IsActive=1';
+
+                        QryWehaOnline2.Close;
+                        QryWehaOnline2.SQL.Clear;
+                        QryWehaOnline2.SQL.Add(StrQryWehaOnlineCek);
+                        QryWehaOnline2.Open;
+                      end;
+
+                      if QryWehaOnline2.RecordCount > 0 then
+                      begin
+                        StrDriver2FullName := QuotedStr(QryWehaOnline2.FieldValues['FullName']);
+                        StrDriver2HP := QuotedStr(QryWehaOnline2.FieldValues['HP']);
+                        StrDriver2UserID := QuotedStr(QryWehaOnline2.FieldValues['UserID']);
+                      end;
+                    end;
+
+                    // 6. Update row WehaOnline berdasarkan OrderDetailVehicleID, bukan WehaReservedCode lama
+                    StrQryWehaOnline := StrQryWehaOnline +
+                      ' UPDATE OrderDetailVehicleInfos SET '+
+                      ' WehaReservedCode='+QuotedStr(StrTransIds)+', '+
+                      ' DriverID='+QuotedStr(QryWehaOnline.FieldValues['UserID'])+','+
+                      ' DriverName='+QuotedStr(QryWehaOnline.FieldValues['FullName'])+', '+
+                      ' DriverPhone='+QuotedStr(QryWehaOnline.FieldValues['HP'])+', '+
+                      ' VehiclePlateNo='+QuotedStr(StrGrid.Cells[27,IntCount])+', '+
+                      ' IsFixed='+StrFix+StrStatusOrderVehicleInfos+', '+
+                      ' WEHACustomerNo='+StrEmployeeId+','+
+                      ' HelperName='+StrHelperFullName+','+
+                      ' HelperPhone='+StrHelperHP+','+
+                      ' WEHAHelperCustomerNo='+StremployeeId3+','+
+                      ' HelperID='+StrHelperUserID+', '+
+                      ' DriverBackupName='+StrDriver2FullName+','+
+                      ' DriverBackupPhone='+StrDriver2HP+','+
+                      ' DriverBackupCustomerNo='+StremployeeId2+','+
+                      ' DriverBackupID='+StrDriver2UserID+' '+
+                      StrConfirmDriverVehicleInfos+
+                      StrConfirmHelperVehicleInfos+
+                      StrConfirmDriver2VehicleInfos+
+                      ' WHERE OrderDetailVehicleInfoID='+StrOrderDetailVehicleInfoID+';';
+                  end;
+                    //End Geser Unit Irvan
+
 
   //                WAITINGLIST
                   if (StrIsOnline='1') AND (LeftStr(UpperCase(FormRequest),11)='WAITINGLIST') then   //sudah diganti

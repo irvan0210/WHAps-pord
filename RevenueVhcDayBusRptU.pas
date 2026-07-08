@@ -596,7 +596,7 @@ begin
 
       if Qry.FieldValues['total']>0 then
         //IntGrossProfit:=(((Qry.FieldValues['total']-IntDiscount)+Qry.FieldValues['total_addday'])/Qry.FieldValues['units'])-(IntBiaya);
-        IntGrossProfit:= (Qry.FieldValues['total']/Qry.FieldValues['units'])-IntDiscount+Qry.FieldValues['total_addday'] - (IntBiaya);
+        IntGrossProfit:= (Qry.FieldValues['total']/Qry.FieldValues['units'])-IntDiscount+Qry.FieldValues['total_addday']+BiayaTambahan - (IntBiaya);
 
       IntTotalGrossProfit:=IntTotalGrossProfit+IntGrossProfit;
       StrGrid.Cells[9,Count]:=LicensePlate(Qry.FieldValues['license_plate']);

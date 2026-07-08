@@ -173,7 +173,7 @@ object TechnicalRecommendation: TTechnicalRecommendation
     Left = 170
     Top = 79
     Width = 231
-    Height = 22
+    Height = 21
     TabOrder = 1
     OnKeyPress = JenisBarangKeyPress
   end
@@ -1695,13 +1695,12 @@ object TechnicalRecommendation: TTechnicalRecommendation
         mmWidth = 50165
         BandType = 8
       end
-      object ppLabel33: TppLabel
-        UserName = 'Label33'
+      object lblDiSetujui: TppLabel
+        UserName = 'lblDiSetujui'
         Border.BorderPositions = []
         Border.Color = clBlack
         Border.Style = psSolid
         Border.Visible = False
-        Caption = '(       Korynsan       )'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Name = 'Arial'
@@ -1709,9 +1708,9 @@ object TechnicalRecommendation: TTechnicalRecommendation
         Font.Style = [fsBold]
         Transparent = True
         mmHeight = 4233
-        mmLeft = 132027
-        mmTop = 33073
-        mmWidth = 33232
+        mmLeft = 134673
+        mmTop = 34925
+        mmWidth = 33338
         BandType = 8
       end
       object ppLabelUser: TppLabel
@@ -1731,6 +1730,25 @@ object TechnicalRecommendation: TTechnicalRecommendation
         mmLeft = 38894
         mmTop = 34131
         mmWidth = 47096
+        BandType = 8
+      end
+      object ppLabel33: TppLabel
+        UserName = 'lblDiSetujui1'
+        Border.BorderPositions = []
+        Border.Color = clBlack
+        Border.Style = psSolid
+        Border.Visible = False
+        Caption = '(                                          )'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Arial'
+        Font.Size = 10
+        Font.Style = [fsBold]
+        Transparent = True
+        mmHeight = 4233
+        mmLeft = 127265
+        mmTop = 34396
+        mmWidth = 49213
         BandType = 8
       end
     end

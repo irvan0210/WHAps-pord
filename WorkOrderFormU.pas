@@ -827,6 +827,8 @@ begin
         begin
           KMOdo.Text:='0';
         end;
+       // if Qry.FieldValues['in_ordo_km']<>NULL then KMOdo.Text:=Qry.FieldValues['in_ordo_km'] else KMOdo.Text:='0';
+
         NoBody.Text:=Qry.FieldValues['body_id'];
         StartDate.DateTime:=StrToDate(Qry.FieldValues['from_date']);
         if Qry.FieldValues['to_date']<> NULL then FinishDate.DateTime:=StrToDate(Qry.FieldValues['to_date']);

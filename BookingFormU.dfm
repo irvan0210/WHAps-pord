@@ -1,11 +1,11 @@
 object BookingForm: TBookingForm
-  Left = 264
-  Top = 284
+  Left = 363
+  Top = 143
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Penjadwalan'
   ClientHeight = 575
-  ClientWidth = 1169
+  ClientWidth = 1291
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

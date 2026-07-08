@@ -7,7 +7,7 @@ uses
   Dialogs, StdCtrls, ExtCtrls, AppEvnts, ppParameter, ppBands, ppReport,
   ppSubRpt, ppMemo, ppCtrls, jpeg, ppStrtch, ppPrnabl, ppClass, ppCache,
   ppComm, ppRelatv, ppProd, TeeProcs, TeEngine, Chart, Series, ComCtrls, ADODB, WHUnit,
-  Buttons;
+  Buttons, frxpngimage;
 
 type
   TDashboardTroublesooting = class(TForm)
@@ -20,10 +20,40 @@ type
     Lihat: TSpeedButton;
     Chart1: TChart;
     Series2: TBarSeries;
+    LoadChart: TSpeedButton;
+    GroupBox2: TGroupBox;
+    Label2: TLabel;
+    TglFrom: TDateTimePicker;
+    TglTo: TDateTimePicker;
+    Label3: TLabel;
+    PTotalKasus: TPanel;
+    lblTotal: TLabel;
+    ImageDone: TImage;
+    Panel1: TPanel;
+    Label5: TLabel;
+    lblSelesai: TLabel;
+    Image2: TImage;
+    Panel2: TPanel;
+    Label7: TLabel;
+    lblOpen: TLabel;
+    Image3: TImage;
+    Panel3: TPanel;
+    Label9: TLabel;
+    lblAchievement: TLabel;
+    Image4: TImage;
+    Panel4: TPanel;
+    Label11: TLabel;
+    lblRespon15: TLabel;
+    Image5: TImage;
+    Panel5: TPanel;
+    Label13: TLabel;
+    lblResponOver15: TLabel;
+    Image6: TImage;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure TutupClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure LihatClick(Sender: TObject);
+    procedure LoadChartClick(Sender: TObject);
   private
     {
      Private declarations }
@@ -36,6 +66,9 @@ type
    // constructor Create(AOwner:TComponent;Category:String='');Override;
     constructor Create(AOwner:TComponent;Date:String='';Lokasi:String='';Category:String='');overload;
     procedure LoadData;
+    procedure LoadChartByType;
+    procedure LoadDashboard;
+    procedure LoadKPIResponse;
   end;
 
 var
@@ -84,12 +117,14 @@ end;
 procedure TDashboardTroublesooting.FormShow(Sender: TObject);
 begin
   Init;
-  LoadData;
+  //LoadData;
 end;
 
 procedure TDashboardTroublesooting.Init;
 begin
   Tanggal.Date := Now;
+  TglFrom.Date := Now;
+  TglTo.Date := Now;
   //StrCategory
 end;                                                                   
 
@@ -225,9 +260,232 @@ begin
   Main.CloseDb;
 end;
 
+
+procedure TDashboardTroublesooting.LoadChartByType;
+var
+  Qry: TADOQuery;
+  BarTotal, BarOpen, BarSelesai: TBarSeries;
+  StrQry: string;
+begin
+  Chart1.RemoveAllSeries;
+  Chart1.View3D := False;
+  Chart1.Legend.Visible := True;
+
+  Chart1.Title.Text.Clear;
+  Chart1.Title.Text.Add('Kasus vs Selesai Per Jenis Permintaan');
+
+  Chart1.LeftAxis.Title.Caption := 'Jumlah TRF';
+
+  Chart1.BottomAxis.LabelsAngle := 90;
+  Chart1.BottomAxis.LabelsFont.Size := 9;
+  Chart1.BottomAxis.LabelsFont.Style := [];
+  Chart1.BottomAxis.LabelStyle := talText;
+  Chart1.MarginBottom := 10;
+  Chart1.MarginLeft := 5;
+  Chart1.MarginRight := 10;
+// kalau ingin font
+  Chart1.BottomAxis.LabelsFont.Size := 9;
+  Chart1.BottomAxis.LabelsFont.Style := [fsItalic];
+
+  BarTotal := TBarSeries.Create(Self);
+  BarTotal.Title := 'Total';
+  BarTotal.Marks.Visible := True;
+  BarTotal.Marks.Style := smsValue;
+  Chart1.AddSeries(BarTotal);
+
+  BarOpen := TBarSeries.Create(Self);
+  BarOpen.Title := 'Open';
+  BarOpen.Marks.Visible := True;
+  BarOpen.Marks.Style := smsValue;
+  Chart1.AddSeries(BarOpen);
+
+  BarSelesai := TBarSeries.Create(Self);
+  BarSelesai.Title := 'Selesai';
+  BarSelesai.Marks.Visible := True;
+  BarSelesai.Marks.Style := smsValue;
+  Chart1.AddSeries(BarSelesai);
+
+  Qry := TADOQuery.Create(nil);
+  try
+    Qry.Connection := Main.MyConnection;
+
+    StrQry :=
+      'EXEC dbo.GetDashboardTroubleshootingByType '+
+      '@FromDate = '+QuotedStr(FormatDateTime('yyyy-mm-dd', TglFrom.Date))+', '+
+      '@ToDate = '+QuotedStr(FormatDateTime('yyyy-mm-dd', TglTo.Date));
+
+    Qry.SQL.Text := StrQry;
+    Qry.Open;
+
+    while not Qry.Eof do
+    begin
+      BarTotal.Add(
+        Qry.FieldByName('total').AsInteger,
+        Qry.FieldByName('jenis_permintaan').AsString
+      );
+
+      BarOpen.Add(
+        Qry.FieldByName('open_ticket').AsInteger,
+        Qry.FieldByName('jenis_permintaan').AsString
+      );
+
+      BarSelesai.Add(
+        Qry.FieldByName('selesai').AsInteger,
+        Qry.FieldByName('jenis_permintaan').AsString
+      );
+
+      Qry.Next;
+    end;
+
+  finally
+    Qry.Free;
+  end;
+end;
+
 procedure TDashboardTroublesooting.LihatClick(Sender: TObject);
 begin
   LoadData;
+end;
+
+procedure TDashboardTroublesooting.LoadChartClick(Sender: TObject);
+begin
+LoadChartByType;
+LoadDashboard;
+LoadKPIResponse;
+end;
+
+procedure TDashboardTroublesooting.LoadDashboard;
+var
+  Qry: TADOQuery;
+  BarTotal, BarOpen, BarSelesai: TBarSeries;
+  StrQry, Jenis: string;
+  TotalAll, OpenAll, SelesaiAll: Integer;
+  Achievement: Double;
+begin
+  TotalAll := 0;
+  OpenAll := 0;
+  SelesaiAll := 0;
+
+  Chart1.RemoveAllSeries;
+  Chart1.View3D := False;
+  Chart1.Legend.Visible := True;
+
+  Chart1.Title.Text.Clear;
+  Chart1.Title.Text.Add('Grafik Kasus vs Selesai Per Jenis Permintaan');
+  Chart1.Title.Font.Size := 16;
+  Chart1.Title.Font.Style := [fsBold];
+  Chart1.Title.Font.Color := clBlue;
+
+  Chart1.LeftAxis.Title.Caption := 'Jumlah TRF';
+  Chart1.LeftAxis.Title.Font.Style := [fsBold];
+
+  // label bawah mendatar
+  Chart1.BottomAxis.LabelsAngle := 0;
+  Chart1.BottomAxis.LabelsFont.Size := 8;
+  Chart1.BottomAxis.LabelStyle := talText;
+
+  Chart1.MarginBottom := 10;
+  Chart1.MarginLeft := 5;
+  Chart1.MarginRight := 10;
+
+  BarTotal := TBarSeries.Create(Self);
+  BarTotal.Title := 'Total';
+  BarTotal.SeriesColor := clBlue;
+  //BarTotal.Color := RGB(52,152,219); // biru
+  BarTotal.Marks.Visible := True;
+  BarTotal.Marks.Style := smsValue;
+  Chart1.AddSeries(BarTotal);
+
+  BarOpen := TBarSeries.Create(Self);
+  BarOpen.Title := 'Open';
+  BarOpen.SeriesColor := clRed;
+  //BarOpen.Color := RGB(231,76,60); // merah
+  BarOpen.Marks.Visible := True;
+  BarOpen.Marks.Style := smsValue;
+  Chart1.AddSeries(BarOpen);
+
+  BarSelesai := TBarSeries.Create(Self);
+  BarSelesai.Title := 'Selesai';
+ // BarSelesai.Color := RGB(46,204,113); // hijau
+  BarSelesai.SeriesColor := clGreen;
+  BarSelesai.Marks.Visible := True;
+  BarSelesai.Marks.Style := smsValue;
+  Chart1.AddSeries(BarSelesai);
+
+  Qry := TADOQuery.Create(nil);
+  try
+    Qry.Connection := Main.MyConnection;
+
+    StrQry :=
+      'EXEC dbo.GetDashboardTroubleshootingByType '+
+      '@FromDate = '+QuotedStr(FormatDateTime('yyyy-mm-dd', TglFrom.Date))+', '+
+      '@ToDate = '+QuotedStr(FormatDateTime('yyyy-mm-dd', TglTo.Date));
+
+    Qry.SQL.Text := StrQry;
+    Qry.Open;
+
+    while not Qry.Eof do
+    begin
+      Jenis := Qry.FieldByName('jenis_permintaan').AsString;
+
+      if Jenis = 'Infrastruktur dan Jaringan' then
+        Jenis := 'Infra & Jaringan';
+
+      BarTotal.Add(Qry.FieldByName('total').AsInteger, Jenis);
+      BarOpen.Add(Qry.FieldByName('open_ticket').AsInteger, Jenis);
+      BarSelesai.Add(Qry.FieldByName('selesai').AsInteger, Jenis);
+
+      TotalAll := TotalAll + Qry.FieldByName('total').AsInteger;
+      OpenAll := OpenAll + Qry.FieldByName('open_ticket').AsInteger;
+      SelesaiAll := SelesaiAll + Qry.FieldByName('selesai').AsInteger;
+
+      Qry.Next;
+    end;
+
+  finally
+    Qry.Free;
+  end;
+
+  if TotalAll > 0 then
+    Achievement := (SelesaiAll / TotalAll) * 100
+  else
+    Achievement := 0;
+
+  lblTotal.Caption := IntToStr(TotalAll);
+  lblSelesai.Caption := IntToStr(SelesaiAll);
+  lblOpen.Caption := IntToStr(OpenAll);
+  lblAchievement.Caption := FormatFloat('0.00', Achievement) + ' %';
+end;
+
+procedure TDashboardTroublesooting.LoadKPIResponse;
+var
+  Qry: TADOQuery;
+  StrQry: string;
+begin
+  Qry := TADOQuery.Create(nil);
+  try
+    Qry.Connection := Main.MyConnection;
+
+    StrQry :=
+      'EXEC dbo.GetDashboardTroubleshootingResponse '+
+      '@FromDate = '+QuotedStr(FormatDateTime('yyyy-mm-dd', TglFrom.Date))+', '+
+      '@ToDate = '+QuotedStr(FormatDateTime('yyyy-mm-dd', TglTo.Date));
+
+    Qry.SQL.Text := StrQry;
+    Qry.Open;
+
+    if not Qry.Eof then
+    begin
+      lblRespon15.Caption :=
+        Qry.FieldByName('respon_15').AsString;
+
+      lblResponOver15.Caption :=
+        Qry.FieldByName('respon_over_15').AsString;
+    end;
+
+  finally
+    Qry.Free;
+  end;
 end;
 
 end.

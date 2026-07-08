@@ -26,6 +26,9 @@ type
     GroupBox2: TGroupBox;
     Label3: TLabel;
     cb_jenis_truouble: TComboBox;
+    GroupBox3: TGroupBox;
+    Label4: TLabel;
+    cb_status: TComboBox;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -124,7 +127,7 @@ end;
 
 procedure TTroubleshootingRequestFormList.LoadData;
 var Qry:TADOQuery;
-    StrQry, StrTgl,StrDepartemenId, StrType:String;
+    StrQry, StrTgl,StrDepartemenId, StrType,StrStatus:String;
     IntCount:Integer;
     TanggalSaja, WaktuSaja: TDateTime;
 begin
@@ -141,7 +144,12 @@ begin
          StrType := ',@Type ='+QuotedStr(cb_jenis_truouble.Text);
       end else  StrType := '';
 
-    StrQry:= 'EXEC GetTroubleshootingList  @FromDate='+StrTgl+StrType+';';
+  // MessageBox(0,PChar(StrDepartemenId),'Rekomendasi Teknis',MB_OK or MB_ICONINFORMATION);
+      if cb_status.Text <> 'ALL' then begin
+         StrStatus := ',@Status ='+QuotedStr(cb_status.Text);
+      end else  StrStatus := '';
+
+    StrQry:= 'EXEC GetTroubleshootingList  @FromDate='+StrTgl+StrType+StrStatus+';';
     Qry.SQL.Clear;
     Qry.SQL.Add(StrQry);
     Qry.Open;
@@ -194,6 +202,9 @@ begin
     begin
      for IntCount2:=0 to StrGrid.ColCount-1 do
      StrGrid.CellStyle[IntCount2,IntCount+1].Font.Color:=clGreen;
+    end else begin
+      for IntCount2:=0 to StrGrid.ColCount-1 do
+      StrGrid.CellStyle[IntCount2,IntCount+1].Font.Color:=clWindowText;
     end;
 
     AktifkanWordWrap(StrGrid);

@@ -163,7 +163,7 @@ var Count,Count2:Integer;
     StrQry:String;
     IntCount:Integer;
 begin
-  MaxCol:=17;
+  MaxCol:=18;
   cbCancel.Checked:=False;
   SBU.Items.Clear;
   SBU.Text:='';
@@ -216,44 +216,46 @@ begin
   StrGrid.Cells[2,0]:='No SJ';
   StrGrid.Cells[3,0]:='Customer';
   StrGrid.Cells[4,0]:='Rute';
-  StrGrid.Cells[5,0]:='No Body';
-  StrGrid.Cells[6,0]:='No Polisi';
-  StrGrid.Cells[7,0]:='Driver';
-  StrGrid.Cells[8,0]:='BusBoy';
-  StrGrid.Cells[9,0]:='Standby';
+  StrGrid.Cells[5,0]:='Keberangkatan';
+  StrGrid.Cells[6,0]:='No Body';
+  StrGrid.Cells[7,0]:='No Polisi';
+  StrGrid.Cells[8,0]:='Driver';
+  StrGrid.Cells[9,0]:='BusBoy';
+  StrGrid.Cells[10,0]:='Standby';
 
-  StrGrid.Cells[10,0]:='Driver Input 1';
-  StrGrid.Cells[10,1]:='Pengisian';
-  StrGrid.Cells[11,1]:='Titik Kordinat';
-  StrGrid.Cells[12,1]:='BBM(Ltr)';
-  StrGrid.Cells[13,1]:='BBM(Rp)';
+  StrGrid.Cells[11,0]:='Driver Input 1';
+  StrGrid.Cells[11,1]:='Pengisian';
+  StrGrid.Cells[12,1]:='Titik Kordinat';
+  StrGrid.Cells[13,1]:='BBM(Ltr)';
+  StrGrid.Cells[14,1]:='BBM(Rp)';
 
-  StrGrid.Cells[14,0]:='Driver Input 2';
-  StrGrid.Cells[14,1]:='Pengisian';
-  StrGrid.Cells[15,1]:='Titik Kordinat';
-  StrGrid.Cells[16,1]:='BBM(Ltr)';
-  StrGrid.Cells[17,1]:='BBM(Rp)';
+  StrGrid.Cells[15,0]:='Driver Input 2';
+  StrGrid.Cells[15,1]:='Pengisian';
+  StrGrid.Cells[16,1]:='Titik Kordinat';
+  StrGrid.Cells[17,1]:='BBM(Ltr)';
+  StrGrid.Cells[18,1]:='BBM(Rp)';
 
   StrGrid.ColWidths[0]:=25;
   StrGrid.ColWidths[1]:=95;
   StrGrid.ColWidths[2]:=90;
   StrGrid.ColWidths[3]:=200;
   StrGrid.ColWidths[4]:=200;
-  StrGrid.ColWidths[5]:=55;
-  StrGrid.ColWidths[6]:=90;
-  StrGrid.ColWidths[7]:=85;
+  StrGrid.ColWidths[5]:=120;
+  StrGrid.ColWidths[6]:=70;
+  StrGrid.ColWidths[7]:=90;
   StrGrid.ColWidths[8]:=85;
-  StrGrid.ColWidths[9]:=50;
+  StrGrid.ColWidths[9]:=85;
+  StrGrid.ColWidths[10]:=50;
 
-  StrGrid.ColWidths[10]:=100;
-  StrGrid.ColWidths[11]:=80;
+  StrGrid.ColWidths[11]:=100;
   StrGrid.ColWidths[12]:=80;
-  StrGrid.ColWidths[13]:=100;
-
+  StrGrid.ColWidths[13]:=80;
   StrGrid.ColWidths[14]:=100;
-  StrGrid.ColWidths[15]:=80;
+
+  StrGrid.ColWidths[15]:=100;
   StrGrid.ColWidths[16]:=80;
-  StrGrid.ColWidths[17]:=100;
+  StrGrid.ColWidths[17]:=80;
+  StrGrid.ColWidths[18]:=100;
 
   StrGrid.MergeCells.AddRectXY(0,0,0,1);
   StrGrid.MergeCells.AddRectXY(1,0,1,1);
@@ -265,9 +267,10 @@ begin
   StrGrid.MergeCells.AddRectXY(7,0,7,1);
   StrGrid.MergeCells.AddRectXY(8,0,8,1);
   StrGrid.MergeCells.AddRectXY(9,0,9,1);
-  StrGrid.MergeCells.AddRectXY(10,0,13,0);
-  StrGrid.MergeCells.AddRectXY(14,0,17,0);
-  StrGrid.MergeCells.AddRectXY(0,-1,11,-1);
+  StrGrid.MergeCells.AddRectXY(10,0,10,1);
+  StrGrid.MergeCells.AddRectXY(11,0,14,0);
+  StrGrid.MergeCells.AddRectXY(15,0,18,0);
+  StrGrid.MergeCells.AddRectXY(0,-1,12,-1);
 
 
   for IntCount:=0 to MaxCol do begin
@@ -408,38 +411,39 @@ begin
     StrGrid.Cells[2,Count]:=OrderFeeArr[IntCount][1];
     StrGrid.Cells[3,Count]:=OrderFeeArr[IntCount][2];
     StrGrid.Cells[4,Count]:=OrderFeeArr[IntCount][3];
-    StrGrid.Cells[5,Count]:=OrderFeeArr[IntCount][4];
+    StrGrid.Cells[5,Count]:=OrderFeeArr[IntCount][91];
+    StrGrid.Cells[6,Count]:=OrderFeeArr[IntCount][4];
 
 
     if (OrderFeeArr[IntCount][44]<>NULL) or (OrderFeeArr[IntCount][44]<>'') then begin  {employee_id}
       Inc(TotalOperasi);
-      StrGrid.Cells[6,Count]:=OrderFeeArr[IntCount][5];
-      StrGrid.Cells[7,Count]:=OrderFeeArr[IntCount][6];
-      StrGrid.Cells[8,Count]:=OrderFeeArr[IntCount][7];
-      StrGrid.Cells[9,Count]:=OrderFeeArr[IntCount][8];
+      StrGrid.Cells[7,Count]:=OrderFeeArr[IntCount][5];
+      StrGrid.Cells[8,Count]:=OrderFeeArr[IntCount][6];
+      StrGrid.Cells[9,Count]:=OrderFeeArr[IntCount][7];
+      StrGrid.Cells[10,Count]:=OrderFeeArr[IntCount][8];
 
-      StrGrid.Cells[10,Count]:= OrderFeeArr[IntCount][83];
-      StrGrid.Cells[11,Count]:= OrderFeeArr[IntCount][84];
+      StrGrid.Cells[11,Count]:= OrderFeeArr[IntCount][83];
+      StrGrid.Cells[12,Count]:= OrderFeeArr[IntCount][84];
       if OrderFeeArr[IntCount][85]<>'0' then begin
-        StrGrid.Cells[12,Count]:= IToCurr(StoInt(OrderFeeArr[IntCount][85]));
+        StrGrid.Cells[13,Count]:= IToCurr(StoInt(OrderFeeArr[IntCount][85]));
         TotalBBMInput1_Ltr :=TotalBBMInput1_Ltr+StoInt(OrderFeeArr[IntCount][85]);
-        StrGrid.Cells[13,Count]:= IToCurr(StoInt(OrderFeeArr[IntCount][86]));
+        StrGrid.Cells[14,Count]:= IToCurr(StoInt(OrderFeeArr[IntCount][86]));
         TotalBBMInput1 :=TotalBBMInput1+StoInt(OrderFeeArr[IntCount][86]);
       end else begin
-         StrGrid.Cells[12,Count]:='0';
          StrGrid.Cells[13,Count]:='0';
+         StrGrid.Cells[14,Count]:='0';
       end;
-      StrGrid.Cells[14,Count]:= OrderFeeArr[IntCount][87];
-      StrGrid.Cells[15,Count]:= OrderFeeArr[IntCount][88];
+      StrGrid.Cells[15,Count]:= OrderFeeArr[IntCount][87];
+      StrGrid.Cells[16,Count]:= OrderFeeArr[IntCount][88];
 
       if OrderFeeArr[IntCount][89]<>Null then begin
-        StrGrid.Cells[16,Count]:= IToCurr(StoInt(OrderFeeArr[IntCount][89]));
+        StrGrid.Cells[17,Count]:= IToCurr(StoInt(OrderFeeArr[IntCount][89]));
         TotalBBMInput2_Ltr :=TotalBBMInput2_Ltr+StoInt(OrderFeeArr[IntCount][89]);
-        StrGrid.Cells[17,Count]:= IToCurr(StoInt(OrderFeeArr[IntCount][90]));
+        StrGrid.Cells[18,Count]:= IToCurr(StoInt(OrderFeeArr[IntCount][90]));
         TotalBBMInput2 :=TotalBBMInput2+StoInt(OrderFeeArr[IntCount][90]);
       end else begin
-         StrGrid.Cells[16,Count]:='0';
          StrGrid.Cells[17,Count]:='0';
+         StrGrid.Cells[18,Count]:='0';
       end;
 
     end;
@@ -450,22 +454,22 @@ begin
   StrGrid.RowCount:=StrGrid.RowCount+2;
   for Count2:=0 to StrGrid.ColCount-1 do StrGrid.CellStyle[Count2, StrGrid.RowCount-1].Font.Color:=clWindowText;
   
-  StrGrid.Cells[11,StrGrid.RowCount-1]:='Total';
+  StrGrid.Cells[12,StrGrid.RowCount-1]:='Total';
   StrGrid.MergeCells.AddRectXY(0,-1,11,-1);
-  StrGrid.Cells[12,StrGrid.RowCount-1]:=IToCurr(TotalBBMInput1_Ltr);
-  StrGrid.Cells[13,StrGrid.RowCount-1]:=IToCurr(TotalBBMInput1);
-  StrGrid.Cells[16,StrGrid.RowCount-1]:=IToCurr(TotalBBMInput2_Ltr);
-  StrGrid.Cells[17,StrGrid.RowCount-1]:=IToCurr(TotalBBMInput2);
+  StrGrid.Cells[13,StrGrid.RowCount-1]:=IToCurr(TotalBBMInput1_Ltr);
+  StrGrid.Cells[14,StrGrid.RowCount-1]:=IToCurr(TotalBBMInput1);
+  StrGrid.Cells[17,StrGrid.RowCount-1]:=IToCurr(TotalBBMInput2_Ltr);
+  StrGrid.Cells[18,StrGrid.RowCount-1]:=IToCurr(TotalBBMInput2);
 
  // StrGrid.CellStyle[9,StrGrid.RowCount-1].BGColor:=clSilver;
  // StrGrid.CellStyle[10,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[11,StrGrid.RowCount-1].BGColor:=clSilver;
   StrGrid.CellStyle[12,StrGrid.RowCount-1].BGColor:=clSilver;
   StrGrid.CellStyle[13,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[14,StrGrid.RowCount-1].BGColor:=clSilver;
  // StrGrid.CellStyle[14,StrGrid.RowCount-1].BGColor:=clSilver;
  // StrGrid.CellStyle[15,StrGrid.RowCount-1].BGColor:=clSilver;
-  StrGrid.CellStyle[16,StrGrid.RowCount-1].BGColor:=clSilver;
   StrGrid.CellStyle[17,StrGrid.RowCount-1].BGColor:=clSilver;
+  StrGrid.CellStyle[18,StrGrid.RowCount-1].BGColor:=clSilver;
 
   for Count2:=2 to StrGrid.RowCount do
   begin
@@ -480,15 +484,16 @@ begin
     StrGrid.CellStyle[8,Count2].HorizontalAlignment:=taLeftJustify;
     StrGrid.CellStyle[9,Count2].HorizontalAlignment:=taLeftJustify;
     StrGrid.CellStyle[10,Count2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[14,Count2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[15,Count2].HorizontalAlignment:=taLeftJustify;
-
     StrGrid.CellStyle[11,Count2].HorizontalAlignment:=taLeftJustify;
-    StrGrid.CellStyle[12,Count2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[13,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[15,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[16,Count2].HorizontalAlignment:=taLeftJustify;
 
-    StrGrid.CellStyle[16,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[12,Count2].HorizontalAlignment:=taLeftJustify;
+    StrGrid.CellStyle[13,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[14,Count2].HorizontalAlignment:=taRightJustify;
+
     StrGrid.CellStyle[17,Count2].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[18,Count2].HorizontalAlignment:=taRightJustify;
 
   end;
 
@@ -647,7 +652,6 @@ begin
     OrderFeeArr[IntCount][2]:=Qry.FieldValues['customer_name'];
     OrderFeeArr[IntCount][3]:=Qry.FieldValues['route'];
     OrderFeeArr[IntCount][4]:=Qry.FieldValues['body_id'];
-
     if Qry.FieldValues['employee_id']<>NULL then begin
       Inc(TotalOperasi);
       {
@@ -891,6 +895,10 @@ begin
           OrderFeeArr[IntCount][90]:= Qry.FieldValues['bbm_rp2'];
           //TotalBBMInput2:= TotalBBMInput2+SToInt(Qry2.FieldValues['fuel_price_2']);
         end else OrderFeeArr[IntCount][90]:='0';
+        
+        if Qry.FieldValues['from_to_dates'] <> Null then
+          OrderFeeArr[IntCount][91]:=Qry.FieldValues['from_to_dates']
+        else OrderFeeArr[IntCount][91]:= '';
 
         //Qry2.Next;
       //end;

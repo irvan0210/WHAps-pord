@@ -113,9 +113,9 @@ object Apps: TApps
   end
   object Perubahan: TMemo
     Left = 192
-    Top = 8
+    Top = 0
     Width = 489
-    Height = 465
+    Height = 473
     BevelInner = bvNone
     BevelKind = bkSoft
     BorderStyle = bsNone
@@ -126,6 +126,15 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '08/07/2026 (6.2.1.5)'
+      '- Penambahan Dashboard Troubleshooting'
+      
+        '- Penambahan Filter Jenis dan Status Permintaan dilist  Troubles' +
+        'hooting'
+      '- Perubahan Proses Cetak Surat Jalan Mengikuti CMS'
+      '- Perubahan Proses Penjadwalan Mengikuti CMS'
+      '- Penambahan Tanggal Perjalanan di Laporan pengisian BBM Driver'
+      ''
       '10/06/2026 (6.2.1.4)'
       '- Penambahan Menu Approval PKB'
       '- Perbaikan bug di menu PO'
