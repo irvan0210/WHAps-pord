@@ -1,6 +1,6 @@
 object SPJFormBus: TSPJFormBus
-  Left = 444
-  Top = 266
+  Left = 451
+  Top = 92
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Surat Jalan'
