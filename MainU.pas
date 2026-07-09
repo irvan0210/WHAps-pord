@@ -247,7 +247,7 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   MemoListU,  KoneksiDatabaseU, DriverVehicleAuthorizationU,
   DriverVehicleAuthorizationListU, PurchaseRequestRptU, PurchaseOrderRptU,
   RevenueVhcDayBusRptV2U, DriverFuelFillingRptU, AbsensiDrvRptU,
-  ApprovalWorkOrderListU, DashboardTroublesootingU;
+  ApprovalWorkOrderListU, DashboardTroublesootingU, CctvCheckFormU, CctvCameraListU;
 
 
 constructor TClockThread.Create;
@@ -2003,6 +2003,12 @@ begin
               1:if IsFormOpen('ReturBarangListU')=False then ReturBarangList:=TReturBarangList.Create(Self);
            end;
         end;
+        162801..162802:begin
+          Case CaseStr(RightStr(IntToStr(Tag),2),['01','02']) of
+              0:if IsFormOpen('CctvCameraList')=False then CctvCameraList:=TCctvCameraList.Create(Self);
+              1:if IsFormOpen('CctvCheckForm')=False then CctvCheckForm:=TCctvCheckForm.Create(Self);
+           end;
+        end;
         190901..190901:begin
           Case CaseStr(RightStr(IntToStr(Tag),2),['01']) of
               0:if IsFormOpen('LaporanPermintaanBarangJasaU')=False then LaporanPermintaanBarangJasa:=TLaporanPermintaanBarangJasa.Create(Self);
@@ -2270,6 +2276,7 @@ begin
   TimerMessage.Enabled:=True;
   InitBasedForm;
   LoadSetting;
+  // Baris test sementara TEMP-TEST-CCTV sudah dihapus - modul CCTV sekarang dibuka lewat menu (Tag 162801/162802)
 end;
 
 procedure TMain.InitBasedForm ;

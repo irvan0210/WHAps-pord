@@ -771,6 +771,9 @@ begin
   end else
     MessageBox(0,PChar('Item masih kosong'),'Purchase Request',MB_OK or MB_ICONWARNING); }
   // Hanya simpan jika ada nilai
+  // FIX: baris ini sebelumnya hilang sehingga harga tidak masuk ke grid saat Tab ditekan (OnExit
+  // tidak menulis ke StrGrid). CommitPriceUnit sudah menangani convert+tulis ke grid+Calculate.
+  CommitPriceUnit;
   PriceUnit.Text := '';
   PriceUnit.Visible := False;
 end;

@@ -2131,8 +2131,8 @@ begin
           end
           else
           begin
-            StrTransId := ReserveTravelDocumentNumber(LocationCode,StrToDate(FromDate.Text),User,QuotedStr(ReservedOrderDetaiId.Text),'WHAPS_DESKTOP',0);
-            ShowMessage('Nomor SJ: ' + StrTransId);
+            StrTransId := ReserveTravelDocumentNumber(LocationCode,StrToDate(SJDate.Text),User,QuotedStr(ReservedOrderDetaiId.Text),'WHAPS_DESKTOP',0);
+           // ShowMessage('Nomor SJ: ' + StrTransId);
 
             {StrQry:='SELECT RIGHT(MAX(vhc_trans_id),4) AS max_id FROM wh_vhc_trans '+
                     'WHERE vhc_trans_id  LIKE '+QuotedStr('SJB'+LocationCode+FormatDateTime('yy',StrToDate(Main.Status.Panels.Items[0].Text))+

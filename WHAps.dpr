@@ -366,7 +366,11 @@ uses
   AbsensiDrvRptU in 'AbsensiDrvRptU.pas' {AbsensiDrvRpt},
   ApprovalWorkOrderListU in 'ApprovalWorkOrderListU.pas' {ApprovalWorkOrderList},
   NoteRejectPKBU in 'NoteRejectPKBU.pas' {NoteRejectPKB},
-  DashboardTroublesootingU in 'DashboardTroublesootingU.pas' {DashboardTroublesooting};
+  DashboardTroublesootingU in 'DashboardTroublesootingU.pas' {DashboardTroublesooting},
+  CctvCameraFormU in 'CctvCameraFormU.pas' {CctvCameraForm},
+  CctvCameraListU in 'CctvCameraListU.pas' {CctvCameraList},
+  CctvCheckFormU in 'CctvCheckFormU.pas' {CctvCheckForm},
+  CctvCheckListU in 'CctvCheckListU.pas' {CctvCheckList};
 
 {$R *.res}
 

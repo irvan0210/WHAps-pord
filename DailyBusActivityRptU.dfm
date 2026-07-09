@@ -1,6 +1,6 @@
 object DailyBusActivityRpt: TDailyBusActivityRpt
-  Left = 161
-  Top = 149
+  Left = 341
+  Top = 212
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Laporan Aktifitas Harian'

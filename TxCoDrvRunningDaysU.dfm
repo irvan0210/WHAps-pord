@@ -1,6 +1,6 @@
 object TxCoDrvRunningDaysRpt: TTxCoDrvRunningDaysRpt
-  Left = 133
-  Top = 131
+  Left = 478
+  Top = 134
   BorderIcons = []
   BorderStyle = bsNone
   Caption = 'Laporan Running Days (Co Driver)'
