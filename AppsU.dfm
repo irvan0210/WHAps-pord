@@ -126,6 +126,10 @@ object Apps: TApps
     Font.Name = 'Arial'
     Font.Style = []
     Lines.Strings = (
+      '13/07/2026 (6.2.1.5)   Force update'
+      '- Penambahan menu CCTV.'
+      '- Perbaikan bug di cetak SJ'
+      ''
       '08/07/2026 (6.2.1.5)'
       '- Penambahan Dashboard Troubleshooting'
       

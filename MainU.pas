@@ -247,7 +247,8 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   MemoListU,  KoneksiDatabaseU, DriverVehicleAuthorizationU,
   DriverVehicleAuthorizationListU, PurchaseRequestRptU, PurchaseOrderRptU,
   RevenueVhcDayBusRptV2U, DriverFuelFillingRptU, AbsensiDrvRptU,
-  ApprovalWorkOrderListU, DashboardTroublesootingU, CctvCheckFormU, CctvCameraListU;
+  ApprovalWorkOrderListU, DashboardTroublesootingU, CctvCheckFormU, CctvCameraListU,
+  DashboardCctvU;
 
 
 constructor TClockThread.Create;
@@ -2003,10 +2004,11 @@ begin
               1:if IsFormOpen('ReturBarangListU')=False then ReturBarangList:=TReturBarangList.Create(Self);
            end;
         end;
-        162801..162802:begin
-          Case CaseStr(RightStr(IntToStr(Tag),2),['01','02']) of
+        162801..162803:begin
+          Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03']) of
               0:if IsFormOpen('CctvCameraList')=False then CctvCameraList:=TCctvCameraList.Create(Self);
               1:if IsFormOpen('CctvCheckForm')=False then CctvCheckForm:=TCctvCheckForm.Create(Self);
+              2:if IsFormOpen('DashboardCctv')=False then DashboardCctv:=TDashboardCctv.Create(Self);
            end;
         end;
         190901..190901:begin
