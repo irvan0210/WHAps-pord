@@ -425,7 +425,7 @@ begin
   Destination.ItemIndex:=-1;
   Destination.Text:='';
   OrderId.Text:='';
-  SJDate.Text:='';
+ // SJDate.Text:='';
   ReservedOrderDetaiId.Text:='';
   NoSPJ.Text:='';
   NoPolisi.Text:='';
