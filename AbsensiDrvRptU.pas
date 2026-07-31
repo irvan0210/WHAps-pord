@@ -754,7 +754,7 @@ begin
               SetLength(DailyArr,Length(DailyArr)+1);
             end; }
 
-          { ============ Kode AI ================= }
+
             { CETAK TOTAL GROUP SEBELUMNYA }
             { ============================= }
             if StrJenisKaryawan<>'' then
@@ -944,9 +944,9 @@ begin
         StrGrid.TopRow:= IntCountEmpl-12;//Qry.RecNo-20;
     end;
 
-    { ============= KOde AI ================ }
+
       { CETAK TOTAL GROUP TERAKHIR }
-      { ============================= }
+
     // ================= TOTAL MASUK =================
       StrGrid.RowCount := IntCount + 1;
 
@@ -1099,7 +1099,7 @@ begin
     //  end;
       //Inc(IntCount);
       //SetLength(DailyArr,Length(DailyArr)+1);   }
-       { ============= END KOde AI ================ }
+       { ============= END  ================ }
     ProgressBar.Position := 0;
     Qry.Close;
     FreeAndNil(Qry2);

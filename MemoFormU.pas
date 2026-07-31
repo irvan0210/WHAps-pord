@@ -236,7 +236,7 @@ var Qry:TADOQuery;
     IsOk:Boolean;
 begin
   if (Trim(DocNumber.Text)<>'') AND (DocTitle.Text <>'')
-    AND (EditFileName.Text <>'')  then begin
+    AND (EditFileName.Text <>'') AND (Trim(CustomerID.Text)<>'') then begin
     IsOk:=True;
     Qry:=TADOQuery.Create(Self);
     Qry.Connection:=Main.MyConnection;

@@ -337,7 +337,8 @@ begin
 end;
 
 procedure TBudgetCreate.Calculate;
-var IntCount,IntNum,IntTotal:Integer;
+var IntCount,IntNum:Integer;
+    IntTotal:Int64;
 begin
 //  if (Trim(GridCOA.Cells[2,IntRow])<>'') then begin
     IntNum:=0;
@@ -352,7 +353,7 @@ begin
   IntTotal:=0;
   for IntCount:=1 to GridCOA.RowCount-1 do
     if (Trim(GridCOA.Cells[3,IntCount])<>'') AND (Trim(GridCOA.Cells[3,IntCount])<>'0') then
-      IntTotal:=IntTotal+SToInt(ToString(GridCOA.Cells[3,IntCount]));
+      IntTotal:=IntTotal+SToInt64(ToString(GridCOA.Cells[3,IntCount]));
   Total.Text:=IToCurr(IntTotal);
 end;
 
@@ -464,7 +465,8 @@ end;
 procedure TBudgetCreate.RefreshGrid;
 var Qry:TADOQuery;
     StrQry,StrCompanyId,StrLocationId:String;
-    IntCount,IntTotal:Integer;
+    IntCount:Integer;
+    IntTotal:Int64;
 begin
   if (Trim(SBU.Text)<>'') AND (Trim(Department.Text)<>'') AND (Trim(Month.Text)<>'') AND (Trim(Year.Text)<>'') then begin
     Qry:=TADOQuery.Create(Self);

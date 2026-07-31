@@ -164,7 +164,7 @@ var Count,Count2:Integer;
     StrQry:String;
     IntCount:Integer;
 begin
-  MaxCol:=90;
+  MaxCol:=96;
   cbCancel.Checked:=False;
   SBU.Items.Clear;
   SBU.Text:='';
@@ -293,6 +293,8 @@ begin
 
   StrGrid.MergeCells.AddRectXY(86,0,89,0);
   StrGrid.MergeCells.AddRectXY(90,0,90,1);
+  StrGrid.MergeCells.AddRectXY(91,0,93,0);
+  StrGrid.MergeCells.AddRectXY(94,0,96,0);
  // StrGrid.MergeCells.AddRectXY(91,0,94,0);
   //StrGrid.MergeCells.AddRectXY(90,0,90,1);
   //StrGrid.MergeCells.AddRectXY(91,0,92,0);
@@ -466,6 +468,14 @@ begin
   StrGrid.Cells[88,1]:='Helper';
   StrGrid.Cells[89,1]:='Catatan';
   StrGrid.Cells[90,0]:='Reprint Terakhir';
+  StrGrid.Cells[91,0]:='Odo Transtrack';
+  StrGrid.Cells[91,1]:='Out';
+  StrGrid.Cells[92,1]:='In';
+  StrGrid.Cells[93,1]:='Selisih';
+  StrGrid.Cells[94,0]:='Odo Cheker';
+  StrGrid.Cells[94,1]:='Out';
+  StrGrid.Cells[95,1]:='In';
+  StrGrid.Cells[96,1]:='Selisih';
 
  { StrGrid.Cells[91,0]:='Driver Input 1';
   StrGrid.Cells[91,1]:='Pengisian';
@@ -528,6 +538,12 @@ begin
   StrGrid.ColWidths[88]:=50;
   StrGrid.ColWidths[89]:=400;
   StrGrid.ColWidths[90]:=500;
+  StrGrid.ColWidths[91]:=80;
+  StrGrid.ColWidths[92]:=80;
+  StrGrid.ColWidths[93]:=60;
+  StrGrid.ColWidths[94]:=80;
+  StrGrid.ColWidths[95]:=80;
+  StrGrid.ColWidths[96]:=60;
 
   {StrGrid.ColWidths[91]:=100;
   StrGrid.ColWidths[92]:=100;
@@ -652,7 +668,7 @@ begin
   TotalBBMInput1_Ltr := 0;
   TotalBBMInput2_Ltr := 0;
 
-  if Length(OrderFeeArr)>0 then StrGrid.RowCount:=Length(OrderFeeArr)+1
+  if Length(OrderFeeArr)>0 then StrGrid.RowCount:=Length(OrderFeeArr)+2
   else begin
     StrGrid.RowCount:=3;
   end;
@@ -978,6 +994,20 @@ begin
       StrGrid.Cells[89,Count]:= OrderFeeArr[IntCount][74];
       StrGrid.Cells[90,Count]:= OrderFeeArr[IntCount][77];
 
+      StrGrid.CellStyle[91,Count].HorizontalAlignment:=taRightJustify;
+      StrGrid.CellStyle[92,Count].HorizontalAlignment:=taRightJustify;
+      StrGrid.CellStyle[93,Count].HorizontalAlignment:=taRightJustify;
+      StrGrid.CellStyle[94,Count].HorizontalAlignment:=taRightJustify;
+      StrGrid.CellStyle[95,Count].HorizontalAlignment:=taRightJustify;
+      StrGrid.CellStyle[96,Count].HorizontalAlignment:=taRightJustify;
+      StrGrid.Cells[91,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][93]));
+      StrGrid.Cells[92,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][94]));
+      StrGrid.Cells[93,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][95]));
+
+      if OrderFeeArr[IntCount][32]<>'' then StrGrid.Cells[94,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][32])) else StrGrid.Cells[94,Count]:='0';
+      if OrderFeeArr[IntCount][33]<>'' then StrGrid.Cells[95,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][33])) else StrGrid.Cells[95,Count]:='0';
+      if OrderFeeArr[IntCount][34]<>'' then StrGrid.Cells[96,Count]:=IToCurr(StoInt(OrderFeeArr[IntCount][34])) else StrGrid.Cells[96,Count]:='0';
+
     {  StrGrid.Cells[91,Count]:= OrderFeeArr[IntCount][83];
       StrGrid.Cells[92,Count]:= OrderFeeArr[IntCount][84];
       if OrderFeeArr[IntCount][85]<>'0' then begin
@@ -1098,7 +1128,7 @@ begin
   end;
 
 
-  StrGrid.RowCount:=StrGrid.RowCount+2;
+  StrGrid.RowCount:=StrGrid.RowCount+1;
 //  for Count:=0 to 39 do begin
 //    StrGrid.Cells[Count,StrGrid.RowCount]:='';
 //    StrGrid.Cells[Count,StrGrid.RowCount-1]:='';
@@ -1803,6 +1833,22 @@ begin
       OrderFeeArr[IntCount][91]:=VartoStr(Qry.FieldValues['uang_joss']);
       if Qry.FieldValues['uang_tuslah']<>NULL then
       OrderFeeArr[IntCount][92]:=VartoStr(Qry.FieldValues['uang_tuslah']);
+
+      if Qry.FieldValues['transtrack_odo_out_km']<>NULL then begin
+        OrderFeeArr[IntCount][93]:=VartoStr(Qry.FieldValues['transtrack_odo_out_km']);
+      end else begin
+        OrderFeeArr[IntCount][93]:='0';
+      end;
+      if Qry.FieldValues['transtrack_odo_in_km']<>NULL then begin
+        OrderFeeArr[IntCount][94]:=VartoStr(Qry.FieldValues['transtrack_odo_in_km']);
+      end else begin
+        OrderFeeArr[IntCount][94]:='0';
+      end;
+      if Qry.FieldValues['transtrack_distance']<>NULL then begin
+        OrderFeeArr[IntCount][95]:=VartoStr(Qry.FieldValues['transtrack_distance']);
+      end else begin
+        OrderFeeArr[IntCount][95]:='0';
+      end;
 
       StrGrid.Cells[38,Count]:=Qry.FieldValues['UpdateUser'];
       if Qry.FieldValues['description']<>NULL then StrGrid.Cells[39,Count]:=Qry.FieldValues['description'] else StrGrid.Cells[38,Count]:='';
@@ -2556,6 +2602,20 @@ begin
           StrGrid.Cells[88,Count2-1]:= OrderFeeArr[Count][73];
           StrGrid.Cells[89,Count2-1]:= OrderFeeArr[Count][74];
           StrGrid.Cells[90,Count2-1]:= OrderFeeArr[Count][77];
+
+          StrGrid.CellStyle[91,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[92,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[94,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[95,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.CellStyle[96,Count2-1].HorizontalAlignment:=taRightJustify;
+          StrGrid.Cells[91,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][93]));
+          StrGrid.Cells[92,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][94]));
+          StrGrid.Cells[93,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][95]));
+
+          if OrderFeeArr[Count][32]<>'' then StrGrid.Cells[94,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][32])) else StrGrid.Cells[94,Count2-1]:='0';
+          if OrderFeeArr[Count][33]<>'' then StrGrid.Cells[95,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][33])) else StrGrid.Cells[95,Count2-1]:='0';
+          if OrderFeeArr[Count][34]<>'' then StrGrid.Cells[96,Count2-1]:=IToCurr(StoInt(OrderFeeArr[Count][34])) else StrGrid.Cells[96,Count2-1]:='0';
+
          { StrGrid.Cells[91,Count2-1]:= OrderFeeArr[Count][83];
           StrGrid.Cells[92,Count2-1]:= OrderFeeArr[Count][84];
           StrGrid.Cells[93,Count2-1]:= IToCurr(SToInt(OrderFeeArr[Count][85]));

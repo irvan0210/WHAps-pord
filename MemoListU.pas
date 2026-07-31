@@ -188,8 +188,8 @@ begin
   Cari.Text:='';
   Init;
   CekOtorisasi;
- // LoadData;
- // RefreshList;
+  LoadData;
+  RefreshList;
 end;
 
 procedure TMemoList.StrGridSelectCell(Sender: TObject; ACol, ARow: Integer;

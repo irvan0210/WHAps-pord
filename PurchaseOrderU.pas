@@ -1303,7 +1303,11 @@ begin
             StrQry:=StrQry+' INSERT INTO wh_purchase_order_detail (purchase_order_id,purchase_request_detail_id'+
                     ',part_detail_id,quantity,price_unit,total,update_user) '+
                     ' VALUES ('+QuotedStr(StrTransId)+','+QuotedStr(StrGrid.Cells[6,IntCount])+
-                    ','+QuotedStr(StrGrid.Cells[5,IntCount])+','+StrGrid.Cells[2,IntCount]+
+                    // FIX: quantity dulu dikirim mentah (StrGrid.Cells[2,IntCount]) tanpa ToString().
+                    // Kalau sel mengandung titik pemisah ribuan (mis. "1.000"), SQL Server membacanya
+                    // sebagai literal desimal 1.000 = 1, lalu dibulatkan jadi 1 saat masuk kolom int.
+                    // ToString() membuang titik itu dulu, sama seperti pola price_unit/total di bawah ini.
+                    ','+QuotedStr(StrGrid.Cells[5,IntCount])+','+ToString(StrGrid.Cells[2,IntCount])+
                     ','+ToString(StrGrid.Cells[3,IntCount])+','+ToString(StrGrid.Cells[4,IntCount])+
                     ','+QuotedStr(User)+');';
           end;
