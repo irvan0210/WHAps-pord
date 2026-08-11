@@ -370,7 +370,8 @@ uses
   CctvCameraFormU in 'CctvCameraFormU.pas' {CctvCameraForm},
   CctvCameraListU in 'CctvCameraListU.pas' {CctvCameraList},
   CctvCheckFormU in 'CctvCheckFormU.pas' {CctvCheckForm},
-  CctvCheckListU in 'CctvCheckListU.pas' {CctvCheckList};
+  CctvCheckListU in 'CctvCheckListU.pas' {CctvCheckList},
+  DashboardCctvU in 'DashboardCctvU.pas' {DashboardCctv};
 
 {$R *.res}
 

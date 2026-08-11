@@ -31,6 +31,7 @@ type
     procedure GridCCPSelectCell(Sender: TObject; ACol, ARow: Integer;
       var CanSelect: Boolean);
     procedure LihatClick(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
   private
     { Private declarations }
     CompanyArr:Array of TArrString5;
@@ -355,6 +356,13 @@ procedure TCustomerComplainCorrectiveActionPlanList.LihatClick(
 begin
   RefreshData;
   RefreshGrid;
+end;
+
+procedure TCustomerComplainCorrectiveActionPlanList.SpeedButton1Click(
+  Sender: TObject);
+begin
+  if ToExcel4(GridCCP) then ShowMessage('Export ke Excel Berhasil')
+  else ShowMessage('Export ke Excel Gagal');
 end;
 
 end.

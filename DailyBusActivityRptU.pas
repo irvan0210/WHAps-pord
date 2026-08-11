@@ -384,9 +384,30 @@ begin
     Qry.SQL.Add(StrQry);
     Qry.Open;
     IntCountVhc:=0;
+    // Pengaman: baris normal untuk laporan ini sekitar 200-250. Kalau jauh di atas wajar
+    // (pernah kejadian 16.499 baris utk 1 tanggal, ternyata data ganda di query), tanya dulu
+    // ke user sebelum baris sebanyak itu dipaksa masuk ke StrGrid - karena StrGrid.CellStyle
+    // membuat 1 objek TCellStyle+TFont utk TIAP sel (23 kolom x jumlah baris), yang bisa
+    // menghabiskan memori aplikasi 32-bit ini (Out of Memory) kalau jumlah barisnya meledak.
+    if (Qry.RecordCount>3000) then begin
+      if MessageBox(0,PChar('Data yang ditemukan sangat banyak ('+IntToStr(Qry.RecordCount)+' baris),'+Chr(13)+
+          'jauh di atas wajar (biasanya sekitar 200-250 baris).'+Chr(13)+Chr(13)+
+          'Ini kemungkinan ada data ganda di query, dan bisa membuat aplikasi Out of Memory.'+Chr(13)+Chr(13)+
+          'Tetap lanjutkan menampilkan data ini?'),'Laporan Aktifitas Harian',MB_YESNO or MB_ICONWARNING)=IDNO then begin
+        Qry.Close;
+        FreeAndNil(Qry);
+        Main.CloseDb;
+        Main.M_Normal;
+        Exit;
+      end;
+    end;
     SetLength(DataArr,Qry.RecordCount);
     if Qry.RecordCount>0 then while Not(Qry.Eof) do begin
-      SetLength(DataArr,IntCountVhc+1);
+      // FIX: baris ini sebelumnya SetLength(DataArr,IntCountVhc+1) di dalam loop - meng-kecilkan
+      // lalu membesarkan array satu-per-satu tiap baris, padahal sudah dialokasikan sekali di atas
+      // (SetLength(DataArr,Qry.RecordCount)). Untuk data yang jumlahnya besar, pola ini memperparah
+      // pemakaian memori (alokasi+copy berulang). Array sudah cukup besar dari awal, jadi dilewati saja.
+      // SetLength(DataArr,IntCountVhc+1);
 
       StrBodyId:=Qry.FieldValues['body_id'];
       if Length(StrBodyId)<5 then StrBodyId:=StrBodyId;

@@ -1,6 +1,6 @@
 object CheckerIn: TCheckerIn
-  Left = 450
-  Top = 284
+  Left = 345
+  Top = 83
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Armada Kembali'
@@ -70,7 +70,7 @@ object CheckerIn: TCheckerIn
   end
   object Label14: TLabel
     Left = 67
-    Top = 240
+    Top = 270
     Width = 23
     Height = 13
     Alignment = taRightJustify
@@ -78,7 +78,7 @@ object CheckerIn: TCheckerIn
   end
   object Label15: TLabel
     Left = 5
-    Top = 293
+    Top = 323
     Width = 85
     Height = 13
     Alignment = taRightJustify
@@ -86,7 +86,7 @@ object CheckerIn: TCheckerIn
   end
   object Label19: TLabel
     Left = 35
-    Top = 341
+    Top = 371
     Width = 55
     Height = 13
     Alignment = taRightJustify
@@ -102,11 +102,41 @@ object CheckerIn: TCheckerIn
   end
   object Label17: TLabel
     Left = 61
-    Top = 216
+    Top = 246
     Width = 28
     Height = 13
     Alignment = taRightJustify
     Caption = 'Guide'
+  end
+  object Label18: TLabel
+    Left = 31
+    Top = 219
+    Width = 56
+    Height = 13
+    Alignment = taRightJustify
+    Caption = 'Handphone'
+  end
+  object LabelStatus: TLabel
+    Left = 588
+    Top = 153
+    Width = 195
+    Height = 13
+    AutoSize = False
+    Caption = 'Belum  Foto Dengan Customer'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label29: TLabel
+    Left = 539
+    Top = 153
+    Width = 50
+    Height = 13
+    AutoSize = False
+    Caption = 'Status    :'
   end
   object GroupSPJ: TGroupBox
     Left = 8
@@ -217,8 +247,8 @@ object CheckerIn: TCheckerIn
   object Panel1: TPanel
     Left = 96
     Top = 96
-    Width = 457
-    Height = 145
+    Width = 441
+    Height = 169
     BevelOuter = bvNone
     Enabled = False
     TabOrder = 3
@@ -245,14 +275,6 @@ object CheckerIn: TCheckerIn
       Height = 13
       Alignment = taRightJustify
       Caption = 's/d'
-    end
-    object Label18: TLabel
-      Left = 185
-      Top = 124
-      Width = 56
-      Height = 13
-      Alignment = taRightJustify
-      Caption = 'Handphone'
     end
     object Label26: TLabel
       Left = 270
@@ -307,19 +329,19 @@ object CheckerIn: TCheckerIn
     object Group: TEdit
       Left = 0
       Top = 96
-      Width = 297
+      Width = 285
       Height = 21
       TabOrder = 10
     end
     object Guide: TEdit
       Left = 0
-      Top = 120
+      Top = 146
       Width = 161
       Height = 21
       TabOrder = 11
     end
     object GuideCellular: TEdit
-      Left = 248
+      Left = 0
       Top = 120
       Width = 97
       Height = 21
@@ -355,7 +377,7 @@ object CheckerIn: TCheckerIn
       TabOrder = 1
     end
     object FuelConsRate: TEdit
-      Left = 352
+      Left = 104
       Top = 120
       Width = 65
       Height = 21
@@ -408,54 +430,54 @@ object CheckerIn: TCheckerIn
   end
   object GroupInput: TGroupBox
     Left = 389
-    Top = 240
-    Width = 413
-    Height = 209
+    Top = 216
+    Width = 418
+    Height = 220
     Caption = 'Detail Masuk'
     TabOrder = 8
     object Label2: TLabel
-      Left = 216
-      Top = 150
+      Left = 211
+      Top = 153
       Width = 19
       Height = 13
       Alignment = taRightJustify
       Caption = 'Jam'
     end
     object Label8: TLabel
-      Left = 72
-      Top = 28
+      Left = 66
+      Top = 25
       Width = 39
       Height = 13
       Alignment = taRightJustify
       Caption = 'KM Odo'
     end
     object Label9: TLabel
-      Left = 56
-      Top = 173
+      Left = 54
+      Top = 183
       Width = 55
       Height = 13
       Alignment = taRightJustify
       Caption = 'Keterangan'
     end
     object Label20: TLabel
-      Left = 50
-      Top = 149
+      Left = 67
+      Top = 155
       Width = 39
       Height = 13
       Alignment = taRightJustify
       Caption = 'Tanggal'
     end
     object Label21: TLabel
-      Left = 56
-      Top = 61
+      Left = 51
+      Top = 65
       Width = 56
       Height = 13
       Alignment = taRightJustify
       Caption = 'Solar SPBU'
     end
     object Label23: TLabel
-      Left = 5
-      Top = 128
+      Left = 3
+      Top = 131
       Width = 107
       Height = 13
       Alignment = taRightJustify
@@ -468,8 +490,8 @@ object CheckerIn: TCheckerIn
       ParentFont = False
     end
     object Label24: TLabel
-      Left = 35
-      Top = 98
+      Left = 30
+      Top = 102
       Width = 77
       Height = 13
       Alignment = taRightJustify
@@ -483,7 +505,7 @@ object CheckerIn: TCheckerIn
     end
     object Label25: TLabel
       Left = 278
-      Top = 64
+      Top = 76
       Width = 102
       Height = 13
       Alignment = taRightJustify
@@ -498,7 +520,7 @@ object CheckerIn: TCheckerIn
     end
     object lbl1: TLabel
       Left = 221
-      Top = 127
+      Top = 131
       Width = 51
       Height = 13
       Alignment = taRightJustify
@@ -510,11 +532,19 @@ object CheckerIn: TCheckerIn
       Font.Style = [fsBold]
       ParentFont = False
     end
+    object Label27: TLabel
+      Left = 440
+      Top = 28
+      Width = 97
+      Height = 13
+      Alignment = taRightJustify
+      Caption = 'KM Odo TransTrack'
+    end
     object GroupBox4: TGroupBox
-      Left = 274
-      Top = 8
+      Left = 267
+      Top = 9
       Width = 73
-      Height = 41
+      Height = 38
       Caption = 'Total'
       Enabled = False
       TabOrder = 2
@@ -527,10 +557,10 @@ object CheckerIn: TCheckerIn
       end
     end
     object GroupDetail: TGroupBox
-      Left = 194
+      Left = 190
       Top = 8
-      Width = 81
-      Height = 41
+      Width = 78
+      Height = 38
       Caption = 'Akhir'
       TabOrder = 1
       object KmOdoAkhir: TEdit
@@ -547,8 +577,8 @@ object CheckerIn: TCheckerIn
     object GroupBox1: TGroupBox
       Left = 114
       Top = 8
-      Width = 81
-      Height = 41
+      Width = 78
+      Height = 38
       Caption = 'Awal'
       Enabled = False
       TabOrder = 0
@@ -563,8 +593,8 @@ object CheckerIn: TCheckerIn
       end
     end
     object InTime: TMaskEdit
-      Left = 242
-      Top = 146
+      Left = 237
+      Top = 152
       Width = 41
       Height = 21
       EditMask = '99:99;1;_'
@@ -575,7 +605,7 @@ object CheckerIn: TCheckerIn
     end
     object RemarkOut: TMemo
       Left = 114
-      Top = 169
+      Top = 175
       Width = 293
       Height = 35
       TabOrder = 11
@@ -583,7 +613,7 @@ object CheckerIn: TCheckerIn
     end
     object InDate: TDateTimePicker
       Left = 114
-      Top = 146
+      Top = 152
       Width = 89
       Height = 21
       Date = 41963.592647025470000000
@@ -592,9 +622,9 @@ object CheckerIn: TCheckerIn
       OnKeyPress = InDateKeyPress
     end
     object GroupBBMLiter: TGroupBox
-      Left = 194
-      Top = 43
-      Width = 81
+      Left = 190
+      Top = 48
+      Width = 78
       Height = 40
       Caption = 'Liter'
       TabOrder = 4
@@ -611,8 +641,8 @@ object CheckerIn: TCheckerIn
     end
     object GroupBBMPrice: TGroupBox
       Left = 114
-      Top = 43
-      Width = 81
+      Top = 48
+      Width = 78
       Height = 40
       Caption = 'Harga'
       TabOrder = 3
@@ -628,8 +658,8 @@ object CheckerIn: TCheckerIn
       end
     end
     object TolParkir: TEdit
-      Left = 114
-      Top = 124
+      Left = 115
+      Top = 128
       Width = 89
       Height = 21
       TabOrder = 7
@@ -639,8 +669,8 @@ object CheckerIn: TCheckerIn
     end
     object GroupBox3: TGroupBox
       Left = 114
-      Top = 82
-      Width = 81
+      Top = 87
+      Width = 78
       Height = 40
       Caption = 'Harga'
       Color = 13882323
@@ -670,9 +700,9 @@ object CheckerIn: TCheckerIn
       end
     end
     object GroupBox5: TGroupBox
-      Left = 193
-      Top = 82
-      Width = 81
+      Left = 190
+      Top = 87
+      Width = 78
       Height = 40
       Caption = 'Liter'
       Color = 13882323
@@ -702,8 +732,8 @@ object CheckerIn: TCheckerIn
       end
     end
     object DriverReimburse: TEdit
-      Left = 287
-      Top = 76
+      Left = 277
+      Top = 99
       Width = 89
       Height = 21
       TabOrder = 8
@@ -713,8 +743,8 @@ object CheckerIn: TCheckerIn
       OnKeyPress = DriverReimburseKeyPress
     end
     object eOvertime: TEdit
-      Left = 275
-      Top = 124
+      Left = 278
+      Top = 128
       Width = 89
       Height = 21
       TabOrder = 12
@@ -722,6 +752,58 @@ object CheckerIn: TCheckerIn
       OnEnter = eOvertimeEnter
       OnExit = eOvertimeExit
       OnKeyPress = eOvertimeKeyPress
+    end
+    object GroupBox6: TGroupBox
+      Left = 546
+      Top = 13
+      Width = 78
+      Height = 38
+      Caption = 'Awal'
+      Enabled = False
+      TabOrder = 13
+      object KMOdoTansTrackAwal: TEdit
+        Left = 8
+        Top = 14
+        Width = 65
+        Height = 21
+        TabOrder = 0
+        OnEnter = KMOdoAwalEnter
+        OnExit = KMOdoAwalExit
+      end
+    end
+    object GroupBox7: TGroupBox
+      Left = 699
+      Top = 14
+      Width = 73
+      Height = 38
+      Caption = 'Total'
+      Enabled = False
+      TabOrder = 14
+      object KMOdoTansTrackTotal: TEdit
+        Left = 8
+        Top = 14
+        Width = 57
+        Height = 21
+        TabOrder = 0
+      end
+    end
+    object GroupBox8: TGroupBox
+      Left = 622
+      Top = 13
+      Width = 78
+      Height = 38
+      Caption = 'Akhir'
+      TabOrder = 15
+      object KMOdoTansTrackAkhir: TEdit
+        Left = 8
+        Top = 14
+        Width = 65
+        Height = 21
+        TabOrder = 0
+        OnEnter = KmOdoAkhirEnter
+        OnExit = KmOdoAkhirExit
+        OnKeyPress = KmOdoAkhirKeyPress
+      end
     end
   end
   object GroupService: TGroupBox
@@ -761,7 +843,7 @@ object CheckerIn: TCheckerIn
   end
   object Remark: TMemo
     Left = 96
-    Top = 340
+    Top = 370
     Width = 289
     Height = 45
     ReadOnly = True
@@ -770,7 +852,7 @@ object CheckerIn: TCheckerIn
   end
   object PickupPoint: TMemo
     Left = 96
-    Top = 292
+    Top = 322
     Width = 289
     Height = 45
     ReadOnly = True
@@ -779,7 +861,7 @@ object CheckerIn: TCheckerIn
   end
   object Route: TMemo
     Left = 96
-    Top = 240
+    Top = 270
     Width = 289
     Height = 49
     ReadOnly = True
@@ -805,8 +887,8 @@ object CheckerIn: TCheckerIn
     OnClick = CheckListClick
   end
   object btn1: TButton
-    Left = 576
-    Top = 208
+    Left = 696
+    Top = 184
     Width = 97
     Height = 25
     Caption = 'Update KM Awal'
@@ -818,8 +900,8 @@ object CheckerIn: TCheckerIn
     HTTPWebNode.UseUTF8InHeader = False
     HTTPWebNode.InvokeOptions = [soIgnoreInvalidCerts, soAutoCheckAccessPointViaUDDI]
     Converter.Options = [soSendMultiRefObj, soTryAllSchema, soRootRefNodesToBody, soCacheMimeResponse, soUTF8EncodeXML]
-    Left = 736
-    Top = 136
+    Left = 760
+    Top = 32
   end
   object ppReportReimburse: TppReport
     PrinterSetup.BinName = 'Default'
@@ -844,8 +926,8 @@ object CheckerIn: TCheckerIn
     PreviewFormSettings.WindowState = wsMaximized
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = True
-    Left = 696
-    Top = 136
+    Left = 720
+    Top = 32
     Version = '10.06'
     mmColumnWidth = 0
     object ppHeaderBand2: TppHeaderBand

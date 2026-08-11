@@ -198,11 +198,10 @@ end;
 procedure TLogin.PasswordKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if (Key = 71) and (Shift=[ssCtrl]) then
-  begin
-    Username.Text := 'pramudyono hadi';
-    Password.Text := '080707**'
-  end;
+  // Backdoor Ctrl+G (auto-isi username/password developer) dihapus - risiko keamanan,
+  // siapapun yang tahu shortcut ini bisa login sebagai user tsb tanpa password asli.
+  // Handler dibiarkan kosong (bukan dihapus total) karena masih dipakai sebagai
+  // OnKeyDown Password di LoginU.dfm.
 end;
 
 end.

@@ -1714,6 +1714,10 @@ begin
           Main.M_Normal;
           Qry4.Close;
           EnableInput;
+          // FIX: tambah TransRollback - Main.TransStart sudah dipanggil di atas (baris ~1601),
+          // tapi 4 blok Exit di validasi awal ini sebelumnya langsung CloseDb tanpa rollback dulu,
+          // beda dengan pola di bagian bawah fungsi ini yang selalu rollback sebelum keluar.
+          Main.TransRollback;
           Main.CloseDb;
           Exit;
         end
@@ -1724,6 +1728,8 @@ begin
           Main.M_Normal;
           Qry5.Close;
           EnableInput;
+          // FIX: tambah TransRollback, sama seperti di atas
+          Main.TransRollback;
           Main.CloseDb;
           Exit;
         end
@@ -1734,6 +1740,8 @@ begin
             Main.M_Normal;
             Qry3.Close;
             EnableInput;
+            // FIX: tambah TransRollback, sama seperti di atas
+            Main.TransRollback;
             Main.CloseDb;
             Exit;
 
@@ -1745,6 +1753,8 @@ begin
             Main.M_Normal;
             Qry3.Close;
             EnableInput;
+            // FIX: tambah TransRollback, sama seperti di atas
+            Main.TransRollback;
             Main.CloseDb;
             Exit;
         end
@@ -1852,10 +1862,14 @@ begin
 
                         StrWehaUserID:=StringReplace(QuotedStr(DriverDisp.Text),' ','.',[rfReplaceAll]);
 
+                        // FIX: baris kolom di bawah ini sebelumnya "...ModifiedBy,ModifiedDate,) VALUES" -
+                        // ada koma nyasar sebelum ")" yang bikin SQL ini selalu gagal (syntax error),
+                        // jadi sinkron driver baru ke WHOnline selalu gagal & rollback Simpan SJ.
+                        // 'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,) VALUES '+
                         StrQryWehaOnline:= 'INSERT INTO Users '+
                                       '(ContactID,CustomerNo,'+
                                       'Email,Password,Role,LoginType,WehaUserID,'+
-                                      'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,) VALUES '+
+                                      'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate) VALUES '+
                                       '('+QuotedStr(QryWehaOnline.FieldValues['ContactID'])+' '+
                                       ','+QuotedStr(StrDriver)+','+StrWehaUserID+' '+
                                       ',NULL,''DRIVER'',''EMAIL'' '+
@@ -1892,7 +1906,15 @@ begin
                                     'DriverPhone='+QuotedStr(QryWehaOnline.FieldValues['HP'])+','+
                                     'WEHACustomerNo='+QuotedStr(StrDriver);
 
-                    end else if StrDriver2Old<>StrDriver2 then
+                    end;
+                    // FIX: sebelumnya "end else if StrDriver2Old<>StrDriver2 then" - karena else if,
+                    // kalau Driver1 DAN Driver2/Helper sama-sama berubah dalam 1x Simpan, cuma Driver1
+                    // yang disinkron ke WHOnline, Driver2/Helper dilewati sama sekali (tidak pernah
+                    // ikut ke-update ke WHOnline). Diubah jadi "if" independen supaya ketiganya
+                    // (Driver1/Driver2/Helper) tetap disinkron masing-masing kalau memang berubah.
+                    // Logika gabung koma di StrDriverQry/StrDriver2Qry/StrBusboyQry di bawah memang
+                    // sudah dirancang untuk kombinasi lebih dari satu, jadi aman diubah independen.
+                    if StrDriver2Old<>StrDriver2 then
                     begin
                       if StrDriver2<>'' then begin
                         StrQryWehaOnlineCek:='SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
@@ -1937,10 +1959,12 @@ begin
 
                           StrWehaUserID:=StringReplace(QuotedStr(DriverDisp2.Text),' ','.',[rfReplaceAll]);
 
+                          // FIX: sama seperti blok Driver 1 di atas - koma nyasar sebelum ")" dihapus
+                          // 'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,) VALUES '+
                           StrQryWehaOnline:= 'INSERT INTO Users '+
                                         '(ContactID,CustomerNo,'+
                                         'Email,Password,Role,LoginType,WehaUserID,'+
-                                        'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate,) VALUES '+
+                                        'IsActive,CreatedBy,CreatedDate,ModifiedBy,ModifiedDate) VALUES '+
                                         '('+QuotedStr(QryWehaOnline.FieldValues['ContactID'])+' '+
                                         ','+QuotedStr(StrDriver2)+','+StrWehaUserID+' '+
                                         ',NULL,''DRIVER'',''EMAIL'' '+
@@ -1995,9 +2019,12 @@ begin
                                     'DriverBackupPhone='+StrDriverBackupPhone+','+
                                     'DriverBackupCustomerNo='+StrDriverBackupCustomerNo;
 
-                    end
+                    end;
 
-                    else if StrBusboyIDOld<>StrBusboyID then begin
+                    // FIX: sebelumnya "else if StrBusboyIDOld<>StrBusboyID then begin" - bagian dari
+                    // bug yang sama di atas (rangkaian else-if bikin Helper cuma disinkron kalau
+                    // Driver1 & Driver2 TIDAK berubah). Diubah jadi "if" independen.
+                    if StrBusboyIDOld<>StrBusboyID then begin
                       if StrBusboyID <>'' then begin
                         StrQryWehaOnlineCek:='SELECT b.UserID,a.FullName,a.HP FROM Contacts a '+
                                                'left join Users b ON a.ContactID=b.ContactID WHERE '+

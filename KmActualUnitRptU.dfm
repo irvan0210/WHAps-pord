@@ -5,7 +5,7 @@ object KmActualUnitRpt: TKmActualUnitRpt
   BorderStyle = bsNone
   Caption = 'Laporan Km Unit Actual'
   ClientHeight = 453
-  ClientWidth = 836
+  ClientWidth = 956
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,7 +21,7 @@ object KmActualUnitRpt: TKmActualUnitRpt
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 792
+    Left = 864
     Top = 8
     Width = 41
     Height = 13
@@ -73,7 +73,7 @@ object KmActualUnitRpt: TKmActualUnitRpt
     OnClick = ToXCelClick
   end
   object Label3: TLabel
-    Left = 616
+    Left = 712
     Top = 8
     Width = 18
     Height = 13
@@ -121,8 +121,15 @@ object KmActualUnitRpt: TKmActualUnitRpt
       F7F7F7F8F8F7F7F70000}
     OnClick = CariArmadaClick
   end
+  object Label5: TLabel
+    Left = 513
+    Top = 10
+    Width = 22
+    Height = 13
+    Caption = 'Seat'
+  end
   object Body: TComboBox
-    Left = 840
+    Left = 912
     Top = 8
     Width = 65
     Height = 21
@@ -134,7 +141,7 @@ object KmActualUnitRpt: TKmActualUnitRpt
   object StrGrid: TZColorStringGrid
     Left = 8
     Top = 40
-    Width = 817
+    Width = 937
     Height = 377
     DefaultRowHeight = 20
     DefaultDrawing = False
@@ -203,19 +210,28 @@ object KmActualUnitRpt: TKmActualUnitRpt
     OnChange = GroupChange
   end
   object Cari: TEdit
-    Left = 640
+    Left = 736
     Top = 8
     Width = 121
     Height = 21
     TabOrder = 5
   end
   object LiatData: TButton
-    Left = 512
+    Left = 632
     Top = 6
     Width = 65
     Height = 25
     Caption = 'Lihat'
     TabOrder = 6
     OnClick = LiatDataClick
+  end
+  object Seat: TComboBox
+    Left = 542
+    Top = 8
+    Width = 49
+    Height = 21
+    Style = csDropDownList
+    ItemHeight = 13
+    TabOrder = 7
   end
 end

@@ -1,6 +1,6 @@
 object CheckerOut: TCheckerOut
-  Left = 244
-  Top = 70
+  Left = 726
+  Top = 276
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Armada Keluar'
@@ -256,7 +256,7 @@ object CheckerOut: TCheckerOut
       EditMask = '99:99;1;_'
       MaxLength = 5
       TabOrder = 1
-      Text = '  :  '
+      Text = '  .  '
       OnKeyPress = OutTimeKeyPress
     end
     object RemarkOut: TMemo

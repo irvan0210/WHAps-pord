@@ -1,6 +1,6 @@
 object FSJPenjadwalanList: TFSJPenjadwalanList
-  Left = 361
-  Top = 192
+  Left = 384
+  Top = 228
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Penjadwalan'

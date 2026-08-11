@@ -67,7 +67,6 @@ type
     Label17: TLabel;
     Group: TEdit;
     Guide: TEdit;
-    Label18: TLabel;
     GuideCellular: TEdit;
     Label20: TLabel;
     InDate: TDateTimePicker;
@@ -145,6 +144,16 @@ type
     ppSummaryBand2: TppSummaryBand;
     GridSPJ: TZColorStringGrid;
     btn1: TButton;
+    Label18: TLabel;
+    GroupBox6: TGroupBox;
+    KMOdoTansTrackAwal: TEdit;
+    GroupBox7: TGroupBox;
+    KMOdoTansTrackTotal: TEdit;
+    Label27: TLabel;
+    GroupBox8: TGroupBox;
+    KMOdoTansTrackAkhir: TEdit;
+    LabelStatus: TLabel;
+    Label29: TLabel;
     procedure BersihkanClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure SelesaiClick(Sender: TObject);
@@ -204,6 +213,7 @@ type
     procedure EnableInput;
     procedure DisableInput;
     procedure RefreshHeader;
+    function GetOdoTransTrack(License_Plate:String):String;
   public
     { Public declarations }
     procedure RePrintReimburse(Trans_Id:String);
@@ -217,7 +227,8 @@ implementation
 
 uses MainU, Math, DateUtils, VehicleEquipmentCheckU
   , IntersysAPI_New
-  , AuthorizedFormU, LoginU, DB;
+  , AuthorizedFormU, LoginU, DB
+  , IdHTTP, uLkJSON;
 
 
 {$R *.dfm}
@@ -266,6 +277,12 @@ begin
   KmOdoAwal.Text:='';
   KmOdoAkhir.Text:='';
   KMOdoTotal.Text:='';
+  KMOdoTansTrackAwal.Text:='';
+  KMOdoTansTrackAkhir.Text:='';
+  KMOdoTansTrackTotal.Text:='';
+  KMOdoTansTrackAwal.Enabled:=False;
+  KMOdoTansTrackAkhir.Enabled:=False;
+  KMOdoTansTrackTotal.Enabled:=False;
   InitGridSJ;
   InDate.Date:=Now();
   BBMLiter.Text:='0';
@@ -426,6 +443,7 @@ procedure TCheckerIn.CheckData;
 var StrQry,stanby:String;
     Qry:TADOQuery;
     IntCount:Integer;
+    StrOdoAkhirTT:String;
 begin
   Main.M_Busy;
   if Trim(NoSJ.Text)<>'' then begin
@@ -476,6 +494,20 @@ begin
         KMOdoAwal.Text:=SToCurr(Qry.FieldValues['out_ordo_km']);
         {Ubah}
         KmOdoAkhir.Text:=SToCurr(Qry.FieldValues['kmMasuk']);
+
+        if Qry.FieldValues['transtrack_odo_out_km']<>NULL then
+          KMOdoTansTrackAwal.Text:=SToCurr(Qry.FieldValues['transtrack_odo_out_km'])
+        else
+          KMOdoTansTrackAwal.Text:='0';
+
+        StrOdoAkhirTT:=GetOdoTransTrack(StringReplace(NoPolisi.Text,' ','',[rfReplaceAll]));
+        if Trim(StrOdoAkhirTT)<>'' then
+          KMOdoTansTrackAkhir.Text:=SToCurr(Trim(ToString(StrOdoAkhirTT)))
+        else
+          KMOdoTansTrackAkhir.Text:='0';
+
+        KMOdoTansTrackTotal.Text:=IToCurr(SToInt(KMOdoTansTrackAkhir.Text)-SToInt(KMOdoTansTrackAwal.Text));
+
         BBMPrice.Text:=SToCurr(Qry.FieldValues['bbmSPBU']);
         BBMLiter.Text:=SToCurr(Qry.FieldValues['literSPBU']);
         BBMPriceReimburse.Text:=SToCurr(Qry.FieldValues['bbmReimburse']);
@@ -587,6 +619,60 @@ begin
   Simpan.Enabled:=True;
 end;
 
+function TCheckerIn.GetOdoTransTrack(License_Plate:String):String;
+var
+  QryApi:TADOQuery;
+  StrApiTransTrack,StrStatusApiTransTrack:String;
+  IdHTTPHelper:TIdHTTP;
+  Resp:TMemoryStream;
+  MemoJSON:TStringList;
+  js:TlkJSONbase;
+begin
+  Result:='';
+  StrApiTransTrack:='';
+  StrStatusApiTransTrack:='';
+  QryApi:=TADOQuery.Create(Self);
+  QryApi.Connection:=Main.MyConnection;
+  try
+    QryApi.SQL.Add('SELECT * FROM wh_api_trans_track;');
+    QryApi.Open;
+    if QryApi.RecordCount>0 then begin
+      StrApiTransTrack:=VarToStr(QryApi.FieldValues['api_trans_track']);
+      StrStatusApiTransTrack:=VarToStr(QryApi.FieldValues['status']);
+    end;
+    QryApi.Close;
+  finally
+    FreeAndNil(QryApi);
+  end;
+
+  if (StrStatusApiTransTrack<>'1') or (Trim(StrApiTransTrack)='') or (Trim(License_Plate)='') then Exit;
+
+  try
+    IdHTTPHelper:=TIdHTTP.Create(Self);
+    Resp:=TMemoryStream.Create;
+    try
+      IdHTTPHelper.Get('http://'+StrApiTransTrack+'/api_transtrack/vehicle.php?plate='+Trim(License_Plate),Resp);
+      Resp.Position:=0;
+      MemoJSON:=TStringList.Create;
+      try
+        MemoJSON.LoadFromStream(Resp);
+        js:=TlkJSON.ParseText(MemoJSON.Text);
+        if Assigned(js) then Result:=VarToStr(js.Value);
+      finally
+        MemoJSON.Free;
+      end;
+    finally
+      Resp.Free;
+      IdHTTPHelper.Free;
+    end;
+  except
+    on E:Exception do begin
+      Main.WriteLog('GetOdoTransTrack Error: '+E.Message,2);
+      Result:='';
+    end;
+  end;
+end;
+
 procedure TCheckerIn.SelesaiClick(Sender: TObject);
 begin
   Main.StatusUpdate('','');
@@ -638,6 +724,7 @@ var StrQry,StrEMessage,StrMsg:String;
     IsOk:Boolean;
     StrKMOdo,StrKMOdoOut,StrInTime,StrInDate,StrRemark,StrBBMLiter,StrBBMPrice,StrTolParkir,StrBBMLiterReimburse,StrBBMPriceReimburse:String;
     StrBBMSPBU, StrBBMReimburse, StrTolParkirReimburse, StrFeeDriverReimburse,StrOvertime:String;
+    StrTranstrackOdoIn,StrTranstrackOdo:String;
     Count,IntDay:Integer;
 
     StrUrl,NameSpace,ParamIn: String;
@@ -739,7 +826,12 @@ begin
       end;
       StrRemark := stringreplace(StrRemark, '"', '*', [rfReplaceAll]);
 
+      StrTranstrackOdo:='NULL';
+      StrTranstrackOdoIn:=GetOdoTransTrack(StringReplace(NoPolisi.Text,' ','',[rfReplaceAll]));
+      if Trim(StrTranstrackOdoIn)<>'' then StrTranstrackOdo:=QuotedStr(Trim(ToString(StrTranstrackOdoIn)));
+
       StrQry:='UPDATE wh_vhc_trans SET status_sj='+QuotedStr('COMPLETED')+',out_ordo_km='+StrKMOdoOut+', in_ordo_km='+StrKMOdo+',in_date='+StrInDate+',in_time='+StrInTime+StrBBMLiter+StrBBMPrice+StrBBMLiterReimburse+StrBBMPriceReimburse+
+            ',transtrack_odo_in_km='+StrTranstrackOdo+
             ',description='+StrRemark+
             ',update_time=GETDATE(),update_user='+QuotedStr(User)+
             ',in_submit_date=GETDATE(),in_user_update='+QuotedStr(User)+
@@ -891,7 +983,9 @@ begin
 
               if QryWehaOnline.RecordCount>0 then begin
 
-                StrQry:=' UPDATE OrderDetailVehicleInfos SET Status=''COMPLETED'' '+
+                //StrQry:=' UPDATE OrderDetailVehicleInfos SET Status=''COMPLETED'' '+
+                //        ' WHERE WehaReservedCode='+QuotedStr(StrResOrdDetailId);
+                StrQry:=' UPDATE OrderDetailVehicleInfos SET Status=''COMPLETED'' ,InKM='+StrKMOdo+',TranstrackOdoInKm='+StrTranstrackOdo+
                         ' WHERE WehaReservedCode='+QuotedStr(StrResOrdDetailId);
                 Main.WriteLog('SQL :'+StrQry,2);
                 QryWehaOnline.SQL.Clear;
@@ -914,8 +1008,12 @@ begin
                 QryWehaOnline.Open;
 
                 if QryWehaOnline.RecordCount>0 then begin
+                  //StrQry:=' UPDATE OrderDetailVehicleInfos SET Status=''COMPLETED'', '+
+                  //        ' WehaReservedCode='+QuotedStr(StrResOrdDetailId) +
+                  //        ' WHERE WorkOrderNo='+QuotedStr(NoSJ.Text);
                   StrQry:=' UPDATE OrderDetailVehicleInfos SET Status=''COMPLETED'', '+
                           ' WehaReservedCode='+QuotedStr(StrResOrdDetailId) +
+                          ' ,InKM='+StrKMOdo+',TranstrackOdoInKm='+StrTranstrackOdo+
                           ' WHERE WorkOrderNo='+QuotedStr(NoSJ.Text);
                   Main.WriteLog('SQL :'+StrQry,2);
                   QryWehaOnline.SQL.Clear;
@@ -1310,6 +1408,15 @@ begin
             ppRasio.Caption:=SToCurr(IToCurr(DRasio), 2)
           end else
             ppRasio.Caption:='0';
+
+          if Qry.FieldValues['kmMasuk']<>null then begin
+            LabelStatus.Caption :='Sudah Foto dengan Customer';
+            LabelStatus.Color := clGreen;
+          end else begin
+            LabelStatus.Caption :='Belum Foto dengan Customer';
+            LabelStatus.Color := clRed;
+          end;
+
           ppRasioStandar.Caption:=VarToStr(Qry.FieldValues['fuel_cons_rate']);
           ppReportReimburse.PreviewFormSettings.WindowState:=wsMaximized;
           ppReportReimburse.Print;

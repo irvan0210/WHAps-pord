@@ -101,6 +101,7 @@ type
     procedure EnableInput;
     procedure DisableInput;
     procedure RefreshHeader;
+    function GetOdoTransTrack(License_Plate:String):String;
   public
     { Public declarations }
   end;
@@ -114,6 +115,7 @@ implementation
 uses MainU, VehicleEquipmentCheckU
 
   , IntersysAPI_New
+  , IdHTTP, uLkJSON
   ;
 
 
@@ -452,12 +454,67 @@ begin
   Simpan.Enabled:=True;
 end;
 
+function TCheckerOut.GetOdoTransTrack(License_Plate:String):String;
+var
+  QryApi:TADOQuery;
+  StrApiTransTrack,StrStatusApiTransTrack:String;
+  IdHTTPHelper:TIdHTTP;
+  Resp:TMemoryStream;
+  MemoJSON:TStringList;
+  js:TlkJSONbase;
+begin
+  Result:='';
+  StrApiTransTrack:='';
+  StrStatusApiTransTrack:='';
+  QryApi:=TADOQuery.Create(Self);
+  QryApi.Connection:=Main.MyConnection;
+  try
+    QryApi.SQL.Add('SELECT * FROM wh_api_trans_track;');
+    QryApi.Open;
+    if QryApi.RecordCount>0 then begin
+      StrApiTransTrack:=VarToStr(QryApi.FieldValues['api_trans_track']);
+      StrStatusApiTransTrack:=VarToStr(QryApi.FieldValues['status']);
+    end;
+    QryApi.Close;
+  finally
+    FreeAndNil(QryApi);
+  end;
+
+  if (StrStatusApiTransTrack<>'1') or (Trim(StrApiTransTrack)='') or (Trim(License_Plate)='') then Exit;
+
+  try
+    IdHTTPHelper:=TIdHTTP.Create(Self);
+    Resp:=TMemoryStream.Create;
+    try
+      IdHTTPHelper.Get('http://'+StrApiTransTrack+'/api_transtrack/vehicle.php?plate='+Trim(License_Plate),Resp);
+      Resp.Position:=0;
+      MemoJSON:=TStringList.Create;
+      try
+        MemoJSON.LoadFromStream(Resp);
+        js:=TlkJSON.ParseText(MemoJSON.Text);
+        if Assigned(js) then Result:=VarToStr(js.Value);
+      finally
+        MemoJSON.Free;
+      end;
+    finally
+      Resp.Free;
+      IdHTTPHelper.Free;
+    end;
+  except
+    on E:Exception do begin
+      Main.WriteLog('GetOdoTransTrack Error: '+E.Message,2);
+      Result:='';
+    end;
+  end;
+end;
+
 
 procedure TCheckerOut.SimpanClick(Sender: TObject);
 var QStr,StrQry,StrEMessage,StrMsg:String;
     Qry,QryWehaOnline:TADOQuery;
     IsOk:Boolean;
     StrKMOdo,StrOutTime,StrRemark:String;
+    StrTranstrackOdoOut,StrTranstrackOdo:String;
     Count:Integer;
 
     StrUrl,NameSpace,ParamIn: String;
@@ -507,7 +564,13 @@ begin
       StrRemark := stringreplace(StrRemark, '"', '*', [rfReplaceAll]);
       
       if Trim(KMOdo.Text)<>'' then StrKMOdo:=QuotedStr(Trim(ToString(KMOdo.Text)));
+
+      StrTranstrackOdo:='NULL';
+      StrTranstrackOdoOut:=GetOdoTransTrack(StringReplace(NoPolisi.Text,' ','',[rfReplaceAll]));
+      if Trim(StrTranstrackOdoOut)<>'' then StrTranstrackOdo:=QuotedStr(Trim(ToString(StrTranstrackOdoOut)));
+
       QStr:='UPDATE wh_vhc_trans SET out_ordo_km='+StrKMOdo+',out_time='+StrOutTime+
+            ',transtrack_odo_out_km='+StrTranstrackOdo+
             ',description='+StrRemark+
             ',update_time=GETDATE(),update_user='+QuotedStr(User)+
             ',out_submit_date=GETDATE(),out_user_update='+QuotedStr(User)+
@@ -582,7 +645,11 @@ begin
 
               if QryWehaOnline.RecordCount>0 then begin
 
-                StrQry:=' UPDATE OrderDetailVehicleInfos SET Status=''ONTRIP'' '+
+                //StrQry:=' UPDATE OrderDetailVehicleInfos SET Status=''ONTRIP'' '+
+                //        ' WHERE WehaReservedCode='+QuotedStr(StrResOrdDetailId);
+                //StrQry:=' UPDATE OrderDetailVehicleInfos SET Status=''OUT'' '+
+                //        ' WHERE WehaReservedCode='+QuotedStr(StrResOrdDetailId);
+                StrQry:=' UPDATE OrderDetailVehicleInfos SET Status=''OUT'' ,OutKM='+StrKMOdo+',TranstrackOdoOutKm='+StrTranstrackOdo+
                         ' WHERE WehaReservedCode='+QuotedStr(StrResOrdDetailId);
                 Main.WriteLog('SQL :'+StrQry,2);
                 QryWehaOnline.SQL.Clear;
@@ -606,8 +673,15 @@ begin
 
                 if QryWehaOnline.RecordCount>0 then begin
 
-                  StrQry:=' UPDATE OrderDetailVehicleInfos SET Status=''ONTRIP'' , '+
+                  //StrQry:=' UPDATE OrderDetailVehicleInfos SET Status=''ONTRIP'' , '+
+                  //        ' WehaReservedCode='+QuotedStr(StrResOrdDetailId) +
+                  //        ' WHERE WorkOrderNo='+QuotedStr(NoSJ.Text);
+                  //StrQry:=' UPDATE OrderDetailVehicleInfos SET Status=''OUT'' , '+
+                  //        ' WehaReservedCode='+QuotedStr(StrResOrdDetailId) +
+                  //        ' WHERE WorkOrderNo='+QuotedStr(NoSJ.Text);
+                  StrQry:=' UPDATE OrderDetailVehicleInfos SET Status=''OUT'' , '+
                           ' WehaReservedCode='+QuotedStr(StrResOrdDetailId) +
+                          ' ,OutKM='+StrKMOdo+',TranstrackOdoOutKm='+StrTranstrackOdo+
                           ' WHERE WorkOrderNo='+QuotedStr(NoSJ.Text);
                   Main.WriteLog('SQL :'+StrQry,2);
                   QryWehaOnline.SQL.Clear;
@@ -811,7 +885,7 @@ end;
 
 procedure TCheckerOut.CheckListClick(Sender: TObject);
 begin
-  if VehicleId<>'' then if Main.IsFormOpen('VehicleEquipmentCheck')=False then VehicleEquipmentCheck:=TVehicleEquipmentCheck.Create(nil,'Checker-Out',VehicleId,True); 
+  if VehicleId<>'' then if Main.IsFormOpen('VehicleEquipmentCheck')=False then VehicleEquipmentCheck:=TVehicleEquipmentCheck.Create(nil,'Checker-Out',VehicleId,True);
 end;
 
 end.

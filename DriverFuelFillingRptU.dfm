@@ -1,6 +1,6 @@
 object DriverFuelFillingRpt: TDriverFuelFillingRpt
-  Left = 629
-  Top = 109
+  Left = 634
+  Top = 149
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
   Caption = 'Laporan Pengisian BBM Driver'

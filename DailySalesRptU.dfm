@@ -1,6 +1,6 @@
 object DailySalesRpt: TDailySalesRpt
-  Left = 92
-  Top = 322
+  Left = 376
+  Top = 137
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Laporan Pesanan Harian'
@@ -21,7 +21,7 @@ object DailySalesRpt: TDailySalesRpt
   PixelsPerInch = 96
   TextHeight = 13
   object ToXCel: TSpeedButton
-    Left = 1016
+    Left = 968
     Top = 513
     Width = 23
     Height = 22
@@ -218,8 +218,8 @@ object DailySalesRpt: TDailySalesRpt
     OnClick = AllSeatClick
   end
   object ProgressBar: TProgressBar
-    Left = 816
-    Top = 525
+    Left = 760
+    Top = 521
     Width = 185
     Height = 9
     TabOrder = 10

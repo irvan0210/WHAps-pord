@@ -1,6 +1,6 @@
 object CustomerComplainCorrectiveActionPlanList: TCustomerComplainCorrectiveActionPlanList
-  Left = 239
-  Top = 153
+  Left = 226
+  Top = 286
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
   Caption = 'Customer Complain Corrective Action Plan List'
@@ -61,6 +61,7 @@ object CustomerComplainCorrectiveActionPlanList: TCustomerComplainCorrectiveActi
       B2B5DFB3B2DBAF8AAF83FFFFFFDFF0E382C090B0D8B8C9E5CCCBE6CCC8E5C9C5
       E2C5C3E2C5C2E2C2BFE0BFBDDFBDBCDFBCBDDFBDB3D8B286AD80}
     Layout = blGlyphRight
+    OnClick = SpeedButton1Click
   end
   object Label3: TLabel
     Left = 328

@@ -22,6 +22,8 @@ type
     Cari: TEdit;
     CariArmada: TSpeedButton;
     LiatData: TButton;
+    Label5: TLabel;
+    Seat: TComboBox;
     procedure SelesaiClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
@@ -38,10 +40,12 @@ type
     ColumnWidth:Integer;
     CompanyArr,GroupArr:Array of TArrString5;
     VehicleArr:Array of TArrString14;
+    BatchArr,SeatArr:Array of TArrString2;
     IntRow:Integer;
     procedure Init;
     procedure InitGrid;
     procedure RefreshCombo;
+    procedure RefreshSeat;
 //    procedure RefreshBody;
     procedure RefreshData;
     procedure RefreshGrid;
@@ -52,6 +56,7 @@ type
 var
   KmActualUnitRpt: TKmActualUnitRpt;
    IntRow,IntCol:Integer;
+
 
 implementation
 
@@ -141,6 +146,10 @@ procedure TKmActualUnitRpt.RefreshCombo;
 var StrQry:String;
     Qry:TADOQuery;
     IntCount:Integer;
+    CompanyArrTemp:Array of TArrString5;
+    SBUTempItems:TStringList;
+    IsFound:Boolean;
+    TempItemIndex:Integer;
 begin
   Main.M_Busy;
   Qry:=TADOQuery.Create(Self);
@@ -186,13 +195,101 @@ begin
     SBU.Items.Add(CompanyArr[IntCount][3]+' ('+CompanyArr[IntCount][4]+')');
     if (CompanyId=CompanyArr[IntCount][1]) and  (LocationId=CompanyArr[IntCount][2]) then SBU.ItemIndex:=IntCount;
   end;
+
+  if SBU.ItemIndex<0 then begin
+    {company/location user tidak ada di GetCompanyLocationList, cek lewat GetUserRDLocationList}
+    Qry:=TADOQuery.Create(Self);
+    Qry.Connection:=Main.MyConnection;
+    if Main.OpenDb then begin
+      StrQry:='EXEC GetUserRDLocationList @UserName='+QuotedStr(User)+';';
+      Qry.SQL.Clear;
+      Qry.SQL.Add(StrQry);
+      Qry.Open;
+      IsFound:=False;
+      if Qry.RecordCount>0 then begin
+        SetLength(CompanyArrTemp,Qry.RecordCount);
+        SBUTempItems:=TStringList.Create;
+        TempItemIndex:=-1;
+        IntCount:=0;
+        while Not(Qry.Eof) do begin
+          CompanyArrTemp[IntCount][0]:=Qry.FieldValues['company_location_id'];
+          CompanyArrTemp[IntCount][1]:=Qry.FieldValues['company_id'];
+          CompanyArrTemp[IntCount][2]:=Qry.FieldValues['location_id'];
+          CompanyArrTemp[IntCount][3]:=Qry.FieldValues['name'];
+          CompanyArrTemp[IntCount][4]:=Qry.FieldValues['location'];
+          CompanyArrTemp[IntCount][5]:=Qry.FieldValues['company_code'];
+          SBUTempItems.Add(CompanyArrTemp[IntCount][3]+' ('+CompanyArrTemp[IntCount][4]+')');
+          if (CompanyId=CompanyArrTemp[IntCount][1]) and (LocationId=CompanyArrTemp[IntCount][2]) then begin
+            TempItemIndex:=IntCount;
+            IsFound:=True;
+          end;
+          Inc(IntCount);
+          Qry.Next;
+        end;
+        if IsFound then begin
+          SBU.Items.Clear;
+          SBU.Items:=SBUTempItems;
+          SetLength(CompanyArr,Length(CompanyArrTemp));
+          for IntCount:=0 to Length(CompanyArrTemp)-1 do
+            CompanyArr[IntCount]:=CompanyArrTemp[IntCount];
+          SBU.ItemIndex:=TempItemIndex;
+        end;
+        SBUTempItems.Free;
+      end;
+      Qry.Close;
+    end;
+    Main.CloseDb;
+    Qry.Destroy;
+  end;
+
+  if (SBU.ItemIndex<0) and (Length(CompanyArr)>0) then SBU.ItemIndex:=0;
   for IntCount:=0 to Length(GroupArr)-1 do
     Group.Items.Add(GroupArr[IntCount][1]);
+  Group.ItemIndex:=Group.Items.IndexOf('All');
+  Main.M_Normal;
+end;
+
+procedure TKmActualUnitRpt.RefreshSeat;
+var QStr,StrCompanyId:String;
+    Qry:TADOQuery;
+    IntCount:Integer;
+begin
+  Main.M_Busy;
+  Qry:=TADOQuery.Create(Self);
+  Qry.Connection:=Main.MyConnection;
+  Qry.CommandTimeout := 3600;
+  Seat.Text:='';
+  Seat.Items.Clear;
+  Seat.ItemIndex:=1;
+  SetLength(SeatArr,1);
+  SeatArr[0][0]:='All';
+  //if SBU.ItemIndex>=0 then StrCompanyId:=CompanyArr[SBU.ItemIndex][1] else StrCompanyId:='';
+  StrCompanyId:=CompanyArr[SBU.ItemIndex][1];
+
+  if (Main.OpenDb) and (Group.Text<>'All') then begin
+    QStr:='EXEC GetVehicleTypeDetail '+StrCompanyId+','+GroupArr[Group.ItemIndex][0]+',@FieldSelect='+QuotedStr('seat')+';';
+   
+    Qry.SQL.Clear;
+    Qry.SQL.Add(QStr);
+    Qry.Open;
+    SetLength(SeatArr,Qry.RecordCount+1);
+    IntCount:=1;
+    if Qry.RecordCount>0 then while Not(Qry.Eof) do begin
+      SeatArr[IntCount][0]:=Qry.FieldValues['seat'];
+      Inc(IntCount);
+      Qry.Next;
+    end;
+    Qry.Close;
+  end;
+  FreeAndNil(Qry);
+  Main.CloseDb;
+  for IntCount:=0 to Length(SeatArr)-1 do Seat.Items.Add(SeatArr[IntCount][0]);
+  Seat.ItemIndex:=Seat.Items.IndexOf('All');
   Main.M_Normal;
 end;
 
 procedure TKmActualUnitRpt.RefreshData;
-var StrQry,StrQry2,StrQry3,StrCompanyId,StrLocationId,StrGroup:String;
+var StrQry,StrQry2,StrQry3,StrCompanyId,StrLocationId,StrGroup,StrSeat:String;
     Qry,Qry2,Qry3:TADOQuery;
     IntCount,IntTotal:Integer;   //IntCount2,IntCount3,
 begin
@@ -207,11 +304,12 @@ begin
   Qry3.Connection:=Main.MyConnection;
   Qry3.CommandTimeout:=3600;
   SetLength(VehicleArr,0);
-  if Main.OpenDb then begin
+  if (Main.OpenDb) and (SBU.ItemIndex>=0) then begin
     StrLocationId:=CompanyArr[SBU.ItemIndex][2];
     StrCompanyId:=CompanyArr[SBU.ItemIndex][1];
     if (Group.Text<>'All') then StrGroup:=',@BatchId='+GroupArr[Group.ItemIndex][0] else StrGroup:='';
-    StrQry:='EXEC GetVhcListMini '+StrLocationId+',0,'+StrCompanyId+StrGroup+',@LastOdo=1;';
+    if (Seat.Text<>'All') then StrSeat:=',@Seat='+Seat.Text else StrSeat:='';
+    StrQry:='EXEC GetVhcListMini '+StrLocationId+',0,'+StrCompanyId+StrGroup+StrSeat+',@LastOdo=1;';
     Qry.SQL.Clear;
     Qry.SQL.Add(StrQry);
     Qry.Open;
@@ -229,6 +327,8 @@ begin
                               ' '+Copy(Qry.FieldValues['license_plate'],7,Length(Qry.FieldValues['license_plate'])+1);
 
       VehicleArr[IntCount][2]:=Qry.FieldValues['brand']+' '+Qry.FieldValues['type']+' '+IntToStr(Qry.FieldValues['seat'])+' Seat';
+      VehicleArr[IntCount][13]:=VarToStr(Qry.FieldValues['category'])+' '+IntToStr(Qry.FieldValues['seat']);
+      VehicleArr[IntCount][14]:=VarToStr(Qry.FieldValues['vhc_batch_id'])+'_'+IntToStr(Qry.FieldValues['seat']);
       //if Qry.FieldValues['last_repair_odo']<>NULL then VehicleArr[IntCount][3]:=IToCurr(Qry.FieldValues['last_repair_odo']);
       //if Qry.FieldValues['last_odo']<>NULL then VehicleArr[IntCount][4]:=IToCurr(Qry.FieldValues['last_odo']);
 //      StrQry='EXEC GetLastOdo '+
@@ -287,41 +387,80 @@ begin
 end;
 
 procedure TKmActualUnitRpt.RefreshGrid;
-var IntCount,IntCount2:Integer;
+var IntCount,IntCount2,IntMerge,Row,Number,NumGroups,TargetRowCount:Integer;
+    StrBatchId,StrBatchName:String;
 begin
+  for IntCount:=0 to StrGrid.ColCount-1 do
+    for IntCount2:=2 to StrGrid.RowCount-1 do begin
+      IntMerge:=StrGrid.MergeCells.InMergeRange(IntCount,IntCount2);
+      if IntMerge>=0 then StrGrid.MergeCells.DeleteItem(IntMerge);
+    end;
   for IntCount:=0 to StrGrid.ColCount-1 do
     for IntCount2:=2 to StrGrid.RowCount-1 do begin
       StrGrid.Cells[IntCount,IntCount2]:='';
       StrGrid.CellStyle[IntCount,IntCount2].Font.Color:=clWindowText;
+      StrGrid.CellStyle[IntCount,IntCount2].Font.Style:=[];
+      StrGrid.CellStyle[IntCount,IntCount2].BGColor:=clWindow;
+      StrGrid.CellStyle[IntCount,IntCount2].HorizontalAlignment:=taLeftJustify;
     end;
-  if Length(VehicleArr)>0 then StrGrid.RowCount:=Length(VehicleArr)+2
-  else begin
-    StrGrid.RowCount:=3;
-  end;
+
+  NumGroups:=0;
+  StrBatchId:='';
   for IntCount:=0 to Length(VehicleArr)-1 do begin
-    StrGrid.Cells[0,IntCount+2]:=IntToStr(IntCount+1);
-    StrGrid.Cells[1,IntCount+2]:=VehicleArr[IntCount][0];
-    StrGrid.Cells[2,IntCount+2]:=VehicleArr[IntCount][1];
-    StrGrid.Cells[3,IntCount+2]:=VehicleArr[IntCount][2];
-    StrGrid.Cells[4,IntCount+2]:=VehicleArr[IntCount][3];
-    StrGrid.Cells[5,IntCount+2]:=VehicleArr[IntCount][4];
-    StrGrid.Cells[6,IntCount+2]:=VehicleArr[IntCount][5];
-    StrGrid.Cells[7,IntCount+2]:=VehicleArr[IntCount][12];
-    StrGrid.Cells[8,IntCount+2]:=VehicleArr[IntCount][6];
-    StrGrid.Cells[9,IntCount+2]:=VehicleArr[IntCount][7];
-    StrGrid.Cells[10,IntCount+2]:=VehicleArr[IntCount][11];
-    StrGrid.Cells[11,IntCount+2]:=VehicleArr[IntCount][8];
-    StrGrid.Cells[12,IntCount+2]:=VehicleArr[IntCount][9];
-    StrGrid.Cells[13,IntCount+2]:=VehicleArr[IntCount][10];
-    StrGrid.CellStyle[4,IntCount+2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[5,IntCount+2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[6,IntCount+2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[7,IntCount+2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[8,IntCount+2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[9,IntCount+2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[10,IntCount+2].HorizontalAlignment:=taRightJustify;
-    StrGrid.CellStyle[11,IntCount+2].HorizontalAlignment:=taRightJustify;
+    if VehicleArr[IntCount][14]<>StrBatchId then begin
+      StrBatchId:=VehicleArr[IntCount][14];
+      Inc(NumGroups);
+    end;
   end;
+
+  if Length(VehicleArr)>0 then TargetRowCount:=Length(VehicleArr)+NumGroups+2
+  else TargetRowCount:=3;
+  StrGrid.RowCount:=TargetRowCount;
+  StrGrid.HandleNeeded;
+
+  Row:=2;
+  Number:=0;
+  StrBatchId:='';
+  for IntCount:=0 to Length(VehicleArr)-1 do begin
+    if VehicleArr[IntCount][14]<>StrBatchId then begin
+      StrBatchId:=VehicleArr[IntCount][14];
+      StrBatchName:=VehicleArr[IntCount][13];
+      StrGrid.CellStyle[1,Row].BGColor:=clSkyBlue;
+      StrGrid.CellStyle[1,Row].Font.Style:=[fsBold];
+      StrGrid.CellStyle[1,Row].HorizontalAlignment:=taLeftJustify;
+      StrGrid.CellStyle[2,Row].BGColor:=clSkyBlue;
+      StrGrid.MergeCells.AddRectXY(1,Row,2,Row);
+      StrGrid.MergeCells.AddRectXY(3,Row,13,Row);
+      StrGrid.Cells[1,Row]:=StrBatchName;
+      Inc(Row);
+      Number:=0;
+    end;
+    Inc(Number);
+    StrGrid.Cells[0,Row]:=IntToStr(Number);
+    StrGrid.Cells[1,Row]:=VehicleArr[IntCount][0];
+    StrGrid.Cells[2,Row]:=VehicleArr[IntCount][1];
+    StrGrid.Cells[3,Row]:=VehicleArr[IntCount][2];
+    StrGrid.Cells[4,Row]:=VehicleArr[IntCount][3];
+    StrGrid.Cells[5,Row]:=VehicleArr[IntCount][4];
+    StrGrid.Cells[6,Row]:=VehicleArr[IntCount][5];
+    StrGrid.Cells[7,Row]:=VehicleArr[IntCount][12];
+    StrGrid.Cells[8,Row]:=VehicleArr[IntCount][6];
+    StrGrid.Cells[9,Row]:=VehicleArr[IntCount][7];
+    StrGrid.Cells[10,Row]:=VehicleArr[IntCount][11];
+    StrGrid.Cells[11,Row]:=VehicleArr[IntCount][8];
+    StrGrid.Cells[12,Row]:=VehicleArr[IntCount][9];
+    StrGrid.Cells[13,Row]:=VehicleArr[IntCount][10];
+    StrGrid.CellStyle[4,Row].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[5,Row].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[6,Row].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[7,Row].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[8,Row].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[9,Row].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[10,Row].HorizontalAlignment:=taRightJustify;
+    StrGrid.CellStyle[11,Row].HorizontalAlignment:=taRightJustify;
+    Inc(Row);
+  end;
+  StrGrid.Invalidate;
 end;
 
 procedure TKmActualUnitRpt.SelesaiClick(Sender: TObject);
@@ -339,13 +478,14 @@ procedure TKmActualUnitRpt.FormShow(Sender: TObject);
 begin
   Init;
   RefreshCombo;
-  Group.ItemIndex:=Group.Items.IndexOf('All');
+  RefreshSeat;
  // RefreshData;
  // RefreshGrid;
 end;
 
 procedure TKmActualUnitRpt.GroupChange(Sender: TObject);
 begin
+  RefreshSeat;
  // RefreshData;
   //RefreshGrid;
 end;

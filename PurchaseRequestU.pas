@@ -935,7 +935,7 @@ begin
                     ',item_request_detail_id,item_detail,quantity,price_unit,total,update_user,item_detail_id) '+
                     ' VALUES ('+QuotedStr(StrTransId)+','+StrItemRequestDetailId+
                     ','+QuotedStr(StrGrid.Cells[1,IntCount])+
-                    ','+StrGrid.Cells[2,IntCount]+','+StrPriceUnit+
+                    ','+ToString(StrGrid.Cells[2,IntCount])+','+StrPriceUnit+
                     ','+StrTotalPrice+','+QuotedStr(User)+','+StrItemDetailId+');';
           end;
         end;

@@ -584,6 +584,7 @@ begin
         ContactId.Text:=Qry.FieldValues['contact_person_id'];
         if Qry.FieldValues['contact_person']<>NULL then ContactDisp.Text:=Qry.FieldValues['contact_person'];
       end;
+    // Application.MessageBox(PChar(VarToStr(Qry.FieldValues['group_name'])), 'Armada Kembali', MB_OK or MB_ICONWARNING);
       if Qry.FieldValues['group_name']<>NULL then Group.Text:=Qry.FieldValues['group_name'];
       if Qry.FieldValues['field_contact']<>NULL then Guide.Text:=Qry.FieldValues['field_contact'];
       if Qry.FieldValues['field_contact_cellular_no']<>NULL then GuideCellular.Text:=Qry.FieldValues['field_contact_cellular_no'];
