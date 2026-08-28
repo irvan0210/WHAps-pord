@@ -91,6 +91,7 @@ uses
   WorkOrderFormInU in 'WorkOrderFormInU.pas' {WorkOrderFormIn},
   WorkOrderListU in 'WorkOrderListU.pas' {WorkOrderList},
   ImageViewerU in 'ImageViewerU.pas' {ImageViewer},
+  PhotoOdoViewerU in 'PhotoOdoViewerU.pas' {PhotoOdoViewer},
   AuthorizedFormU in 'AuthorizedFormU.pas' {AuthorizedForm},
   MessageFormU in 'MessageFormU.pas' {MessageForm},
   SPJKeluarU in 'SPJKeluarU.pas' {SPJKeluar},
@@ -371,7 +372,19 @@ uses
   CctvCameraListU in 'CctvCameraListU.pas' {CctvCameraList},
   CctvCheckFormU in 'CctvCheckFormU.pas' {CctvCheckForm},
   CctvCheckListU in 'CctvCheckListU.pas' {CctvCheckList},
-  DashboardCctvU in 'DashboardCctvU.pas' {DashboardCctv};
+  DashboardCctvU in 'DashboardCctvU.pas' {DashboardCctv},
+  KodeIntegrasiU in 'KodeIntegrasiU.pas' {KodeIntegrasi},
+  SandiBiU in 'SandiBiU.pas' {SandiBi},
+  JenisU in 'JenisU.pas' {Jenis},
+  SubJenisU in 'SubJenisU.pas' {SubJenis},
+  MerkU in 'MerkU.pas' {Merk},
+  TypeU in 'TypeU.pas' {TypeForm},
+  //SnU in 'SnU.pas' {Sn}, //SN dibatalkan, serial number diinput manual di form Data Aset Inventaris
+  MemoryU in 'MemoryU.pas' {MemoryForm},
+  StorageU in 'StorageU.pas' {StorageForm},
+  InventarisListU in 'InventarisListU.pas' {InventarisList},
+  InventarisFormU in 'InventarisFormU.pas' {InventarisForm},
+  InventarisLabelRptU in 'InventarisLabelRptU.pas' {InventarisLabelRpt};
 
 {$R *.res}
 

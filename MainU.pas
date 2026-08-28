@@ -85,7 +85,7 @@ type
     { Private declarations }
     LogFileName,LogAPIFileName:String;
     LogFile,LogAPIFile:TextFile;
-    LocalLongDate,LocalShortDate:String;
+    LocalLongDate,LocalShortDate,LocalTimeFormat:String;
     ClockThread:TClockThread;
     procedure Init;
     procedure InitParam;
@@ -248,7 +248,8 @@ Uses WHUnit, ShellApi, LoginU, ChangePassU, AppsU, SettingU, DateUtils, AddUserU
   DriverVehicleAuthorizationListU, PurchaseRequestRptU, PurchaseOrderRptU,
   RevenueVhcDayBusRptV2U, DriverFuelFillingRptU, AbsensiDrvRptU,
   ApprovalWorkOrderListU, DashboardTroublesootingU, CctvCheckFormU, CctvCameraListU,
-  DashboardCctvU;
+  DashboardCctvU, KodeIntegrasiU, SandiBiU, JenisU, SubJenisU, MerkU,
+  TypeU, MemoryU, StorageU, InventarisListU;
 
 
 constructor TClockThread.Create;
@@ -2122,6 +2123,57 @@ begin
            end;
         end;
 
+        //Inventaris
+        210101..210102:begin
+           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02']) of
+              0:begin
+                  if IsFormOpen('KodeIntegrasi')=False then KodeIntegrasi:=TKodeIntegrasi.Create(Self,);
+              end;
+              1:begin
+                  if IsFormOpen('SandiBi')=False then SandiBi:=TSandiBi.Create(Self,);
+              end;
+
+           end;
+        end;
+
+        210201..210202:begin
+           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02']) of
+              0:begin
+                  if IsFormOpen('Jenis')=False then Jenis:=TJenis.Create(Self,);
+              end;
+              1:begin
+                  if IsFormOpen('SubJenis')=False then SubJenis:=TSubJenis.Create(Self,);
+              end;
+
+           end;
+        end;
+
+        210401..210404:begin
+           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02','03','04']) of
+              0:begin
+                  if IsFormOpen('Merk')=False then Merk:=TMerk.Create(Self,);
+              end;
+              1:begin
+                  if IsFormOpen('TypeForm')=False then TypeForm:=TTypeMdl.Create(Self,);
+              end;
+              2:begin
+                  if IsFormOpen('MemoryForm')=False then MemoryForm:=TMemory.Create(Self,);
+              end;
+              3:begin
+                  if IsFormOpen('StorageForm')=False then StorageForm:=TStorage.Create(Self,);
+              end;
+           end;
+        end;
+
+        211101..211101:begin
+           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02']) of
+              0:begin
+                  if IsFormOpen('InventarisList')=False then InventarisList:=TInventarisList.Create(Self,);
+              end;
+           end;
+        end;
+
+
 
 //        132201..132202:begin
 //           Case CaseStr(RightStr(IntToStr(Tag),2),['01','02']) of
@@ -2623,6 +2675,7 @@ begin
   WriteLog('Get Local Settings');
   LocalShortDate:=GetLocalSettings(LOCALE_SSHORTDATE);
   LocalLongDate:=GetLocalSettings(LOCALE_SLONGDATE);
+  LocalTimeFormat:=GetLocalSettings(LOCALE_STIMEFORMAT);
   WriteLog('Start Change Local Settings');
   if SetLocaleInfo(LOCALE_SYSTEM_DEFAULT,LOCALE_SSHORTDATE,'dd/MM/yyyy') then
   begin
@@ -2634,6 +2687,11 @@ begin
     //SendMessage(HWND_BROADCAST,WM_WININICHANGE,0,0);
     WriteLog('Change Long date format');
   end else WriteLog('Could not change long date format');
+  if SetLocaleInfo(LOCALE_SYSTEM_DEFAULT,LOCALE_STIMEFORMAT,'HH:mm:ss') then
+  begin
+    //SendMessage(HWND_BROADCAST,WM_WININICHANGE,0,0);
+    WriteLog('Change time format');
+  end else WriteLog('Could not change time format');
   try
     DateSeparator:='/';
     TimeSeparator:=':';
@@ -3115,16 +3173,21 @@ procedure TMain.Keluar1Click(Sender: TObject);
 begin
   M_Busy;
   WriteLog('Start Return Local Settings');
-//  if SetLocaleInfo(LOCALE_SYSTEM_DEFAULT,LOCALE_SSHORTDATE,PChar(LocalShortDate)) then
-//  begin
-//    SendMessage(HWND_BROADCAST,WM_WININICHANGE,0,0);
-//    WriteLog('Change short date format');
-//  end else WriteLog('Could not change short date format');
-//  if SetLocaleInfo(LOCALE_SYSTEM_DEFAULT,LOCALE_SLONGDATE,PChar(LocalLongDate)) then
-//  begin
-//    SendMessage(HWND_BROADCAST,WM_WININICHANGE,0,0);
-//    WriteLog('Change Long date format');
-//  end else WriteLog('Could not change long date format');
+  if SetLocaleInfo(LOCALE_SYSTEM_DEFAULT,LOCALE_SSHORTDATE,PChar(LocalShortDate)) then
+  begin
+    //SendMessage(HWND_BROADCAST,WM_WININICHANGE,0,0);
+    WriteLog('Change short date format');
+  end else WriteLog('Could not change short date format');
+  if SetLocaleInfo(LOCALE_SYSTEM_DEFAULT,LOCALE_SLONGDATE,PChar(LocalLongDate)) then
+  begin
+    //SendMessage(HWND_BROADCAST,WM_WININICHANGE,0,0);
+    WriteLog('Change Long date format');
+  end else WriteLog('Could not change long date format');
+  if SetLocaleInfo(LOCALE_SYSTEM_DEFAULT,LOCALE_STIMEFORMAT,PChar(LocalTimeFormat)) then
+  begin
+    //SendMessage(HWND_BROADCAST,WM_WININICHANGE,0,0);
+    WriteLog('Change time format');
+  end else WriteLog('Could not change time format');
 
   WriteLog('Finish Return Local Settings');
 

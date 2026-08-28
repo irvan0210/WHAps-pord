@@ -3926,3 +3926,12 @@
 31/07/2026 13:35:23	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
 31/07/2026 13:35:23	Registry Read/Write
 31/07/2026 13:35:23	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+28/08/2026 15:17:16	Get Local Settings
+28/08/2026 15:17:16	Start Change Local Settings
+28/08/2026 15:17:16	Change short date format
+28/08/2026 15:17:16	Change Long date format
+28/08/2026 15:17:16	Change time format
+28/08/2026 15:17:16	Finish Change Local Settings
+28/08/2026 15:17:16	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
+28/08/2026 15:17:16	Registry Read/Write
+28/08/2026 15:17:16	Registry Read: Path=SOFTWARE\WEHA\Aplikasi\3
